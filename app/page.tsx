@@ -190,7 +190,11 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
   useEffect(() => {
-    if (ready) mainRef.current?.focus({ preventScroll: true });
+    // Preserve focus while the persistent search field changes the route.
+    const typing = ['INPUT', 'TEXTAREA'].includes(
+      document.activeElement?.tagName || '',
+    );
+    if (ready && !typing) mainRef.current?.focus({ preventScroll: true });
   }, [route, ready]);
   const section = route.split('/')[0],
     selected = route.split('/')[1];
@@ -323,7 +327,15 @@ export default function Home() {
     <SidebarProvider style={{ '--sidebar-width': '15.5rem' } as CSSProperties}>
       <SideNav section={section} go={go} state={state} />
       <SidebarInset>
-        <a className="skip-link" href="#main-content">
+        <a
+          className="skip-link"
+          href="#main-content"
+          onClick={(event) => {
+            event.preventDefault();
+            mainRef.current?.focus();
+            mainRef.current?.scrollIntoView({ block: 'start' });
+          }}
+        >
           Skip to content
         </a>
         <header className="topbar">
