@@ -1,0 +1,486 @@
+[
+  {
+    "id": "identity",
+    "title": "Identity: naming the subject",
+    "subtitle": "Start access decisions with a reliable subject",
+    "domain": 5,
+    "minutes": 5,
+    "objective": "5.1",
+    "summary": "Identity is the representation a system uses for a person, device, process, or service. Good IAM distinguishes the subject, its identifiers, and the assets it may use so later authentication and authorization decisions have a dependable anchor.",
+    "sections": [
+      {
+        "title": "A subject and an identifier",
+        "body": "A subject is the active entity that requests access: a human, workload, device, or service. An identifier is the label used to refer to that subject, such as an employee number or service principal name. The label alone proves nothing; it must be bound to an established account or record. Keeping identity separate from credentials helps an organization replace a lost authenticator without accidentally creating a new person or orphaning the old account."
+      },
+      {
+        "title": "Establishing confidence",
+        "body": "Before an account is trusted, registration and identity proofing establish how confidently it represents the claimed subject. The strength needed depends on consequences: a low-risk discussion board and a payment administrator need different evidence and controls. For non-human subjects, ownership, purpose, environment, and responsible team should be recorded. An inventory that includes people, devices, applications, and services gives access decisions something concrete to evaluate. The record should explain its source, owner, assurance, and review date."
+      },
+      {
+        "title": "Identity is not access",
+        "body": "An identity record answers “which subject is this?” Authentication answers “what evidence shows the claimant controls this identity?” Authorization answers “what may this authenticated subject do?” Separating these questions prevents a common design error: treating a directory entry or successful login as permission to every resource. Identity data can support policy, but a policy decision still needs the requested action, object, and relevant context. This separation keeps troubleshooting precise when a request is denied."
+      }
+    ],
+    "analogy": "A library card names its holder; it does not by itself unlock every room or authorize every action.",
+    "misconception": {
+      "wrong": "A username is proof of identity.",
+      "right": "A username identifies a claimed subject; authentication supplies evidence that the claimant controls the account."
+    },
+    "takeaway": "Treat identity as the accountable subject record that anchors authentication and authorization.",
+    "recall": {
+      "question": "What three questions should IAM keep distinct?",
+      "answer": "Which subject is claimed (identification), what evidence supports the claim (authentication), and what action is allowed (authorization)."
+    },
+    "sources": [
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      },
+      {
+        "title": "NIST SP 800-63-4 Digital Identity Guidelines",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63.html"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "authentication",
+    "title": "Authentication: proving control",
+    "subtitle": "Use the right evidence for the risk",
+    "domain": 5,
+    "minutes": 6,
+    "objective": "5.2",
+    "summary": "Authentication verifies that a claimant controls one or more authenticators associated with an identity. The factor categories are knowledge, possession, and inherence; stronger designs combine independent factors and protect the authenticator lifecycle. A biometric may activate a device-bound authenticator rather than serve as a standalone remote authenticator.",
+    "sections": [
+      {
+        "title": "The factor categories",
+        "body": "Knowledge factors are something the claimant knows, such as a password or PIN. Possession factors are something the claimant has, such as a hardware security key or authenticator device. Inherence factors are something the claimant is, such as a biometric characteristic. NIST treats a biometric as activation of an authenticator, not a standalone remote authenticator. Two steps are not automatically multifactor authentication: two passwords are the same factor category. Independent factors should resist compromise of any one category."
+      },
+      {
+        "title": "Assurance and phishing resistance",
+        "body": "Authentication strength should follow the harm of account takeover. Passwords can be useful but are exposed to reuse and phishing; passkeys and hardware-backed authenticators can resist more attacks. NIST expresses increasing confidence with authentication assurance levels and separately considers whether an authenticator is phishing-resistant. A security architect should select the authenticator and recovery process together, because a weak reset path can undo a strong login. Document those tradeoffs so operators can explain the selected assurance and device binding."
+      },
+      {
+        "title": "The session after login",
+        "body": "A successful authentication creates an event from which a system may establish a session. The session needs a bounded lifetime, protection against fixation and hijacking, and reauthentication when risk or elapsed time warrants it. Logout and revocation should invalidate the session and, where needed, the authenticator. Authentication is a gate to a policy decision; it does not decide which files or operations the subject may use. Careful session design preserves assurance after the initial authenticator check."
+      }
+    ],
+    "analogy": "A venue checks your ticket, wristband, and sometimes photo ID; being admitted still does not put you backstage.",
+    "misconception": {
+      "wrong": "A password plus any biometric prompt automatically proves remote MFA.",
+      "right": "A biometric can unlock a device-bound possession authenticator; MFA depends on the authenticator construction and independent factor categories, not merely two screens."
+    },
+    "takeaway": "Match authenticator assurance, recovery, and session controls to the consequences of compromise.",
+    "recall": {
+      "question": "Why do two passwords fail the usual MFA test?",
+      "answer": "Both are knowledge factors, so compromise of the knowledge category can defeat both."
+    },
+    "sources": [
+      {
+        "title": "NIST SP 800-63B-4: Authentication and Authenticator Management",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html"
+      },
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "authorization",
+    "title": "Authorization: deciding the allowed action",
+    "subtitle": "Turn identity and context into a decision",
+    "domain": 5,
+    "minutes": 5,
+    "objective": "5.4",
+    "summary": "Authorization evaluates whether a requester or authenticated subject may perform a requested action on a resource under policy. The decision should be explicit, enforceable, and understandable: authentication can supply a subject, while authorization evaluates subject, object, action, and context. Some policies intentionally permit anonymous public access.",
+    "sections": [
+      {
+        "title": "The policy question",
+        "body": "A useful authorization request identifies the subject or anonymous requester, the object, the operation, and relevant environment conditions. For example, “Nurse 42 reads today’s assigned chart from a managed device during a shift” contains more policy information than “Nurse 42 is logged in.” The policy may return permit, deny, or a requirement for an extra condition. Default-deny is a strong starting posture when the policy has no matching authorization. Resource owners and security teams should test both permit and deny paths."
+      },
+      {
+        "title": "Decision and enforcement",
+        "body": "Many designs separate a policy decision point from a policy enforcement point. The decision point evaluates rules and attributes; the enforcement point applies the result at an API, application, database, operating system, or network boundary. This separation can centralize policy while distributing enforcement. It also creates a testing obligation: a correct rule is not enough if one enforcement path fails open, ignores a deny, or uses stale subject attributes. Test the enforcement boundary independently."
+      },
+      {
+        "title": "Authorization changes",
+        "body": "Authorization is time-sensitive. A role can change, a device can lose compliance, a record can be placed under legal hold, or a session can be revoked. High-impact actions may need a fresh decision rather than relying on a long-lived token. Design decisions should record the policy version and relevant context so reviewers can explain why access was permitted or denied without confusing that explanation with proof of authentication. This is especially important for cached decisions and delegated access. Enforcement tests should include stale and missing context."
+      }
+    ],
+    "analogy": "A hotel key proves you are a guest; the room number and access rules decide which doors it opens.",
+    "misconception": {
+      "wrong": "Successful login means the user is authorized for the application’s data.",
+      "right": "Login establishes an authenticated subject; a separate policy decision must authorize each requested resource or operation."
+    },
+    "takeaway": "Make authorization a deliberate policy decision at an enforcement boundary, with current context.",
+    "recall": {
+      "question": "What core inputs should an authorization request describe?",
+      "answer": "Subject, object, requested action, and relevant context or environment conditions."
+    },
+    "sources": [
+      {
+        "title": "NIST SP 800-53 Rev. 5: Access Control",
+        "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+      },
+      {
+        "title": "NIST SP 800-162: Guide to Attribute Based Access Control",
+        "url": "https://csrc.nist.gov/pubs/sp/800/162/upd2/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "access-models",
+    "title": "Access models: choosing the policy shape",
+    "subtitle": "Match controls to who decides and why",
+    "domain": 5,
+    "minutes": 6,
+    "objective": "5.4",
+    "summary": "Access models describe how authorization policy is expressed and who controls it. RBAC uses roles, ABAC evaluates attributes and conditions, DAC lets resource owners share, and MAC applies centrally managed labels. Rule-based and risk-based approaches add conditions or signals rather than replacing the need for clear policy.",
+    "sections": [
+      {
+        "title": "Roles and attributes",
+        "body": "RBAC grants permissions through job or system roles, making administration predictable when duties are stable. ABAC evaluates attributes associated with the subject, object, action, and environment, which can express context such as department, data sensitivity, device posture, or time. RBAC is often easier to explain; ABAC can reduce role explosion when conditions vary. A system can combine them, for example requiring a role and a device attribute. The model should be judged by administration, auditability, and policy clarity."
+      },
+      {
+        "title": "Discretion and mandate",
+        "body": "In DAC, an owner or delegated controller can decide who receives access to an object, such as sharing a document. In MAC, a centrally managed policy uses labels or classifications and users cannot override the rule simply because they own the file. A permission bit or group membership alone does not tell you which model is in force; identify where the authoritative decision lives and whether subjects can delegate it."
+      },
+      {
+        "title": "Conditional and adaptive decisions",
+        "body": "Rule-based access uses explicit conditions, while risk-based access can adjust a decision using signals such as unusual location, device health, or behavior. These approaches need defined inputs, thresholds, and an accountable response when a signal is missing. Adaptive scoring should not become an opaque substitute for policy. Document which access is blocked, stepped up, or allowed and how an administrator can review an erroneous decision. Review the signals for bias, drift, and opportunities to evade controls."
+      }
+    ],
+    "analogy": "A role is a staff badge, an attribute is today’s context, DAC is a host’s invitation, and MAC is a security guard’s mandatory clearance rule.",
+    "misconception": {
+      "wrong": "ABAC and RBAC are mutually exclusive choices.",
+      "right": "They can be combined: a role can establish baseline permission while attributes and conditions narrow the decision."
+    },
+    "takeaway": "Choose an access model by policy authority, stability of permissions, and the context the decision must express.",
+    "recall": {
+      "question": "Which model centers centrally enforced labels that subjects cannot freely override?",
+      "answer": "Mandatory access control (MAC)."
+    },
+    "sources": [
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      },
+      {
+        "title": "NIST SP 800-162: Guide to Attribute Based Access Control",
+        "url": "https://csrc.nist.gov/pubs/sp/800/162/upd2/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "least-privilege",
+    "title": "Least privilege: shrink the blast radius",
+    "subtitle": "Grant only what the task needs",
+    "domain": 5,
+    "minutes": 5,
+    "objective": "5.4",
+    "summary": "Least privilege gives each user, process, or service the minimum authorization and resources needed for its assigned function. It limits accidental changes and the damage an attacker can cause, while requiring review, separation of duties, and practical elevation paths for exceptional work.",
+    "sections": [
+      {
+        "title": "Minimum means sufficient",
+        "body": "Least privilege is not simply “deny everything.” The grant must be sufficient for the approved task and no broader. Define the resource, operation, duration, and purpose: a reporting service may read a reporting view but should not write production tables. Separate everyday accounts from administrative accounts, and remove inherited permissions that do not serve a current function. Privilege should follow the function, not the person’s seniority. That precision also makes access reviews faster and evidence easier to defend."
+      },
+      {
+        "title": "Elevation with control",
+        "body": "Administrators sometimes need short-lived access beyond their normal baseline. A controlled elevation path can require a reason, approval, time limit, stronger authentication, and detailed logging. Just-in-time access reduces standing privilege; break-glass access provides a documented emergency route with post-use review. The goal is to make exceptional power deliberate and observable rather than quietly leaving broad rights attached to an account. Emergency access should generate a prompt review while details are fresh."
+      },
+      {
+        "title": "Keep checking the grant",
+        "body": "Least privilege decays as projects, teams, and software change. Review permissions against current tasks, remove unused access, and inspect service accounts for stale keys and excessive scopes. Pair least privilege with separation of duties when one person should not initiate and approve the same high-impact action. Monitoring can reveal suspicious use, but it does not repair an overbroad authorization; prevention starts with the grant itself. Recheck permissions after major system or organizational changes."
+      }
+    ],
+    "analogy": "Give a contractor the keys to the room being repaired for the appointment, not a master key to the building forever.",
+    "misconception": {
+      "wrong": "Least privilege means users should never be able to perform administrative work.",
+      "right": "It means administrative capability is limited to the task, scope, and time needed, with controlled elevation when required."
+    },
+    "takeaway": "Make privilege narrow, time-bounded where practical, and reviewable against a real task.",
+    "recall": {
+      "question": "What is the purpose of just-in-time privilege?",
+      "answer": "To provide elevated access only for an approved task and limited period, reducing standing privilege."
+    },
+    "sources": [
+      {
+        "title": "NIST Glossary: Least Privilege",
+        "url": "https://csrc.nist.gov/glossary/term/least_privilege"
+      },
+      {
+        "title": "NIST SP 800-53 Rev. 5: Access Control",
+        "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "federation",
+    "title": "Federation: trust across organizations",
+    "subtitle": "Let an identity provider assert a login",
+    "domain": 5,
+    "minutes": 6,
+    "objective": "5.3",
+    "summary": "Federated identity lets a relying party accept an assertion from an identity provider after the provider authenticates the subscriber. Trust agreements, assertion validation, audience restriction, replay protection, and limited attribute release make the multi-party exchange safer.",
+    "sections": [
+      {
+        "title": "The parties",
+        "body": "The identity provider (IdP) authenticates the subscriber and issues a verifiable assertion. The relying party (RP) consumes that assertion and establishes a local session. A credential service provider may enroll the account and bind authenticators, while the IdP makes identity attributes available to the RP. Federation reduces duplicate credentials, but it creates dependencies: the RP must decide which IdPs it trusts and how it handles an unavailable or compromised provider."
+      },
+      {
+        "title": "Assertions and protocols",
+        "body": "An assertion is a statement about an authentication event and, optionally, attributes. SAML assertions and OpenID Connect ID Tokens are common assertion formats. OAuth 2.0 primarily delegates authorization to access an API; OpenID Connect adds an identity and authentication layer on top of OAuth. Do not treat an OAuth access token as a generic proof of user identity. Depending on the protocol and profile, validate applicable issuer, audience, signature, time claims, nonce, and transaction state."
+      },
+      {
+        "title": "Trust with restraint",
+        "body": "Federation is a policy relationship, not a magic pass. Establish keys and trust agreements before relying on an IdP, restrict assertions to the intended RP, prevent replay and injection, and request only attributes that the service needs. Pairwise identifiers can reduce unnecessary correlation across RPs. The RP still performs authorization after accepting the assertion; a federated login identifies the subscriber and supplies authentication context, not every application permission. Minimize attributes to reduce privacy exposure."
+      }
+    ],
+    "analogy": "A passport office vouches for your identity at a hotel; the hotel still decides which room and services your booking permits.",
+    "misconception": {
+      "wrong": "OAuth access tokens are automatically identity assertions.",
+      "right": "OAuth access tokens authorize API access; OpenID Connect supplies an ID Token and identity protocol for authentication and federation."
+    },
+    "takeaway": "Federation shifts authentication to a trusted IdP while leaving assertion validation and local authorization with the RP.",
+    "recall": {
+      "question": "What does the RP still need to do after accepting a valid federated assertion?",
+      "answer": "Create or resume a session and make its own authorization decision for the requested action."
+    },
+    "sources": [
+      {
+        "title": "NIST SP 800-63C-4: Federation and Assertions",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63c.html"
+      },
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "access-lifecycle",
+    "title": "Access lifecycle: from joiner to leaver",
+    "subtitle": "Keep permissions aligned with the relationship",
+    "domain": 5,
+    "minutes": 6,
+    "objective": "5.5",
+    "summary": "Access provisioning is a lifecycle: establish an account, assign appropriate access, review it as work changes, and promptly remove it when the relationship ends. Joiner, mover, and leaver processes include people, devices, services, and privileged credentials.",
+    "sections": [
+      {
+        "title": "Provision from an authoritative source",
+        "body": "A reliable lifecycle begins with an authoritative event, such as a hiring record, contract, role assignment, device enrollment, or service deployment. Provision the minimum access required for the approved role, link approvals to the request, and record the owner responsible for the account. Automated workflows can improve consistency, but they should validate source data and fail safely when a role, manager, or destination system is ambiguous. Keep the resulting grant visible to reviewers and the subject’s sponsor."
+      },
+      {
+        "title": "Movers are a security event",
+        "body": "A transfer changes the access needed for work. Add the new baseline only after the role is approved, and remove permissions from the old role rather than accumulating both indefinitely. Periodic access reviews should examine user, system, and service accounts for necessity, ownership, and separation-of-duties conflicts. Treat privilege escalation as a specific event with a reason, approval, expiry, and audit trail. Reconcile the result with current HR and asset records."
+      },
+      {
+        "title": "Leavers and non-human accounts",
+        "body": "When employment, a contract, a device enrollment, or a service purpose ends, disable the account and revoke sessions, tokens, keys, certificates, and delegated relationships according to the organization’s response time. Service accounts need named owners, documented purpose, scoped permissions, rotated credentials, and monitoring because they do not follow a human calendar. Deprovisioning should include downstream SaaS and cloud services, where orphaned access is easy to miss. Record completion and investigate any failed revocation."
+      }
+    ],
+    "analogy": "A hotel changes room access when a guest moves rooms and collects every key at checkout, including spare keys held by staff.",
+    "misconception": {
+      "wrong": "Changing a user’s job title is enough to update access.",
+      "right": "A role change must trigger an access review, removal of obsolete grants, and provisioning of the new minimum baseline."
+    },
+    "takeaway": "Make every access grant traceable to a current relationship, owner, purpose, and review point.",
+    "recall": {
+      "question": "Why are movers as important as leavers in access governance?",
+      "answer": "A mover can retain old privileges while gaining new ones, creating accumulated or conflicting access."
+    },
+    "sources": [
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      },
+      {
+        "title": "NIST SP 800-53 Rev. 5: Account Management",
+        "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "accountability",
+    "title": "Accountability: make actions traceable",
+    "subtitle": "Connect activity to a responsible entity",
+    "domain": 5,
+    "minutes": 5,
+    "objective": "5.2",
+    "summary": "Accountability is the property that lets actions be traced to a unique entity and makes that entity answerable for appropriate use. It depends on individual or well-governed service identities, reliable timestamps, protected records, and reviewable audit trails.",
+    "sections": [
+      {
+        "title": "Identity before evidence",
+        "body": "A log saying “administrator changed policy” is useful only when the administrator identity is unique, authenticated, and protected from casual sharing. Avoid generic accounts for routine work; when a shared or break-glass identity is unavoidable, use compensating controls such as checkout records, strong session capture, and a named approving person. Accountability links an action to an entity; it does not claim that the entity acted maliciously or negligently. The controls should also protect the identity binding itself."
+      },
+      {
+        "title": "What a useful record contains",
+        "body": "Audit records should capture enough context to reconstruct a decision: subject or service identity, time, source, target resource, operation, result, and relevant request or transaction identifier. Synchronize clocks, restrict who can alter logs, protect retention, and monitor collection failures. A log is evidence, not an authorization control. It can reveal an improper action after the fact, while prevention still belongs in authentication and authorization enforcement. Review records for completeness before relying on them in an investigation."
+      },
+      {
+        "title": "Accountability versus adjacent terms",
+        "body": "Authentication establishes confidence in who is using an identity. Authorization decides what that identity may do. Accounting records activity and resource use; audit and accountability make those records attributable and reviewable. Nonrepudiation may add evidence that a party cannot plausibly deny an action, but ordinary logs do not automatically provide it. Keep these concepts distinct when selecting controls or interpreting an incident timeline. Each serves a different point in the AAA design."
+      }
+    ],
+    "analogy": "A signed checkout sheet records who took a tool, when, and whether it was returned; it does not decide who was allowed to take it.",
+    "misconception": {
+      "wrong": "Logging an event automatically makes the actor accountable.",
+      "right": "Accountability requires a trustworthy, unique identity and protected records that connect the action to that entity."
+    },
+    "takeaway": "Design identity, logging, time, and review together so important actions can be attributed.",
+    "recall": {
+      "question": "What does accountability add to authentication?",
+      "answer": "It makes an authenticated entity’s actions traceable and answerable through trustworthy records and governance."
+    },
+    "sources": [
+      {
+        "title": "NIST Glossary: Accountability",
+        "url": "https://csrc.nist.gov/glossary/term/accountability"
+      },
+      {
+        "title": "NIST SP 800-53 Rev. 5: Audit and Accountability",
+        "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "risk",
+    "title": "Risk: decide what deserves treatment",
+    "subtitle": "Connect threats, weaknesses, likelihood, and impact",
+    "domain": 1,
+    "minutes": 6,
+    "objective": "1.9",
+    "summary": "Risk assessment identifies threat events and vulnerabilities, estimates likelihood and impact, and gives decision makers a basis for prioritizing treatment. Risk management continues through response, control assessment, monitoring, reporting, and improvement.",
+    "sections": [
+      {
+        "title": "A practical risk statement",
+        "body": "A useful risk statement connects a threat source or event to a vulnerability, an asset or mission consequence, and uncertainty about occurrence. “A compromised vendor account may alter production data because access is not limited or monitored” is more actionable than “vendor risk is high.” Define scope, assumptions, and affected objectives such as confidentiality, integrity, availability, safety, privacy, or mission delivery before comparing risks. Include the owner who can decide on treatment or acceptance."
+      },
+      {
+        "title": "Likelihood and impact",
+        "body": "Risk analysis commonly combines the likelihood of an adverse event with its potential impact. Likelihood is not just threat intent; exposure, capability, existing safeguards, and opportunity matter. Impact describes consequence if the event succeeds, including operational, financial, legal, safety, or reputational effects. Qualitative scales are acceptable when their terms are defined and applied consistently; a numeric score is not automatically more accurate. Record uncertainty instead of hiding it behind a precise-looking number."
+      },
+      {
+        "title": "Treatment is a decision cycle",
+        "body": "After assessment, leaders choose a response such as avoiding an activity, mitigating it with controls, transferring part of the consequence, or accepting it within approved risk tolerance. Controls should be assessed for design and operation, then monitored as assumptions and conditions change. Reporting makes residual risk visible to the accountable owner. A control can reduce risk without eliminating it, so reassess after treatment and record the rationale. Risk acceptance should have an explicit duration and review trigger."
+      }
+    ],
+    "analogy": "A town ranks flood hazards by where water may reach, how likely flooding is, and what the town would lose, then funds defenses accordingly.",
+    "misconception": {
+      "wrong": "A vulnerability scan score is the organization’s complete risk assessment.",
+      "right": "Risk also requires scope, threat and exposure context, likelihood, mission impact, existing controls, and a treatment decision."
+    },
+    "takeaway": "Use risk assessment to prioritize decisions, then revisit them as threats, assets, controls, and missions change.",
+    "recall": {
+      "question": "What two dimensions are commonly combined to express risk?",
+      "answer": "The likelihood of an adverse event and the magnitude of its impact."
+    },
+    "sources": [
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      },
+      {
+        "title": "NIST SP 800-30 Rev. 1: Guide for Conducting Risk Assessments",
+        "url": "https://csrc.nist.gov/pubs/sp/800/30/r1/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  },
+  {
+    "id": "classification",
+    "title": "Classification: match protection to consequence",
+    "subtitle": "Categorize information before choosing controls",
+    "domain": 2,
+    "minutes": 5,
+    "objective": "2.1",
+    "summary": "Classification identifies the sensitivity and value of information or assets so handling requirements and controls fit the consequences of compromise. A NIST-style categorization considers confidentiality, integrity, and availability impact, then documents context and ownership.",
+    "sections": [
+      {
+        "title": "Start with the security objectives",
+        "body": "Confidentiality concerns unauthorized disclosure, integrity concerns improper modification or destruction, and availability concerns disruption or loss of timely access. The same information may have different impact levels for each objective. A public status page may have low confidentiality impact but meaningful integrity or availability impact. Classification should describe the consequence to the organization or mission, not merely whether a file looks interesting. Consider the system and information separately when their impacts differ."
+      },
+      {
+        "title": "Context and ownership matter",
+        "body": "Categorization is an informed organizational decision. Consider mission, legal obligations, data subjects, use, sharing, location, lifecycle, and dependencies; then document the rationale and the owner who can approve handling requirements. A provisional label is a starting point, not a universal truth. Impact may change over time: a negotiation document can be sensitive before signature and less sensitive after public release, while retention duties continue. Revisit labels when purpose, exposure, or obligations change."
+      },
+      {
+        "title": "Labels become handling rules",
+        "body": "A classification label has value only when it drives behavior. Translate it into rules for access, copying, transmission, storage, retention, destruction, and incident reporting. Apply controls appropriate to each objective and state of the data, and train people and systems to preserve the label when information is transformed or shared. Classification is not the same as encryption: encryption is a control selected to address a protection need. Handling rules should identify exceptions and their approval authority."
+      }
+    ],
+    "analogy": "A museum labels a fragile, valuable, or public object so staff know how to display, move, and store it.",
+    "misconception": {
+      "wrong": "A single sensitivity label fully describes security impact.",
+      "right": "Evaluate confidentiality, integrity, and availability separately, then document a context-specific categorization and handling rules."
+    },
+    "takeaway": "Classify by consequence and turn the decision into lifecycle handling requirements.",
+    "recall": {
+      "question": "Which three security objectives structure a NIST-style categorization?",
+      "answer": "Confidentiality, integrity, and availability."
+    },
+    "sources": [
+      {
+        "title": "ISC2 CISSP Certification Exam Outline",
+        "url": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+      },
+      {
+        "title": "FIPS 199: Standards for Security Categorization",
+        "url": "https://csrc.nist.gov/pubs/fips/199/final"
+      },
+      {
+        "title": "NIST SP 800-60 Vol. 1 Rev. 1",
+        "url": "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+      }
+    ],
+    "review": {
+      "status": "AI source-checked",
+      "date": "2026-09-06",
+      "note": "Original explanation checked against the linked references; not independently expert-reviewed."
+    }
+  }
+]

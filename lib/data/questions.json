@@ -1,0 +1,782 @@
+[
+  {
+    "id": "identity-1",
+    "conceptId": "identity",
+    "variant": 1,
+    "stem": "A city benefits portal allows residents to request a parking permit. Applicants may use a nickname, and the portal does not need a legal name, but it must recognize whether a returning subscriber is using the same portal account. Which identity decision best fits this service before an authenticator is bound?",
+    "options": [
+      "Require an in-person government ID check for every applicant",
+      "Resolve each applicant to a unique account in the portal's context without requiring a real-world identity",
+      "Treat the password chosen by the applicant as proof of legal identity",
+      "Grant the same identifier to every resident and distinguish them by browser cookie"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "An in-person check would impose a higher proofing burden than the service's stated need requires.",
+      "Correct. The service needs uniqueness within its own context, while a real-world identity link is unnecessary; this is consistent with a low identity-assurance need.",
+      "A password authenticates control of a credential after enrollment; it does not establish who the applicant is.",
+      "A shared identifier and cookie cannot provide distinct, durable accounts or reliable identity resolution."
+    ],
+    "decisiveDetail": "The service needs a unique account in its context, not a verified legal identity.",
+    "takeaway": "Identity proofing answers who a subject is at a stated level of confidence; it is separate from authenticating a credential.",
+    "source": {
+      "title": "NIST SP 800-63A-4, Identity Assurance Levels",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63a/ial/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "identity-2",
+    "conceptId": "identity",
+    "variant": 2,
+    "stem": "A hospital is onboarding a remote contractor who will view a patient's treatment history. The contractor presents two pieces of evidence, and the identity service validates and verifies the evidence before binding an authenticator. The application team asks whether the resulting process proves the contractor's identity or merely checks a login secret. What should the security lead explain?",
+    "options": [
+      "It only checks a login secret because identity and authentication are interchangeable",
+      "It proves authorization because the contractor is being given access to records",
+      "It establishes a claimed real-world identity to a defined assurance level; later authentication checks control of the bound authenticator",
+      "It establishes nonrepudiation because the evidence was collected remotely"
+    ],
+    "correctIndex": 2,
+    "explanations": [
+      "Identity proofing and authentication are distinct functions; evidence validation is not a password check.",
+      "Authorization is the access decision made after identity and authentication signals are evaluated.",
+      "Correct. Identity proofing establishes that the applicant is associated with the claimed identity to a selected IAL; authentication later verifies control of an authenticator.",
+      "Remote evidence collection does not by itself provide nonrepudiation, which concerns assurance around an action or transaction."
+    ],
+    "decisiveDetail": "Evidence was validated and the applicant was verified before credential binding.",
+    "takeaway": "Proofing establishes an identity relationship; authentication subsequently establishes control of an authenticator.",
+    "source": {
+      "title": "NIST SP 800-63A-4, Identity Proofing Requirements",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63a/ial-general/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "identity-3",
+    "conceptId": "identity",
+    "variant": 3,
+    "stem": "A research consortium lets scientists use pseudonymous identifiers across several studies. A sponsor proposes collecting government identifiers for every participant even though the studies only need to link records within each project. Which design preserves the required identity function while reducing unnecessary personal-data exposure?",
+    "options": [
+      "Use study-scoped unique identifiers and collect only attributes needed for the stated purpose",
+      "Use one global identifier for all participants and publish it to every study",
+      "Avoid identifiers entirely and rely on participants' email display names",
+      "Use the sponsor's employee directory as the authoritative identity for every participant"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. A scoped identifier supports linkage where needed while avoiding an unnecessary global real-world identifier.",
+      "A global identifier increases correlation across contexts and exceeds the stated need.",
+      "Display names are not stable or reliably unique, so they cannot support controlled record linkage.",
+      "A sponsor employee directory is not an authoritative identity source for independent participants."
+    ],
+    "decisiveDetail": "The consortium needs linkage within projects, not cross-context identification of participants.",
+    "takeaway": "Choose the identity attributes and scope that match the service's purpose; pseudonymous does not mean anonymous.",
+    "source": {
+      "title": "NIST SP 800-63-4, Digital Identity Guidelines",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63.html"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "authentication-1",
+    "conceptId": "authentication",
+    "variant": 1,
+    "stem": "A payroll application contains salary and bank-routing data. Employees currently sign in with a password, but the security team is selecting an authentication assurance level for the service. Which change most directly provides the assurance associated with two distinct authentication factors?",
+    "options": [
+      "Require a longer password and rotate it every 30 days",
+      "Require employees to answer a personal question after entering the password",
+      "Require a manager to approve each login in a ticketing system",
+      "Require a password plus a possession authenticator, such as a hardware token or device-bound passkey, through a secure protocol"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "Password length and rotation improve a memorized secret but remain one factor.",
+      "A personal question is generally another memorized secret, so it does not create two distinct factors.",
+      "A manual approval is an authorization workflow and does not prove the claimant controls a second authenticator.",
+      "Correct. A password combined with a distinct possession or inherence factor provides the two-factor proof expected at AAL2, assuming an appropriate protocol."
+    ],
+    "decisiveDetail": "The requirement is proof of control of two different authentication factors.",
+    "takeaway": "Authentication assurance concerns the strength of evidence that a claimant controls bound authenticators, not the sensitivity label alone.",
+    "source": {
+      "title": "NIST SP 800-63B-4, Authentication Assurance Levels",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/aal/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "authentication-2",
+    "conceptId": "authentication",
+    "variant": 2,
+    "stem": "An engineer reports that a successful password check means the system has authenticated the engineer's identity with certainty. During review, the team discovers the account was created from self-asserted profile data and the password was later reset through a verified device. Which statement most accurately describes what the successful login establishes?",
+    "options": [
+      "The engineer's legal identity was independently proofed during login",
+      "The engineer is authorized to perform every action available to the account",
+      "The engineer cannot later dispute any action taken during the session",
+      "The claimant demonstrated control of the authenticator associated with the subscriber account"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "A login does not retroactively turn self-asserted enrollment data into identity proofing.",
+      "Authentication supplies an input to authorization; it does not grant every possible permission.",
+      "Authentication evidence alone does not guarantee nonrepudiation or eliminate disputes about actions.",
+      "Correct. Successful authentication establishes control of the authenticator associated with the account, to the assurance level of the process."
+    ],
+    "decisiveDetail": "The account's profile was self-asserted; the login only tested authenticator control.",
+    "takeaway": "Do not infer identity proofing, authorization, or nonrepudiation from a successful authentication event.",
+    "source": {
+      "title": "NIST SP 800-63B-4, Authentication and Digital Identity Definitions",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "authentication-3",
+    "conceptId": "authentication",
+    "variant": 3,
+    "stem": "A remote administration service supports a phishing-resistant hardware authenticator and a separate PIN that unlocks it. The architect proposes calling the service AAL3 whenever the hardware key is present, even when the PIN is skipped for a session. Which assessment is most accurate?",
+    "options": [
+      "The hardware key alone automatically makes every session AAL3",
+      "AAL3 requires two distinct factors and additional authenticator properties, so a session that skips the second factor cannot be treated as AAL3",
+      "AAL3 is determined by the server's network location rather than the authentication event",
+      "AAL3 is a property of the user account and never changes by session"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "A hardware authenticator is necessary in the described case but does not replace all AAL3 requirements.",
+      "Correct. AAL3 sessions require proof of two distinct factors plus properties such as a hardware-based, verifier-impersonation-resistant authenticator.",
+      "Network location is not the basis for an authenticator assurance level.",
+      "Assurance levels apply to authentication sessions and their actual factors and protocol properties."
+    ],
+    "decisiveDetail": "The proposed session omits the separate PIN factor.",
+    "takeaway": "Evaluate the assurance achieved by the authentication event, including factors and protocol properties, rather than labeling an account or device.",
+    "source": {
+      "title": "NIST SP 800-63B-4, Authentication Assurance Levels",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/aal/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "authorization-1",
+    "conceptId": "authorization",
+    "variant": 1,
+    "stem": "A document service authenticates a user successfully, then receives a request to download a contract. The user has a valid account but is assigned only the reviewer role, and the contract belongs to a different business unit. Which control point should decide whether the download proceeds?",
+    "options": [
+      "The authentication service, because it already accepted the user's credential",
+      "The authorization policy, using the subject, requested operation, object, and applicable context",
+      "The browser, because it can hide download controls from the user interface",
+      "The network firewall, because the request came from an authenticated workstation"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "Authentication confirms a credential claim; it does not decide whether this object and operation are allowed.",
+      "Correct. Authorization evaluates the request against policy, including the subject's role or attributes, the object, operation, and context.",
+      "UI hiding is not an enforcement boundary because a caller can bypass the interface.",
+      "A firewall can constrain network paths but usually cannot make the document-level authorization decision."
+    ],
+    "decisiveDetail": "The question is whether this authenticated subject may perform this operation on this object.",
+    "takeaway": "Authentication establishes who controls a credential; authorization evaluates what that subject may do.",
+    "source": {
+      "title": "NIST SP 800-207, Zero Trust Architecture",
+      "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "authorization-2",
+    "conceptId": "authorization",
+    "variant": 2,
+    "stem": "A benefits API receives an authenticated request from a claims processor. The request includes the processor's department, the record's region, the requested operation, and the current case status. The team wants policy to evaluate all of these inputs before granting access. Which authorization approach best represents this design?",
+    "options": [
+      "Discretionary access control based only on the file owner's username",
+      "Mandatory access control based only on a system-wide clearance label",
+      "Single sign-on, because the request already contains an identity assertion",
+      "Attribute-based access control evaluating subject, object, action, and environment attributes"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "An owner-only username check does not express the multiple dynamic attributes in the request.",
+      "A clearance label alone omits the subject, object, operation, and case context that policy needs.",
+      "Single sign-on addresses authentication or federation; it does not define the authorization policy.",
+      "Correct. ABAC determines authorization by evaluating attributes associated with the subject, object, requested operation, and sometimes environment conditions."
+    ],
+    "decisiveDetail": "The decision depends on multiple attributes from the subject, object, action, and context.",
+    "takeaway": "ABAC is useful when authorization must combine several attributes and environmental conditions instead of a single role or owner.",
+    "source": {
+      "title": "NIST SP 800-162, Guide to Attribute Based Access Control",
+      "url": "https://csrc.nist.gov/pubs/sp/800/162/upd2/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "authorization-3",
+    "conceptId": "authorization",
+    "variant": 3,
+    "stem": "A zero-trust gateway receives requests for a database from authenticated users and service identities. It consults policy and telemetry, then sends an allow or deny decision to a component that opens or closes the connection to the database. Which component's responsibility is being described by the allow-or-deny decision?",
+    "options": [
+      "The policy engine within the policy decision point",
+      "The identity-proofing service",
+      "The credential service provider",
+      "The data owner's classification register"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. NIST's zero-trust model assigns the policy engine the ultimate decision to grant, deny, or revoke access; the enforcement path then implements it.",
+      "Identity proofing establishes identity attributes during enrollment and does not make each resource decision.",
+      "A credential service provider manages identity proofing or authenticators, not the database's runtime authorization decision.",
+      "A classification register informs policy but does not evaluate the live request."
+    ],
+    "decisiveDetail": "The component evaluates policy and produces the runtime grant or deny decision.",
+    "takeaway": "In the zero-trust model, distinguish the policy engine that decides from the policy enforcement point that applies the decision.",
+    "source": {
+      "title": "NIST SP 800-207, Zero Trust Architecture",
+      "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "access-models-1",
+    "conceptId": "access-models",
+    "variant": 1,
+    "stem": "A defense laboratory labels reports as Secret or Unclassified. The policy requires system-enforced labels, and users cannot alter classifications or grant exceptions. A scientist with broad project duties still cannot read a Secret report without the required clearance and authorization. Which access model best matches these facts?",
+    "options": [
+      "Discretionary access control",
+      "Role-based access control",
+      "Mandatory access control",
+      "Rule-based access control using only time of day"
+    ],
+    "correctIndex": 2,
+    "explanations": [
+      "DAC gives resource owners discretion to grant access; the scenario says users cannot alter labels or grant exceptions.",
+      "RBAC could contribute to policy, but the decisive feature is enforced classification and clearance labels.",
+      "Correct. MAC uses centrally enforced security labels and clearance or authorization rules that users cannot override.",
+      "A time rule does not explain the classification and clearance relationship."
+    ],
+    "decisiveDetail": "Labels and clearance are centrally enforced and cannot be changed by resource users.",
+    "takeaway": "Mandatory access control is characterized by system-enforced labels and rules that users cannot override.",
+    "source": {
+      "title": "NIST SP 800-162, Access Control Model Context",
+      "url": "https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.SP.800-162.pdf"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "access-models-2",
+    "conceptId": "access-models",
+    "variant": 2,
+    "stem": "A university grants access to course-management functions through job roles. A teaching assistant can grade assigned sections, an instructor can publish grades for a course, and the registrar has broader enrollment functions. When a person changes jobs, the administrator changes role membership rather than editing dozens of file permissions. Which model is primarily in use?",
+    "options": [
+      "Role-based access control",
+      "Mandatory access control",
+      "Discretionary access control based on each file owner's decision",
+      "Attribute-based access control using weather and device posture"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. Permissions are grouped into organizational roles, and users receive permissions through role membership.",
+      "No centrally enforced classification labels or clearance rules are described.",
+      "The administrator is changing role membership rather than having each file owner grant access directly.",
+      "The scenario does not describe evaluation of multiple subject, object, or environmental attributes."
+    ],
+    "decisiveDetail": "Permissions are assigned to job roles and users inherit them through membership.",
+    "takeaway": "RBAC simplifies administration by associating permissions with roles and assigning users to those roles.",
+    "source": {
+      "title": "NIST SP 800-162, Guide to Attribute Based Access Control",
+      "url": "https://csrc.nist.gov/pubs/sp/800/162/upd2/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "access-models-3",
+    "conceptId": "access-models",
+    "variant": 3,
+    "stem": "A design agency stores project files in a shared workspace. Each file owner can grant read or edit access to named collaborators, and the platform does not derive permissions from job roles or classification labels. A project lead revokes a collaborator's access directly from the file settings. Which model does this describe?",
+    "options": [
+      "Mandatory access control",
+      "Role-based access control",
+      "Lattice-based access control with fixed clearance levels",
+      "Discretionary access control"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "MAC would rely on system-enforced labels and rules beyond the owner's discretion.",
+      "No role membership is used to derive the file permissions.",
+      "No fixed clearance lattice or dominance relationship is described.",
+      "Correct. The resource owner directly decides which named collaborators receive permissions, which is the defining DAC behavior."
+    ],
+    "decisiveDetail": "The owner directly grants and revokes permissions on the resource.",
+    "takeaway": "DAC places access decisions with the resource owner or another designated subject.",
+    "source": {
+      "title": "NIST SP 800-162, Access Control Model Context",
+      "url": "https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.SP.800-162.pdf"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "least-privilege-1",
+    "conceptId": "least-privilege",
+    "variant": 1,
+    "stem": "A deployment pipeline uses one service account with permission to read source code, modify production databases, create cloud administrators, and publish releases. The pipeline only needs to publish a signed application package. Which redesign most directly applies least privilege?",
+    "options": [
+      "Keep the account and document that engineers should use it carefully",
+      "Give every developer the same broad account so operations are consistent",
+      "Replace the account password monthly while preserving all permissions",
+      "Give the pipeline only the narrowly scoped release permission and separate any required read access"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "Documentation does not reduce the account's excessive technical capability.",
+      "Duplicating broad access increases exposure and does not limit the pipeline's capabilities.",
+      "Password rotation protects credential lifecycle but leaves excessive authorization in place.",
+      "Correct. Least privilege grants only the accesses needed for the defined task and removes unrelated administrative powers."
+    ],
+    "decisiveDetail": "The pipeline's stated task is publishing a signed package, not administering production or identities.",
+    "takeaway": "Least privilege limits a subject or process to the minimum access needed for its assigned task.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AC-6 Least Privilege",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "least-privilege-2",
+    "conceptId": "least-privilege",
+    "variant": 2,
+    "stem": "A database analyst normally runs reports using read-only access. Once each quarter, the analyst must perform a schema migration for a scheduled maintenance window. The security team wants to reduce the time and scope of elevated authority while preserving the maintenance task. Which control pattern best supports the goal?",
+    "options": [
+      "Make the analyst a permanent database administrator",
+      "Share a standing administrator password among the database team",
+      "Provide a separately controlled, time-limited elevation for the migration task",
+      "Remove all database access and have a manager run every report"
+    ],
+    "correctIndex": 2,
+    "explanations": [
+      "Permanent administrator rights exceed the analyst's normal reporting need.",
+      "Shared credentials weaken accountability and provide standing broad privilege.",
+      "Correct. Just-in-time or separately controlled elevation narrows privileged access to the task and time when it is needed.",
+      "Removing normal access is disruptive and does not solve the need for a controlled maintenance capability."
+    ],
+    "decisiveDetail": "Elevated authority is needed only for a defined quarterly task and maintenance window.",
+    "takeaway": "Time-bound, task-specific elevation can implement least privilege for occasional administrative work.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AC-6 Least Privilege",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "least-privilege-3",
+    "conceptId": "least-privilege",
+    "variant": 3,
+    "stem": "A help-desk role can reset passwords for ordinary accounts. During an incident, an analyst notices that the same role can also reset the security administrator's password and disable audit logging. The organization wants a focused fix that reduces the blast radius if the role is abused. What should be changed first?",
+    "options": [
+      "Add more help-desk staff so resets are distributed",
+      "Remove high-impact reset and logging permissions from the help-desk role",
+      "Require the help desk to use a longer password",
+      "Rename the role so users recognize it as sensitive"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "Adding staff does not reduce the permissions available to the role.",
+      "Correct. Removing unrelated high-impact capabilities restores a least-privilege scope while preserving ordinary password-reset work.",
+      "A stronger password does not constrain what the role can do after it is authenticated.",
+      "A role name does not enforce or narrow its permissions."
+    ],
+    "decisiveDetail": "The role has permissions unrelated to routine account resets and capable of undermining oversight.",
+    "takeaway": "Review role permissions against actual duties and remove capabilities that enlarge the impact of misuse.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AC-6 Least Privilege",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "federation-1",
+    "conceptId": "federation",
+    "variant": 1,
+    "stem": "A university research application relies on an external identity provider. The application receives a signed assertion naming the issuer, subject, audience, and validity window. The application team proposes accepting the assertion without checking its signature because the redirect came from the university's known login page. What should the relying party do?",
+    "options": [
+      "Accept it because the browser redirect proves the issuer",
+      "Use the assertion as a password and store it for future logins",
+      "Ask the user to confirm the assertion's contents by email",
+      "Validate the issuer's cryptographic signature and the assertion's applicable constraints before creating a session"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "A browser redirect is not cryptographic proof that an assertion was issued by the trusted IdP.",
+      "An assertion is a statement about an authentication event, not a reusable subscriber secret.",
+      "Email confirmation does not validate the cryptographic provenance or intended audience of the assertion.",
+      "Correct. The RP must validate the assertion from the IdP, including its signature and relevant issuer, audience, and time constraints."
+    ],
+    "decisiveDetail": "The RP has not yet validated the assertion's cryptographic provenance and constraints.",
+    "takeaway": "Federation transfers an authentication event through an assertion; the relying party must validate that assertion before trusting it.",
+    "source": {
+      "title": "NIST SP 800-63C-4, Common Federation Requirements",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63c/Federation/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "federation-2",
+    "conceptId": "federation",
+    "variant": 2,
+    "stem": "A financial portal accepts federated assertions from an identity provider. Security testing shows an attacker can capture an assertion issued for one relying party and inject it into another relying party, where it is accepted as a login. Which federation protection directly addresses this finding?",
+    "options": [
+      "Restrict the assertion to its intended audience and validate the RP-initiated transaction context",
+      "Increase the user's password length at the relying party",
+      "Disable authorization checks after federation because the IdP authenticated the user",
+      "Store assertions indefinitely for troubleshooting"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. Audience restriction and transaction binding help prevent an assertion issued for one RP from being injected into another RP's flow.",
+      "The attack targets assertion handling and transaction context, not the length of the user's password at the RP.",
+      "Federation authentication does not replace authorization decisions at the RP.",
+      "Indefinite storage increases exposure and does not prevent injection or replay."
+    ],
+    "decisiveDetail": "An assertion intended for one RP is being accepted in another RP's transaction.",
+    "takeaway": "Assertion injection defenses bind a federation response to the intended RP and its transaction.",
+    "source": {
+      "title": "NIST SP 800-63C-4, Protection From Assertion Injection Attacks",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63c/Federation/"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "federation-3",
+    "conceptId": "federation",
+    "variant": 3,
+    "stem": "A public information site uses an identity provider to sign bearer assertions. It exposes only preference data and no sensitive personal information. A separate medical portal uses the same provider for sensitive records and wants additional protection against assertion injection and disclosure to unintended parties. Which statement best guides the federation design?",
+    "options": [
+      "Every relying party must use the same federation assurance level regardless of its service",
+      "The medical portal should evaluate a higher FAL requirement, while the public site may use a lower level appropriate to its impact",
+      "FAL describes password strength only and cannot differ by relying party",
+      "The public site should receive the strongest level because it has more users"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "NIST allows assurance requirements to vary by transaction and relying-party risk.",
+      "Correct. The sensitive portal's potential impact supports evaluating higher federation protections; the lower-impact site may have different needs.",
+      "FAL concerns protection of federated assertions and transactions, not just password strength.",
+      "User count alone does not determine federation assurance; impact and threat considerations matter."
+    ],
+    "decisiveDetail": "The two relying parties have materially different data sensitivity and impact if federation fails.",
+    "takeaway": "Select federation assurance per use case and impact; an identity provider can support different FAL requirements for different RPs.",
+    "source": {
+      "title": "NIST SP 800-63-4, Digital Identity Risk and Federation Assurance",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63.html"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "access-lifecycle-1",
+    "conceptId": "access-lifecycle",
+    "variant": 1,
+    "stem": "A contractor's engagement ends on Friday afternoon. Human resources updates the contract record, but the contractor's VPN account remains active until a weekly access review. What lifecycle control would most directly reduce the exposure created by this timing gap?",
+    "options": [
+      "Schedule deprovisioning from the authoritative personnel event at separation",
+      "Require the contractor to change the VPN password before leaving",
+      "Archive the contractor's email but leave VPN access unchanged",
+      "Wait for the next quarterly access certification"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. Triggering deprovisioning from the authoritative separation event removes access promptly when the business need ends.",
+      "Changing a password does not ensure the separated contractor loses account access, especially if the new secret is retained.",
+      "Email archiving does not revoke the VPN authenticator or authorization.",
+      "A quarterly or weekly delay leaves an avoidable window of access after separation."
+    ],
+    "decisiveDetail": "The authoritative separation event occurs before the scheduled review that currently drives revocation.",
+    "takeaway": "Access lifecycle controls should connect joiner, mover, and leaver events to timely provisioning and deprovisioning.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AC-2 Account Management",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "access-lifecycle-2",
+    "conceptId": "access-lifecycle",
+    "variant": 2,
+    "stem": "An employee transfers from clinical operations to procurement. The identity record is preserved, but the employee still retains the clinical system role and gains procurement permissions. A review finds that old access was never evaluated during the transfer. Which lifecycle action is needed first?",
+    "options": [
+      "Create a second identity so both sets of permissions can be tracked separately",
+      "Reconcile current role assignments with the new job and remove clinical permissions no longer required",
+      "Disable all authentication factors permanently",
+      "Grant the employee administrator rights to manage the transition"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "A second identity fragments accountability and does not address stale authorization on the original identity.",
+      "Correct. A mover event requires reviewing the changed business need, removing obsolete access, and granting only the new role's required permissions.",
+      "Permanent factor disablement prevents legitimate work and does not perform a role reconciliation.",
+      "Administrator rights add unnecessary privilege and increase the risk during the transition."
+    ],
+    "decisiveDetail": "The employee changed duties but retained permissions tied to the former job.",
+    "takeaway": "Mover processes are as important as leaver processes because stale permissions accumulate when duties change.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AC-2 Account Management",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "access-lifecycle-3",
+    "conceptId": "access-lifecycle",
+    "variant": 3,
+    "stem": "A SaaS administrator discovers a former vendor account that has not authenticated for six months. The vendor contract ended three months ago, but no termination event reached the SaaS platform. The organization wants a control that catches both missing event integrations and unused access. Which combination is most appropriate?",
+    "options": [
+      "Periodic account review plus an automated disablement or escalation for terminated or dormant accounts",
+      "A longer password expiration interval so the account remains available",
+      "A shared vendor account with no named owner",
+      "An annual inventory of software licenses without checking account status"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. Periodic review detects missed lifecycle events, while disabling or escalating dormant or terminated accounts limits continued exposure.",
+      "Longer password validity increases the period in which an unused credential might be abused.",
+      "A shared account removes individual ownership and weakens accountability.",
+      "License inventory does not verify whether identities or permissions remain appropriate."
+    ],
+    "decisiveDetail": "Both a missed termination event and prolonged inactivity are visible risk signals.",
+    "takeaway": "Lifecycle assurance uses event-driven changes and periodic review to catch gaps in either automation or ownership data.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AC-2 Account Management",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "accountability-1",
+    "conceptId": "accountability",
+    "variant": 1,
+    "stem": "An incident responder needs to determine which administrator changed a firewall rule and when. The firewall currently records only that an administrator session made a change; all administrators use the same privileged account. Which improvement most directly strengthens audit accountability?",
+    "options": [
+      "Give each administrator a unique account and record relevant event details in protected audit records",
+      "Increase the firewall's CPU and memory",
+      "Disable logging during maintenance to improve performance",
+      "Have administrators sign a policy acknowledging the shared password"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. Individual identities tied to audit events make actions attributable, and protected records preserve evidence for review.",
+      "More hardware does not identify which person performed an action.",
+      "Disabling logs removes evidence and worsens accountability.",
+      "A signed policy does not distinguish actions performed through a shared account."
+    ],
+    "decisiveDetail": "The current shared account prevents attribution of a specific rule change to one administrator.",
+    "takeaway": "Accountability depends on attributable identities and useful, protected records of security-relevant events.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AU-2 Audit Events and AU-12 Audit Record Generation",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "accountability-2",
+    "conceptId": "accountability",
+    "variant": 2,
+    "stem": "A security operations team forwards authentication and administrative events to a central collector. An attacker who gains local administrator access can delete the local event files before investigators review them. Which design change best preserves the records' value for accountability?",
+    "options": [
+      "Retain only a screenshot of the console after each change",
+      "Forward events to a centrally managed repository with access controls and integrity protections",
+      "Allow every administrator to edit the central records for convenience",
+      "Reduce event detail so deletion is less noticeable"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "Screenshots are incomplete, difficult to correlate, and do not replace event records.",
+      "Correct. Central collection with controlled access and integrity protections reduces an endpoint administrator's ability to erase or alter the evidence.",
+      "Universal edit access undermines the integrity and trustworthiness of the repository.",
+      "Less detail makes investigation and attribution weaker, not stronger."
+    ],
+    "decisiveDetail": "The threat actor can alter local evidence but should not control the central repository.",
+    "takeaway": "Centralized, access-controlled, integrity-protected audit records improve the reliability of accountability evidence.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AU-9 Protection of Audit Information",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "accountability-3",
+    "conceptId": "accountability",
+    "variant": 3,
+    "stem": "A regulator asks an organization to reconstruct a suspicious export from its customer database. The audit design records successful logins but not which records were queried, what export operation occurred, or whether the request was allowed or denied. Which audit improvement would most help answer the regulator's question?",
+    "options": [
+      "Record only the total number of daily logins",
+      "Replace audit records with a quarterly employee survey",
+      "Disable denied-event logging to reduce noise",
+      "Capture relevant access events with subject, object or data scope, operation, time, and decision details"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "Login totals cannot reconstruct the data access or export that occurred.",
+      "A survey is not a reliable technical record of events.",
+      "Denied events can reveal attempted misuse and should not be discarded without a justified policy.",
+      "Correct. Events need enough context to link a subject to the data or object, operation, time, and outcome under investigation."
+    ],
+    "decisiveDetail": "The investigation concerns a data operation and its outcome, not merely session creation.",
+    "takeaway": "Audit selection should match investigative and accountability needs; authentication logs alone are not a complete access trail.",
+    "source": {
+      "title": "NIST SP 800-53 Rev. 5, AU-2 Audit Events",
+      "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "risk-1",
+    "conceptId": "risk",
+    "variant": 1,
+    "stem": "A retailer identifies a threat event in which a compromised vendor account could alter inventory records. The account is used frequently, the application lacks change validation, and incorrect inventory could halt fulfillment for two days. Which pair of factors should the assessment combine to characterize the risk?",
+    "options": [
+      "Likelihood of the threat event and its resulting adverse impact",
+      "The vendor's contract price and the application's license cost",
+      "The number of employees and the age of the application",
+      "The amount of available storage and the backup format"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. NIST describes risk as a combination of the likelihood that a threat event will occur and the impact if adverse effects result.",
+      "Costs may inform a response, but they do not define the assessed risk level.",
+      "Those facts may be relevant context but are not the core risk combination described.",
+      "Storage and backup format do not by themselves express the likelihood and impact of this threat event."
+    ],
+    "decisiveDetail": "The assessment has both an event likelihood question and a consequence question.",
+    "takeaway": "Risk assessment connects threat events and vulnerabilities to likelihood and potential impact so leaders can choose a response.",
+    "source": {
+      "title": "NIST SP 800-30 Rev. 1, Guide for Conducting Risk Assessments",
+      "url": "https://csrc.nist.gov/pubs/sp/800/30/r1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "risk-2",
+    "conceptId": "risk",
+    "variant": 2,
+    "stem": "A service owner proposes buying an expensive detection platform because a new vulnerability was announced. Before selecting a response, the risk team finds that the affected component is isolated, exploit conditions are uncommon, and a successful compromise would expose regulated records. What should the team do next?",
+    "options": [
+      "Choose the most expensive control automatically because the vulnerability is public",
+      "Ignore the issue because exploitation has not yet been observed locally",
+      "Classify the vulnerability as high solely from its identifier",
+      "Assess the threat event, vulnerabilities and predisposing conditions, likelihood, and impact in the actual environment"
+    ],
+    "correctIndex": 3,
+    "explanations": [
+      "Control cost and publicity do not substitute for an environment-specific risk assessment.",
+      "Absence of observed exploitation does not establish zero likelihood or acceptable risk.",
+      "A vulnerability identifier alone does not determine the organization's likelihood or impact.",
+      "Correct. NIST risk assessment considers threat sources and events, vulnerabilities and conditions, likelihood, and impact before response selection."
+    ],
+    "decisiveDetail": "The actual environment changes both likelihood and impact, so the response needs context-specific assessment.",
+    "takeaway": "Risk responses should follow an assessment of the organization's threat context and mission impact, not a label or headline alone.",
+    "source": {
+      "title": "NIST SP 800-30 Rev. 1, Risk Assessment Factors",
+      "url": "https://csrc.nist.gov/pubs/sp/800/30/r1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "risk-3",
+    "conceptId": "risk",
+    "variant": 3,
+    "stem": "A transit agency's risk assessment rates a ransomware scenario as high because service disruption would affect emergency routes and restoration dependencies are poorly understood. The executive asks whether deploying one backup appliance means the risk is gone. Which response best explains the assessment outcome?",
+    "options": [
+      "Yes; one control eliminates the threat source and therefore all risk",
+      "No; the agency should reassess residual likelihood and impact after considering the backup's coverage, dependencies, and recovery performance",
+      "Yes; risk is determined only by whether a control exists",
+      "No; risk can never be changed by controls"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "A backup may reduce consequences or recovery time but does not eliminate every threat or dependency.",
+      "Correct. Controls change the risk factors, so the organization should reassess the remaining likelihood and impact as residual risk.",
+      "Control presence alone says nothing about coverage, effectiveness, or remaining impact.",
+      "Controls can reduce likelihood or impact, even though they rarely eliminate risk completely."
+    ],
+    "decisiveDetail": "The backup's actual coverage and recovery behavior determine how much risk remains.",
+    "takeaway": "After controls are implemented, reassess residual risk using their demonstrated effect on likelihood and impact.",
+    "source": {
+      "title": "NIST SP 800-30 Rev. 1, Risk Response and Residual Risk",
+      "url": "https://csrc.nist.gov/pubs/sp/800/30/r1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "classification-1",
+    "conceptId": "classification",
+    "variant": 1,
+    "stem": "A public health agency categorizes a case-management system. Unauthorized disclosure of case details could seriously harm individuals, inaccurate records could lead to incorrect interventions, and a one-day outage would delay emergency case processing and require costly manual work but would not stop services. Which security categorization pattern best follows the impact-based approach?",
+    "options": [
+      "High confidentiality, high integrity, and moderate availability impacts",
+      "Low confidentiality, low integrity, and low availability impacts because the service is public",
+      "Moderate confidentiality, low integrity, and high availability impacts because uptime is always highest",
+      "The same impact level for all objectives because a system has one classification"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Correct. The described harms support high confidentiality and integrity impacts, while a tolerable one-day delay supports a lower availability impact.",
+      "Public purpose does not make sensitive case data or intervention accuracy low impact.",
+      "The facts describe severe disclosure and modification consequences, and only a limited outage consequence.",
+      "NIST categorization evaluates confidentiality, integrity, and availability separately; they need not share one level."
+    ],
+    "decisiveDetail": "The consequences differ by security objective: disclosure and modification are severe, while a short outage is tolerable.",
+    "takeaway": "Security categorization assigns impact levels independently to confidentiality, integrity, and availability based on potential harm.",
+    "source": {
+      "title": "NIST SP 800-60 Vol. 1 Rev. 1, Security Categorization",
+      "url": "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "classification-2",
+    "conceptId": "classification",
+    "variant": 2,
+    "stem": "An engineering firm labels a design dataset as confidential when a project begins. After the product launches, most design details become public, but the dataset remains labeled confidential by habit. The security architect wants the classification to reflect current business context and lifecycle. What is the best next step?",
+    "options": [
+      "Keep the original label permanently because classifications cannot change",
+      "Review the impact and handling need in the current context, document any justified adjustment, and update controls accordingly",
+      "Remove all access controls because some details are now public",
+      "Set every dataset to high classification to avoid future reviews"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "Information impact can change over its lifecycle, so permanent labels may become inaccurate.",
+      "Correct. NIST guidance calls for reviewing provisional or existing impact levels in the organization's context, documenting rationale, and adjusting as appropriate.",
+      "Some public details do not prove that the entire dataset needs no protection or integrity controls.",
+      "Uniform high labels ignore differences in information and create avoidable handling burden."
+    ],
+    "decisiveDetail": "The information's sensitivity and mission context changed after product launch.",
+    "takeaway": "Classification should be reviewed when context, use, or lifecycle changes; document the rationale for adjustments.",
+    "source": {
+      "title": "NIST SP 800-60 Vol. 1 Rev. 1, Review and Adjust Impact Levels",
+      "url": "https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-60v1r1.pdf"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  },
+  {
+    "id": "classification-3",
+    "conceptId": "classification",
+    "variant": 3,
+    "stem": "A finance team classifies a reporting database by looking only at the database server's hardware. The security architect points out that the same hardware could support routine reporting or an application holding payment data and regulated personal information. Which basis should drive the system's security categorization?",
+    "options": [
+      "The server's purchase price and processor model",
+      "The information types, mission or business use, and potential impact of loss of confidentiality, integrity, or availability",
+      "The number of database tables, regardless of their contents",
+      "The vendor's marketing tier for the hardware"
+    ],
+    "correctIndex": 1,
+    "explanations": [
+      "Hardware cost does not describe the consequences of compromising the information or system.",
+      "Correct. NIST categorization maps information and system use to security objectives and impact levels based on potential consequences.",
+      "Table count is a technical size measure, not an impact assessment.",
+      "A vendor tier is not a substitute for the organization's mission and information impact analysis."
+    ],
+    "decisiveDetail": "Categorization depends on the information and mission context processed by the system, not its hardware.",
+    "takeaway": "Classify according to information types and potential consequences for confidentiality, integrity, and availability.",
+    "source": {
+      "title": "NIST SP 800-60 Vol. 1 Rev. 1, Mapping Information Types to Categories",
+      "url": "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    },
+    "review": { "status": "AI source-checked", "date": "2026-09-06" }
+  }
+]
