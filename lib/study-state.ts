@@ -5,10 +5,18 @@ export type Attempt = {
   chosen: number;
   correct: boolean;
   guess: boolean;
+  hintUsed?: boolean;
   at: number;
   answerMs: number;
   explanationMs: number;
   repeated: boolean;
+  contentRelease?: string;
+  questionSnapshot?: {
+    stem: string;
+    options: string[];
+    correctIndex: number;
+    explanations: string[];
+  };
 };
 export type ReviewCard = {
   dueAt: number;
@@ -29,6 +37,7 @@ export type Session = {
   phase: 'answer' | 'explanation';
   selected: number | null;
   guess: boolean;
+  hintUsed?: boolean;
   attemptId: string | null;
   elapsedMs: number;
   phaseMs: number;
@@ -142,7 +151,15 @@ export function selectQuestions<
 }
 export function recordAnswer(
   state: StudyState,
-  question: { id: string; conceptId: string; correctIndex: number },
+  question: {
+    id: string;
+    conceptId: string;
+    correctIndex: number;
+    contentRelease?: string;
+    stem?: string;
+    options?: string[];
+    explanations?: string[];
+  },
   now: number,
 ): StudyState {
   const s = state.active;
@@ -161,6 +178,18 @@ export function recordAnswer(
     chosen: s.selected,
     correct,
     guess: s.guess,
+    hintUsed: !!s.hintUsed,
+    contentRelease: question.contentRelease || 'mvp-v1',
+    ...(question.stem && question.options && question.explanations
+      ? {
+          questionSnapshot: {
+            stem: question.stem,
+            options: [...question.options],
+            correctIndex: question.correctIndex,
+            explanations: [...question.explanations],
+          },
+        }
+      : {}),
     at: now,
     answerMs: s.phaseMs,
     explanationMs: 0,
@@ -175,7 +204,7 @@ export function recordAnswer(
       [question.conceptId]: scheduleReview(
         state.reviews[question.conceptId],
         correct,
-        s.guess,
+        s.guess || !!s.hintUsed,
         now,
       ),
     },
@@ -212,6 +241,7 @@ export function advanceSession(state: StudyState, now: number): StudyState {
       phase: 'answer',
       selected: null,
       guess: false,
+      hintUsed: false,
       attemptId: null,
       phaseMs: 0,
     },
@@ -291,6 +321,21 @@ export function validateBackup(
       typeof a.correct !== 'boolean' ||
       a.correct !== (a.chosen === qs.get(a.questionId)!.correctIndex) ||
       typeof a.guess !== 'boolean' ||
+      (a.hintUsed !== undefined && typeof a.hintUsed !== 'boolean') ||
+      (a.contentRelease !== undefined &&
+        (typeof a.contentRelease !== 'string' ||
+          a.contentRelease.length > 100)) ||
+      (a.questionSnapshot !== undefined &&
+        (!isRecord(a.questionSnapshot) ||
+          typeof a.questionSnapshot.stem !== 'string' ||
+          !Array.isArray(a.questionSnapshot.options) ||
+          a.questionSnapshot.options.length !== 4 ||
+          a.questionSnapshot.options.some((v) => typeof v !== 'string') ||
+          !Array.isArray(a.questionSnapshot.explanations) ||
+          a.questionSnapshot.explanations.length !== 4 ||
+          a.questionSnapshot.explanations.some((v) => typeof v !== 'string') ||
+          a.questionSnapshot.correctIndex !==
+            qs.get(a.questionId)!.correctIndex)) ||
       typeof a.repeated !== 'boolean' ||
       !finite(a.at) ||
       !finite(a.answerMs) ||
@@ -358,6 +403,7 @@ export function validateBackup(
           Number(s.selected) < 0 ||
           Number(s.selected) > 3)) ||
       typeof s.guess !== 'boolean' ||
+      (s.hintUsed !== undefined && typeof s.hintUsed !== 'boolean') ||
       !finite(s.elapsedMs) ||
       !finite(s.phaseMs) ||
       Number(s.phaseMs) > Number(s.elapsedMs) ||

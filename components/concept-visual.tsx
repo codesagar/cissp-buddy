@@ -19,109 +19,36 @@ import {
 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
-const stages: Record<
-  string,
-  { title: string; steps: { title: string; detail: string }[]; caption: string }
-> = {
-  identity: {
-    title: 'Three questions. Three different jobs.',
-    steps: [
-      { title: 'Identify', detail: '“I am Morgan.”' },
-      { title: 'Authenticate', detail: '“Here is my proof.”' },
-      { title: 'Authorize', detail: '“May I read this file?”' },
-    ],
-    caption:
-      'Naming an identity does not prove the claim. Proving the claim does not grant every permission.',
-  },
-  authorization: {
-    title: 'A request becomes a policy decision',
-    steps: [
-      { title: 'Request', detail: 'Subject + resource + action' },
-      { title: 'Evaluate', detail: 'Policy + current context' },
-      { title: 'Enforce', detail: 'Permit or deny' },
-    ],
-    caption:
-      'An authenticated session supplies context. The enforcement point still checks the requested action.',
-  },
-  federation: {
-    title: 'One trusted identity, another application',
-    steps: [
-      { title: 'Identity provider', detail: 'Authenticates the person' },
-      { title: 'Signed assertion', detail: 'Validated for this recipient' },
-      { title: 'Relying party', detail: 'Creates session, checks access' },
-    ],
-    caption:
-      'The application trusts a validated assertion—not a forwarded password. Local authorization still applies.',
-  },
-  'least-privilege': {
-    title: 'The smallest permission that gets the job done',
-    steps: [
-      { title: 'Task', detail: 'Generate a sales report' },
-      { title: 'Grant', detail: 'Read the reporting view' },
-      { title: 'Limit', detail: 'No writes or admin rights' },
-    ],
-    caption:
-      'A reporting task needs read access to relevant data. It does not need the ability to edit production records.',
-  },
-  'access-lifecycle': {
-    title: 'Access follows the relationship',
-    steps: [
-      { title: 'Joiner', detail: 'Approve the minimum baseline' },
-      { title: 'Mover', detail: 'Replace outdated permissions' },
-      { title: 'Leaver', detail: 'Revoke accounts and sessions' },
-    ],
-    caption:
-      'A transfer is a removal event as well as an addition. Otherwise, permissions accumulate.',
-  },
-  accountability: {
-    title: 'Make the action traceable',
-    steps: [
-      { title: 'Unique identity', detail: 'Who performed the action?' },
-      { title: 'Protected record', detail: 'What, when, where, outcome' },
-      { title: 'Review', detail: 'Reconstruct and investigate' },
-    ],
-    caption:
-      'Shared credentials weaken attribution. Logging alone does not establish who actually acted.',
-  },
-  classification: {
-    title: 'Three lenses on the same information',
-    steps: [
-      { title: 'Confidentiality', detail: 'Harm from disclosure' },
-      { title: 'Integrity', detail: 'Harm from alteration' },
-      { title: 'Availability', detail: 'Harm from disruption' },
-    ],
-    caption:
-      'A public website can have low confidentiality needs and high integrity or availability needs.',
-  },
-};
-export function ConceptVisual({ id }: { id: string }) {
-  if (id === 'access-models') return <AccessModelVisual />;
-  if (id === 'risk') return <RiskVisual />;
+import type { LeadVisual } from '@/lib/curriculum';
+export function ConceptVisual({
+  id,
+  visual,
+}: {
+  id: string;
+  visual: LeadVisual;
+}) {
+  if (id === 'access-models') return <AccessModelVisual visual={visual} />;
+  if (id === 'risk') return <RiskVisual visual={visual} />;
   if (id === 'authentication')
     return (
       <figure className="concept-visual">
-        <figcaption>Count the factors, not the steps.</figcaption>
+        <figcaption>{visual.title}</figcaption>
         <div className="factor-grid">
-          {[
-            [KeyRound, 'Know', 'Password or PIN'],
-            [Fingerprint, 'Have', 'Security key or device'],
-            [ScanFace, 'Are', 'Biometric activation'],
-          ].map(([Icon, title, detail]) => (
-            <div key={String(title)}>
-              {typeof Icon !== 'string' && <Icon size={30} />}
-              <strong>Something you {String(title).toLowerCase()}</strong>
-              <span>{String(detail)}</span>
-            </div>
-          ))}
+          {visual.steps!.map((step, index) => {
+            const Icon = [KeyRound, Fingerprint, ScanFace][index];
+            return (
+              <div key={step.title}>
+                <Icon size={30} />
+                <strong>{step.title}</strong>
+                <span>{step.detail}</span>
+              </div>
+            );
+          })}
         </div>
-        <p className="visual-caption">
-          <strong>Password + PIN = one factor category.</strong> A device-bound
-          authenticator unlocked with a biometric can combine possession and
-          inherence; biometrics are not a standalone remote authenticator.
-        </p>
+        <p className="visual-caption">{visual.caption}</p>
       </figure>
     );
-  const s = stages[id] || stages.identity;
+  const s = visual;
   const icons =
     id === 'access-lifecycle'
       ? [UserPlus, RefreshCw, UserMinus]
@@ -132,7 +59,7 @@ export function ConceptVisual({ id }: { id: string }) {
     <figure className="concept-visual">
       <figcaption>{s.title}</figcaption>
       <div className="diagram-steps">
-        {s.steps.map((step, i) => {
+        {s.steps!.map((step, i) => {
           const Icon = icons[i];
           return (
             <div className="step-group" key={step.title}>
@@ -151,44 +78,14 @@ export function ConceptVisual({ id }: { id: string }) {
     </figure>
   );
 }
-function AccessModelVisual() {
+function AccessModelVisual({ visual }: { visual: LeadVisual }) {
   const [model, setModel] = useState('RBAC');
-  const models: Record<
-    string,
-    { policy: string; input: string; answer: string; reason: string }
-  > = {
-    RBAC: {
-      policy: 'Only the Payroll role may edit salary records.',
-      input: 'Morgan’s assigned role: Payroll',
-      answer: 'Permit',
-      reason: 'The permission comes from Morgan’s role.',
-    },
-    ABAC: {
-      policy:
-        'Payroll staff may edit only from a managed device during work hours.',
-      input: 'Role: Payroll · Device: unmanaged · Time: 10 am',
-      answer: 'Deny',
-      reason: 'The role matches, but the device attribute fails the policy.',
-    },
-    DAC: {
-      policy: 'The document owner may choose who receives edit access.',
-      input: 'Owner shares the file with Morgan as an editor.',
-      answer: 'Permit',
-      reason: 'The owner exercises discretion to grant the permission.',
-    },
-    MAC: {
-      policy:
-        'A central policy requires the right clearance and approved need-to-know.',
-      input: 'Morgan lacks the required clearance.',
-      answer: 'Deny',
-      reason: 'The owner cannot override the mandatory policy.',
-    },
-  };
+  const models = visual.models!;
   const m = models[model];
   return (
     <figure className="concept-visual interactive">
       <div className="visual-heading">
-        <figcaption>Same person. Different policy.</figcaption>
+        <figcaption>{visual.title}</figcaption>
         <span className="interaction-tag">TRY IT</span>
       </div>
       <Tabs value={model} onValueChange={(v) => setModel(String(v))}>
@@ -216,20 +113,19 @@ function AccessModelVisual() {
         </div>
       </div>
       <p className="visual-caption">
-        {m.reason} These examples isolate each model; real systems can combine
-        them.
+        {m.reason} {visual.caption}
       </p>
     </figure>
   );
 }
-function RiskVisual() {
+function RiskVisual({ visual }: { visual: LeadVisual }) {
   const [likelihood, setLikelihood] = useState(2),
     [impact, setImpact] = useState(3);
   const score = likelihood * impact;
   return (
     <figure className="concept-visual interactive">
       <div className="visual-heading">
-        <figcaption>Likelihood and impact work together.</figcaption>
+        <figcaption>{visual.title}</figcaption>
         <span className="interaction-tag">TRY IT</span>
       </div>
       <div className="risk-interactive">
@@ -257,9 +153,7 @@ function RiskVisual() {
             max={3}
             step={1}
           />
-          <p>
-            What happens if an exposed admin account controls a critical system?
-          </p>
+          <p>{visual.prompt}</p>
         </div>
         <div>
           <figure
@@ -285,8 +179,7 @@ function RiskVisual() {
         <strong>
           {score >= 6 ? 'higher' : score >= 3 ? 'moderate' : 'lower'}
         </strong>
-        . This simple scale teaches the relationship; a real assessment also
-        needs threat context, safeguards, and defined impact criteria.
+        . {visual.caption}
       </p>
     </figure>
   );

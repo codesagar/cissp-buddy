@@ -1,0 +1,2326 @@
+[
+  {
+    "id": "identity",
+    "parentId": null,
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Digital identity",
+    "summary": "Identity is the representation a system uses for a person, device, process, or service. It anchors later authentication and authorization decisions.",
+    "objective": "5.1",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Why identity comes first",
+        "body": "An identity record gives a system a stable subject to name, authenticate, authorize, and hold accountable. The subject may be human or non-human, and its identifier is only a reference until registration and proofing establish what it represents. Separating identity from credentials allows authenticators to be replaced without silently creating a new subject or leaving an orphaned account."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://pages.nist.gov/800-63-4/sp800-63.html"
+    ],
+    "relatedIds": ["authentication", "authorization", "access-lifecycle"]
+  },
+  {
+    "id": "identity-subject",
+    "parentId": "identity",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Subject",
+    "summary": "A subject is the person, process, device, or service whose activity is evaluated by an access system.",
+    "objective": "5.1",
+    "order": 1,
+    "details": [
+      {
+        "heading": "The entity behind a request",
+        "body": "A subject is the entity that acts on or requests access to a resource. People, workloads, devices, and service accounts can all be subjects, but they have different ownership and lifecycle evidence. Naming the subject prevents a policy from collapsing a human, the browser they use, and an automated service into one indistinguishable actor. A subject record should identify its owner, purpose, status, and authoritative source."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/glossary/term/subject"
+    ],
+    "relatedIds": [
+      "identity-identifier",
+      "accountability-attributable-identity"
+    ]
+  },
+  {
+    "id": "identity-identifier",
+    "parentId": "identity",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Identifier",
+    "summary": "An identifier is the label a system uses to refer to a subject; it is not proof that the claimant controls the subject.",
+    "objective": "5.1",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Labels are not evidence",
+        "body": "An identifier can be an employee number, account name, device ID, service principal, or federated subject value. It tells a system which record a request claims to represent, but anyone may present a copied identifier. Authentication supplies evidence of control, while authorization evaluates what the identified subject may do. Use stable namespaces and ownership records so identifiers are not accidentally reused after retirement."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63/model/",
+      "https://csrc.nist.gov/glossary/term/identifier"
+    ],
+    "relatedIds": ["authentication", "federation-assertions"]
+  },
+  {
+    "id": "identity-proofing",
+    "parentId": "identity",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Identity proofing",
+    "summary": "Identity proofing establishes confidence that an account represents the claimed person or entity before credentials are bound to it.",
+    "objective": "5.2",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Confidence before credentials",
+        "body": "Proofing is the evidence-gathering step that connects a claimed identity to a real person or authorized entity. The strength of evidence should reflect the harm that an impersonated account could cause. Proofing is different from authentication: proofing establishes the account relationship, while authentication later verifies control of a bound authenticator. Record the decision, evidence source, assurance level, and responsible authority."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63a.html",
+      "https://pages.nist.gov/800-63-4/sp800-63.html"
+    ],
+    "relatedIds": ["identity-registration", "authentication-assurance"]
+  },
+  {
+    "id": "identity-registration",
+    "parentId": "identity-proofing",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Registration and enrollment",
+    "summary": "Registration creates the account relationship and records which authenticators, attributes, and owners are associated with it.",
+    "objective": "5.2",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Create the account relationship",
+        "body": "Registration turns an approved identity into a usable account record. It should capture the identifier, authoritative source, owner, status, required attributes, and the authenticator-binding event. Enrollment is not permission to every resource; it only establishes a subject that later policy can evaluate. Guard registration against duplicate records, unverified changes, and recovery paths that are weaker than the original proofing decision."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63a.html",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": ["authentication-lifecycle", "access-lifecycle"]
+  },
+  {
+    "id": "identity-proofing-evidence",
+    "parentId": "identity-proofing",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Proofing evidence",
+    "summary": "Proofing evidence may include verified attributes, authoritative records, or controlled evidence checks selected for the identity risk.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Evidence must fit the consequence",
+        "body": "Evidence is useful only when its source, freshness, and verification method support the assurance being claimed. A low-impact account may need a different process from a privileged administrator or regulated service. Minimize retained personal data, document exceptions, and separate the evidence used to establish an account from later authentication logs. A proofing decision should be reviewable without exposing more personal information than the purpose requires."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63a.html",
+      "https://csrc.nist.gov/pubs/sp/800/63/a/4/final"
+    ],
+    "relatedIds": ["classification-confidentiality", "risk-impact"]
+  },
+  {
+    "id": "identity-non-human",
+    "parentId": "identity",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Non-human identity",
+    "summary": "Non-human identities represent devices, workloads, applications, and services that act without a person directly entering each request.",
+    "objective": "5.1",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Automation still needs an owner",
+        "body": "A workload or device can initiate consequential actions, so it needs an identity with a purpose, owner, lifecycle, and scope. Avoid treating a machine identity as an anonymous technical detail. Record where its credentials or keys live, how they are rotated, and what happens when the workload is redeployed or the service ends. Non-human identity governance links technical activity to an accountable organization or team."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "identity-service-principal",
+      "least-service-scopes",
+      "access-lifecycle"
+    ]
+  },
+  {
+    "id": "identity-service-principal",
+    "parentId": "identity-non-human",
+    "rootConceptId": "identity",
+    "domainId": 5,
+    "title": "Service identity",
+    "summary": "A service identity lets an application or workload authenticate and receive narrowly scoped permissions without borrowing a human account.",
+    "objective": "5.1",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Give workloads their own identity",
+        "body": "A service principal, workload identity, or managed service account should represent one defined function and have a named owner. Scope its permissions to the APIs and resources required by that function, rotate or renew its credentials, and monitor use. Do not solve automation by embedding a developer\u2019s password or granting a shared administrator identity. Deployment, scaling, and retirement events must update the service identity lifecycle."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/least_privilege"
+    ],
+    "relatedIds": [
+      "least-service-scopes",
+      "lifecycle-service-accounts",
+      "accountability-unique-accounts"
+    ]
+  },
+  {
+    "id": "authentication",
+    "parentId": null,
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Authentication",
+    "summary": "Authentication verifies that a claimant controls an authenticator associated with an identity; factor choice and lifecycle determine assurance.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Evidence of control",
+        "body": "Authentication is the verification step after a subject claims an identity. Knowledge, possession, and inherence factors provide different kinds of evidence, while assurance depends on how the authenticator is designed, bound, protected, and recovered. A successful authentication can establish a session, but it does not by itself authorize every resource or operation. Keep authentication, authorization, and accounting distinct in both design and explanation."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://pages.nist.gov/800-63-4/sp800-63b.html"
+    ],
+    "relatedIds": ["identity", "authorization", "federation"]
+  },
+  {
+    "id": "authentication-factors",
+    "parentId": "authentication",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Authentication factors",
+    "summary": "Authentication factors are knowledge, possession, and inherence categories used to organize evidence of control.",
+    "objective": "5.2",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Different kinds of evidence",
+        "body": "A factor category describes what the claimant proves: something known, something possessed, or something inherent. Multiple instances of the same category remain single-factor authentication. Multifactor authentication combines independent categories, but its actual assurance also depends on binding, verifier behavior, phishing resistance, and recovery. Teaching the categories prevents a common mistake: counting two screens or two passwords as two independent factors."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63/model/",
+      "https://pages.nist.gov/800-63-4/sp800-63b.html"
+    ],
+    "relatedIds": [
+      "authentication-knowledge",
+      "authentication-possession",
+      "authentication-inherence",
+      "authentication-mfa"
+    ]
+  },
+  {
+    "id": "authentication-knowledge",
+    "parentId": "authentication-factors",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Knowledge factors",
+    "summary": "A knowledge factor is a secret the claimant knows, such as a password, PIN, or memorized secret.",
+    "objective": "5.2",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Something you know",
+        "body": "Passwords and PINs are knowledge factors because the claimant supplies a memorized secret. They are vulnerable to guessing, reuse, phishing, disclosure, and poor recovery design, so storage and throttling controls matter. A second password is still knowledge, not an independent factor. Strong authentication design also considers whether the secret activates another authenticator, such as a local PIN unlocking a hardware-backed key."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "https://pages.nist.gov/800-63-4/sp800-63b/glossary/"
+    ],
+    "relatedIds": ["authentication-mfa", "authentication-passkeys"]
+  },
+  {
+    "id": "authentication-possession",
+    "parentId": "authentication-factors",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Possession factors",
+    "summary": "A possession factor is an authenticator or device the claimant controls, commonly through a cryptographic key.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Something you have",
+        "body": "Possession means the claimant controls an authenticator, such as a hardware security key, device-held private key, or other approved token. The verifier should receive evidence produced by the authenticator rather than trusting a device label. Loss, theft, duplication, binding, and revocation are lifecycle events. Possession can be combined with a knowledge or inherence activation factor to create a multifactor cryptographic authenticator."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63/model/",
+      "https://pages.nist.gov/800-63-4/sp800-63b.html"
+    ],
+    "relatedIds": [
+      "authentication-hardware-keys",
+      "authentication-passkeys",
+      "authentication-lifecycle"
+    ]
+  },
+  {
+    "id": "authentication-hardware-keys",
+    "parentId": "authentication-possession",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Hardware security keys",
+    "summary": "A hardware security key protects an authenticator secret in a dedicated device and can provide phishing-resistant cryptographic proof.",
+    "objective": "5.2",
+    "order": 1,
+    "details": [
+      {
+        "heading": "A key that answers the right site",
+        "body": "A hardware security key can hold a private key and sign a verifier challenge without revealing that private key. WebAuthn-style origin binding helps prevent a fraudulent site from obtaining a reusable response for the real relying party. Organizations still need enrollment, backup, loss, revocation, and recovery procedures. The device is an authenticator, while a local PIN or biometric may activate it."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "https://pages.nist.gov/800-63-4/sp800-63b/syncable/"
+    ],
+    "relatedIds": [
+      "authentication-passkeys",
+      "authentication-inherence",
+      "authentication-lifecycle"
+    ]
+  },
+  {
+    "id": "authentication-passkeys",
+    "parentId": "authentication-possession",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Passkeys and syncable authenticators",
+    "summary": "Passkeys use public-key cryptography and may be device-bound or synced across a provider\u2019s devices, with local activation.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Public-key login",
+        "body": "A passkey lets a relying party verify a signature from a key pair associated with that site, avoiding transmission of a reusable password. A device-bound key stays on one authenticator; a syncable credential may be available on multiple devices through a sync fabric. Local PIN or biometric activation proves user presence or verification to the authenticator. Risk decisions should account for recovery and sync-provider visibility."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b/syncable/",
+      "https://www.w3.org/TR/webauthn-3/"
+    ],
+    "relatedIds": [
+      "authentication-hardware-keys",
+      "authentication-inherence",
+      "authentication-assurance"
+    ]
+  },
+  {
+    "id": "authentication-inherence",
+    "parentId": "authentication-factors",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Inherence and biometrics",
+    "summary": "An inherence factor is a biometric characteristic; in NIST digital authentication guidance, biometrics activate a physical authenticator rather than stand alone remotely.",
+    "objective": "5.2",
+    "order": 3,
+    "details": [
+      {
+        "heading": "A biometric has a bounded role",
+        "body": "A fingerprint, face, or other biometric characteristic can be an inherence factor, but it is difficult to replace after compromise and can produce false matches. NIST guidance treats biometrics as an activation factor bound to a physical authenticator for remote digital authentication. Explain the device-bound construction instead of implying that a biometric image by itself is a universal remote credential."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "https://pages.nist.gov/800-63-FAQ/"
+    ],
+    "relatedIds": [
+      "authentication-possession",
+      "authentication-passkeys",
+      "authentication-mfa"
+    ]
+  },
+  {
+    "id": "authentication-mfa",
+    "parentId": "authentication-factors",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Multifactor authentication",
+    "summary": "MFA combines independent factor categories so compromise of one category does not automatically defeat the whole authentication event.",
+    "objective": "5.2",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Independence matters",
+        "body": "MFA is more than two prompts. A password plus a hardware-backed authenticator, or a cryptographic authenticator activated by a biometric, can involve distinct factors. Two passwords remain one category, and a second step that depends on the same compromised device may not add the expected protection. Evaluate factor independence, binding, phishing resistance, recovery, and the assurance level required by the transaction."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63/model/",
+      "https://pages.nist.gov/800-63-4/sp800-63b.html"
+    ],
+    "relatedIds": [
+      "authentication-assurance",
+      "authentication-inherence",
+      "authentication-possession"
+    ]
+  },
+  {
+    "id": "authentication-assurance",
+    "parentId": "authentication",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Authentication assurance",
+    "summary": "Authentication assurance expresses confidence in the authentication event and the authenticator process, not merely whether a password was accepted.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Choose strength by consequence",
+        "body": "Assurance reflects the strength of the authenticator, verifier, binding, and authentication process. NIST\u2019s AAL concept helps organizations match controls to transaction risk, while phishing resistance and recovery design affect the practical result. Do not infer high assurance from a familiar label such as MFA. State what the level covers, what it does not cover, and which actions require reauthentication or stronger evidence."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "https://pages.nist.gov/800-63-4/sp800-63b/glossary/"
+    ],
+    "relatedIds": [
+      "authentication-mfa",
+      "authentication-lifecycle",
+      "risk-impact"
+    ]
+  },
+  {
+    "id": "authentication-lifecycle",
+    "parentId": "authentication",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Authenticator lifecycle",
+    "summary": "Authenticator lifecycle management covers binding, use, loss, theft, replacement, expiration, revocation, and recovery.",
+    "objective": "5.2",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Credentials have a life",
+        "body": "An authenticator is not secure only at the moment it is issued. Bind it to the correct account, record its characteristics, protect activation, detect loss or theft, and revoke or replace it when its trust changes. Recovery should not quietly downgrade the account below its required assurance. Maintain enough lifecycle history to distinguish a current authenticator from one that was previously associated with the identity."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b/events/",
+      "https://pages.nist.gov/800-63-4/sp800-63b.html"
+    ],
+    "relatedIds": [
+      "authentication-possession",
+      "access-lifecycle",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "authentication-session",
+    "parentId": "authentication",
+    "rootConceptId": "authentication",
+    "domainId": 5,
+    "title": "Session management",
+    "summary": "Session management preserves the security context created by authentication through bounded lifetime, renewal, logout, and revocation controls.",
+    "objective": "5.2",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Preserve assurance after login",
+        "body": "A session represents an authenticated interaction, so it needs an expiration policy, protection against fixation and hijacking, secure renewal, and a clear logout or revocation behavior. Long-lived sessions can outlast role, device, or risk changes. High-impact operations may require reauthentication or a fresh authorization decision. Keep session state separate from the original password or authenticator secret and record important transitions for accountability."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authorization-decision",
+      "federation-assertions",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "authorization",
+    "parentId": null,
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Authorization",
+    "summary": "Authorization evaluates whether a requester may perform an action on a resource under policy, using identity and context when available.",
+    "objective": "5.4",
+    "order": 3,
+    "details": [
+      {
+        "heading": "A policy decision",
+        "body": "Authorization is the decision about whether a requested operation is permitted, denied, or conditioned. A request may be tied to an authenticated subject, or a policy may intentionally allow anonymous public access. Useful decisions consider the requester, object, action, and environment. Authentication can supply identity evidence, but authorization remains a separate policy function enforced at a system boundary."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": ["authentication", "access-models", "least-privilege"]
+  },
+  {
+    "id": "authorization-inputs",
+    "parentId": "authorization",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Authorization inputs",
+    "summary": "Authorization inputs describe who or what requests access, which resource is targeted, what operation is requested, and which conditions apply.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Make the request explicit",
+        "body": "A policy engine cannot make a meaningful decision from \u201cthe user is logged in\u201d alone. It needs a subject or anonymous requester, target object, requested action, and relevant context such as time, device state, location, data label, or relationship. Missing inputs should have defined behavior. Explicit inputs also make decisions easier to test, explain, audit, and change without smuggling assumptions into application code."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authorization-subject-context",
+      "authorization-object-action",
+      "access-attributes"
+    ]
+  },
+  {
+    "id": "authorization-subject-context",
+    "parentId": "authorization-inputs",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Subject and environment context",
+    "summary": "Subject and environment context includes identity, role, device posture, time, location, relationship, or other conditions that constrain a decision.",
+    "objective": "5.4",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Context narrows permission",
+        "body": "A subject\u2019s role may establish baseline access, while current context narrows it: a managed device, active shift, approved network, or relationship to a record may matter. Context is only useful when its source, freshness, and failure behavior are understood. Risk signals should support policy rather than become an opaque substitute for policy. Recheck high-impact conditions when cached decisions or long-lived sessions could be unsafe."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/207/final"
+    ],
+    "relatedIds": [
+      "access-environment-attributes",
+      "access-risk-based",
+      "authentication-session"
+    ]
+  },
+  {
+    "id": "authorization-object-action",
+    "parentId": "authorization-inputs",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Object and action",
+    "summary": "The object and action identify what resource is being accessed and what operation the requester wants to perform.",
+    "objective": "5.4",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Read is different from change",
+        "body": "Authorization should distinguish the target resource from the operation. Reading a report, editing a record, deleting a key, approving a payment, and administering a policy have different consequences even when they use the same application. Use resource scope and action granularity that match the risk. Broad \u201cmanage\u201d permissions can hide dangerous operations and make least-privilege review difficult."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": ["least-minimum-authority", "classification-handling"]
+  },
+  {
+    "id": "authorization-decision",
+    "parentId": "authorization",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Permit, deny, or step up",
+    "summary": "A policy decision can permit an action, deny it, or require additional conditions such as approval or stronger authentication.",
+    "objective": "5.4",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Make outcomes deliberate",
+        "body": "A decision response should be unambiguous and enforceable. Permit grants only the requested scope, deny explains enough for an operator without leaking sensitive policy, and step-up requires a defined additional control rather than an ad hoc retry. Default-deny is useful when no rule matches, but public anonymous resources are intentional policy exceptions. Test both positive and negative paths, including stale or missing attributes."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authorization-enforcement",
+      "authentication-assurance",
+      "access-risk-based"
+    ]
+  },
+  {
+    "id": "authorization-enforcement",
+    "parentId": "authorization",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Policy enforcement",
+    "summary": "Policy enforcement applies the authorization result at the application, API, database, operating-system, or network boundary.",
+    "objective": "5.4",
+    "order": 3,
+    "details": [
+      {
+        "heading": "A rule must reach the boundary",
+        "body": "A correct policy is not enough if an enforcement path ignores it, fails open, or uses stale context. Separating decision from enforcement can centralize rules while distributing controls, but every enforcement point needs tests and a defined failure mode. Apply authorization close to the protected operation, validate delegated scopes, and avoid trusting a user interface control as the only protection."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authorization-pdp",
+      "authorization-pep",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "authorization-pdp",
+    "parentId": "authorization-enforcement",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Policy decision point",
+    "summary": "A policy decision point evaluates applicable rules and attributes and produces the authorization result.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Where policy is evaluated",
+        "body": "A policy decision point is the component that evaluates a request against policy and returns an outcome. It may be centralized or embedded, but its inputs, policy version, and error behavior should be observable. Centralization can reduce inconsistent rules, while distributed decisions may reduce latency or preserve availability. Either way, the decision point must not be confused with the component that actually blocks or permits the operation."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/207/final"
+    ],
+    "relatedIds": ["authorization-pep", "authorization-inputs"]
+  },
+  {
+    "id": "authorization-pep",
+    "parentId": "authorization-enforcement",
+    "rootConceptId": "authorization",
+    "domainId": 5,
+    "title": "Policy enforcement point",
+    "summary": "A policy enforcement point intercepts a request and applies the decision produced by policy evaluation.",
+    "objective": "5.4",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Where policy is applied",
+        "body": "A policy enforcement point sits on the path to a protected resource and carries out permit, deny, or step-up behavior. Examples include an API gateway, service proxy, database control, operating-system permission check, or application authorization middleware. Verify that every alternate path reaches an enforcement point and that a failure cannot silently bypass the decision. Log enough context to investigate a disagreement between decision and effect."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/207/final"
+    ],
+    "relatedIds": ["authorization-pdp", "accountability-event-fields"]
+  },
+  {
+    "id": "access-models",
+    "parentId": null,
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Access models",
+    "summary": "Access models describe how authorization policy is expressed and who controls or supplies the decision inputs.",
+    "objective": "5.4",
+    "order": 4,
+    "details": [
+      {
+        "heading": "A model is a policy vocabulary",
+        "body": "RBAC, ABAC, DAC, MAC, rule-based, and risk-based approaches emphasize different sources of authorization. Roles simplify stable job permissions; attributes express context; owner discretion supports sharing; centrally managed labels constrain overrides; rules and risk signals add conditions. Models can be combined. Select a shape that is explainable, enforceable, reviewable, and appropriate to the organization\u2019s policy authority and operational change rate."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final"
+    ],
+    "relatedIds": [
+      "authorization",
+      "least-privilege",
+      "classification-categorization"
+    ]
+  },
+  {
+    "id": "access-rbac",
+    "parentId": "access-models",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Role-based access control",
+    "summary": "RBAC grants permissions through roles representing job functions or system responsibilities.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Permissions through roles",
+        "body": "RBAC separates permission assignment from individual accounts by attaching permissions to roles and assigning subjects to those roles. It works well when duties and permission bundles are stable and understandable. Governance must control who may create, approve, or assign roles, and must remove stale memberships. Excessive one-off roles create role explosion, while broad roles undermine least privilege and make review harder."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "access-roles",
+      "access-role-hierarchy",
+      "least-access-review"
+    ]
+  },
+  {
+    "id": "access-roles",
+    "parentId": "access-rbac",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Role definition",
+    "summary": "A role is a named permission bundle tied to a function, responsibility, or business context.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Define the job, then the grant",
+        "body": "A useful role has a purpose, owner, eligibility rule, permission scope, approval path, and review cadence. Define the work the role enables before listing permissions, and avoid creating roles merely to mirror a person\u2019s name. Separate mutually incompatible duties and document temporary roles. Role definitions should be understandable to both the business owner approving access and the administrator implementing it."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/role_based_access_control"
+    ],
+    "relatedIds": [
+      "least-separation-of-duties",
+      "access-role-hierarchy",
+      "lifecycle-access-review"
+    ]
+  },
+  {
+    "id": "access-role-hierarchy",
+    "parentId": "access-rbac",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Role hierarchy",
+    "summary": "A role hierarchy lets a senior or composite role inherit permissions from subordinate roles when that inheritance reflects real policy.",
+    "objective": "5.4",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Inheritance needs review",
+        "body": "Role hierarchies reduce duplicate assignments when one role legitimately includes another role\u2019s permissions. They also create hidden privilege paths: assigning a parent can grant every inherited permission. Keep hierarchy depth understandable, document inheritance, and review it when duties change. A hierarchy is not a shortcut around separation of duties; inherited permissions still need conflict analysis and owner approval."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/role_based_access_control"
+    ],
+    "relatedIds": [
+      "access-roles",
+      "least-separation-of-duties",
+      "least-privilege"
+    ]
+  },
+  {
+    "id": "access-abac",
+    "parentId": "access-models",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Attribute-based access control",
+    "summary": "ABAC evaluates attributes of the subject, object, action, and environment against policy rules.",
+    "objective": "5.4",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Policy from context",
+        "body": "ABAC can express decisions such as \u201ca clinician may read a record when assigned to the case, using a compliant device, during an approved shift.\u201d It can reduce role explosion where context varies, but it depends on trustworthy, current attributes and understandable policies. Define attribute sources, missing-value behavior, policy owners, and enforcement points. ABAC is a decision method, not a guarantee that every attribute is accurate."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "access-attributes",
+      "authorization-inputs",
+      "access-risk-based"
+    ]
+  },
+  {
+    "id": "access-attributes",
+    "parentId": "access-abac",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "ABAC attribute families",
+    "summary": "ABAC commonly evaluates subject, object, action, and environment attributes together.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Four policy inputs",
+        "body": "Subject attributes describe the requester; object attributes describe the target; action attributes describe the requested operation; and environment attributes describe current conditions. A policy can combine them without turning every combination into a new role. The security of the decision depends on attribute provenance, freshness, normalization, and protection from unauthorized change. Keep policy expressions testable and document which input is decisive."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "access-subject-attributes",
+      "access-object-attributes",
+      "access-environment-attributes",
+      "authorization-object-action"
+    ]
+  },
+  {
+    "id": "access-subject-attributes",
+    "parentId": "access-attributes",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Subject attributes",
+    "summary": "Subject attributes describe the requester, such as role, department, clearance, employment status, or service identity.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Describe who is asking",
+        "body": "Subject attributes let a policy distinguish requesters beyond a username. Examples include a role, department, employment relationship, clearance, service purpose, or device ownership. Each attribute needs an authoritative source and lifecycle; stale department or contractor status can create an authorization error. Treat sensitive attributes as data that requires protection, minimization, and careful release to policy components."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://pages.nist.gov/800-63-4/sp800-63c.html"
+    ],
+    "relatedIds": [
+      "identity-subject",
+      "federation-assertions",
+      "lifecycle-access-review"
+    ]
+  },
+  {
+    "id": "access-object-attributes",
+    "parentId": "access-attributes",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Object attributes",
+    "summary": "Object attributes describe the resource, such as owner, classification, sensitivity, tenant, or lifecycle state.",
+    "objective": "5.4",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Describe what is protected",
+        "body": "Object attributes let a policy distinguish a public report from a restricted case file or a production database from a test copy. Useful attributes include classification, owner, tenant, data type, geographic boundary, and lifecycle state. Protect the metadata as well as the object, keep labels synchronized when data is copied or transformed, and define what happens when a label is missing or disputed."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/fips/199/final"
+    ],
+    "relatedIds": [
+      "classification-categorization",
+      "classification-handling",
+      "authorization-object-action"
+    ]
+  },
+  {
+    "id": "access-environment-attributes",
+    "parentId": "access-attributes",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Environment attributes",
+    "summary": "Environment attributes describe conditions around a request, such as time, location, network, device health, or threat signal.",
+    "objective": "5.4",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Describe when and where",
+        "body": "Environment attributes allow a policy to respond to changing conditions without inventing a new role for every case. Time, location, network zone, device compliance, emergency state, or risk signal may alter a decision. Use authoritative, current sources and define the safe outcome when a signal is unavailable. Adaptive decisions should remain explainable and reviewable rather than relying on an unbounded score."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/207/final"
+    ],
+    "relatedIds": [
+      "authorization-subject-context",
+      "access-risk-based",
+      "risk-monitoring"
+    ]
+  },
+  {
+    "id": "access-action-attributes",
+    "parentId": "access-attributes",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Action attributes",
+    "summary": "Action attributes describe the operation requested, such as read, update, approve, export, or delete.",
+    "objective": "5.4",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Describe what the requester wants to do",
+        "body": "An ABAC policy can distinguish actions even when the subject and object are the same. Reading a record, exporting it, changing its owner, approving a payment, and deleting it have different consequences and may need different conditions. Define action vocabulary consistently, include delegated or batch operations, and test that an application cannot turn a narrow permission into a broader operation through an alternate API path."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authorization-object-action",
+      "access-attributes",
+      "least-minimum-authority"
+    ]
+  },
+  {
+    "id": "access-dac",
+    "parentId": "access-models",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Discretionary access control",
+    "summary": "DAC lets an owner or delegated controller decide who receives access to an object.",
+    "objective": "5.4",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Owner-controlled sharing",
+        "body": "In discretionary access control, an object owner can grant or delegate access, such as sharing a document with another user. This supports collaboration but can spread access beyond central review and may allow a subject with access to pass it onward. Define owner responsibilities, delegation limits, revocation behavior, and auditing. Ownership is not the same as unrestricted permission to ignore organizational handling requirements."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "access-mac",
+      "classification-handling",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "access-mac",
+    "parentId": "access-models",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Mandatory access control",
+    "summary": "MAC applies centrally managed policy, often through labels, that subjects cannot override simply because they own an object.",
+    "objective": "5.4",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Policy outranks discretion",
+        "body": "Mandatory access control uses centrally defined rules and labels to constrain access. A subject\u2019s clearance or authorization is evaluated against an object\u2019s classification or category, and the owner cannot freely delegate around the rule. MAC is useful when policy must resist user discretion, but labels, declassification, trusted administration, and exceptions require careful governance. Do not confuse a label with a complete handling procedure."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "classification-categorization",
+      "access-dac",
+      "least-privilege"
+    ]
+  },
+  {
+    "id": "access-rule-risk",
+    "parentId": "access-models",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Rule-based and risk-based access",
+    "summary": "Rule-based access evaluates explicit conditions; risk-based access adjusts decisions using signals about the request and its context.",
+    "objective": "5.4",
+    "order": 6,
+    "details": [
+      {
+        "heading": "Conditions and signals",
+        "body": "A rule can state a direct condition such as allowing access only during a scheduled window. Risk-based access can use multiple signals to deny, allow, or require step-up when the request appears unusual. Both approaches need named inputs, thresholds, owners, and failure behavior. A risk score should support a documented decision, not conceal a policy that administrators cannot explain or test."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/162/upd2/final"
+    ],
+    "relatedIds": [
+      "access-risk-based",
+      "authorization-decision",
+      "risk-likelihood"
+    ]
+  },
+  {
+    "id": "access-risk-based",
+    "parentId": "access-rule-risk",
+    "rootConceptId": "access-models",
+    "domainId": 5,
+    "title": "Risk-based access decisions",
+    "summary": "Risk-based authorization uses contextual indicators to vary access requirements or scope as perceived risk changes.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Adapt without losing policy",
+        "body": "A risk-based decision may ask for stronger authentication, limit an operation, or deny access when signals indicate unusual behavior or a compromised device. Define which signals can influence which actions and how an operator can challenge a false positive. Risk-based access does not replace authorization policy or identity assurance; it changes the conditions under which the policy is applied and should remain auditable."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/207/final"
+    ],
+    "relatedIds": [
+      "authorization-subject-context",
+      "authentication-assurance",
+      "risk-monitoring"
+    ]
+  },
+  {
+    "id": "least-privilege",
+    "parentId": null,
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Least privilege",
+    "summary": "Least privilege grants each subject only the authority and resources needed for an assigned function.",
+    "objective": "5.4",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Minimum sufficient authority",
+        "body": "Least privilege is a design and operating principle: grant enough authority to complete the approved task, but no broader. Scope the resource, action, duration, and purpose; separate routine use from administration; and review permissions as work changes. Just-in-time elevation, separation of duties, service scopes, and access reviews make the principle practical instead of leaving broad standing access as the default."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/glossary/term/least_privilege",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": ["authorization", "access-lifecycle", "risk"]
+  },
+  {
+    "id": "least-minimum-authority",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Minimum authority",
+    "summary": "Minimum authority means the smallest permission set that is sufficient for the assigned function.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Sufficient, then stop",
+        "body": "Minimum authority is more precise than \u201cgive users no access.\u201d Define the task, target resources, operations, and time needed, then stop at the boundary of sufficiency. A reporting service may read a reporting view without writing production tables. Separate everyday and administrative accounts, remove inherited grants that lack a current purpose, and use the task rather than seniority as the basis for privilege."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/glossary/term/least_privilege",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authorization-object-action",
+      "least-need-to-know",
+      "least-just-in-time"
+    ]
+  },
+  {
+    "id": "least-need-to-know",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Need to know",
+    "summary": "Need to know limits access to information required for a person or process to perform an assigned function.",
+    "objective": "5.4",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Permission is not curiosity",
+        "body": "A role or clearance may make a subject eligible for access, but need to know asks whether the particular information is required for the current task. Use data scope, assignment, case relationship, or purpose to narrow access. Need to know often works with classification and ABAC attributes. It should not be used as a vague slogan; define who decides necessity and how the decision is reviewed."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "classification-handling",
+      "access-object-attributes",
+      "access-subject-attributes"
+    ]
+  },
+  {
+    "id": "least-separation-of-duties",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Separation of duties",
+    "summary": "Separation of duties prevents one subject from controlling incompatible steps of a sensitive process.",
+    "objective": "5.4",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Split the dangerous combination",
+        "body": "Separation of duties reduces fraud and error by dividing responsibilities that should not be concentrated in one person or account. For example, one subject may prepare a payment while another approves it. Define the incompatible duties, enforce them through roles or policy, and address emergency exceptions. Separation is related to least privilege but distinct: least privilege narrows each grant; separation prevents risky combinations across grants."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "least-sod-types",
+      "access-roles",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "least-sod-types",
+    "parentId": "least-separation-of-duties",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Static and dynamic SoD",
+    "summary": "Static SoD prevents incompatible role assignments; dynamic SoD prevents incompatible actions from being combined in one session or transaction.",
+    "objective": "5.4",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Prevent assignment or use",
+        "body": "Static separation of duties blocks a subject from holding conflicting roles at the same time. Dynamic separation of duties allows roles to exist but prevents a conflicting sequence of actions within a session or transaction. The distinction matters when designing controls and tests. Document the conflict set, the enforcement point, the emergency path, and the audit evidence that shows the rule worked."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/Separation_of_Duty"
+    ],
+    "relatedIds": [
+      "least-separation-of-duties",
+      "authorization-enforcement",
+      "accountability-event-fields"
+    ]
+  },
+  {
+    "id": "least-just-in-time",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Just-in-time privilege",
+    "summary": "Just-in-time access grants elevated authority for a defined task and limited period instead of leaving it permanently available.",
+    "objective": "5.5",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Elevate only when needed",
+        "body": "Just-in-time privilege reduces standing administrative access by requiring a request, reason, approval or policy condition, and expiry. Strong implementations add reauthentication, scope limits, session recording or commands, and post-use review. It is not a promise that elevated work is safe by itself: the elevation workflow, emergency route, and revocation behavior must be tested and linked to an accountable identity."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "least-minimum-authority",
+      "lifecycle-access-review",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "least-elevation",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Controlled elevation",
+    "summary": "Controlled elevation provides temporary additional permissions through approval, stronger evidence, scope limits, and audit.",
+    "objective": "5.5",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Make exceptional power deliberate",
+        "body": "An administrator may need authority beyond the everyday baseline, but a permanent master account enlarges the blast radius of mistakes and compromise. A controlled elevation path can require a reason, approval, short lifetime, stronger authentication, limited commands, and detailed records. Design elevation so the operator can complete the task without receiving unrelated permissions, then revoke and review the grant automatically."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/least_privilege"
+    ],
+    "relatedIds": [
+      "least-just-in-time",
+      "authorization-enforcement",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "least-service-scopes",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Service account scopes",
+    "summary": "Service scopes limit a workload\u2019s APIs, resources, operations, and credential use to its defined function.",
+    "objective": "5.5",
+    "order": 6,
+    "details": [
+      {
+        "heading": "Constrain automation",
+        "body": "A service account should receive only the scopes needed by its workload, such as reading one queue or writing one storage prefix. Separate services rather than sharing a broad credential, and bind scopes to deployment identity where possible. Record an owner, purpose, rotation method, and expiry or review trigger. Monitor unusual use because automation can execute a large number of authorized actions quickly."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/least_privilege"
+    ],
+    "relatedIds": [
+      "identity-service-principal",
+      "lifecycle-service-accounts",
+      "authorization-object-action"
+    ]
+  },
+  {
+    "id": "least-access-review",
+    "parentId": "least-privilege",
+    "rootConceptId": "least-privilege",
+    "domainId": 5,
+    "title": "Privilege review",
+    "summary": "Privilege review compares current grants with current duties, owners, risk, and evidence of actual need.",
+    "objective": "5.5",
+    "order": 7,
+    "details": [
+      {
+        "heading": "Privilege decays",
+        "body": "Permissions accumulate when projects end, teams change, and temporary access is forgotten. Review users, roles, service accounts, delegated tokens, and privileged groups against current tasks and ownership. Remove unused or inherited grants, investigate conflicts, and record the decision. Reviews should be risk-based and repeat after major organizational or system changes; logging suspicious use does not repair a grant that was too broad."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "access-lifecycle",
+      "lifecycle-access-review",
+      "risk-residual"
+    ]
+  },
+  {
+    "id": "federation",
+    "parentId": null,
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "Federation",
+    "summary": "Federation lets a relying party accept a validated assertion from an identity provider that authenticated the subscriber.",
+    "objective": "5.3",
+    "order": 6,
+    "details": [
+      {
+        "heading": "Authentication across a trust boundary",
+        "body": "In federation, an identity provider authenticates a subscriber and issues an assertion for a relying party. The relying party validates the assertion, establishes a local session, and performs its own authorization. Trust agreements, keys, audience restriction, replay protection, injection protection, and limited attribute release make the multi-party exchange safer. Federation reduces duplicate credentials while adding dependency and privacy decisions."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": ["identity", "authentication", "authorization"]
+  },
+  {
+    "id": "federation-roles",
+    "parentId": "federation",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "IdP, RP, and CSP roles",
+    "summary": "The IdP authenticates and asserts, the RP consumes assertions and serves the application, and the CSP may enroll accounts and bind authenticators.",
+    "objective": "5.3",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Know who does what",
+        "body": "The identity provider acts as the verifier in a federated authentication event and sends an assertion to the relying party. The RP validates that assertion and creates the local session. A credential service provider may collect identity attributes and bind authenticators before the IdP uses the account. Keeping these roles distinct clarifies trust, failure handling, attribute release, and where authentication ends and local authorization begins."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://pages.nist.gov/800-63-4/sp800-63.html"
+    ],
+    "relatedIds": ["federation-idp", "federation-rp", "federation-assertions"]
+  },
+  {
+    "id": "federation-idp",
+    "parentId": "federation-roles",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "Identity provider",
+    "summary": "An IdP authenticates the subscriber and issues a verifiable assertion describing the authentication event and permitted attributes.",
+    "objective": "5.3",
+    "order": 1,
+    "details": [
+      {
+        "heading": "The party that vouches",
+        "body": "The IdP verifies authenticators bound to the subscriber account and creates the federation assertion. Its responsibilities include protecting keys, representing the authentication event accurately, honoring trust and attribute-release terms, and managing sessions at the IdP. The RP must still validate the assertion rather than trusting an IdP name in a browser redirect. Compromise of the IdP can affect every relying party that accepts its assertions."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://pages.nist.gov/800-63-4/sp800-63b.html"
+    ],
+    "relatedIds": [
+      "federation-rp",
+      "federation-trust-validation",
+      "authentication-assurance"
+    ]
+  },
+  {
+    "id": "federation-rp",
+    "parentId": "federation-roles",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "Relying party",
+    "summary": "An RP validates the IdP assertion, creates the application session, and decides local authorization for requested resources.",
+    "objective": "5.3",
+    "order": 2,
+    "details": [
+      {
+        "heading": "The party that relies carefully",
+        "body": "The RP is the application or service the subscriber wants to use. It validates the applicable assertion properties, maps the federated subject to a local account or just-in-time record, and establishes a session. The RP must not treat a valid assertion as permission to every local operation. It should request only needed attributes, protect transaction state, and define behavior when the IdP is unavailable or trust changes."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://pages.nist.gov/800-63-4/sp800-63c/Federation/"
+    ],
+    "relatedIds": ["federation-idp", "federation-assertions", "authorization"]
+  },
+  {
+    "id": "federation-assertions",
+    "parentId": "federation",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "Federated assertions",
+    "summary": "An assertion is a verifiable statement from the IdP to the RP about an authentication event and associated attributes.",
+    "objective": "5.3",
+    "order": 2,
+    "details": [
+      {
+        "heading": "A statement with boundaries",
+        "body": "A federation assertion can carry issuer, audience, subject, issue and validity times, assertion identifier, authentication context, and selected attributes. It should not carry subscriber authentication secrets. The RP treats the assertion as a discrete authentication event and validates the applicable protections before creating a session. An assertion can inform authorization, but it does not replace the RP\u2019s local authorization policy or resource ownership rules."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://pages.nist.gov/800-63-4/sp800-63c/Federation/"
+    ],
+    "relatedIds": [
+      "federation-trust-validation",
+      "authorization-inputs",
+      "access-subject-attributes"
+    ]
+  },
+  {
+    "id": "federation-protocols",
+    "parentId": "federation",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "Federation protocols",
+    "summary": "SAML and OpenID Connect carry federation assertions; OAuth is an authorization framework that is commonly paired with OIDC.",
+    "objective": "5.3",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Protocol roles are distinct",
+        "body": "Protocol names often appear together but solve different parts of a flow. SAML defines assertion and federation mechanisms frequently used in enterprise web SSO. OpenID Connect adds an identity layer and ID Token on top of OAuth 2.0. OAuth delegates limited API access and does not by itself define a generic user-authentication assertion. Use the protocol\u2019s own validation requirements instead of applying one checklist blindly."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://www.rfc-editor.org/rfc/rfc6749",
+      "https://openid.net/specs/openid-connect-core-1_0.html"
+    ],
+    "relatedIds": [
+      "federation-saml",
+      "federation-oidc",
+      "federation-oauth-distinction"
+    ]
+  },
+  {
+    "id": "federation-saml",
+    "parentId": "federation-protocols",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "SAML",
+    "summary": "SAML provides XML-based assertions and protocols used in many enterprise federation and web SSO deployments.",
+    "objective": "5.3",
+    "order": 1,
+    "details": [
+      {
+        "heading": "An enterprise assertion format",
+        "body": "SAML assertions communicate statements from an issuer to a relying service, often through a web SSO profile. A deployment must agree on metadata, issuer keys, audience, recipient or destination, time validity, subject mapping, and replay or injection protections. SAML is a protocol family and profile choice, not a promise that every implementation has identical checks. Follow the selected profile and trust agreement precisely."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf"
+    ],
+    "relatedIds": ["federation-assertions", "federation-trust-validation"]
+  },
+  {
+    "id": "federation-oidc",
+    "parentId": "federation-protocols",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "OpenID Connect",
+    "summary": "OIDC adds an identity and authentication protocol, including an ID Token, on top of OAuth 2.0.",
+    "objective": "5.3",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Identity on an authorization framework",
+        "body": "OpenID Connect lets a client learn about an authenticated end user through an ID Token and, when needed, a UserInfo response. The RP validates the token according to the OIDC flow, including issuer, client or audience, signature, time, nonce, and code-flow protections where applicable. OIDC authentication does not grant every application permission; local authorization and API scopes remain separate decisions."
+      }
+    ],
+    "sourceUrls": [
+      "https://openid.net/specs/openid-connect-core-1_0.html",
+      "https://pages.nist.gov/800-63-4/sp800-63c.html"
+    ],
+    "relatedIds": [
+      "federation-oauth-distinction",
+      "federation-assertions",
+      "authorization"
+    ]
+  },
+  {
+    "id": "federation-oauth-distinction",
+    "parentId": "federation-protocols",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "OAuth versus OIDC",
+    "summary": "OAuth 2.0 delegates limited access to a resource; OIDC adds standardized user authentication and identity claims.",
+    "objective": "5.3",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Access token is not identity proof",
+        "body": "OAuth authorization lets a client obtain limited access to an HTTP service on behalf of a resource owner or itself. An OAuth access token expresses delegated API authority for its resource server and scope; it is not automatically a user identity assertion. OIDC layers authentication and ID Token semantics on OAuth. Keep API authorization, user authentication, and the RP\u2019s local authorization policy conceptually separate."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.rfc-editor.org/rfc/rfc6749",
+      "https://openid.net/specs/openid-connect-core-1_0.html",
+      "https://pages.nist.gov/800-63-4/sp800-63c.html"
+    ],
+    "relatedIds": [
+      "federation-oidc",
+      "authorization-object-action",
+      "authentication"
+    ]
+  },
+  {
+    "id": "federation-trust-validation",
+    "parentId": "federation",
+    "rootConceptId": "federation",
+    "domainId": 5,
+    "title": "Trust and assertion validation",
+    "summary": "Federation trust requires established keys and validation of the applicable issuer, audience, signature, time, identifier, and transaction protections.",
+    "objective": "5.3",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Validate the assertion for this transaction",
+        "body": "Validation depends on protocol and federation profile, but the RP must establish that the assertion came from the expected IdP, is intended for this RP, is within its validity window, and has not been replayed or injected. NIST federation guidance emphasizes audience restriction, replay protection, signed assertions, and transaction binding. Avoid copying a generic checklist without mapping each check to the protocol actually deployed."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://pages.nist.gov/800-63-4/sp800-63c/Federation/"
+    ],
+    "relatedIds": [
+      "federation-assertions",
+      "federation-rp",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "access-lifecycle",
+    "parentId": null,
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Access lifecycle",
+    "summary": "Access provisioning follows a relationship from account creation through role changes, reviews, and prompt deprovisioning.",
+    "objective": "5.5",
+    "order": 7,
+    "details": [
+      {
+        "heading": "Keep access aligned",
+        "body": "Access should be traceable to a current person, device, service, role, purpose, owner, and approval. Joiner, mover, and leaver events update the grant; service accounts follow deployment and ownership events; reviews find accumulated privilege. Provisioning and deprovisioning must include sessions, tokens, keys, certificates, delegated relationships, and downstream cloud or SaaS services where orphaned access is easy to miss."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": ["identity", "least-access-review", "accountability"]
+  },
+  {
+    "id": "lifecycle-stages",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Joiner, mover, and leaver stages",
+    "summary": "Joiner, mover, and leaver events change what access a subject needs and when existing access must be removed.",
+    "objective": "5.5",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Relationships change",
+        "body": "A joiner receives an approved baseline, a mover transitions between responsibilities, and a leaver loses access when the relationship ends. Movers matter because old permissions can remain while new ones accumulate, creating excessive or conflicting access. Define authoritative event sources, response times, approvals, and exception handling. Apply the same reasoning to contractors, devices, applications, and services, not only employees."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "lifecycle-joiner-mover-leaver",
+      "lifecycle-provisioning",
+      "lifecycle-deprovisioning"
+    ]
+  },
+  {
+    "id": "lifecycle-joiner-mover-leaver",
+    "parentId": "lifecycle-stages",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Joiner/mover/leaver controls",
+    "summary": "Joiner/mover/leaver controls connect authoritative personnel or asset events to access changes and verification.",
+    "objective": "5.5",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Automate the handoff, verify the result",
+        "body": "A lifecycle workflow should receive a trusted event, determine the new role or status, obtain required approval, apply the minimum grant or revocation, and confirm the target systems changed. Record failures for human follow-up instead of silently continuing. Reconcile directory, HR, asset, identity-provider, and cloud records because one system\u2019s \u201cinactive\u201d state does not guarantee that every session, token, or delegated permission has ended."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "lifecycle-provisioning",
+      "lifecycle-deprovisioning",
+      "lifecycle-downstream-revocation"
+    ]
+  },
+  {
+    "id": "lifecycle-provisioning",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Provisioning",
+    "summary": "Provisioning creates or updates accounts and grants approved access from authoritative relationship and role data.",
+    "objective": "5.5",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Grant from an approved source",
+        "body": "Provisioning should start with an authoritative event and an approved role or purpose. Create the account, bind the right identity and authenticator records, assign minimum access, and record owner, approval, target system, and expiry where relevant. Automated provisioning improves consistency only when source data is validated and ambiguous requests fail safely. Test partial failures so an account is not left with an undocumented half-grant."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "identity-registration",
+      "least-minimum-authority",
+      "access-roles"
+    ]
+  },
+  {
+    "id": "lifecycle-deprovisioning",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Deprovisioning",
+    "summary": "Deprovisioning disables accounts and removes access, sessions, credentials, and delegated relationships when authority ends.",
+    "objective": "5.5",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Remove the whole access path",
+        "body": "Deprovisioning is broader than disabling a directory account. Revoke active sessions, tokens, keys, certificates, group memberships, API grants, device bindings, and downstream SaaS permissions according to the required response time. Preserve records needed for accountability and legal obligations without keeping usable credentials. Record completion and investigate any failed revocation; an unconfirmed downstream account is a residual access risk."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "lifecycle-downstream-revocation",
+      "authentication-lifecycle",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "lifecycle-downstream-revocation",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Downstream revocation",
+    "summary": "Downstream revocation removes access in federated, cloud, SaaS, and delegated systems that do not share one directory state.",
+    "objective": "5.5",
+    "order": 4,
+    "details": [
+      {
+        "heading": "One status is not enough",
+        "body": "Modern access spans identity providers, relying parties, cloud roles, API tokens, collaboration tools, and devices. A central account change may not end an already issued session or delegated grant. Maintain an inventory of connected systems, define revocation APIs or manual fallbacks, and verify completion. Federation can reduce password duplication but does not eliminate the RP\u2019s responsibility to manage its local account and session lifecycle."
+      }
+    ],
+    "sourceUrls": [
+      "https://pages.nist.gov/800-63-4/sp800-63c.html",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "federation-rp",
+      "lifecycle-deprovisioning",
+      "authentication-session"
+    ]
+  },
+  {
+    "id": "lifecycle-service-accounts",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Service account lifecycle",
+    "summary": "Service accounts need purpose, owner, scope, credential rotation, monitoring, and retirement events even without a human login.",
+    "objective": "5.5",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Automation has a calendar",
+        "body": "A service account should have a named owner, documented function, deployment relationship, minimum scopes, credential or key rotation method, and retirement trigger. Review it when code, environment, owner, or dependency changes. Avoid embedding long-lived secrets in code or images, and monitor use for actions outside the service\u2019s purpose. A service account without an owner is an unreviewable privilege and deprovisioning problem."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": [
+      "identity-service-principal",
+      "least-service-scopes",
+      "lifecycle-ownership-rotation"
+    ]
+  },
+  {
+    "id": "lifecycle-ownership-rotation",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Ownership and credential rotation",
+    "summary": "Ownership and rotation keep non-human access reviewable and reduce exposure when secrets or keys age or change hands.",
+    "objective": "5.5",
+    "order": 6,
+    "details": [
+      {
+        "heading": "Keep credentials replaceable",
+        "body": "Assign a current team or accountable owner to each service identity and record where its credentials are stored and used. Rotate keys or secrets through a tested process that supports overlap only for the shortest safe transition. Revoke old material, update consumers, and verify that a redeployed workload did not inherit an unrelated credential. Rotation is a lifecycle control, not a substitute for narrow permissions or monitoring."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/least_privilege"
+    ],
+    "relatedIds": [
+      "lifecycle-service-accounts",
+      "authentication-lifecycle",
+      "accountability-attributable-identity"
+    ]
+  },
+  {
+    "id": "lifecycle-access-review",
+    "parentId": "access-lifecycle",
+    "rootConceptId": "access-lifecycle",
+    "domainId": 5,
+    "title": "Access review",
+    "summary": "Access review asks whether current user, system, and service grants remain necessary, owned, approved, and free of conflicts.",
+    "objective": "5.5",
+    "order": 7,
+    "details": [
+      {
+        "heading": "Review the grant, not just the account",
+        "body": "An access review should show the subject, resource or role, effective permissions including inheritance, owner, business purpose, last use where reliable, and the reviewer\u2019s decision. Remove stale access, investigate separation-of-duties conflicts, and set an expiry for exceptions. Review frequency should reflect risk and change rate. Completion metrics alone are weak evidence if reviewers approve large bundles without understanding the effective permission."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
+    ],
+    "relatedIds": ["least-access-review", "access-roles", "risk-residual"]
+  },
+  {
+    "id": "accountability",
+    "parentId": null,
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Accountability",
+    "summary": "Accountability makes an entity\u2019s actions traceable and answerable through trustworthy identities, records, and review.",
+    "objective": "5.2",
+    "order": 8,
+    "details": [
+      {
+        "heading": "Connect activity to responsibility",
+        "body": "Accountability depends on a unique or well-governed identity, accurate event records, protected time and log integrity, retention, and a process for review. Authentication helps establish who used an identity; authorization decides what was allowed; accounting records activity. These concepts support one another but are not interchangeable. A log can reveal an improper action after the fact, while authorization controls prevention at the enforcement boundary."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/glossary/term/accountability",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": ["authentication", "authorization", "risk-monitoring"]
+  },
+  {
+    "id": "accountability-attributable-identity",
+    "parentId": "accountability",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Attributable identity",
+    "summary": "An attributable identity lets records connect an action to a unique entity or to a governed shared process.",
+    "objective": "5.2",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Make the actor identifiable",
+        "body": "A record such as \u201cadministrator changed policy\u201d has accountability value only when the administrator identity is unique, authenticated, and protected from casual sharing. Use individual accounts for routine work and preserve the binding between an action and the identity that initiated it. If a service or shared emergency identity is necessary, record ownership, approvals, checkout, session context, and compensating controls so the action remains attributable."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/glossary/term/accountability",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "identity-subject",
+      "accountability-unique-accounts",
+      "accountability-shared-breakglass"
+    ]
+  },
+  {
+    "id": "accountability-unique-accounts",
+    "parentId": "accountability-attributable-identity",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Unique accounts",
+    "summary": "Unique accounts associate routine actions with one named human, workload, device, or service identity.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Do not erase the actor",
+        "body": "Individual or purpose-specific accounts make access review, incident reconstruction, and corrective action possible. Prohibit account sharing for routine work, protect account recovery, and prevent identifier reuse from confusing old and new owners. For services, use separate identities for distinct functions rather than one technical account across an entire platform. Uniqueness is not sufficient by itself; records and authentication must also remain trustworthy."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/accountability"
+    ],
+    "relatedIds": [
+      "identity-service-principal",
+      "accountability-audit-records",
+      "lifecycle-service-accounts"
+    ]
+  },
+  {
+    "id": "accountability-shared-breakglass",
+    "parentId": "accountability-attributable-identity",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Shared and break-glass identities",
+    "summary": "Shared or emergency identities require compensating controls because the account name alone cannot identify the individual actor.",
+    "objective": "5.2",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Govern the exception",
+        "body": "A shared or break-glass account should be rare, scoped, protected, and tied to a named owner. Require checkout or approval, strong activation, time limits, session or command capture where appropriate, and prompt post-use review. Rotate its secret after use when practical and disable it outside the emergency condition. The exception should preserve an evidence trail rather than normalize shared administrator access."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/accountability"
+    ],
+    "relatedIds": [
+      "least-elevation",
+      "least-just-in-time",
+      "accountability-attributable-identity"
+    ]
+  },
+  {
+    "id": "accountability-audit-records",
+    "parentId": "accountability",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Audit records",
+    "summary": "Audit records capture enough event context to reconstruct security-relevant actions and support review.",
+    "objective": "5.2",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Evidence needs context",
+        "body": "Useful audit records connect identity, time, source, target, operation, result, and request or transaction context. Collect records at the systems that make and enforce important decisions, monitor collection failures, and synchronize clocks. A log is evidence rather than an authorization control: it can show an improper action after it happens, but it cannot repair an overbroad grant. Define retention and access to records before an incident."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/audit_record"
+    ],
+    "relatedIds": [
+      "accountability-event-fields",
+      "accountability-time-integrity",
+      "authorization-enforcement"
+    ]
+  },
+  {
+    "id": "accountability-event-fields",
+    "parentId": "accountability-audit-records",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Event fields",
+    "summary": "Event fields commonly include subject, timestamp, source, target, action, outcome, and correlation or transaction identifiers.",
+    "objective": "5.2",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Record what reviewers need",
+        "body": "Field selection should support the question an investigator or control owner will ask. Include the identity or service, event time, source location or system, target resource, requested operation, result, policy or transaction identifier, and enough context to distinguish retries from separate actions. Avoid logging secrets or unnecessary personal data. Consistent field names and correlation identifiers make events from multiple systems easier to reconstruct."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/audit_record"
+    ],
+    "relatedIds": [
+      "authorization-inputs",
+      "accountability-time-integrity",
+      "risk-monitoring"
+    ]
+  },
+  {
+    "id": "accountability-time-integrity",
+    "parentId": "accountability-audit-records",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Time integrity",
+    "summary": "Time integrity keeps timestamps comparable and protects the sequence used to interpret distributed activity.",
+    "objective": "5.2",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Know when it happened",
+        "body": "Distributed systems can produce misleading timelines when clocks drift, time zones differ, or an event\u2019s source time is overwritten during transport. Synchronize clocks, preserve source and ingestion time where useful, record clock uncertainty, and monitor synchronization failures. Time integrity does not prove that an event was authorized, but it helps establish sequence, session boundaries, replay windows, and whether records from different systems describe one transaction."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/audit_record"
+    ],
+    "relatedIds": [
+      "accountability-event-fields",
+      "federation-trust-validation",
+      "authentication-session"
+    ]
+  },
+  {
+    "id": "accountability-log-protection",
+    "parentId": "accountability",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Log protection",
+    "summary": "Log protection preserves the availability, integrity, confidentiality, and retention of audit records.",
+    "objective": "5.2",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Evidence must survive",
+        "body": "Protect audit records from unauthorized alteration, deletion, disclosure, and resource exhaustion. Restrict write and administrative access, separate collection from the system being monitored where practical, monitor gaps, and retain records for the approved period. Protection should balance investigation needs with privacy and legal requirements. Tamper resistance supports trust in a record but does not mean every log is nonrepudiation evidence."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "https://csrc.nist.gov/glossary/term/audit_record"
+    ],
+    "relatedIds": [
+      "accountability-audit-records",
+      "classification-handling",
+      "risk-residual"
+    ]
+  },
+  {
+    "id": "accountability-accounting-nonrepudiation",
+    "parentId": "accountability",
+    "rootConceptId": "accountability",
+    "domainId": 5,
+    "title": "Accounting and nonrepudiation",
+    "summary": "Accounting records activity and resource use; nonrepudiation adds evidence intended to make a party\u2019s action difficult to deny.",
+    "objective": "5.2",
+    "order": 6,
+    "details": [
+      {
+        "heading": "Do not collapse adjacent terms",
+        "body": "Authentication establishes confidence in an identity, authorization decides what is allowed, and accounting records use or activity. Accountability makes actions traceable and answerable through identity and evidence. Nonrepudiation may use stronger signed or governed evidence to support a claim that a party performed an action, but ordinary application logs do not automatically provide it. Select the evidence and controls for the claim being made."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/glossary/term/accountability",
+      "https://csrc.nist.gov/glossary/term/non_repudiation",
+      "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final"
+    ],
+    "relatedIds": [
+      "authentication",
+      "authorization",
+      "accountability-audit-records"
+    ]
+  },
+  {
+    "id": "risk",
+    "parentId": null,
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Risk",
+    "summary": "Risk assessment connects threat events, vulnerabilities, likelihood, and impact so leaders can prioritize treatment and residual risk.",
+    "objective": "1.9",
+    "order": 9,
+    "details": [
+      {
+        "heading": "A decision cycle",
+        "body": "Risk management is a decision cycle rather than a one-time score. Define scope and assumptions, identify threat events and vulnerabilities, estimate likelihood and impact, select a response, assess controls, and monitor residual risk. The result should help an accountable owner choose action within risk tolerance. Qualitative scales can be useful when terms are defined consistently and uncertainty is not hidden behind a precise-looking number."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final"
+    ],
+    "relatedIds": [
+      "classification-categorization",
+      "least-privilege",
+      "authentication-assurance"
+    ]
+  },
+  {
+    "id": "risk-elements",
+    "parentId": "risk",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Risk elements",
+    "summary": "Risk analysis relates threat events, vulnerabilities, likelihood, impact, assets, mission objectives, controls, and uncertainty.",
+    "objective": "1.9",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Build an actionable statement",
+        "body": "A useful risk statement identifies what could happen, why it could happen, what asset or mission objective could be affected, and how severe or likely the consequence may be. Include existing controls, assumptions, uncertainty, and the owner who can decide treatment. \u201cVendor risk is high\u201d is weak; a specific threat event tied to a vulnerability and consequence supports a defensible decision."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/glossary/term/risk"
+    ],
+    "relatedIds": [
+      "risk-threat-event",
+      "risk-vulnerability",
+      "risk-likelihood",
+      "risk-impact"
+    ]
+  },
+  {
+    "id": "risk-threat-event",
+    "parentId": "risk-elements",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Threat event",
+    "summary": "A threat event is an event or circumstance that could adversely affect operations, assets, people, or objectives.",
+    "objective": "1.9",
+    "order": 1,
+    "details": [
+      {
+        "heading": "What may happen",
+        "body": "A threat event describes the possible harmful occurrence, such as a stolen credential being used, a supplier sending altered software, or a flood disrupting a facility. Distinguish the event from the source or actor and from the vulnerability that makes it possible. Describe initiation, affected assets, and plausible consequence so controls can address prevention, detection, response, or recovery rather than a vague category label."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/glossary/term/threat_event"
+    ],
+    "relatedIds": ["risk-vulnerability", "risk-likelihood", "risk-impact"]
+  },
+  {
+    "id": "risk-vulnerability",
+    "parentId": "risk-elements",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Vulnerability",
+    "summary": "A vulnerability is a weakness that could be exploited or triggered by a threat event and produce an adverse impact.",
+    "objective": "1.9",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Why the event could succeed",
+        "body": "A vulnerability may be technical, procedural, physical, organizational, or human. It can be an unpatched service, excessive privilege, missing approval, weak recovery path, or dependency without a fallback. A vulnerability scan is evidence about some weaknesses, not a complete risk assessment. Describe exposure, preconditions, existing safeguards, and exploitability so likelihood and treatment decisions reflect the actual environment."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/glossary/term/vulnerability"
+    ],
+    "relatedIds": ["risk-threat-event", "least-privilege", "risk-treatment"]
+  },
+  {
+    "id": "risk-likelihood",
+    "parentId": "risk-elements",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Likelihood",
+    "summary": "Likelihood estimates how probable an adverse threat event is in the defined environment and time period.",
+    "objective": "1.9",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Probability needs context",
+        "body": "Likelihood is not simply an attacker\u2019s intent. Consider exposure, capability, opportunity, frequency, existing controls, detectability, and the time horizon. State the scale and assumptions used so two analysts do not give the same word different meanings. Where evidence is weak, record uncertainty and sensitivity rather than presenting a precise numerical score that implies more knowledge than the assessment has."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/glossary/term/likelihood"
+    ],
+    "relatedIds": ["risk-threat-event", "risk-impact", "access-risk-based"]
+  },
+  {
+    "id": "risk-impact",
+    "parentId": "risk-elements",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Impact",
+    "summary": "Impact estimates the magnitude of harm if a threat event compromises an asset, process, person, or mission objective.",
+    "objective": "1.9",
+    "order": 4,
+    "details": [
+      {
+        "heading": "What would be lost",
+        "body": "Impact can include confidentiality, integrity, availability, safety, privacy, legal, financial, operational, or reputational consequences. Describe whose mission or interests are affected and over what time period. The same event can have different impacts in different contexts, and a control may reduce impact without eliminating the threat. Link impact to organizational objectives so the accountable owner can compare treatment choices."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/glossary/term/impact"
+    ],
+    "relatedIds": [
+      "classification-objectives",
+      "classification-impact-levels",
+      "risk-likelihood"
+    ]
+  },
+  {
+    "id": "risk-assessment",
+    "parentId": "risk",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Risk assessment",
+    "summary": "Risk assessment identifies, analyzes, and prioritizes risks within a defined organizational, system, or mission scope.",
+    "objective": "1.9",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Assess before selecting",
+        "body": "An assessment defines scope, assumptions, sources, threat events, vulnerabilities, likelihood, impacts, existing controls, and uncertainty. It gives leaders information for response and prioritization rather than pretending to produce an objective universal score. Reassess when systems, missions, threats, dependencies, or controls change. Record methods and rationale so later reviewers can understand why a risk was ranked and what evidence would change the decision."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/pubs/sp/800/39/final"
+    ],
+    "relatedIds": ["risk-elements", "risk-treatment", "risk-monitoring"]
+  },
+  {
+    "id": "risk-treatment",
+    "parentId": "risk",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Risk treatment",
+    "summary": "Risk treatment selects and implements a response such as avoiding, mitigating, transferring, or accepting risk.",
+    "objective": "1.9",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Choose a response",
+        "body": "Treatment is a decision within risk tolerance. Avoidance stops or changes the activity; mitigation reduces likelihood or impact through controls; transfer shifts part of the consequence or responsibility; acceptance records an informed decision to retain residual risk. Compare cost, feasibility, mission, dependencies, and uncertainty. Treatment should name an owner, target state, validation method, and review trigger rather than ending at a control purchase."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/pubs/sp/800/39/final"
+    ],
+    "relatedIds": ["risk-residual", "risk-monitoring", "least-privilege"]
+  },
+  {
+    "id": "risk-residual",
+    "parentId": "risk",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Residual risk",
+    "summary": "Residual risk is the risk remaining after controls or other treatment have been applied.",
+    "objective": "1.9",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Controls do not erase uncertainty",
+        "body": "A control can lower likelihood, impact, or exposure without eliminating the threat or vulnerability. Reassess after treatment using evidence about design and operation, then present residual risk to the accountable owner for acceptance, further action, or escalation. Record assumptions and expiration or review dates. A \u201ccompliant\u201d control status is not the same as zero residual risk, especially when dependencies or changing threats remain."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/glossary/term/residual_risk"
+    ],
+    "relatedIds": ["risk-treatment", "risk-monitoring", "least-access-review"]
+  },
+  {
+    "id": "risk-monitoring",
+    "parentId": "risk",
+    "rootConceptId": "risk",
+    "domainId": 1,
+    "title": "Continuous monitoring",
+    "summary": "Continuous monitoring observes changes in threats, vulnerabilities, controls, assets, and context so risk decisions remain current.",
+    "objective": "1.9",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Keep the assessment alive",
+        "body": "Monitoring should detect conditions that can change a risk decision: new exposure, failed controls, unusual access, changed suppliers, system modification, or a new mission dependency. Define measures, thresholds, owners, reporting paths, and response actions. Monitoring is not a promise that every event is caught; it supplies evidence for reassessment and improvement. Connect operational signals to the risk owner\u2019s decisions without turning dashboards into unsupported certainty."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+      "https://csrc.nist.gov/pubs/sp/800/137/final"
+    ],
+    "relatedIds": [
+      "accountability-audit-records",
+      "risk-residual",
+      "access-environment-attributes"
+    ]
+  },
+  {
+    "id": "classification",
+    "parentId": null,
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Classification",
+    "summary": "Classification and categorization identify information or asset consequences so handling requirements and controls fit the risk.",
+    "objective": "2.1",
+    "order": 10,
+    "details": [
+      {
+        "heading": "Classify before handling",
+        "body": "Security categorization considers confidentiality, integrity, and availability impact in the organization\u2019s context. A label is useful only when it drives access, storage, transmission, retention, destruction, and incident handling. Impact can change as mission, use, exposure, or legal obligations change. Classification is a decision about consequence and handling; encryption, access control, and monitoring are controls selected to address the resulting requirements."
+      }
+    ],
+    "sourceUrls": [
+      "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline",
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": ["risk-impact", "access-object-attributes", "authorization"]
+  },
+  {
+    "id": "classification-objectives",
+    "parentId": "classification",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Security objectives",
+    "summary": "Confidentiality, integrity, and availability are evaluated separately when categorizing information and systems.",
+    "objective": "2.1",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Three distinct consequences",
+        "body": "Confidentiality concerns unauthorized disclosure, integrity concerns improper modification or destruction, and availability concerns disruption or loss of timely access. One information type can have different impact levels for each objective. A public status page may have low confidentiality impact but meaningful integrity or availability impact. Evaluate information and system context separately when their consequences differ, then document the resulting security category and rationale."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-confidentiality",
+      "classification-integrity",
+      "classification-availability",
+      "risk-impact"
+    ]
+  },
+  {
+    "id": "classification-confidentiality",
+    "parentId": "classification-objectives",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Confidentiality impact",
+    "summary": "Confidentiality impact describes harm from unauthorized disclosure or exposure of information.",
+    "objective": "2.1",
+    "order": 1,
+    "details": [
+      {
+        "heading": "Who should be able to see it",
+        "body": "Confidentiality impact asks what would happen if unauthorized people learned the information. Consider privacy, safety, competitive position, legal duties, mission sensitivity, and the number and identity of affected parties. A confidentiality label should lead to handling rules for access, copying, transmission, storage, and disposal. Do not infer confidentiality impact solely from a file name; use content, context, purpose, and obligations."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-handling",
+      "access-object-attributes",
+      "risk-impact"
+    ]
+  },
+  {
+    "id": "classification-integrity",
+    "parentId": "classification-objectives",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Integrity impact",
+    "summary": "Integrity impact describes harm from unauthorized modification, destruction, or loss of trust in information or system behavior.",
+    "objective": "2.1",
+    "order": 2,
+    "details": [
+      {
+        "heading": "Can it be trusted",
+        "body": "Integrity impact considers the consequence of wrong, incomplete, stale, or maliciously altered information and configurations. High integrity needs may require change control, validation, separation of duties, provenance, backups, and monitoring in addition to access restrictions. A record can be public yet still have high integrity impact if alteration would mislead users or disrupt a safety-critical decision."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-handling",
+      "accountability-audit-records",
+      "risk-impact"
+    ]
+  },
+  {
+    "id": "classification-availability",
+    "parentId": "classification-objectives",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Availability impact",
+    "summary": "Availability impact describes harm from disruption, degradation, or loss of timely access to information or systems.",
+    "objective": "2.1",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Can the mission continue",
+        "body": "Availability impact depends on how long a resource can be unavailable, how much degradation is tolerable, and what people or mission functions depend on it. Consider recovery objectives, dependencies, redundancy, capacity, and time-sensitive operations. A classification decision should inform resilience and recovery controls, not only confidentiality controls. A public service may still require high availability when interruption would cause material harm."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": ["classification-handling", "risk-impact"]
+  },
+  {
+    "id": "classification-categorization",
+    "parentId": "classification",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Security categorization",
+    "summary": "Security categorization maps information and system types to objective-specific impact levels and documents the organizational rationale.",
+    "objective": "2.1",
+    "order": 2,
+    "details": [
+      {
+        "heading": "A context-specific decision",
+        "body": "Categorization identifies information types and systems, evaluates confidentiality, integrity, and availability impacts, reviews provisional levels in organizational context, and finalizes the category with rationale. Mission, use, sharing, lifecycle, dependencies, and legal obligations can change the result. Categorization is not a universal label copied from another organization. Revisit it when purpose, exposure, architecture, or consequence changes and keep the owner\u2019s decision visible."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-impact-levels",
+      "classification-lifecycle-labels",
+      "risk-assessment"
+    ]
+  },
+  {
+    "id": "classification-impact-levels",
+    "parentId": "classification",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Low, moderate, and high impact",
+    "summary": "Impact levels express the magnitude of adverse effect for each security objective in the defined context.",
+    "objective": "2.1",
+    "order": 3,
+    "details": [
+      {
+        "heading": "Levels are not universal adjectives",
+        "body": "Low, moderate, and high impact describe the potential effect of compromise for a particular objective and context. The level is not a count of records or an intrinsic property of a technology. Document the rationale, assumptions, affected operations, and owner. Use the category to guide control selection and tailoring, while recognizing that a system can have different levels for confidentiality, integrity, and availability."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-objectives",
+      "risk-impact",
+      "classification-handling"
+    ]
+  },
+  {
+    "id": "classification-handling",
+    "parentId": "classification",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Handling requirements",
+    "summary": "Handling requirements translate a classification decision into rules for access, use, sharing, storage, transmission, retention, and destruction.",
+    "objective": "2.2",
+    "order": 4,
+    "details": [
+      {
+        "heading": "Make the label operational",
+        "body": "A label has value only when people and systems know what it changes. Define who may access, copy, transmit, store, transform, retain, destroy, or report an incident involving the information. Include approval authority and exception handling, and train custodians and users. Classification is not encryption; encryption is one possible control for a defined protection need and does not replace access, integrity, or availability requirements."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-lifecycle-labels",
+      "authorization",
+      "access-object-attributes"
+    ]
+  },
+  {
+    "id": "classification-lifecycle-labels",
+    "parentId": "classification",
+    "rootConceptId": "classification",
+    "domainId": 2,
+    "title": "Labels through the lifecycle",
+    "summary": "Classification should persist or be deliberately updated as information is copied, transformed, shared, retained, and destroyed.",
+    "objective": "2.4",
+    "order": 5,
+    "details": [
+      {
+        "heading": "Labels travel with information",
+        "body": "When information moves between systems, is exported, combined, summarized, or copied into a backup, its handling requirements should remain known. Define how labels propagate, when a derivative can be reclassified, who approves a downgrade, and how retention or destruction applies to replicas and remanence. Impact may change over time, but changes should be justified and recorded rather than silently inferred from a new file location."
+      }
+    ],
+    "sourceUrls": [
+      "https://csrc.nist.gov/pubs/fips/199/final",
+      "https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final"
+    ],
+    "relatedIds": [
+      "classification-categorization",
+      "lifecycle-downstream-revocation",
+      "access-object-attributes"
+    ]
+  }
+]

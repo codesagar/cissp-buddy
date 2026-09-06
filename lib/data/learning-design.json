@@ -1,0 +1,1783 @@
+[
+  {
+    "conceptId": "identity",
+    "cardVisual": {
+      "kind": "flow",
+      "title": "A name anchors the subject",
+      "caption": "An identifier names a subject; evidence and policy answer different questions.",
+      "items": [
+        {
+          "label": "Claim",
+          "detail": "I am Morgan / service-42",
+          "id": "identity-card-0"
+        },
+        {
+          "label": "Identity record",
+          "detail": "Subject, owner, assurance, review date",
+          "id": "identity-card-1"
+        },
+        {
+          "label": "Next decisions",
+          "detail": "Authenticate, then authorize",
+          "id": "identity-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "identity-card-0",
+          "to": "identity-card-1",
+          "label": "bind"
+        },
+        {
+          "from": "identity-card-1",
+          "to": "identity-card-2",
+          "label": "anchors"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "identity-record-flow",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "flow",
+        "title": "From claim to accountable subject",
+        "caption": "The record gives later controls a stable subject to evaluate.",
+        "items": [
+          {
+            "id": "identity-claim",
+            "label": "Claim",
+            "detail": "A person, device, process, or service says who it is."
+          },
+          {
+            "id": "identity-bind",
+            "label": "Bind",
+            "detail": "Registration links the identifier to an owned record."
+          },
+          {
+            "id": "identity-assure",
+            "label": "Record assurance",
+            "detail": "Source, owner, evidence, and review date make confidence inspectable."
+          }
+        ],
+        "links": [
+          {
+            "from": "identity-claim",
+            "to": "identity-bind",
+            "label": "must be bound"
+          },
+          {
+            "from": "identity-bind",
+            "to": "identity-assure",
+            "label": "is described by"
+          }
+        ]
+      },
+      {
+        "id": "identity-question-separation",
+        "type": "diagram",
+        "afterSection": 2,
+        "kind": "comparison",
+        "title": "Three questions, three jobs",
+        "caption": "Keeping these questions separate prevents a directory entry from becoming permission.",
+        "items": [
+          {
+            "id": "identity-q1",
+            "label": "Identity",
+            "detail": "Which subject is being claimed?"
+          },
+          {
+            "id": "identity-q2",
+            "label": "Authentication",
+            "detail": "What evidence shows control?"
+          },
+          {
+            "id": "identity-q3",
+            "label": "Authorization",
+            "detail": "What action is allowed?"
+          }
+        ],
+        "links": [
+          {
+            "from": "identity-q1",
+            "to": "identity-q2",
+            "label": "supplies subject"
+          },
+          {
+            "from": "identity-q2",
+            "to": "identity-q3",
+            "label": "supports decision"
+          }
+        ]
+      },
+      {
+        "id": "identity-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "What does an identifier do?",
+        "options": [
+          "It names a claimed subject",
+          "It proves the claimant controls the account",
+          "It grants access to every resource",
+          "It records the requested action"
+        ],
+        "correctIndex": 0,
+        "explanation": "An identifier names the subject. Authentication supplies evidence and authorization evaluates the requested action.",
+        "hint": "A label is not evidence."
+      },
+      {
+        "id": "identity-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "Which record most improves accountability for a service identity?",
+        "options": [
+          "A display name only",
+          "An owner, purpose, environment, and review date",
+          "A shared password",
+          "A list of every possible permission"
+        ],
+        "correctIndex": 1,
+        "explanation": "Non-human identities need an accountable owner and context so their use and access can be reviewed.",
+        "hint": "Ask who owns the identity and why it exists."
+      },
+      {
+        "id": "identity-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "A user logs in successfully but receives a file denial. Which distinction explains this?",
+        "options": [
+          "The identifier was deleted",
+          "Authentication succeeded but authorization denied the action",
+          "The username became a biometric",
+          "Identity always implies access"
+        ],
+        "correctIndex": 1,
+        "explanation": "Successful authentication establishes control of an identity; authorization still decides whether this subject may perform this action on this object.",
+        "hint": "Separate proof of control from permission."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "Three questions. Three different jobs.",
+      "steps": [
+        {
+          "title": "Identify",
+          "detail": "\u201cI am Morgan.\u201d"
+        },
+        {
+          "title": "Authenticate",
+          "detail": "\u201cHere is my proof.\u201d"
+        },
+        {
+          "title": "Authorize",
+          "detail": "\u201cMay I read this file?\u201d"
+        }
+      ],
+      "caption": "Naming an identity does not prove the claim. Proving the claim does not grant every permission."
+    }
+  },
+  {
+    "conceptId": "authentication",
+    "cardVisual": {
+      "kind": "comparison",
+      "title": "Two steps are not always two factors",
+      "caption": "Different screens do not create independent evidence.",
+      "items": [
+        {
+          "label": "Password + PIN",
+          "detail": "Two knowledge secrets \u00b7 one factor category",
+          "id": "authentication-card-0"
+        },
+        {
+          "label": "Password + security key",
+          "detail": "Knowledge + possession \u00b7 two categories",
+          "id": "authentication-card-1"
+        }
+      ],
+      "connections": []
+    },
+    "blocks": [
+      {
+        "id": "authentication-factor-independence",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "comparison",
+        "title": "Count independent categories",
+        "caption": "Two prompts are not automatically two factors; compromise of one category should not defeat both.",
+        "items": [
+          {
+            "id": "authentication-know",
+            "label": "Know",
+            "detail": "Password or PIN"
+          },
+          {
+            "id": "authentication-have",
+            "label": "Have",
+            "detail": "Security key or device-bound authenticator"
+          },
+          {
+            "id": "authentication-are",
+            "label": "Are",
+            "detail": "Biometric characteristic used as designed"
+          }
+        ],
+        "links": [
+          {
+            "from": "authentication-know",
+            "to": "authentication-have",
+            "label": "independent pair"
+          },
+          {
+            "from": "authentication-have",
+            "to": "authentication-are",
+            "label": "may activate"
+          }
+        ]
+      },
+      {
+        "id": "authentication-session-continuity",
+        "type": "diagram",
+        "afterSection": 2,
+        "kind": "timeline",
+        "title": "Assurance continues after login",
+        "caption": "A successful authenticator check starts a session; it does not make the session permanent.",
+        "items": [
+          {
+            "id": "authentication-event",
+            "label": "Authenticate",
+            "detail": "Verify the authenticator and create an event."
+          },
+          {
+            "id": "authentication-session",
+            "label": "Use session",
+            "detail": "Apply bounded lifetime and anti-hijacking controls."
+          },
+          {
+            "id": "authentication-recheck",
+            "label": "Recheck or revoke",
+            "detail": "Respond to elapsed time, risk, logout, or compromise."
+          }
+        ],
+        "links": [
+          {
+            "from": "authentication-event",
+            "to": "authentication-session",
+            "label": "starts"
+          },
+          {
+            "from": "authentication-session",
+            "to": "authentication-recheck",
+            "label": "expires or triggers"
+          }
+        ]
+      },
+      {
+        "id": "authentication-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "Which pair uses independent factor categories?",
+        "options": [
+          "Password and PIN",
+          "Password and security key",
+          "Two recovery questions",
+          "Username and email address"
+        ],
+        "correctIndex": 1,
+        "explanation": "A password is knowledge and a security key is possession. Two passwords remain one category.",
+        "hint": "Classify each item as know, have, or are."
+      },
+      {
+        "id": "authentication-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "Why should recovery be designed with the primary authenticator?",
+        "options": [
+          "A weak reset path can bypass a strong login",
+          "Recovery changes the subject's name",
+          "Recovery removes the need for authorization",
+          "A reset always increases assurance"
+        ],
+        "correctIndex": 0,
+        "explanation": "An attacker may target account recovery instead of the primary authenticator, so the recovery path must match the intended assurance.",
+        "hint": "Find the alternate route into the account."
+      },
+      {
+        "id": "authentication-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "What does authentication establish for a new session?",
+        "options": [
+          "That every file is permitted",
+          "Evidence that the claimant controls an associated authenticator",
+          "That no reauthentication is needed",
+          "That the user owns the resource"
+        ],
+        "correctIndex": 1,
+        "explanation": "Authentication verifies control of an authenticator; authorization and session policy still govern what happens next.",
+        "hint": "It answers \u201cwho controls the authenticator?\u201d"
+      }
+    ],
+    "leadVisual": {
+      "kind": "factors",
+      "title": "Count the factors, not the steps.",
+      "steps": [
+        {
+          "title": "Something you know",
+          "detail": "Password or PIN"
+        },
+        {
+          "title": "Something you have",
+          "detail": "Security key or device"
+        },
+        {
+          "title": "Something you are",
+          "detail": "Biometric activation"
+        }
+      ],
+      "caption": "Password + PIN = one factor category. A device-bound authenticator unlocked with a biometric can combine possession and inherence; biometrics are not a standalone remote authenticator."
+    }
+  },
+  {
+    "conceptId": "authorization",
+    "cardVisual": {
+      "kind": "decision",
+      "title": "Signed in \u2260 allowed",
+      "caption": "Authorization evaluates the request in context and enforces the resulting permit or deny.",
+      "items": [
+        {
+          "label": "Signed in",
+          "detail": "Morgan has proved account control",
+          "id": "authorization-card-0"
+        },
+        {
+          "label": "Read payroll?",
+          "detail": "Policy requires the Payroll role",
+          "id": "authorization-card-1",
+          "role": "decision"
+        },
+        {
+          "label": "Deny",
+          "detail": "Morgan is in Marketing",
+          "id": "authorization-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "authorization-card-0",
+          "to": "authorization-card-1",
+          "label": "still needs permission"
+        },
+        {
+          "from": "authorization-card-1",
+          "to": "authorization-card-2",
+          "label": "role does not match"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "authorization-request-inputs",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "comparison",
+        "title": "A policy decision needs the whole request",
+        "caption": "\u201cLogged in\u201d omits the details that make an authorization decision defensible.",
+        "items": [
+          {
+            "id": "authorization-subject",
+            "label": "Subject",
+            "detail": "Who or what is requesting?"
+          },
+          {
+            "id": "authorization-object",
+            "label": "Object",
+            "detail": "Which resource is involved?"
+          },
+          {
+            "id": "authorization-action",
+            "label": "Action",
+            "detail": "Read, change, delete, or invoke?"
+          },
+          {
+            "id": "authorization-context",
+            "label": "Context",
+            "detail": "Device, time, location, status, or purpose"
+          }
+        ],
+        "links": [
+          {
+            "from": "authorization-subject",
+            "to": "authorization-action",
+            "label": "requests"
+          },
+          {
+            "from": "authorization-object",
+            "to": "authorization-action",
+            "label": "receives"
+          },
+          {
+            "from": "authorization-context",
+            "to": "authorization-action",
+            "label": "constrains"
+          }
+        ]
+      },
+      {
+        "id": "authorization-decision-enforcement",
+        "type": "diagram",
+        "afterSection": 1,
+        "kind": "flow",
+        "title": "Separate decision from enforcement",
+        "caption": "A correct rule still fails if an enforcement boundary ignores or misapplies its result.",
+        "items": [
+          {
+            "id": "authorization-pdp",
+            "label": "Policy decision point",
+            "detail": "Evaluates rules and current attributes."
+          },
+          {
+            "id": "authorization-pep",
+            "label": "Policy enforcement point",
+            "detail": "Applies the result at the API or resource boundary."
+          },
+          {
+            "id": "authorization-record",
+            "label": "Decision record",
+            "detail": "Captures policy version and relevant context."
+          }
+        ],
+        "links": [
+          {
+            "from": "authorization-pdp",
+            "to": "authorization-pep",
+            "label": "sends result"
+          },
+          {
+            "from": "authorization-pep",
+            "to": "authorization-record",
+            "label": "records outcome"
+          }
+        ]
+      },
+      {
+        "id": "authorization-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "Which request is most useful to an authorization policy?",
+        "options": [
+          "Morgan is logged in",
+          "Morgan reads the assigned chart from a managed device during a shift",
+          "Morgan knows the password",
+          "Morgan has an employee badge"
+        ],
+        "correctIndex": 1,
+        "explanation": "The useful request identifies subject, object, action, and relevant context.",
+        "hint": "Look for more than identity or login state."
+      },
+      {
+        "id": "authorization-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "What is the enforcement point responsible for?",
+        "options": [
+          "Issuing a person's identity",
+          "Applying the policy decision at the resource boundary",
+          "Choosing the organization's risk appetite",
+          "Replacing all authentication factors"
+        ],
+        "correctIndex": 1,
+        "explanation": "The enforcement point applies the decision at an API, application, database, operating system, or network boundary.",
+        "hint": "It is where the result takes effect."
+      },
+      {
+        "id": "authorization-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "Why might a long-lived access token be unsafe after a role change?",
+        "options": [
+          "The token may rely on stale authorization context",
+          "The identity record becomes a password",
+          "Role changes always invalidate authentication proof",
+          "Tokens cannot represent an action"
+        ],
+        "correctIndex": 0,
+        "explanation": "A role or device condition can change while a token remains valid, so high-impact actions may need a fresh authorization decision.",
+        "hint": "Ask whether the decision inputs are still current."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "A request becomes a policy decision",
+      "steps": [
+        {
+          "title": "Request",
+          "detail": "Subject + resource + action"
+        },
+        {
+          "title": "Evaluate",
+          "detail": "Policy + current context"
+        },
+        {
+          "title": "Enforce",
+          "detail": "Permit or deny"
+        }
+      ],
+      "caption": "An authenticated session supplies context. The enforcement point still checks the requested action."
+    }
+  },
+  {
+    "conceptId": "access-models",
+    "cardVisual": {
+      "kind": "comparison",
+      "title": "Who controls the permission?",
+      "caption": "RBAC, ABAC, DAC, and MAC differ by policy inputs and decision authority.",
+      "items": [
+        {
+          "label": "RBAC",
+          "detail": "Job roles",
+          "id": "access-models-card-0"
+        },
+        {
+          "label": "ABAC",
+          "detail": "Attributes & context",
+          "id": "access-models-card-1"
+        },
+        {
+          "label": "DAC",
+          "detail": "Owner discretion",
+          "id": "access-models-card-2"
+        },
+        {
+          "label": "MAC",
+          "detail": "Central labels & rules",
+          "id": "access-models-card-3"
+        }
+      ],
+      "connections": []
+    },
+    "blocks": [
+      {
+        "id": "access-models-policy-authority",
+        "type": "diagram",
+        "afterSection": 1,
+        "kind": "comparison",
+        "title": "The policy authority changes the model",
+        "caption": "Identify who may grant or override access before naming the model.",
+        "items": [
+          {
+            "id": "access-models-rbac",
+            "label": "RBAC",
+            "detail": "A role carries permissions for a function."
+          },
+          {
+            "id": "access-models-dac",
+            "label": "DAC",
+            "detail": "An owner or delegated controller may share an object."
+          },
+          {
+            "id": "access-models-mac",
+            "label": "MAC",
+            "detail": "Central labels and rules constrain owners and users."
+          }
+        ],
+        "links": [
+          {
+            "from": "access-models-rbac",
+            "to": "access-models-dac",
+            "label": "role-based versus owner choice"
+          },
+          {
+            "from": "access-models-dac",
+            "to": "access-models-mac",
+            "label": "owner choice is constrained"
+          }
+        ]
+      },
+      {
+        "id": "access-models-rbac-abac",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "comparison",
+        "title": "Combine a baseline with context",
+        "caption": "A role can establish a baseline while attributes narrow the decision for this request.",
+        "items": [
+          {
+            "id": "access-models-role",
+            "label": "Role",
+            "detail": "Payroll staff"
+          },
+          {
+            "id": "access-models-device",
+            "label": "Device",
+            "detail": "Managed or unmanaged"
+          },
+          {
+            "id": "access-models-time",
+            "label": "Time",
+            "detail": "Within or outside work hours"
+          },
+          {
+            "id": "access-models-decision",
+            "label": "Decision",
+            "detail": "Permit only when the required conditions align"
+          }
+        ],
+        "links": [
+          {
+            "from": "access-models-role",
+            "to": "access-models-decision",
+            "label": "baseline"
+          },
+          {
+            "from": "access-models-device",
+            "to": "access-models-decision",
+            "label": "narrows"
+          },
+          {
+            "from": "access-models-time",
+            "to": "access-models-decision",
+            "label": "narrows"
+          }
+        ]
+      },
+      {
+        "id": "access-models-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "Which design best illustrates ABAC?",
+        "options": [
+          "Every nurse gets the same fixed role permissions",
+          "A payroll role may edit only from a managed device during work hours",
+          "A file owner shares the document with a colleague",
+          "A central label blocks an uncleared user"
+        ],
+        "correctIndex": 1,
+        "explanation": "ABAC evaluates attributes and conditions such as role, device posture, and time.",
+        "hint": "Look for more than a role alone."
+      },
+      {
+        "id": "access-models-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "What distinguishes DAC from MAC?",
+        "options": [
+          "DAC uses no permissions",
+          "DAC lets an owner exercise discretion; MAC uses centrally enforced policy",
+          "MAC is always based on job roles",
+          "DAC requires biometric authentication"
+        ],
+        "correctIndex": 1,
+        "explanation": "DAC gives an owner or delegated controller discretion; MAC prevents a user from overriding the central rule simply by owning the object.",
+        "hint": "Ask who has authority to share or override."
+      },
+      {
+        "id": "access-models-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "Why can a risk-based rule need a defined fallback?",
+        "options": [
+          "A missing signal still needs an accountable response",
+          "Risk signals eliminate policy documentation",
+          "A fallback makes every request permit",
+          "Risk-based access never changes decisions"
+        ],
+        "correctIndex": 0,
+        "explanation": "If a device-health or location signal is missing, the policy must say whether to block, step up, or handle the request another way.",
+        "hint": "Consider what happens when an input is unavailable."
+      }
+    ],
+    "leadVisual": {
+      "kind": "access-models",
+      "title": "Same person. Different policy.",
+      "models": {
+        "RBAC": {
+          "policy": "Only the Payroll role may edit salary records.",
+          "input": "Morgan\u2019s assigned role: Payroll",
+          "answer": "Permit",
+          "reason": "The permission comes from Morgan\u2019s role."
+        },
+        "ABAC": {
+          "policy": "Payroll staff may edit only from a managed device during work hours.",
+          "input": "Role: Payroll \u00b7 Device: unmanaged \u00b7 Time: 10 am",
+          "answer": "Deny",
+          "reason": "The role matches, but the device attribute fails the policy."
+        },
+        "DAC": {
+          "policy": "The document owner may choose who receives edit access.",
+          "input": "Owner shares the file with Morgan as an editor.",
+          "answer": "Permit",
+          "reason": "The owner exercises discretion to grant the permission."
+        },
+        "MAC": {
+          "policy": "A central policy requires the right clearance and approved need-to-know.",
+          "input": "Morgan lacks the required clearance.",
+          "answer": "Deny",
+          "reason": "The owner cannot override the mandatory policy."
+        }
+      },
+      "caption": "These examples isolate each model; real systems can combine them."
+    }
+  },
+  {
+    "conceptId": "least-privilege",
+    "cardVisual": {
+      "kind": "layers",
+      "title": "Enough power for the task",
+      "caption": "Narrow grants and controlled elevation reduce the blast radius of mistakes and compromise.",
+      "items": [
+        {
+          "label": "Task",
+          "detail": "What operation is approved?",
+          "id": "least-privilege-card-0"
+        },
+        {
+          "label": "Baseline",
+          "detail": "Minimum standing permission",
+          "id": "least-privilege-card-1"
+        },
+        {
+          "label": "Elevation",
+          "detail": "Short-lived extra access with review",
+          "id": "least-privilege-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "least-privilege-card-0",
+          "to": "least-privilege-card-1",
+          "label": "defines need"
+        },
+        {
+          "from": "least-privilege-card-1",
+          "to": "least-privilege-card-2",
+          "label": "extends only when needed"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "least-privilege-task-grant",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "flow",
+        "title": "Translate the task into a grant",
+        "caption": "The grant should name the resource, operation, purpose, and duration rather than the person's seniority.",
+        "items": [
+          {
+            "id": "least-task",
+            "label": "Task",
+            "detail": "Generate a sales report."
+          },
+          {
+            "id": "least-scope",
+            "label": "Scope",
+            "detail": "Read the reporting view only."
+          },
+          {
+            "id": "least-boundary",
+            "label": "Boundary",
+            "detail": "No production writes or administration."
+          }
+        ],
+        "links": [
+          {
+            "from": "least-task",
+            "to": "least-scope",
+            "label": "requires"
+          },
+          {
+            "from": "least-scope",
+            "to": "least-boundary",
+            "label": "excludes"
+          }
+        ]
+      },
+      {
+        "id": "least-privilege-elevation-path",
+        "type": "diagram",
+        "afterSection": 1,
+        "kind": "timeline",
+        "title": "Make exceptional power temporary",
+        "caption": "Just-in-time and break-glass paths make elevation deliberate and observable.",
+        "items": [
+          {
+            "id": "least-reason",
+            "label": "Request",
+            "detail": "State the task and reason."
+          },
+          {
+            "id": "least-approve",
+            "label": "Approve",
+            "detail": "Require appropriate approval or emergency criteria."
+          },
+          {
+            "id": "least-expire",
+            "label": "Expire and review",
+            "detail": "Remove access and inspect its use."
+          }
+        ],
+        "links": [
+          {
+            "from": "least-reason",
+            "to": "least-approve",
+            "label": "supports"
+          },
+          {
+            "from": "least-approve",
+            "to": "least-expire",
+            "label": "is bounded by"
+          }
+        ]
+      },
+      {
+        "id": "least-privilege-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "Which grant best follows least privilege for a reporting service?",
+        "options": [
+          "Read a reporting view with no production writes",
+          "Full database administrator rights",
+          "Write access to every table",
+          "A shared human administrator account"
+        ],
+        "correctIndex": 0,
+        "explanation": "The grant is sufficient for the task and excludes unrelated operations.",
+        "hint": "Match the permission to the actual function."
+      },
+      {
+        "id": "least-privilege-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "What makes just-in-time elevation safer than standing admin access?",
+        "options": [
+          "It grants extra power forever",
+          "It limits elevated access to an approved task and period",
+          "It removes the need for logging",
+          "It gives every operator the same rights"
+        ],
+        "correctIndex": 1,
+        "explanation": "Time-bounded elevation reduces the amount of standing privilege available to misuse or compromise.",
+        "hint": "Focus on duration and purpose."
+      },
+      {
+        "id": "least-privilege-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "Why do permissions need recurring review?",
+        "options": [
+          "Projects and responsibilities change, leaving stale grants",
+          "Reviewing access creates new privileges",
+          "Unused access automatically disappears",
+          "Monitoring repairs an overbroad grant"
+        ],
+        "correctIndex": 0,
+        "explanation": "Access accumulates as people, systems, and projects change; review removes grants that no longer serve a current function.",
+        "hint": "Least privilege can decay over time."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "The smallest permission that gets the job done",
+      "steps": [
+        {
+          "title": "Task",
+          "detail": "Generate a sales report"
+        },
+        {
+          "title": "Grant",
+          "detail": "Read the reporting view"
+        },
+        {
+          "title": "Limit",
+          "detail": "No writes or admin rights"
+        }
+      ],
+      "caption": "A reporting task needs read access to relevant data. It does not need the ability to edit production records."
+    }
+  },
+  {
+    "conceptId": "federation",
+    "cardVisual": {
+      "kind": "flow",
+      "title": "A trusted assertion crosses the boundary",
+      "caption": "The identity provider authenticates; the relying party validates, creates a session, and still applies local authorization.",
+      "items": [
+        {
+          "label": "IdP",
+          "detail": "Authenticates the subscriber",
+          "id": "federation-card-0"
+        },
+        {
+          "label": "Assertion",
+          "detail": "Signed claim for a specific recipient",
+          "id": "federation-card-1"
+        },
+        {
+          "label": "RP",
+          "detail": "Validates and applies local policy",
+          "id": "federation-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "federation-card-0",
+          "to": "federation-card-1",
+          "label": "issues"
+        },
+        {
+          "from": "federation-card-1",
+          "to": "federation-card-2",
+          "label": "is validated by"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "federation-party-boundary",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "flow",
+        "title": "Three parties, separate responsibilities",
+        "caption": "Federation reduces duplicate credentials but creates explicit trust and dependency boundaries.",
+        "items": [
+          {
+            "id": "federation-subscriber",
+            "label": "Subscriber",
+            "detail": "Person or service seeking the relying party."
+          },
+          {
+            "id": "federation-idp",
+            "label": "Identity provider",
+            "detail": "Authenticates and issues an assertion."
+          },
+          {
+            "id": "federation-rp",
+            "label": "Relying party",
+            "detail": "Consumes the assertion and establishes local access."
+          }
+        ],
+        "links": [
+          {
+            "from": "federation-subscriber",
+            "to": "federation-idp",
+            "label": "presents authenticator"
+          },
+          {
+            "from": "federation-idp",
+            "to": "federation-rp",
+            "label": "asserts event"
+          }
+        ]
+      },
+      {
+        "id": "federation-assertion-validation",
+        "type": "diagram",
+        "afterSection": 1,
+        "kind": "decision",
+        "title": "Validate before creating the session",
+        "caption": "Issuer, audience, signature, time, and transaction checks connect trust to the correct application.",
+        "items": [
+          {
+            "id": "federation-issuer",
+            "label": "Issuer",
+            "detail": "Is this the provider we trust?",
+            "role": "decision"
+          },
+          {
+            "id": "federation-audience",
+            "label": "Audience",
+            "detail": "Was this assertion intended for us?",
+            "role": "decision"
+          },
+          {
+            "id": "federation-integrity",
+            "label": "Integrity and time",
+            "detail": "Signature, expiry, nonce, and state are valid.",
+            "role": "decision"
+          },
+          {
+            "id": "federation-session",
+            "label": "Local session",
+            "detail": "Only then establish local access context."
+          }
+        ],
+        "links": [
+          {
+            "from": "federation-issuer",
+            "to": "federation-session",
+            "label": "must pass"
+          },
+          {
+            "from": "federation-audience",
+            "to": "federation-session",
+            "label": "must pass"
+          },
+          {
+            "from": "federation-integrity",
+            "to": "federation-session",
+            "label": "must pass"
+          }
+        ]
+      },
+      {
+        "id": "federation-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "What does the identity provider do in a typical federation flow?",
+        "options": [
+          "Authenticates the subscriber and issues an assertion",
+          "Applies every relying-party permission",
+          "Stores the relying party's files",
+          "Replaces all local authorization"
+        ],
+        "correctIndex": 0,
+        "explanation": "The IdP authenticates and asserts; the relying party validates the assertion and makes local access decisions.",
+        "hint": "Separate authentication from resource policy."
+      },
+      {
+        "id": "federation-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "Why is an OAuth access token not automatically generic proof of user identity?",
+        "options": [
+          "OAuth delegates API authorization; identity claims require the appropriate identity layer",
+          "OAuth tokens are always passwords",
+          "An access token cannot have an audience",
+          "Identity never needs validation"
+        ],
+        "correctIndex": 0,
+        "explanation": "OAuth primarily delegates authorization to an API. OpenID Connect adds identity and authentication claims with their own validation rules.",
+        "hint": "Ask what the token was designed to authorize."
+      },
+      {
+        "id": "federation-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "What should a relying party do after accepting a valid assertion?",
+        "options": [
+          "Trust every resource by default",
+          "Create a local session and apply local authorization",
+          "Forward the user's password to each service",
+          "Skip audience validation next time"
+        ],
+        "correctIndex": 1,
+        "explanation": "A valid assertion supports the authentication event; local policy still controls the requested resource and action.",
+        "hint": "Federation crosses an identity boundary, not every permission boundary."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "One trusted identity, another application",
+      "steps": [
+        {
+          "title": "Identity provider",
+          "detail": "Authenticates the person"
+        },
+        {
+          "title": "Signed assertion",
+          "detail": "Validated for this recipient"
+        },
+        {
+          "title": "Relying party",
+          "detail": "Creates session, checks access"
+        }
+      ],
+      "caption": "The application trusts a validated assertion\u2014not a forwarded password. Local authorization still applies."
+    }
+  },
+  {
+    "conceptId": "access-lifecycle",
+    "cardVisual": {
+      "kind": "timeline",
+      "title": "Access follows the relationship",
+      "caption": "Joiner, mover, and leaver events change access; a mover requires removal as well as addition.",
+      "items": [
+        {
+          "label": "Joiner",
+          "detail": "Approve the minimum baseline",
+          "id": "access-lifecycle-card-0"
+        },
+        {
+          "label": "Mover",
+          "detail": "Replace outdated permissions",
+          "id": "access-lifecycle-card-1"
+        },
+        {
+          "label": "Leaver",
+          "detail": "Revoke access, sessions, and credentials",
+          "id": "access-lifecycle-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "access-lifecycle-card-0",
+          "to": "access-lifecycle-card-1",
+          "label": "relationship changes"
+        },
+        {
+          "from": "access-lifecycle-card-1",
+          "to": "access-lifecycle-card-2",
+          "label": "eventually ends"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "access-lifecycle-event-response",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "timeline",
+        "title": "A relationship event drives a control change",
+        "caption": "The authoritative source and an accountable workflow keep access aligned with current work.",
+        "items": [
+          {
+            "id": "lifecycle-source",
+            "label": "Source event",
+            "detail": "HR, contract, device, or service ownership changes."
+          },
+          {
+            "id": "lifecycle-review",
+            "label": "Review",
+            "detail": "Confirm the new function and minimum need."
+          },
+          {
+            "id": "lifecycle-change",
+            "label": "Change access",
+            "detail": "Add, replace, suspend, or revoke grants."
+          }
+        ],
+        "links": [
+          {
+            "from": "lifecycle-source",
+            "to": "lifecycle-review",
+            "label": "triggers"
+          },
+          {
+            "from": "lifecycle-review",
+            "to": "lifecycle-change",
+            "label": "authorizes"
+          }
+        ]
+      },
+      {
+        "id": "access-lifecycle-mover-reconciliation",
+        "type": "diagram",
+        "afterSection": 1,
+        "kind": "comparison",
+        "title": "A mover needs a subtraction",
+        "caption": "Adding the new role without removing the old one creates accumulated access.",
+        "items": [
+          {
+            "id": "lifecycle-old",
+            "label": "Old role",
+            "detail": "Remove grants tied to the previous function."
+          },
+          {
+            "id": "lifecycle-new",
+            "label": "New role",
+            "detail": "Add only the current baseline."
+          },
+          {
+            "id": "lifecycle-review-item",
+            "label": "Review evidence",
+            "detail": "Confirm the final effective access."
+          }
+        ],
+        "links": [
+          {
+            "from": "lifecycle-old",
+            "to": "lifecycle-review-item",
+            "label": "must be removed"
+          },
+          {
+            "from": "lifecycle-new",
+            "to": "lifecycle-review-item",
+            "label": "must be justified"
+          }
+        ]
+      },
+      {
+        "id": "access-lifecycle-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "What is the key access task for a joiner?",
+        "options": [
+          "Grant the minimum approved baseline",
+          "Copy every permission from a peer",
+          "Keep access undefined until the first incident",
+          "Create a shared account"
+        ],
+        "correctIndex": 0,
+        "explanation": "Joiner provisioning should start with the access needed for the approved function and no broader.",
+        "hint": "Joiners need a baseline, not a permission dump."
+      },
+      {
+        "id": "access-lifecycle-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "Why is a mover an access removal event too?",
+        "options": [
+          "Old grants may remain valid after the function changes",
+          "Moving always deletes the identity",
+          "New roles never need permissions",
+          "Removal makes logs anonymous"
+        ],
+        "correctIndex": 0,
+        "explanation": "If old grants are not removed, the user accumulates permissions unrelated to the new role.",
+        "hint": "Consider what happens to the old role."
+      },
+      {
+        "id": "access-lifecycle-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "Which response best fits a leaver event?",
+        "options": [
+          "Revoke accounts, active sessions, and relevant credentials",
+          "Add a second administrator role",
+          "Leave tokens active until their natural expiry",
+          "Archive the identity but keep all access"
+        ],
+        "correctIndex": 0,
+        "explanation": "Termination should revoke usable access and sessions promptly, with evidence of the change.",
+        "hint": "Leaver controls close active paths, not just the directory record."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "Access follows the relationship",
+      "steps": [
+        {
+          "title": "Joiner",
+          "detail": "Approve the minimum baseline"
+        },
+        {
+          "title": "Mover",
+          "detail": "Replace outdated permissions"
+        },
+        {
+          "title": "Leaver",
+          "detail": "Revoke accounts and sessions"
+        }
+      ],
+      "caption": "A transfer is a removal event as well as an addition. Otherwise, permissions accumulate."
+    }
+  },
+  {
+    "conceptId": "accountability",
+    "cardVisual": {
+      "kind": "flow",
+      "title": "Make an action traceable",
+      "caption": "Unique identity, protected records, and review connect an event to a responsible actor.",
+      "items": [
+        {
+          "label": "Actor",
+          "detail": "Unique account or service identity",
+          "id": "accountability-card-0"
+        },
+        {
+          "label": "Event",
+          "detail": "What, when, where, and outcome",
+          "id": "accountability-card-1"
+        },
+        {
+          "label": "Review",
+          "detail": "Reconstruct and investigate",
+          "id": "accountability-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "accountability-card-0",
+          "to": "accountability-card-1",
+          "label": "performs"
+        },
+        {
+          "from": "accountability-card-1",
+          "to": "accountability-card-2",
+          "label": "supports"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "accountability-attribution-chain",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "flow",
+        "title": "From actor to evidence",
+        "caption": "Logging is useful only when the identity and record support a defensible attribution.",
+        "items": [
+          {
+            "id": "accountability-identity",
+            "label": "Unique identity",
+            "detail": "A person or service can be distinguished."
+          },
+          {
+            "id": "accountability-event",
+            "label": "Event fields",
+            "detail": "Action, object, time, location, and outcome."
+          },
+          {
+            "id": "accountability-protect",
+            "label": "Protected record",
+            "detail": "Integrity, access control, retention, and review."
+          }
+        ],
+        "links": [
+          {
+            "from": "accountability-identity",
+            "to": "accountability-event",
+            "label": "attributes"
+          },
+          {
+            "from": "accountability-event",
+            "to": "accountability-protect",
+            "label": "is preserved as"
+          }
+        ]
+      },
+      {
+        "id": "accountability-shared-credential-gap",
+        "type": "diagram",
+        "afterSection": 2,
+        "kind": "comparison",
+        "title": "A shared account breaks attribution",
+        "caption": "A complete log can still fail to identify the human who acted if credentials are shared.",
+        "items": [
+          {
+            "id": "accountability-shared",
+            "label": "Shared credential",
+            "detail": "The log names one account for many people."
+          },
+          {
+            "id": "accountability-unique",
+            "label": "Unique credential",
+            "detail": "The event maps to an accountable subject."
+          },
+          {
+            "id": "accountability-review",
+            "label": "Review",
+            "detail": "Investigators can ask who, what, when, and why."
+          }
+        ],
+        "links": [
+          {
+            "from": "accountability-shared",
+            "to": "accountability-review",
+            "label": "weakens"
+          },
+          {
+            "from": "accountability-unique",
+            "to": "accountability-review",
+            "label": "supports"
+          }
+        ]
+      },
+      {
+        "id": "accountability-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "Which field most directly supports reconstructing an action?",
+        "options": [
+          "Action, object, time, location, and outcome",
+          "Only the account's display color",
+          "A shared password",
+          "The user's favorite device"
+        ],
+        "correctIndex": 0,
+        "explanation": "Useful event records capture enough context to reconstruct what occurred and its result.",
+        "hint": "Think like an investigator replaying the event."
+      },
+      {
+        "id": "accountability-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "What is the main accountability problem with a shared administrator account?",
+        "options": [
+          "The event cannot reliably identify which person acted",
+          "It always blocks authorization",
+          "It prevents any audit record",
+          "It creates two independent factors"
+        ],
+        "correctIndex": 0,
+        "explanation": "A shared credential may produce a log entry but does not establish which individual performed the action.",
+        "hint": "Ask who can be held responsible."
+      },
+      {
+        "id": "accountability-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "Why protect audit records after creating them?",
+        "options": [
+          "Tampering or unauthorized access could undermine their evidentiary value",
+          "Protection turns every event into authentication",
+          "Protected logs no longer need timestamps",
+          "Review is unnecessary once a log exists"
+        ],
+        "correctIndex": 0,
+        "explanation": "Integrity, access control, retention, and review keep records trustworthy enough for investigation.",
+        "hint": "Evidence must remain credible after collection."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "Make the action traceable",
+      "steps": [
+        {
+          "title": "Unique identity",
+          "detail": "Who performed the action?"
+        },
+        {
+          "title": "Protected record",
+          "detail": "What, when, where, outcome"
+        },
+        {
+          "title": "Review",
+          "detail": "Reconstruct and investigate"
+        }
+      ],
+      "caption": "Shared credentials weaken attribution. Logging alone does not establish who actually acted."
+    }
+  },
+  {
+    "conceptId": "risk",
+    "cardVisual": {
+      "kind": "comparison",
+      "title": "Risk connects likelihood to impact",
+      "caption": "Prioritize treatment by considering how likely a scenario is and how much harm it could cause.",
+      "items": [
+        {
+          "label": "Scenario",
+          "detail": "A threat exploits a vulnerability",
+          "id": "risk-card-0"
+        },
+        {
+          "label": "Likelihood",
+          "detail": "How plausible or frequent?",
+          "id": "risk-card-1"
+        },
+        {
+          "label": "Impact",
+          "detail": "What harm follows?",
+          "id": "risk-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "risk-card-0",
+          "to": "risk-card-1",
+          "label": "estimates"
+        },
+        {
+          "from": "risk-card-0",
+          "to": "risk-card-2",
+          "label": "estimates"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "risk-assessment-chain",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "flow",
+        "title": "From scenario to treatment",
+        "caption": "A treatment decision depends on a defined scenario and the organization's risk criteria.",
+        "items": [
+          {
+            "id": "risk-threat",
+            "label": "Threat and vulnerability",
+            "detail": "What could happen, and through which weakness?"
+          },
+          {
+            "id": "risk-estimate",
+            "label": "Likelihood and impact",
+            "detail": "Estimate the chance and consequence using defined scales."
+          },
+          {
+            "id": "risk-treatment",
+            "label": "Treatment",
+            "detail": "Accept, avoid, transfer, or reduce within risk appetite."
+          }
+        ],
+        "links": [
+          {
+            "from": "risk-threat",
+            "to": "risk-estimate",
+            "label": "is assessed as"
+          },
+          {
+            "from": "risk-estimate",
+            "to": "risk-treatment",
+            "label": "informs"
+          }
+        ]
+      },
+      {
+        "id": "risk-control-feedback",
+        "type": "diagram",
+        "afterSection": 2,
+        "kind": "layers",
+        "title": "Controls change the exposure",
+        "caption": "Treatment should be monitored because controls, threats, and business impact can change.",
+        "items": [
+          {
+            "id": "risk-inherent",
+            "label": "Inherent risk",
+            "detail": "Exposure before the selected safeguards."
+          },
+          {
+            "id": "risk-control",
+            "label": "Control",
+            "detail": "A safeguard reduces likelihood, impact, or both."
+          },
+          {
+            "id": "risk-residual",
+            "label": "Residual risk",
+            "detail": "Remaining exposure is accepted or treated further."
+          }
+        ],
+        "links": [
+          {
+            "from": "risk-inherent",
+            "to": "risk-control",
+            "label": "is addressed by"
+          },
+          {
+            "from": "risk-control",
+            "to": "risk-residual",
+            "label": "leaves"
+          }
+        ]
+      },
+      {
+        "id": "risk-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "Which pair is central to a simple risk estimate?",
+        "options": [
+          "Likelihood and impact",
+          "Username and password",
+          "Role and group name",
+          "Location and screen size"
+        ],
+        "correctIndex": 0,
+        "explanation": "Likelihood describes how plausible the scenario is; impact describes the harm if it occurs.",
+        "hint": "One dimension is chance and the other is consequence."
+      },
+      {
+        "id": "risk-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "Why must risk criteria be defined rather than implied?",
+        "options": [
+          "Different people need a consistent basis for comparing and treating scenarios",
+          "Defined criteria eliminate uncertainty",
+          "Criteria make every risk low",
+          "Only auditors can assess risk"
+        ],
+        "correctIndex": 0,
+        "explanation": "Defined scales, assumptions, and appetite make decisions consistent and explainable without pretending to remove uncertainty.",
+        "hint": "Think about two teams making comparable decisions."
+      },
+      {
+        "id": "risk-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "What is residual risk?",
+        "options": [
+          "Exposure that remains after controls are applied",
+          "The original threat before assessment",
+          "A list of all available safeguards",
+          "Risk that can never be reviewed"
+        ],
+        "correctIndex": 0,
+        "explanation": "A control changes exposure but does not guarantee zero risk; the remaining exposure is residual risk.",
+        "hint": "Residual means what is left."
+      }
+    ],
+    "leadVisual": {
+      "kind": "risk",
+      "title": "Likelihood and impact work together.",
+      "prompt": "What happens if an exposed admin account controls a critical system?",
+      "caption": "This simple scale teaches the relationship; a real assessment also needs threat context, safeguards, and defined impact criteria."
+    }
+  },
+  {
+    "conceptId": "classification",
+    "cardVisual": {
+      "kind": "comparison",
+      "title": "Classify by consequence",
+      "caption": "Confidentiality, integrity, and availability describe different harms and drive proportionate handling.",
+      "items": [
+        {
+          "label": "Confidentiality",
+          "detail": "Harm from unauthorized disclosure",
+          "id": "classification-card-0"
+        },
+        {
+          "label": "Integrity",
+          "detail": "Harm from unauthorized alteration",
+          "id": "classification-card-1"
+        },
+        {
+          "label": "Availability",
+          "detail": "Harm from disruption or loss of access",
+          "id": "classification-card-2"
+        }
+      ],
+      "connections": [
+        {
+          "from": "classification-card-0",
+          "to": "classification-card-1",
+          "label": "separate lens"
+        },
+        {
+          "from": "classification-card-1",
+          "to": "classification-card-2",
+          "label": "separate lens"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "classification-consequence-lenses",
+        "type": "diagram",
+        "afterSection": 0,
+        "kind": "comparison",
+        "title": "The same asset can need different protections",
+        "caption": "Classify the consequence of disclosure, alteration, and disruption separately before selecting safeguards.",
+        "items": [
+          {
+            "id": "classification-c",
+            "label": "Confidentiality",
+            "detail": "Would exposure harm people, operations, or trust?"
+          },
+          {
+            "id": "classification-i",
+            "label": "Integrity",
+            "detail": "Would an incorrect change cause harm?"
+          },
+          {
+            "id": "classification-a",
+            "label": "Availability",
+            "detail": "Would an outage prevent a critical activity?"
+          }
+        ],
+        "links": [
+          {
+            "from": "classification-c",
+            "to": "classification-i",
+            "label": "assess separately"
+          },
+          {
+            "from": "classification-i",
+            "to": "classification-a",
+            "label": "assess separately"
+          }
+        ]
+      },
+      {
+        "id": "classification-handling-path",
+        "type": "diagram",
+        "afterSection": 2,
+        "kind": "flow",
+        "title": "From classification to handling",
+        "caption": "A label is useful only when it changes handling, ownership, and review.",
+        "items": [
+          {
+            "id": "classification-label",
+            "label": "Label",
+            "detail": "Record the sensitivity or criticality and rationale."
+          },
+          {
+            "id": "classification-control",
+            "label": "Handling rule",
+            "detail": "Set access, encryption, retention, backup, or continuity controls."
+          },
+          {
+            "id": "classification-review",
+            "label": "Review",
+            "detail": "Reassess when use, context, or consequence changes."
+          }
+        ],
+        "links": [
+          {
+            "from": "classification-label",
+            "to": "classification-control",
+            "label": "drives"
+          },
+          {
+            "from": "classification-control",
+            "to": "classification-review",
+            "label": "is checked by"
+          }
+        ]
+      },
+      {
+        "id": "classification-check-1",
+        "type": "check",
+        "afterSection": 0,
+        "prompt": "A public website has no private customer data but must not be altered. Which lens is especially important?",
+        "options": [
+          "Integrity",
+          "Confidentiality only",
+          "Authentication factor count",
+          "Identity proofing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Public information may have low confidentiality needs while unauthorized alteration could damage trust or operations, making integrity important.",
+        "hint": "Focus on harm from a false or changed page."
+      },
+      {
+        "id": "classification-check-2",
+        "type": "check",
+        "afterSection": 1,
+        "prompt": "Why should classification consider the consequence of disruption?",
+        "options": [
+          "Availability needs may drive continuity and recovery controls",
+          "Availability is the same as confidentiality",
+          "Disruption never affects risk",
+          "Classification replaces backup planning"
+        ],
+        "correctIndex": 0,
+        "explanation": "An outage can prevent a critical activity even when the information is not secret, so availability consequences influence safeguards.",
+        "hint": "Ask what happens when users cannot reach the asset."
+      },
+      {
+        "id": "classification-check-3",
+        "type": "check",
+        "afterSection": 2,
+        "prompt": "What makes a classification program useful after assigning a label?",
+        "options": [
+          "The label changes handling and is reviewed when consequences change",
+          "The label is hidden from every custodian",
+          "The label grants every administrator access",
+          "The label never needs an owner"
+        ],
+        "correctIndex": 0,
+        "explanation": "Classification connects consequence to handling rules and ownership; it should be revisited as context changes.",
+        "hint": "A label must lead to a control."
+      }
+    ],
+    "leadVisual": {
+      "kind": "stages",
+      "title": "Three lenses on the same information",
+      "steps": [
+        {
+          "title": "Confidentiality",
+          "detail": "Harm from disclosure"
+        },
+        {
+          "title": "Integrity",
+          "detail": "Harm from alteration"
+        },
+        {
+          "title": "Availability",
+          "detail": "Harm from disruption"
+        }
+      ],
+      "caption": "A public website can have low confidentiality needs and high integrity or availability needs."
+    }
+  }
+]

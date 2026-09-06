@@ -9,10 +9,13 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
-    "lint": "oxlint app lib components/concept-visual.tsx",
+    "lint": "oxlint app lib db components/study-app.tsx components/concept-visual.tsx components/recursive-map.tsx components/learning-blocks.tsx",
     "format": "oxfmt",
-    "test": "node --experimental-strip-types --test tests/study-state.test.mjs",
-    "typecheck": "tsc --noEmit"
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "content:validate": "node --experimental-strip-types scripts/validate-content.mjs",
+    "db:generate": "drizzle-kit generate",
+    "prebuild": "npm run content:validate"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
@@ -21,6 +24,7 @@
     "clsx": "2.1.1",
     "cmdk": "1.1.1",
     "date-fns": "4.1.0",
+    "drizzle-orm": "^0.45.2",
     "embla-carousel-react": "8.5.2",
     "input-otp": "1.4.2",
     "lucide-react": "1.31.0",
@@ -45,6 +49,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
+    "drizzle-kit": "^0.31.10",
     "oxfmt": "0.61.0",
     "oxlint": "1.76.0",
     "oxlint-tsgolint": "7.0.2001",

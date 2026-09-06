@@ -1,6 +1,3 @@
-import lessonData from './data/lessons.json';
-import questionData from './data/questions.json';
-import edgeData from './data/edges.json';
 export type Lesson = {
   id: string;
   title: string;
@@ -18,6 +15,7 @@ export type Lesson = {
   review: { status: string; date: string; note: string };
 };
 export type Question = {
+  contentRelease?: string;
   id: string;
   conceptId: string;
   variant: number;
@@ -30,77 +28,93 @@ export type Question = {
   source: { title: string; url: string };
   review: { status: string; date: string };
 };
-export const lessons = lessonData as Lesson[];
-export const questions = questionData as Question[];
-export const edges = edgeData as { from: string; to: string; label: string }[];
-export const domains = [
-  {
-    id: 1,
-    name: 'Security & Risk Management',
-    short: 'Risk management',
-    weight: 16,
-    color: '#bb8860',
-  },
-  {
-    id: 2,
-    name: 'Asset Security',
-    short: 'Asset security',
-    weight: 10,
-    color: '#9981ac',
-  },
-  {
-    id: 3,
-    name: 'Security Architecture & Engineering',
-    short: 'Architecture',
-    weight: 13,
-    color: '#798aa5',
-  },
-  {
-    id: 4,
-    name: 'Communication & Network Security',
-    short: 'Network security',
-    weight: 13,
-    color: '#679da2',
-  },
-  {
-    id: 5,
-    name: 'Identity & Access Management',
-    short: 'Identity & access',
-    weight: 13,
-    color: '#4d8261',
-  },
-  {
-    id: 6,
-    name: 'Security Assessment & Testing',
-    short: 'Assessment & testing',
-    weight: 12,
-    color: '#a2905c',
-  },
-  {
-    id: 7,
-    name: 'Security Operations',
-    short: 'Security operations',
-    weight: 13,
-    color: '#8d899f',
-  },
-  {
-    id: 8,
-    name: 'Software Development Security',
-    short: 'Software security',
-    weight: 10,
-    color: '#9b857d',
-  },
-];
-export const shortTitle = (id: string) =>
-  ({
-    identity: 'Digital identity',
-    authentication: 'Authentication',
-    authorization: 'Authorization',
-    'access-models': 'Access models',
-    'least-privilege': 'Least privilege',
-    federation: 'Federation',
-    'access-lifecycle': 'Access lifecycle',
-    accountability: 'Accountability',
-    risk: 'Risk management',
-    classification: 'Data classification',
-  })[id] || id;
+export type Domain = {
+  id: number;
+  name: string;
+  short: string;
+  weight: number;
+  color: string;
+};
+export type ConceptNode = {
+  id: string;
+  parentId: string | null;
+  rootConceptId: string;
+  domainId: number;
+  title: string;
+  summary: string;
+  objective: string;
+  order: number;
+  details: { heading: string; body: string }[];
+  sourceUrls: string[];
+  relatedIds: string[];
+};
+export type DiagramItem = {
+  id: string;
+  label: string;
+  detail: string;
+  role?: 'decision';
+};
+export type DiagramBlock = {
+  id: string;
+  type: 'diagram';
+  afterSection: number;
+  kind: 'flow' | 'comparison' | 'layers' | 'timeline' | 'decision';
+  title: string;
+  caption: string;
+  items: DiagramItem[];
+  links: { from: string; to: string; label: string }[];
+};
+export type CheckBlock = {
+  id: string;
+  type: 'check';
+  afterSection: number;
+  prompt: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  hint: string;
+};
+export type LeadVisual = {
+  kind: 'stages' | 'factors' | 'access-models' | 'risk';
+  title: string;
+  caption: string;
+  steps?: { title: string; detail: string }[];
+  models?: Record<
+    string,
+    { policy: string; input: string; answer: string; reason: string }
+  >;
+  prompt?: string;
+};
+export type LearningDesign = {
+  leadVisual: LeadVisual;
+  conceptId: string;
+  cardVisual: {
+    kind: string;
+    title: string;
+    caption: string;
+    items: DiagramItem[];
+    connections?: { from: string; to: string; label: string }[];
+  };
+  blocks: (DiagramBlock | CheckBlock)[];
+};
+export type QuestionMetadata = {
+  questionId: string;
+  domainId: number;
+  objective: string;
+  subtopicIds: string[];
+  tags: string[];
+  hint: string;
+  learningLinks: { lessonId: string; sectionIndex: number; label: string }[];
+  difficulty: string;
+  misconception: string;
+};
+export type EnrichedQuestion = Question & { metadata: QuestionMetadata };
+export type Curriculum = {
+  releaseId: string;
+  storage: 'D1';
+  lessons: (Lesson & { design: LearningDesign })[];
+  questions: EnrichedQuestion[];
+  nodes: ConceptNode[];
+  domains: Domain[];
+  edges: { from: string; to: string; label: string }[];
+};
