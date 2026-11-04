@@ -66,13 +66,13 @@ Authoring inputs and maintenance instructions are in [the content system](docs/c
 
 An already loaded lesson can remain usable through a brief connection loss. Full offline reload support is not promised. Failed content loads offer retry without altering learner data.
 
-The `codex/personal-cloud` branch adds optional owner-only Firebase continuity. It is not yet deployed or live-accepted; public multi-user access, roles, and administration remain deferred. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
+Optional owner-only Firebase continuity is included. Public multi-user access, roles, and administration remain deferred. The personal-cloud execution record distinguishes local acceptance from the latest verified deployment. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
 
 AI review, automated rendering/model checks, and sampled browser interaction do not establish educational effectiveness, human-expert endorsement, official ISC2 training, or comprehensive accessibility certification. Human learner and subject-expert review remain outstanding.
 
-## Owner-only Firebase setup (personal-cloud branch)
+## Owner-only Firebase setup
 
-The static curriculum still works without Firebase. This branch uses Firebase Google Authentication and Firestore Standard on Spark, with no billing account, custom server, Cloud Functions, or Analytics SDK. Public SDK configuration lives in `public/firebase-config.json`; it contains no administrative credential. Keep service-account keys and personal backups out of source.
+The static curriculum still works without Firebase. The application uses Firebase Google Authentication and Firestore Standard on Spark, with no billing account, custom server, Cloud Functions, or Analytics SDK. Public SDK configuration lives in `public/firebase-config.json`; it contains no administrative credential. Keep service-account keys and personal backups out of source.
 
 For project `cissp-buddy`, enable Google sign-in, authorize `localhost` and `codesagar.github.io`, and create the default Firestore database in Production mode (`us-central1`). Do not enable billing. In the local preview, sign in only to obtain the displayed account ID while `ownerUid` is empty: setup mode cannot read or upload learning history.
 

@@ -8,7 +8,7 @@ web
 
 ## Record Scope and Decision Precedence
 
-This record describes the single-owner learning MVP, including the optional Firebase continuity implementation under acceptance on `codex/personal-cloud`. The deployed static baseline remains available while owner setup and live validation finish. Historical pilot proposals and delivery reports remain evidence of earlier stages, not current release acceptance.
+This record describes the single-owner learning MVP, including optional Firebase continuity. The personal-cloud execution record separates automated checks, sampled browser acceptance, and verified live deployment. Historical pilot proposals and delivery reports remain evidence of earlier stages, not current release acceptance.
 
 - `planning/refined-proposal.md` establishes the product purpose, core workflows, and pilot boundaries.
 - `planning/design-v3/learning-design-decisions.md` records the September 6 learning-model decisions. These supersede earlier proposals for a separate assessment at every concept node and remain requirements for future implementation.

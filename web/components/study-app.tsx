@@ -340,7 +340,12 @@ export default function Home() {
   }
   return (
     <SidebarProvider style={{ '--sidebar-width': '15.5rem' } as CSSProperties}>
-      <SideNav section={section} go={go} state={state} />
+      <SideNav
+        section={section}
+        go={go}
+        state={state}
+        isAccount={learning.isAccount}
+      />
       <SidebarInset>
         <a
           className="skip-link"
@@ -484,10 +489,12 @@ function SideNav({
   section,
   go,
   state,
+  isAccount,
 }: {
   section: string;
   go: Go;
   state: StudyState;
+  isAccount: boolean;
 }) {
   const { lessons } = useCurriculum();
   const now = useClock();
@@ -577,7 +584,12 @@ function SideNav({
         <button className="local-note" onClick={() => navigate('backup')}>
           <ShieldCheck size={18} />
           <span>
-            Your space to learn<small>Progress stays in this browser</small>
+            Your space to learn
+            <small>
+              {isAccount
+                ? 'Private progress belongs to your account'
+                : 'Progress stays in this browser'}
+            </small>
           </span>
         </button>
       </SidebarFooter>

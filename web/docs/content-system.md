@@ -4,7 +4,7 @@ The main course has eight domains, 90 canonical units, 11 connection cases, and 
 
 ## Authoring and delivery
 
-The application is React, TypeScript, and plain Vite. All delivery is static. There is no runtime D1 database, server API, authentication, or cloud learner synchronization.
+The application is React, TypeScript, and plain Vite. Curriculum delivery is static. There is no runtime D1 database or custom server API. Optional owner-only Firebase Authentication and Firestore preserve learner records separately from the published curriculum.
 
 Main-course authoring inputs are sibling `knowledge/catalog/`, canonical `knowledge/domains/**/units/` and `visuals/`, plus `web/lib/data/teaching/` and `web/lib/data/connections/`. From `web/`:
 
@@ -24,11 +24,11 @@ A lesson trace: canonical unit and visual rows + authored teaching model → det
 
 ## Learner records and backups
 
-Course state uses `cissp-buddy:course:v1`; pilot state uses `cissp-buddy:v1`. Both remain browser- and origin-local. An answer flows from the selected draft to `recordCourseAnswer`, which saves the original question snapshot, release, semantic ID, selected option, correctness, uncertainty and assistance flags, then updates the review schedule. Review reads that saved evidence. Saved stage, figure step/variant, lab inputs, notes, and unfinished pilot quizzes remain resumable.
+Guest course state uses `cissp-buddy:course:v1`; pilot state uses `cissp-buddy:v1`. Both remain browser- and origin-local. An answer flows from the selected draft to `recordCourseAnswer`, which saves the original question snapshot, release, semantic ID, selected option, correctness, uncertainty and assistance flags, then updates the review schedule. Review reads that saved evidence. Saved stage, figure step/variant, lab inputs, notes, and unfinished pilot quizzes remain resumable.
 
 Visits indicate exposure. A correct unassisted answer is evidence for that named check's scoped concepts. Assisted answers and repeated exposure are distinct. Neither unit visits nor small question counts establish mastery, exam readiness, or evidence for every concept in a unit. Today combines resume, due reviews, and a curriculum-order unanswered recommendation with an explicit prerequisite/exposure reason.
 
-To move addresses or devices, open Saved progress at the **old address**, export a combined backup, open Saved progress at the **new address**, select that file, inspect validation, and explicitly replace the local records. A different origin cannot automatically read the old store. Original pilot backups remain supported. Invalid imports and unreadable storage do not authorize replacement; untouched-record export supports recovery. Cross-key writes cannot be guaranteed atomic if the browser is interrupted or blocks rollback; recovery messages must state any incomplete replacement truthfully.
+For guest progress, to move addresses or devices, open Saved progress at the **old address**, export a combined backup, open Saved progress at the **new address**, select that file, inspect validation, and explicitly replace the local records. A different origin cannot automatically read the old store. Original pilot backups remain supported. Invalid imports and unreadable storage do not authorize replacement; untouched-record export supports recovery. Cross-key writes cannot be guaranteed atomic if the browser is interrupted or blocks rollback; recovery messages must state any incomplete replacement truthfully.
 
 ## Editing safely
 
@@ -41,3 +41,15 @@ To move addresses or devices, open Saved progress at the **old address**, export
 Reference PDFs under `resources/`, private learner backups, environment files, credentials, databases, caches, and local screenshots do not belong in published source or Pages artifacts. Publication includes only the authoring inputs, source, and selected sanitized review fixtures required by retained checks. Upload only the intended static `dist/` output.
 
 Human learners and a qualified educator still need to assess usability, factual ambiguity, and learning outcomes. Automated geometry, numerical labs, source bindings, AI review, and bounded browser sampling are technical evidence with different limits.
+
+## Optional private learner continuity
+
+Firebase Google sign-in identifies one approved owner UID. Firestore rules require both that approved UID and the matching user path; unknown collections and other identities are denied. Configuration and owner-rule setup are documented in web/README.md. Client SDK configuration is public; no administrative key is published.
+
+The existing course and pilot state validators remain authoritative for reconstructed client state. Cloud metadata is small; unit positions/reviews and individual attempts, pilot notes/reviews/sessions are stored separately. Original snapshot payloads and semantic IDs remain intact. Array records retain an explicit order alongside their value. The rules enforce ownership, bounded record shapes, and immutable submitted evidence; they do not implement canonical server grading or every nested teaching validator.
+
+Complete paged server hydration and validation precede account editing. Only a server-confirmed absence offers initial adoption; denied/offline reads offer recovery. Initial adoption is explicit per course/pilot with an exact-source digest and bounded chunks. Normal saves apply atomic diffs with ordinary last-write-wins limits. No automatic merge engine or populated-cloud replacement is supplied. Guest keys are not silently uploaded or cleared.
+
+Remember-me mode retains UID-scoped local recovery records; shared-device mode keeps account learning in memory. Corrupt recovery records remain untouched until explicit validated replacement. Pending saves are visible and exportable; sign-out is guarded while work is unconfirmed. Pilot timer checkpoints can lag by up to 15 seconds. Full offline reload is not promised.
+
+Run `npm run test:cloud` for the separate synthetic Auth/Firestore emulator gate (Java 21); normal `npm test` skips those cases. The Pages workflow runs both cloud tests and `qa:final`. Production learner records must never be used as browser QA fixtures.
