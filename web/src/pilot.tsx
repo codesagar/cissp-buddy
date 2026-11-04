@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import StudyApp from '../components/study-app';
+import { AccountProvider } from '../lib/learner/account';
 import { CurriculumProvider } from '../lib/content-provider';
 import type { Curriculum } from '../lib/curriculum';
 import { loadPilot, appUrl } from '../lib/course/static-loader';
@@ -50,4 +51,8 @@ function Pilot() {
     </CurriculumProvider>
   );
 }
-createRoot(document.getElementById('root')!).render(<Pilot />);
+createRoot(document.getElementById('root')!).render(
+  <AccountProvider>
+    <Pilot />
+  </AccountProvider>,
+);

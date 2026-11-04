@@ -66,6 +66,38 @@ Authoring inputs and maintenance instructions are in [the content system](docs/c
 
 An already loaded lesson can remain usable through a brief connection loss. Full offline reload support is not promised. Failed content loads offer retry without altering learner data.
 
-Accounts, Firebase Authentication, Firestore, cloud synchronization, roles, and administrative features are deferred. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
+Optional owner-only Firebase continuity is included. Public multi-user access, roles, and administration remain deferred. The personal-cloud execution record distinguishes local acceptance from the latest verified deployment. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
 
 AI review, automated rendering/model checks, and sampled browser interaction do not establish educational effectiveness, human-expert endorsement, official ISC2 training, or comprehensive accessibility certification. Human learner and subject-expert review remain outstanding.
+
+## Owner-only Firebase setup
+
+The static curriculum still works without Firebase. The application uses Firebase Google Authentication and Firestore Standard on Spark, with no billing account, custom server, Cloud Functions, or Analytics SDK. Public SDK configuration lives in `public/firebase-config.json`; it contains no administrative credential. Keep service-account keys and personal backups out of source.
+
+For project `cissp-buddy`, enable Google sign-in, authorize `localhost` and `codesagar.github.io`, and create the default Firestore database in Production mode (`us-central1`). Do not enable billing. In the local preview, sign in only to obtain the displayed account ID while `ownerUid` is empty: setup mode cannot read or upload learning history.
+
+From `web/`, render rules for that owner:
+
+```sh
+npm run firebase:owner -- --uid=YOUR_FIREBASE_UID
+```
+
+This updates the public owner UID and renders reviewed rules into ignored `outputs/firebase-setup/firestore.owner.rules`. It does not deploy. The committed root rule template intentionally denies everyone. Publish the rendered rules in Firebase Console → Firestore Database → Rules, or, with the owner's authenticated Firebase CLI, deploy only rules/indexes using the generated configuration:
+
+```sh
+npx firebase deploy --config outputs/firebase-setup/firebase.production.json --only firestore:rules,firestore:indexes --project cissp-buddy
+```
+
+Complete owner setup and browser acceptance before publishing the website branch. On the live address, export existing browser progress first, sign in, and explicitly choose to copy browser progress. Do not initialize an empty cloud account from a fresh local preview if the live browser contains the history you want to adopt. Course and pilot adoption are separate. Importing a backup does not replace an initialized cloud account.
+
+Only the approved UID can access learning documents. Another Google account can authenticate but cannot read or write this owner's history. Shared-device mode uses session authentication and memory-only learning state. Remember-me mode uses persistent authentication and a UID-scoped local recovery copy; those copies remain after sign-out, so use it only on a personal device. Pending/failed saves remain visible and exportable. Damaged recovery records are retained until explicit validated replacement. Pilot timers checkpoint about every 15 seconds.
+
+Cloud tests use synthetic records and a `demo-` project; they require Java 21 and download the official Firebase emulators:
+
+```sh
+npm run test:cloud
+npm run qa:final
+npm audit --omit=dev
+```
+
+The normal test command skips emulator tests; `test:cloud` is a separate required CI gate. Production runtime dependency audit currently has zero findings. Remaining moderate findings are in Firebase CLI development tooling and are tracked in `planning/personal-cloud/EXECUTION.md`; do not apply forced major-version audit fixes. Browser sign-in, emulator interaction, and real deployed synchronization are separate acceptance steps from these automated checks.

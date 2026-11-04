@@ -11,6 +11,7 @@ import {
 import { validateRelease } from '../lib/content/validate.ts';
 import { releasePack } from '../lib/content/release-pack.ts';
 import { startStaticServer, normalizeBase } from './static-server.mjs';
+import { validateFirebaseConfiguration } from '../lib/learner/firebase-config.ts';
 
 const webRoot = fileURLToPath(new URL('../', import.meta.url));
 const sourceRoot = path.join(webRoot, 'lib/data/course');
@@ -42,6 +43,14 @@ export async function verifyStaticOutput({
 } = {}) {
   directory = path.resolve(directory);
   base = normalizeBase(base);
+  const accountConfigPath = path.join(directory, 'firebase-config.json');
+  if (fs.existsSync(accountConfigPath)) {
+    const accountConfig = readJson(accountConfigPath);
+    const validated = validateFirebaseConfiguration(accountConfig, 'example.com');
+    if (!validated)
+      assert.deepEqual(accountConfig, { enabled: false }, 'Disabled public configuration contains no other fields');
+    assert.equal(validated?.emulators || false, false, 'Published configuration never connects local emulators');
+  }
   const manifest = readJson(
     path.join(directory, 'content/course/manifest.json'),
   );

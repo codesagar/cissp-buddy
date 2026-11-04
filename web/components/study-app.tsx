@@ -1,5 +1,7 @@
 'use client';
 import { appUrl } from '@/lib/course/static-loader';
+import { LearnerAccountPanel, useAccount } from '@/lib/learner/account';
+import { useLearningDataset } from '@/lib/learner/hooks';
 import {
   useCallback,
   useMemo,
@@ -138,71 +140,33 @@ const useClock = () =>
 export default function Home() {
   const { lessons, questions, shortTitle, nodes } = useCurriculum();
   const conceptIds = useMemo(() => lessons.map((l) => l.id), [lessons]);
-  const [state, setState] = useState<StudyState>(emptyState),
-    [ready, setReady] = useState(false),
-    [saveAllowed, setSaveAllowed] = useState(true),
-    [storageIssue, setStorageIssue] = useState(''),
-    [route, setRoute] = useState('today'),
+  const [route, setRoute] = useState('today'),
     [search, setSearch] = useState(''),
     [practiceIssue, setPracticeIssue] = useState('');
+  const validate = useCallback(
+    (raw: unknown) => validateBackup(raw, conceptIds, questions),
+    [conceptIds, questions],
+  );
+  const learning = useLearningDataset({
+    dataset: 'pilot',
+    legacyKey: STORAGE_KEY,
+    empty: emptyState,
+    validate,
+    checkpoint: route,
+  });
+  const { state, setState, ready, issue: storageIssue } = learning;
+  const saveAllowed = !storageIssue;
   const mainRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef(state);
   useEffect(() => {
     stateRef.current = state;
   }, [state]);
   useEffect(() => {
-    let cancelled = false;
-    // Read browser storage after hydration; never replace an invalid saved record.
-    void Promise.resolve().then(() => {
-      if (cancelled) return;
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved)
-          setState(validateBackup(JSON.parse(saved), conceptIds, questions));
-      } catch {
-        setSaveAllowed(false);
-        setStorageIssue(
-          'Saved progress could not be loaded. Your stored data has been left untouched. You can continue for this visit or restore a backup.',
-        );
-      }
-      setReady(true);
-      setRoute(readRoute());
-    });
     const update = () => setRoute(readRoute());
-    const sync = (event: StorageEvent) => {
-      if (event.key !== STORAGE_KEY || !event.newValue) return;
-      try {
-        setState(
-          validateBackup(JSON.parse(event.newValue), conceptIds, questions),
-        );
-      } catch {
-        setSaveAllowed(false);
-        setStorageIssue(
-          'Another tab saved unreadable progress. Saving is paused to preserve it. Export current work and the untouched stored record before restoring a validated backup.',
-        );
-      }
-    };
+    update();
     window.addEventListener('hashchange', update);
-    window.addEventListener('storage', sync);
-    return () => {
-      cancelled = true;
-      window.removeEventListener('hashchange', update);
-      window.removeEventListener('storage', sync);
-    };
-  }, [questions, conceptIds]);
-  useEffect(() => {
-    if (!ready || !saveAllowed) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      queueMicrotask(() => {
-        setSaveAllowed(false);
-        setStorageIssue(
-          'Your browser could not save progress. Keep this page open and export a backup before leaving.',
-        );
-      });
-    }
-  }, [state, ready, saveAllowed]);
+    return () => window.removeEventListener('hashchange', update);
+  }, []);
   const go: Go = useCallback((path) => {
     window.location.hash = `/${path}`;
     setRoute(path);
@@ -253,7 +217,7 @@ export default function Home() {
       );
     }, 1000);
     return () => clearInterval(timer);
-  }, [ready, activeId, section]);
+  }, [ready, activeId, section, setState]);
   useEffect(() => {
     if (!ready) return;
     const ctx = (
@@ -376,7 +340,12 @@ export default function Home() {
   }
   return (
     <SidebarProvider style={{ '--sidebar-width': '15.5rem' } as CSSProperties}>
-      <SideNav section={section} go={go} state={state} />
+      <SideNav
+        section={section}
+        go={go}
+        state={state}
+        isAccount={learning.isAccount}
+      />
       <SidebarInset>
         <a
           className="skip-link"
@@ -438,6 +407,7 @@ export default function Home() {
           ref={mainRef}
           tabIndex={-1}
         >
+          <LearnerAccountPanel learning={learning} />
           {storageIssue && (
             <div className="notice warning" role="alert">
               <AlertCircle size={18} />
@@ -449,10 +419,16 @@ export default function Home() {
               </span>
             </div>
           )}
-          {section === 'today' && (
+          {!ready && (
+            <output className="content-unavailable">
+              Opening your learning record…
+            </output>
+          )}
+          {ready && section === 'today' && (
             <Today state={state} ready={ready} go={go} start={start} />
           )}{' '}
-          {section === 'learn' &&
+          {ready &&
+            section === 'learn' &&
             (selected && lessons.some((l) => l.id === selected) ? (
               <LessonView
                 key={selected}
@@ -471,10 +447,10 @@ export default function Home() {
                 setSearch={setSearch}
               />
             ))}
-          {section === 'map' && (
+          {ready && section === 'map' && (
             <RecursiveMap state={state} go={go} selectedId={selected} />
           )}
-          {section === 'practice' && (
+          {ready && section === 'practice' && (
             <Practice
               issue={practiceIssue}
               state={state}
@@ -486,16 +462,10 @@ export default function Home() {
               ready={ready}
             />
           )}{' '}
-          {section === 'backup' && (
+          {ready && section === 'backup' && (
             <Backup
               state={state}
-              onRestore={(s) => {
-                // Persist first; a rejected replacement must not report success.
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-                setState(s);
-                setSaveAllowed(true);
-                setStorageIssue('');
-              }}
+              onRestore={learning.replaceLocal}
               saveAllowed={saveAllowed}
             />
           )}
@@ -504,7 +474,10 @@ export default function Home() {
               <Leaf size={13} /> A little wiser, every day.
             </span>
             <button onClick={() => go('backup')}>
-              <ShieldCheck size={13} /> Saved in this browser · Backup
+              <ShieldCheck size={13} />{' '}
+              {learning.isAccount
+                ? 'Account progress · Backup'
+                : 'Saved in this browser · Backup'}
             </button>
           </footer>
         </div>
@@ -516,10 +489,12 @@ function SideNav({
   section,
   go,
   state,
+  isAccount,
 }: {
   section: string;
   go: Go;
   state: StudyState;
+  isAccount: boolean;
 }) {
   const { lessons } = useCurriculum();
   const now = useClock();
@@ -609,7 +584,12 @@ function SideNav({
         <button className="local-note" onClick={() => navigate('backup')}>
           <ShieldCheck size={18} />
           <span>
-            Your space to learn<small>Progress stays in this browser</small>
+            Your space to learn
+            <small>
+              {isAccount
+                ? 'Private progress belongs to your account'
+                : 'Progress stays in this browser'}
+            </small>
           </span>
         </button>
       </SidebarFooter>
@@ -2101,6 +2081,7 @@ function Backup({
   onRestore: (s: StudyState) => void;
   saveAllowed: boolean;
 }) {
+  const account = useAccount();
   const { lessons, questions } = useCurriculum();
   const conceptIds = useMemo(() => lessons.map((l) => l.id), [lessons]);
   const [pending, setPending] = useState<StudyState | null>(null),
@@ -2164,17 +2145,25 @@ function Backup({
             <em>Take it with you.</em>
           </>
         }
-        description="Your lessons, practice history, and takeaways are stored in this browser."
+        description={
+          account.phase === 'owner'
+            ? 'Export your signed-in account’s current pilot progress.'
+            : 'Your lessons, practice history, and takeaways are stored in this browser.'
+        }
       />
       <section className="backup-card">
         <ShieldCheck size={32} />
         <h2>
-          {saveAllowed ? 'Saved on this device' : 'Saving needs attention'}
+          {saveAllowed
+            ? account.phase === 'owner'
+              ? 'Your account progress'
+              : 'Saved on this device'
+            : 'Saving needs attention'}
         </h2>
         <p>
-          There is no account or automatic cross-device sync. Clearing browser
-          data or using a different browser will not bring your progress along.
-          Export a backup to keep a copy, then import it wherever you continue.
+          {account.phase === 'owner'
+            ? 'Your validated pilot record is saved to your account when the save status confirms it. Local backup replacement is available after signing out; it never replaces an existing account history.'
+            : 'Guest progress stays in this browser. Export a backup to keep a copy or move it to another address.'}
         </p>
         <div className="backup-counts">
           <span>
@@ -2258,8 +2247,15 @@ function Backup({
           Official CISSP exam outline <ExternalLink size={14} />
         </a>
       </section>
+      {pending && account.phase !== 'guest' && (
+        <p className="notice">
+          This valid local backup cannot replace existing account history. Sign
+          out to restore it to guest learning, then explicitly copy it into an
+          uninitialized account dataset.
+        </p>
+      )}
       <AlertDialog
-        open={!!pending}
+        open={!!pending && account.phase === 'guest'}
         onOpenChange={(open) => {
           if (!open) setPending(null);
         }}
