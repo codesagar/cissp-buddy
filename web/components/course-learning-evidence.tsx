@@ -1,5 +1,6 @@
 import type { LearnerState } from '../lib/course/learner-state';
 import type { CourseManifest } from '../lib/course/types';
+import { courseEvidence } from '../lib/course/learner-state';
 import { learningEvidence } from '../lib/course/learning-evidence';
 
 function ResponseDate({ at }: { at: number }) {
@@ -22,26 +23,31 @@ export function CourseLearningEvidence({
   manifest,
   now,
   compact = false,
+  showActions = false,
 }: {
   state: LearnerState;
   manifest: CourseManifest;
   now: number;
   compact?: boolean;
+  /** Optional check-level actions; Practice already supplies its due queue. */
+  showActions?: boolean;
 }) {
   const evidence = learningEvidence(state, manifest, now);
-  return (
-    <section
-      className="course-learning-evidence"
-      aria-label="Your latest learning evidence"
-    >
-      <div className="learning-evidence-heading">
-        <h2>Your latest learning evidence</h2>
-        {compact && <a href="#/practice">Inspect evidence & review</a>}
-      </div>
-      <p>
-        Each named unit check uses its latest saved response. Earlier attempts
-        remain in history.
+  if (compact) {
+    if (!state.attempts.length) return null;
+    return (
+      <p className="learning-evidence-compact">
+        <a href="#/practice">
+          Learning summary: {evidence.totalChecks - evidence.unanswered} /{' '}
+          {evidence.totalChecks} unit checks answered
+        </a>
       </p>
+    );
+  }
+  const activity = courseEvidence(state);
+  return (
+    <details className="course-learning-evidence">
+      <summary>Learning summary</summary>
       <dl className="learning-evidence-counts">
         <div>
           <dt>Correct without assistance or uncertainty</dt>
@@ -56,92 +62,72 @@ export function CourseLearningEvidence({
           </dd>
         </div>
         <div>
-          <dt>No response yet</dt>
+          <dt>Unanswered</dt>
           <dd>
             {evidence.unanswered} / {evidence.totalChecks} checks
           </dd>
         </div>
       </dl>
-      {compact && (
-        <p className="learning-evidence-scope">
-          Unit-check evidence only; connection cases are separate. These counts
-          are not a mastery or exam-readiness score.
-        </p>
+      <p>
+        Each named unit check uses its latest saved response. Earlier attempts
+        remain in each unit’s review, including assistance and uncertainty
+        flags.
+        {` ${evidence.repeatedResponses} repeated responses remain in history.`}
+      </p>
+      <p>
+        Earlier activity: {activity.attempted} distinct questions attempted;{' '}
+        {activity.transfers} changed cases attempted, including connection
+        cases.
+      </p>
+      {showActions && evidence.actions.length > 0 && (
+        <ol className="learning-evidence-actions">
+          {evidence.actions.map((action) => (
+            <li key={action.unitId}>
+              <h3>{action.unitTitle}</h3>
+              <p>{action.reason}</p>
+              {action.latest && (
+                <p className="learning-evidence-date">
+                  Latest response: <ResponseDate at={action.latest.at} />
+                  {' · '}
+                  {action.latest.correct ? 'Correct' : 'Incorrect'}
+                  {action.latest.hintUsed && ' · Hint used'}
+                  {action.latest.outcomeViewed &&
+                    ' · Outcome or explanation revealed'}
+                  {action.latest.guess && ' · Marked uncertain'}
+                </p>
+              )}
+              {action.kind && (
+                <p className="learning-evidence-check">
+                  {
+                    {
+                      prediction: 'Prediction',
+                      transfer: 'Changed case',
+                      retry: 'Changed retry',
+                    }[action.kind]
+                  }
+                </p>
+              )}
+              <a href={action.href}>{action.label} →</a>
+            </li>
+          ))}
+        </ol>
       )}
-      {!compact && (
-        <>
-          <p className="learning-evidence-scope">
-            {evidence.repeatedResponses} repeat{' '}
-            {evidence.repeatedResponses === 1
-              ? 'response remains'
-              : 'responses remain'}{' '}
-            saved; they do not add new checks. {evidence.unitsDue}{' '}
-            {evidence.unitsDue === 1 ? 'unit is' : 'units are'} due for review.
-            Review scheduling is separate from the latest-response counts above.
-          </p>
-          {evidence.actions.length > 0 ? (
-            <ol className="learning-evidence-actions">
-              {evidence.actions.map((action) => (
-                <li key={action.unitId}>
-                  <h3>{action.unitTitle}</h3>
-                  <p>{action.reason}</p>
-                  {action.latest && (
-                    <p className="learning-evidence-date">
-                      Latest response: <ResponseDate at={action.latest.at} />
-                      {' · '}
-                      {action.latest.correct ? 'Correct' : 'Incorrect'}
-                      {action.latest.hintUsed && ' · Hint used'}
-                      {action.latest.outcomeViewed &&
-                        ' · Outcome or explanation revealed'}
-                      {action.latest.guess && ' · Marked uncertain'}
-                    </p>
-                  )}
-                  {action.kind && (
-                    <p className="learning-evidence-check">
-                      {
-                        {
-                          prediction: 'Prediction',
-                          transfer: 'Changed case',
-                          retry: 'Changed retry',
-                        }[action.kind]
-                      }
-                    </p>
-                  )}
-                  {action.checkId && (
-                    <details className="learning-evidence-check">
-                      <summary>Which check?</summary>
-                      <code>{action.checkId}</code>
-                    </details>
-                  )}
-                  <a href={action.href}>
-                    {action.label}
-                    <span aria-hidden="true"> →</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p>
-              {evidence.totalChecks
-                ? 'No review is due right now. Earlier responses remain in the evidence above; your schedule will bring decisions back when due.'
-                : 'No directly scoped unit checks are available in this outline. Reading does not create answer evidence.'}
-            </p>
-          )}
-          <details className="learning-evidence-limits">
-            <summary>What these counts cover</summary>
-            <p>
-              {evidence.conceptsWithoutUnitCheck} of{' '}
-              {evidence.explainedConcepts} explained concepts have no directly
-              scoped unit check. Connection cases may assess some separately;
-              their answers stay in each case’s review and are excluded from
-              these unit-check counts. Visits record exposure. Repeated familiar
-              questions, assisted responses and correct unassisted responses are
-              different evidence. These counts do not establish mastery or exam
-              readiness.
-            </p>
-          </details>
-        </>
+      {!evidence.totalChecks && (
+        <p>No directly scoped unit checks are available in this outline.</p>
       )}
-    </section>
+      <p className="learning-evidence-scope">
+        {evidence.conceptsWithoutUnitCheck} of {evidence.explainedConcepts}{' '}
+        explained concepts have no directly scoped unit check. Connection cases
+        may assess some separately; their answers stay in each case’s review and
+        are excluded from these counts. Visits record exposure. These counts do
+        not establish mastery or exam readiness.
+      </p>
+      <p className="learning-evidence-scope">
+        Review dates are separate from latest-response counts. Mistakes,
+        uncertainty and hints trigger review. A successful unassisted changed
+        retry schedules review in three days; later successful reviews extend
+        the interval up to thirty days. These intervals are product rules.
+      </p>
+    </details>
   );
 }

@@ -138,3 +138,74 @@ test('setup and required recovery remain expanded; ordinary saving keeps its com
     /Saving to your account/,
   );
 });
+
+test('healthy toolbar exposes identity/save once and operations inside disclosure', () => {
+  const html = render({
+    variant: 'toolbar',
+    phase: 'owner',
+    identity: 'owner@example.test',
+    status: 'saved',
+    remember: true,
+    onExport() {},
+  });
+  const summary = html.match(/<summary[^>]*>(.*?)<\/summary>/s)?.[1] || '';
+  assert.match(summary, /owner@example.test/);
+  assert.match(summary, /Saved to your account/);
+  assert.doesNotMatch(
+    summary,
+    /Your learning account|Account options|Device recovery/,
+  );
+  assert.equal((html.match(/>Saved to your account</g) || []).length, 1);
+  assert.match(html, /aria-label="owner@example.test: Saved to your account"/);
+  assert.match(
+    html,
+    /<\/summary>.*Device recovery copies.*Sign out.*Export current progress/s,
+  );
+  const guest = render({ variant: 'toolbar' });
+  assert.doesNotMatch(
+    guest,
+    /Save your learning|Learning in this browser|Sign-in &amp; backups/,
+  );
+  assert.match(guest, /<\/summary>.*Remember me.*Sign in with Google/s);
+});
+
+test('toolbar attention/restoration show full panel while settings can stay expanded', () => {
+  for (const props of [
+    { status: 'offline' },
+    { status: 'error' },
+    { phase: 'setup' },
+    { phase: 'unauthorized' },
+    { phase: 'restoring' },
+    { attention: true },
+  ]) {
+    assert.doesNotMatch(
+      render({ variant: 'toolbar', phase: 'owner', ...props }),
+      /<details|<summary/,
+    );
+  }
+  assert.match(
+    render({ expanded: true }),
+    /<details class="account-options" open="">/,
+  );
+});
+
+test('mobile toolbar surfaces pending work without adding another status badge', () => {
+  const saving = render({
+    variant: 'toolbar',
+    phase: 'owner',
+    identity: 'owner@example.test',
+    status: 'saving',
+    pending: true,
+  });
+  assert.match(saving, /class="account-toolbar-title-mobile">Saving…<\/span>/);
+  assert.match(
+    saving,
+    /aria-label="owner@example.test: Saving to your account…"/,
+  );
+  const signingIn = render({ variant: 'toolbar', signingIn: true });
+  assert.match(
+    signingIn,
+    /class="account-toolbar-title-mobile">Signing in…<\/span>/,
+  );
+  assert.match(signingIn, /disabled="" aria-busy="true">Signing in…/);
+});

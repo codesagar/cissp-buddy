@@ -154,7 +154,7 @@ test('valid historical backups with incompatible kind or concept scope do not hi
     assert.match(html, new RegExp(`href="#/unit/${units[0].id}/predict"`));
     assert.match(html, /Try an unanswered prediction/);
     assert.doesNotMatch(html, /Revisit saved evidence/);
-    assert.match(html, /5 current unit checks are unanswered/);
+
     assert.equal(
       restored.attempts.length,
       2,
@@ -183,6 +183,12 @@ test('empty review copy distinguishes scheduled reviews from a learner with no c
   const state = emptyLearnerState();
   const fresh = render(state);
   assert.match(fresh, /Your first answer will create a review record/);
+  assert.equal((fresh.match(/<h2>/g) || []).length, 1);
+  assert.match(fresh, /<h2>No reviews due\.<\/h2>/);
+  assert.doesNotMatch(
+    fresh,
+    /Ready to revisit|units and cases|0 due|<h2>Reviews<\/h2>/,
+  );
   state.reviews[units[0].id] = review(now + 10000);
   const scheduled = render(state);
   assert.match(scheduled, /Your saved reviews are scheduled for later/);
@@ -209,6 +215,44 @@ test('the current evidence slot appears after the review queue and before domain
   );
   assert.match(
     html,
-    /<details class="review-evidence"><summary>Earlier activity and assessment scope/,
+    /<details class="practice-domains"><summary>Practice across domains/,
   );
+  assert.doesNotMatch(
+    html,
+    /Earlier activity and assessment scope|learning-evidence-actions/,
+  );
+});
+
+test('long queues preserve due-date order with five reviews initially visible', () => {
+  const state = emptyLearnerState();
+  const selected = sourceManifest.units.slice(0, 8);
+  selected.forEach((unit, index) => {
+    state.reviews[unit.id] = review(80 - index);
+  });
+  const html = render(state, sourceManifest);
+  const links = [
+    ...html.matchAll(/class="review-queue-row" href="([^"]+)"/g),
+  ].map((match) => match[1]);
+  assert.deepEqual(
+    links,
+    [...selected].reverse().map((unit) => `#/unit/${unit.id}/review`),
+  );
+  assert.match(html, /<h2>Reviews<\/h2><span>8 due<\/span>/);
+  const details = html.indexOf('<details class="practice-more-reviews">');
+  assert.equal(
+    [...html.slice(0, details).matchAll(/class="review-queue-row"/g)].length,
+    5,
+  );
+  assert.match(html.slice(details), /<summary>More reviews \(3\)<\/summary>/);
+});
+
+test('no-due primary action follows the shared selector to an unanswered changed case', () => {
+  const state = emptyLearnerState();
+  units.forEach((unit) => answerPrediction(state, unit));
+  const html = render(state);
+  assert.match(
+    html,
+    new RegExp(`class="course-primary" href="#/unit/${units[0].id}/transfer"`),
+  );
+  assert.match(html, />Try the changed case</);
 });

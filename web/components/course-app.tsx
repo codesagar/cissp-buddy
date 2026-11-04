@@ -29,8 +29,6 @@ import type {
 } from '@/lib/course/types';
 import {
   COURSE_STORAGE_KEY,
-  courseEvidence,
-  recommendCourseUnit,
   dueUnits,
   emptyDraft,
   emptyLearnerState,
@@ -61,6 +59,7 @@ import {
 } from '@/lib/course/static-loader';
 import './course.css';
 import { CoursePractice } from './course-practice';
+import { CourseToday } from './course-today';
 import { CourseLearningEvidence } from './course-learning-evidence';
 import './course-learning-evidence.css';
 
@@ -111,6 +110,7 @@ export default function CourseApp() {
   const [reload, setReload] = useState(0);
   const main = useRef<HTMLElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const firstNavigationLink = useRef<HTMLAnchorElement>(null);
   useEffect(() => {
     const update = () => {
       setRoute(readRoute());
@@ -146,10 +146,15 @@ export default function CourseApp() {
   }, [route, ready]);
   useEffect(() => {
     if (!menu) return;
+    if (menuButton.current?.getClientRects().length) {
+      firstNavigationLink.current?.focus();
+    }
     const dismiss = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenu(false);
-        menuButton.current?.focus();
+        if (menuButton.current?.getClientRects().length) {
+          menuButton.current.focus();
+        }
       }
     };
     window.addEventListener('keydown', dismiss);
@@ -168,7 +173,7 @@ export default function CourseApp() {
   const nav = [
     { id: 'today', label: 'Today', Icon: Home },
     { id: 'curriculum', label: 'Curriculum', Icon: BookOpen },
-    { id: 'practice', label: 'Practice & review', Icon: ShieldCheck },
+    { id: 'practice', label: 'Practice', Icon: ShieldCheck },
     { id: 'connections', label: 'Connections', Icon: Network },
   ];
   return (
@@ -185,21 +190,6 @@ export default function CourseApp() {
       >
         Skip to learning content
       </a>
-      <header className="course-mobile-header">
-        <a href="#/today" className="course-brand">
-          <Leaf aria-hidden="true" />
-          CISSP <span>buddy</span>
-        </a>
-        <button
-          ref={menuButton}
-          aria-controls="course-navigation"
-          onClick={() => setMenu(!menu)}
-          aria-label={menu ? 'Close navigation' : 'Open navigation'}
-          aria-expanded={menu}
-        >
-          {menu ? <X /> : <Menu />}
-        </button>
-      </header>
       <aside
         id="course-navigation"
         className={`course-sidebar ${menu ? 'is-open' : ''}`}
@@ -214,9 +204,13 @@ export default function CourseApp() {
           {nav.map((n) => (
             <a
               key={n.id}
+              ref={n.id === 'today' ? firstNavigationLink : undefined}
               href={`#/${n.id}`}
               onClick={closeNavigation}
               aria-current={page === n.id ? 'page' : undefined}
+              aria-label={
+                n.id === 'practice' ? 'Practice and review' : undefined
+              }
             >
               <n.Icon size={19} aria-hidden="true" />
               {n.label}
@@ -227,7 +221,7 @@ export default function CourseApp() {
           ))}
         </nav>
         <div className="course-domain-nav">
-          <h2>Your eight domains</h2>
+          <h2>Domains</h2>
           {manifest?.domains.map((d) => (
             <a
               href={`#/domain/${d.id}`}
@@ -243,50 +237,53 @@ export default function CourseApp() {
         <div className="course-sidebar-bottom">
           <a href="#/backup" onClick={closeNavigation}>
             <ShieldCheck size={18} />
-            Saved progress & preferences
+            Settings & backups
           </a>
           {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
-          <a href={appUrl('pilot/')}>
-            Earlier lessons & saved pilot practice <ArrowRight size={16} />
+          <a
+            href={appUrl('pilot/')}
+            aria-label="Earlier lessons & saved pilot practice"
+          >
+            Earlier lessons <ArrowRight size={16} />
           </a>
-          <small>
-            {learning.isAccount
-              ? 'Private progress belongs to your account.'
-              : 'Progress stays in this browser.'}
-          </small>
         </div>
       </aside>
       <div
         className="course-workspace"
-        onFocusCapture={() => {
-          if (menu) setMenu(false);
+        onFocusCapture={(event) => {
+          if (menu && !menuButton.current?.contains(event.target))
+            setMenu(false);
         }}
       >
-        <div className="course-topbar">
-          <span>
-            {page === 'unit'
-              ? 'Learn at your pace'
-              : page === 'domain'
-                ? `Domain ${id}`
-                : 'Your learning workspace'}
-          </span>
-          <a href="#/curriculum">
-            <Search size={17} /> Find a concept
+        <header className="course-topbar">
+          <div className="course-mobile-tools">
+            <a href="#/today" className="course-brand">
+              <Leaf aria-hidden="true" />
+              CISSP <span>buddy</span>
+            </a>
+            <button
+              ref={menuButton}
+              aria-controls="course-navigation"
+              onClick={() => setMenu(!menu)}
+              aria-label={menu ? 'Close navigation' : 'Open navigation'}
+              aria-expanded={menu}
+            >
+              {menu ? <X /> : <Menu />}
+            </button>
+          </div>
+          <a
+            className="course-topbar-search"
+            href="#/curriculum"
+            aria-label="Find a concept"
+          >
+            <Search size={17} aria-hidden="true" /> <span>Find a concept</span>
           </a>
-          <span className="course-save-status">
-            {issue
-              ? 'Save needs attention'
-              : ready
-                ? learning.isAccount
-                  ? learning.pending
-                    ? 'Saving to account…'
-                    : 'Saved to your account'
-                  : 'Saved on this device'
-                : 'Loading your place…'}
-          </span>
-        </div>
+          {page !== 'backup' && (
+            <LearnerAccountPanel learning={learning} variant="toolbar" />
+          )}
+        </header>
         <main id="course-main" className="course-main" ref={main} tabIndex={-1}>
-          <LearnerAccountPanel learning={learning} />
+          {page === 'backup' && <LearnerAccountPanel learning={learning} />}
           {issue && (
             <div className="course-notice" role="alert">
               {issue} <a href="#/backup">Open saved progress</a>
@@ -346,10 +343,6 @@ export default function CourseApp() {
             <Today manifest={manifest} state={state} now={now} />
           )}
         </main>
-        <footer className="course-footer">
-          <span>Understand the decision. Then try a changed case.</span>
-          <span>AI-reviewed source curriculum · no exam-readiness score</span>
-        </footer>
       </div>
     </div>
   );
@@ -363,148 +356,39 @@ function Today({
   state: LearnerState;
   now: number;
 }) {
-  const canonicalIds = new Set(manifest.units.map((u) => u.id));
-  const evidence = courseEvidence({
-      ...state,
-      units: Object.fromEntries(
-        Object.entries(state.units).filter(([id]) => canonicalIds.has(id)),
-      ),
-      attempts: state.attempts.filter((a) => canonicalIds.has(a.unitId)),
-    }),
-    due = dueUnits(state, now);
-  const resumedUnit = manifest.units.find((u) => u.id === state.lastUnitId);
-  const recommendation = recommendCourseUnit(state, manifest);
-  const next = resumedUnit || recommendation?.unit || manifest.units[0];
+  const [connection, setConnection] = useState<ConnectionDetail | null>(null);
+  const [connectionError, setConnectionError] = useState('');
+  const [reload, setReload] = useState(0);
+  const lastId = state.lastUnitId;
+  useEffect(() => {
+    const controller = new AbortController();
+    void Promise.resolve().then(() => {
+      if (!controller.signal.aborted) {
+        setConnection(null);
+        setConnectionError('');
+      }
+    });
+    if (!lastId?.startsWith('cross-')) return () => controller.abort();
+    loadConnection(manifest, lastId, controller.signal)
+      .then((payload) => {
+        if (!controller.signal.aborted) setConnection(payload);
+      })
+      .catch((error) => {
+        if (!controller.signal.aborted && error.name !== 'AbortError') {
+          setConnectionError(error.message);
+        }
+      });
+    return () => controller.abort();
+  }, [lastId, manifest, reload]);
   return (
-    <>
-      <div className="course-page-heading">
-        <h1>
-          {state.lastUnitId
-            ? 'A connection worth returning to.'
-            : 'Learn how security decisions connect.'}
-        </h1>
-        <p>
-          Start with a worked case. Predict what changes. Carry the idea into a
-          new situation.
-        </p>
-      </div>
-      <div className="today-feature">
-        <div>
-          <span className="course-meta">
-            {resumedUnit ? 'Continue your learning' : 'Your next learning unit'}{' '}
-            · {next.estimatedMinutes} minutes, at your pace
-          </span>
-          <h2>{next.title}</h2>
-          <p>{next.outcome}</p>
-          <a className="course-primary" href={unitLink(next.id)}>
-            {resumedUnit ? 'Resume this unit' : 'Start learning'}
-            <ArrowRight size={18} />
-          </a>
-        </div>
-        <div className="journey-preview" aria-label="Your learning path">
-          <div>
-            <span>1</span>
-            <strong>See the relationship</strong>
-            <p>A concrete case, with the explanation beside it.</p>
-          </div>
-          <div>
-            <span>2</span>
-            <strong>Make a prediction</strong>
-            <p>Explain the decision and learn from the feedback.</p>
-          </div>
-          <div>
-            <span>3</span>
-            <strong>Try the changed case</strong>
-            <p>Use the same idea when a controlling fact changes.</p>
-          </div>
-        </div>
-      </div>
-      {state.lastUnitId?.startsWith('cross-') && (
-        <p className="course-notice">
-          <a href={unitLink(state.lastUnitId)}>
-            Resume your cross-domain case <ArrowRight size={16} />
-          </a>
-        </p>
-      )}
-      {recommendation && resumedUnit && (
-        <section className="course-notice">
-          <h2>Next unanswered material</h2>
-          <p>{recommendation.reason}</p>
-          <a href={unitLink(recommendation.unit.id)}>
-            {recommendation.unit.title} <ArrowRight size={16} />
-          </a>
-        </section>
-      )}
-      {!resumedUnit && recommendation && (
-        <p className="course-notice">{recommendation.reason}</p>
-      )}
-      <div className="today-return">
-        <div>
-          <h2>
-            {due.length
-              ? `${due.length} ${due.length === 1 ? 'unit is' : 'units are'} ready to revisit`
-              : 'Small sessions, a connected course.'}
-          </h2>
-          <p>
-            {due.length
-              ? 'Return to a missed or uncertain decision, inspect its explanation, then try a different case.'
-              : 'All eight domains are available. Choose a domain or search a concept to start where it helps.'}
-          </p>
-          <a href={due.length ? '#/practice' : '#/curriculum'}>
-            {due.length ? 'Open your review queue' : 'Explore the curriculum'}
-            <ArrowRight size={17} />
-          </a>
-        </div>
-        <dl className="course-evidence">
-          <div>
-            <dt>Units visited</dt>
-            <dd>
-              {evidence.visited} / {manifest.counts.units}
-            </dd>
-          </div>
-          <div>
-            <dt>Changed cases attempted</dt>
-            <dd>
-              {evidence.transfers} / {manifest.counts.units}
-            </dd>
-          </div>
-          <div>
-            <dt>Distinct questions attempted</dt>
-            <dd>{evidence.attempted}</dd>
-          </div>
-        </dl>
-      </div>
-      <CourseLearningEvidence
-        manifest={manifest}
-        state={state}
-        now={now}
-        compact
-      />
-      <div className="section-heading">
-        <h2>One curriculum. Eight perspectives.</h2>
-        <a href="#/curriculum">
-          View the full outline
-          <ArrowRight size={17} />
-        </a>
-      </div>
-      <div className="domain-overview">
-        {manifest.domains.map((d) => (
-          <a href={`#/domain/${d.id}`} key={d.id}>
-            <span className="domain-number">
-              {String(d.id).padStart(2, '0')}
-            </span>
-            <div>
-              <h3>{d.name}</h3>
-              <p>
-                {manifest.units.filter((u) => u.domainId === d.id).length}{' '}
-                learning units
-              </p>
-            </div>
-            <ArrowRight size={19} />
-          </a>
-        ))}
-      </div>
-    </>
+    <CourseToday
+      manifest={manifest}
+      state={state}
+      now={now}
+      connection={connection}
+      connectionError={connectionError}
+      retryConnection={() => setReload((n) => n + 1)}
+    />
   );
 }
 function UnitRow({
@@ -523,20 +407,16 @@ function UnitRow({
       ? 'Transfer attempted'
       : state.units[unit.id]
         ? 'In progress'
-        : 'Not visited';
+        : '';
   return (
     <div className="course-unit-result">
       <a className="course-unit-row" href={unitLink(unit.id)}>
         <div>
-          <span className="course-meta">
-            Objective {unit.objectiveIds.join(', ')} · {unit.estimatedMinutes}{' '}
-            min
-          </span>
+          <span className="course-meta">{unit.estimatedMinutes} min</span>
           <h3>{unit.title}</h3>
-          <p>{unit.outcome}</p>
         </div>
         <div className="unit-row-status">
-          <span>{status}</span>
+          {status && <span>{status}</span>}
           <ChevronRight size={20} />
         </div>
       </a>
@@ -603,12 +483,7 @@ function Curriculum({
         )}
       </div>
       <div className="course-page-heading">
-        <h1>{selected?.name || 'Find the idea. Follow its connections.'}</h1>
-        <p>
-          {selected
-            ? `Explore ${manifest.units.filter((u) => u.domainId === domain).length} units, each with a worked explanation, prediction and changed case.`
-            : `${manifest.counts.units} authored units across eight domains. ${manifest.counts.concepts} distinct concepts, explained in their unit contexts.`}
-        </p>
+        <h1>{selected?.name || 'Curriculum'}</h1>
       </div>
       <div className="course-filters">
         <label className="course-search">
@@ -832,6 +707,7 @@ function UnitView({
             Learning goal · {unit.estimatedMinutes} minutes, at your pace
           </summary>
           <p>{unit.outcome}</p>
+          {model && <p>{model.question}</p>}
         </details>
       </div>
       <nav className="learning-stages" aria-label="Learning stages">
@@ -906,15 +782,21 @@ function UnitView({
           }}
         />
       )}
-      {stage === 'understand' && model && (
-        <div className="stage-next">
-          <p>Ready to reason through a decision?</p>
-          <button className="course-primary" onClick={() => goStage('predict')}>
-            Make a prediction
-            <ArrowRight size={18} />
-          </button>
-        </div>
-      )}
+      {stage === 'understand' &&
+        model &&
+        (!!position.checks[model.prediction.id]?.submittedAttemptId ||
+          !!position.exploration?.workedOutcomeVisible ||
+          position.step > 0) && (
+          <div className="stage-next">
+            <button
+              className="course-primary"
+              onClick={() => goStage('predict')}
+            >
+              Make a prediction
+              <ArrowRight size={18} />
+            </button>
+          </div>
+        )}
       {connection && (
         <section className="connection-sources" id="connection-source-ideas">
           <h2>Return to the source ideas</h2>
@@ -1139,7 +1021,6 @@ function Understanding({
   return (
     <div className="worked-learning">
       <div className="case-introduction">
-        <h2>{model.question}</h2>
         {guided && <p>{model.scenario}</p>}
       </div>
       {lab && (
@@ -1181,6 +1062,11 @@ function Understanding({
           <strong>Changed fact.</strong> {variant.changedFact}
         </p>
       )}
+      {guided && (
+        <aside className="mobile-case-context" aria-label="Worked-case facts">
+          <p>{model.scenario}</p>
+        </aside>
+      )}
       {!guided ? (
         <CourseLab unitId={model.unitId} position={position} update={update} />
       ) : (
@@ -1193,18 +1079,9 @@ function Understanding({
       )}
       {guided && (
         <>
-          <aside className="mobile-case-context" aria-label="Worked-case facts">
-            <h3>The worked case</h3>
-            <p>{model.scenario}</p>
-          </aside>
           {checkpoint && (
             <aside className="prediction-checkpoint">
-              <h3>Predict before revealing the outcome</h3>
-              <p>{model.prediction.prompt}</p>
-              <p>
-                Make a decision now, or continue the explanation at your own
-                pace.
-              </p>
+              <h3>{model.prediction.prompt}</h3>
               <div>
                 <button className="course-primary" onClick={onPredict}>
                   Make my prediction
@@ -1223,111 +1100,126 @@ function Understanding({
               </small>
             </aside>
           )}
-          {model.variants?.length && (
-            <div className="scenario-selector">
-              <label htmlFor={`variant-${model.unitId}`}>Change one fact</label>
-              <select
-                id={`variant-${model.unitId}`}
-                disabled={checkpoint}
-                value={variant?.id || 'base'}
-                onChange={(e) => {
-                  setPlaying(false);
-                  update({ variant: e.target.value, step: 0 });
-                }}
-              >
-                <option value="base">Worked case</option>
-                {model.variants.map((v) => (
-                  <option key={v.id} value={v.id}>
-                    {v.label}
-                  </option>
-                ))}
-              </select>
-              {variant && <p>{variant.changedFact}</p>}
-            </div>
-          )}
-          <div className="guided-caption" aria-live="polite" aria-atomic="true">
-            <span>
-              {step + 1} / {states.length}
-            </span>
-            <div>
-              <h3>
-                {checkpoint
-                  ? 'Pause for your prediction'
-                  : `${lab ? 'Worked case: ' : ''}${current.title}`}
-              </h3>
-              <p>
-                {checkpoint
-                  ? 'The entities and case facts are visible. The explanation continues after your prediction or your choice to reveal it.'
-                  : current.caption}
-              </p>
-            </div>
-          </div>
-          <div className="teaching-controls">
-            <div>
-              <button
-                onClick={() => move(step - 1)}
-                disabled={step === 0}
-                aria-label="Previous explanation step"
-              >
-                <ArrowLeft size={18} />
-                Previous
-              </button>
-              <button
-                onClick={() => move(step + 1)}
-                disabled={checkpoint || step === states.length - 1}
-              >
-                Next
-                <ArrowRight size={18} />
-              </button>
-              <button
-                onClick={() => {
-                  setPlaying(false);
-                  update({ step: 0 });
-                }}
-                aria-label="Replay explanation from the beginning"
-              >
-                <RotateCcw size={17} />
-                Replay
-              </button>
-              {!reduced && (
-                <button
-                  disabled={checkpoint}
-                  onClick={() => {
-                    if (step === states.length - 1) update({ step: 0 });
-                    setPlaying(!playing);
-                  }}
-                >
-                  {playing ? <Pause size={17} /> : <Play size={17} />}{' '}
-                  {playing ? 'Pause' : 'Play'}
-                </button>
+          {!checkpoint && (
+            <>
+              {model.variants?.length && (
+                <div className="scenario-selector">
+                  <label htmlFor={`variant-${model.unitId}`}>
+                    Change one fact
+                  </label>
+                  <select
+                    id={`variant-${model.unitId}`}
+                    disabled={checkpoint}
+                    value={variant?.id || 'base'}
+                    onChange={(e) => {
+                      setPlaying(false);
+                      update({ variant: e.target.value, step: 0 });
+                    }}
+                  >
+                    <option value="base">Worked case</option>
+                    {model.variants.map((v) => (
+                      <option key={v.id} value={v.id}>
+                        {v.label}
+                      </option>
+                    ))}
+                  </select>
+                  {variant && <p>{variant.changedFact}</p>}
+                </div>
               )}
-            </div>
-            <label>
-              Pace
-              <select
-                value={preferences.pace}
-                onChange={(e) => {
-                  setPlaying(false);
-                  setState((s) => ({
-                    ...s,
-                    preferences: {
-                      ...s.preferences,
-                      pace: e.target.value as 'step' | 'slow',
-                    },
-                  }));
-                }}
+              <div
+                className="guided-caption"
+                aria-live="polite"
+                aria-atomic="true"
               >
-                <option value="step">Standard</option>
-                <option value="slow">Slow</option>
-              </select>
-            </label>
-          </div>
-          <p className="control-note">
-            {reduced
-              ? 'Reduced motion is on. Every step remains available manually.'
-              : 'Starts paused. Playback paces the explanation; it does not represent elapsed system time.'}{' '}
-            Your answers stay saved when you replay.
-          </p>
+                <span>
+                  {step + 1} / {states.length}
+                </span>
+                <div>
+                  <h3>
+                    {checkpoint
+                      ? 'Case facts'
+                      : `${lab ? 'Worked case: ' : ''}${current.title}`}
+                  </h3>
+                  <p>
+                    {checkpoint ? 'Outcome not revealed.' : current.caption}
+                  </p>
+                </div>
+              </div>
+              <div className="teaching-controls">
+                <div>
+                  <button
+                    onClick={() => move(step - 1)}
+                    disabled={step === 0}
+                    aria-label="Previous explanation step"
+                  >
+                    <ArrowLeft size={18} />
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => move(step + 1)}
+                    disabled={checkpoint || step === states.length - 1}
+                  >
+                    Next
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+              </div>
+              <details className="playback-options">
+                <summary>Playback options</summary>
+                <div className="teaching-controls">
+                  <div>
+                    <button
+                      onClick={() => {
+                        setPlaying(false);
+                        update({ step: 0 });
+                      }}
+                      aria-label="Replay explanation from the beginning"
+                    >
+                      <RotateCcw size={17} />
+                      Replay
+                    </button>
+                    {!reduced && (
+                      <button
+                        disabled={checkpoint}
+                        onClick={() => {
+                          if (step === states.length - 1) update({ step: 0 });
+                          setPlaying(!playing);
+                        }}
+                      >
+                        {playing ? <Pause size={17} /> : <Play size={17} />}{' '}
+                        {playing ? 'Pause' : 'Play'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <label className="playback-pace">
+                  Pace
+                  <select
+                    value={preferences.pace}
+                    onChange={(event) => {
+                      setPlaying(false);
+                      setState((state) => ({
+                        ...state,
+                        preferences: {
+                          ...state.preferences,
+                          pace: event.target.value as 'step' | 'slow',
+                        },
+                      }));
+                    }}
+                  >
+                    <option value="step">Standard</option>
+                    <option value="slow">Slow</option>
+                  </select>
+                </label>
+                <p className="control-note">
+                  {reduced
+                    ? 'Reduced motion is on. Every step remains available manually.'
+                    : 'Starts paused. Playback paces the explanation; it does not represent elapsed system time.'}{' '}
+                  Your answers stay saved when you replay.
+                </p>
+              </details>
+            </>
+          )}
           <button
             className="text-button"
             onClick={() => {
@@ -1510,16 +1402,17 @@ function Assessment({
               {attempt.releaseId}.
             </p>
           )}
-          {attempt.outcomeViewed && (
+          {(attempt.outcomeViewed || attempt.guess || attempt.hintUsed) && (
             <p>
-              Assisted: outcome or explanation viewed before this answer. This
-              unit remains ready for review.
-            </p>
-          )}
-          {(attempt.guess || attempt.hintUsed) && (
-            <p>
-              Your {attempt.hintUsed ? 'hint use' : 'uncertainty'} is saved.
-              This unit remains ready for review.
+              {[
+                attempt.outcomeViewed &&
+                  'Outcome or explanation viewed before answering',
+                attempt.hintUsed && 'Hint used',
+                attempt.guess && 'Uncertainty recorded',
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+              {'. This unit remains ready for review.'}
             </p>
           )}
           <div className="feedback-actions">
@@ -1585,6 +1478,7 @@ function UnitReview({
   now: number;
   onRepair: (id: string) => void;
 }) {
+  const [noteOpen, setNoteOpen] = useState(!!state.units[unit.id]?.note);
   const model = unit.teaching!,
     attempts = state.attempts.filter((a) => a.unitId === unit.id),
     review = state.reviews[unit.id],
@@ -1611,26 +1505,35 @@ function UnitReview({
               : `Next review: ${new Date(review.dueAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}. You can practice earlier.`}
         </p>
       </div>
-      <label className="course-note">
-        Explain the idea in your own words
-        <textarea
-          maxLength={4000}
-          value={state.units[unit.id]?.note || ''}
-          onChange={(e) =>
-            setState((s) => ({
-              ...s,
-              units: {
-                ...s.units,
-                [unit.id]: {
-                  ...(s.units[unit.id] || newPosition(Date.now())),
-                  note: e.target.value,
+      <details
+        className="course-note-disclosure"
+        open={noteOpen}
+        onToggle={(event) => setNoteOpen(event.currentTarget.open)}
+      >
+        <summary>
+          Your notes{state.units[unit.id]?.note ? ' · saved note' : ''}
+        </summary>
+        <label className="course-note">
+          Explain the idea in your own words
+          <textarea
+            maxLength={4000}
+            value={state.units[unit.id]?.note || ''}
+            onChange={(e) =>
+              setState((s) => ({
+                ...s,
+                units: {
+                  ...s.units,
+                  [unit.id]: {
+                    ...(s.units[unit.id] || newPosition(Date.now())),
+                    note: e.target.value,
+                  },
                 },
-              },
-            }))
-          }
-          placeholder="Which fact controls the decision? What would change your answer?"
-        />
-      </label>
+              }))
+            }
+            placeholder="Which fact controls the decision? What would change your answer?"
+          />
+        </label>
+      </details>
       <Assessment
         unit={unit}
         check={model.retry}
@@ -1809,7 +1712,7 @@ function Backup({
   return (
     <>
       <div className="course-page-heading">
-        <h1>Your learning, safely carried forward.</h1>
+        <h1>Settings &amp; backups</h1>
         <p>
           {account.phase === 'owner'
             ? 'Your current course progress belongs to your signed-in account. Combined export includes that account’s saved pilot record, not the separate guest record. '
@@ -2033,12 +1936,7 @@ function Connections({
   return (
     <>
       <div className="course-page-heading">
-        <h1>Follow a decision across domains.</h1>
-        <p>
-          Eleven bounded cases connect governance, architecture, evidence and
-          operations. Each case has a prediction, a changed transfer and a saved
-          review.
-        </p>
+        <h1>Connections</h1>
       </div>
       {error ? (
         <div className="course-notice" role="alert">
@@ -2064,34 +1962,21 @@ function Connections({
               <a href={unitLink(c.id)} key={c.id} className="course-unit-row">
                 <div>
                   <span className="course-meta">
-                    {c.relationshipIds.length} taught{' '}
-                    {c.relationshipIds.length === 1
-                      ? 'relationship'
-                      : 'relationships'}{' '}
-                    ·{' '}
-                    {
+                    {Array.from(
                       new Set(
                         c.unitIds.map(
                           (id) =>
-                            manifest.units.find((u) => u.id === id)?.domainId,
+                            manifest.units.find((unit) => unit.id === id)
+                              ?.domainId,
                         ),
-                      ).size
-                    }{' '}
-                    domains
+                      ),
+                    )
+                      .filter(Boolean)
+                      .map((id) => `Domain ${id}`)
+                      .join(' · ')}
                   </span>
                   <h2>{c.title}</h2>
-                  <p>
-                    {c.unitIds
-                      .map(
-                        (id) => manifest.units.find((u) => u.id === id)?.title,
-                      )
-                      .join(' · ')}
-                  </p>
-                  <small>
-                    {state.units[c.id]
-                      ? 'Resume saved case'
-                      : 'Open linked case'}
-                  </small>
+                  {state.units[c.id] && <small>In progress</small>}
                 </div>
                 <ArrowRight size={20} />
               </a>

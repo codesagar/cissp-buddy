@@ -18,6 +18,7 @@ export type AccountSaveStatus =
   | 'error';
 export type AccountControlsProps = {
   phase: AccountPhase;
+  variant?: 'panel' | 'toolbar';
   configured: boolean;
   identity?: string;
   accountId?: string;
@@ -47,6 +48,7 @@ const labels: Record<AccountSaveStatus, string> = {
 };
 export function AccountControls({
   phase,
+  variant = 'panel',
   configured,
   identity,
   accountId,
@@ -78,41 +80,69 @@ export function AccountControls({
         : 'Save your learning';
   const needsAttention =
     attention ||
+    checking ||
     !!issue ||
     phase === 'unauthorized' ||
     phase === 'setup' ||
     status === 'offline' ||
     status === 'error';
-  const summary = (
-    <h2 className="account-summary-content">
-      <span id={`${id}-heading`} className="account-summary-title">
-        {title}
+  const toolbar = variant === 'toolbar';
+  const summary =
+    toolbar && !needsAttention ? (
+      <span className="account-summary-content">
+        <span id={`${id}-heading`} className="account-summary-title">
+          <span className="account-toolbar-title-desktop">
+            {phase === 'owner' ? identity || 'Account' : 'Account'}
+          </span>
+          <span className="account-toolbar-title-mobile">
+            {signingIn
+              ? 'Signing in…'
+              : phase === 'owner' && (pending || status === 'saving')
+                ? 'Saving…'
+                : 'Account'}
+          </span>
+        </span>
+        <span className="account-save-status">
+          {phase === 'owner' ? labels[status] : 'Saved in this browser'}
+        </span>
       </span>
-      {signedIn && identity && (
-        <span className="account-identity">{identity}</span>
-      )}
-      {checking && <output>Restoring your identity and saved progress…</output>}
-      {phase === 'guest' && (
-        <span className="account-save-status">Learning in this browser</span>
-      )}
-      {phase === 'owner' && (
-        <output className="account-save-status">{labels[status]}</output>
-      )}
-      {phase === 'owner' && remember && (
-        <span className="account-device-summary">
-          Device recovery copies remain after sign-out.
+    ) : (
+      <h2 className="account-summary-content">
+        <span id={`${id}-heading`} className="account-summary-title">
+          {title}
         </span>
-      )}
-      {!needsAttention && (
-        <span className="account-disclosure-label">
-          {phase === 'guest' ? 'Sign-in & backups' : 'Account options'}
-        </span>
-      )}
-    </h2>
-  );
+        {signedIn && identity && (
+          <span className="account-identity">{identity}</span>
+        )}
+        {checking && (
+          <output>Restoring your identity and saved progress…</output>
+        )}
+        {phase === 'guest' && (
+          <span className="account-save-status">Learning in this browser</span>
+        )}
+        {phase === 'owner' && (
+          <output className="account-save-status">{labels[status]}</output>
+        )}
+        {phase === 'owner' && remember && (
+          <span className="account-device-summary">
+            Device recovery copies remain after sign-out.
+          </span>
+        )}
+        {!needsAttention && (
+          <span className="account-disclosure-label">
+            {phase === 'guest' ? 'Sign-in & backups' : 'Account options'}
+          </span>
+        )}
+      </h2>
+    );
   const content = (
     <div className="account-details-content">
       <div className="account-controls-heading">
+        {toolbar && phase === 'owner' && remember && !detailsContent && (
+          <p className="account-device-summary">
+            Device recovery copies remain after sign-out.
+          </p>
+        )}
         <div>
           {phase === 'guest' && (
             <p>
@@ -208,18 +238,55 @@ export function AccountControls({
     </div>
   );
   return (
-    <section className="account-controls" aria-labelledby={`${id}-heading`}>
+    <section
+      className={`account-controls${toolbar ? ' account-toolbar' : ''}`}
+      aria-labelledby={`${id}-heading`}
+    >
       {needsAttention ? (
         <>
           {summary}
           {content}
         </>
       ) : (
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape augments this native disclosure and returns focus to its interactive summary.
         <details
           className="account-options"
           open={expanded || checking || signingIn}
+          onKeyDown={
+            toolbar
+              ? (event) => {
+                  if (event.key !== 'Escape' || !event.currentTarget.open)
+                    return;
+                  event.preventDefault();
+                  event.stopPropagation();
+                  event.currentTarget.open = false;
+                  event.currentTarget.querySelector('summary')?.focus();
+                }
+              : undefined
+          }
+          onBlur={
+            toolbar
+              ? (event) => {
+                  const destination = event.relatedTarget;
+                  if (
+                    destination instanceof Node &&
+                    event.currentTarget.contains(destination)
+                  )
+                    return;
+                  event.currentTarget.open = false;
+                }
+              : undefined
+          }
         >
-          <summary>{summary}</summary>
+          <summary
+            aria-label={
+              toolbar
+                ? `${phase === 'owner' ? identity || 'Account' : 'Account'}: ${signingIn ? 'Signing in…; ' : ''}${phase === 'owner' ? labels[status] : 'Saved in this browser'}`
+                : undefined
+            }
+          >
+            {summary}
+          </summary>
           {content}
         </details>
       )}

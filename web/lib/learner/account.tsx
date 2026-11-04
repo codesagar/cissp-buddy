@@ -213,15 +213,36 @@ export function useAccount() {
 }
 export function LearnerAccountPanel<T>({
   learning,
+  variant = 'panel',
 }: {
   learning: LearningDataset<T>;
+  variant?: 'panel' | 'toolbar';
 }) {
   const account = useAccount();
   const [copyStatus, setCopyStatus] = useState('');
-  if (!account.configured && !account.issue) return null;
+  if (!account.configured && !account.issue && variant === 'panel') return null;
+  const needsAttention =
+    !!account.issue ||
+    !!learning.issue ||
+    account.phase === 'checking' ||
+    account.phase === 'setup' ||
+    account.phase === 'unauthorized' ||
+    learning.status === 'loading' ||
+    learning.status === 'offline' ||
+    learning.status === 'error' ||
+    learning.needsInitialization ||
+    learning.hasLocalRecovery ||
+    learning.cacheNeedsReplacement;
   return (
-    <>
+    <div
+      className={
+        variant === 'toolbar'
+          ? `account-toolbar-host${needsAttention ? ' account-toolbar-attention' : ''}`
+          : undefined
+      }
+    >
       <AccountControls
+        variant={variant}
         phase={
           account.phase === 'owner' &&
           !learning.ready &&
@@ -398,6 +419,6 @@ export function LearnerAccountPanel<T>({
           )}
         </section>
       )}
-    </>
+    </div>
   );
 }

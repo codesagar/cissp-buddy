@@ -268,6 +268,16 @@ export function CourseFigure({
 }: Props) {
   const [detail, setDetail] = useState(false);
   if (beforePrediction) {
+    const unresolvedPlaceholder =
+      'Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time.';
+    const visibleFacts =
+      model.openingFacts?.filter(
+        (fact) => fact.value !== unresolvedPlaceholder,
+      ) || [];
+    const unresolvedFacts =
+      model.openingFacts?.filter(
+        (fact) => fact.value === unresolvedPlaceholder,
+      ) || [];
     const facts: TeachingModel = {
       ...model,
       focalRelation:
@@ -288,21 +298,19 @@ export function CourseFigure({
         aria-label={`${model.title}: case facts`}
       >
         <div className="figure-heading">
-          <h3>{model.title}</h3>
-          <span className="course-meta">Case facts · outcome not revealed</span>
+          <h3>Case facts</h3>
         </div>
         {model.openingFacts?.length ? (
-          <div
-            className="opening-fact-grid"
-            aria-label="Neutral case facts and unresolved questions"
-          >
-            {model.openingFacts.map((fact) => (
-              <article key={fact.label}>
-                <h4>{fact.label}</h4>
-                <p>{fact.value}</p>
-              </article>
-            ))}
-          </div>
+          visibleFacts.length > 0 && (
+            <div className="opening-fact-grid" aria-label="Neutral case facts">
+              {visibleFacts.map((fact) => (
+                <article key={fact.label}>
+                  <h4>{fact.label}</h4>
+                  <p>{fact.value}</p>
+                </article>
+              ))}
+            </div>
+          )
         ) : model.quantitative ? (
           <RecoveryTimeline data={model.quantitative} factual />
         ) : (
@@ -310,6 +318,26 @@ export function CourseFigure({
         )}
         <details className="figure-equivalent">
           <summary>Read the case facts as text</summary>
+          {visibleFacts.length > 0 && (
+            <dl>
+              {visibleFacts.map((fact) => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+          {unresolvedFacts.length > 0 && (
+            <div className="unresolved-case-facts">
+              <p>{unresolvedPlaceholder}</p>
+              <ul>
+                {unresolvedFacts.map((fact) => (
+                  <li key={fact.label}>{fact.label}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <ul>
             {facts.nodes.map((n) => (
               <li key={n.id}>

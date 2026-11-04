@@ -89,6 +89,8 @@ Historical planning documents named in this record remain in the original produc
 5. Expand through coherent, validated learning units without implying coverage or effectiveness beyond the evidence.
 6. Keep maintenance simple for a beginner: understandable React/TypeScript, ordinary functions, static deployment, and minimal dependencies. Use local persistence, optional owner-only managed continuity, and ordinary last-write-wins behavior. Do not add speculative abstractions, conflict resolution, event sourcing, queues, microservices, a state-management framework, or an adaptive-learning engine without a concrete authorized product need.
 
+7. Keep the interface focused on the current learning task: one primary action, concise navigation, quiet system typography and minimal repeated framing. Disclose optional history, playback and supporting detail. Keep actual case facts, readable explanations, feedback, saving problems and recovery actions prominent.
+
 ## Accessibility & Inclusion
 
 Support keyboard navigation, visible focus, accessible contrast, reduced motion, and text or icon equivalents for color. Provide equivalent concept navigation through the outline. Distinguish keyboard focus, selection, and review states.

@@ -2,7 +2,7 @@
   margin: 0 0 1.5rem;
   padding: 1rem 1.15rem;
   border: 1px solid var(--c-line, var(--border, #dce5de));
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--c-panel, var(--card, #fff));
   color: var(--c-ink, var(--foreground, #243b34));
   overflow-wrap: anywhere;
@@ -27,7 +27,7 @@
 }
 .account-controls button {
   padding: 0.55rem 0.8rem;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid var(--c-line, var(--border, #dce5de));
   border-radius: 7px;
   color: inherit;
@@ -120,7 +120,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  min-height: 30px;
+  min-height: 44px;
   cursor: pointer;
   list-style: none;
 }
@@ -163,4 +163,73 @@
   flex-basis: 100%;
   font-size: 0.8rem;
   line-height: 1.45;
+}
+
+/* The toolbar keeps healthy state compact; recovery remains an inline panel. */
+.account-controls.account-toolbar {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 14px;
+}
+.account-toolbar .account-options > summary {
+  min-height: 44px;
+  padding: 0;
+  gap: 8px;
+}
+.account-toolbar .account-summary-content {
+  font-size: 14px;
+  gap: 4px 8px;
+}
+.account-toolbar .account-options .account-details-content {
+  position: absolute;
+  z-index: 50;
+  right: 0;
+  top: 100%;
+  width: min(360px, calc(100vw - 32px));
+  padding: 16px;
+  margin-top: 4px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  background: var(--c-panel);
+  box-shadow: 0 8px 24px #00000018;
+}
+.account-toolbar-attention .account-controls.account-toolbar {
+  padding: 12px 0;
+  border-top: 1px solid var(--c-line);
+}
+.account-toolbar-attention .account-toolbar .account-details-content {
+  position: static;
+  width: auto;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+@media (max-width: 780px) {
+  .account-toolbar .account-summary-content {
+    font-size: 13px;
+  }
+  .account-toolbar .account-summary-content .account-identity {
+    flex-basis: auto;
+  }
+}
+
+.account-toolbar-title-mobile {
+  display: none;
+}
+@media (max-width: 780px) {
+  .account-toolbar .account-save-status,
+  .account-toolbar-title-desktop {
+    display: none;
+  }
+  .account-toolbar-title-mobile {
+    display: inline;
+  }
+  .account-toolbar-attention .account-toolbar .account-save-status {
+    display: block;
+  }
 }
