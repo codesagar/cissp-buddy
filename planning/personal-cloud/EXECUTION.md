@@ -54,7 +54,7 @@ Current production npm audit:0findings. Full audit:16moderate,0high/critical, co
 
 Automated loss/quota/corrupt-import, staged adoption, immutable evidence and cleared-note reload tests complement sampled browser QA. This was not exhaustive visual/accessibility testing. A physical reboot, real second-device owner migration, human subject-expert review, and educational effectiveness were not tested. Actual owner adoption remains a first-use choice, not an agent QA operation. Historical delivery reports remain unchanged.
 
-## Current learning refinement — in progress
+## Current learning refinement — shipped
 
 Baseline:1854b75; branch:codex/learning-refinement. Real-device owner migration is explicitly deferred by the owner and is not a release blocker for this refinement. Preserve all identity/storage/curriculum formats and free-tier constraints.
 
@@ -65,7 +65,7 @@ Baseline:1854b75; branch:codex/learning-refinement. Real-device owner migration 
 | Concrete UX/content/dependency inspection | refinement_risks | Complete | Bounded findings; no speculative redesign or forced upgrades |
 | Practice queue/actions and integration | refinement_risks + main | Accepted | Preserve due-date order; avoid calling answered prediction fresh; accurate future-review empty copy; meaningful rendered regression checks |
 | Independent review and stable integrated QA | Fresh reviewer + main | Passed | No unresolved high/blocking findings; full retained gates and actual isolated browser sampling |
-| Publication and release receipt | Main | Pending | Validated Pages artifact; no production learner data changed |
+| Publication and release receipt | Main | Deployed and verified | Validated Pages artifact; no production learner data changed |
 
 Refinement acceptance: independent reviewer passed 28 focused tests and actual wrong-prediction→correct-retry scheduling reproductions. Fixed both the legacy-scope consistency issue and an immediate-repair loop after a successful changed retry. Parent qa:final passed all ten stages on the corrected logic; 105 normal tests plus 19 isolated cloud tests pass. CSS-only final mobile adjustment and singular copy do not alter state semantics; CI repeats full checks before publication.
 
@@ -76,3 +76,13 @@ Bundle receipt: all ten packaged-content/static checks pass; production JS conta
 Maintenance: current runtime audit0findings; full audit14moderate/0highcritical, all affected paths under firebase-tools. No forced upgrades, new runtime dependencies or paid services. CI lint now includes the new evidence/Practice and existing account components. Content sampling(ethics,riskmanagement,recoverystrategies,oneconnection) found no concrete contradiction; this is not human-expert endorsement and did not justify changing immutable content.
 
 Bounded existing limitation: a shape-valid imported response reusing a current checkID with incompatible snapshot scope is excluded from current counts; the existing assessment renderer still preserves its historical snapshot rather than silently replacing it. This is not a generated content-release path(the loader binds IDs to semantics). No automatic regrading/migration was added. Physical real-device continuity remains owner-deferred and does not block this refinement.
+
+
+Refinement release receipt (November 4, 2026):
+
+- Application commit: `65519a6a4ec8180f50e50d35cae535c62b2d6976`, ordinary merge of reviewed `codex/learning-refinement` (`ebe73da`).
+- Validation-only run: https://github.com/codesagar/cissp-buddy/actions/runs/41892134516 — passed; deployment skipped by branch guard.
+- Release run: https://github.com/codesagar/cissp-buddy/actions/runs/41892469239 — build and Pages deployment passed, including fresh npmci, 105 normal tests and 19 cloud tests, all ten qa:final stages, and exact publication-output verification.
+- Live native Chrome smoke in an isolated Incognito profile confirmed Today’s latest evidence (new learner:0/270 unassisted,0/270 incorrect/assisted/uncertain,270/270 unanswered), compact guest account controls, and Practice’s reasoned current-check links. Live HTML and all three entry/preload scripts returned200 and included the new evidence/account code. No real sign-in or learning submission was performed for this smoke.
+- Production curriculum and learner data formats did not change. Runtime dependencies and lockfile did not change. Real-device continuity is explicitly deferred by the owner, not treated as a blocker.
+- Release tag: `cissp-buddy-learning-refinement-2026-11-04`. Source/default branch remains `codex/static-pages`. Temporary demo emulators/static QA server were stopped after acceptance; the normal dev preview remains available.
