@@ -75,6 +75,9 @@ export function assembleCourseState(records: CourseRecords): LearnerState {
 export function splitPilotState(state: StudyState): PilotRecords {
   const { attempts, reviews, notes, sessions, ...metadata } =
     structuredClone(state);
+  // The local legacy validator permits duplicate completed-session IDs, but a
+  // keyed account store cannot preserve them without overwriting one record.
+  assertRecordIds(sessions);
   return {
     metadata,
     attempts,
@@ -115,7 +118,7 @@ const same = (a: unknown, b: unknown) =>
   JSON.stringify(ordered(a)) === JSON.stringify(ordered(b));
 const historyError = () =>
   new Error(
-    'An ordinary account save cannot remove or rewrite previous answers. Keep the original history and use an explicit supported restore flow.',
+    'An ordinary account save cannot remove or rewrite previous answers or completed sessions. Keep the original history and use an explicit supported restore flow.',
   );
 
 /** Guard normal saves, not a replacement/import policy or authoritative grading. */
@@ -135,12 +138,22 @@ export function assertPilotAnswersPreserved(
   previous: StudyState,
   next: StudyState,
 ) {
-  if (previous.attempts === next.attempts) return;
+  if (
+    previous.attempts === next.attempts &&
+    previous.sessions === next.sessions
+  )
+    return;
   assertRecordIds(next.attempts);
+  assertRecordIds(next.sessions);
   const withoutTiming = (attempt: Attempt) => {
     const { explanationMs: _explanationMs, ...answer } = attempt;
     return answer;
   };
+  const sessions = new Map(
+    next.sessions.map((session) => [session.id, session]),
+  );
+  for (const session of previous.sessions)
+    if (!same(session, sessions.get(session.id))) throw historyError();
   const byId = new Map(next.attempts.map((attempt) => [attempt.id, attempt]));
   for (const attempt of previous.attempts) {
     const current = byId.get(attempt.id);

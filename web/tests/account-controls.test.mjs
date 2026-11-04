@@ -57,3 +57,16 @@ test('another account receives an explicit denial rather than an adoption or pri
   assert.match(html, /No account progress has been loaded or copied/);
   assert.doesNotMatch(html, /Saved to your account|Sign in with Google/);
 });
+
+test('pending sign-in prevents duplicate activation and a rejected attempt restores sign-in with an error', () => {
+  const pending = render({ signingIn: true });
+  assert.match(pending, /disabled="" aria-busy="true">Signing in…/);
+  assert.match(pending, /Complete the Google sign-in window/);
+  const rejected = render({
+    signingIn: false,
+    issue: 'The sign-in window was closed. Retry sign-in when ready.',
+  });
+  assert.match(rejected, /aria-busy="false">Sign in with Google/);
+  assert.match(rejected, /The sign-in window was closed/);
+  assert.doesNotMatch(rejected, /disabled="" aria-busy="false"/);
+});

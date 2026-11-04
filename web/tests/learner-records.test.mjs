@@ -197,3 +197,29 @@ test('pilot explanation completion can change timing, but cannot rewrite submitt
     /cannot remove or rewrite/,
   );
 });
+
+test('completed session removal is rejected even when the attempt array is unchanged by reference', () => {
+  const before = validatePilot(pilot());
+  before.sessions = [
+    { id: 'finished', completedAt: now, count: 4, elapsedMs: 10000 },
+  ];
+  const after = { ...before, sessions: [] };
+  assert.throws(
+    () => assertPilotAnswersPreserved(before, after),
+    /cannot remove or rewrite/,
+  );
+});
+
+test('duplicate legacy completed-session identities are rejected before keyed cloud conversion', () => {
+  const state = validatePilot(pilot());
+  const session = {
+    id: 'same-id',
+    completedAt: now,
+    count: 4,
+    elapsedMs: 10000,
+  };
+  state.sessions = [session, { ...session, completedAt: now + 1 }];
+  // The source is kept intact rather than silently collapsing two rows to one.
+  assert.throws(() => splitPilotState(state), /duplicate identities/);
+  assert.equal(state.sessions.length, 2);
+});

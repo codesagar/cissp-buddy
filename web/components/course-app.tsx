@@ -50,6 +50,8 @@ import type {
   UnitPosition,
 } from '@/lib/course/learner-state';
 import { CourseFigure } from './course-figure';
+import { LearnerAccountPanel, useAccount } from '@/lib/learner/account';
+import { useLearningDataset } from '@/lib/learner/hooks';
 import { CourseLab, hasLab } from './course-labs';
 import {
   appUrl,
@@ -88,71 +90,17 @@ function download(name: string, data: unknown) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function useLearner() {
-  const [state, setState] = useState(emptyLearnerState);
-  const [ready, setReady] = useState(false);
-  const [issue, setIssue] = useState('');
-  const canSave = useRef(true);
-  useEffect(() => {
-    let cancelled = false;
-    void Promise.resolve().then(() => {
-      if (cancelled) return;
-      try {
-        const raw = localStorage.getItem(COURSE_STORAGE_KEY);
-        if (raw) setState(validateLearnerState(JSON.parse(raw)));
-      } catch {
-        canSave.current = false;
-        setIssue(
-          'Your saved course progress could not be read. It is preserved. You can study for this visit and recover it in Saved progress.',
-        );
-      }
-      setReady(true);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-  useEffect(() => {
-    const sync = (event: StorageEvent) => {
-      if (event.key !== COURSE_STORAGE_KEY || !event.newValue) return;
-      try {
-        setState(validateLearnerState(JSON.parse(event.newValue)));
-      } catch {
-        canSave.current = false;
-        setIssue(
-          'Another tab saved unreadable progress. Your current work is retained; export a backup before leaving.',
-        );
-      }
-    };
-    window.addEventListener('storage', sync);
-    return () => window.removeEventListener('storage', sync);
-  }, []);
-  useEffect(() => {
-    if (!ready || !canSave.current) return;
-    try {
-      localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      void Promise.resolve().then(() =>
-        setIssue(
-          'This browser could not save your latest changes. Export a backup before leaving.',
-        ),
-      );
-    }
-  }, [ready, state]);
-  const restore = (next: LearnerState) => {
-    // The validated replacement was already written by writeProgressBackup.
-    canSave.current = true;
-    setIssue('');
-    setState(next);
-  };
-  const protectStoredRecords = (message: string) => {
-    canSave.current = false;
-    setIssue(message);
-  };
-  return { state, setState, ready, issue, restore, protectStoredRecords };
+  return useLearningDataset({
+    dataset: 'course',
+    legacyKey: COURSE_STORAGE_KEY,
+    empty: emptyLearnerState,
+    validate: validateLearnerState,
+  });
 }
 export default function CourseApp() {
+  const learning = useLearner();
   const { state, setState, ready, issue, restore, protectStoredRecords } =
-    useLearner();
+    learning;
   const [manifest, setManifest] = useState<CourseManifest | null>(null);
   const [error, setError] = useState('');
   const [route, setRoute] = useState('today');
@@ -299,7 +247,11 @@ export default function CourseApp() {
           <a href={appUrl('pilot/')}>
             Earlier lessons & saved pilot practice <ArrowRight size={16} />
           </a>
-          <small>Progress stays in this browser.</small>
+          <small>
+            {learning.isAccount
+              ? 'Private progress belongs to your account.'
+              : 'Progress stays in this browser.'}
+          </small>
         </div>
       </aside>
       <div
@@ -323,11 +275,16 @@ export default function CourseApp() {
             {issue
               ? 'Save needs attention'
               : ready
-                ? 'Saved on this device'
+                ? learning.isAccount
+                  ? learning.pending
+                    ? 'Saving to account…'
+                    : 'Saved to your account'
+                  : 'Saved on this device'
                 : 'Loading your place…'}
           </span>
         </div>
         <main id="course-main" className="course-main" ref={main} tabIndex={-1}>
+          <LearnerAccountPanel learning={learning} />
           {issue && (
             <div className="course-notice" role="alert">
               {issue} <a href="#/backup">Open saved progress</a>
@@ -1846,6 +1803,14 @@ function Backup({
   restore: (s: LearnerState) => void;
   protectStoredRecords: (message: string) => void;
 }) {
+  const account = useAccount();
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
   const [message, setMessage] = useState(''),
     [pending, setPending] = useState<{
       course?: LearnerState;
@@ -1880,28 +1845,51 @@ function Backup({
       );
     }
   }
-  async function validatePilot(raw: unknown) {
+  async function getPilotValidator() {
     const [{ validateBackup }, { default: lessons }, { default: questions }] =
       await Promise.all([
         import('@/lib/study-state'),
         import('@/lib/data/lessons.json'),
         import('@/lib/data/questions.json'),
       ]);
-    return validateBackup(
-      raw,
-      lessons.map((l) => l.id),
-      questions,
-    );
+    return (raw: unknown) =>
+      validateBackup(
+        raw,
+        lessons.map((l) => l.id),
+        questions,
+      );
+  }
+  async function validatePilot(raw: unknown) {
+    return (await getPilotValidator())(raw);
   }
   async function exportAll() {
     let pilot: unknown = null;
     let raw: string | null;
     try {
+      if (account.phase === 'owner' && account.runtime && account.user) {
+        const { loadDataset } = await import('@/lib/learner/cloud-store');
+        pilot = await loadDataset(
+          account.runtime.db,
+          account.user.uid,
+          'pilot',
+          await getPilotValidator(),
+        );
+        if (!mounted.current) return;
+        download('cissp-buddy-progress.json', {
+          format: 'cissp-buddy-combined-v1',
+          exportedAt: new Date().toISOString(),
+          course: state,
+          pilot,
+        });
+        return;
+      }
       raw = localStorage.getItem('cissp-buddy:v1');
     } catch {
       download('cissp-course-progress.json', state);
       setMessage(
-        'Current course work exported. The browser blocked access to the earlier pilot record; it could not be included.',
+        account.phase === 'owner'
+          ? 'Current course work exported. The account’s saved pilot record could not be loaded and was not included. Retry combined export when account access is available.'
+          : 'Current course work exported. The browser blocked access to the earlier pilot record; it could not be included.',
       );
       return;
     }
@@ -1928,12 +1916,15 @@ function Backup({
       <div className="course-page-heading">
         <h1>Your learning, safely carried forward.</h1>
         <p>
-          Progress is local to this browser and address. Export a backup to move
-          it or keep a copy. A new address or browser cannot automatically read
-          the old address’s storage. Export all progress at the old address,
-          open this page at the new address, choose that file, then explicitly
-          replace progress. Earlier pilot attempts retain their original
-          question identities.
+          {account.phase === 'owner'
+            ? 'Your current course progress belongs to your signed-in account. Combined export includes that account’s saved pilot record, not the separate guest record. '
+            : ''}
+          Guest progress is local to this browser and address. Export a backup
+          to move it or keep a copy. A new address or browser cannot
+          automatically read the old address’s storage. Export all progress at
+          the old address, open this page at the new address, choose that file,
+          then explicitly replace progress. Earlier pilot attempts retain their
+          original question identities.
         </p>
       </div>
       <section className="settings-section">
@@ -1975,11 +1966,25 @@ function Backup({
               }
             }}
           >
-            Export untouched stored records
+            {account.phase === 'owner'
+              ? 'Export untouched browser guest records'
+              : 'Export untouched stored records'}
           </button>
         </div>
         {message && <output className="course-notice">{message}</output>}
-        {pending && (
+        {pending && account.phase !== 'guest' && (
+          <div className="course-notice">
+            <p>
+              This is a valid local backup. It cannot replace existing account
+              history. Sign out to restore it to guest learning, then explicitly
+              copy it into an uninitialized account dataset.
+            </p>
+            <button onClick={() => setPending(null)}>
+              Keep account history
+            </button>
+          </div>
+        )}
+        {pending && account.phase === 'guest' && (
           <div className="restore-confirm">
             <h3>Valid backup, ready to restore.</h3>
             <p>
@@ -1993,6 +1998,10 @@ function Backup({
               className="course-primary"
               onClick={() => {
                 try {
+                  if (account.phase !== 'guest')
+                    throw new Error(
+                      'A local backup cannot replace account history. Sign out and restore it to guest learning, then explicitly copy into an uninitialized account dataset.',
+                    );
                   writeProgressBackup(localStorage, pending);
                   if (pending.course) restore(pending.course);
                   setPending(null);
@@ -2000,12 +2009,12 @@ function Backup({
                     'Backup restored. Your saved position and attempts are available.',
                   );
                 } catch (error) {
-                  protectStoredRecords(
-                    'Backup replacement could not finish. Saving is paused to preserve stored records. Export current progress and untouched records, then restore a validated backup.',
-                  );
+                  if (account.phase === 'guest')
+                    protectStoredRecords(
+                      'Backup replacement could not finish. Saving is paused to preserve stored records. Export current progress and untouched records, then restore a validated backup.',
+                    );
                   setMessage(
-                    error instanceof Error &&
-                      error.message.startsWith('Restore was interrupted')
+                    error instanceof Error
                       ? error.message
                       : 'The browser could not write this backup. Your active work remains available. Export it and free storage before trying again.',
                   );

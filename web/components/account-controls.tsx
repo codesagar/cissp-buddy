@@ -24,6 +24,7 @@ export type AccountControlsProps = {
   status: AccountSaveStatus;
   issue?: string;
   pending: boolean;
+  signingIn?: boolean;
   onRemember: (value: boolean) => void;
   onSignIn: () => void;
   onSignOut: () => void;
@@ -48,6 +49,7 @@ export function AccountControls({
   status,
   issue,
   pending,
+  signingIn = false,
   onRemember,
   onSignIn,
   onSignOut,
@@ -123,9 +125,20 @@ export function AccountControls({
               />
               Remember me on this personal device
             </label>
-            <button type="button" onClick={onSignIn}>
-              Sign in with Google
+            <button
+              type="button"
+              onClick={onSignIn}
+              disabled={signingIn}
+              aria-busy={signingIn}
+            >
+              {signingIn ? 'Signing in…' : 'Sign in with Google'}
             </button>
+            {signingIn && (
+              <output>
+                Signing in with Google. Complete the Google sign-in window to
+                continue.
+              </output>
+            )}
           </div>
         )}
         {signedIn && (

@@ -8,7 +8,7 @@ web
 
 ## Record Scope and Decision Precedence
 
-This record describes the single-learner static MVP. Historical pilot proposals and delivery reports remain evidence of earlier stages, not current release acceptance.
+This record describes the single-owner learning MVP, including the optional Firebase continuity implementation under acceptance on `codex/personal-cloud`. The deployed static baseline remains available while owner setup and live validation finish. Historical pilot proposals and delivery reports remain evidence of earlier stages, not current release acceptance.
 
 - `planning/refined-proposal.md` establishes the product purpose, core workflows, and pilot boundaries.
 - `planning/design-v3/learning-design-decisions.md` records the September 6 learning-model decisions. These supersede earlier proposals for a separate assessment at every concept node and remain requirements for future implementation.
@@ -19,7 +19,7 @@ This record describes the single-learner static MVP. Historical pilot proposals 
 
 CISSP learners who need to understand security concepts, connect related ideas, apply distinctions in scenarios, and revisit weaknesses. The product supports individual study in short, resumable sessions.
 
-This is a single-learner application. Progress stays in the current browser and origin. Accounts, Firebase Authentication, Firestore, cloud synchronization, roles, and administrative features are deferred. Export/import is the supported bridge between browsers, devices, and addresses.
+This is a single-owner application. Guest progress stays in the current browser and origin. Optional Google sign-in and Firestore continuity are restricted to one approved Firebase UID by database rules. Export/import remains the bridge for guest records and recovery. Public multi-user access, roles, and administrative features are deferred. Firebase Spark with no linked billing account is the operating constraint.
 
 ## Product Purpose
 
@@ -34,7 +34,7 @@ The product combines visual explanations, a connected curriculum map, scenario p
 ## Operating Context
 
 - The main course connects Today, Curriculum, Practice & review, Connections, and Saved progress & preferences through hash navigation. The original ten-lesson experience remains a separate static `/pilot/` entry.
-- React, TypeScript, and plain Vite produce static files for GitHub Pages. There is no application server, runtime database, or server API. The build needs sibling `knowledge/` authoring inputs; reference PDFs in `resources/` are excluded.
+- React, TypeScript, and plain Vite produce static files for GitHub Pages. There is no custom application server or server API. Optional Firebase Authentication and Firestore provide managed identity and private learning persistence; curriculum stays static. The build needs sibling `knowledge/` authoring inputs; reference PDFs in `resources/` are excluded.
 - Keep the established visual teaching system and components. Desktop and mobile use the same learning model. Short resumable sessions are a product intention, not a measured learning outcome.
 - A loaded lesson can remain usable during a brief connection loss. Full offline reload support is not promised. Content failures must leave learner data untouched and offer retry/recovery.
 
@@ -51,9 +51,17 @@ The product combines visual explanations, a connected curriculum map, scenario p
 - Invalid stored data remains available for untouched-record export until an explicitly selected valid replacement. Storage failures must be visible; in-memory work can be exported when persistent storage is unavailable.
 - Shared teaching content is deterministic generated JSON, packaged as a small manifest and release-specific lazy unit/case files. The pilot curriculum loads only on its own page. Published question semantics and release identities are immutable.
 
+### Optional owner continuity
+
+- Google sign-in identifies the owner. Only the configured UID can read/write its private Firestore paths; all other users and unknown collections are denied. An empty owner UID allows account setup without reading or uploading learning records.
+- Initial upload requires explicit adoption of browser progress. Guest keys stay untouched. Main course and pilot are adopted separately; populated cloud data is not silently replaced by an imported backup.
+- Hydrate and validate complete cloud records before enabling edits. Keep submitted answer snapshots separate from mutable positions, review dates, and notes. Do not call a denied or offline read an empty account.
+- Shared-device mode keeps account learning in memory and uses session authentication. Remember-me mode keeps scoped local recovery copies; signing out clears rendered account data and SDK memory but retains those personal-device copies. This is not secure erasure.
+- Unconfirmed saves remain visible and exportable. Interrupted initial adoption resumes only from the same validated source. A different initial source requires recovery rather than silent merging. Full offline reload and automatic conflict resolution are not promised. Pilot timer checkpoints can lag by up to 15 seconds.
+
 ### Deferred scope and evidence limits
 
-Accounts, multi-user support, Firebase, synchronization, roles, administration, an editorial console, adaptive-learning engines, simulated CAT, pass probabilities, open-ended chat, social features, and a new curriculum or redesign are outside this MVP. Human learner testing and subject-expert review remain outstanding. AI and browser QA do not establish educational effectiveness.
+Public multi-user support, roles, administration, billing/subscriptions, custom domains, an editorial console, adaptive-learning engines, simulated CAT, pass probabilities, open-ended chat, social features, and a new curriculum or redesign are outside this MVP. Human learner testing and subject-expert review remain outstanding. AI and browser QA do not establish educational effectiveness.
 
 ## Brand Commitments
 
@@ -78,7 +86,7 @@ Historical planning documents named in this record remain in the original produc
 3. Separate activity from assessment evidence and repeated exposure from unseen-scenario performance.
 4. Preserve learner orientation, saved work, and access to explanations across navigation and review.
 5. Expand through coherent, validated learning units without implying coverage or effectiveness beyond the evidence.
-6. Keep maintenance simple for a beginner: understandable React/TypeScript, ordinary functions, static deployment, and minimal dependencies. Use local persistence and ordinary last-write-wins behavior. Do not add speculative abstractions, conflict resolution, event sourcing, queues, microservices, a state-management framework, or an adaptive-learning engine without a concrete authorized product need.
+6. Keep maintenance simple for a beginner: understandable React/TypeScript, ordinary functions, static deployment, and minimal dependencies. Use local persistence, optional owner-only managed continuity, and ordinary last-write-wins behavior. Do not add speculative abstractions, conflict resolution, event sourcing, queues, microservices, a state-management framework, or an adaptive-learning engine without a concrete authorized product need.
 
 ## Accessibility & Inclusion
 

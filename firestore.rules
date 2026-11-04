@@ -1,0 +1,268 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Fail closed until the owner completes Google sign-in and this literal is configured.
+    function owner(uid) {
+      let approvedUid = 'OWNER_UID_NOT_CONFIGURED';
+      return approvedUid != 'OWNER_UID_NOT_CONFIGURED'
+        && request.auth != null
+        && request.auth.uid == approvedUid
+        && request.auth.uid == uid;
+    }
+    function text(value, maximum) {
+      return value is string && value.size() <= maximum;
+    }
+    function identity(value) {
+      return text(value, 1000) && value.size() > 0;
+    }
+    function number(value) {
+      return value is number && value >= 0 && value <= 9007199254740991;
+    }
+    function statePath(uid, dataset) {
+      return /databases/$(database)/documents/users/$(uid)/state/$(dataset);
+    }
+    function importPath(uid, dataset) {
+      return /databases/$(database)/documents/users/$(uid)/state/$("import-" + dataset);
+    }
+    function readyAfter(uid, dataset) {
+      return existsAfter(statePath(uid, dataset))
+        && getAfter(statePath(uid, dataset)).data.initialized == true
+        && (!existsAfter(importPath(uid, dataset))
+          || getAfter(importPath(uid, dataset)).data.status == 'ready');
+    }
+    function importingAfter(uid, dataset) {
+      return !existsAfter(statePath(uid, dataset))
+        && existsAfter(importPath(uid, dataset))
+        && getAfter(importPath(uid, dataset)).data.status == 'importing';
+    }
+    function writable(uid, dataset) {
+      return owner(uid) && (readyAfter(uid, dataset) || importingAfter(uid, dataset));
+    }
+    function review(value) {
+      return value is map
+        && value.keys().hasOnly(['dueAt', 'intervalDays', 'lastAt', 'needsReview'])
+        && number(value.dueAt) && number(value.lastAt)
+        && number(value.intervalDays) && value.intervalDays <= 30
+        && value.needsReview is bool;
+    }
+    function preferences(value) {
+      return value is map
+        && value.keys().hasOnly(['pace', 'experience', 'reducedMotion', 'theme'])
+        && value.pace in ['step', 'slow']
+        && value.experience in ['new', 'experienced']
+        && value.reducedMotion is bool && value.theme in ['light', 'dark'];
+    }
+    function mainMetadata(value) {
+      return value is map
+        && value.keys().hasOnly(['version', 'lastUnitId', 'preferences'])
+        && value.version == 1
+        && (value.lastUnitId == null || identity(value.lastUnitId))
+        && preferences(value.preferences);
+    }
+    function activeSession(value) {
+      return value is map
+        && value.keys().hasOnly(['id', 'questionIds', 'index', 'phase', 'selected', 'guess', 'hintUsed', 'attemptId', 'elapsedMs', 'phaseMs', 'label'])
+        && identity(value.id) && value.questionIds is list
+        && value.questionIds.size() > 0 && value.questionIds.size() <= 100
+        && value.index is int && value.index >= 0 && value.index < value.questionIds.size()
+        && value.phase in ['answer', 'explanation']
+        && (value.selected == null || (value.selected is int && value.selected >= 0 && value.selected <= 3))
+        && value.guess is bool && value.get('hintUsed', false) is bool
+        && (value.attemptId == null || identity(value.attemptId))
+        && number(value.elapsedMs) && number(value.phaseMs) && text(value.label, 1000);
+    }
+    function pilotMetadata(value) {
+      return value is map
+        && value.keys().hasOnly(['version', 'visited', 'completed', 'active'])
+        && value.version == 1 && value.visited is list && value.visited.size() <= 100
+        && value.completed is list && value.completed.size() <= 100
+        && (value.active == null || activeSession(value.active));
+    }
+    function state(value, dataset) {
+      return value is map
+        && value.keys().hasOnly(['schemaVersion', 'initialized', 'revision', 'metadata'])
+        && value.schemaVersion == 1 && value.initialized == true && identity(value.revision)
+        && ((dataset == 'main' && mainMetadata(value.metadata))
+          || (dataset == 'pilot' && pilotMetadata(value.metadata)));
+    }
+    function position(value) {
+      return value is map
+        && value.keys().hasOnly(['stage', 'step', 'variant', 'visitedAt', 'checks', 'note', 'exploration'])
+        && value.stage in ['understand', 'predict', 'transfer', 'review']
+        && value.step is int && value.step >= 0 && value.step <= 10000
+        && identity(value.variant) && number(value.visitedAt) && text(value.note, 200000)
+        && value.checks is map && value.checks.size() <= 1000
+        && value.get('exploration', {}) is map && value.get('exploration', {}).size() <= 100;
+    }
+    function unit(value) {
+      return value is map
+        && value.keys().hasOnly(['id', 'position', 'review']) && identity(value.id)
+        && (value.position == null || position(value.position))
+        && (value.review == null || review(value.review))
+        && (value.position != null || value.review != null);
+    }
+    function option(value) {
+      return value is map
+        && value.keys().hasOnly(['id', 'label', 'correct', 'feedback', 'repairStateId'])
+        && value.id is string && value.id.size() > 0 && value.id.size() <= 1000
+        && value.label is string && value.label.size() <= 100000 && value.correct is bool
+        && value.feedback is string && value.feedback.size() <= 100000
+        && value.repairStateId is string && value.repairStateId.size() > 0 && value.repairStateId.size() <= 1000;
+    }
+    // Bound the snapshot here; the application validates all teaching-option semantics.
+    // Re-running the entire curriculum parser exceeds Rules' expression budget.
+    function check(value) {
+      let options = value.options;
+      return value is map
+        && value.keys().hasOnly(['id', 'prompt', 'options', 'conceptIds', 'hint'])
+        && identity(value.id) && text(value.prompt, 100000) && text(value.hint, 20000)
+        && value.conceptIds is list && value.conceptIds.size() > 0 && value.conceptIds.size() <= 200
+        && options is list && options.size() >= 2 && options.size() <= 8;
+    }
+    function selectedAt(value, index) {
+      return value.snapshot.options.size() > index
+        && value.snapshot.options[index].id == value.selected
+        && option(value.snapshot.options[index])
+        && value.snapshot.options[index].correct == value.correct;
+    }
+    function courseAttempt(value) {
+      let snapshot = value.snapshot;
+      return value is map
+        && value.keys().hasOnly(['id', 'unitId', 'questionId', 'kind', 'selected', 'correct', 'guess', 'hintUsed', 'outcomeViewed', 'at', 'releaseId', 'conceptIds', 'snapshot'])
+        && identity(value.id) && identity(value.unitId) && identity(value.questionId)
+        && value.kind in ['prediction', 'transfer', 'retry'] && identity(value.selected)
+        && value.correct is bool && value.guess is bool && value.hintUsed is bool
+        && value.get('outcomeViewed', false) is bool && number(value.at) && identity(value.releaseId)
+        && check(snapshot) && snapshot.id == value.questionId
+        && value.conceptIds == snapshot.conceptIds
+        && (selectedAt(value, 0) || selectedAt(value, 1) || selectedAt(value, 2) || selectedAt(value, 3)
+          || selectedAt(value, 4) || selectedAt(value, 5) || selectedAt(value, 6) || selectedAt(value, 7));
+    }
+    function pilotSnapshot(value, chosen, correct) {
+      return value is map
+        && value.keys().hasOnly(['stem', 'options', 'correctIndex', 'explanations'])
+        && text(value.stem, 100000) && value.options is list && value.options.size() == 4
+        && text(value.options[0], 100000) && text(value.options[1], 100000)
+        && text(value.options[2], 100000) && text(value.options[3], 100000)
+        && value.explanations is list && value.explanations.size() == 4
+        && text(value.explanations[0], 100000) && text(value.explanations[1], 100000)
+        && text(value.explanations[2], 100000) && text(value.explanations[3], 100000)
+        && value.correctIndex is int && value.correctIndex >= 0 && value.correctIndex <= 3
+        && correct == (chosen == value.correctIndex);
+    }
+    function pilotAttempt(value) {
+      return value is map
+        && value.keys().hasOnly(['id', 'questionId', 'conceptId', 'chosen', 'correct', 'guess', 'hintUsed', 'at', 'answerMs', 'explanationMs', 'repeated', 'contentRelease', 'questionSnapshot'])
+        && identity(value.id) && identity(value.questionId) && identity(value.conceptId)
+        && value.chosen is int && value.chosen >= 0 && value.chosen <= 3
+        && value.correct is bool && value.guess is bool && value.get('hintUsed', false) is bool
+        && number(value.at) && number(value.answerMs) && number(value.explanationMs) && value.repeated is bool
+        && text(value.get('contentRelease', ''), 1000)
+        && (!('questionSnapshot' in value) || pilotSnapshot(value.questionSnapshot, value.chosen, value.correct));
+    }
+    function note(value) {
+      return value is map
+        && value.keys().hasOnly(['id', 'conceptId', 'text', 'createdAt'])
+        && identity(value.id) && identity(value.conceptId) && text(value.text, 200000) && number(value.createdAt);
+    }
+    function completedSession(value) {
+      return value is map
+        && value.keys().hasOnly(['id', 'completedAt', 'count', 'elapsedMs'])
+        && identity(value.id) && number(value.completedAt) && number(value.elapsedMs)
+        && value.count is int && value.count >= 0 && value.count <= 100;
+    }
+    function ordered(value) {
+      return value is map
+        && value.keys().hasOnly(['order', 'value'])
+        && value.order is int && value.order >= 0 && value.order <= 1000000;
+    }
+    function counts(value, dataset) {
+      return value is map
+        && ((dataset == 'main'
+          && value.keys().hasOnly(['courseUnits', 'courseAttempts'])
+          && value.courseUnits is int && value.courseUnits >= 0 && value.courseUnits <= 10000
+          && value.courseAttempts is int && value.courseAttempts >= 0 && value.courseAttempts <= 50000)
+        || (dataset == 'pilot'
+          && value.keys().hasOnly(['pilotAttempts', 'pilotReviews', 'pilotNotes', 'pilotSessions'])
+          && value.pilotAttempts is int && value.pilotAttempts >= 0 && value.pilotAttempts <= 50000
+          && value.pilotReviews is int && value.pilotReviews >= 0 && value.pilotReviews <= 1000
+          && value.pilotNotes is int && value.pilotNotes >= 0 && value.pilotNotes <= 5000
+          && value.pilotSessions is int && value.pilotSessions >= 0 && value.pilotSessions <= 10000));
+    }
+    function marker(value, dataset) {
+      return value is map
+        && value.keys().hasOnly(['schemaVersion', 'status', 'digest', 'counts'])
+        && value.schemaVersion == 1 && value.status in ['importing', 'ready']
+        && value.digest is string && value.digest.matches('^[a-f0-9]{64}$')
+        && counts(value.counts, dataset);
+    }
+
+    match /users/{uid}/state/{id} {
+      allow read: if owner(uid) && id in ['main', 'pilot', 'import-main', 'import-pilot'];
+      allow create, update: if owner(uid) && id in ['main', 'pilot']
+        && state(request.resource.data, id)
+        && (!existsAfter(importPath(uid, id)) || getAfter(importPath(uid, id)).data.status == 'ready');
+      allow create: if owner(uid) && id in ['import-main', 'import-pilot']
+        && marker(request.resource.data, id == 'import-main' ? 'main' : 'pilot')
+        && request.resource.data.status == 'importing'
+        && !exists(statePath(uid, id == 'import-main' ? 'main' : 'pilot'));
+      allow update: if owner(uid) && id in ['import-main', 'import-pilot']
+        && marker(request.resource.data, id == 'import-main' ? 'main' : 'pilot')
+        && request.resource.data.digest == resource.data.digest
+        && request.resource.data.counts == resource.data.counts
+        && ((request.resource.data == resource.data
+            && (resource.data.status == 'ready'
+              || !existsAfter(statePath(uid, id == 'import-main' ? 'main' : 'pilot'))))
+          || (resource.data.status == 'importing' && request.resource.data.status == 'ready'
+            && existsAfter(statePath(uid, id == 'import-main' ? 'main' : 'pilot'))
+            && getAfter(statePath(uid, id == 'import-main' ? 'main' : 'pilot')).data.initialized == true));
+      allow delete: if false;
+    }
+    match /users/{uid}/courseUnits/{id} {
+      allow read: if owner(uid);
+      allow create, update: if writable(uid, 'main') && unit(request.resource.data);
+      allow delete: if owner(uid) && readyAfter(uid, 'main');
+    }
+    match /users/{uid}/courseAttempts/{id} {
+      allow read: if owner(uid);
+      allow create: if writable(uid, 'main') && ordered(request.resource.data)
+        && courseAttempt(request.resource.data.value);
+      allow update: if writable(uid, 'main') && ordered(request.resource.data)
+        && request.resource.data.value == resource.data.value;
+      allow delete: if false;
+    }
+    match /users/{uid}/pilotAttempts/{id} {
+      allow read: if owner(uid);
+      allow create: if writable(uid, 'pilot') && ordered(request.resource.data)
+        && pilotAttempt(request.resource.data.value);
+      allow update: if writable(uid, 'pilot') && ordered(request.resource.data)
+        && pilotAttempt(request.resource.data.value)
+        && request.resource.data.value.diff(resource.data.value).affectedKeys().hasOnly(['explanationMs']);
+      allow delete: if false;
+    }
+    match /users/{uid}/pilotReviews/{id} {
+      allow read: if owner(uid);
+      allow create, update: if writable(uid, 'pilot')
+        && request.resource.data.keys().hasAll(['id', 'value'])
+        && request.resource.data.keys().hasOnly(['id', 'value'])
+        && identity(request.resource.data.id) && review(request.resource.data.value);
+      allow delete: if owner(uid) && readyAfter(uid, 'pilot');
+    }
+    match /users/{uid}/pilotNotes/{id} {
+      allow read: if owner(uid);
+      allow create, update: if writable(uid, 'pilot') && ordered(request.resource.data)
+        && note(request.resource.data.value);
+      allow delete: if owner(uid) && readyAfter(uid, 'pilot');
+    }
+    match /users/{uid}/pilotSessions/{id} {
+      allow read: if owner(uid);
+      allow create: if writable(uid, 'pilot') && ordered(request.resource.data)
+        && completedSession(request.resource.data.value);
+      allow update: if writable(uid, 'pilot') && ordered(request.resource.data)
+        && request.resource.data.value == resource.data.value;
+      allow delete: if false;
+    }
+    // Unknown collections and all other paths are deliberately inaccessible.
+    match /{document=**} { allow read, write: if false; }
+  }
+}
