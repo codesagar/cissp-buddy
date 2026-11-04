@@ -2,6 +2,10 @@
 
 Date: November 4, 2026. Status: research/proposal only. No application code, dependencies, Firebase projects, live settings, or Git history changed. This is the consolidated result of three native subagents covering product/journey, architecture/data, and providers/owner setup, independently synthesized by the main thread. It describes proposed work; no implementation or cloud provisioning has been performed.
 
+## Provider selection update
+
+The owner requested a fresh Supabase/Firebase comparison before proceeding. Provider-specific development and setup are on hold pending that choice. The earlier Firebase proposal below is retained as research, not a selected implementation. See [the current comparison](personal-cloud/provider-comparison.md). Provider-neutral record/UI groundwork continues; the live app is unchanged.
+
 ## Confirmed MVP constraints — owner decision
 
 The owner clarified that the only anticipated MVP user is the owner. This decision supersedes the broader public multi-user launch recommendations below. The account/data model can retain straightforward UID ownership so later expansion is possible; general-user onboarding, subscriptions and administrative features are not MVP work.
