@@ -10,7 +10,7 @@ Scope: single learner; React/TypeScript/plain Vite; static GitHub Pages; browser
 | Persistence, evidence and next actions | State worker + main fixes | Independently reviewed |13 learner tests; saved snapshots/flags; resume/due/unanswered/prereq reasons; damaged/failed restore guards | Atomic cross-key writes cannot be guaranteed; UI states limit |
 | Reproducible QA and sanitized fixtures | QA worker | Main verified |59 tests;744 state renders +744 factual renders +913 repair options; all90+11 exact JSON/HTTP files at both bases | Browser sampling remains separate |
 | Current product and content documentation | Main | Complete | PRODUCT simplicity principle; README/content-system describe static/local MVP; old reports untouched | Historical report450 corrected to448 in current docs only |
-| Publication checkout + root Pages workflow | Main | Prepared | ../CISSP-Buddy-publication codex/static-pages retains web ancestry via199996c/c470bc1/b91fa13;673 safe tracked files; no PDFs/private backup | GitHub owner/repo/visibility absent |
+| Publication checkout + root Pages workflow | Main | Prepared | ../CISSP-Buddy-publication codex/static-pages retains web ancestry via199996c/c470bc1/b91fa13;673 safe tracked files; no PDFs/private backup | Public codesagar/cissp-buddy created; Pages live |
 | Clean committed-checkout reproduction | Main | Passed | Fresh clone at recovery/clean-install-check; npm ci + qa:final without resources/database/local state | ACCEPTANCE.json; all gates pass |
 | Browser acceptance | Main | Accepted bounded sampling | Isolated Chromium desktop1365x900/narrow390x844; wrong repair/transfer/reload/notes; all5 labs; connections; actual pilot backup/resume; combined export; invalid import races; quota and damaged-store recovery;404 unchanged bytes/retry | BROWSER-ACCEPTANCE.json; no normal-path console/network failures |
 | Fresh independent review/remediation | Fresh learning/release reviewers | Resolved | Dev-content high; malformed connection, import races, contradictory drafts, evidence scope, failed-fetch visit and row-label corrections all rechecked | No unresolved blocking/high/medium findings |
@@ -23,6 +23,6 @@ Slow optional full-workspace/cloud-object copies were stopped after the focused 
 
 Current source inventory is90units/8domains/11cases/5labs/698concepts/303checks assessing448distinct concepts (434unit/65connection/51overlap), independently confirmed against the unchanged protected baseline. Historical450/436 claims were stale; no curriculum rewrite occurred. Release remains cissp-course-2026-09-94377842923795be.
 
-## Remaining external decision
+## Publication complete
 
-No GitHub remote exists in either original repository or the publication checkout. All local acceptance is complete. One bundled owner/repository/visibility and publish-authorization question has been presented; no answer or GitHub target is available. Deployment-ready is distinct from live-deployed.
+User authorized public `codesagar/cissp-buddy` and Pages deployment. The publication checkout has the GitHub origin; both original repositories remain untouched by publication Git operations. GitHub Actions run41854072612 passed build/deploy. Live main course, connection, lab, reload, and pilot practice passed isolated Chromium checks; all104 live JSON payloads match source/package. No external publication blocker remains. DEPLOYMENT.json records the live address and evidence.

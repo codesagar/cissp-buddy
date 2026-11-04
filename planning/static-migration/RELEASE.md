@@ -6,7 +6,7 @@ Software release: `cissp-buddy-static-2026-11-04`. Tested application commit: `b
 **Pilot:** http://127.0.0.1:4173/pilot/#/practice  
 **Project-path preview:** http://127.0.0.1:4174/cissp-qa/#/today
 
-**Deployment state:** deployment-ready; not live-deployed. Neither original repository has a GitHub remote. Publication needs the exact owner/repository, visibility, and authorization to push/deploy. No public repository was invented.
+**Deployment state:** live-deployed and verified at [https://codesagar.github.io/cissp-buddy/](https://codesagar.github.io/cissp-buddy/). Public source: [https://github.com/codesagar/cissp-buddy](https://github.com/codesagar/cissp-buddy). The user authorized creating the public repository and publishing with Pages. The first successful [build/deployment](https://github.com/codesagar/cissp-buddy/actions/runs/41854072612) published commit `f37d38f`; all 104 live content JSON files byte-match the accepted package. Actual isolated browser checks passed for lesson/feedback/reload, connections, a mobile lab, and pilot practice, with no console errors or failed requests. See [DEPLOYMENT.json](DEPLOYMENT.json).
 
 ## Delivered product
 

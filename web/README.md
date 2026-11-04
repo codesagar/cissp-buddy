@@ -1,5 +1,9 @@
 # CISSP Buddy
 
+**Live course:** https://codesagar.github.io/cissp-buddy/#/today  
+**Pilot:** https://codesagar.github.io/cissp-buddy/pilot/#/practice  
+**Public source:** https://github.com/codesagar/cissp-buddy
+
 A single-learner visual CISSP course built with React, TypeScript, and plain Vite. The main course covers eight domains and 90 canonical units, with 11 connection cases and five native input-driven labs. The original ten-lesson course remains at `/pilot/`, including its saved practice.
 
 Content release: `cissp-course-2026-09-94377842923795be`. The static migration preserves the curriculum, teaching design, semantic question IDs, and saved answer snapshots.
@@ -40,7 +44,7 @@ Open **http://127.0.0.1:4173/#/today** or **http://127.0.0.1:4173/pilot/#/practi
 
 ## Hosting and progress
 
-GitHub Pages receives only `web/dist/`. The publication checkout has `.github/workflows/pages.yml` at its repository root and includes `web/`, required sibling `knowledge/`, `PRODUCT.md`, and selected validation/review fixtures. The workflow runs `npm ci`, focused checks, and the static build with a Pages base path. See the current release receipt in `planning/static-migration/` for deployment status; a prepared workflow is not a live deployment.
+GitHub Pages receives only `web/dist/`. The publication checkout has `.github/workflows/pages.yml` at its repository root and includes `web/`, required sibling `knowledge/`, `PRODUCT.md`, and selected validation/review fixtures. The workflow runs `npm ci`, focused checks, and the static build with a Pages base path. The site is live on GitHub Pages. See the deployment receipt in `planning/static-migration/DEPLOYMENT.json` for the verified run and browser/content checks.
 
 Root hosting uses `/`; a project site uses `/<repository>/`. Build with Vite's `--base=/<repository>/` for that path. Assets, content, favicons, and course↔pilot links use `import.meta.env.BASE_URL`. Both `/<repository>/#/today` and `/<repository>/pilot/#/practice` are supported.
 

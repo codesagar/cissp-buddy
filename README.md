@@ -1,5 +1,7 @@
 # CISSP Buddy
 
+[Open the live course](https://codesagar.github.io/cissp-buddy/#/today) · [Pilot practice](https://codesagar.github.io/cissp-buddy/pilot/#/practice)
+
 A single-learner visual CISSP course. React + TypeScript + plain Vite; static GitHub Pages hosting; browser-local progress with export/import. Accounts and cloud synchronization are deferred.
 
 Use Node 24.15.0. From `web/`:
