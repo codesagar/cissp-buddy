@@ -63,3 +63,7 @@ npm notice run node --experimental-strip-types --test tests/*.test.mjs
 ```
 
 Owner rendering independent review: exact template substitution only; SHA256 bf5a8bd5138bca1ccfe2486b5a5e910a862f39a66422885f02bac3c92d7d44b4. No rule deployment performed. Console publication requested from owner.
+
+Clean publication verification: separate codex/cloud-verification worktree at4897ff1 installed with npmci and passed all10qa:final stages. No reference PDFs, prior learner progress, or manually prepared database required. Exact /cissp-buddy/ static output also verified (122files,121HTTPrequests). Receipts: ignored web/outputs/firebase-setup/clean-install.log and clean-validation.log.
+
+Clean checkout cloud gate:19/19 synthetic emulator tests passed independently of the original node_modules tree (clean-cloud-tests.log); emulators shut down normally. Production owner rules remain unpublished by the agent.
