@@ -122,11 +122,13 @@ Minimal UI release receipt (November 4, 2026):
 - Limits: actual browser sampling supplements exhaustive automated content inventory; no exhaustive visual/a11y certification or human-expert educational validation is claimed. Owner real-device continuity remains deferred.
 
 
-## Google-first learning — in progress
+## Google-first learning — shipped
 
 | Task | Owner | Status | Evidence / unresolved issue |
 |---|---|---|---|
 | Require Google sign-in for learning | Main + Luna UI | Implemented | Guest writes gated; prior records retained for explicit recovery |
-| Safe initialization and recovery | Luna persistence + main | In review | 20 emulator tests pass including concurrent initialization and interrupted import; backup adoption review pending |
-| Browser and integrated QA | Main | In progress | Demo owner initialized, opened lesson and reloaded; physical device continuity deferred |
-| Release | Main | Pending | Independent review and Pages validation required |
+| Safe initialization and recovery | Luna persistence + main | Accepted | 20 emulator tests pass including concurrent initialization and interrupted import; independent backup adoption review resolved |
+| Browser and integrated QA | Main | Accepted with limits | Demo owner initialized, opened lesson and reloaded; physical device continuity deferred |
+| Release | Main | Deployed | Pages run41927078700 passed; public scripts contain sign-in gate |
+
+Release receipt: application merge `25870154785b3edc0fa060fbbda51686dce003c9`; feature validation https://github.com/codesagar/cissp-buddy/actions/runs/41926696416 and Pages deployment https://github.com/codesagar/cissp-buddy/actions/runs/41927078700 passed. Public HTML scripts returned successfully and contain the new Google sign-in prompt and gate; pilot entry returned HTTP200. Native local browser with synthetic emulator owner verified first initialization and lesson reload. Native live browser smoke was unavailable due to a computer-use window error; no real progress was changed. Actual owner cross-device continuity remains deferred. Existing browser records are preserved for recovery; UID-scoped temporary recovery copies continue to protect unconfirmed cloud saves.
