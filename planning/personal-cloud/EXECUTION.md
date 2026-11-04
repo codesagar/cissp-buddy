@@ -132,3 +132,15 @@ Minimal UI release receipt (November 4, 2026):
 | Release | Main | Deployed | Pages run41927078700 passed; public scripts contain sign-in gate |
 
 Release receipt: application merge `25870154785b3edc0fa060fbbda51686dce003c9`; feature validation https://github.com/codesagar/cissp-buddy/actions/runs/41926696416 and Pages deployment https://github.com/codesagar/cissp-buddy/actions/runs/41927078700 passed. Public HTML scripts returned successfully and contain the new Google sign-in prompt and gate; pilot entry returned HTTP200. Native local browser with synthetic emulator owner verified first initialization and lesson reload. Native live browser smoke was unavailable due to a computer-use window error; no real progress was changed. Actual owner cross-device continuity remains deferred. Existing browser records are preserved for recovery; UID-scoped temporary recovery copies continue to protect unconfirmed cloud saves.
+
+
+## Firebase-only cleanup — release in progress
+
+| Task | Owner | Status | Evidence / remaining work |
+|---|---|---|---|
+| Remove backup, guest and migration UI | Main + Luna | Accepted | Settings retains appearance and pace; synthetic browser checked |
+| Firebase-only progress | Main | Accepted | No browser progress storage; cloud load/create/save and pending retry; independent review found no blocker |
+| Validation | Main | Passed locally | 118 normal tests, 20 cloud emulator tests; static qa:final root/subpath; demo sign-in and lesson reload |
+| Publication | Main | Pending | GitHub validation and live Pages check |
+
+Fresh-start decision supersedes older backup and browser-progress requirements. Prior browser records were not deleted. Unconfirmed work is held in memory while saving; leaving or closing before confirmation can lose it. Physical second-device continuity remains deferred.

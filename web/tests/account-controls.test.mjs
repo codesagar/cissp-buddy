@@ -22,16 +22,16 @@ test('unconfigured study does not advertise available cloud sign-in or claim acc
   assert.match(html, /Google sign-in is currently unavailable/);
   assert.doesNotMatch(html, /Sign in with Google|Saved to your account/);
 });
-test('an unresolved save blocks sign-out and retains an export recovery action', () => {
+test('an unresolved save blocks sign-out and offers retry without a backup route', () => {
   const html = render({
     phase: 'owner',
     identity: 'owner@example.test',
     status: 'saving',
     pending: true,
-    onExport() {},
   });
   assert.match(html, /disabled="">Sign out/);
-  assert.match(html, /Export current progress/);
+  assert.match(html, /keep this page open and retry account saving/i);
+  assert.doesNotMatch(html, /Export current progress|backup/);
   assert.match(html, /have not been confirmed/);
   assert.doesNotMatch(html, />Saved to your account</);
 });
@@ -77,7 +77,6 @@ test('everyday account identity and save status remain visible in a native compa
     identity: 'owner@example.test',
     status: 'saved',
     remember: true,
-    onExport() {},
     detailsContent: React.createElement(
       'p',
       null,
@@ -91,9 +90,8 @@ test('everyday account identity and save status remain visible in a native compa
   assert.match(summary, /owner@example.test/);
   assert.match(summary, /Saved to your account/);
   assert.match(summary, /Account options/);
-  assert.match(summary, /Device recovery copies remain after sign-out/);
   assert.doesNotMatch(summary, /<button|Personal-device/);
-  assert.match(html, /<\/summary>.*Export current progress.*Personal-device/s);
+  assert.match(html, /<\/summary>.*Personal-device/s);
 });
 
 test('guest sign-in is immediately visible without offering local saving', () => {
@@ -111,11 +109,11 @@ test('offline and error states expose recovery without a collapsed disclosure', 
       phase: 'owner',
       status,
       pending: true,
-      onExport() {},
-    });
+      });
     assert.doesNotMatch(html, /<details|<summary/);
     assert.match(html, /disabled="">Sign out/);
-    assert.match(html, /Export current progress/);
+    assert.match(html, /keep this page open and retry account saving/i);
+  assert.doesNotMatch(html, /Export current progress|backup/);
     assert.match(html, /have not been confirmed/);
   }
   const issue = render({ issue: 'A sign-in error needs attention.' });
@@ -144,7 +142,6 @@ test('healthy toolbar exposes identity/save once and operations inside disclosur
     identity: 'owner@example.test',
     status: 'saved',
     remember: true,
-    onExport() {},
   });
   const summary = html.match(/<summary[^>]*>(.*?)<\/summary>/s)?.[1] || '';
   assert.match(summary, /owner@example.test/);
@@ -157,7 +154,7 @@ test('healthy toolbar exposes identity/save once and operations inside disclosur
   assert.match(html, /aria-label="owner@example.test: Saved to your account"/);
   assert.match(
     html,
-    /<\/summary>.*Device recovery copies.*Sign out.*Export current progress/s,
+    /<\/summary>.*Sign out/s,
   );
 
 });

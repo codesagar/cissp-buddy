@@ -6,7 +6,6 @@ import {
   ArrowRight,
   BookOpen,
   ChevronRight,
-  Download,
   Home,
   Leaf,
   Menu,
@@ -28,7 +27,6 @@ import type {
   UnitSummary,
 } from '@/lib/course/types';
 import {
-  COURSE_STORAGE_KEY,
   dueUnits,
   emptyDraft,
   emptyLearnerState,
@@ -38,7 +36,6 @@ import {
   repairPosition,
   stages,
   validateLearnerState,
-  writeProgressBackup,
 } from '@/lib/course/learner-state';
 import type {
   AnswerDraft,
@@ -80,20 +77,9 @@ function navigate(path: string) {
 function readRoute() {
   return window.location.hash.replace(/^#\/?/, '') || 'today';
 }
-function download(name: string, data: unknown) {
-  const url = URL.createObjectURL(
-    new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }),
-  );
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 function useLearner() {
   return useLearningDataset({
     dataset: 'course',
-    legacyKey: COURSE_STORAGE_KEY,
     empty: emptyLearnerState,
     validate: validateLearnerState,
   });
@@ -101,8 +87,7 @@ function useLearner() {
 export default function CourseApp() {
   const learning = useLearner();
   const account = useAccount();
-  const { state, setState, ready, issue, restore, protectStoredRecords } =
-    learning;
+  const { state, setState, ready, issue } = learning;
   const [manifest, setManifest] = useState<CourseManifest | null>(null);
   const [error, setError] = useState('');
   const [route, setRoute] = useState('today');
@@ -238,7 +223,7 @@ export default function CourseApp() {
         <div className="course-sidebar-bottom">
           <a href="#/backup" onClick={closeNavigation}>
             <ShieldCheck size={18} />
-            Settings & backups
+            Settings
           </a>
           {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
           <a
@@ -287,7 +272,7 @@ export default function CourseApp() {
           {page === 'backup' && <LearnerAccountPanel learning={learning} />}
           {issue && (
             <div className="course-notice" role="alert">
-              {issue} <a href="#/backup">Open saved progress</a>
+              {issue} <a href="#/backup">Account status</a>
             </div>
           )}
           {error ? (
@@ -301,23 +286,6 @@ export default function CourseApp() {
                 Try again
               </button>
             </div>
-          ) : page === 'backup' && account.phase === 'guest' ? (
-            <Backup state={state} setState={setState} restore={restore} protectStoredRecords={protectStoredRecords} />
-          ) : page === 'backup' && !ready ? (
-            <section className="course-empty">
-              <h1>Account progress is not loaded</h1>
-              <p>Sign in with the authorized Google account and retry before exporting current progress. You can export untouched browser records for recovery.</p>
-              <button className="course-secondary" onClick={() => {
-                try {
-                  download('cissp-stored-recovery.json', {
-                    course: localStorage.getItem(COURSE_STORAGE_KEY),
-                    pilot: localStorage.getItem('cissp-buddy:v1'),
-                  });
-                } catch {
-                  setError('The browser blocked access to untouched recovery records.');
-                }
-              }}>Export untouched browser records</button>
-            </section>
           ) : !manifest || !ready ? (
             <output className="course-empty">
               <h1>{account.phase === 'guest' ? 'Sign in to learn' : 'Opening your learning space…'}</h1>
@@ -349,11 +317,9 @@ export default function CourseApp() {
               />
             </CoursePractice>
           ) : page === 'backup' ? (
-            <Backup
+            <Settings
               state={state}
               setState={setState}
-              restore={restore}
-              protectStoredRecords={protectStoredRecords}
             />
           ) : page === 'connections' ? (
             <Connections manifest={manifest} state={state} />
@@ -1608,248 +1574,10 @@ function UnitReview({
     </div>
   );
 }
-function Backup({
-  state,
-  setState,
-  restore,
-  protectStoredRecords,
-}: {
-  state: LearnerState;
-  setState: Setter;
-  restore: (s: LearnerState) => void;
-  protectStoredRecords: (message: string) => void;
-}) {
-  const account = useAccount();
-  const mounted = useRef(true);
-  useEffect(() => {
-    mounted.current = true;
-    return () => {
-      mounted.current = false;
-    };
-  }, []);
-  const [message, setMessage] = useState(''),
-    [pending, setPending] = useState<{
-      course?: LearnerState;
-      pilot?: unknown;
-    } | null>(null);
-  const importSelection = useRef(0);
-  async function parse(file: File) {
-    const selection = ++importSelection.current;
-    setMessage('');
-    setPending(null);
-    try {
-      if (file.size > 20_000_000)
-        throw Error('This file is too large for a progress backup.');
-      const raw = JSON.parse(await file.text());
-      let candidate: { course?: LearnerState; pilot?: unknown };
-      if (raw.format === 'cissp-buddy-combined-v1') {
-        const course = validateLearnerState(raw.course);
-        let pilot: unknown;
-        if (raw.pilot !== null && raw.pilot !== undefined)
-          pilot = await validatePilot(raw.pilot);
-        candidate = { course, pilot };
-      } else if (raw.units && raw.preferences)
-        candidate = { course: validateLearnerState(raw) };
-      else candidate = { pilot: await validatePilot(raw) };
-      if (selection === importSelection.current) setPending(candidate);
-    } catch (e) {
-      if (selection !== importSelection.current) return;
-      setMessage(
-        e instanceof Error
-          ? e.message
-          : 'The backup could not be read. No progress changed.',
-      );
-    }
-  }
-  async function getPilotValidator() {
-    const [{ validateBackup }, { default: lessons }, { default: questions }] =
-      await Promise.all([
-        import('@/lib/study-state'),
-        import('@/lib/data/lessons.json'),
-        import('@/lib/data/questions.json'),
-      ]);
-    return (raw: unknown) =>
-      validateBackup(
-        raw,
-        lessons.map((l) => l.id),
-        questions,
-      );
-  }
-  async function validatePilot(raw: unknown) {
-    return (await getPilotValidator())(raw);
-  }
-  async function exportAll() {
-    let pilot: unknown = null;
-    let raw: string | null;
-    try {
-      if (account.phase === 'owner' && account.runtime && account.user) {
-        const { loadDataset } = await import('@/lib/learner/cloud-store');
-        pilot = await loadDataset(
-          account.runtime.db,
-          account.user.uid,
-          'pilot',
-          await getPilotValidator(),
-        );
-        if (!mounted.current) return;
-        download('cissp-buddy-progress.json', {
-          format: 'cissp-buddy-combined-v1',
-          exportedAt: new Date().toISOString(),
-          course: state,
-          pilot,
-        });
-        return;
-      }
-      raw = localStorage.getItem('cissp-buddy:v1');
-    } catch {
-      download('cissp-course-progress.json', state);
-      setMessage(
-        account.phase === 'owner'
-          ? 'Current course work exported. The account’s saved pilot record could not be loaded and was not included. Retry combined export when account access is available.'
-          : 'Current course work exported. The browser blocked access to the earlier pilot record; it could not be included.',
-      );
-      return;
-    }
-    if (raw) {
-      try {
-        pilot = await validatePilot(JSON.parse(raw));
-      } catch {
-        setMessage(
-          'The earlier pilot record is damaged. Current course work was exported separately. Use Export untouched stored records to preserve the pilot record before replacing it.',
-        );
-        download('cissp-course-progress.json', state);
-        return;
-      }
-    }
-    download('cissp-buddy-progress.json', {
-      format: 'cissp-buddy-combined-v1',
-      exportedAt: new Date().toISOString(),
-      course: state,
-      pilot,
-    });
-  }
+function Settings({ state, setState }: { state: LearnerState; setState: Setter }) {
   return (
     <>
-      <div className="course-page-heading">
-        <h1>Settings &amp; backups</h1>
-        <p>
-          {account.phase === 'owner'
-            ? 'Your current course progress belongs to your signed-in account. Combined export includes that account’s saved pilot record, not the separate guest record. '
-            : ''}
-          Guest progress is local to this browser and address. Export a backup
-          to move it or keep a copy. A new address or browser cannot
-          automatically read the old address’s storage. Export all progress at
-          the old address, open this page at the new address, choose that file,
-          then explicitly replace progress. Earlier pilot attempts retain their
-          original question identities.
-        </p>
-      </div>
-      <section className="settings-section">
-        <h2>Backup & restore</h2>
-        <p>
-          Keep the exported file until you verify the restored work. A browser
-          interruption during replacement can leave only part of a combined
-          backup written; export both current progress and untouched stored
-          records before recovery.
-        </p>
-        <div className="backup-actions">
-          <button className="course-primary" onClick={() => void exportAll()}>
-            <Download size={18} />
-            Export all progress
-          </button>
-          <label className="course-file-input">
-            Choose a backup
-            <input
-              type="file"
-              accept=".json,application/json"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) void parse(file);
-                e.target.value = '';
-              }}
-            />
-          </label>
-          <button
-            onClick={() => {
-              try {
-                download('cissp-stored-recovery.json', {
-                  course: localStorage.getItem(COURSE_STORAGE_KEY),
-                  pilot: localStorage.getItem('cissp-buddy:v1'),
-                });
-              } catch {
-                setMessage(
-                  'This browser is blocking access to stored records. Export all progress to keep your current in-memory course work.',
-                );
-              }
-            }}
-          >
-            {account.phase === 'owner'
-              ? 'Export untouched browser guest records'
-              : 'Export untouched stored records'}
-          </button>
-        </div>
-        {message && <output className="course-notice">{message}</output>}
-        {pending && account.phase !== 'guest' && (
-          <div className="course-notice">
-            <p>
-              This is a valid local backup. It cannot replace existing account
-              history. Sign out to restore it to guest learning, then explicitly
-              copy it into an uninitialized account dataset.
-            </p>
-            <button onClick={() => setPending(null)}>
-              Keep account history
-            </button>
-          </div>
-        )}
-        {pending && account.phase === 'guest' && (
-          <div className="restore-confirm">
-            <h3>Valid backup, ready to restore.</h3>
-            <p>
-              This replaces{' '}
-              {pending.course ? 'your current course progress' : ''}
-              {pending.course && pending.pilot ? ' and ' : ''}
-              {pending.pilot ? 'your earlier pilot progress' : ''}. Export your
-              current progress first if you want to keep both.
-            </p>
-            <button
-              className="course-primary"
-              onClick={() => {
-                try {
-                  if (account.phase !== 'guest')
-                    throw new Error(
-                      'A local backup cannot replace account history. Sign out and restore it to guest learning, then explicitly copy into an uninitialized account dataset.',
-                    );
-                  writeProgressBackup(localStorage, pending);
-                  if (pending.course) restore(pending.course);
-                  setPending(null);
-                  setMessage(
-                    'Backup restored for recovery. Sign in to copy it into an empty account.',
-                  );
-                } catch (error) {
-                  if (account.phase === 'guest')
-                    protectStoredRecords(
-                      'Backup replacement could not finish. Saving is paused to preserve stored records. Export current progress and untouched records, then restore a validated backup.',
-                    );
-                  setMessage(
-                    error instanceof Error
-                      ? error.message
-                      : 'The browser could not write this backup. Your active work remains available. Export it and free storage before trying again.',
-                  );
-                }
-              }}
-            >
-              Replace with this backup
-            </button>
-            <button onClick={() => setPending(null)}>Cancel</button>
-          </div>
-        )}
-        <p>
-          {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
-          <a href={appUrl('pilot/#/backup')}>
-            Open earlier pilot progress and backups
-            <ArrowRight size={16} />
-          </a>
-        </p>
-      </section>
+      <div className="course-page-heading"><h1>Settings</h1></div>
       <section className="settings-section">
         <h2>Make the pace yours</h2>
         <div className="preference-fields">
@@ -1932,6 +1660,7 @@ function Backup({
     </>
   );
 }
+
 function Connections({
   manifest,
   state,

@@ -22,7 +22,6 @@ export type AccountControlsProps = {
   configured: boolean;
   identity?: string;
   accountId?: string;
-  remember: boolean;
   status: AccountSaveStatus;
   issue?: string;
   pending: boolean;
@@ -31,11 +30,9 @@ export type AccountControlsProps = {
   attention?: boolean;
   expanded?: boolean;
   detailsContent?: ReactNode;
-  onRemember: (value: boolean) => void;
   onSignIn: () => void;
   onSignOut: () => void;
   onRetry?: () => void;
-  onExport?: () => void;
   onCopyAccountId?: () => void;
 };
 const labels: Record<AccountSaveStatus, string> = {
@@ -52,7 +49,6 @@ export function AccountControls({
   configured,
   identity,
   accountId,
-  remember,
   status,
   issue,
   pending,
@@ -60,11 +56,9 @@ export function AccountControls({
   attention = false,
   expanded = false,
   detailsContent,
-  onRemember,
   onSignIn,
   onSignOut,
   onRetry,
-  onExport,
   onCopyAccountId,
 }: AccountControlsProps) {
   const id = useId();
@@ -124,11 +118,6 @@ export function AccountControls({
         {phase === 'owner' && (
           <output className="account-save-status">{labels[status]}</output>
         )}
-        {phase === 'owner' && remember && (
-          <span className="account-device-summary">
-            Device recovery copies remain after sign-out.
-          </span>
-        )}
         {!needsAttention && (
           <span className="account-disclosure-label">
             Account options
@@ -139,11 +128,6 @@ export function AccountControls({
   const content = (
     <div className="account-details-content">
       <div className="account-controls-heading">
-        {toolbar && phase === 'owner' && remember && !detailsContent && (
-          <p className="account-device-summary">
-            Device recovery copies remain after sign-out.
-          </p>
-        )}
         <div>
           {phase === 'guest' && (
             <p>
@@ -179,14 +163,6 @@ export function AccountControls({
         </div>
         {phase === 'guest' && configured && (
           <div className="account-signin-actions">
-            <label>
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(event) => onRemember(event.target.checked)}
-              />
-              Remember me on this personal device
-            </label>
             <button
               type="button"
               onClick={onSignIn}
@@ -212,8 +188,7 @@ export function AccountControls({
       {pending && (
         <output className="account-pending">
           Your latest changes have not been confirmed in account storage. Keep
-          this page open or export a backup. Sign-out is paused while saving is
-          unresolved.
+          this page open and retry account saving before signing out.
         </output>
       )}
       {issue && (
@@ -221,13 +196,8 @@ export function AccountControls({
           {issue}
         </p>
       )}
-      {(onExport || onRetry) && (
+      {onRetry && (
         <div className="account-recovery-actions">
-          {onExport && (
-            <button type="button" onClick={onExport}>
-              Export current progress
-            </button>
-          )}
           {onRetry && (
             <button type="button" onClick={onRetry} disabled={checking}>
               Try account again
