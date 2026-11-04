@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o04-legal-compliance",
+  "treatmentIds": [
+    "fresh-d1-o04-legal-compliance-cross-border-obligation-lenses"
+  ],
+  "title": "cross border obligation lenses",
+  "question": "Which changed facts make a proposed overseas support export require separate privacy, contract, license, regulatory, jurisdiction, or export-control review?",
+  "scenario": "Regional analytics service: A company wants a new analytics provider to process customer records in another country.",
+  "focalRelation": "The same transfer can be inside several obligation scopes at once; each applicable interpretation produces a distinct owner, control, evidence, retention, and escalation requirement.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "transfer",
+      "label": "Overseas support export",
+      "detail": "The proposed export records the customer data, support purpose, originating company, foreign administrator, destination, technology, and intended use as separate facts.",
+      "conceptIds": [
+        "classification",
+        "transborder-data-flow"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "privacy-jurisdiction",
+      "label": "Privacy and jurisdiction lens",
+      "detail": "Qualified owners determine which privacy, location, party, role, purpose, and regulatory duties apply.",
+      "conceptIds": [
+        "privacy",
+        "jurisdiction",
+        "legal-requirements",
+        "regulatory-requirements"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "contract-ip",
+      "label": "Contract and IP lens",
+      "detail": "Agreement and license terms constrain recipient, use, copying, confidentiality, ownership, and remedies.",
+      "conceptIds": [
+        "contractual-requirements",
+        "intellectual-property"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "export",
+      "label": "Export-control lens",
+      "detail": "Technology, recipient, destination, access, and end use determine whether a separate authorization question exists.",
+      "conceptIds": [
+        "export-control"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "requirements",
+      "label": "Operational requirements",
+      "detail": "Applicable duties become named owners, access rules, safeguards, retention, review dates, and stop or escalation conditions.",
+      "conceptIds": [
+        "legal-requirements",
+        "regulatory-requirements"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "evidence",
+      "label": "Compliance evidence",
+      "detail": "Records demonstrate the scoped control, responsible owner, period, recipient, and unresolved exceptions without treating encryption as authorization.",
+      "conceptIds": [
+        "compliance-evidence"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "transfer",
+      "to": "privacy-jurisdiction",
+      "label": "supplies party, purpose, role, and location facts to",
+      "kind": "dependency"
+    },
+    {
+      "from": "transfer",
+      "to": "contract-ip",
+      "label": "supplies recipient, use, copy, and license facts to",
+      "kind": "dependency"
+    },
+    {
+      "from": "transfer",
+      "to": "export",
+      "label": "supplies technology, recipient, access, and end-use facts to",
+      "kind": "dependency"
+    },
+    {
+      "from": "privacy-jurisdiction",
+      "to": "requirements",
+      "label": "creates applicable duties in",
+      "kind": "flow"
+    },
+    {
+      "from": "contract-ip",
+      "to": "requirements",
+      "label": "creates permitted-use and remedy duties in",
+      "kind": "flow"
+    },
+    {
+      "from": "export",
+      "to": "requirements",
+      "label": "creates authorization or stop conditions in",
+      "kind": "flow"
+    },
+    {
+      "from": "requirements",
+      "to": "evidence",
+      "label": "must be demonstrated by scoped",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "Transfer facts",
+      "rule": "Location, party, role, purpose, technology, and access are recorded separately."
+    },
+    {
+      "id": "control",
+      "label": "Concurrent obligation lenses",
+      "rule": "Overlap means concurrent qualified review; no lens automatically outranks another."
+    },
+    {
+      "id": "protected",
+      "label": "Operational result",
+      "rule": "Each applicable duty produces an owner, control, evidence, and review or escalation condition."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Regional analytics service: A company wants a new analytics provider to process customer records in another country.",
+      "activeNodeIds": [
+        "transfer",
+        "privacy-jurisdiction"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "transfer": "Customer records, support purpose, origin, destination, remote administrators, technology, and recipient are separate applicability facts.",
+        "privacy-jurisdiction": "Qualified owners determine which privacy, location, party, role, purpose, and regulatory duties apply."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Overseas support export supplies party, purpose, role, and location facts to Privacy and jurisdiction lens. Overseas support export supplies recipient, use, copy, and license facts to Contract and IP lens.",
+      "activeNodeIds": [
+        "transfer",
+        "privacy-jurisdiction",
+        "contract-ip"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "privacy-jurisdiction": "Qualified owners determine which privacy, location, party, role, purpose, and regulatory duties apply.",
+        "transfer": "The proposed export records the customer data, support purpose, originating company, foreign administrator, destination, technology, and intended use as separate facts.",
+        "contract-ip": "Agreement and license terms constrain recipient, use, copying, confidentiality, ownership, and remedies."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Export-control lens creates authorization or stop conditions in Operational requirements. Operational requirements must be demonstrated by scoped Compliance evidence.",
+      "activeNodeIds": [
+        "export",
+        "requirements",
+        "evidence"
+      ],
+      "activeEdgeIndexes": [
+        5,
+        6
+      ],
+      "statuses": {
+        "evidence": "Records demonstrate the scoped control, responsible owner, period, recipient, and unresolved exceptions without treating encryption as authorization.",
+        "export": "Technology, recipient, destination, access, and end use determine whether a separate authorization question exists.",
+        "requirements": "Applicable duties become named owners, access rules, safeguards, retention, review dates, and stop or escalation conditions."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "Both systems are in the same country, but a foreign supplier administrator can remotely access the regulated dataset. Reopen qualified privacy, contract, recipient, remote-access, export, and regulatory review; same-country storage alone does not settle applicability.",
+      "activeNodeIds": [
+        "transfer",
+        "privacy-jurisdiction",
+        "contract-ip",
+        "export",
+        "requirements"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "evidence": "The foreign administrator changes the applicable facts, so qualified owners must reopen the privacy, contract, recipient, remote-access, export, and regulatory review.",
+        "transfer": "The proposed export records the customer data, support purpose, originating company, foreign administrator, destination, technology, and intended use as separate facts.",
+        "privacy-jurisdiction": "Qualified owners determine which privacy, location, party, role, purpose, and regulatory duties apply.",
+        "contract-ip": "Agreement and license terms constrain recipient, use, copying, confidentiality, ownership, and remedies.",
+        "export": "Technology, recipient, destination, access, and end use determine whether a separate authorization question exists.",
+        "requirements": "Applicable duties become named owners, access rules, safeguards, retention, review dates, and stop or escalation conditions."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Storage locations do not change. The recipient and access path now include a foreign supplier administrator.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "Both systems are in the same country, but a foreign supplier administrator can remotely access the regulated dataset.",
+          "activeNodeIds": [
+            "export",
+            "requirements",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "evidence": "Storage locations do not change. The recipient and access path now include a foreign supplier administrator.",
+            "export": "Technology, recipient, destination, access, and end use determine whether a separate authorization question exists.",
+            "requirements": "Applicable duties become named owners, access rules, safeguards, retention, review dates, and stop or escalation conditions."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Reopen qualified privacy, contract, recipient, remote-access, export, and regulatory review; same-country storage alone does not settle applicability.",
+          "activeNodeIds": [
+            "export",
+            "requirements",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            5,
+            6
+          ],
+          "statuses": {
+            "evidence": "The foreign administrator changes the applicable facts, so qualified owners must reopen the privacy, contract, recipient, remote-access, export, and regulatory review.",
+            "export": "Technology, recipient, destination, access, and end use determine whether a separate authorization question exists.",
+            "requirements": "Applicable duties become named owners, access rules, safeguards, retention, review dates, and stop or escalation conditions."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o04-legal-compliance-prediction-v1",
+    "prompt": "Which changed facts make a proposed overseas support export require separate privacy, contract, license, regulatory, jurisdiction, or export-control review?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Pause the transfer until qualified owners resolve the applicable transfer, recipient, contract, privacy, IP, and export facts.",
+        "correct": true,
+        "feedback": "Encryption changes one safeguard, while authority and applicability still depend on parties, purpose, place, classification, and governing terms.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Approve the transfer because encryption and domestic endpoints resolve recipient, contract, privacy, IP, and export duties.",
+        "correct": false,
+        "feedback": "Location and encryption do not resolve who can access the data, for what purpose, under which agreement or rule.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Approve the overseas support transfer after encryption without separately resolving recipient, purpose, jurisdiction, and authorization.",
+        "correct": false,
+        "feedback": "Encryption is one safeguard and does not decide recipient, purpose, jurisdiction, contract, privacy, IP, or export authority.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "regulatory-requirements",
+      "privacy",
+      "jurisdiction",
+      "export-control"
+    ],
+    "hint": "Identify every jurisdiction, recipient, contract, and processing activity before choosing a rule."
+  },
+  "transfer": {
+    "id": "d1-o04-legal-compliance-transfer-v1",
+    "prompt": "Both systems are in the same country, but a foreign supplier administrator can remotely access the regulated dataset.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Reopen qualified privacy, contract, recipient, remote-access, export, and regulatory review",
+        "correct": true,
+        "feedback": "Reopen qualified privacy, contract, recipient, remote-access, export, and regulatory review; same-country storage alone does not settle applicability.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Approve the transfer because both endpoints are in the same country and the channel is encrypted",
+        "correct": false,
+        "feedback": "Changed fact: Storage locations do not change. The recipient and access path now include a foreign supplier administrator. Why this answer fails: “Approve the transfer because both endpoints are in the same country and the channel is encrypted” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: The same transfer can be inside several obligation scopes at once; each applicable interpretation produces a distinct owner, control, evidence, retention, and escalation requirement. Repair target: Control and evidence consequence — Export-control lens creates authorization or stop conditions in Operational requirements. Operational requirements must be demonstrated by scoped Compliance evidence.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Encryption by itself authorizes the overseas support transfer",
+        "correct": false,
+        "feedback": "Changed fact: Storage locations do not change. The recipient and access path now include a foreign supplier administrator. Why this answer fails: “Encryption by itself authorizes the overseas support transfer” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: The same transfer can be inside several obligation scopes at once; each applicable interpretation produces a distinct owner, control, evidence, retention, and escalation requirement. Repair target: Changed fact, recomputed result — Both systems are in the same country, but a foreign supplier administrator can remotely access the regulated dataset. Reopen qualified privacy, contract, recipient, remote-access, export, and regulatory review; same-country storage alone does not settle applicability.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "privacy",
+      "jurisdiction",
+      "contractual-requirements",
+      "transborder-data-flow",
+      "export-control"
+    ],
+    "hint": "Changing storage location does not remove remote access or recipient obligations."
+  },
+  "retry": {
+    "id": "d1-o04-legal-compliance-retry-v1",
+    "prompt": "A vendor says it is certified to an industry standard and therefore needs no security addendum. What should the buyer do?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "Treat encryption as complete authorization for every recipient, location, contract, privacy, and export obligation.",
+        "correct": false,
+        "feedback": "Encryption may be one safeguard, but applicability, transfer mechanism, contracts, rights, and accountability still require analysis.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "evidence-based",
+        "label": "A standard attestation does not automatically satisfy the buyer’s contract, legal, privacy, or risk requirements",
+        "correct": true,
+        "feedback": "Correct. A standard attestation does not automatically satisfy the buyer’s contract, legal, privacy, or risk requirements.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "shortcut",
+        "label": "Approve from the standard attestation alone without matching its service, period, controls, and contract scope.",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. A standard attestation does not automatically satisfy the buyer’s contract, legal, privacy, or risk requirements.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "contractual-requirements",
+      "compliance-evidence"
+    ],
+    "hint": "Trace the changed processing fact to the qualified legal or privacy review it reopens."
+  },
+  "takeaway": "Use the case evidence to apply this relation: The same transfer can be inside several obligation scopes at once; each applicable interpretation produces a distinct owner, control, evidence, retention, and escalation requirement.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o04-outline",
+    "d1-o04-textbook",
+    "d1-o04-legal-compliance-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o04-legal-compliance-cross-border-obligation-lenses",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve the reviewed separation of privacy and jurisdiction, contract and IP, export-control, operational-requirement, and evidence decisions. The lenses appear as staged relations rather than independently switchable controls."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Cross-border handling can trigger privacy, contract, intellectual-property, regulatory, and export questions at the same time. Encryption changes a safeguard but does not settle parties, purpose, place, recipient, or authority.",
+    "visualReasoningGain": "A lens matrix would expose which facts feed each concurrent review; the current map helps trace inputs but makes comparison depend on selector memory."
+  }
+}

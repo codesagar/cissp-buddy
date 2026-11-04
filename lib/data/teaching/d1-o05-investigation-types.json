@@ -1,0 +1,565 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o05-investigation-types",
+  "treatmentIds": [
+    "fresh-d1-o05-investigation-types-purpose-authority-custody"
+  ],
+  "title": "Investigation purpose changes mandate, scope, and consequence",
+  "question": "How does the same L-17 export log support five different investigation purposes without creating new authority?",
+  "scenario": "At 09:20, company export log L-17 records Alex's account exporting the customer directory. This identifies account activity; it does not by itself prove who acted, intent, or a crime. Approved incident scope preserves L-17 and company endpoint telemetry for 08:00–10:00; personal accounts are outside this authorization.",
+  "focalRelation": "Hold the artifact constant. Changing purpose and mandate changes the authorized question, scope, recipient, and consequence; custody remains necessary but never creates authority.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "observed-event",
+      "label": "Observed Event",
+      "detail": "A departing employee appears to have copied sensitive files before giving notice.",
+      "conceptIds": [
+        "investigation-scope"
+      ]
+    },
+    {
+      "id": "initial-preservation",
+      "label": "Initial Preservation",
+      "detail": "The response team preserves volatile and durable evidence that may disappear, using only its approved authority and scope.",
+      "conceptIds": [
+        "evidence-handling",
+        "chain-of-custody",
+        "legal-hold"
+      ]
+    },
+    {
+      "id": "purpose-classification",
+      "label": "Purpose Classification",
+      "detail": "The organization classifies the matter as administrative, civil, criminal, regulatory, or standards-related from its purpose and directing authority.",
+      "conceptIds": [
+        "administrative-investigation",
+        "criminal-investigation",
+        "civil-investigation",
+        "regulatory-investigation",
+        "standards-investigation",
+        "scope-of-authority"
+      ]
+    },
+    {
+      "id": "directing-authority",
+      "label": "Directing Authority",
+      "detail": "The authorized legal, regulatory, management, or law-enforcement owner sets the permissible investigation scope.",
+      "conceptIds": [
+        "scope-of-authority"
+      ]
+    },
+    {
+      "id": "investigation-scope",
+      "label": "Investigation Scope",
+      "detail": "The written scope names systems, people, time, collection authority, preservation duties, and escalation triggers.",
+      "conceptIds": [
+        "administrative-investigation",
+        "criminal-investigation",
+        "civil-investigation",
+        "regulatory-investigation",
+        "standards-investigation",
+        "investigation-scope"
+      ]
+    },
+    {
+      "id": "collection",
+      "label": "Collection",
+      "detail": "Collectors record source, time, method, handler, integrity evidence, and custody for every acquired artifact.",
+      "conceptIds": [
+        "chain-of-custody"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "observed-event",
+      "to": "initial-preservation",
+      "label": "triggers approved, minimally scoped",
+      "kind": "flow"
+    },
+    {
+      "from": "purpose-classification",
+      "to": "directing-authority",
+      "label": "determines",
+      "kind": "dependency"
+    },
+    {
+      "from": "directing-authority",
+      "to": "investigation-scope",
+      "label": "authorizes",
+      "kind": "flow"
+    },
+    {
+      "from": "investigation-scope",
+      "to": "collection",
+      "label": "limits",
+      "kind": "dependency"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Same artifact, five possible purposes",
+      "caption": "L-17 is an observation. The purpose is not a five-step sequence, and more than one inquiry may coexist.",
+      "activeNodeIds": [
+        "observed-event",
+        "initial-preservation"
+      ],
+      "activeEdgeIndexes": [],
+      "activeRowIds": []
+    },
+    {
+      "id": "decision",
+      "title": "Act within the current administrative mandate",
+      "caption": "Preserve the company log and endpoint period. Keep personal accounts outside scope unless an authorized owner expands it.",
+      "activeNodeIds": [
+        "purpose-classification",
+        "directing-authority",
+        "investigation-scope",
+        "collection"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3
+      ],
+      "activeRowIds": [
+        "administrative"
+      ]
+    },
+    {
+      "id": "consequence",
+      "title": "Separate preservation from disclosure",
+      "caption": "A preservation-only demand changes deletion behavior for named records. It does not yet authorize sending the preserved material.",
+      "activeNodeIds": [
+        "observed-event",
+        "initial-preservation",
+        "investigation-scope"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "activeRowIds": [
+        "regulatory"
+      ]
+    },
+    {
+      "id": "changed-case",
+      "title": "Compare regulatory and standards purposes",
+      "caption": "A regulator’s hypothetical demand and a program assessor’s AC-4 request ask different questions and carry different mandates; neither inherits the other’s deadline.",
+      "activeNodeIds": [
+        "purpose-classification",
+        "directing-authority",
+        "investigation-scope"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "activeRowIds": [
+        "regulatory",
+        "standards"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "civil-hold-variant",
+      "label": "Threatened customer claim",
+      "changedFact": "Counsel confirms a civil hold covering L-17 and related company messages. The hold changes preservation and deletion duties; collection and disclosure still require authority.",
+      "matrix": {
+        "title": "The same L-17 artifact supports different investigation purposes",
+        "description": "Hypothetical case facts only. Purposes may coexist; each collection, preservation, analysis, or disclosure action still needs an applicable mandate and authorized owner.",
+        "columns": [
+          {
+            "id": "question",
+            "label": "Purpose / question"
+          },
+          {
+            "id": "owner",
+            "label": "Mandate or authorized owner to verify"
+          },
+          {
+            "id": "scope",
+            "label": "First scope / action question"
+          },
+          {
+            "id": "recipient",
+            "label": "Recipient / consequence"
+          }
+        ],
+        "rows": [
+          {
+            "id": "administrative",
+            "label": "Administrative",
+            "cells": {
+              "question": "Did this breach company policy?",
+              "owner": "Designated HR/investigation owner under applicable policy and law",
+              "scope": "Do current authorization and policy cover these company records and proposed interviews?",
+              "recipient": "Authorized internal decision makers; an employment finding is not a criminal verdict"
+            }
+          },
+          {
+            "id": "criminal",
+            "label": "Criminal",
+            "cells": {
+              "question": "Could this be evidence of an offense?",
+              "owner": "Counsel/authorized leadership coordinates the applicable law-enforcement process",
+              "scope": "What preservation or disclosure is authorized, and who handles an external request?",
+              "recipient": "Authorized legal/law-enforcement channel; relabeling does not grant search powers"
+            }
+          },
+          {
+            "id": "civil",
+            "label": "Civil",
+            "cells": {
+              "question": "Does L-17 relate to the threatened customer claim?",
+              "owner": "Litigation counsel and applicable process",
+              "scope": "Which custodians, dates, copies, and deletion jobs fall within the confirmed hold?",
+              "recipient": "Authorized legal process; preservation and production are separate decisions"
+            }
+          },
+          {
+            "id": "regulatory",
+            "label": "Regulatory",
+            "cells": {
+              "question": "Does the event concern a duty within the regulator’s remit?",
+              "owner": "Validate authority, remit, and demand through legal/compliance owners",
+              "scope": "Which records/time range, what deadline, and is the request preservation or production?",
+              "recipient": "Validated response channel; preserving does not mean immediately sending records"
+            }
+          },
+          {
+            "id": "standards",
+            "label": "Standards",
+            "cells": {
+              "question": "Was access-control criterion AC-4 met during August?",
+              "owner": "Authorized program assessor and defined assessment scope",
+              "scope": "Which system, period, criterion, and evidence demonstrate conformance?",
+              "recipient": "Program assessment; a finding does not establish every legal obligation"
+            }
+          }
+        ],
+        "notes": [
+          "Activity evidence does not by itself prove who acted, intent, or a crime.",
+          "A custody record supports provenance and integrity; it does not create collection authority.",
+          "Any deadline shown belongs only to the stated hypothetical mandate."
+        ]
+      },
+      "evidenceRecord": {
+        "title": "Simplified L-17 handling record",
+        "fields": [
+          {
+            "label": "Collected",
+            "value": "09:35 UTC · Maya"
+          },
+          {
+            "label": "Source",
+            "value": "Export-log service"
+          },
+          {
+            "label": "Approved scope",
+            "value": "Confirmed civil hold · L-17 + related company messages"
+          },
+          {
+            "label": "Integrity record",
+            "value": "H-17 · illustrative identifier"
+          },
+          {
+            "label": "Transfer",
+            "value": "10:10 UTC · Maya → designated examiner"
+          }
+        ],
+        "note": "This simplified record supports provenance and integrity. H-17 is an example identifier, not a computed hash, and the record grants no collection or disclosure authority."
+      },
+      "states": [
+        {
+          "id": "civil-variant-facts",
+          "title": "Changed mandate: confirmed civil hold",
+          "caption": "The same artifact now relates to a threatened claim. Preserve covered records and suspend ordinary deletion within the confirmed scope.",
+          "activeNodeIds": [
+            "purpose-classification",
+            "directing-authority",
+            "initial-preservation"
+          ],
+          "activeEdgeIndexes": [],
+          "activeRowIds": []
+        },
+        {
+          "id": "civil-variant-result",
+          "title": "Preservation expands; disclosure does not",
+          "caption": "Counsel coordinates the hold. Custody and integrity remain necessary, while collection and production remain separately authorized decisions.",
+          "activeNodeIds": [
+            "directing-authority",
+            "investigation-scope",
+            "initial-preservation"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "activeRowIds": [
+            "civil"
+          ]
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o05-investigation-types-prediction-v2",
+    "prompt": "L-17 is first used to ask whether Alex violated company policy. Which purpose and authority question fit that use?",
+    "options": [
+      {
+        "id": "custody-authority",
+        "label": "Treat the custody record as permission to search Alex’s personal accounts.",
+        "correct": false,
+        "feedback": "Custody records handling; it does not create collection authority. Compare the current scope with the proposed personal-account search.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "administrative",
+        "label": "Treat this as an administrative purpose and verify the designated internal owner and policy/legal scope.",
+        "correct": true,
+        "feedback": "Correct. The employment-policy question is administrative, while each action still depends on an applicable mandate.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "criminal-label",
+        "label": "Treat the file copy as proof of a crime and use criminal investigative powers.",
+        "correct": false,
+        "feedback": "The log shows account activity, not identity, intent, or an offense. Security does not gain powers by relabeling the inquiry.",
+        "repairStateId": "case"
+      }
+    ],
+    "conceptIds": [
+      "administrative-investigation",
+      "criminal-investigation",
+      "civil-investigation",
+      "regulatory-investigation",
+      "standards-investigation",
+      "evidence-handling",
+      "scope-of-authority"
+    ],
+    "hint": "Hold the artifact constant and identify the purpose, applicable mandate, and authorized owner."
+  },
+  "transfer": {
+    "id": "d1-o05-investigation-types-transfer-v2",
+    "prompt": "A validated hypothetical regulatory demand covers export logs from 08:00–12:00 and requires preservation by 17:00, but does not authorize production. What changes?",
+    "options": [
+      {
+        "id": "deliver-now",
+        "label": "Send every related record to the requester by 17:00 because preservation and production are the same.",
+        "correct": false,
+        "feedback": "This demand is preservation-only. Protect the named 08:00–12:00 records by the case-specific deadline, then have authorized owners determine any disclosure.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "preserve-scope",
+        "label": "Expand preservation to the named 08:00–12:00 records, suspend their ordinary deletion, and keep disclosure separately authorized.",
+        "correct": true,
+        "feedback": "Correct. The hypothetical demand changes scope and timing while preserved material remains internal pending a separate disclosure decision.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "personal-search",
+        "label": "Use L-17’s integrity record to search all personal accounts for corroboration.",
+        "correct": false,
+        "feedback": "An integrity record supports provenance. It does not expand the named dataset or authorize a personal-account search.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "administrative-investigation",
+      "criminal-investigation",
+      "civil-investigation",
+      "regulatory-investigation",
+      "standards-investigation",
+      "evidence-handling",
+      "scope-of-authority"
+    ],
+    "hint": "Distinguish the named preservation act from later collection or production authority."
+  },
+  "retry": {
+    "id": "d1-o05-investigation-types-retry-v2",
+    "prompt": "Counsel confirms a civil hold covering L-17 and related company messages. Which conclusion is supported?",
+    "options": [
+      {
+        "id": "civil-preserve",
+        "label": "Preserve the covered records and suspend scoped deletion; keep collection and production within separately confirmed authority.",
+        "correct": true,
+        "feedback": "Correct. The civil purpose and confirmed hold change preservation scope while custody remains an integrity obligation.",
+        "repairStateId": "civil-variant-result"
+      },
+      {
+        "id": "criminal-conversion",
+        "label": "The hold converts the event into a criminal investigation.",
+        "correct": false,
+        "feedback": "A civil hold does not establish an offense or criminal authority. Compare the civil purpose and mandate fields.",
+        "repairStateId": "civil-variant-result"
+      },
+      {
+        "id": "ignore-copies",
+        "label": "Preserve only the original L-17 entry because the custody record covers related copies automatically.",
+        "correct": false,
+        "feedback": "The confirmed hold identifies covered records and copies. One item’s custody record does not dispose of other copies or deletion jobs.",
+        "repairStateId": "civil-variant-facts"
+      }
+    ],
+    "conceptIds": [
+      "administrative-investigation",
+      "criminal-investigation",
+      "civil-investigation",
+      "regulatory-investigation",
+      "standards-investigation",
+      "evidence-handling",
+      "scope-of-authority"
+    ],
+    "hint": "Ask what the civil hold changes and which authority questions remain separate."
+  },
+  "takeaway": "Investigation purpose frames the question; an applicable mandate and authorized owner bound each action. Preservation, collection, analysis, custody, and disclosure remain distinct.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o05-outline",
+    "d1-o05-textbook",
+    "d1-o05-investigation-types-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o05-investigation-types-purpose-authority-custody",
+      "disposition": "equivalent",
+      "rationale": "The decision model preserves immediate preservation, investigation purpose, directing authority, collection scope, and custody evidence, including the changed regulatory demand. Custody is expressed through named nodes, relations, and states rather than the reviewed persistent evidence rail, so the mechanism is equivalent."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Preserve relevant evidence under approved authority and document its handling. Identify the inquiry purpose and verify its mandate, scope and recipients with the responsible owners. A new demand can change constraints, but custody records do not authorize a search.",
+    "visualReasoningGain": "Current graph adds generic endpoint tracing but no five-purpose discrimination; a shared-artifact comparison would expose differing purpose/mandate/scope/recipient while keeping integrity constant."
+  },
+  "matrix": {
+    "title": "The same L-17 artifact supports different investigation purposes",
+    "description": "Hypothetical case facts only. Purposes may coexist; each collection, preservation, analysis, or disclosure action still needs an applicable mandate and authorized owner.",
+    "columns": [
+      {
+        "id": "question",
+        "label": "Purpose / question"
+      },
+      {
+        "id": "owner",
+        "label": "Mandate or authorized owner to verify"
+      },
+      {
+        "id": "scope",
+        "label": "First scope / action question"
+      },
+      {
+        "id": "recipient",
+        "label": "Recipient / consequence"
+      }
+    ],
+    "rows": [
+      {
+        "id": "administrative",
+        "label": "Administrative",
+        "cells": {
+          "question": "Did this breach company policy?",
+          "owner": "Designated HR/investigation owner under applicable policy and law",
+          "scope": "Do current authorization and policy cover these company records and proposed interviews?",
+          "recipient": "Authorized internal decision makers; an employment finding is not a criminal verdict"
+        }
+      },
+      {
+        "id": "criminal",
+        "label": "Criminal",
+        "cells": {
+          "question": "Could this be evidence of an offense?",
+          "owner": "Counsel/authorized leadership coordinates the applicable law-enforcement process",
+          "scope": "What preservation or disclosure is authorized, and who handles an external request?",
+          "recipient": "Authorized legal/law-enforcement channel; relabeling does not grant search powers"
+        }
+      },
+      {
+        "id": "civil",
+        "label": "Civil",
+        "cells": {
+          "question": "Does L-17 relate to the threatened customer claim?",
+          "owner": "Litigation counsel and applicable process",
+          "scope": "Which custodians, dates, copies, and deletion jobs fall within the confirmed hold?",
+          "recipient": "Authorized legal process; preservation and production are separate decisions"
+        }
+      },
+      {
+        "id": "regulatory",
+        "label": "Regulatory",
+        "cells": {
+          "question": "Does the event concern a duty within the regulator’s remit?",
+          "owner": "Validate authority, remit, and demand through legal/compliance owners",
+          "scope": "Which records/time range, what deadline, and is the request preservation or production?",
+          "recipient": "Validated response channel; preserving does not mean immediately sending records"
+        }
+      },
+      {
+        "id": "standards",
+        "label": "Standards",
+        "cells": {
+          "question": "Was access-control criterion AC-4 met during August?",
+          "owner": "Authorized program assessor and defined assessment scope",
+          "scope": "Which system, period, criterion, and evidence demonstrate conformance?",
+          "recipient": "Program assessment; a finding does not establish every legal obligation"
+        }
+      }
+    ],
+    "notes": [
+      "Activity evidence does not by itself prove who acted, intent, or a crime.",
+      "A custody record supports provenance and integrity; it does not create collection authority.",
+      "Any deadline shown belongs only to the stated hypothetical mandate."
+    ]
+  },
+  "openingFacts": [
+    {
+      "label": "Observed artifact",
+      "value": "L-17 records account activity at 09:20; actor and intent remain unknown."
+    },
+    {
+      "label": "Current authorized scope",
+      "value": "Preserve L-17 and company endpoint telemetry for 08:00–10:00."
+    },
+    {
+      "label": "Outside current scope",
+      "value": "Personal accounts and disclosure to an external recipient are not authorized by these facts."
+    },
+    {
+      "label": "Unresolved choice",
+      "value": "Identify the inquiry purpose and verify the applicable mandate before expanding action."
+    }
+  ],
+  "evidenceRecord": {
+    "title": "Simplified L-17 handling record",
+    "fields": [
+      {
+        "label": "Collected",
+        "value": "09:35 UTC · Maya"
+      },
+      {
+        "label": "Source",
+        "value": "Export-log service"
+      },
+      {
+        "label": "Approved scope",
+        "value": "INC-42 · 08:00–10:00"
+      },
+      {
+        "label": "Integrity record",
+        "value": "H-17 · illustrative identifier"
+      },
+      {
+        "label": "Transfer",
+        "value": "10:10 UTC · Maya → designated examiner"
+      }
+    ],
+    "note": "This simplified record supports provenance and integrity. H-17 is an example identifier, not a computed hash, and the record grants no collection or disclosure authority."
+  }
+}

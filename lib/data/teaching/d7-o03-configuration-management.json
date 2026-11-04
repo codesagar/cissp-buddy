@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o03-configuration-management",
+  "treatmentIds": [
+    "fresh-d7-o03-configuration-management-desired-actual-state-comparator-with-disposition-gate"
+  ],
+  "title": "Perform configuration management",
+  "question": "When actual configuration differs, who decides remediation, exception, or investigation?",
+  "scenario": "A production host differs from the approved image: a diagnostic port is open and a package version is newer than the baseline.",
+  "focalRelation": "approved baseline --compared with--> observed configuration difference --authorized change evidence--> update baseline after validation difference --unapproved and unsafe--> remediate difference --suspicious or unexplained--> investigate temporary accepted deviation --owner/expiry/compensating controls--> exception",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Production host",
+      "detail": "Configuration item whose actual state, owner, version, and service role are recorded.",
+      "conceptIds": [
+        "configuration-item"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Approved secure baseline",
+      "detail": "Versioned desired state for packages, ports, services, logging, and hardening.",
+      "conceptIds": [
+        "secure-baseline",
+        "configuration-baseline",
+        "desired-state"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Observed diagnostic port",
+      "detail": "Specific drift that may be authorized, accidental, or malicious and must be dispositioned.",
+      "conceptIds": [
+        "configuration-drift"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Change record",
+      "detail": "Approved intent, impact, implementer, validation, exception, and rollback evidence for a difference.",
+      "conceptIds": [
+        "configuration-documentation",
+        "versioning"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Configuration pipeline",
+      "detail": "Controlled automation that applies reviewed desired state without erasing needed evidence.",
+      "conceptIds": [
+        "configuration-automation",
+        "provisioning",
+        "golden-image"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Verified resulting state",
+      "detail": "Actual state re-compared with desired state and linked to authorization or expiring exception.",
+      "conceptIds": [
+        "desired-state",
+        "configuration-documentation"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "is compared against versioned desired state",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "is checked for authorized intent and impact",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "authorizes approved correction or documented exception",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n1",
+      "label": "applies controlled configuration change",
+      "kind": "flow"
+    },
+    {
+      "from": "n1",
+      "to": "n6",
+      "label": "reports post-change actual state",
+      "kind": "evidence"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "supplies acceptance baseline",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A production host differs from the approved image: a diagnostic port is open and a package version is newer than the baseline.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n3": "port open; package newer"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Provisioning creates or changes a resource; baselining defines the approved state it should produce.",
+      "activeNodeIds": [
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n4": "authorization and impact under review"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A golden image is permanently secure. Images age, dependencies change, and deployment context varies; baseline content requires review, patching, testing, and drift detection.",
+      "activeNodeIds": [
+        "n1",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        3
+      ],
+      "statuses": {
+        "n5": "blind rebuild held to preserve evidence"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Confirm the host and configuration item, assess whether the change is authorized and security-relevant, preserve evidence, and compare the state against the change record. Remediate through the approved pipeline or document an exception with expiry; do not overwrite forensic evidence or blindly rebuild before understanding why the drift occurred.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n1"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "approved change or expiring exception",
+        "n1": "correction applied"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a system change or drift finding, identify the configuration item and baseline, assess impact, select an approved correction, and produce evidence that the resulting state is secure and reproducible. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n6": "matches accepted desired state"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "An emergency firewall change restores service but bypasses normal review.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "An emergency firewall change restores service but bypasses normal review.",
+          "activeNodeIds": [
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            1
+          ],
+          "statuses": {
+            "n3": "emergency firewall drift",
+            "n4": "normal review bypassed"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Record the change and reason, validate the resulting configuration, monitor it, and schedule retrospective approval and cleanup. Emergency authority can accelerate action without making undocumented drift acceptable.",
+          "activeNodeIds": [
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "n4": "emergency authority and reason recorded"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n6": "validated; retrospective approval and baseline update scheduled"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Production firewall",
+          "detail": "The firewall contains the emergency rule that restored service.",
+          "conceptIds": [
+            "configuration-item"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Approved firewall baseline",
+          "detail": "The versioned desired state does not yet include the emergency rule.",
+          "conceptIds": [
+            "secure-baseline",
+            "configuration-baseline",
+            "desired-state"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Emergency rule change",
+          "detail": "The rule was installed under urgent authority without normal review.",
+          "conceptIds": [
+            "configuration-drift"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Emergency change record",
+          "detail": "The record captures reason, authority, scope, expiry, and rollback.",
+          "conceptIds": [
+            "configuration-documentation",
+            "versioning"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Validation and review path",
+          "detail": "Monitoring, peer review, cleanup, and retrospective approval evaluate the rule.",
+          "conceptIds": [
+            "configuration-automation",
+            "provisioning"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Reconciled firewall state",
+          "detail": "The rule is removed or incorporated into the approved baseline after validation.",
+          "conceptIds": [
+            "desired-state",
+            "configuration-documentation"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "is compared with the approved rule set",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "is documented with emergency authority",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "enters controlled validation",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n1",
+          "label": "applies correction or approved baseline update",
+          "kind": "flow"
+        },
+        {
+          "from": "n1",
+          "to": "n6",
+          "label": "reports actual post-change state",
+          "kind": "evidence"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "sets acceptance criteria",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o03-configuration-management-prediction",
+    "prompt": "When actual configuration differs, who decides remediation, exception, or investigation?",
+    "options": [
+      {
+        "id": "relation",
+        "label": "Compare the host to approved desired state and disposition each difference",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Images age, dependencies change, and deployment context varies; baseline content requires review, patching, testing, and drift detection.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "misconception",
+        "label": "A golden image stays permanently secure, so any later difference must be malicious.",
+        "correct": false,
+        "feedback": "Incorrect: Images age, dependencies change, and deployment context varies; baseline content requires review, patching, testing, and drift detection.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Remove the open port and newer package immediately because every baseline difference is unauthorized.",
+        "correct": false,
+        "feedback": "Incorrect: a difference requires comparison with approved desired state, change records, security impact, owner, and rollback criteria. Drift is evidence to disposition, not automatic proof of compromise.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "golden-image",
+      "desired-state",
+      "secure-baseline"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o03-configuration-management-transfer",
+    "prompt": "An emergency firewall change restores service but bypasses normal review.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: An emergency firewall change restores service but bypasses normal review. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Confirm the host and configuration item, assess whether the change is authorized and security-relevant, preserve evidence, and compare the state against the change record. Repair target: Decision recomputed — Record the change and reason, validate the resulting configuration, monitor it, and schedule retrospective approval and cleanup. Emergency authority can accelerate action without making undocumented drift acceptable.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Record the change and reason, validate the resulting configuration, monitor it",
+        "correct": true,
+        "feedback": "Correct. Record the change and reason, validate the resulting configuration, monitor it, and schedule retrospective approval and cleanup. Emergency authority can accelerate action without making undocumented drift acceptable.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: An emergency firewall change restores service but bypasses normal review. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Confirm the host and configuration item, assess whether the change is authorized and security-relevant, preserve evidence, and compare the state against the change record. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "configuration-item"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o03-configuration-management-retry-v2",
+    "prompt": "A current golden image launches a bootstrap script that opens an unapproved firewall rule on every startup. What belongs in the baseline decision?",
+    "options": [
+      {
+        "id": "image-passes",
+        "label": "Accept the hosts because their image hash matches the approved golden image",
+        "correct": false,
+        "feedback": "The post-boot script changes effective state after the image hash is verified.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "ignore-runtime",
+        "label": "Exclude startup automation from configuration management because it is not stored in the image",
+        "correct": false,
+        "feedback": "Automation that changes security state is part of the governed configuration path.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "include-bootstrap",
+        "label": "Govern the bootstrap rule as runtime configuration; remediate or authorize its drift",
+        "correct": true,
+        "feedback": "Correct. Image currency alone does not establish the runtime baseline.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "golden-image",
+      "desired-state",
+      "configuration-drift"
+    ],
+    "hint": "The effective configuration includes changes applied after the image boots."
+  },
+  "takeaway": "Confirm the host and configuration item, assess whether the change is authorized and security-relevant, preserve evidence, and compare the state against the change record.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o03",
+    "official-d7-31-34",
+    "sybex-d7-782-788"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o03-configuration-management-desired-actual-state-comparator-with-disposition-gate",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable state states: Production host is compared against versioned desired state Approved secure baseline; Observed diagnostic port is checked for authorized intent and impact Change record. The model keeps Production host, Approved secure baseline, Observed diagnostic port, Change record, Configuration pipeline, Verified resulting state distinct. Its changed case is “An emergency firewall change restores service but bypasses normal review.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Actual configuration must be compared with versioned desired state and each difference dispositioned as authorized change, remediation, exception, or investigation. Correct drift through an approved path without destroying evidence of why it occurred.",
+    "visualReasoningGain": "The desired-versus-actual comparator and disposition gate let the learner trace each drift item to authorized correction, exception, or investigation."
+  }
+}

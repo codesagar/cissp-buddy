@@ -1,0 +1,445 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o12-disaster-recovery-lessons-maintenance",
+  "treatmentIds": [
+    "fresh-d7-o12-disaster-recovery-lessons-maintenance-finding-to-capability-change-state-machine"
+  ],
+  "title": "Convert DR exercise evidence into maintained readiness",
+  "question": "How does an exercise observation become a verified, owned, and retested recovery improvement?",
+  "scenario": "A tabletop shows that the alternate site contact is no longer employed. The owner updates a contact list but does not test the backup channel or the supplier's escalation path.",
+  "focalRelation": "observation --expected/actual evidence--> finding finding --owner/priority/due date--> action plan action --changes plan/architecture/training/contract--> candidate capability retest --verifies--> closure risk acceptance --bounded owner/review date--> open residual risk",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Exercise observation",
+      "detail": "Alternate-site contact is no longer employed; observed fact is preserved separately from interpretation.",
+      "conceptIds": [
+        "exercise-observation",
+        "test-evidence"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Classified DR finding",
+      "detail": "People and communications capability gap with impact, scope, evidence, and status.",
+      "conceptIds": [
+        "dr-finding",
+        "test-status"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Corrective-action owner",
+      "detail": "Primary accountable owner, alternate owner, due date, priority, and escalation.",
+      "conceptIds": [
+        "corrective-action"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Updated contact plan",
+      "detail": "Version-controlled plan change replacing the contact and supplier escalation details.",
+      "conceptIds": [
+        "plan-maintenance",
+        "lessons-learned"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Backup-channel retest",
+      "detail": "Observed activation of alternate owner, approved channel, and supplier escalation under exercise conditions.",
+      "conceptIds": [
+        "retest",
+        "test-evidence"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Readiness evidence",
+      "detail": "Closure record showing the capability works, remaining limits, communication status, and next maintenance trigger.",
+      "conceptIds": [
+        "recovery-readiness"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "is evaluated and classified as capability gap",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "is assigned with due date and escalation",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "authorizes controlled plan correction",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "becomes subject of targeted retest",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "produces closure or reopened finding evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A tabletop shows that the alternate site contact is no longer employed. The owner updates a contact list but does not test the backup channel or the supplier's escalation path.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "contact left company",
+        "n2": "people/communication gap"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Evidence should support both what happened and what the exercise could not test.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "primary + alternate owner assigned"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Updating the DR document closes a failed exercise finding. A document update is only closure when the underlying capability, ownership, or decision has been made executable and retested.",
+      "activeNodeIds": [
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "name-only edit insufficient"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Classify the issue as a people and communication capability gap, assign a primary and alternate owner, test the approved channels, update the plan version, and retest contact activation. Evidence must show that the team can reach the decision authority during an event, not only that a name was replaced.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "version updated",
+        "n5": "backup channel and supplier path exercised"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given DR exercise evidence, classify findings, assign corrective action, communicate status, update the plan, and define a retest that demonstrates closure. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n6": "decision authority reachable; finding closed"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A full-interruption exercise was stopped safely, but the recovery team did not test customer communications or regulator notification.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A full-interruption exercise was stopped safely, but the recovery team did not test customer communications or regulator notification.",
+          "activeNodeIds": [
+            "n1",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n1": "customer/regulator comms not tested",
+            "n2": "exercise partially successful"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Record the exercise as partially successful, assign communication and regulatory actions, update the scope and contact plan, and schedule a targeted retest. A safe stop is valuable evidence but does not prove the untested stakeholder path.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "n3": "communication actions assigned",
+            "n4": "scope/contact plan updated"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "n5": "targeted retest scheduled",
+            "n6": "status accurately reported"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Safely stopped interruption exercise",
+          "detail": "The team demonstrated stop authority and safe termination.",
+          "conceptIds": [
+            "test-evidence"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Untested communications gap",
+          "detail": "Customer messaging and regulator notification were outside execution.",
+          "conceptIds": [
+            "lessons-learned",
+            "dr-finding"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Communications corrective owner",
+          "detail": "A named owner updates triggers, templates, approvals, and contact routes.",
+          "conceptIds": [
+            "corrective-action",
+            "plan-maintenance"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Customer and regulator contact plan",
+          "detail": "The maintained plan defines authority, audiences, channels, timing, and alternates.",
+          "conceptIds": [
+            "plan-maintenance"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Communications retest",
+          "detail": "A bounded exercise validates message approval, delivery, fallback, and evidence.",
+          "conceptIds": [
+            "retest",
+            "test-evidence"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Updated readiness evidence",
+          "detail": "The report separates proven interruption controls from newly tested communications.",
+          "conceptIds": [
+            "recovery-readiness"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "creates a classified gap",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "is assigned to accountable owner",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "updates controlled communication plan",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "enters bounded retest",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "produces readiness evidence",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o12-disaster-recovery-lessons-maintenance-prediction",
+    "prompt": "How does an exercise observation become a verified, owned, and retested recovery improvement?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "Updating the DR document closes a failed exercise finding.",
+        "correct": false,
+        "feedback": "Incorrect: A document update is only closure when the underlying capability, ownership, or decision has been made executable and retested.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Assign the gap, test both contact paths, update the plan, and retest activation",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. A document update is only closure when the underlying capability, ownership, or decision has been made executable and retested.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Close the exercise finding after replacing the old contact name in the plan.",
+        "correct": false,
+        "feedback": "Incorrect: the edit does not establish that the backup channel or supplier escalation works. Assign an owner, test the changed path, capture evidence, and maintain the plan from the result.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "retest",
+      "test-evidence",
+      "dr-finding"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o12-disaster-recovery-lessons-maintenance-transfer",
+    "prompt": "A full-interruption exercise was stopped safely, but the recovery team did not test customer communications or regulator notification.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A full-interruption exercise was stopped safely, but the recovery team did not test customer communications or regulator notification. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Classify the issue as a people and communication capability gap, assign a primary and alternate owner, test the approved channels, update the plan version, and retest contact activation. Repair target: Decision recomputed — Record the exercise as partially successful, assign communication and regulatory actions, update the scope and contact plan, and schedule a targeted retest. A safe stop is valuable evidence but does not prove the untested stakeholder path.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A full-interruption exercise was stopped safely, but the recovery team did not test customer communications or regulator notification. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Classify the issue as a people and communication capability gap, assign a primary and alternate owner, test the approved channels, update the plan version, and retest contact activation. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Record the exercise as partially successful, assign communication and regulatory actions",
+        "correct": true,
+        "feedback": "Correct. Record the exercise as partially successful, assign communication and regulatory actions, update the scope and contact plan, and schedule a targeted retest. A safe stop is valuable evidence but does not prove the untested stakeholder path.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "test-evidence",
+      "regulator-communication"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o12-disaster-recovery-lessons-maintenance-retry-v2",
+    "prompt": "A recovery finding is marked closed after the runbook is edited, but the failed procedure has not been exercised again. What status is justified?",
+    "options": [
+      {
+        "id": "await-retest",
+        "label": "Record the corrective action as implemented but keep effectiveness open until a scoped retest passes",
+        "correct": true,
+        "feedback": "Correct. Retest evidence distinguishes edited instructions from restored capability.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "close-edit",
+        "label": "Close the finding because the approved runbook now contains the correct steps",
+        "correct": false,
+        "feedback": "Approval proves the document changed, not that people and systems can execute it.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "reopen-all",
+        "label": "Reopen every prior exercise finding because one procedure has not been retested",
+        "correct": false,
+        "feedback": "Track the affected finding and dependencies; unrelated closed evidence need not be discarded.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "retest",
+      "test-evidence",
+      "dr-finding"
+    ],
+    "hint": "A document change is an action; closure depends on evidence that the capability now works."
+  },
+  "takeaway": "Classify the issue as a people and communication capability gap, assign a primary and alternate owner, test the approved channels, update the plan version, and retest contact activation.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o12-lessons",
+    "official-d7-82-84-lessons",
+    "sybex-d7-899-901"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o12-disaster-recovery-lessons-maintenance-finding-to-capability-change-state-machine",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable state states: Exercise observation is evaluated and classified as capability gap Classified DR finding; Classified DR finding is assigned with due date and escalation Corrective-action owner. The model keeps Exercise observation, Classified DR finding, Corrective-action owner, Updated contact plan, Backup-channel retest, Readiness evidence distinct. Its changed case is “A full-interruption exercise was stopped safely, but the recovery team did not test customer communications or regulator notification.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Updating a plan does not close a capability failure. Assign the finding, change the executable capability, preserve evidence, update the plan, and retest the failed condition.",
+    "visualReasoningGain": "The finding-to-capability sequence makes ownership, corrective action, evidence, plan update, and retest closure traceable."
+  }
+}

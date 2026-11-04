@@ -1,0 +1,551 @@
+{
+  "id": "cross-asset-data-lifecycle--transit-protection",
+  "model": {
+    "assumptions": [
+      "The export’s classification and recipient approval are already established.",
+      "The case is protocol-neutral and does not claim a specific TLS message order.",
+      "An approved exception may authorize temporary risk but cannot be inferred from urgency."
+    ],
+    "edges": [
+      {
+        "from": "handling-rule",
+        "kind": "dependency",
+        "label": "requires protected data in transit",
+        "to": "encrypted-channel"
+      },
+      {
+        "from": "approved-recipient",
+        "kind": "dependency",
+        "label": "requires binding the endpoint to the intended partner",
+        "to": "peer-validation"
+      },
+      {
+        "from": "encrypted-channel",
+        "kind": "evidence",
+        "label": "confidentiality mechanism present",
+        "to": "transfer-decision"
+      },
+      {
+        "from": "peer-validation",
+        "kind": "dependency",
+        "label": "missing peer validation blocks compliant release",
+        "to": "transfer-decision"
+      }
+    ],
+    "focalRelation": "Handling and compliance requirements constrain the channel’s protection outcomes; cryptographic and key-management choices support those outcomes only when the intended peer and trust state are validated.",
+    "lanes": [
+      {
+        "id": "requirements",
+        "label": "Asset and compliance requirements",
+        "rule": "State the protection outcome and intended recipient before selecting a mechanism."
+      },
+      {
+        "id": "channel",
+        "label": "Channel and trust evidence",
+        "rule": "Separate payload secrecy from peer identity, trust-anchor, revocation, and key lifecycle checks."
+      },
+      {
+        "id": "decision",
+        "label": "Release decision",
+        "rule": "Release or exception authority depends on the unmet requirement, not on an encryption indicator alone."
+      }
+    ],
+    "nodes": [
+      {
+        "conceptIds": [
+          "handling-requirements",
+          "need-to-know",
+          "data-security-controls"
+        ],
+        "detail": "The export requires confidentiality, integrity, intended-recipient delivery, accountable transfer evidence, and approved exception handling.",
+        "id": "handling-rule",
+        "label": "Classified-data handling rule",
+        "lane": "requirements"
+      },
+      {
+        "conceptIds": [
+          "need-to-know",
+          "third-party-connectivity"
+        ],
+        "detail": "Business approval identifies who may receive the data, but it does not prove that this network endpoint is that partner.",
+        "id": "approved-recipient",
+        "label": "Approved partner",
+        "lane": "requirements"
+      },
+      {
+        "conceptIds": [
+          "secure-channel",
+          "tls",
+          "cryptography"
+        ],
+        "detail": "The protocol encrypts bytes in transit, providing a confidentiality mechanism under its negotiated configuration.",
+        "id": "encrypted-channel",
+        "label": "Payload encryption active",
+        "lane": "channel"
+      },
+      {
+        "conceptIds": [
+          "certificate-validation",
+          "trust-anchor",
+          "certificate"
+        ],
+        "detail": "Certificate chain, expected service identity, validity, and revocation status are not checked, so the remote endpoint is not bound to the approved partner.",
+        "id": "peer-validation",
+        "label": "Peer binding unvalidated",
+        "lane": "channel"
+      },
+      {
+        "conceptIds": [
+          "compliance",
+          "control-assurance",
+          "key-lifecycle"
+        ],
+        "detail": "Do not release the classified export until channel identity validation and key lifecycle ownership meet the handling requirement, or an authorized exception records the residual exposure.",
+        "id": "transfer-decision",
+        "label": "Block or use an approved exception",
+        "lane": "decision"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "handling-requirements",
+        "secure-channel",
+        "certificate-validation"
+      ],
+      "hint": "Separate who may receive the data from what the network client has proved about this endpoint.",
+      "id": "transit-predict-131cc0b7bf04",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Encryption without verified peer binding does not establish intended-recipient delivery.",
+          "id": "p-peer",
+          "label": "Bind the endpoint to the approved partner through certificate and trust validation",
+          "repairStateId": "blocked"
+        },
+        {
+          "correct": false,
+          "feedback": "Key strength does not identify the remote peer or repair missing chain, name, and trust checks.",
+          "id": "p-morecipher",
+          "label": "Use a longer cipher key without changing validation",
+          "repairStateId": "partial"
+        },
+        {
+          "correct": false,
+          "feedback": "Approval establishes authorization, not the identity of the endpoint currently receiving traffic.",
+          "id": "p-approval",
+          "label": "Treat recipient approval as proof that the responding endpoint is the partner",
+          "repairStateId": "requirements"
+        }
+      ],
+      "prompt": "What is the decisive unmet requirement before sending the export?"
+    },
+    "question": "A classified export is sent to an approved recipient over an unvalidated channel. Which transit protection and key/peer validation requirements remain unmet?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "handling-requirements",
+        "certificate-validation",
+        "revocation",
+        "trust-anchor"
+      ],
+      "hint": "A secure-channel decision is the conjunction of the handling rule and each required peer-validation result.",
+      "id": "transit-retry-f8ff9596f5f3",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Those controls support secrecy and peer naming, but the stated handling rule also requires current revocation evidence.",
+          "id": "r-encrypt",
+          "label": "Proceed because encryption and service-name validation already protect the payload",
+          "repairStateId": "retry-revocation-gap"
+        },
+        {
+          "correct": false,
+          "feedback": "Stale evidence does not meet the fresh-status requirement, and an exception cannot be invented by the transfer client.",
+          "id": "r-cache",
+          "label": "Proceed using an expired cached revocation result without an approved exception",
+          "repairStateId": "retry-revocation-gap"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The channel must satisfy every required trust condition or follow a separately authorized exception path.",
+          "id": "r-pause",
+          "label": "Pause release until fresh status succeeds or an authorized exception changes the rule",
+          "repairStateId": "retry-revocation-decision"
+        }
+      ],
+      "prompt": "The certificate chain and service name validate, but current revocation status is unavailable and the handling rule requires a fresh revocation result. May the export proceed?"
+    },
+    "scenario": "An analyst is authorized to send a confidential export to an approved partner. The transfer client reports encryption, but it does not validate the partner certificate chain or expected service name. The team has not established who owns trust-anchor updates or revocation checks.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "official-d2-14-17",
+      "official-d2-37-47",
+      "outline-d4-3",
+      "official-d4-85-98",
+      "d3-o06-outline",
+      "d3-o06-pki-textbook"
+    ],
+    "states": [
+      {
+        "activeNodeIds": [
+          "handling-rule",
+          "approved-recipient"
+        ],
+        "caption": "Authorization to receive and protection during transit are separate requirements.",
+        "id": "requirements",
+        "statuses": {
+          "approved-recipient": "business approval recorded"
+        },
+        "title": "Start with the handling outcome"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "handling-rule",
+          "approved-recipient",
+          "encrypted-channel",
+          "peer-validation"
+        ],
+        "caption": "The payload mechanism is active; endpoint identity remains unsupported.",
+        "id": "partial",
+        "statuses": {
+          "encrypted-channel": "active",
+          "peer-validation": "not performed"
+        },
+        "title": "Encryption is present but assurance is partial"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "peer-validation",
+          "transfer-decision",
+          "encrypted-channel"
+        ],
+        "caption": "The missing peer binding blocks release under the stated handling rule.",
+        "id": "blocked",
+        "statuses": {
+          "transfer-decision": "blocked pending validation or exception"
+        },
+        "title": "Do not equate secrecy with intended-recipient delivery"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "handling-rule",
+          "approved-recipient",
+          "encrypted-channel",
+          "peer-validation",
+          "transfer-decision"
+        ],
+        "caption": "After chain, name, validity, and revocation checks succeed under owned trust configuration, record the protected transfer.",
+        "id": "satisfied",
+        "statuses": {
+          "peer-validation": "verified",
+          "transfer-decision": "release permitted"
+        },
+        "title": "Validate trust and record the transfer"
+      }
+    ],
+    "takeaway": "Data handling and compliance define required transit outcomes. A secure channel implements them only when encryption, intended-peer validation, trust configuration, and key lifecycle evidence all support the specific transfer.",
+    "title": "A sensitive export to a new partner endpoint",
+    "transfer": {
+      "conceptIds": [
+        "key-lifecycle",
+        "trust-anchor",
+        "certificate-validation"
+      ],
+      "hint": "A changed key must be tied to the intended peer through a trusted update process.",
+      "id": "transit-transfer-d6f0a8a96833",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Encryption still does not prove which peer controls the new key.",
+          "id": "t-encrypted",
+          "label": "Resume after confirming encryption works, without rebinding the peer",
+          "repairStateId": "transfer-key-gap"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Key rotation needs an owned validation path; accepting any new key would erase the peer binding.",
+          "id": "t-update",
+          "label": "Verify an authorized key rotation that rebinds the partner to the new key",
+          "repairStateId": "transfer-key-close"
+        },
+        {
+          "correct": false,
+          "feedback": "That trades away the required identity assurance without an authorized, bounded exception.",
+          "id": "t-disable",
+          "label": "Disable peer validation permanently so the approved recipient stays reachable",
+          "repairStateId": "blocked"
+        }
+      ],
+      "prompt": "After the partner rotates its pinned key, what evidence is needed before transfer resumes?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "The case operationalizes both assigned directions without treating approval, encryption, peer identity, or key lifecycle as interchangeable claims.",
+        "treatmentId": "cross-asset-data-lifecycle--transit-protection"
+      }
+    ],
+    "treatmentIds": [
+      "cross-asset-data-lifecycle--transit-protection"
+    ],
+    "unitId": "cross-asset-data-lifecycle--transit-protection",
+    "variants": [
+      {
+        "changedFact": "The partner rotates its service key, but the client still trusts only the retired pinned key and no authenticated update path exists.",
+        "edges": [
+          {
+            "from": "approved-recipient",
+            "kind": "dependency",
+            "label": "partner approval still requires authenticated key binding",
+            "to": "peer-validation"
+          },
+          {
+            "from": "peer-validation",
+            "kind": "dependency",
+            "label": "missing governed update holds release",
+            "to": "transfer-decision"
+          }
+        ],
+        "id": "transfer-case",
+        "label": "Pinned key changed",
+        "lanes": [
+          {
+            "id": "requirements",
+            "label": "Asset and compliance requirements",
+            "rule": "State the protection outcome and intended recipient before selecting a mechanism."
+          },
+          {
+            "id": "channel",
+            "label": "Channel and trust evidence",
+            "rule": "Separate payload secrecy from peer identity, trust-anchor, revocation, and key lifecycle checks."
+          },
+          {
+            "id": "decision",
+            "label": "Release decision",
+            "rule": "Release or exception authority depends on the unmet requirement, not on an encryption indicator alone."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "need-to-know",
+              "third-party-connectivity"
+            ],
+            "detail": "Business approval remains, but the partner identity must be rebound to its newly rotated key.",
+            "id": "approved-recipient",
+            "label": "Approved partner after key rotation",
+            "lane": "requirements"
+          },
+          {
+            "conceptIds": [
+              "certificate-validation",
+              "trust-anchor",
+              "certificate"
+            ],
+            "detail": "Validate that an authorized partner process issued the new binding and update governed trust configuration.",
+            "id": "peer-validation",
+            "label": "Authenticated trust update",
+            "lane": "channel"
+          },
+          {
+            "conceptIds": [
+              "compliance",
+              "control-assurance",
+              "key-lifecycle"
+            ],
+            "detail": "Resume only after the new key is authenticated under the required handling rule.",
+            "id": "transfer-decision",
+            "label": "Resume-or-hold decision",
+            "lane": "decision"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "approved-recipient",
+              "peer-validation",
+              "transfer-decision"
+            ],
+            "caption": "The intended partner may be correct, but the client cannot establish that fact using an approved current trust binding.",
+            "id": "transfer-key-gap",
+            "statuses": {
+              "peer-validation": "trust update unavailable"
+            },
+            "title": "A key lifecycle gap now blocks validation"
+          },
+          {
+            "activeEdgeIndexes": [
+              1
+            ],
+            "activeNodeIds": [
+              "peer-validation",
+              "transfer-decision"
+            ],
+            "caption": "Validate the new binding through the governed key lifecycle before resuming transfer.",
+            "id": "transfer-key-close",
+            "statuses": {
+              "transfer-decision": "await authenticated update"
+            },
+            "title": "Authenticate the trust update"
+          }
+        ]
+      },
+      {
+        "changedFact": "The chain and name validate, but the policy-required fresh revocation check cannot complete.",
+        "edges": [
+          {
+            "from": "handling-rule",
+            "kind": "dependency",
+            "label": "sets the full set of required channel outcomes",
+            "to": "encrypted-channel"
+          },
+          {
+            "from": "encrypted-channel",
+            "kind": "dependency",
+            "label": "passing checks do not replace revocation evidence",
+            "to": "peer-validation"
+          },
+          {
+            "from": "peer-validation",
+            "kind": "dependency",
+            "label": "unknown required status holds release",
+            "to": "transfer-decision"
+          }
+        ],
+        "id": "retry-case",
+        "label": "Required revocation evidence is unavailable",
+        "lanes": [
+          {
+            "id": "requirements",
+            "label": "Asset and compliance requirements",
+            "rule": "State the protection outcome and intended recipient before selecting a mechanism."
+          },
+          {
+            "id": "channel",
+            "label": "Channel and trust evidence",
+            "rule": "Separate payload secrecy from peer identity, trust-anchor, revocation, and key lifecycle checks."
+          },
+          {
+            "id": "decision",
+            "label": "Release decision",
+            "rule": "Release or exception authority depends on the unmet requirement, not on an encryption indicator alone."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "handling-requirements",
+              "need-to-know",
+              "data-security-controls"
+            ],
+            "detail": "The handling rule requires current revocation evidence before release.",
+            "id": "handling-rule",
+            "label": "Fresh revocation required",
+            "lane": "requirements"
+          },
+          {
+            "conceptIds": [
+              "secure-channel",
+              "tls",
+              "cryptography"
+            ],
+            "detail": "Encryption, chain, and expected name pass, but they do not supply the missing revocation result.",
+            "id": "encrypted-channel",
+            "label": "Chain and service name validated",
+            "lane": "channel"
+          },
+          {
+            "conceptIds": [
+              "certificate-validation",
+              "trust-anchor",
+              "certificate"
+            ],
+            "detail": "The required current status cannot be established from the responder or an approved source.",
+            "id": "peer-validation",
+            "label": "Revocation status unavailable",
+            "lane": "channel"
+          },
+          {
+            "conceptIds": [
+              "compliance",
+              "control-assurance",
+              "key-lifecycle"
+            ],
+            "detail": "Pause unless fresh status succeeds or accountable authority approves a separate exception.",
+            "id": "transfer-decision",
+            "label": "Release held or exception authorized",
+            "lane": "decision"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "handling-rule",
+              "encrypted-channel",
+              "peer-validation"
+            ],
+            "caption": "Encryption, chain, and name do not erase the missing revocation result required by the handling rule.",
+            "id": "retry-revocation-gap",
+            "statuses": {
+              "peer-validation": "revocation status unavailable"
+            },
+            "title": "Most checks pass, one required check is unknown"
+          },
+          {
+            "activeEdgeIndexes": [
+              0,
+              1,
+              2
+            ],
+            "activeNodeIds": [
+              "handling-rule",
+              "peer-validation",
+              "transfer-decision",
+              "encrypted-channel"
+            ],
+            "caption": "Pause the transfer until current status is established unless accountable authority changes the requirement.",
+            "id": "retry-revocation-decision",
+            "statuses": {
+              "transfer-decision": "release paused"
+            },
+            "title": "Fail closed or follow an authorized exception"
+          }
+        ]
+      }
+    ]
+  },
+  "relationshipIds": [
+    "rel-d2-o02-to-d4-o03-handling-secure-channels",
+    "rel-d2-o06-to-d3-o06-data-protection-crypto"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "title": "A sensitive export to a new partner endpoint",
+  "unitIds": [
+    "d2-o02-handling-requirements",
+    "d2-o06-controls-compliance",
+    "d3-o06-cryptographic-solutions",
+    "d3-o06-key-management-pki",
+    "d4-o03-secure-communication-channels"
+  ]
+}

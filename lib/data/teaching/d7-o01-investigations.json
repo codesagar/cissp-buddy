@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o01-investigations",
+  "treatmentIds": [
+    "fresh-d7-o01-investigations-custody-timeline-with-authority-overlay"
+  ],
+  "title": "Conduct investigations with legal and evidentiary discipline",
+  "question": "What makes an artifact defensible evidence for this investigation?",
+  "scenario": "A privileged account appears to have exported sensitive records overnight. An operations engineer wants to reboot the server and inspect the disk immediately.",
+  "focalRelation": "authorized purpose/scope --permits--> preservation and collection original artifact --validated acquisition--> protected original plus working copy every transfer/access/storage condition --recorded in--> chain of custody analysis --acts on working copy and records methods/limits--> report legal hold --suspends affected ordinary disposal, not all lifecycle activity--> retained evidence",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Suspected export event",
+      "detail": "Overnight privileged export signal; it starts an authorized inquiry but does not establish intent.",
+      "conceptIds": [
+        "investigative-techniques"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Investigation authority",
+      "detail": "Incident, legal, privacy, and HR authority defining purpose, scope, permitted actions, and reporting.",
+      "conceptIds": [
+        "investigation-authority",
+        "investigation-roles"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Volatile session evidence",
+      "detail": "Memory, active sessions, tokens, connections, and running state preserved before reboot or intrusive collection.",
+      "conceptIds": [
+        "evidence-preservation",
+        "computer-artifact",
+        "network-artifact"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Forensic image",
+      "detail": "Integrity-checked copy of persistent media created with documented tools and method.",
+      "conceptIds": [
+        "forensic-integrity",
+        "forensic-tools",
+        "data-artifact"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Custody record",
+      "detail": "Who collected, possessed, transferred, stored, and accessed each evidence item, with time and purpose.",
+      "conceptIds": [
+        "chain-of-custody",
+        "legal-hold"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Legal and incident decision",
+      "detail": "Bounded finding, containment decision, notification, and report based on authorized, preserved evidence.",
+      "conceptIds": [
+        "reporting-documentation",
+        "investigation-roles"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "triggers authority and scope decision",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "authorizes volatile preservation before reboot",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "authorizes forensic acquisition method",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n5",
+      "label": "enters custody as preserved volatile artifact",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "enters custody with integrity metadata",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "supports bounded finding and response",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A privileged account appears to have exported sensitive records overnight. An operations engineer wants to reboot the server and inspect the disk immediately.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "signal received; intent unknown",
+        "n2": "authority being established"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Authority and purpose determine which actions are lawful and defensible.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "capture before reboot"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "The system owner can authorize any forensic collection. Authority depends on ownership, law, contract, privacy, employment, and investigation type; involve the appropriate legal and organizational authority.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n1": "immediate reboot rejected",
+        "n3": "volatile evidence at risk"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "First preserve relevant volatile and persistent evidence under the incident and legal authority, isolate the account or system according to the response plan, record who approved each action, and coordinate legal, privacy, HR, and forensic expertise. A reboot may destroy volatile evidence; an uncontrolled inspection may alter the scene and weaken custody.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n3": "preserved",
+        "n4": "imaged and hashed",
+        "n5": "custody current"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a suspected security event, choose the lawful investigation posture, preserve volatile and physical evidence, document custody, and coordinate stakeholders without contaminating the inquiry. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        5
+      ],
+      "statuses": {
+        "n6": "finding states scope and limitations"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A manager asks an analyst to quietly read an employee's mailbox for evidence of misconduct.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A manager asks an analyst to quietly read an employee's mailbox for evidence of misconduct.",
+          "activeNodeIds": [
+            "n1",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n1": "mailbox review request",
+            "n2": "authority not established"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Pause, confirm authority and investigation type, involve legal/HR/privacy, define scope, and preserve evidence under controlled procedures. Informal access can violate rights and destroy the credibility of the investigation.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n2": "legal/HR/privacy route required",
+            "n5": "uncontrolled access prohibited"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n2": "lawful scope approved or denied",
+            "n6": "decision documented"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Mailbox-search request",
+          "detail": "A manager asks for a quiet search of an employee mailbox without established authority.",
+          "conceptIds": [
+            "investigative-techniques"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Legal, HR, and privacy authority",
+          "detail": "The investigation type, lawful authority, purpose, and scope must be approved before access.",
+          "conceptIds": [
+            "investigation-authority",
+            "investigation-roles"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Mailbox preservation hold",
+          "detail": "Potential messages and metadata are preserved without beginning an uncontrolled search.",
+          "conceptIds": [
+            "evidence-preservation",
+            "computer-artifact"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Controlled mailbox acquisition",
+          "detail": "An approved method collects only the authorized time range and data.",
+          "conceptIds": [
+            "forensic-integrity",
+            "forensic-tools",
+            "data-artifact"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Custody and access record",
+          "detail": "The record shows who preserved, acquired, handled, and examined the mailbox evidence.",
+          "conceptIds": [
+            "chain-of-custody",
+            "legal-hold"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Authorized investigation decision",
+          "detail": "The responsible functions approve or deny the search and document constraints.",
+          "conceptIds": [
+            "reporting-documentation",
+            "investigation-roles"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "requires authority before access",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "authorizes non-destructive preservation",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "authorizes scoped acquisition",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "enters controlled custody",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "enters custody with method metadata",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "supports a bounded investigation decision",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o01-investigations-prediction",
+    "prompt": "What makes an artifact defensible evidence for this investigation?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "The system owner can authorize any forensic collection.",
+        "correct": false,
+        "feedback": "Incorrect: Authority depends on ownership, law, contract, privacy, employment, and investigation type; involve the appropriate legal and organizational authority.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Reboot the server first and document evidence handling after service returns.",
+        "correct": false,
+        "feedback": "Incorrect: rebooting can destroy volatile evidence and alter state. Confirm authority, preserve what is time-sensitive, record custody, and coordinate containment with operational impact.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "relation",
+        "label": "Preserve volatile evidence under authority before reboot; record collection and containment",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Authority depends on ownership, law, contract, privacy, employment, and investigation type; involve the appropriate legal and organizational authority.",
+        "repairStateId": "failure-exposed"
+      }
+    ],
+    "conceptIds": [
+      "investigation-authority"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o01-investigations-transfer",
+    "prompt": "A manager asks an analyst to quietly read an employee's mailbox for evidence of misconduct.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Pause, confirm authority and investigation type, involve legal/HR/privacy, define scope",
+        "correct": true,
+        "feedback": "Correct. Pause, confirm authority and investigation type, involve legal/HR/privacy, define scope, and preserve evidence under controlled procedures. Informal access can violate rights and destroy the credibility of the investigation.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A manager asks an analyst to quietly read an employee's mailbox for evidence of misconduct. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: First preserve relevant volatile and persistent evidence under the incident and legal authority, isolate the account or system according to the response plan, record who approved each action, and coordinate legal, privacy, HR, and forensic expertise. Repair target: Decision recomputed — Pause, confirm authority and investigation type, involve legal/HR/privacy, define scope, and preserve evidence under controlled procedures. Informal access can violate rights and destroy the credibility of the investigation.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A manager asks an analyst to quietly read an employee's mailbox for evidence of misconduct. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: First preserve relevant volatile and persistent evidence under the incident and legal authority, isolate the account or system according to the response plan, record who approved each action, and coordinate legal, privacy, HR, and forensic expertise. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "investigation-authority"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o01-investigations-retry-v2",
+    "prompt": "A responder captures a disk image after a suspicious process exits, but no memory image or network session data was preserved. What may the report claim?",
+    "options": [
+      {
+        "id": "disk-complete",
+        "label": "Treat the disk image as a complete record of the process and its network activity",
+        "correct": false,
+        "feedback": "Disk evidence may omit memory-resident code, keys, sockets, and transient network behavior.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "document-gap",
+        "label": "Analyze the preserved disk, document the lost volatile evidence, and limit conclusions that depend on memory or live traffic",
+        "correct": true,
+        "feedback": "Correct. Transparent collection limits preserve forensic integrity better than inventing missing evidence.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "recreate-memory",
+        "label": "Reconstruct the missing memory image from analyst recollection and mark it as equivalent evidence",
+        "correct": false,
+        "feedback": "Recollection is not a forensic acquisition and cannot replace volatile artifacts.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "evidence-preservation",
+      "computer-artifact",
+      "network-artifact"
+    ],
+    "hint": "Distinguish evidence actually preserved from volatile evidence that can no longer be reconstructed."
+  },
+  "takeaway": "First preserve relevant volatile and persistent evidence under the incident and legal authority, isolate the account or system according to the response plan, record who approved each action, and coordinate legal, privacy, HR, and forensic expertise.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o01",
+    "official-d7-9-14",
+    "sybex-d7-910-919"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o01-investigations-custody-timeline-with-authority-overlay",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable timeline states: Suspected export event triggers authority and scope decision Investigation authority; Investigation authority authorizes volatile preservation before reboot Volatile session evidence. The model keeps Suspected export event, Investigation authority, Volatile session evidence, Forensic image, Custody record, Legal and incident decision distinct. Its changed case is “A manager asks an analyst to quietly read an employee's mailbox for evidence of misconduct.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Before rebooting, preserve relevant volatile evidence under the appropriate authority and record each action. Authority permits and limits collection, while custody documents handling without creating collection authority.",
+    "visualReasoningGain": "A neutral sequence would show authority before access and volatile preservation before reboot while keeping custody separate; the opening two-node view omits that timing and responsibility trace."
+  },
+  "openingFacts": [
+    {
+      "label": "Suspected export event",
+      "value": "Overnight privileged export signal; it starts an authorized inquiry but does not establish intent."
+    },
+    {
+      "label": "Investigation authority",
+      "value": "Incident, legal, privacy, and HR authority defining purpose, scope, permitted actions, and reporting."
+    },
+    {
+      "label": "Volatile session evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Forensic image",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Custody record",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Legal and incident decision",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

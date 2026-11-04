@@ -11,6 +11,94 @@ export const releases = sqliteTable('content_releases', {
   publishedAt: text('published_at').notNull(),
   manifest: text('manifest_json').notNull(),
 });
+export const courseReleases = sqliteTable(
+  'course_releases',
+  {
+    id: text('id').primaryKey(),
+    sourceHash: text('source_hash').notNull(),
+    publishedAt: text('published_at').notNull(),
+    manifest: text('manifest_json').notNull(),
+    unitCount: integer('unit_count').notNull(),
+    conceptCount: integer('concept_count').notNull(),
+    conceptOccurrenceCount: integer('concept_occurrence_count').notNull(),
+    teachingModelCount: integer('teaching_model_count').notNull(),
+    assessmentCount: integer('assessment_count').notNull(),
+    sealed: integer('sealed', { mode: 'boolean' }).notNull().default(false),
+  },
+  (t) => [index('course_releases_source_hash').on(t.sourceHash)],
+);
+export const courseUnits = sqliteTable(
+  'course_units',
+  {
+    releaseId: text('release_id')
+      .notNull()
+      .references(() => courseReleases.id),
+    unitId: text('unit_id').notNull(),
+    domainId: integer('domain_id').notNull(),
+    sortOrder: integer('sort_order').notNull(),
+    sourceHash: text('source_hash').notNull(),
+    payload: text('payload_json').notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.releaseId, t.unitId] }),
+    index('course_units_release_domain_order').on(
+      t.releaseId,
+      t.domainId,
+      t.sortOrder,
+    ),
+    index('course_units_unit_release').on(t.unitId, t.releaseId),
+  ],
+);
+export const courseSourceBindings = sqliteTable(
+  'course_source_bindings',
+  {
+    releaseId: text('release_id')
+      .notNull()
+      .references(() => courseReleases.id),
+    unitId: text('unit_id').notNull(),
+    conceptId: text('concept_id').notNull(),
+    sourceVisualId: text('source_visual_id').notNull(),
+    payload: text('payload_json').notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.releaseId, t.unitId, t.conceptId] }),
+    index('course_source_bindings_release_unit').on(t.releaseId, t.unitId),
+  ],
+);
+export const courseConnections = sqliteTable(
+  'course_connections',
+  {
+    releaseId: text('release_id')
+      .notNull()
+      .references(() => courseReleases.id),
+    connectionId: text('connection_id').notNull(),
+    sortOrder: integer('sort_order').notNull(),
+    payload: text('payload_json').notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.releaseId, t.connectionId] }),
+    index('course_connections_release_order').on(t.releaseId, t.sortOrder),
+    index('course_connections_id_release').on(t.connectionId, t.releaseId),
+  ],
+);
+export const courseReferenceRelationships = sqliteTable(
+  'course_reference_relationships',
+  {
+    releaseId: text('release_id')
+      .notNull()
+      .references(() => courseReleases.id),
+    relationshipId: text('relationship_id').notNull(),
+    sortOrder: integer('sort_order').notNull(),
+    payload: text('payload_json').notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.releaseId, t.relationshipId] }),
+    index('course_reference_relationships_release_order').on(
+      t.releaseId,
+      t.sortOrder,
+    ),
+  ],
+);
 export const domains = sqliteTable('domains', {
   id: integer('id').primaryKey(),
   name: text('name').notNull(),

@@ -1,0 +1,695 @@
+{
+  "conceptIds": [
+    "control-testing",
+    "vulnerability-testing",
+    "penetration-testing",
+    "code-review",
+    "misuse-case",
+    "sampling"
+  ],
+  "concepts": [
+    {
+      "decision": "define expected behavior",
+      "definition": "test control objective",
+      "failureExample": "Control Testing failure example: deployment only.",
+      "id": "control-testing",
+      "label": "Control Testing",
+      "sourceRefIds": [
+        "aio-d6-1174-1207",
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "sourceVisualId": "d6-o02-control-testing-decision-comparison-1"
+    },
+    {
+      "decision": "validate exposure safely",
+      "definition": "discover known weakness",
+      "failureExample": "scanner result treated exploit",
+      "id": "vulnerability-testing",
+      "label": "Vulnerability Testing",
+      "sourceRefIds": [
+        "aio-d6-1174-1207",
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "sourceVisualId": "d6-o02-control-testing-decision-comparison-1"
+    },
+    {
+      "decision": "set rules/stop conditions",
+      "definition": "authorized adversary simulation",
+      "failureExample": "unbounded production attack",
+      "id": "penetration-testing",
+      "label": "Penetration Testing",
+      "sourceRefIds": [
+        "aio-d6-1174-1207",
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "sourceVisualId": "d6-o02-control-testing-decision-comparison-1"
+    },
+    {
+      "decision": "trace security path",
+      "definition": "inspect implementation",
+      "failureExample": "review misses runtime config",
+      "id": "code-review",
+      "label": "Code Review",
+      "sourceRefIds": [
+        "aio-d6-1174-1207",
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "sourceVisualId": "d6-o02-control-testing-decision-comparison-1"
+    },
+    {
+      "decision": "derive negative path",
+      "definition": "abuse scenario test",
+      "failureExample": "Misuse Case failure example: happy path only.",
+      "id": "misuse-case",
+      "label": "Misuse Case",
+      "sourceRefIds": [
+        "aio-d6-1174-1207",
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "sourceVisualId": "d6-o02-control-testing-decision-comparison-1"
+    },
+    {
+      "decision": "choose representative/valid sample",
+      "definition": "Sampling means: subset evidence.",
+      "failureExample": "Sampling failure example: biased sample.",
+      "id": "sampling",
+      "label": "Sampling",
+      "sourceRefIds": [
+        "aio-d6-1174-1207",
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "sourceVisualId": "d6-o02-control-testing-decision-comparison-1"
+    }
+  ],
+  "domainId": 6,
+  "estimatedMinutes": 35,
+  "id": "d6-o02-control-testing",
+  "misconceptions": [
+    {
+      "claim": "A clean automated scan proves the control works.",
+      "correction": "Tools have coverage and configuration limits; validate the control's design, operation, exceptions, and relevant attack paths."
+    }
+  ],
+  "objectiveIds": [
+    "6.2"
+  ],
+  "outcome": "Select and execute suitable control-test methods, preserve evidence, and interpret a result without confusing presence with effectiveness.",
+  "prerequisites": [
+    "d6-o01-strategy"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Methods include inquiry, observation, inspection, technical scanning, configuration review, vulnerability assessment, penetration testing, code review, misuse-case testing, interface testing, synthetic transactions, and review of logs or samples. The method must fit the control and threat: a scan can identify exposure, while a controlled exploit tests exploitability and response but carries more risk.",
+      "id": "methods",
+      "keyPoints": [
+        "No single method proves every control property.",
+        "Rules of engagement protect production and preserve evidence integrity.",
+        "Sampling and test coverage should be stated, not implied."
+      ],
+      "sourceRefIds": [
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ],
+      "title": "Match method to control claim"
+    },
+    {
+      "body": "Record the procedure, population, timestamps, tools, configurations, observations, exceptions, chain of custody where relevant, and tester identity. Protect sensitive findings and avoid changing the environment unnecessarily. Retest remediation using a procedure that can distinguish fixed, mitigated, accepted, and not-reproducible conditions.",
+      "id": "evidence-and-safety",
+      "keyPoints": [
+        "Evidence must be sufficient, reliable, relevant, and traceable to the scope.",
+        "A finding's severity depends on context and likelihood, not only tool output.",
+        "Retesting is a separate evidence event."
+      ],
+      "sourceRefIds": [
+        "official-d6-21-38",
+        "aio-d6-1174-1207"
+      ],
+      "title": "Execute safely and preserve evidence"
+    }
+  ],
+  "sourceHash": "b575cc028def05932a4724f50d250d2fcf5234ba034ccf2947737ca0e789f27c",
+  "sourcePath": "knowledge/domains/d6-security-assessment-testing/units/d6-o02-control-testing.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d6-2",
+      "locator": {
+        "type": "objective",
+        "value": "6.2"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d6-21-38",
+      "locator": {
+        "type": "printed-page",
+        "value": "21-38 (PDF pp. 21-38)"
+      },
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "supports": [
+        "control testing"
+      ]
+    },
+    {
+      "id": "sybex-d6-807-822",
+      "locator": {
+        "type": "pdf-page",
+        "value": "807-822, Chapter 15"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "testing methods"
+      ]
+    },
+    {
+      "id": "aio-d6-1174-1207",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1174-1207, Chapter 18"
+      },
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "supports": [
+        "technical testing and audits"
+      ]
+    }
+  ],
+  "summary": "Control testing selects procedures that reveal whether an administrative, technical, or physical control is designed, implemented, and operating as intended.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "population",
+        "kind": "evidence",
+        "label": "is reproducibly sampled after stable-ID sort using the recorded seed",
+        "to": "selection"
+      },
+      {
+        "from": "population",
+        "kind": "dependency",
+        "label": "keeps nonhuman and emergency paths outside the human denominator",
+        "to": "separate-groups"
+      },
+      {
+        "from": "selection",
+        "kind": "flow",
+        "label": "defines the 24 humans whose five MFA evidence paths are inspected",
+        "to": "evidence"
+      },
+      {
+        "from": "separate-groups",
+        "kind": "flow",
+        "label": "requires separately reported full-path tests for all 25 accounts",
+        "to": "evidence"
+      },
+      {
+        "from": "evidence",
+        "kind": "evidence",
+        "label": "supports pass, fail, missing, or exception for each tested account",
+        "to": "outcomes"
+      },
+      {
+        "from": "outcomes",
+        "kind": "evidence",
+        "label": "bounds the result to tested accounts and leaves 216 humans uninferred",
+        "to": "conclusion"
+      },
+      {
+        "from": "separate-groups",
+        "kind": "evidence",
+        "label": "is reported as two distinct full-test groups, not sample evidence",
+        "to": "conclusion"
+      }
+    ],
+    "focalRelation": "A reconciled population and explicit exclusions define the claim; stable-ID sorting plus a recorded seed selects 24 humans as 8 cloud, 8 server, and 8 database accounts; April–June enrollment, interactive challenge, bypass, reset, and sign-in evidence produces pass, fail, missing, or exception outcomes only for those 24; the other 216 humans receive no inferred result, while all 18 service and 7 break-glass paths are tested and reported separately.",
+    "lanes": [
+      {
+        "id": "population",
+        "label": "Defined populations",
+        "rule": "Human accounts, service accounts, and break-glass accounts retain separate denominators and test obligations."
+      },
+      {
+        "id": "test",
+        "label": "Reproducible test",
+        "rule": "Stable identifiers, a recorded seed, fixed strata, one evidence window, and explicit outcomes make the work repeatable."
+      },
+      {
+        "id": "claim",
+        "label": "Permitted conclusion",
+        "rule": "A result attaches only to the tested account or justified population; untested humans remain unknown."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "A reproducible 24-account sample can report results for those selected accounts but cannot prove outcomes for 216 untested humans. Service and break-glass accounts require separately reported full-path testing when the design gives them distinct risk and control paths.",
+      "visualReasoningGain": "The visual keeps 240 humans, the reproducible 24-account sample, the 216 untested remainder, and separately tested accounts visible, enabling the learner to audit the inference."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "sampling",
+          "control-testing"
+        ],
+        "detail": "Reconciled frame for 2026-04-01 through 2026-06-30: 80 cloud, 80 server, and 80 database human accounts with stable account IDs.",
+        "id": "population",
+        "label": "240 named human privileged accounts",
+        "lane": "population"
+      },
+      {
+        "conceptIds": [
+          "control-testing",
+          "misuse-case"
+        ],
+        "detail": "These 25 paths are outside the human sampling frame and receive separately reported full-path tests rather than being hidden inside the sample.",
+        "id": "separate-groups",
+        "label": "18 service + 7 break-glass accounts",
+        "lane": "population"
+      },
+      {
+        "conceptIds": [
+          "sampling",
+          "control-testing"
+        ],
+        "detail": "Sort stable account IDs, record the seed, then select exactly 8 cloud, 8 server, and 8 database accounts so another reviewer can reproduce the sample.",
+        "id": "selection",
+        "label": "Recorded-seed selection · 24 humans",
+        "lane": "test"
+      },
+      {
+        "conceptIds": [
+          "control-testing",
+          "vulnerability-testing"
+        ],
+        "detail": "Inspect enrollment, interactive challenge, bypass, reset, and sign-in evidence inside the same 2026-04-01 through 2026-06-30 window.",
+        "id": "evidence",
+        "label": "April–June MFA path evidence",
+        "lane": "test"
+      },
+      {
+        "conceptIds": [
+          "control-testing"
+        ],
+        "detail": "Assign one evidenced outcome to each selected human account and reconcile every exception instead of treating missing evidence as a pass.",
+        "id": "outcomes",
+        "label": "Pass · fail · missing · exception",
+        "lane": "test"
+      },
+      {
+        "conceptIds": [
+          "sampling",
+          "control-testing"
+        ],
+        "detail": "Report results for the 24 selected humans and the two separately tested groups; make no inference to the other 216 humans without expanded testing.",
+        "id": "conclusion",
+        "label": "Bounded conclusion",
+        "lane": "claim"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "sampling",
+        "control-testing"
+      ],
+      "hint": "Keep the 240-human frame, the two full-test groups, and the tested denominator distinct.",
+      "id": "d6-o02-control-testing-prediction-bcb78f81493b",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "A 24-account sample does not establish results for the other 216 humans, and service and break-glass paths have separate full-test obligations.",
+          "id": "universal-pass",
+          "label": "All privileged access uses MFA because the 24 selected humans passed",
+          "repairStateId": "conclusion-bounded"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The stable-ID seed and 8/8/8 strata make the human selection reproducible; conclusions remain bounded to tested accounts and separately reconciled groups.",
+          "id": "bounded-report",
+          "label": "Report the 24 human outcomes and the 18 service and 7 break-glass results separately; make no inference to the other 216 humans",
+          "repairStateId": "selection-recorded"
+        },
+        {
+          "correct": false,
+          "feedback": "Service and break-glass paths are outside the human sampling frame and require full-path testing with separate denominators.",
+          "id": "mixed-denominator",
+          "label": "Mix service and break-glass accounts into the 24-person sample and publish one combined pass rate",
+          "repairStateId": "population-fixed"
+        }
+      ],
+      "prompt": "Which evidence statement is defensible for the Apr–Jun universal MFA claim?"
+    },
+    "question": "What may the reviewer conclude from a reproducible 24-account sample when 216 human accounts remain untested and 25 nonhuman or emergency accounts require separate full testing?",
+    "representation": "ledger",
+    "retry": {
+      "conceptIds": [
+        "sampling",
+        "control-testing"
+      ],
+      "hint": "Passing observations support only the population claim justified by the sample design.",
+      "id": "d6-o02-control-testing-retry-v2-ecc4b2c968d8",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Without a defensible sample frame, the reviewer cannot generalize to all 500 changes.",
+          "id": "qualify-sample",
+          "label": "Report the ten results and limits; add representative high-risk coverage",
+          "repairStateId": "conclusion-bounded"
+        },
+        {
+          "correct": false,
+          "feedback": "Ten clean items do not support a population claim when selection and risk strata are unknown.",
+          "id": "claim-effective",
+          "label": "Conclude the control is effective because no exception appeared in the sample",
+          "repairStateId": "conclusion-bounded"
+        },
+        {
+          "correct": false,
+          "feedback": "The evidence is insufficient for a broad conclusion; that is not the same as proving every approval failed.",
+          "id": "fail-control",
+          "label": "Declare the approval control ineffective solely because the sample rationale was not documented",
+          "repairStateId": "selection-recorded"
+        }
+      ],
+      "prompt": "A reviewer samples 10 of 500 privileged changes; all 10 have approval, but the sample method and high-risk strata are undocumented. What is defensible?"
+    },
+    "scenario": "For 2026-04-01 through 2026-06-30, the reconciled frame contains 240 named human privileged accounts: 80 cloud, 80 server, and 80 database. Eighteen service accounts and seven break-glass accounts sit outside that human population and require separately reported full-path testing.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d6-2",
+      "official-d6-21-38",
+      "sybex-d6-807-822",
+      "aio-d6-1174-1207"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "population",
+          "separate-groups"
+        ],
+        "caption": "The Apr–Jun frame contains 240 named human privileged accounts. The 18 service and 7 break-glass accounts are separate full-test groups, not hidden exclusions.",
+        "id": "population-fixed",
+        "statuses": {
+          "population": "240 humans · 80 cloud · 80 server · 80 database",
+          "separate-groups": "18 service and 7 break-glass · full testing required"
+        },
+        "title": "Fix the populations and window"
+      },
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "population",
+          "selection"
+        ],
+        "caption": "Sort stable account IDs, record the seed, and select 8 accounts from each human stratum for a total of 24.",
+        "id": "selection-recorded",
+        "statuses": {
+          "selection": "24 selected · 8 cloud · 8 server · 8 database"
+        },
+        "title": "Make selection reproducible"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "selection",
+          "separate-groups",
+          "evidence"
+        ],
+        "caption": "For each selected human and every separately tested service and break-glass account, inspect enrollment, interactive challenge, bypass, reset, and sign-in evidence from Apr–Jun.",
+        "id": "evidence-inspected",
+        "statuses": {
+          "evidence": "five path checks · Apr–Jun 2026",
+          "separate-groups": "all 25 receive separate full-path tests"
+        },
+        "title": "Inspect the same evidence window"
+      },
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "evidence",
+          "outcomes"
+        ],
+        "caption": "Record pass, fail, missing, or exception for every tested account. Missing evidence and unresolved exceptions are not passes.",
+        "id": "outcomes-recorded",
+        "statuses": {
+          "outcomes": "one evidenced outcome per tested account"
+        },
+        "title": "Record account-level outcomes"
+      },
+      {
+        "activeEdgeIndexes": [
+          5,
+          6
+        ],
+        "activeNodeIds": [
+          "outcomes",
+          "separate-groups",
+          "conclusion"
+        ],
+        "caption": "Report the 24 selected-human outcomes and the 18 service-account and 7 break-glass results separately. Do not generalize to the other 216 humans; reconcile exceptions or expand testing before a universal claim.",
+        "id": "conclusion-bounded",
+        "statuses": {
+          "conclusion": "24 selected humans only · 216 humans remain uninferred",
+          "separate-groups": "18 service + 7 break-glass reported separately"
+        },
+        "title": "State only the supported conclusion"
+      }
+    ],
+    "takeaway": "A reproducible sample supports only its documented population inference: record the frame, stable-ID sort, seed, strata, evidence window, outcomes, exclusions, and the untested remainder.",
+    "title": "Test a universal MFA claim with bounded sampling evidence",
+    "transfer": {
+      "conceptIds": [
+        "control-testing"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d6-o02-control-testing-transfer-ef200e3d0048",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A code scanner reports no injection findings, but the test excludes generated SQL and production configuration. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: A reproducible sample supports only its documented population inference: record the frame, stable-ID sort, seed, strata, evidence window, outcomes, exclusions, and the untested remainder. Repair target: Decision recomputed — Report the coverage limitation and test excluded paths with suitable methods. Tool output cannot support an unbounded conclusion.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A code scanner reports no injection findings, but the test excludes generated SQL and production configuration. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: A reproducible sample supports only its documented population inference: record the frame, stable-ID sort, seed, strata, evidence window, outcomes, exclusions, and the untested remainder. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Report the coverage limitation and test excluded paths with suitable methods. Tool output cannot support an unbounded conclusion.",
+          "id": "evidence-action",
+          "label": "Report the coverage limitation and test excluded paths with suitable methods",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A code scanner reports no injection findings, but the test excludes generated SQL and production configuration."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implements the reviewed deterministic sampling control and native sampling ledger: 240 reconciled named human accounts for 2026-04-01 through 2026-06-30; 18 service and 7 break-glass accounts as separately reported full-test groups; stable-ID sort plus a recorded seed; a 24-human sample split 8 cloud, 8 server, and 8 database; five MFA evidence paths; account-level pass/fail/missing/exception outcomes; and an explicit prohibition on inferring results for the other 216 humans.",
+        "treatmentId": "fresh-d6-o02-control-testing-coverage-map-with-sampling-control"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d6-o02-control-testing-coverage-map-with-sampling-control"
+    ],
+    "unitId": "d6-o02-control-testing",
+    "variants": [
+      {
+        "changedFact": "A code scanner reports no injection findings, but the test excludes generated SQL and production configuration.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "defines excluded population",
+            "to": "n5"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "is checked only in scanned code",
+            "to": "n3"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "requires an additional method",
+            "to": "n4"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "is challenged on excluded paths",
+            "to": "n5"
+          },
+          {
+            "from": "n3",
+            "kind": "evidence",
+            "label": "contributes static evidence",
+            "to": "n6"
+          },
+          {
+            "from": "n4",
+            "kind": "evidence",
+            "label": "contributes operating evidence",
+            "to": "n6"
+          },
+          {
+            "from": "n5",
+            "kind": "evidence",
+            "label": "bounds the final conclusion",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "sampling",
+              "control-testing"
+            ],
+            "detail": "Generated SQL paths and production settings are outside the scanner coverage.",
+            "id": "n1",
+            "label": "Excluded SQL and configuration",
+            "lane": "population"
+          },
+          {
+            "conceptIds": [
+              "control-testing"
+            ],
+            "detail": "The team treats a clean scanner result as proof of no injection.",
+            "id": "n2",
+            "label": "No-injection claim",
+            "lane": "claim"
+          },
+          {
+            "conceptIds": [
+              "control-testing",
+              "vulnerability-testing"
+            ],
+            "detail": "The tool reports no findings within the code and configuration it examined.",
+            "id": "n3",
+            "label": "Static scanner result",
+            "lane": "test"
+          },
+          {
+            "conceptIds": [
+              "control-testing",
+              "penetration-testing"
+            ],
+            "detail": "A controlled test exercises generated SQL and production-equivalent settings.",
+            "id": "n4",
+            "label": "Targeted runtime test",
+            "lane": "test"
+          },
+          {
+            "conceptIds": [
+              "sampling",
+              "misuse-case"
+            ],
+            "detail": "The evidence statement names excluded paths, settings, and method limits.",
+            "id": "n5",
+            "label": "Coverage limitation",
+            "lane": "test"
+          },
+          {
+            "conceptIds": [
+              "control-testing"
+            ],
+            "detail": "The conclusion combines the scanner and targeted evidence without universalizing either.",
+            "id": "n6",
+            "label": "Bounded injection conclusion",
+            "lane": "claim"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              1
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n3"
+            ],
+            "caption": "A code scanner reports no injection findings, but the test excludes generated SQL and production configuration.",
+            "id": "changed-fact",
+            "statuses": {
+              "n2": "no injection claim",
+              "n3": "scanner reports none"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              0
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n5"
+            ],
+            "caption": "Report the coverage limitation and test excluded paths with suitable methods. Tool output cannot support an unbounded conclusion.",
+            "id": "changed-decision",
+            "statuses": {
+              "n1": "generated SQL and production config excluded",
+              "n5": "coverage gap identified"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              2,
+              6
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n5",
+              "n6",
+              "n2"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n4": "targeted runtime test required",
+              "n6": "scanner-only conclusion rejected"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Conduct security control testing",
+  "workedExamples": [
+    {
+      "reasoning": "Sample privileged identities and authentication paths, inspect configuration, observe a controlled login, review exceptions and logs, and test service accounts separately. Document population and limitations; checking a dashboard screenshot alone is insufficient.",
+      "situation": "The organization claims all privileged access requires MFA.",
+      "takeaway": "Sample privileged identities and authentication paths, inspect configuration, observe a controlled login, review exceptions and logs, and test service accounts separately. Document population and limitations; checking a dashboard screenshot alone is insufficient.",
+      "title": "MFA control test"
+    }
+  ]
+}

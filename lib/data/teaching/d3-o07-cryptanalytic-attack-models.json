@@ -1,0 +1,523 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o07-cryptanalytic-attack-models",
+  "treatmentIds": [
+    "fresh-d3-o07-cryptanalytic-attack-models-attacker-capability-oracle"
+  ],
+  "title": "attacker capability oracle",
+  "question": "What can the attacker observe or choose, online or offline, and which defense addresses that capability?",
+  "scenario": "Encrypted customer-token API: An API returns different messages for malformed encrypted tokens and tokens that fail integrity validation.",
+  "focalRelation": "Brute force searches key space; ciphertext-only and known-plaintext supply different observations; frequency analysis depends on structure; chosen-ciphertext adds controlled inputs and observable responses; rate limiting applies only to applicable online paths.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "Ciphertext-only attacker",
+      "label": "Ciphertext Only Attacker",
+      "detail": "The analyst possesses captured ciphertexts but no matching plaintext or decryption oracle.",
+      "conceptIds": [
+        "ciphertext-only-attack"
+      ]
+    },
+    {
+      "id": "Ciphertexts",
+      "label": "Ciphertexts",
+      "detail": "Captured encrypted tokens are the only direct cryptographic observations in this attacker model.",
+      "conceptIds": [
+        "ciphertext-only-attack"
+      ]
+    },
+    {
+      "id": "Known-plaintext attacker",
+      "label": "Known Plaintext Attacker",
+      "detail": "The analyst knows some plaintext values and their corresponding ciphertexts.",
+      "conceptIds": [
+        "known-plaintext-attack"
+      ]
+    },
+    {
+      "id": "Plaintext–ciphertext pairs",
+      "label": "Plaintext–Ciphertext Pairs",
+      "detail": "Known pairs provide more structure than ciphertext alone without granting chosen input.",
+      "conceptIds": [
+        "known-plaintext-attack"
+      ]
+    },
+    {
+      "id": "Chosen-ciphertext input",
+      "label": "Chosen Ciphertext Input",
+      "detail": "The attacker can submit selected malformed ciphertexts to the token endpoint.",
+      "conceptIds": [
+        "chosen-ciphertext-attack"
+      ]
+    },
+    {
+      "id": "Observable endpoint response",
+      "label": "Observable Endpoint Response",
+      "detail": "Different errors, timing, or acceptance behavior may act as an oracle and require controlled measurement.",
+      "conceptIds": [
+        "protocol-validation",
+        "rate-limiting"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Ciphertext-only attacker",
+      "to": "Ciphertexts",
+      "label": "can observe",
+      "kind": "evidence"
+    },
+    {
+      "from": "Known-plaintext attacker",
+      "to": "Plaintext–ciphertext pairs",
+      "label": "already knows some correspondence",
+      "kind": "flow"
+    },
+    {
+      "from": "Chosen-ciphertext input",
+      "to": "Observable endpoint response",
+      "label": "may expose useful error behavior",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Encrypted customer-token API: An API returns different messages for malformed encrypted tokens and tokens that fail integrity validation.",
+      "activeNodeIds": [
+        "Ciphertext-only attacker",
+        "Ciphertexts"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Ciphertext-only attacker": "The analyst possesses captured ciphertexts but no matching plaintext or decryption oracle.",
+        "Ciphertexts": "Captured encrypted tokens are the only direct cryptographic observations in this attacker model."
+      },
+      "activeRowIds": []
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Ciphertext Only Attacker can observe Ciphertexts. Known Plaintext Attacker already knows some correspondence Plaintext–Ciphertext Pairs.",
+      "activeNodeIds": [
+        "Ciphertext-only attacker",
+        "Ciphertexts",
+        "Known-plaintext attacker",
+        "Plaintext–ciphertext pairs"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Ciphertexts": "Captured encrypted tokens are the only direct cryptographic observations in this attacker model.",
+        "Ciphertext-only attacker": "The analyst possesses captured ciphertexts but no matching plaintext or decryption oracle.",
+        "Known-plaintext attacker": "The analyst knows some plaintext values and their corresponding ciphertexts.",
+        "Plaintext–ciphertext pairs": "Known pairs provide more structure than ciphertext alone without granting chosen input."
+      },
+      "activeRowIds": [
+        "ciphertext-only"
+      ]
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Known Plaintext Attacker already knows some correspondence Plaintext–Ciphertext Pairs. Chosen Ciphertext Input may expose useful error behavior Observable Endpoint Response.",
+      "activeNodeIds": [
+        "Known-plaintext attacker",
+        "Plaintext–ciphertext pairs",
+        "Chosen-ciphertext input",
+        "Observable endpoint response"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Observable endpoint response": "Different errors, timing, or acceptance behavior may act as an oracle and require controlled measurement.",
+        "Known-plaintext attacker": "The analyst knows some plaintext values and their corresponding ciphertexts.",
+        "Plaintext–ciphertext pairs": "Known pairs provide more structure than ciphertext alone without granting chosen input.",
+        "Chosen-ciphertext input": "The attacker can submit selected malformed ciphertexts to the token endpoint."
+      },
+      "activeRowIds": [
+        "known-plaintext"
+      ]
+    },
+    {
+      "id": "changed-case",
+      "title": "Chosen input creates an oracle",
+      "caption": "The attacker moves from captured ciphertext to selected malformed tokens and can observe distinct endpoint responses. This is a chosen-ciphertext capability, so complete validation, response normalization, and attempt controls must address the oracle.",
+      "activeNodeIds": [
+        "Chosen-ciphertext input",
+        "Observable endpoint response"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "Chosen-ciphertext input": "The attacker can submit selected malformed ciphertexts to the token endpoint.",
+        "Observable endpoint response": "Different errors, timing, or acceptance behavior may act as an oracle and require controlled measurement."
+      },
+      "activeRowIds": [
+        "chosen-ciphertext"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The transport is protected. The application permits unbounded online attempts.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Protected channel, exposed endpoint",
+          "caption": "TLS protects transit, but the application still permits unbounded online password attempts.",
+          "activeNodeIds": [
+            "guesser",
+            "login",
+            "verifier"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "guesser": "The attacker can submit repeated password candidates.",
+            "login": "The TLS-protected endpoint accepts every attempt without an effective attempt limit.",
+            "verifier": "Each online check returns an observable authentication result."
+          },
+          "activeRowIds": [
+            "ciphertext-only"
+          ]
+        },
+        {
+          "id": "variant-result",
+          "title": "Control the actual capability",
+          "caption": "Treat the path as online guessing and add attempt limits, detection, risk response, and stronger authentication; TLS does not remove the endpoint attack.",
+          "activeNodeIds": [
+            "guesser",
+            "login",
+            "attempt-control"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2
+          ],
+          "statuses": {
+            "guesser": "The attacker retains an online guessing capability until the endpoint constrains attempts.",
+            "login": "The login endpoint enforces the approved attempt and authentication policy.",
+            "attempt-control": "Rate limits, detection, lockout or risk-based response, and stronger authentication constrain the online guessing path."
+          },
+          "activeRowIds": [
+            "known-plaintext"
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "guesser",
+          "label": "Remote password guesser",
+          "detail": "The attacker can submit repeated candidate passwords through the protected channel.",
+          "conceptIds": [
+            "brute-force"
+          ]
+        },
+        {
+          "id": "login",
+          "label": "Application login endpoint",
+          "detail": "The application accepts online authentication attempts even though TLS protects each request in transit.",
+          "conceptIds": [
+            "protocol-validation",
+            "brute-force"
+          ]
+        },
+        {
+          "id": "verifier",
+          "label": "Credential verifier",
+          "detail": "The verifier checks each candidate and returns an externally observable success or failure result.",
+          "conceptIds": [
+            "protocol-validation"
+          ]
+        },
+        {
+          "id": "attempt-control",
+          "label": "Attempt and risk controls",
+          "detail": "Rate limits, detection, lockout or risk-based response, and stronger authentication constrain the online guessing path.",
+          "conceptIds": [
+            "rate-limiting",
+            "brute-force"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "guesser",
+          "to": "login",
+          "label": "submits repeated candidates through TLS",
+          "kind": "flow"
+        },
+        {
+          "from": "login",
+          "to": "verifier",
+          "label": "passes each candidate for an online decision",
+          "kind": "flow"
+        },
+        {
+          "from": "attempt-control",
+          "to": "login",
+          "label": "limits, detects, or interrupts repeated attempts",
+          "kind": "dependency"
+        }
+      ],
+      "matrix": {
+        "title": "Attacker capability changes the fitting control",
+        "description": "Hold the protected token system constant and compare what the attacker can observe, choose, and query.",
+        "columns": [
+          {
+            "id": "observe",
+            "label": "Observation"
+          },
+          {
+            "id": "choose",
+            "label": "Attacker choice"
+          },
+          {
+            "id": "oracle",
+            "label": "Oracle / response"
+          },
+          {
+            "id": "mode",
+            "label": "Online or offline"
+          },
+          {
+            "id": "mitigation",
+            "label": "Fitting mitigation"
+          }
+        ],
+        "rows": [
+          {
+            "id": "ciphertext-only",
+            "label": "Ciphertext-only",
+            "cells": {
+              "observe": "Captured ciphertexts",
+              "choose": "No chosen input",
+              "oracle": "None",
+              "mode": "Offline analysis",
+              "mitigation": "Sound modern construction, key size and key management"
+            }
+          },
+          {
+            "id": "known-plaintext",
+            "label": "Known plaintext",
+            "cells": {
+              "observe": "Matching plaintext/ciphertext pairs",
+              "choose": "Known examples, not selected queries",
+              "oracle": "None",
+              "mode": "Offline analysis",
+              "mitigation": "Construction secure for known pairs; protect keys and randomness"
+            }
+          },
+          {
+            "id": "chosen-ciphertext",
+            "label": "Chosen ciphertext",
+            "cells": {
+              "observe": "Selected malformed tokens plus response",
+              "choose": "Controls submitted ciphertext",
+              "oracle": "Different error, timing or acceptance behavior",
+              "mode": "Online unless a local oracle exists",
+              "mitigation": "Authenticated encryption, uniform failure, rate/abuse controls and tests"
+            }
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "prediction": {
+    "id": "d3-o07-cryptanalytic-attack-models-prediction-v1",
+    "prompt": "What can the attacker observe or choose, online or offline, and which defense addresses that capability?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Assume TLS prevents password guessing because the guesses travel inside an encrypted channel.",
+        "correct": false,
+        "feedback": "TLS protects the channel; it does not limit an authenticated endpoint from submitting guesses.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "TLS prevents online password guessing at the protected endpoint.",
+        "correct": false,
+        "feedback": "TLS protects transit; an endpoint can still accept and reveal results for repeated guesses.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Classify the attacker’s knowledge and control first, then match the defense to that exact path.",
+        "correct": true,
+        "feedback": "Not every cryptanalytic attack is brute force, and an online control does not repair weak construction or an offline exposure.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "ciphertext-only-attack",
+      "known-plaintext-attack",
+      "chosen-ciphertext-attack"
+    ],
+    "hint": "Classify the attacker by the inputs and observations the system actually exposes."
+  },
+  "transfer": {
+    "id": "d3-o07-cryptanalytic-attack-models-transfer-v1",
+    "prompt": "An attacker can submit unlimited online password guesses through a correctly configured TLS connection.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Assume TLS prevents password guessing because the guesses travel inside an encrypted channel",
+        "correct": false,
+        "feedback": "Changed fact: The transport is protected. The application permits unbounded online attempts. Why this answer fails: “Assume TLS prevents password guessing because the guesses travel inside an encrypted channel” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Brute force searches key space; ciphertext-only and known-plaintext supply different observations; frequency analysis depends on structure; chosen-ciphertext adds controlled inputs and observable responses; rate limiting applies only to applicable online paths. Repair target: Control and evidence consequence — Known Plaintext Attacker already knows some correspondence Plaintext–Ciphertext Pairs. Chosen Ciphertext Input may expose useful error behavior Observable Endpoint Response.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "TLS prevents online password guessing at the protected endpoint",
+        "correct": false,
+        "feedback": "Changed fact: The transport is protected. The application permits unbounded online attempts. Why this answer fails: “TLS prevents online password guessing at the protected endpoint” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Brute force searches key space; ciphertext-only and known-plaintext supply different observations; frequency analysis depends on structure; chosen-ciphertext adds controlled inputs and observable responses; rate limiting applies only to applicable online paths. Repair target: Chosen input creates an oracle — The attacker moves from captured ciphertext to selected malformed tokens and can observe distinct endpoint responses. This is a chosen-ciphertext capability, so complete validation, response normalization, and attempt controls must address the oracle.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Treat this as an online guessing path and add rate limits, detection, lockout or risk controls",
+        "correct": true,
+        "feedback": "Treat this as an online guessing path and add rate limits, detection, lockout or risk controls, and stronger authentication; TLS does not remove the endpoint attack.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "brute-force",
+      "rate-limiting",
+      "protocol-validation"
+    ],
+    "hint": "TLS protects transit but does not stop repeated online guesses at the login endpoint."
+  },
+  "retry": {
+    "id": "d3-o07-cryptanalytic-attack-models-retry-v1",
+    "prompt": "An encrypted-token API returns one error for malformed ciphertext and another after integrity validation. Which defensive response matches the attacker capability?",
+    "options": [
+      {
+        "id": "oracle-controls",
+        "label": "Normalize external errors, validate the complete token with an approved construction, and rate-limit attempts",
+        "correct": true,
+        "feedback": "Correct. The attacker can choose inputs and observe behavior, so validation, response normalization, and attempt controls address that capability.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "larger-key",
+        "label": "Increase only the key size and preserve the distinguishable error behavior",
+        "correct": false,
+        "feedback": "A larger key does not repair an oracle created by attacker-controlled inputs and distinguishable responses.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "tls-only",
+        "label": "Rely on TLS because transport encryption removes any chosen-input oracle at the application",
+        "correct": false,
+        "feedback": "TLS protects the channel but does not remove application responses to attacker-controlled protected tokens.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "chosen-ciphertext-attack",
+      "protocol-validation",
+      "rate-limiting"
+    ],
+    "hint": "Control the endpoint capability with attempt limits, detection, and stronger authentication."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Brute force searches key space; ciphertext-only and known-plaintext supply different observations; frequency analysis depends on structure; chosen-ciphertext adds controlled inputs and observable responses; rate limiting applies only to applicable online paths.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o07-models-outline",
+    "d3-o07-outline",
+    "d3-o07-models-textbook",
+    "d3-o07-models-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o07-cryptanalytic-attack-models-attacker-capability-oracle",
+      "disposition": "equivalent",
+      "rationale": "The decision states compare ciphertext-only, known-plaintext, and chosen-ciphertext capabilities and their observations; the changed graph separately models online password guessing and rate controls. Learners operate authored checkpoints rather than a free-form oracle, while offline frequency-analysis and key-space calculations remain canonical reference content."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Classify what the attacker can observe, choose, and query, and whether work is online or offline. TLS protects transport but does not stop an application from accepting unlimited online guesses.",
+    "visualReasoningGain": "A capability matrix would add model comparison across ciphertext-only, known-plaintext, chosen-ciphertext, and guessing paths; the current chain and changed case do not keep those dimensions together."
+  },
+  "matrix": {
+    "title": "Attacker capability changes the fitting control",
+    "description": "Hold the protected token system constant and compare what the attacker can observe, choose, and query.",
+    "columns": [
+      {
+        "id": "observe",
+        "label": "Observation"
+      },
+      {
+        "id": "choose",
+        "label": "Attacker choice"
+      },
+      {
+        "id": "oracle",
+        "label": "Oracle / response"
+      },
+      {
+        "id": "mode",
+        "label": "Online or offline"
+      },
+      {
+        "id": "mitigation",
+        "label": "Fitting mitigation"
+      }
+    ],
+    "rows": [
+      {
+        "id": "ciphertext-only",
+        "label": "Ciphertext-only",
+        "cells": {
+          "observe": "Captured ciphertexts",
+          "choose": "No chosen input",
+          "oracle": "None",
+          "mode": "Offline analysis",
+          "mitigation": "Sound modern construction, key size and key management"
+        }
+      },
+      {
+        "id": "known-plaintext",
+        "label": "Known plaintext",
+        "cells": {
+          "observe": "Matching plaintext/ciphertext pairs",
+          "choose": "Known examples, not selected queries",
+          "oracle": "None",
+          "mode": "Offline analysis",
+          "mitigation": "Construction secure for known pairs; protect keys and randomness"
+        }
+      },
+      {
+        "id": "chosen-ciphertext",
+        "label": "Chosen ciphertext",
+        "cells": {
+          "observe": "Selected malformed tokens plus response",
+          "choose": "Controls submitted ciphertext",
+          "oracle": "Different error, timing or acceptance behavior",
+          "mode": "Online unless a local oracle exists",
+          "mitigation": "Authenticated encryption, uniform failure, rate/abuse controls and tests"
+        }
+      }
+    ],
+    "notes": []
+  }
+}

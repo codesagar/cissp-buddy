@@ -1,0 +1,946 @@
+{
+  "conceptIds": [
+    "cryptographic-agility",
+    "algorithm-selection",
+    "cryptographic-inventory",
+    "post-quantum-cryptography",
+    "quantum-key-distribution",
+    "migration",
+    "interoperability",
+    "risk-prioritization",
+    "key-establishment",
+    "ml-kem",
+    "ml-dsa",
+    "slh-dsa",
+    "crypto-inventory-owner",
+    "migration-change-authority"
+  ],
+  "concepts": [
+    {
+      "decision": "Use when algorithms, libraries, protocols, certificates, or trust anchors may need replacement.",
+      "definition": "Ability to inventory, change, test, and retire cryptographic dependencies under control.",
+      "failureExample": "A hard-coded algorithm in a device cannot be changed when policy deprecates it.",
+      "id": "cryptographic-agility",
+      "label": "Cryptographic Agility",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Match the role, data lifetime, threat, performance, interoperability, and authoritative policy.",
+      "definition": "Choosing approved algorithms and parameters for a defined protection role.",
+      "failureExample": "A vendor calls one algorithm “quantum safe” without naming its protocol function.",
+      "id": "algorithm-selection",
+      "label": "Algorithm Selection",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Build it before prioritizing or scheduling a migration.",
+      "definition": "Record of cryptographic uses, implementations, keys, certificates, owners, and dependencies.",
+      "failureExample": "An embedded library and its certificate chain are invisible until an emergency replacement.",
+      "id": "cryptographic-inventory",
+      "label": "Cryptographic Inventory",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Prioritize by public-key dependency, data lifetime, exposure, support, and migration feasibility.",
+      "definition": "Cryptographic approaches intended to address quantum-era threats to relevant public-key uses.",
+      "failureExample": "A team replaces every symmetric control immediately without identifying the actual public-key risk.",
+      "id": "post-quantum-cryptography",
+      "label": "Post Quantum Cryptography",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Use only where its physical deployment, endpoint, lifecycle, and trust assumptions fit the requirement.",
+      "definition": "Specialized physical key-establishment approach with operational and integration assumptions.",
+      "failureExample": "A proposal treats QKD as a substitute for identity, endpoint security, and authorization.",
+      "id": "quantum-key-distribution",
+      "label": "Quantum Key Distribution",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Require approved profile, compatibility test, authority, rollout evidence, rollback, and deprecation date.",
+      "definition": "Controlled transition from one cryptographic profile or dependency to another.",
+      "failureExample": "A rollout silently falls back to a deprecated weak protocol when a partner fails.",
+      "id": "migration",
+      "label": "Migration",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Test protocols, certificates, hardware, services, and external partners before broad rollout.",
+      "definition": "Ability of implementations and partners to exchange and validate cryptographic operations correctly.",
+      "failureExample": "A new certificate profile prevents a critical partner from authenticating.",
+      "id": "interoperability",
+      "label": "Interoperability",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Address long-lived sensitive data and exposed dependencies before lower-consequence uses.",
+      "definition": "Ordering migration work by consequence, exposure, confidentiality or verification lifetime, and feasibility.",
+      "failureExample": "A team migrates easy internal tools while a long-retention external service stays unassessed.",
+      "id": "risk-prioritization",
+      "label": "Risk Prioritization",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Use an approved mechanism that fits peer authentication, protocol, and lifecycle requirements.",
+      "definition": "Protocol process by which parties obtain a shared secret or authenticated keying material.",
+      "failureExample": "A key-establishment mechanism is used as though it also signs software releases.",
+      "id": "key-establishment",
+      "label": "Key Establishment",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-1"
+    },
+    {
+      "decision": "Use only for its key-establishment role within an approved, tested protocol profile.",
+      "definition": "NIST FIPS 203 standardized ML-KEM for post-quantum key establishment.",
+      "failureExample": "A supplier claims ML-KEM signs releases or secures every protocol layer.",
+      "id": "ml-kem",
+      "label": "Ml Kem",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-2"
+    },
+    {
+      "decision": "Use when the required role is signing with compatible implementation, certificate, and verifier support.",
+      "definition": "NIST FIPS 204 standardized ML-DSA as a post-quantum digital-signature algorithm.",
+      "failureExample": "A migration replaces a key-establishment mechanism with ML-DSA without redesigning the protocol role.",
+      "id": "ml-dsa",
+      "label": "Ml Dsa",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-2"
+    },
+    {
+      "decision": "Select only through approved profiles and testing of its signature, performance, and interoperability role.",
+      "definition": "NIST FIPS 205 standardized SLH-DSA as a post-quantum digital-signature algorithm.",
+      "failureExample": "A team assumes ML-DSA and SLH-DSA are interchangeable without a policy or compatibility decision.",
+      "id": "slh-dsa",
+      "label": "Slh Dsa",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-2"
+    },
+    {
+      "decision": "Assign when an inventory entry must remain current through change and deprecation.",
+      "definition": "Accountable role that maintains the mapping from cryptographic use to system, dependency, data, and lifecycle.",
+      "failureExample": "A migration list names algorithms but nobody owns embedded library discovery.",
+      "id": "crypto-inventory-owner",
+      "label": "Crypto Inventory Owner",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-2"
+    },
+    {
+      "decision": "Assign before pilot and production changes so fallback cannot silently reinstate deprecated protection.",
+      "definition": "Role authorized to approve profiles, exceptions, rollout, rollback, and retirement in a cryptographic transition.",
+      "failureExample": "An emergency rollback restores a weak protocol with no expiry or approval.",
+      "id": "migration-change-authority",
+      "label": "Migration Change Authority",
+      "sourceRefIds": [
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205",
+        "d3-o06-agility-sybex",
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-agility-quantum-concept-comparison-2"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 42,
+  "id": "d3-o06-cryptographic-agility-quantum",
+  "misconceptions": [
+    {
+      "claim": "Quantum key distribution eliminates the need for certificates, endpoints, and key management.",
+      "correction": "It addresses a narrow key-establishment context and still relies on authenticated operational, endpoint, and lifecycle controls."
+    },
+    {
+      "claim": "ML-KEM alone makes a protocol quantum safe.",
+      "correction": "A protected protocol still needs appropriate authentication/signatures, implementation assurance, endpoint and key management, and an interoperable lifecycle."
+    }
+  ],
+  "objectiveIds": [
+    "3.6"
+  ],
+  "outcome": "Plan justified cryptographic migration and evaluate quantum-related claims by inventorying dependencies, prioritizing exposure, and validating a controlled transition.",
+  "prerequisites": [
+    "d3-o06-cryptographic-primitives",
+    "d3-o06-key-management-pki",
+    "d1-o09-risk-management"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Agility begins with an inventory of algorithms, libraries, protocols, certificates, keys, owners, data classifications, interoperability partners, hardware or service dependencies, and expiry dates. Abstracting every detail is not required, but untracked embedded choices make migration difficult. Define approved cryptographic profiles, procurement requirements, change authority, test environments, compatibility plans, telemetry, rollback criteria, and deprecation dates. Treat a change in algorithm, parameter, library, or trust anchor as a controlled architecture and operations change.",
+      "id": "agility",
+      "keyPoints": [
+        "You cannot prioritize migration reliably without knowing where cryptography is used and what data it protects.",
+        "Agility is governance, engineering, testing, and operations—not only modular code."
+      ],
+      "sourceRefIds": [
+        "d3-o06-agility-outline",
+        "d3-o06-agility-textbook",
+        "d3-o06-agility-sybex"
+      ],
+      "title": "Build the conditions for controlled change"
+    },
+    {
+      "body": "The outline includes quantum among cryptographic methods and quantum key distribution in the PKI context. Quantum computing risk discussions commonly focus on whether certain public-key approaches may face different future feasibility assumptions; the appropriate response depends on data sensitivity and required confidentiality lifetime, not a claim that every system is already broken. Quantum key distribution is a specialized key-establishment approach with physical, operational, integration, and trust assumptions; it is not a universal replacement for PKI, endpoint security, authorization, or key lifecycle management.",
+      "id": "quantum-context",
+      "keyPoints": [
+        "Long-lived sensitive data can justify earlier planning even when migration is not immediate.",
+        "Quantum-related technology still needs identity, operations, availability, and endpoint controls."
+      ],
+      "sourceRefIds": [
+        "d3-o06-agility-textbook",
+        "d3-o06-agility-sybex"
+      ],
+      "title": "Separate quantum concepts from unsupported certainty"
+    },
+    {
+      "body": "Rank uses by data longevity, impact, external exposure, migration complexity, supplier support, and assurance evidence. Pilot approved replacement profiles where compatible, test performance and failure behavior, validate certificate and key processes, coordinate partners, and retain a time-bounded rollback plan that does not silently restore a deprecated weak state. Record exceptions with owners and expiration. The successful outcome is verified maintained protection during transition, not merely a list of new algorithm names.",
+      "id": "migration",
+      "keyPoints": [
+        "Migration must include partners, devices, libraries, trust anchors, and recovery procedures.",
+        "A fallback can be necessary, but it must be constrained and removed deliberately."
+      ],
+      "sourceRefIds": [
+        "d3-o06-outline",
+        "d3-o06-agility-textbook",
+        "d3-o06-agility-sybex"
+      ],
+      "title": "Prioritize and validate a transition"
+    },
+    {
+      "body": "NIST finalized FIPS 203 ML-KEM for key establishment in 2024; related final signature standards are FIPS 204 ML-DSA and FIPS 205 SLH-DSA. A standard’s existence does not prove every protocol, partner, device, certificate workflow, or implementation is ready to migrate. Inventory public-key uses and confidentiality/verification lifetime, identify approved profiles and interoperability constraints, then test a governed transition. The failure mode is buying a “quantum-safe” claim without knowing the protocol role, cryptographic boundary, implementation assurance, fallback, or partner support.",
+      "id": "current-pqc-terminology-and-decision",
+      "keyPoints": [
+        "ML-KEM establishes a shared secret; it is not a label for every cryptographic function.",
+        "Migration priority follows data lifetime, exposure, dependency, and safe deployability."
+      ],
+      "sourceRefIds": [
+        "d3-o06-agility-textbook",
+        "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024",
+        "d3-o06-agility-fips-204",
+        "d3-o06-agility-fips-205"
+      ],
+      "title": "Use current post-quantum terminology without a universal migration claim"
+    }
+  ],
+  "sourceHash": "d04a2704617f17cfc5ced955ac7244520ada2c6445295f3b38844fbc15abf152",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o06-cryptographic-agility-quantum.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o06-agility-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6: cryptographic life cycle, methods including quantum, and PKI including quantum key distribution"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary",
+        "quantum-and-lifecycle-topics"
+      ]
+    },
+    {
+      "id": "d3-o06-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o06-agility-textbook",
+      "locator": {
+        "note": "Domain 3 cryptography range; printed page is the citation anchor.",
+        "pdfPage": "45-84",
+        "printedPage": "45-84",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "algorithm-selection",
+        "quantum-and-pki-context",
+        "migration-planning"
+      ]
+    },
+    {
+      "id": "d3-o06-agility-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7, Cryptography and PKI, pp. 219-308"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Broad chapter locator requires section-level refinement; this unit remains draft.",
+      "supports": [
+        "cryptographic-methods-and-pki-correlation"
+      ]
+    },
+    {
+      "id": "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024",
+      "locator": {
+        "type": "section",
+        "value": "FIPS 203, final, August 2024"
+      },
+      "sourceId": "nist-fips-203-2024",
+      "supports": [
+        "NIST final FIPS 203 specifies ML-KEM and its intended post-quantum key-establishment context."
+      ]
+    },
+    {
+      "id": "d3-o06-agility-fips-204",
+      "locator": {
+        "heading": "Abstract and Document History",
+        "type": "web-section",
+        "url": "https://csrc.nist.gov/pubs/fips/204/final"
+      },
+      "sourceId": "nist-fips-204-2024",
+      "supports": [
+        "signature algorithm name, purpose and final publication date"
+      ]
+    },
+    {
+      "id": "d3-o06-agility-fips-205",
+      "locator": {
+        "heading": "Abstract and Document History",
+        "type": "web-section",
+        "url": "https://csrc.nist.gov/pubs/fips/205/final"
+      },
+      "sourceId": "nist-fips-205-2024",
+      "supports": [
+        "signature algorithm name, purpose and final publication date"
+      ]
+    }
+  ],
+  "summary": "Cryptographic agility is the governed ability to inventory, choose, replace, and verify cryptographic mechanisms as risks, standards, interoperability, and implementation conditions change. Quantum-related planning should distinguish current exposure, long-lived confidentiality, migration dependencies, and unproven or context-dependent claims.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "inventory",
+        "kind": "dependency",
+        "label": "supplies roles, owners, data lifetime, and dependencies to",
+        "to": "priority"
+      },
+      {
+        "from": "priority",
+        "kind": "flow",
+        "label": "sets the required role and assurance for",
+        "to": "profile"
+      },
+      {
+        "from": "profile",
+        "kind": "dependency",
+        "label": "must operate across the actual",
+        "to": "dependencies"
+      },
+      {
+        "from": "dependencies",
+        "kind": "dependency",
+        "label": "define the cases and partners exercised by",
+        "to": "tests"
+      },
+      {
+        "from": "tests",
+        "kind": "evidence",
+        "label": "provide transition, rollback, and removal evidence to",
+        "to": "authority"
+      },
+      {
+        "from": "authority",
+        "kind": "evidence",
+        "label": "records deployed state, exception, and retirement back into",
+        "to": "inventory"
+      }
+    ],
+    "focalRelation": "Inventory binds mechanisms to role and protected data; ML-KEM is key establishment, ML-DSA and SLH-DSA are signatures; priority depends on exposure, lifetime, dependency, and safe deployability; migration crosses partner and operational boundaries.",
+    "lanes": [
+      {
+        "id": "subject",
+        "label": "Inventory",
+        "rule": "Every cryptographic use keeps a stable owner, role, location, and dependency record."
+      },
+      {
+        "id": "constraint",
+        "label": "Priority, profile, and dependencies",
+        "rule": "Quantum or agility labels do not replace role, lifetime, compatibility, or implementation analysis."
+      },
+      {
+        "id": "evidence",
+        "label": "Test and change decision",
+        "rule": "Migration proceeds through evidenced interoperability, rollback, authority, and legacy-path removal."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Migration starts with an inventory of cryptographic role, owner, data lifetime, protocol, partner, device, library, fallback, and change authority. A legacy dependency needs a bounded exposure decision and exit plan rather than a quantum-safe label.",
+      "visualReasoningGain": "An inventory and blocker matrix would enable prioritization and interoperability comparison; the current chain mostly sequences the same prose."
+    },
+    "matrix": {
+      "columns": [
+        {
+          "id": "role",
+          "label": "Cryptographic role"
+        },
+        {
+          "id": "lifetime",
+          "label": "Exposure / lifetime"
+        },
+        {
+          "id": "dependency",
+          "label": "Dependency"
+        },
+        {
+          "id": "blocker",
+          "label": "Blocker"
+        },
+        {
+          "id": "rollback",
+          "label": "Bounded rollback / exit"
+        }
+      ],
+      "description": "Compare cryptographic uses by what they do and what blocks safe migration; a replacement algorithm name alone is not deployability evidence.",
+      "notes": [],
+      "rows": [
+        {
+          "cells": {
+            "blocker": "Legacy reader or hardware profile",
+            "dependency": "Archive format, HSM, recovery and partner readers",
+            "lifetime": "Confidential for ten years; harvest-now risk matters",
+            "role": "Key establishment and encryption profile",
+            "rollback": "Dual-read window with owned expiry; no indefinite legacy write path"
+          },
+          "id": "archive-confidentiality",
+          "label": "Archive confidentiality"
+        },
+        {
+          "cells": {
+            "blocker": "Partner and format interoperability",
+            "dependency": "Signer, certificate/profile, timestamp and verifier",
+            "lifetime": "Verification must remain possible for the retention period",
+            "role": "Origin/integrity verification",
+            "rollback": "Retain verifiable evidence while moving new signatures to approved profile"
+          },
+          "id": "signature",
+          "label": "Long-term signatures"
+        },
+        {
+          "cells": {
+            "blocker": "Partner cannot yet support target profile",
+            "dependency": "Both endpoints, libraries, performance and failure policy",
+            "lifetime": "Current and future records cross organizations",
+            "role": "Protocol establishment plus signatures",
+            "rollback": "Bounded exception, telemetry, compensating protection and exit date"
+          },
+          "id": "exchange",
+          "label": "Partner exchange"
+        }
+      ],
+      "title": "Migration priority follows role, lifetime, and dependency"
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "cryptographic-inventory",
+          "crypto-inventory-owner",
+          "algorithm-selection"
+        ],
+        "detail": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime, implementation, partner, hardware, and fallback.",
+        "id": "inventory",
+        "label": "Cryptographic inventory",
+        "lane": "subject"
+      },
+      {
+        "conceptIds": [
+          "risk-prioritization",
+          "post-quantum-cryptography",
+          "ml-kem",
+          "ml-dsa",
+          "slh-dsa"
+        ],
+        "detail": "Data longevity, exposure, cryptographic role, standard status, dependency, and consequence determine which uses move first.",
+        "id": "priority",
+        "label": "Migration priority",
+        "lane": "constraint"
+      },
+      {
+        "conceptIds": [
+          "algorithm-selection",
+          "key-establishment",
+          "post-quantum-cryptography"
+        ],
+        "detail": "The replacement profile names the approved algorithm, protocol role, parameters, key handling, failure behavior, and retirement rule.",
+        "id": "profile",
+        "label": "Approved replacement profile",
+        "lane": "constraint"
+      },
+      {
+        "conceptIds": [
+          "interoperability",
+          "migration"
+        ],
+        "detail": "Partners, libraries, hardware, certificates, formats, and stored data constrain when the replacement can operate end to end.",
+        "id": "dependencies",
+        "label": "Interoperability dependencies",
+        "lane": "constraint"
+      },
+      {
+        "conceptIds": [
+          "interoperability",
+          "migration"
+        ],
+        "detail": "Controlled compatibility, performance, failure, rollback, and recovery tests establish whether the replacement works in the actual dependency chain.",
+        "id": "tests",
+        "label": "Partner and implementation evidence",
+        "lane": "evidence"
+      },
+      {
+        "conceptIds": [
+          "cryptographic-agility",
+          "migration-change-authority"
+        ],
+        "detail": "The accountable authority approves rollout, bounded fallback, exceptions, telemetry, rollback, and removal of the legacy path.",
+        "id": "authority",
+        "label": "Change authority and exit plan",
+        "lane": "evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "cryptographic-agility",
+        "algorithm-selection",
+        "cryptographic-inventory",
+        "post-quantum-cryptography",
+        "quantum-key-distribution"
+      ],
+      "hint": "Inventory the protocol role, algorithm dependency, exposure lifetime, owner, and exit path.",
+      "id": "d3-o06-cryptographic-agility-quantum-prediction-v1-0bd9cbd80248",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Migration requires inventory, protocol compatibility, key roles, partners, performance, rollback, and evidence; a label cannot prove readiness.",
+          "id": "unit-specific-alternative",
+          "label": "Replace every algorithm immediately with the newest candidate and declare the system quantum safe.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": true,
+          "feedback": "One algorithm name does not cover every protocol role, partner, endpoint, implementation, key lifecycle, or fallback.",
+          "id": "correct",
+          "label": "Inventory the complete role and dependency chain, then prioritize and validate a controlled interoperable migration.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Agility covers protocol roles, keys, libraries, data lifetimes, partners, hardware, rollback, and verified interoperability.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Replacing one algorithm makes the system cryptographically agile and quantum ready.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Which cryptographic role, data lifetime, trust anchor, device, library, partner, fallback, and change authority must be known before selecting a migration?"
+    },
+    "question": "Which cryptographic role, data lifetime, trust anchor, device, library, partner, fallback, and change authority must be known before selecting a migration?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "cryptographic-agility",
+        "post-quantum-cryptography",
+        "cryptographic-inventory",
+        "risk-prioritization"
+      ],
+      "hint": "Look for compensating architecture, a deadline, and an interoperability test.",
+      "id": "d3-o06-cryptographic-agility-quantum-retry-v1-e5f3071b18e3",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "It addresses a narrow key-establishment context and still relies on authenticated operational, endpoint, and lifecycle controls.",
+          "id": "misconception",
+          "label": "Quantum key distribution eliminates the need for certificates, endpoints, and key management",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Inventory the protected uses, data longevity, interfaces, approved profiles, dependencies, assurance evidence, and migration test criteria before selecting a product claim.",
+          "id": "shortcut",
+          "label": "Replace every algorithm immediately with the newest candidate and declare the system quantum safe",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Inventory the protected uses, data longevity, interfaces, approved profiles, dependencies, assurance evidence, and migration test criteria before selecting a product claim.",
+          "id": "evidence-based",
+          "label": "Inventory the protected uses, data longevity, interfaces, approved profiles, dependencies, assurance evidence",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A procurement team buys a 'quantum-safe' appliance without knowing its protocols or partner compatibility. What should happen first?"
+    },
+    "scenario": "Ten-year legal archive: An organization stores confidential signed records that must remain verifiable for a decade and are exchanged with outside parties.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o06-agility-outline",
+      "d3-o06-outline",
+      "d3-o06-agility-textbook",
+      "d3-o06-agility-sybex",
+      "d3-o06-cryptographic-agility-quantum-nist-fips-203-2024",
+      "d3-o06-agility-fips-204",
+      "d3-o06-agility-fips-205"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "inventory",
+          "priority"
+        ],
+        "activeRowIds": [],
+        "caption": "Ten-year legal archive: An organization stores confidential signed records that must remain verifiable for a decade and are exchanged with outside parties.",
+        "id": "case",
+        "statuses": {
+          "inventory": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime, implementation, partner, hardware, and fallback.",
+          "priority": "Data longevity, exposure, cryptographic role, standard status, dependency, and consequence determine which uses move first."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "inventory",
+          "priority",
+          "profile"
+        ],
+        "activeRowIds": [
+          "archive-confidentiality"
+        ],
+        "caption": "Cryptographic inventory supplies roles, owners, data lifetime, and dependencies to Migration priority. Migration priority sets the required role and assurance for Approved replacement profile.",
+        "id": "decision",
+        "statuses": {
+          "inventory": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime, implementation, partner, hardware, and fallback.",
+          "priority": "Data longevity, exposure, cryptographic role, standard status, dependency, and consequence determine which uses move first.",
+          "profile": "The replacement profile names the approved algorithm, protocol role, parameters, key handling, failure behavior, and retirement rule."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "tests",
+          "authority",
+          "inventory"
+        ],
+        "activeRowIds": [
+          "signature"
+        ],
+        "caption": "Partner and implementation evidence provide transition, rollback, and removal evidence to Change authority and exit plan. Change authority and exit plan records deployed state, exception, and retirement back into Cryptographic inventory.",
+        "id": "consequence",
+        "statuses": {
+          "authority": "The accountable authority approves rollout, bounded fallback, exceptions, telemetry, rollback, and removal of the legacy path.",
+          "inventory": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime, implementation, partner, hardware, and fallback.",
+          "tests": "Controlled compatibility, performance, failure, rollback, and recovery tests establish whether the replacement works in the actual dependency chain."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "inventory",
+          "priority",
+          "profile",
+          "tests",
+          "authority",
+          "dependencies"
+        ],
+        "activeRowIds": [
+          "exchange"
+        ],
+        "caption": "A vendor appliance supports only a legacy key-exchange suite and cannot be upgraded during the current contract. Record the blocking dependency and protocol role, assess exposure and lifetime, use compensating architecture where justified, set an owner and exit date, and test partner migration.",
+        "id": "changed-case",
+        "statuses": {
+          "authority": "The accountable authority approves rollout, bounded fallback, exceptions, telemetry, rollback, and removal of the legacy path.",
+          "dependencies": "Partners, libraries, hardware, certificates, formats, and stored data constrain when the replacement can operate end to end.",
+          "inventory": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime, implementation, partner, hardware, and fallback.",
+          "priority": "Data longevity, exposure, cryptographic role, standard status, dependency, and consequence determine which uses move first.",
+          "profile": "The replacement profile names the approved algorithm, protocol role, parameters, key handling, failure behavior, and retirement rule.",
+          "tests": "Controlled compatibility, performance, failure, rollback, and recovery tests establish whether the replacement works in the actual dependency chain."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Inventory binds mechanisms to role and protected data; ML-KEM is key establishment, ML-DSA and SLH-DSA are signatures; priority depends on exposure, lifetime, dependency, and safe deployability; migration crosses partner and operational boundaries.",
+    "title": "crypto migration dependency board",
+    "transfer": {
+      "conceptIds": [
+        "migration",
+        "crypto-inventory-owner",
+        "migration-change-authority"
+      ],
+      "hint": "A partner that cannot migrate creates a bounded exception, not permission to ignore the dependency.",
+      "id": "d3-o06-cryptographic-agility-quantum-transfer-v1-625a0848efd0",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: The dependency blocks the target migration. The service still needs a bounded operating decision. Why this answer fails: “Replace every algorithm immediately with the newest candidate and declare the system quantum safe” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Inventory binds mechanisms to role and protected data; ML-KEM is key establishment, ML-DSA and SLH-DSA are signatures; priority depends on exposure, lifetime, dependency, and safe deployability; migration crosses partner and operational boundaries. Repair target: Control and evidence consequence — Partner and implementation evidence provide transition, rollback, and removal evidence to Change authority and exit plan. Change authority and exit plan records deployed state, exception, and retirement back into Cryptographic inventory.",
+          "id": "single-signal",
+          "label": "Replace every algorithm immediately with the newest candidate and declare the system quantum safe",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The dependency blocks the target migration. The service still needs a bounded operating decision. Why this answer fails: “Replacing one algorithm makes the system cryptographically agile and quantum ready” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Inventory binds mechanisms to role and protected data; ML-KEM is key establishment, ML-DSA and SLH-DSA are signatures; priority depends on exposure, lifetime, dependency, and safe deployability; migration crosses partner and operational boundaries. Repair target: Changed fact, recomputed result — A vendor appliance supports only a legacy key-exchange suite and cannot be upgraded during the current contract. Record the blocking dependency and protocol role, assess exposure and lifetime, use compensating architecture where justified, set an owner and exit date, and test partner migration.",
+          "id": "unchanged-rule",
+          "label": "Replacing one algorithm makes the system cryptographically agile and quantum ready",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Record the blocking dependency and protocol role, assess exposure and lifetime, use compensating architecture where justified, set an owner and exit date, and test partner migration.",
+          "id": "recompute",
+          "label": "Record the blocking dependency and protocol role, assess exposure and lifetime",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "A vendor appliance supports only a legacy key-exchange suite and cannot be upgraded during the current contract."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "The ledger connects a role-specific cryptographic inventory to data lifetime and migration priority, approved replacement profiles, partner and library interoperability, validation evidence, fallback, and change authority. The changed case exposes a device dependency that cannot support the preferred profile and requires a controlled compatibility decision.",
+        "treatmentId": "fresh-d3-o06-cryptographic-agility-quantum-crypto-migration-dependency-board"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o06-cryptographic-agility-quantum-crypto-migration-dependency-board"
+    ],
+    "unitId": "d3-o06-cryptographic-agility-quantum",
+    "variants": [
+      {
+        "changedFact": "The dependency blocks the target migration. The service still needs a bounded operating decision.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "matrix": {
+          "columns": [
+            {
+              "id": "role",
+              "label": "Cryptographic role"
+            },
+            {
+              "id": "lifetime",
+              "label": "Exposure / lifetime"
+            },
+            {
+              "id": "dependency",
+              "label": "Dependency"
+            },
+            {
+              "id": "blocker",
+              "label": "Blocker"
+            },
+            {
+              "id": "rollback",
+              "label": "Bounded rollback / exit"
+            }
+          ],
+          "description": "Compare cryptographic uses by what they do and what blocks safe migration; a replacement algorithm name alone is not deployability evidence.",
+          "notes": [],
+          "rows": [
+            {
+              "cells": {
+                "blocker": "Legacy reader or hardware profile",
+                "dependency": "Archive format, HSM, recovery and partner readers",
+                "lifetime": "Confidential for ten years; harvest-now risk matters",
+                "role": "Key establishment and encryption profile",
+                "rollback": "Dual-read window with owned expiry; no indefinite legacy write path"
+              },
+              "id": "archive-confidentiality",
+              "label": "Archive confidentiality"
+            },
+            {
+              "cells": {
+                "blocker": "Partner and format interoperability",
+                "dependency": "Signer, certificate/profile, timestamp and verifier",
+                "lifetime": "Verification must remain possible for the retention period",
+                "role": "Origin/integrity verification",
+                "rollback": "Retain verifiable evidence while moving new signatures to approved profile"
+              },
+              "id": "signature",
+              "label": "Long-term signatures"
+            },
+            {
+              "cells": {
+                "blocker": "Partner cannot yet support target profile",
+                "dependency": "Both endpoints, libraries, performance and failure policy",
+                "lifetime": "Current and future records cross organizations",
+                "role": "Protocol establishment plus signatures",
+                "rollback": "Bounded exception, telemetry, compensating protection and exit date"
+              },
+              "id": "exchange",
+              "label": "Partner exchange"
+            }
+          ],
+          "title": "Migration priority follows role, lifetime, and dependency"
+        },
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "tests",
+              "authority",
+              "inventory"
+            ],
+            "activeRowIds": [
+              "archive-confidentiality"
+            ],
+            "caption": "A vendor appliance supports only a legacy key-exchange suite and cannot be upgraded during the current contract.",
+            "id": "variant-facts",
+            "statuses": {
+              "authority": "The accountable authority approves rollout, bounded fallback, exceptions, telemetry, rollback, and removal of the legacy path.",
+              "inventory": "The dependency blocks the target migration. The service still needs a bounded operating decision.",
+              "tests": "Controlled compatibility, performance, failure, rollback, and recovery tests establish whether the replacement works in the actual dependency chain."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "tests",
+              "authority",
+              "inventory"
+            ],
+            "activeRowIds": [
+              "signature"
+            ],
+            "caption": "Record the blocking dependency and protocol role, assess exposure and lifetime, use compensating architecture where justified, set an owner and exit date, and test partner migration.",
+            "id": "variant-result",
+            "statuses": {
+              "authority": "The accountable authority approves rollout, bounded fallback, exceptions, telemetry, rollback, and removal of the legacy path.",
+              "inventory": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime, implementation, partner, hardware, and fallback.",
+              "tests": "Controlled compatibility, performance, failure, rollback, and recovery tests establish whether the replacement works in the actual dependency chain."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Plan cryptographic agility and evaluate quantum claims",
+  "workedExamples": [
+    {
+      "reasoning": "Inventory encryption, signatures, certificate chains, archived validation evidence, libraries, partner constraints, and retention requirements. Prioritize the long-lived confidential archive, choose approved migration profiles through governance, test validation and re-signing or protected archival processes as applicable, coordinate partners, and retain evidence of the transition.",
+      "situation": "An organization stores confidential signed records that must remain verifiable for a decade and are exchanged with outside parties.",
+      "takeaway": "Long-lived confidentiality and verifiability make inventory and transition evidence more important than a generic quantum headline.",
+      "title": "Ten-year legal archive"
+    },
+    {
+      "reasoning": "Inventory each protocol’s key-establishment and signature functions, certificate/trust path, libraries, hardware, partners, and data lifetime. Pilot an approved compatible profile, test failure and rollback behavior, and retire exceptions on a controlled date.",
+      "situation": "An organization protects a long-lived data exchange with external partners.",
+      "takeaway": "Algorithm names cannot substitute for protocol-role and partner-readiness analysis.",
+      "title": "Partner API transition"
+    }
+  ]
+}

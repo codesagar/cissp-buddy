@@ -1,0 +1,462 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d5-o04-authorization-mechanisms",
+  "treatmentIds": [
+    "fresh-d5-o04-authorization-mechanisms-learner-controlled-slow-authorization-trace"
+  ],
+  "title": "The decision is not the enforcement",
+  "question": "When one authorization input changes, which component changes the decision and where must a deny stop the action?",
+  "scenario": "Dr. Reyes is signed in through SSO on a managed tablet during her scheduled shift. She requests a sensitive patient record. Her role permits clinical reads, but the current care-team assignment is the fact that determines whether this patient is in scope.",
+  "focalRelation": "The PDP evaluates current subject, object, action, and context attributes; the API PEP enforces the scoped result before the record operation.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "clinician",
+      "label": "Dr. Reyes",
+      "detail": "Authenticated clinician; authentication identifies the subject but does not authorize this record read.",
+      "conceptIds": [
+        "authorization"
+      ]
+    },
+    {
+      "id": "request",
+      "label": "Read request",
+      "detail": "Subject: Reyes; object: patient 1842; action: read; device: managed; shift: active; care team: current value.",
+      "conceptIds": [
+        "abac",
+        "risk-based-access-control"
+      ]
+    },
+    {
+      "id": "pdp",
+      "label": "Policy decision point",
+      "detail": "Evaluates current attributes and policy version; returns permit, deny, or a defined step-up obligation.",
+      "conceptIds": [
+        "policy-decision-point",
+        "rule-based-access-control"
+      ]
+    },
+    {
+      "id": "pep",
+      "label": "Record API enforcement",
+      "detail": "Mediates the resource operation and applies the PDP result even if the UI or token would otherwise allow a request.",
+      "conceptIds": [
+        "policy-enforcement-point",
+        "least-privilege"
+      ]
+    },
+    {
+      "id": "record",
+      "label": "Patient record",
+      "detail": "The protected object. No denied path reaches this node.",
+      "conceptIds": [
+        "authorization"
+      ]
+    },
+    {
+      "id": "audit",
+      "label": "Decision evidence",
+      "detail": "Records subject, object, action, policy, context, result, obligation, and enforcement outcome for review.",
+      "conceptIds": [
+        "authorization",
+        "separation-of-duties"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "clinician",
+      "to": "request",
+      "label": "submits authenticated request",
+      "kind": "flow"
+    },
+    {
+      "from": "request",
+      "to": "pdp",
+      "label": "supplies current decision inputs",
+      "kind": "flow"
+    },
+    {
+      "from": "pdp",
+      "to": "pep",
+      "label": "returns scoped result and obligations",
+      "kind": "flow"
+    },
+    {
+      "from": "pep",
+      "to": "record",
+      "label": "permits read only when result is current",
+      "kind": "flow"
+    },
+    {
+      "from": "pep",
+      "to": "audit",
+      "label": "records enforced outcome",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "request-frozen",
+      "title": "Freeze the complete request",
+      "caption": "All decision inputs are visible before prediction; a valid sign-in is only one input.",
+      "activeNodeIds": [
+        "clinician",
+        "request"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "request": "care team: assigned"
+      }
+    },
+    {
+      "id": "current-inputs",
+      "title": "Evaluate current context",
+      "caption": "The PDP receives the care-team assignment along with role, object, action, device, and shift.",
+      "activeNodeIds": [
+        "request",
+        "pdp"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "pdp": "policy v42 evaluating"
+      }
+    },
+    {
+      "id": "scoped-permit",
+      "title": "Return a scoped permit",
+      "caption": "The assigned relationship produces a permit for this patient, this read action, and this request context.",
+      "activeNodeIds": [
+        "pdp",
+        "pep"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "pdp": "permit patient 1842:read",
+        "pep": "current result received"
+      }
+    },
+    {
+      "id": "enforced-read",
+      "title": "Enforce before the record",
+      "caption": "The API PEP applies the permit and only then allows the record operation.",
+      "activeNodeIds": [
+        "pep",
+        "record"
+      ],
+      "activeEdgeIndexes": [
+        3
+      ],
+      "statuses": {
+        "record": "read completed"
+      }
+    },
+    {
+      "id": "relationship-removed",
+      "title": "Change one attribute",
+      "caption": "The same token, role, device, shift, patient, and action remain; only care-team assignment changes to none.",
+      "activeNodeIds": [
+        "request",
+        "pdp"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "request": "care team: none",
+        "pdp": "fresh evaluation required"
+      }
+    },
+    {
+      "id": "deny-stops",
+      "title": "Deny stops at enforcement",
+      "caption": "The PDP returns deny; the API PEP blocks the operation before the record and records the outcome.",
+      "activeNodeIds": [
+        "pdp",
+        "pep",
+        "audit"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        4
+      ],
+      "statuses": {
+        "pdp": "deny",
+        "pep": "read blocked",
+        "record": "not reached"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "stale-cache",
+      "label": "Stale permit, missing device context",
+      "changedFact": "A cached permit exists, but current device-compliance evidence is missing and policy requires it for this read.",
+      "states": [
+        {
+          "id": "cache-detected",
+          "title": "Detect stale evidence",
+          "caption": "The PEP sees that the prior result lacks required current device context.",
+          "activeNodeIds": [
+            "request",
+            "pep"
+          ],
+          "statuses": {
+            "request": "device compliance: missing",
+            "pep": "cached permit rejected"
+          }
+        },
+        {
+          "id": "fresh-decision",
+          "title": "Request a fresh result",
+          "caption": "The PEP sends current inputs to the PDP rather than inferring compliance from the old permit.",
+          "activeNodeIds": [
+            "request",
+            "pdp",
+            "pep"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "pdp": "deny or defined step-up",
+            "record": "not reached"
+          }
+        },
+        {
+          "id": "variant-stop",
+          "title": "Hold the boundary",
+          "caption": "Access remains stopped until policy-defined evidence or step-up produces a new scoped result.",
+          "activeNodeIds": [
+            "pep",
+            "audit"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "pep": "blocked pending new result"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "clinician",
+          "label": "Authenticated clinician",
+          "detail": "The requester has a valid identity, but authentication alone does not settle this authorization.",
+          "conceptIds": [
+            "authorization"
+          ]
+        },
+        {
+          "id": "request",
+          "label": "Read request without device evidence",
+          "detail": "The current request lacks device compliance required by policy.",
+          "conceptIds": [
+            "abac",
+            "risk-based-access-control"
+          ]
+        },
+        {
+          "id": "pdp",
+          "label": "Fresh policy evaluation",
+          "detail": "The decision point evaluates current identity, relationship, action, and device evidence.",
+          "conceptIds": [
+            "policy-decision-point",
+            "rule-based-access-control"
+          ]
+        },
+        {
+          "id": "pep",
+          "label": "API enforcement point",
+          "detail": "The enforcement point rejects the cached permit and requests a current result.",
+          "conceptIds": [
+            "policy-enforcement-point",
+            "least-privilege"
+          ]
+        },
+        {
+          "id": "record",
+          "label": "Protected patient record",
+          "detail": "The record is not reached unless a new scoped permit or defined step-up succeeds.",
+          "conceptIds": [
+            "authorization"
+          ]
+        },
+        {
+          "id": "audit",
+          "label": "Authorization decision record",
+          "detail": "Evidence records the stale permit rejection and enforced outcome.",
+          "conceptIds": [
+            "authorization",
+            "separation-of-duties"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "clinician",
+          "to": "request",
+          "label": "submits read with current context",
+          "kind": "flow"
+        },
+        {
+          "from": "request",
+          "to": "pdp",
+          "label": "sends current inputs for reevaluation",
+          "kind": "flow"
+        },
+        {
+          "from": "pdp",
+          "to": "pep",
+          "label": "returns deny or defined step-up",
+          "kind": "flow"
+        },
+        {
+          "from": "pep",
+          "to": "record",
+          "label": "permits access only on fresh result",
+          "kind": "flow"
+        },
+        {
+          "from": "pep",
+          "to": "audit",
+          "label": "records rejection and final enforcement",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d5-o04-predict",
+    "prompt": "Only the care-team assignment changes from assigned to none. What should change the outcome, and where must the deny take effect?",
+    "options": [
+      {
+        "id": "pdp-pep",
+        "label": "The PDP reevaluates current context; the API PEP blocks the read",
+        "correct": true,
+        "feedback": "Correct. The PDP computes the scoped result and the PEP enforces it at the protected operation.",
+        "repairStateId": "deny-stops"
+      },
+      {
+        "id": "token-allows",
+        "label": "The valid sign-in token keeps the read permitted.",
+        "correct": false,
+        "feedback": "Authentication identifies Dr. Reyes. It does not override the changed patient relationship used by authorization.",
+        "repairStateId": "current-inputs"
+      },
+      {
+        "id": "ui-hides",
+        "label": "Hide the record in the UI; the API may still return it.",
+        "correct": false,
+        "feedback": "UI hiding is not resource mediation. The API PEP must stop the operation before the record.",
+        "repairStateId": "deny-stops"
+      },
+      {
+        "id": "pdp-blocks-db",
+        "label": "The PDP directly blocks the database read.",
+        "correct": false,
+        "feedback": "The PDP returns a decision. The PEP mediates and blocks the resource operation.",
+        "repairStateId": "scoped-permit"
+      }
+    ],
+    "conceptIds": [
+      "authorization",
+      "policy-decision-point",
+      "policy-enforcement-point"
+    ],
+    "hint": "Name the component that computes a result separately from the component placed on the resource path."
+  },
+  "transfer": {
+    "id": "d5-o04-transfer",
+    "prompt": "A cached permit exists, but required current device-compliance context is missing. What is the defensible next action?",
+    "options": [
+      {
+        "id": "reuse",
+        "label": "Reuse the permit because the token has not expired.",
+        "correct": false,
+        "feedback": "Token lifetime does not prove authorization context is current. Reject or bypass the stale result.",
+        "repairStateId": "cache-detected"
+      },
+      {
+        "id": "fresh",
+        "label": "Obtain a fresh result and apply deny or the defined step-up before access",
+        "correct": true,
+        "feedback": "Correct. The changed issue is evidence freshness, so the PEP must obtain and enforce a current policy result.",
+        "repairStateId": "variant-stop"
+      },
+      {
+        "id": "assume",
+        "label": "Treat missing compliance as compliant until the next review.",
+        "correct": false,
+        "feedback": "Missing required evidence cannot silently become a favorable attribute.",
+        "repairStateId": "fresh-decision"
+      }
+    ],
+    "conceptIds": [
+      "risk-based-access-control",
+      "policy-decision-point",
+      "policy-enforcement-point"
+    ],
+    "hint": "Ask whether the prior result contains every attribute the current policy requires."
+  },
+  "retry": {
+    "id": "d5-o04-retry",
+    "prompt": "A broad administrator role grants one engineer both payment creation and approval. Which change repairs the authorization design?",
+    "options": [
+      {
+        "id": "longer-password",
+        "label": "Require a longer password while leaving the conflicting permissions unchanged.",
+        "correct": false,
+        "feedback": "Authentication strength does not remove the incompatible permission combination.",
+        "repairStateId": "request-frozen"
+      },
+      {
+        "id": "hide-button",
+        "label": "Hide the approval button for normal users.",
+        "correct": false,
+        "feedback": "A hidden button does not prevent direct API use. The authorization boundary must mediate the action.",
+        "repairStateId": "deny-stops"
+      },
+      {
+        "id": "split-actions",
+        "label": "Separate the actions into incompatible roles and enforce both at their APIs",
+        "correct": true,
+        "feedback": "Correct. Separation of duties constrains the permission combination, and each protected action still needs enforcement.",
+        "repairStateId": "enforced-read"
+      }
+    ],
+    "conceptIds": [
+      "rbac",
+      "least-privilege",
+      "separation-of-duties",
+      "policy-enforcement-point"
+    ],
+    "hint": "Focus on the incompatible actions and the points that actually execute them."
+  },
+  "takeaway": "Authentication names the subject; authorization evaluates a current, scoped request; enforcement must stop an unauthorized operation at the resource boundary.",
+  "assumptions": [
+    "The example policy requires a current care-team assignment for ordinary access.",
+    "A defined break-glass path would be a separate conditional result with its own logging and review.",
+    "Animation timing, if used by the renderer, represents presentation pacing rather than system latency."
+  ],
+  "sourceRefIds": [
+    "outline-d5-o04",
+    "official-d5-35-41",
+    "sybex-d5-677-690"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d5-o04-authorization-mechanisms-learner-controlled-slow-authorization-trace",
+      "disposition": "implemented",
+      "rationale": "Implemented in 6 stable decision states: Dr. Reyes submits authenticated request Read request; Read request supplies current decision inputs Policy decision point. The model keeps Dr. Reyes, Read request, Policy decision point, Record API enforcement, Patient record, Decision evidence distinct. Its changed case is “A cached permit exists, but current device-compliance evidence is missing and policy requires it for this read.” and every option returns to a named repair state."
+    }
+  ]
+}

@@ -1,0 +1,555 @@
+{
+  "id": "cross-architecture-cryptography--supplier-boundary",
+  "model": {
+    "assumptions": [
+      "The upgrade’s permission request is known before production deployment.",
+      "The supplier component has not been observed abusing the access.",
+      "The prior approval and current architecture are available for before/after comparison."
+    ],
+    "edges": [
+      {
+        "from": "supplier",
+        "kind": "dependency",
+        "label": "supplier dependency existed with limited data reach",
+        "to": "old-edge"
+      },
+      {
+        "from": "supplier",
+        "kind": "dependency",
+        "label": "same supplier dependency now reaches sensitive records",
+        "to": "new-edge"
+      },
+      {
+        "from": "new-edge",
+        "kind": "flow",
+        "label": "new permission changes exposure and failure impact",
+        "to": "assumptions"
+      },
+      {
+        "from": "assumptions",
+        "kind": "evidence",
+        "label": "updated architecture and supplier evidence informs approval",
+        "to": "decision"
+      }
+    ],
+    "focalRelation": "Supply-chain facts about supplier control, updates, support, and assurance inform architecture analysis when a component gains a new permission edge. The permission change creates exposure; it is not evidence that compromise occurred.",
+    "lanes": [
+      {
+        "id": "supplier",
+        "label": "Supply-chain subject",
+        "rule": "Keep supplier control and update/support dependencies visible."
+      },
+      {
+        "id": "before",
+        "label": "Before",
+        "rule": "Show the original permitted edge without implying it was risk free."
+      },
+      {
+        "id": "after",
+        "label": "After",
+        "rule": "Highlight only the newly granted permission edge; do not simulate a breach."
+      },
+      {
+        "id": "decision",
+        "label": "Reassessment",
+        "rule": "Evaluate changed exposure and select controls before production use."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "granting the supplier-managed agent customer-record access creates a new sensitive trust edge; it increases possible reach and failure impact without proving compromise. Reassess necessity, scope, update/support authority, egress, monitoring, and revocation before approving a bounded response.",
+      "visualReasoningGain": "The revealed visual adds a before/after path and collects the assumptions attached to the new edge, but the unrevealed opening shows only the supplier subject and previous metrics access, so the visual prediction lacks the changed endpoint it asks the learner to reason about."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "supplier-risk",
+          "third-party-assessment",
+          "continuous-monitoring"
+        ],
+        "detail": "The vendor maintains agent code, release signing, support access, and updates; those dependencies define the supply-chain subject under review.",
+        "id": "supplier",
+        "label": "Supplier-controlled component",
+        "lane": "supplier"
+      },
+      {
+        "conceptIds": [
+          "architecture-vulnerability",
+          "cloud-shared-responsibility"
+        ],
+        "detail": "The agent could read low-sensitivity health metrics and send them to the approved observability service.",
+        "id": "old-edge",
+        "label": "Before: metrics read",
+        "lane": "before"
+      },
+      {
+        "conceptIds": [
+          "database-security",
+          "supply-chain-risk"
+        ],
+        "detail": "The service identity can now query sensitive customer records, crossing a data trust boundary with a new least-privilege and exfiltration consequence.",
+        "id": "new-edge",
+        "label": "After: customer-record read",
+        "lane": "after"
+      },
+      {
+        "conceptIds": [
+          "architecture-vulnerability",
+          "api-security",
+          "supply-chain-assurance"
+        ],
+        "detail": "Reassess data need, permission scope, query controls, egress, update provenance, support access, monitoring, revocation, and failure containment.",
+        "id": "assumptions",
+        "label": "Assumptions to reopen",
+        "lane": "decision"
+      },
+      {
+        "conceptIds": [
+          "security-requirements",
+          "third-party-assessment",
+          "database-security"
+        ],
+        "detail": "An accountable architecture and supplier-risk review chooses a bounded control response before the permission reaches production.",
+        "id": "decision",
+        "label": "Approve, reduce, isolate, or reject",
+        "lane": "decision"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Supplier-controlled component",
+        "value": "The vendor maintains agent code, release signing, support access, and updates; those dependencies define the supply-chain subject under review."
+      },
+      {
+        "label": "Before: metrics read",
+        "value": "The agent could read low-sensitivity health metrics and send them to the approved observability service."
+      },
+      {
+        "label": "After: customer-record read",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Assumptions to reopen",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Approve, reduce, isolate, or reject",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "supplier-risk",
+        "database-security",
+        "architecture-vulnerability"
+      ],
+      "hint": "Compare the component’s possible data reach before and after without inventing an event.",
+      "id": "supplier-predict-3ab429944733",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. The new edge changes trust-boundary exposure and the consequence of supplier, update, credential, or component failure.",
+          "id": "p-edge",
+          "label": "The supplier identity now crosses a sensitive-data boundary",
+          "repairStateId": "changed"
+        },
+        {
+          "correct": false,
+          "feedback": "Permission creates possible reach, not proof of malicious use or compromise.",
+          "id": "p-breach",
+          "label": "The permission change confirms that the supplier is compromised",
+          "repairStateId": "changed"
+        },
+        {
+          "correct": false,
+          "feedback": "The prior approval covered a different access scope and cannot silently authorize a new sensitive edge.",
+          "id": "p-none",
+          "label": "The earlier approval covers every permission later granted to the agent",
+          "repairStateId": "before"
+        }
+      ],
+      "prompt": "What changed in the architecture when the upgrade gained customer-record read access?"
+    },
+    "question": "A supplier component gains read permission to a sensitive store. Which trust edge changed, and what architecture vulnerability assumptions need reassessment?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "supply-chain-assurance",
+        "product-tampering",
+        "third-party-assessment"
+      ],
+      "hint": "Treat artifact provenance as a trust claim separate from the supplier name and requested permission.",
+      "id": "supplier-retry-e71a446180ec",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "An unchanged supplier name and permission set do not establish the provenance or integrity of the new artifact.",
+          "id": "r-trust",
+          "label": "Approve it because the supplier and requested permissions are unchanged",
+          "repairStateId": "retry-provenance-gap"
+        },
+        {
+          "correct": false,
+          "feedback": "Monitoring can observe behavior after execution; it cannot replace provenance verification before trusted deployment.",
+          "id": "r-deploy",
+          "label": "Deploy it first and use runtime monitoring to decide whether it was authentic",
+          "repairStateId": "retry-provenance-gap"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The changed artifact must be bound to an approved supplier update path before it enters the architecture.",
+          "id": "r-quarantine",
+          "label": "Quarantine the update until its signing path and approved provenance are verified",
+          "repairStateId": "retry-provenance-decision"
+        }
+      ],
+      "prompt": "A routine agent update requests no new permission, but its signature no longer chains to the approved supplier key. What controls the deployment decision?"
+    },
+    "scenario": "A managed observability agent previously read application health metrics only. An upgrade grants its supplier-maintained service identity read access to the customer-record database so it can enrich traces. The supplier, update path, and support process are unchanged, but the component can now cross a sensitive data boundary.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d1-o11-outline",
+      "d1-o11-textbook",
+      "d3-o05-outline",
+      "d3-o05-textbook"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "supplier",
+          "old-edge"
+        ],
+        "caption": "The original review covered a component that read metrics, not customer records.",
+        "id": "before",
+        "statuses": {
+          "old-edge": "approved scope"
+        },
+        "title": "Supplier dependency, limited reach"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "supplier",
+          "old-edge",
+          "new-edge"
+        ],
+        "caption": "The component is not declared compromised; its possible reach and failure consequence changed.",
+        "id": "changed",
+        "statuses": {
+          "new-edge": "new sensitive read"
+        },
+        "title": "One permission edge changes"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "supplier",
+          "new-edge",
+          "assumptions"
+        ],
+        "caption": "Assess necessity, data scope, identity, update provenance, egress, observability, support paths, and revocation.",
+        "id": "reassess",
+        "title": "Reopen the assumptions attached to that edge"
+      },
+      {
+        "activeEdgeIndexes": [
+          3
+        ],
+        "activeNodeIds": [
+          "assumptions",
+          "decision"
+        ],
+        "caption": "Reduce or isolate the permission unless evidence supports the requirement and its controls.",
+        "id": "decide",
+        "statuses": {
+          "decision": "architecture approval pending"
+        },
+        "title": "Choose a bounded architecture response"
+      }
+    ],
+    "takeaway": "Supplier dependencies alter architecture when their code, identities, updates, or support paths gain new reach. Reassess the changed edge and its failure consequences without treating possible access as an observed compromise.",
+    "title": "An observability agent gains database access",
+    "transfer": {
+      "conceptIds": [
+        "supplier-risk",
+        "architecture-vulnerability",
+        "third-party-assessment"
+      ],
+      "hint": "Name the actor and authority introduced by the new edge.",
+      "id": "supplier-transfer-ad92a9bdb066",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Row filtering does not address a new host administration path.",
+          "id": "t-query",
+          "label": "Database filtering alone removes the remote-support trust path",
+          "repairStateId": "transfer-edge"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The trust edge now concerns supplier support authority rather than database query permission.",
+          "id": "t-admin",
+          "label": "Remote support adds an administered path across the trust boundary",
+          "repairStateId": "transfer-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "A new privileged support path changes architecture trust even when application data permissions remain stable.",
+          "id": "t-nochange",
+          "label": "Unchanged data permissions make the remote-support path exempt from review",
+          "repairStateId": "reassess"
+        }
+      ],
+      "prompt": "If the changed fact is a standing remote support path instead, what should the reassessment center on?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "The before/after case teaches the assigned SCRM-to-architecture direction by isolating the changed trust edge, its assumptions, and a bounded approval decision without simulating compromise.",
+        "treatmentId": "cross-architecture-cryptography--supplier-boundary"
+      }
+    ],
+    "treatmentIds": [
+      "cross-architecture-cryptography--supplier-boundary"
+    ],
+    "unitId": "cross-architecture-cryptography--supplier-boundary",
+    "variants": [
+      {
+        "changedFact": "The component’s data permission stays limited, but the supplier receives a standing remote support path to its host.",
+        "edges": [
+          {
+            "from": "supplier",
+            "kind": "dependency",
+            "label": "supplier controls who may enter the support path",
+            "to": "new-edge"
+          },
+          {
+            "from": "new-edge",
+            "kind": "evidence",
+            "label": "standing administration changes the trust and failure assumptions",
+            "to": "assumptions"
+          },
+          {
+            "from": "assumptions",
+            "kind": "dependency",
+            "label": "updated support-path evidence informs approval",
+            "to": "decision"
+          }
+        ],
+        "id": "transfer-case",
+        "label": "Support path added",
+        "lanes": [
+          {
+            "id": "supplier",
+            "label": "Supply-chain subject",
+            "rule": "Keep supplier control and update/support dependencies visible."
+          },
+          {
+            "id": "after",
+            "label": "After",
+            "rule": "Highlight only the newly granted permission edge; do not simulate a breach."
+          },
+          {
+            "id": "decision",
+            "label": "Reassessment",
+            "rule": "Evaluate changed exposure and select controls before production use."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "supplier-risk",
+              "third-party-assessment",
+              "continuous-monitoring"
+            ],
+            "detail": "The supplier controls support personnel and the operational process used to enter the standing administrative path.",
+            "id": "supplier",
+            "label": "Supplier support authority",
+            "lane": "supplier"
+          },
+          {
+            "conceptIds": [
+              "database-security",
+              "supply-chain-risk"
+            ],
+            "detail": "The changed case adds continuing human administrative reach even though the agent data permission is unchanged.",
+            "id": "new-edge",
+            "label": "Standing remote support path",
+            "lane": "after"
+          },
+          {
+            "conceptIds": [
+              "architecture-vulnerability",
+              "api-security",
+              "supply-chain-assurance"
+            ],
+            "detail": "Reassess approval, session controls, monitoring, support provenance, and revocation for the new human path.",
+            "id": "assumptions",
+            "label": "Remote administration assumptions",
+            "lane": "decision"
+          },
+          {
+            "conceptIds": [
+              "security-requirements",
+              "third-party-assessment",
+              "database-security"
+            ],
+            "detail": "An accountable architecture and supplier-risk review chooses a bounded control response before the permission reaches production.",
+            "id": "decision",
+            "label": "Approve, reduce, isolate, or reject",
+            "lane": "decision"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "supplier",
+              "new-edge",
+              "assumptions"
+            ],
+            "caption": "Reassess the supplier’s human access, authentication, session recording, approval, segmentation, and revocation rather than database query scope.",
+            "id": "transfer-edge",
+            "statuses": {
+              "new-edge": "standing support path"
+            },
+            "title": "The changed edge is administrative"
+          },
+          {
+            "activeEdgeIndexes": [
+              2
+            ],
+            "activeNodeIds": [
+              "assumptions",
+              "decision"
+            ],
+            "caption": "Prefer time-bounded approved access with attributable evidence over an unrestricted standing path.",
+            "id": "transfer-decision",
+            "title": "Constrain the support boundary"
+          }
+        ]
+      },
+      {
+        "changedFact": "The next agent version requests the same access, but its signature does not chain to the supplier key approved for production updates.",
+        "edges": [
+          {
+            "from": "supplier",
+            "kind": "evidence",
+            "label": "new artifact fails the approved provenance check",
+            "to": "assumptions"
+          },
+          {
+            "from": "assumptions",
+            "kind": "dependency",
+            "label": "unsupported provenance holds deployment",
+            "to": "decision"
+          }
+        ],
+        "id": "retry-case",
+        "label": "Update provenance no longer validates",
+        "lanes": [
+          {
+            "id": "supplier",
+            "label": "Supply-chain subject",
+            "rule": "Keep supplier control and update/support dependencies visible."
+          },
+          {
+            "id": "decision",
+            "label": "Reassessment",
+            "rule": "Evaluate changed exposure and select controls before production use."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "supplier-risk",
+              "third-party-assessment",
+              "continuous-monitoring"
+            ],
+            "detail": "The vendor name is unchanged, but the artifact still needs an authenticated delivery and signing path.",
+            "id": "supplier",
+            "label": "Supplier update source",
+            "lane": "supplier"
+          },
+          {
+            "conceptIds": [
+              "architecture-vulnerability",
+              "api-security",
+              "supply-chain-assurance"
+            ],
+            "detail": "The signature does not chain to the approved supplier key, so integrity and origin remain unsupported.",
+            "id": "assumptions",
+            "label": "Provenance validation gap",
+            "lane": "decision"
+          },
+          {
+            "conceptIds": [
+              "security-requirements",
+              "third-party-assessment",
+              "database-security"
+            ],
+            "detail": "Hold the binary until digest, signature chain, revocation, and approved delivery evidence validate.",
+            "id": "decision",
+            "label": "Deployment gate",
+            "lane": "decision"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0
+            ],
+            "activeNodeIds": [
+              "supplier",
+              "assumptions"
+            ],
+            "caption": "Existing access approval does not authenticate a new binary whose signing path fails validation.",
+            "id": "retry-provenance-gap",
+            "statuses": {
+              "assumptions": "update provenance unsupported",
+              "supplier": "same vendor identity"
+            },
+            "title": "The permission edge is unchanged but the artifact claim changed"
+          },
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "supplier",
+              "assumptions",
+              "decision"
+            ],
+            "caption": "Verify the artifact digest, signing chain, revocation state, and approved delivery path before reassessing deployment.",
+            "id": "retry-provenance-decision",
+            "statuses": {
+              "decision": "deployment held pending provenance evidence"
+            },
+            "title": "Hold deployment at the supplier boundary"
+          }
+        ]
+      }
+    ]
+  },
+  "relationshipIds": [
+    "rel-d1-o11-to-d3-o05-supply-architecture"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "title": "An observability agent gains database access",
+  "unitIds": [
+    "d1-o11-supply-chain-risk",
+    "d3-o05-architecture-vulnerabilities"
+  ]
+}

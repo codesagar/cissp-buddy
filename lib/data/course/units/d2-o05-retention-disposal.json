@@ -1,0 +1,562 @@
+{
+  "conceptIds": [
+    "retention",
+    "legal-hold",
+    "disposal",
+    "media-sanitization",
+    "data-remanence"
+  ],
+  "concepts": [
+    {
+      "decision": "Use this point in the visual as a decision gate: A documented retention rule identifies the trigger and authorized scope.",
+      "definition": "A documented retention rule identifies the trigger and authorized scope.",
+      "failureExample": "If this gate is skipped or applied to the wrong scope, the intended outcome can fail: A documented retention rule identifies the trigger and authorized scope.",
+      "id": "retention",
+      "label": "Retention",
+      "sourceRefIds": [
+        "d2-o05-nist-sanitization-r2",
+        "official-d2-32-36"
+      ],
+      "sourceVisualId": "d2-o05-retention-disposal-gates"
+    },
+    {
+      "decision": "Use this point in the visual as a decision gate: Check whether a scoped legal hold or other preservation obligation still blocks disposition.",
+      "definition": "Check whether a scoped legal hold or other preservation obligation still blocks disposition.",
+      "failureExample": "If this gate is skipped or applied to the wrong scope, the intended outcome can fail: Check whether a scoped legal hold or other preservation obligation still blocks disposition.",
+      "id": "legal-hold",
+      "label": "Legal Hold",
+      "sourceRefIds": [
+        "d2-o05-nist-sanitization-r2",
+        "official-d2-32-36"
+      ],
+      "sourceVisualId": "d2-o05-retention-disposal-gates"
+    },
+    {
+      "decision": "Use this point in the visual as a decision gate: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "definition": "Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "failureExample": "If this gate is skipped or applied to the wrong scope, the intended outcome can fail: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "id": "disposal",
+      "label": "Disposal",
+      "sourceRefIds": [
+        "d2-o05-nist-sanitization-r2",
+        "official-d2-32-36"
+      ],
+      "sourceVisualId": "d2-o05-retention-disposal-gates"
+    },
+    {
+      "decision": "Use this point in the visual as a decision gate: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "definition": "Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "failureExample": "If this gate is skipped or applied to the wrong scope, the intended outcome can fail: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "id": "media-sanitization",
+      "label": "Media Sanitization",
+      "sourceRefIds": [
+        "d2-o05-nist-sanitization-r2",
+        "official-d2-32-36"
+      ],
+      "sourceVisualId": "d2-o05-retention-disposal-gates"
+    },
+    {
+      "decision": "Use this point in the visual as a decision gate: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "definition": "Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "failureExample": "If this gate is skipped or applied to the wrong scope, the intended outcome can fail: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.",
+      "id": "data-remanence",
+      "label": "Data Remanence",
+      "sourceRefIds": [
+        "d2-o05-nist-sanitization-r2",
+        "official-d2-32-36"
+      ],
+      "sourceVisualId": "d2-o05-retention-disposal-gates"
+    }
+  ],
+  "domainId": 2,
+  "estimatedMinutes": 25,
+  "id": "d2-o05-retention-disposal",
+  "misconceptions": [
+    {
+      "claim": "A certificate of destruction proves every copy was removed.",
+      "correction": "It evidences a specified disposal event; scope must be checked against replicas, backups, exports, and holds."
+    },
+    {
+      "claim": "Legal hold means retain all organizational data indefinitely.",
+      "correction": "The hold applies to identified scope and relevant preservation duties, not unrelated data."
+    }
+  ],
+  "objectiveIds": [
+    "2.5"
+  ],
+  "outcome": "Choose a retention decision and disposal method for an asset while accounting for legal holds, media, replicas, and evidence.",
+  "prerequisites": [
+    "d2-o01-inventory-classification",
+    "d2-o04-data-lifecycle"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Retention schedules identify the record class, owner, minimum and maximum period where applicable, trigger, storage and access requirements, and disposition authority. Inputs include business usefulness, contractual commitments, regulation, litigation or investigation needs, privacy principles, cost, and risk. A legal hold or investigation suspends ordinary disposition for the affected scope.",
+      "id": "retention-decision",
+      "keyPoints": [
+        "A retention trigger might be contract end, case close, employee departure, or transaction completion.",
+        "Legal holds override routine destruction until released by the responsible authority.",
+        "Retention applies across systems and copies that fall within scope."
+      ],
+      "sourceRefIds": [
+        "official-d2-32-36",
+        "sybex-d2"
+      ],
+      "title": "Set a defensible retention rule"
+    },
+    {
+      "body": "Data remanence is recoverable residual information left after ordinary deletion or incomplete sanitization. Select an approved sanitization method for the actual medium, information sensitivity, intended reuse, and acceptable recovery effort. Clear, purge, and destroy describe sanitization methods; cryptographic erase is a technique whose suitability depends on the encryption implementation and the ability to sanitize every relevant key. Ordinary file deletion or a generic overwrite rule is not enough for every medium. Preserve custody and account for scoped replicas and backups. Verification checks that the technique completed as expected; validation uses that evidence, the method’s suitability, and relevant anomalies to decide whether the result is acceptable. If it is not, keep custody and repeat or escalate the method before releasing the media.",
+      "id": "secure-disposal",
+      "keyPoints": [
+        "Disposal is a process with authorization, execution, verification, and evidence.",
+        "Different media and encryption states change the appropriate sanitization method.",
+        "Destroying a server does not automatically destroy replicated cloud or backup data."
+      ],
+      "sourceRefIds": [
+        "official-d2-32-36",
+        "takeaways-d2-retention",
+        "d2-o05-nist-sanitization-r2"
+      ],
+      "title": "Make disposal effective and provable"
+    },
+    {
+      "body": "Vendor end-of-life (EOL) announcements describe product discontinuation milestones, while end of support (EOS) identifies the loss of specified maintenance or assistance. Exact labels and support entitlements depend on the vendor notice and contract. These milestones trigger an organization’s own migration, continued-use risk decision, or retirement/decommissioning plan; they are not automatically the date the organization removes the asset. Identify dependent data and services, readable export formats, migration or compensating-control needs, license effects, owner approval, and disposal evidence. A legal hold may require preserving records but does not itself authorize indefinite operation of unsupported technology.",
+      "id": "eol-eos-and-exceptions",
+      "keyPoints": [
+        "Unsupported software and hardware can make ordinary retention or continued operation unsafe.",
+        "Retirement planning includes data export, access revocation, keys, dependencies, contracts, and evidence.",
+        "Exceptions need scope, owner, expiry, compensating controls, and reassessment."
+      ],
+      "sourceRefIds": [
+        "official-d2-32-36",
+        "sybex-d2"
+      ],
+      "title": "Treat end of life and end of support as retention decisions"
+    }
+  ],
+  "sourceHash": "1e05dd88ae4638b1cfbb10fb381e9c17b3a44b16f08d8e9882a6a4bacde3d0e0",
+  "sourcePath": "knowledge/domains/d2-asset-security/units/d2-o05-retention-disposal.json",
+  "sourceRefs": [
+    {
+      "id": "official-d2-32-36",
+      "locator": {
+        "type": "printed-page",
+        "value": "32-36 (PDF pp. 32-36)"
+      },
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "supports": [
+        "retention and disposal"
+      ]
+    },
+    {
+      "id": "takeaways-d2-retention",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-10"
+      },
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "supports": [
+        "lifecycle and asset protection"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "locator": {
+        "type": "pdf-page",
+        "value": "284-290 (Chapter 5, Using Security Baselines and review questions; PDF pp. 284-290)"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "secondary cross-check"
+      ]
+    },
+    {
+      "id": "d2-o05-nist-sanitization-r2",
+      "locator": {
+        "pdfPage": "33–34",
+        "printedPage": "24–25 for verification/validation",
+        "section": "Sections 4.3–4.6; especially 4.5.1 Verification and 4.5.2 Validation",
+        "type": "web-section",
+        "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-88r2.pdf"
+      },
+      "sourceId": "nist-sp-800-88r2-2025",
+      "supports": [
+        "medium-appropriate sanitization",
+        "verification versus validation",
+        "custody and recorded disposition"
+      ]
+    }
+  ],
+  "summary": "Retention is a deliberate period and trigger based on business, legal, regulatory, contractual, and risk needs. Disposal ends authorized retention with a method appropriate to the medium and sensitivity.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "disposition-due",
+        "kind": "dependency",
+        "label": "requires",
+        "to": "preservation-duty-check"
+      },
+      {
+        "from": "active-hold-or-obligation",
+        "kind": "flow",
+        "label": "forces",
+        "to": "preserve-and-restrict"
+      },
+      {
+        "from": "no-hold-and-authorized-disposition",
+        "kind": "flow",
+        "label": "permits",
+        "to": "method-selection-and-sanitization"
+      },
+      {
+        "from": "preservation-duty-check",
+        "kind": "flow",
+        "label": "when a duty exists, selects",
+        "to": "active-hold-or-obligation"
+      },
+      {
+        "from": "preservation-duty-check",
+        "kind": "flow",
+        "label": "when no duty exists and the owner authorizes release, selects",
+        "to": "no-hold-and-authorized-disposition"
+      }
+    ],
+    "focalRelation": "Retention trigger and disposition authority start the decision; scoped hold blocks affected items; method depends on medium, sensitivity, reuse, encryption/key facts, and recovery effort; execution verification feeds separate validation and release.",
+    "learningJob": {
+      "plainExplanation": "A due date triggers a preservation-duty check rather than automatic deletion. If release is authorized, the sanitization method must fit the media and intended reuse, and completion must be verified before release.",
+      "visualReasoningGain": "A decision tree would expose separate hold, authorization, compatibility, verification, and release gates; the current map adds branching but does not keep every gate explicit."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "retention"
+        ],
+        "detail": "The laptop lease ends and the encrypted media reaches its scheduled disposition review.",
+        "id": "disposition-due",
+        "label": "Disposition Due"
+      },
+      {
+        "conceptIds": [
+          "legal-hold"
+        ],
+        "detail": "The owner checks legal hold, investigation, contract, and retention duties before authorizing disposal.",
+        "id": "preservation-duty-check",
+        "label": "Preservation Duty Check"
+      },
+      {
+        "conceptIds": [
+          "legal-hold"
+        ],
+        "detail": "A current preservation duty blocks sanitization and requires restricted retention.",
+        "id": "active-hold-or-obligation",
+        "label": "Active Hold Or Obligation"
+      },
+      {
+        "conceptIds": [
+          "legal-hold",
+          "retention"
+        ],
+        "detail": "The custodian keeps the affected laptop controlled, traceable, and unavailable for reuse or destruction.",
+        "id": "preserve-and-restrict",
+        "label": "Preserve And Restrict"
+      },
+      {
+        "conceptIds": [
+          "disposal",
+          "media-sanitization",
+          "data-remanence"
+        ],
+        "detail": "With no preservation duty, an accountable owner authorizes an outcome suitable for the data and lease return.",
+        "id": "no-hold-and-authorized-disposition",
+        "label": "No Hold And Authorized Disposition"
+      },
+      {
+        "conceptIds": [
+          "media-sanitization"
+        ],
+        "detail": "The selected clear, purge, or destruction method fits the media technology and produces verified completion evidence.",
+        "id": "method-selection-and-sanitization",
+        "label": "Method Selection And Sanitization"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "media-sanitization"
+      ],
+      "hint": "A disposal method is acceptable only when it meets the medium and release criterion.",
+      "id": "d2-o05-retention-disposal-prediction-v2-5e54c016c325",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Authorization, method suitability, execution, verification, and release are separate gates.",
+          "id": "correct",
+          "label": "Use an authorized, media-suitable method; verify and validate before release.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Execution evidence does not prove that the method fits this medium or achieved the release criterion.",
+          "id": "execution-only",
+          "label": "Release the media because the tool reported successful execution.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "A preservation duty blocks ordinary disposition for the covered copy until authorized release.",
+          "id": "ignore-hold",
+          "label": "Sanitize on schedule even when a confirmed preservation duty covers this copy.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Media technology and the intended reuse or destruction outcome determine which sanitization method is suitable.",
+          "id": "wrong-method",
+          "label": "Use any destructive method because every medium responds the same way.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "What authorizes disposition, what blocks it, which method fits the medium and reuse outcome, and who decides the result is acceptable?"
+    },
+    "question": "What authorizes disposition, what blocks it, which method fits the medium and reuse outcome, and who decides the result is acceptable?",
+    "representation": "decision",
+    "retry": {
+      "conceptIds": [
+        "legal-hold",
+        "retention"
+      ],
+      "hint": "Choose a supported sanitization or destruction path, then verify the result.",
+      "id": "d2-o05-retention-disposal-retry-v1-76ecb84592df",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "It evidences a specified disposal event; scope must be checked against replicas, backups, exports, and holds.",
+          "id": "misconception",
+          "label": "A certificate of destruction proves every copy was removed",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Coordinate with counsel and privacy/data owner; preserve the held scope while handling any legally permitted separation or notification.",
+          "id": "shortcut",
+          "label": "Release the media because the sanitization tool returned a successful execution code",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Coordinate with counsel and privacy/data owner; preserve the held scope while handling any legally permitted separation or notification.",
+          "id": "evidence-based",
+          "label": "Coordinate with counsel and privacy/data owner",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A privacy team requests deletion, but litigation counsel has issued a hold over the same customer records. What should the security owner decide?"
+    },
+    "scenario": "Retiring encrypted laptops: A fleet of encrypted laptops is being returned to a leasing company.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "official-d2-32-36",
+      "takeaways-d2-retention",
+      "sybex-d2",
+      "d2-o05-nist-sanitization-r2"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "disposition-due",
+          "preservation-duty-check"
+        ],
+        "caption": "Retiring encrypted laptops: A fleet of encrypted laptops is being returned to a leasing company.",
+        "id": "case",
+        "statuses": {
+          "disposition-due": "The laptop lease ends and the encrypted media reaches its scheduled disposition review.",
+          "preservation-duty-check": "The owner checks legal hold, investigation, contract, and retention duties before authorizing disposal."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          3,
+          1
+        ],
+        "activeNodeIds": [
+          "disposition-due",
+          "preservation-duty-check",
+          "active-hold-or-obligation",
+          "preserve-and-restrict"
+        ],
+        "caption": "Disposition Due requires Preservation Duty Check. Active Hold Or Obligation forces Preserve And Restrict.",
+        "id": "decision",
+        "statuses": {
+          "active-hold-or-obligation": "A current preservation duty blocks sanitization and requires restricted retention.",
+          "disposition-due": "The laptop lease ends and the encrypted media reaches its scheduled disposition review.",
+          "preservation-duty-check": "The owner checks legal hold, investigation, contract, and retention duties before authorizing disposal.",
+          "preserve-and-restrict": "The custodian keeps the affected laptop controlled, traceable, and unavailable for reuse or destruction."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          1,
+          4,
+          2
+        ],
+        "activeNodeIds": [
+          "preservation-duty-check",
+          "active-hold-or-obligation",
+          "preserve-and-restrict",
+          "no-hold-and-authorized-disposition",
+          "method-selection-and-sanitization"
+        ],
+        "caption": "Active Hold Or Obligation forces Preserve And Restrict. No Hold And Authorized Disposition permits Method Selection And Sanitization.",
+        "id": "consequence",
+        "statuses": {
+          "active-hold-or-obligation": "A current preservation duty blocks sanitization and requires restricted retention.",
+          "method-selection-and-sanitization": "The selected clear, purge, or destruction method fits the media technology and produces verified completion evidence.",
+          "no-hold-and-authorized-disposition": "With no preservation duty, an accountable owner authorizes an outcome suitable for the data and lease return.",
+          "preservation-duty-check": "The owner checks legal hold, investigation, contract, and retention duties before authorizing disposal.",
+          "preserve-and-restrict": "The custodian keeps the affected laptop controlled, traceable, and unavailable for reuse or destruction."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          3,
+          1,
+          4,
+          2
+        ],
+        "activeNodeIds": [
+          "disposition-due",
+          "preservation-duty-check",
+          "active-hold-or-obligation",
+          "preserve-and-restrict",
+          "no-hold-and-authorized-disposition",
+          "method-selection-and-sanitization"
+        ],
+        "caption": "An approved sanitization tool reports success on a drive type its documentation does not support. Do not release the media; select a supported method or destruction path, execute it, verify the result, and validate against the release criterion.",
+        "id": "changed-case",
+        "statuses": {
+          "active-hold-or-obligation": "A current preservation duty blocks sanitization and requires restricted retention.",
+          "disposition-due": "The laptop lease ends and the encrypted media reaches its scheduled disposition review.",
+          "method-selection-and-sanitization": "The selected clear, purge, or destruction method fits the media technology and produces verified completion evidence.",
+          "no-hold-and-authorized-disposition": "With no preservation duty, an accountable owner authorizes an outcome suitable for the data and lease return.",
+          "preservation-duty-check": "The owner checks legal hold, investigation, contract, and retention duties before authorizing disposal.",
+          "preserve-and-restrict": "The custodian keeps the affected laptop controlled, traceable, and unavailable for reuse or destruction."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Retention trigger and disposition authority start the decision; scoped hold blocks affected items; method depends on medium, sensitivity, reuse, encryption/key facts, and recovery effort; execution verification feeds separate validation and release.",
+    "title": "disposition and method decision",
+    "transfer": {
+      "conceptIds": [
+        "media-sanitization"
+      ],
+      "hint": "If verification fails, the media remains controlled and cannot be released.",
+      "id": "d2-o05-retention-disposal-transfer-v1-25a6d40a7918",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A completion record exists. The method is not validated for this media technology. Why this answer fails: “Release the media because the sanitization tool returned a successful execution code” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Retention trigger and disposition authority start the decision; scoped hold blocks affected items; method depends on medium, sensitivity, reuse, encryption/key facts, and recovery effort; execution verification feeds separate validation and release. Repair target: Control and evidence consequence — Active Hold Or Obligation forces Preserve And Restrict. No Hold And Authorized Disposition permits Method Selection And Sanitization.",
+          "id": "single-signal",
+          "label": "Release the media because the sanitization tool returned a successful execution code",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A completion record exists. The method is not validated for this media technology. Why this answer fails: “A sanitization tool’s success message is enough to release the media” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Retention trigger and disposition authority start the decision; scoped hold blocks affected items; method depends on medium, sensitivity, reuse, encryption/key facts, and recovery effort; execution verification feeds separate validation and release. Repair target: Changed fact, recomputed result — An approved sanitization tool reports success on a drive type its documentation does not support. Do not release the media; select a supported method or destruction path, execute it, verify the result, and validate against the release criterion.",
+          "id": "unchanged-rule",
+          "label": "A sanitization tool’s success message is enough to release the media",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Do not release the media; select a supported method or destruction path, execute it, verify the result, and validate against the release criterion.",
+          "id": "recompute",
+          "label": "Quarantine the media and use a supported, verified sanitization or destruction method",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "An approved sanitization tool reports success on a drive type its documentation does not support."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The decision states preserve the authorization and preservation gates, media and reuse constraints, method selection, verification, validation, and release. Media and outcome choices are authored cases rather than a free-form selector.",
+        "treatmentId": "fresh-d2-o05-retention-disposal-disposition-and-method-decision"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d2-o05-retention-disposal-disposition-and-method-decision"
+    ],
+    "unitId": "d2-o05-retention-disposal",
+    "variants": [
+      {
+        "changedFact": "A completion record exists. The method is not validated for this media technology.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "active-hold-or-obligation",
+              "preserve-and-restrict",
+              "no-hold-and-authorized-disposition",
+              "method-selection-and-sanitization"
+            ],
+            "caption": "An approved sanitization tool reports success on a drive type its documentation does not support.",
+            "id": "variant-facts",
+            "statuses": {
+              "active-hold-or-obligation": "A current preservation duty blocks sanitization and requires restricted retention.",
+              "method-selection-and-sanitization": "The selected clear, purge, or destruction method fits the media technology and produces verified completion evidence.",
+              "no-hold-and-authorized-disposition": "With no preservation duty, an accountable owner authorizes an outcome suitable for the data and lease return.",
+              "preserve-and-restrict": "The custodian keeps the affected laptop controlled, traceable, and unavailable for reuse or destruction."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              1,
+              2
+            ],
+            "activeNodeIds": [
+              "active-hold-or-obligation",
+              "preserve-and-restrict",
+              "no-hold-and-authorized-disposition",
+              "method-selection-and-sanitization"
+            ],
+            "caption": "Do not release the media; select a supported method or destruction path, execute it, verify the result, and validate against the release criterion.",
+            "id": "variant-result",
+            "statuses": {
+              "active-hold-or-obligation": "A current preservation duty blocks sanitization and requires restricted retention.",
+              "method-selection-and-sanitization": "The selected clear, purge, or destruction method fits the media technology and produces verified completion evidence.",
+              "no-hold-and-authorized-disposition": "With no preservation duty, an accountable owner authorizes an outcome suitable for the data and lease return.",
+              "preserve-and-restrict": "The custodian keeps the affected laptop controlled, traceable, and unavailable for reuse or destruction."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Retain what is required and dispose of what is not",
+  "workedExamples": [
+    {
+      "reasoning": "Confirm the data classification and encryption implementation, remove organizational accounts and keys according to policy, use an approved sanitization method suited to the drive and reuse condition, preserve serial-number evidence, and obtain provider confirmation. Do not rely only on deleting user profiles.",
+      "situation": "A fleet of encrypted laptops is being returned to a leasing company.",
+      "takeaway": "Confirm the data classification and encryption implementation, remove organizational accounts and keys according to policy, use an approved sanitization method suited to the drive and reuse condition, preserve serial-number evidence, and obtain provider confirmation. Do not rely only on deleting user profiles.",
+      "title": "Retiring encrypted laptops"
+    }
+  ]
+}

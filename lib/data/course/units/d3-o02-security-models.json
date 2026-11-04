@@ -1,0 +1,663 @@
+{
+  "conceptIds": [
+    "security-model",
+    "bell-lapadula",
+    "biba",
+    "clark-wilson",
+    "brewer-nash",
+    "star-property",
+    "integrity",
+    "confidentiality",
+    "information-flow"
+  ],
+  "concepts": [
+    {
+      "decision": "Choose a model by the property and rule the system must enforce.",
+      "definition": "Formal policy model describing permitted access or information flow.",
+      "failureExample": "A diagram names a model but no label, transaction, or workflow enforces it.",
+      "id": "security-model",
+      "label": "Security Model",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Use when preventing disclosure across classification levels is the primary objective.",
+      "definition": "Confidentiality model using labels, including no read up and no write down.",
+      "failureExample": "A secret-cleared user writes a secret finding into an unclassified report.",
+      "id": "bell-lapadula",
+      "label": "Bell Lapadula",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Use when trusted data or decisions must not be corrupted by less-trusted input.",
+      "definition": "Integrity model that resists contamination from lower-integrity sources.",
+      "failureExample": "A high-integrity ledger imports unreviewed web data directly.",
+      "id": "biba",
+      "label": "Biba",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Use for controlled business processes where only authorized transformations may change data.",
+      "definition": "Integrity model based on well-formed transactions and separation of duties.",
+      "failureExample": "A clerk edits account balances directly outside an approved transaction.",
+      "id": "clark-wilson",
+      "label": "Clark Wilson",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Use when commercial conflict classes govern information access.",
+      "definition": "Conflict-of-interest model that restricts access after a user sees competing clients’ data.",
+      "failureExample": "A consultant reads one bidder’s plans, then requests a competitor’s plans.",
+      "id": "brewer-nash",
+      "label": "Brewer Nash",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Identify the model and protected property before applying the rule.",
+      "definition": "A model-specific information-flow constraint often called a star rule.",
+      "failureExample": "A learner treats “star property” as a universal access-control rule.",
+      "id": "star-property",
+      "label": "Star Property",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Prioritize when corruption, unauthorized change, or contaminated input is the harm.",
+      "definition": "Assurance that information and processing remain accurate, complete, and authorized.",
+      "failureExample": "An approved invoice value can be altered by an unrestricted service account.",
+      "id": "integrity",
+      "label": "Integrity",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Prioritize when labels, audiences, or disclosure consequences govern the decision.",
+      "definition": "Protection against unauthorized information disclosure.",
+      "failureExample": "A lower-cleared recipient receives a higher-classification export.",
+      "id": "confidentiality",
+      "label": "Confidentiality",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    },
+    {
+      "decision": "Trace read, write, transformation, replication, and export paths.",
+      "definition": "Movement of information between subjects, objects, labels, or trust levels.",
+      "failureExample": "A sanitized report inherits hidden high-side fields during export.",
+      "id": "information-flow",
+      "label": "Information Flow",
+      "sourceRefIds": [
+        "d3-o02-sybex",
+        "d3-o02-textbook"
+      ],
+      "sourceVisualId": "d3-o02-security-models-concept-comparison-1"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 28,
+  "id": "d3-o02-security-models",
+  "misconceptions": [
+    {
+      "claim": "A security model by itself is a technical control.",
+      "correction": "It is a formal or conceptual policy model that must be implemented, administered, and tested."
+    }
+  ],
+  "objectiveIds": [
+    "3.2"
+  ],
+  "outcome": "Select the model objective that best explains a proposed access or information-flow rule.",
+  "prerequisites": [
+    "confidentiality",
+    "integrity",
+    "least-privilege"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Bell-LaPadula focuses on confidentiality through rules such as no read up and no write down. Biba focuses on integrity through no read down and no write up. Clark-Wilson protects integrity through well-formed transactions and separation of duties. Brewer-Nash limits access that could create conflicts after a user accesses a competitor’s data. The star property describes a flow constraint in a model; it is not a substitute for context.",
+      "id": "objectives",
+      "keyPoints": [
+        "Confidentiality and integrity models can impose opposite-looking flow restrictions.",
+        "A model provides a reasoning tool, not an automatic application configuration."
+      ],
+      "sourceRefIds": [
+        "d3-o02-outline",
+        "d3-o02-textbook",
+        "d3-o02-sybex"
+      ],
+      "title": "Models express different protection goals"
+    },
+    {
+      "body": "A real system must translate a model’s goal into labels, roles, transactions, workflows, or policy decisions, then protect the enforcement mechanism itself. Consider exceptions, administrators, data transformation, replication, and audit evidence. A rule that exists only in design documentation does not preserve a property when the implementation or process permits a conflicting path.",
+      "id": "apply",
+      "keyPoints": [
+        "Model enforcement includes administration and operational assurance.",
+        "Use separation of duties when integrity requires independent authorization and execution."
+      ],
+      "sourceRefIds": [
+        "d3-o02-textbook",
+        "d3-o02-sybex"
+      ],
+      "title": "Map model rules to real enforcement"
+    },
+    {
+      "body": "Security models describe which subjects may read, write, or change information under a formal policy. Bell-LaPadula emphasizes confidentiality flow and label-based restrictions; Biba emphasizes integrity and avoiding contamination from lower-integrity sources; the Brewer-Nash or Chinese Wall concept restricts conflicting commercial information; and the Clark-Wilson integrity model uses well-formed transactions and separation of duties. Select a model by the protected property, classification or integrity labels, trusted subjects, transition rules, and enforcement mechanism. The failure is treating a model name as a complete architecture: an application, administrator, interface, exception, or data-export path can bypass its intended policy if enforcement and audit do not match the model.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o02-outline",
+        "d3-o02-textbook",
+        "d3-o02-sybex"
+      ],
+      "title": "Use security models as enforceable information-flow constraints"
+    }
+  ],
+  "sourceHash": "7ba4cc6d7c17aeb98ca3387ef11911bf1db4a784c90785a7e55e316f46e85efa",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o02-security-models.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o02-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.2"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o02-textbook",
+      "locator": {
+        "note": "Printed page is the citation anchor; verify PDF index in a reader.",
+        "pdfPage": "13-16",
+        "printedPage": "13-16",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "security-models"
+      ]
+    },
+    {
+      "id": "d3-o02-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, Security Models, p. 309 onward; precise locator refinement pending"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft.",
+      "supports": [
+        "bell-lapadula",
+        "biba",
+        "clark-wilson"
+      ]
+    }
+  ],
+  "summary": "Security models state a protection goal and formal rules for information flow or state change. They help an architect distinguish confidentiality, integrity, and conflict-of-interest objectives rather than treating models as interchangeable labels.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "entry-clerk",
+        "kind": "flow",
+        "label": "may invoke only the certified",
+        "to": "entry-tp"
+      },
+      {
+        "from": "entry-tp",
+        "kind": "flow",
+        "label": "validates and creates a pending",
+        "to": "payment-cdi"
+      },
+      {
+        "from": "approver",
+        "kind": "flow",
+        "label": "independently invokes the certified",
+        "to": "release-tp"
+      },
+      {
+        "from": "release-tp",
+        "kind": "flow",
+        "label": "releases only after separated approval of",
+        "to": "payment-cdi"
+      },
+      {
+        "from": "payment-cdi",
+        "kind": "evidence",
+        "label": "is checked and evidenced by",
+        "to": "ivp-audit"
+      }
+    ],
+    "focalRelation": "Bell-LaPadula constrains confidentiality flow, Biba constrains integrity flow, Clark-Wilson constrains well-formed transactions and separation, and Brewer-Nash changes access with conflict history; implementation and administration enforce the model.",
+    "learningJob": {
+      "plainExplanation": "Bell-LaPadula constrains confidentiality flow, Biba constrains integrity flow, Clark-Wilson protects well-formed transactions and separation of duties, and Brewer-Nash responds to conflict history. The protected property and operation determine the model.",
+      "visualReasoningGain": "Small multiples materially add side-by-side rule comparison and let one changed case distinguish models without memorizing prose."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "clark-wilson",
+          "integrity"
+        ],
+        "detail": "The entry clerk may submit a payment through the approved entry procedure but cannot approve release.",
+        "id": "entry-clerk",
+        "label": "Entry clerk"
+      },
+      {
+        "conceptIds": [
+          "clark-wilson",
+          "integrity"
+        ],
+        "detail": "The certified transformation procedure validates required fields and changes the payment CDI.",
+        "id": "entry-tp",
+        "label": "Payment-entry TP"
+      },
+      {
+        "conceptIds": [
+          "clark-wilson",
+          "integrity"
+        ],
+        "detail": "The constrained data item may change only through certified transformation procedures.",
+        "id": "payment-cdi",
+        "label": "Payment CDI"
+      },
+      {
+        "conceptIds": [
+          "clark-wilson"
+        ],
+        "detail": "A different authorized person reviews the payment and invokes the release procedure.",
+        "id": "approver",
+        "label": "Independent approver"
+      },
+      {
+        "conceptIds": [
+          "clark-wilson",
+          "integrity"
+        ],
+        "detail": "The certified release procedure verifies that a different authorized approver reviewed the pending payment before changing its state.",
+        "id": "release-tp",
+        "label": "Payment-release TP"
+      },
+      {
+        "conceptIds": [
+          "clark-wilson",
+          "security-model"
+        ],
+        "detail": "Integrity verification and audit records demonstrate valid constrained data, certified procedures, authorized roles, and separated approval.",
+        "id": "ivp-audit",
+        "label": "IVP and audit evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "clark-wilson",
+        "integrity",
+        "security-model"
+      ],
+      "hint": "Match the rule to its protected objective: secrecy, integrity, conflict separation, or well-formed transactions.",
+      "id": "d3-o02-security-models-prediction-v1-025a39e2e93c",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Clark–Wilson preserves integrity through constrained data items, certified transformation procedures, authorization triples, and separation of duties.",
+          "id": "correct",
+          "label": "Block the release: the same user cannot perform both certified entry and independent approval.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Using certified procedures is necessary, but it does not satisfy the required separation between entry and approval roles.",
+          "id": "unit-specific-alternative",
+          "label": "Allow the release because the clerk used an approved transaction for both operations.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Bell–LaPadula read rules do not decide this Clark–Wilson transaction-integrity case.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Allow the release because no confidentiality label prevents the clerk from reading the payment.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "The entry clerk submits a payment and then tries to approve the same payment directly. Which Clark–Wilson rule is violated?"
+    },
+    "question": "Which read, write, transaction, or conflict-history action violates the selected model’s protection goal?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "biba",
+        "integrity"
+      ],
+      "hint": "Clark–Wilson requires constrained data, certified procedures, separation of duties, and audit evidence.",
+      "id": "d3-o02-security-models-retry-v1-6967e6f94c34",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "It is a formal or conceptual policy model that must be implemented, administered, and tested.",
+          "id": "misconception",
+          "label": "Treat the model name as a deployed technical control without enforcing its subjects, objects, operations, or state rules.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. The concern is contamination of trusted information, not unauthorized disclosure.",
+          "id": "shortcut",
+          "label": "Choose Bell–LaPadula from familiar labels even though the case asks about low-integrity input contaminating trusted data.",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The concern is contamination of trusted information, not unauthorized disclosure.",
+          "id": "evidence-based",
+          "label": "The concern is contamination of trusted information, not unauthorized disclosure",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A researcher must not read lower-assurance unverified data before publishing an authoritative result. Which goal is being protected?"
+    },
+    "scenario": "Financial release: A payment release must be entered by one person and approved by another using controlled transactions.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o02-outline",
+      "d3-o02-textbook",
+      "d3-o02-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "entry-clerk",
+          "entry-tp"
+        ],
+        "caption": "Financial release: A payment release must be entered by one person and approved by another using controlled transactions.",
+        "id": "case",
+        "statuses": {
+          "entry-clerk": "The entry clerk may submit a payment through the approved entry procedure but cannot approve release.",
+          "entry-tp": "The certified transformation procedure validates required fields and changes the payment CDI."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "entry-clerk",
+          "entry-tp",
+          "payment-cdi"
+        ],
+        "caption": "Entry clerk may invoke only the certified Payment-entry TP. Payment-entry TP validates and creates a pending Payment CDI.",
+        "id": "decision",
+        "statuses": {
+          "entry-clerk": "The entry clerk may submit a payment through the approved entry procedure but cannot approve release.",
+          "entry-tp": "The certified transformation procedure validates required fields and changes the payment CDI.",
+          "payment-cdi": "The constrained data item may change only through certified transformation procedures."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "release-tp",
+          "payment-cdi",
+          "ivp-audit"
+        ],
+        "caption": "Payment-release TP releases only after separated approval of Payment CDI. Payment CDI is checked and evidenced by IVP and audit evidence.",
+        "id": "consequence",
+        "statuses": {
+          "ivp-audit": "Integrity verification and audit records demonstrate valid constrained data, certified procedures, authorized roles, and separated approval.",
+          "payment-cdi": "The constrained data item may change only through certified transformation procedures.",
+          "release-tp": "The release transformation verifies separation of duties and records the approved state change."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "entry-clerk",
+          "entry-tp",
+          "payment-cdi",
+          "approver",
+          "release-tp",
+          "ivp-audit"
+        ],
+        "caption": "The supervisor asks the clerk to change the pending payment record directly. Clark–Wilson requires the certified transformation procedure and separated approval, so the direct edit is blocked and evidenced.",
+        "id": "changed-case",
+        "statuses": {
+          "approver": "A different authorized person must approve the pending payment.",
+          "entry-clerk": "The entry clerk is authorized to invoke the payment-entry procedure, not to edit the constrained payment record directly.",
+          "entry-tp": "The certified entry procedure validates the request and creates a pending payment record.",
+          "ivp-audit": "The integrity verification procedure and audit record detect or evidence an unauthorized direct change.",
+          "payment-cdi": "The constrained payment record may change only through an authorized certified procedure.",
+          "release-tp": "The certified release procedure checks separated approval before releasing payment."
+        },
+        "title": "Unauthorized direct edit"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Bell-LaPadula constrains confidentiality flow, Biba constrains integrity flow, Clark-Wilson constrains well-formed transactions and separation, and Brewer-Nash changes access with conflict history; implementation and administration enforce the model.",
+    "title": "information flow small multiples",
+    "transfer": {
+      "conceptIds": [
+        "bell-lapadula",
+        "biba",
+        "clark-wilson",
+        "integrity",
+        "confidentiality"
+      ],
+      "hint": "Use the subject, object, flow direction, and transaction roles in the changed case.",
+      "id": "d3-o02-security-models-transfer-v1-4e58fc0b8aec",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: The case changes from certified transactions to a labeled flow or conflict history. Why this answer fails: “Map all three cases to Bell–LaPadula because confidentiality labels are the safest default for every operation.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Bell-LaPadula constrains confidentiality flow, Biba constrains integrity flow, Clark-Wilson constrains well-formed transactions and separation, and Brewer-Nash changes access with conflict history; implementation and administration enforce the model. Repair target: Labeled information flow — Bell–LaPadula protects confidentiality by denying the upward read; strict Biba protects integrity by denying the downward read.",
+          "id": "single-signal",
+          "label": "Map all three cases to Bell–LaPadula because confidentiality labels are the safest default for every operation.",
+          "repairStateId": "blp-biba"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The case changes from certified transactions to a labeled flow or conflict history. Why this answer fails: “Map all three cases to Biba because every confidentiality, transaction, and conflict problem can be restated as integrity.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Bell-LaPadula constrains confidentiality flow, Biba constrains integrity flow, Clark-Wilson constrains well-formed transactions and separation, and Brewer-Nash changes access with conflict history; implementation and administration enforce the model. Repair target: Labeled information flow — Bell–LaPadula protects confidentiality by denying the upward read; strict Biba protects integrity by denying the downward read.",
+          "id": "unchanged-rule",
+          "label": "Map all three cases to Biba because every confidentiality, transaction, and conflict problem can be restated as integrity.",
+          "repairStateId": "blp-biba"
+        },
+        {
+          "correct": true,
+          "feedback": "Map A to Bell–LaPadula confidentiality, B to Biba integrity, and C to Clark–Wilson well-formed transactions and separation of duties.",
+          "id": "recompute",
+          "label": "Map A to Bell–LaPadula confidentiality, B to Biba integrity, and C to Clark–Wilson well-formed transactions",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "Case A prevents a low-clearance subject reading high data; Case B prevents low-integrity input contaminating a high-integrity process; Case C permits changes only through approved transactions with separation of duties."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The comparison preserves the Clark–Wilson payment case and changes to explicit Bell–LaPadula, Biba, and Brewer–Nash entities and flow rules. It uses authored comparison states and variants rather than the reviewed retained table plus retrieval form, so it is an equivalent mechanism.",
+        "treatmentId": "fresh-d3-o02-security-models-information-flow-small-multiples"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o02-security-models-information-flow-small-multiples"
+    ],
+    "unitId": "d3-o02-security-models",
+    "variants": [
+      {
+        "changedFact": "The case changes from certified transactions to a labeled flow or conflict history.",
+        "edges": [
+          {
+            "from": "low-clearance-subject",
+            "kind": "blocked",
+            "label": "read denied by Bell–LaPadula no-read-up",
+            "to": "high-confidentiality-object"
+          },
+          {
+            "from": "high-integrity-process",
+            "kind": "blocked",
+            "label": "read denied by strict Biba no-read-down",
+            "to": "low-integrity-input"
+          },
+          {
+            "from": "consultant",
+            "kind": "blocked",
+            "label": "access denied by Brewer–Nash conflict history",
+            "to": "competitor-dataset"
+          }
+        ],
+        "id": "model-comparison",
+        "label": "Different goals, different rules",
+        "nodes": [
+          {
+            "conceptIds": [
+              "bell-lapadula",
+              "confidentiality"
+            ],
+            "detail": "The subject requests a read from a higher-confidentiality object.",
+            "id": "low-clearance-subject",
+            "label": "Low-clearance subject"
+          },
+          {
+            "conceptIds": [
+              "bell-lapadula",
+              "confidentiality"
+            ],
+            "detail": "Bell–LaPadula denies the upward read in the stated simple-security rule.",
+            "id": "high-confidentiality-object",
+            "label": "High-confidentiality object"
+          },
+          {
+            "conceptIds": [
+              "biba",
+              "integrity"
+            ],
+            "detail": "The trusted process requests input from a lower-integrity source.",
+            "id": "high-integrity-process",
+            "label": "High-integrity process"
+          },
+          {
+            "conceptIds": [
+              "biba",
+              "integrity"
+            ],
+            "detail": "Strict Biba denies the downward read that could contaminate the trusted process.",
+            "id": "low-integrity-input",
+            "label": "Low-integrity input"
+          },
+          {
+            "conceptIds": [
+              "brewer-nash",
+              "confidentiality"
+            ],
+            "detail": "The subject previously accessed one company’s confidential dataset.",
+            "id": "consultant",
+            "label": "Consultant with prior access"
+          },
+          {
+            "conceptIds": [
+              "brewer-nash",
+              "information-flow"
+            ],
+            "detail": "Brewer–Nash uses conflict history to deny access to the competing company dataset.",
+            "id": "competitor-dataset",
+            "label": "Competitor dataset"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "low-clearance-subject",
+              "high-confidentiality-object",
+              "high-integrity-process",
+              "low-integrity-input"
+            ],
+            "caption": "Bell–LaPadula protects confidentiality by denying the upward read; strict Biba protects integrity by denying the downward read.",
+            "id": "blp-biba",
+            "statuses": {
+              "high-confidentiality-object": "Bell–LaPadula denies the upward read in the stated simple-security rule.",
+              "high-integrity-process": "Requests lower-integrity input.",
+              "low-clearance-subject": "Requests higher-confidentiality data.",
+              "low-integrity-input": "Strict Biba denies the downward read that could contaminate the trusted process."
+            },
+            "title": "Labeled information flow"
+          },
+          {
+            "activeEdgeIndexes": [
+              2
+            ],
+            "activeNodeIds": [
+              "consultant",
+              "competitor-dataset"
+            ],
+            "caption": "Brewer–Nash uses the consultant’s prior company access to decide whether the competing dataset is allowed.",
+            "id": "brewer-nash",
+            "statuses": {
+              "competitor-dataset": "Brewer–Nash uses conflict history to deny access to the competing company dataset.",
+              "consultant": "Prior access creates a conflict history."
+            },
+            "title": "Conflict history"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Use security models to reason about allowed information flow",
+  "workedExamples": [
+    {
+      "reasoning": "The main objective is integrity of the release process; a Clark-Wilson-style focus on well-formed transactions and separation of duties fits better than a confidentiality label model alone.",
+      "situation": "A payment release must be entered by one person and approved by another using controlled transactions.",
+      "takeaway": "Choose the model from the harm being controlled.",
+      "title": "Financial release"
+    }
+  ]
+}

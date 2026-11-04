@@ -1,0 +1,735 @@
+{
+  "conceptIds": [
+    "least-privilege",
+    "need-to-know",
+    "separation-of-duties",
+    "two-person-control",
+    "job-rotation",
+    "privileged-account-management",
+    "sla",
+    "operational-training"
+  ],
+  "concepts": [
+    {
+      "decision": "decide role/scope/time.",
+      "definition": "Least privilege: minimum actions",
+      "failureExample": "broad admin command.",
+      "id": "least-privilege",
+      "label": "Least Privilege",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide legitimate purpose.",
+      "definition": "Need-to-know: minimum information disclosure",
+      "failureExample": "staff browse sensitive record.",
+      "id": "need-to-know",
+      "label": "Need To Know",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide conflict matrix.",
+      "definition": "SoD: incompatible duties separated",
+      "failureExample": "requester approves own payment.",
+      "id": "separation-of-duties",
+      "label": "Separation Of Duties",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide dual approval mechanism.",
+      "definition": "Two-person control: independent concurrence with attribution",
+      "failureExample": "shared credential.",
+      "id": "two-person-control",
+      "label": "Two Person Control",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide coverage/hand-off.",
+      "definition": "Rotation: alternate staff exposes hidden dependence/fraud",
+      "failureExample": "sole operator concealment.",
+      "id": "job-rotation",
+      "label": "Job Rotation",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide approval/session review.",
+      "definition": "PAM: separate/strong/audited privilege",
+      "failureExample": "daily-use domain admin.",
+      "id": "privileged-account-management",
+      "label": "Privileged Account Management",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide metric/remedy/escalation.",
+      "definition": "SLA: measurable provider/team commitment",
+      "failureExample": "vague uptime promise.",
+      "id": "sla",
+      "label": "SLA",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    },
+    {
+      "decision": "decide role practice/evidence.",
+      "definition": "Training: operator skill/escalation readiness",
+      "failureExample": "emergency procedure unknown.",
+      "id": "operational-training",
+      "label": "Operational Training",
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "sourceVisualId": "d7-o04-foundational-operations-decision-comparison-1"
+    }
+  ],
+  "domainId": 7,
+  "estimatedMinutes": 30,
+  "id": "d7-o04-foundational-operations",
+  "misconceptions": [
+    {
+      "claim": "Two people sharing one administrator password provides two-person control.",
+      "correction": "Shared credentials destroy attribution; use separate identities, independent approval, and an auditable mechanism for concurrence."
+    },
+    {
+      "claim": "Job rotation proves that no fraud occurred.",
+      "correction": "Rotation may expose hidden dependence but must complement access reviews, logs, control testing, and segregation."
+    }
+  ],
+  "objectiveIds": [
+    "7.4"
+  ],
+  "outcome": "Given an operational process, identify excessive authority, conflicting duties, missing service expectations, or unsafe staffing and propose controls that preserve accountability and continuity.",
+  "prerequisites": [
+    "d5-o04-authorization-mechanisms",
+    "d5-o05-provisioning-lifecycle",
+    "d1-o03-security-governance"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Need to know limits information exposure to a legitimate purpose, while least privilege limits the operations a subject can perform. Separation of duties divides incompatible responsibilities; two-person control adds concurrence for especially sensitive actions; job rotation and mandatory vacations can expose hidden dependence or fraud but are not substitutes for technical controls. Decide which duties, information, and privileged actions are incompatible, then enforce the decision with named identities, approval, review, and monitoring. Privileged accounts require strong authentication, separate use, monitoring, approval, and periodic review.",
+      "id": "authority-and-accountability",
+      "keyPoints": [
+        "Least privilege is about capability; need to know is about information access.",
+        "SoD can be static in role design or dynamic at transaction time, and failure often appears as one person controlling request, approval, execution, and review.",
+        "Privileged access should be attributable, time-bounded where practical, and independently reviewed."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o04",
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "title": "Constrain routine authority"
+    },
+    {
+      "body": "Service-level agreements and internal operating agreements define availability, response times, escalation, maintenance windows, reporting, evidence, and responsibilities between teams or providers. Choose measurable service and security commitments that match business impact, define remedies and escalation when they are missed, and test the evidence path. Training and awareness help operators recognize unsafe actions and escalate anomalies, while emergency management clarifies who may act when normal paths are unavailable. Document exceptions and test whether staffing, skills, tools, and vendor commitments remain adequate for the service's risk.",
+      "id": "service-and-people",
+      "keyPoints": [
+        "An SLA is a measurable operational commitment, not a replacement for security requirements.",
+        "People and third parties need defined escalation and emergency roles.",
+        "Operational resilience includes trained coverage and succession, not only redundant technology; untested job rotation can create handoff errors."
+      ],
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ],
+      "title": "Make operational commitments explicit"
+    }
+  ],
+  "sourceHash": "6edb8f1b5551ea4d25d2ffb2755b137bbd2b0bbc77918a2b56b73e00f09a852a",
+  "sourcePath": "knowledge/domains/d7-security-operations/units/d7-o04-foundational-operations.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o04",
+      "locator": {
+        "type": "objective",
+        "value": "7.4"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "foundational operations"
+      ]
+    },
+    {
+      "id": "official-d7-35-39",
+      "locator": {
+        "type": "printed-page",
+        "value": "35-39 (PDF pp. 35-39)"
+      },
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "supports": [
+        "need to know",
+        "least privilege",
+        "SoD",
+        "privileged accounts",
+        "SLAs"
+      ]
+    },
+    {
+      "id": "sybex-d7-765-773",
+      "locator": {
+        "type": "printed-page",
+        "value": "765-773, Chapter 16"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "foundational operations",
+        "privileged management",
+        "SLAs",
+        "personnel safety",
+        "training"
+      ]
+    }
+  ],
+  "summary": "Foundational operations make everyday security work reliable through need to know, least privilege, separation of duties, privileged-account governance, service expectations, and trained people who can escalate safely.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "submits scoped restore request",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "authorizes time-bounded privileged execution",
+        "to": "n3"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "hands restored service to independent validation",
+        "to": "n4"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "grants documented emergency exception when necessary",
+        "to": "n3"
+      },
+      {
+        "from": "n1",
+        "kind": "evidence",
+        "label": "records request and business need",
+        "to": "n6"
+      },
+      {
+        "from": "n2",
+        "kind": "evidence",
+        "label": "records approval or exception",
+        "to": "n6"
+      },
+      {
+        "from": "n3",
+        "kind": "evidence",
+        "label": "records privileged actions",
+        "to": "n6"
+      },
+      {
+        "from": "n4",
+        "kind": "evidence",
+        "label": "records validation outcome",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "requester --business need--> approver approver --bounded authorization--> operator operator --execution evidence--> independent validator emergency path --compresses timing but preserves named authority, logging and later review--> closure key-person dependency --alternate staffing and succession--> resilience",
+    "learningJob": {
+      "plainExplanation": "High-impact operations should separate request, approval, execution, and validation where feasible. Shared credentials do not provide two-person control because they destroy attribution.",
+      "visualReasoningGain": "A swimlane would let the learner compare requester, approver, executor, validator, and emergency exception responsibilities; the opening role boxes do not show handoffs."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "sla"
+        ],
+        "detail": "Service owner requesting a bounded production restore with stated business need.",
+        "id": "n1",
+        "label": "Restore requester"
+      },
+      {
+        "conceptIds": [
+          "separation-of-duties",
+          "two-person-control"
+        ],
+        "detail": "Separate decision role that checks scope, risk, timing, and emergency authority.",
+        "id": "n2",
+        "label": "Independent approver"
+      },
+      {
+        "conceptIds": [
+          "least-privilege",
+          "privileged-account-management"
+        ],
+        "detail": "Named operator receiving least-duration privileged access only after approval.",
+        "id": "n3",
+        "label": "Privileged executor"
+      },
+      {
+        "conceptIds": [
+          "two-person-control"
+        ],
+        "detail": "Independent person who checks data, service, security, and acceptance after execution.",
+        "id": "n4",
+        "label": "Validation owner"
+      },
+      {
+        "conceptIds": [
+          "separation-of-duties"
+        ],
+        "detail": "Accountable role permitted to alter normal separation with compensating monitoring and later review.",
+        "id": "n5",
+        "label": "Emergency authority"
+      },
+      {
+        "conceptIds": [
+          "privileged-account-management"
+        ],
+        "detail": "Evidence of requester, approver, executor, validation, exception, privileged activity, and result.",
+        "id": "n6",
+        "label": "Decision log"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Restore requester",
+        "value": "Service owner requesting a bounded production restore with stated business need."
+      },
+      {
+        "label": "Independent approver",
+        "value": "Separate decision role that checks scope, risk, timing, and emergency authority."
+      },
+      {
+        "label": "Privileged executor",
+        "value": "Named operator receiving least-duration privileged access only after approval."
+      },
+      {
+        "label": "Validation owner",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Emergency authority",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Decision log",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "two-person-control",
+        "separation-of-duties"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d7-o04-foundational-operations-prediction-f7ce7e098b83",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Incorrect: Shared credentials destroy attribution; use separate identities, independent approval, and an auditable mechanism for concurrence.",
+          "id": "misconception",
+          "label": "Two people sharing one administrator password provides two-person control.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Shared credentials destroy attribution; use separate identities, independent approval, and an auditable mechanism for concurrence.",
+          "id": "relation",
+          "label": "Separate approval, execution, and validation or document emergency compensating review",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: urgency does not silently erase separation of duties. Use the declared emergency authority, independent review or compensating oversight, bounded execution, and retrospective evidence.",
+          "id": "overclaim",
+          "label": "Let the database administrator approve and execute the restore because the change is urgent.",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "Which operational responsibility must be separated, approved, measured, and evidenced?"
+    },
+    "question": "Which operational responsibility must be separated, approved, measured, and evidenced?",
+    "representation": "decision",
+    "retry": {
+      "conceptIds": [
+        "job-rotation",
+        "operational-training",
+        "two-person-control"
+      ],
+      "hint": "Rotation has exposed a concentration of knowledge and an untested validation duty.",
+      "id": "d7-o04-foundational-operations-retry-v2-5d01e527b00c",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Rotation can reveal hidden dependency and should lead to trained, evidenced separation.",
+          "id": "cross-train-test",
+          "label": "Document, cross-train, and test independent restore execution and validation",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "Shared credentials erase attribution and do not prove the backup operator can validate safely.",
+          "id": "share-password",
+          "label": "Give the backup operator the primary operator’s account so both can perform the restore",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Avoiding rotation preserves the single-person dependency and leaves continuity untested.",
+          "id": "cancel-rotation",
+          "label": "Cancel job rotation so the experienced operator remains responsible for every restore",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "Planned job rotation reveals that only one operator knows how to validate a critical restore, and the runbook omits that step. What should the manager do?"
+    },
+    "scenario": "One database administrator can approve and execute a production restore, while the team has no independent review or emergency escalation record.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d7-o04",
+      "official-d7-35-39",
+      "sybex-d7-765-773"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3"
+        ],
+        "caption": "One database administrator can approve and execute a production restore, while the team has no independent review or emergency escalation record.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "restore requested",
+          "n2": "approval required",
+          "n3": "not yet authorized"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4"
+        ],
+        "caption": "Least privilege is about capability; need to know is about information access.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "least-duration privilege",
+          "n4": "independent validation assigned"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          6
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n6"
+        ],
+        "caption": "Two people sharing one administrator password provides two-person control. Shared credentials destroy attribution; use separate identities, independent approval, and an auditable mechanism for concurrence.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n3": "self-approval rejected",
+          "n6": "missing independent review"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          7
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3",
+          "n4",
+          "n6"
+        ],
+        "caption": "Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review. If the emergency makes normal separation impossible, document the exception and compensate with monitoring and retrospective validation.",
+        "id": "control-enforced",
+        "statuses": {
+          "n3": "restore executed",
+          "n4": "validation in progress"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          7
+        ],
+        "activeNodeIds": [
+          "n4",
+          "n6"
+        ],
+        "caption": "Given an operational process, identify excessive authority, conflicting duties, missing service expectations, or unsafe staffing and propose controls that preserve accountability and continuity. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n4": "accepted or rejected",
+          "n6": "complete duty trail"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review.",
+    "title": "Apply foundational security operations concepts",
+    "transfer": {
+      "conceptIds": [
+        "two-person-control"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d7-o04-foundational-operations-transfer-6d057a0dc1be",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A vendor requests standing administrator access to meet a response-time commitment. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review. Repair target: Decision recomputed — Use named, scoped, time-bounded or JIT access with monitoring and an escalation path; negotiate the SLA rather than granting permanent privilege. Service speed does not justify unbounded authority.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A vendor requests standing administrator access to meet a response-time commitment. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Use named, scoped, time-bounded or JIT access with monitoring and an escalation path; negotiate the SLA rather than granting permanent privilege. Service speed does not justify unbounded authority.",
+          "id": "evidence-action",
+          "label": "Use named, scoped, time-bounded or JIT access with monitoring and an escalation path",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A vendor requests standing administrator access to meet a response-time commitment."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The decision graph preserves requester, independent approval, privileged execution, validation ownership, emergency authority, and an attributable decision log in both normal and emergency cases. It omits the reviewed responsibility swimlane geometry and actor lanes, so the staged decision mechanism is equivalent rather than the exact form.",
+        "treatmentId": "fresh-d7-o04-foundational-operations-normal-emergency-responsibility-swimlane"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d7-o04-foundational-operations-normal-emergency-responsibility-swimlane"
+    ],
+    "unitId": "d7-o04-foundational-operations",
+    "variants": [
+      {
+        "changedFact": "A vendor requests standing administrator access to meet a response-time commitment.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "is evaluated by an independent owner",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "authorizes named time-bounded access",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "hands work to independent validation",
+            "to": "n4"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "provides bounded escalation instead of standing access",
+            "to": "n3"
+          },
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "records business need",
+            "to": "n6"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "records approval or denial",
+            "to": "n6"
+          },
+          {
+            "from": "n3",
+            "kind": "evidence",
+            "label": "records vendor actions and expiry",
+            "to": "n6"
+          },
+          {
+            "from": "n4",
+            "kind": "evidence",
+            "label": "records validation result",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "sla"
+            ],
+            "detail": "The vendor cites response-time pressure when asking for standing administration.",
+            "id": "n1",
+            "label": "Vendor SLA request"
+          },
+          {
+            "conceptIds": [
+              "separation-of-duties",
+              "two-person-control"
+            ],
+            "detail": "An independent owner evaluates scope, duration, support need, and alternatives.",
+            "id": "n2",
+            "label": "Access approver"
+          },
+          {
+            "conceptIds": [
+              "least-privilege",
+              "privileged-account-management"
+            ],
+            "detail": "Each person uses attributable, scoped, time-bounded privilege.",
+            "id": "n3",
+            "label": "Named vendor identity"
+          },
+          {
+            "conceptIds": [
+              "two-person-control"
+            ],
+            "detail": "The customer validates work and service outcome independently.",
+            "id": "n4",
+            "label": "Customer validation owner"
+          },
+          {
+            "conceptIds": [
+              "separation-of-duties"
+            ],
+            "detail": "A monitored escalation path grants bounded privilege when response requires it.",
+            "id": "n5",
+            "label": "JIT emergency path"
+          },
+          {
+            "conceptIds": [
+              "privileged-account-management"
+            ],
+            "detail": "Approval, issuance, activity, expiry, and review remain attributable.",
+            "id": "n6",
+            "label": "Privileged access record"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n2"
+            ],
+            "caption": "A vendor requests standing administrator access to meet a response-time commitment.",
+            "id": "changed-fact",
+            "statuses": {
+              "n1": "vendor requests standing admin",
+              "n2": "SLA pressure"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              1,
+              3
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n3",
+              "n5"
+            ],
+            "caption": "Use named, scoped, time-bounded or JIT access with monitoring and an escalation path; negotiate the SLA rather than granting permanent privilege. Service speed does not justify unbounded authority.",
+            "id": "changed-decision",
+            "statuses": {
+              "n3": "standing grant rejected",
+              "n5": "JIT/emergency path selected"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              6
+            ],
+            "activeNodeIds": [
+              "n3",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n3": "named, scoped, expiring access",
+              "n6": "use and review recorded"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Apply foundational security operations concepts",
+  "workedExamples": [
+    {
+      "reasoning": "Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review. If the emergency makes normal separation impossible, document the exception and compensate with monitoring and retrospective validation.",
+      "situation": "One database administrator can approve and execute a production restore, while the team has no independent review or emergency escalation record.",
+      "takeaway": "Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review. If the emergency makes normal separation impossible, document the exception and compensate with monitoring and retrospective validation.",
+      "title": "Emergency database restore"
+    }
+  ]
+}

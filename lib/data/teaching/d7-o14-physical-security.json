@@ -1,0 +1,520 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o14-physical-security",
+  "treatmentIds": [
+    "fresh-d7-o14-physical-security-nested-facility-cutaway-with-control-health-overlay"
+  ],
+  "title": "Implement and manage physical security",
+  "question": "Which facility paths actually block movement, which only observe it, where can maintenance bypass a layer, and who responds without obstructing life-safety egress?",
+  "scenario": "A contractor can reach a loading dock adjacent to a server room, and the camera covering the corridor has been offline for two weeks.",
+  "focalRelation": "site perimeter --deters/detects/controls approach--> entry boundary entry authorization --permits movement only into named zone--> internal segmentation camera/sensor --observes and records, not physically blocks--> response owner maintenance route or failed reader --creates--> alternate path requiring compensating control fire egress --life-safety path that must remain usable--> outside power/HVAC/fire systems --environmental dependency--> protected equipment",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Contractor at loading dock",
+      "detail": "Authorized visitor at a service boundary but not authorized for adjacent restricted server space.",
+      "conceptIds": [
+        "perimeter-control",
+        "entry-control"
+      ],
+      "lane": "perimeter"
+    },
+    {
+      "id": "n2",
+      "label": "Facility perimeter",
+      "detail": "Outer access, visitor, loading, vehicle, and guard controls limiting entry to the site.",
+      "conceptIds": [
+        "perimeter-security-controls",
+        "physical-security"
+      ],
+      "lane": "perimeter"
+    },
+    {
+      "id": "n3",
+      "label": "Server-room security zone",
+      "detail": "Restricted internal zone with separate badge, escort, door, and access-monitoring requirements.",
+      "conceptIds": [
+        "security-zone",
+        "internal-security-controls"
+      ],
+      "lane": "restricted"
+    },
+    {
+      "id": "n4",
+      "label": "Offline corridor camera",
+      "detail": "Failed detective control covering the approach between loading dock and server room.",
+      "conceptIds": [
+        "cctv",
+        "physical-access-monitoring"
+      ],
+      "lane": "detection"
+    },
+    {
+      "id": "n5",
+      "label": "Escort and badge controls",
+      "detail": "Preventive and compensating controls that bind visitor, sponsor, route, time, and permitted action.",
+      "conceptIds": [
+        "entry-control"
+      ],
+      "lane": "restricted"
+    },
+    {
+      "id": "n6",
+      "label": "Exception owner",
+      "detail": "Role recording outage, risk, duration, compensating coverage, repair, and validation.",
+      "conceptIds": [
+        "physical-security",
+        "physical-access-monitoring"
+      ],
+      "lane": "governance"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "enters through visitor and loading controls",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "does not by itself authorize direct entry to",
+      "kind": "blocked"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "relies on corridor detection coverage",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n3",
+      "label": "mediates sponsored restricted-zone entry",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "reports control-health exception",
+      "kind": "evidence"
+    },
+    {
+      "from": "n6",
+      "to": "n5",
+      "label": "requires compensating escort/observation until repair",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "perimeter",
+      "label": "Site perimeter and loading boundary",
+      "rule": "Visitor authorization reaches only the approved loading/service area."
+    },
+    {
+      "id": "restricted",
+      "label": "Restricted server zone",
+      "rule": "Separate badge, sponsor, escort, and route approval mediate every crossing."
+    },
+    {
+      "id": "detection",
+      "label": "Physical detection coverage",
+      "rule": "Camera and intrusion evidence support response but do not grant access."
+    },
+    {
+      "id": "governance",
+      "label": "Control-health ownership",
+      "rule": "An owner manages outage, compensation, repair, and verification."
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A contractor can reach a loading dock adjacent to a server room, and the camera covering the corridor has been offline for two weeks.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "contractor at dock",
+        "n3": "server zone not authorized"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Deterrent, preventive, detective, and response functions should be explicit at both perimeter and internal boundaries.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "camera offline two weeks",
+        "n5": "escort coverage required"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A locked door is sufficient for a critical facility. Critical facilities need layered access, monitoring, environmental, power, fire, maintenance, and response controls.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n1": "dock access does not imply server-room access"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Treat the camera outage as a control exception, restore or compensate for detection, review badge and visitor logs, verify zone boundaries and escort procedures, and assess whether the contractor's access should be restricted until coverage is restored. Document the owner, risk, duration, and validation.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        5
+      ],
+      "statuses": {
+        "n5": "route + escort constrained",
+        "n6": "exception owned and expiring"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a facility and threat scenario, select layered physical controls, define operational ownership and response, and verify that access, environmental, power, fire, and monitoring measures work together. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n4": "coverage restored/tested",
+        "n6": "exception closed"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A fire-suppression maintenance window temporarily disables an alarm zone.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A fire-suppression maintenance window temporarily disables an alarm zone.",
+          "activeNodeIds": [
+            "n3",
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            4
+          ],
+          "statuses": {
+            "n4": "fire alarm zone impaired",
+            "n6": "maintenance window approved?"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Use an approved impairment process with fire safety authority, compensating detection or guard coverage, communication, expiry, and post-maintenance test. Temporary safety-control impairment needs the same rigor as a technical security exception.",
+          "activeNodeIds": [
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n5": "fire authority + compensating watch/evacuation controls"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n4": "alarm restored and tested",
+            "n6": "impairment record closed"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Suppression maintenance crew",
+          "detail": "Authorized technicians work on fire protection under a bounded permit.",
+          "conceptIds": [
+            "physical-security",
+            "entry-control"
+          ],
+          "lane": "perimeter"
+        },
+        {
+          "id": "n2",
+          "label": "Affected facility zone",
+          "detail": "The zone temporarily loses part of its alarm or suppression coverage.",
+          "conceptIds": [
+            "physical-security",
+            "perimeter-security-controls"
+          ],
+          "lane": "perimeter"
+        },
+        {
+          "id": "n3",
+          "label": "Disabled alarm zone",
+          "detail": "The known impairment changes detection and response capability.",
+          "conceptIds": [
+            "security-zone",
+            "physical-access-monitoring"
+          ],
+          "lane": "restricted"
+        },
+        {
+          "id": "n4",
+          "label": "Compensating fire watch",
+          "detail": "A monitored human or temporary detection control covers the impairment.",
+          "conceptIds": [
+            "cctv",
+            "physical-access-monitoring"
+          ],
+          "lane": "detection"
+        },
+        {
+          "id": "n5",
+          "label": "Permit, escort, and restoration test",
+          "detail": "The owner controls access, time, communications, stop conditions, and final test.",
+          "conceptIds": [
+            "entry-control"
+          ],
+          "lane": "restricted"
+        },
+        {
+          "id": "n6",
+          "label": "Facilities exception owner",
+          "detail": "The accountable owner accepts residual risk and verifies full restoration.",
+          "conceptIds": [
+            "physical-security",
+            "physical-access-monitoring"
+          ],
+          "lane": "governance"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "enters under approved maintenance permit",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "creates a bounded protection impairment at",
+          "kind": "dependency"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "is covered by compensating monitoring",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n3",
+          "label": "enforces access and restoration conditions",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "reports impairment and fire-watch status",
+          "kind": "evidence"
+        },
+        {
+          "from": "n6",
+          "to": "n5",
+          "label": "closes only after alarm and suppression test",
+          "kind": "flow"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "perimeter",
+          "label": "Site perimeter and loading boundary",
+          "rule": "Visitor authorization reaches only the approved loading/service area."
+        },
+        {
+          "id": "restricted",
+          "label": "Restricted server zone",
+          "rule": "Separate badge, sponsor, escort, and route approval mediate every crossing."
+        },
+        {
+          "id": "detection",
+          "label": "Physical detection coverage",
+          "rule": "Camera and intrusion evidence support response but do not grant access."
+        },
+        {
+          "id": "governance",
+          "label": "Control-health ownership",
+          "rule": "An owner manages outage, compensation, repair, and verification."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o14-physical-security-prediction",
+    "prompt": "Which facility paths actually block movement, which only observe it, where can maintenance bypass a layer, and who responds without obstructing life-safety egress?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A locked door is sufficient for a critical facility.",
+        "correct": false,
+        "feedback": "Incorrect: Critical facilities need layered access, monitoring, environmental, power, fire, maintenance, and response controls.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Add temporary observation and response while keeping access control and safe egress",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Critical facilities need layered access, monitoring, environmental, power, fire, maintenance, and response controls.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Take no temporary action because the failed corridor camera is only a detective control.",
+        "correct": false,
+        "feedback": "Incorrect: the outage changes detection and response along a loading-dock path adjacent to the server room. Reassess the layered route, maintenance bypass, compensating observation or presence, response ownership, and life-safety constraints.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "environmental-control",
+      "environmental-monitoring",
+      "physical-access-monitoring"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o14-physical-security-transfer",
+    "prompt": "A fire-suppression maintenance window temporarily disables an alarm zone.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A fire-suppression maintenance window temporarily disables an alarm zone. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Treat the camera outage as a control exception, restore or compensate for detection, review badge and visitor logs, verify zone boundaries and escort procedures, and assess whether the contractor's access should be restricted until coverage is restored. Repair target: Decision recomputed — Use an approved impairment process with fire safety authority, compensating detection or guard coverage, communication, expiry, and post-maintenance test. Temporary safety-control impairment needs the same rigor as a technical security exception.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A fire-suppression maintenance window temporarily disables an alarm zone. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Treat the camera outage as a control exception, restore or compensate for detection, review badge and visitor logs, verify zone boundaries and escort procedures, and assess whether the contractor's access should be restricted until coverage is restored. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Use an approved impairment process with fire safety authority, compensating detection or guard coverage",
+        "correct": true,
+        "feedback": "Correct. Use an approved impairment process with fire safety authority, compensating detection or guard coverage, communication, expiry, and post-maintenance test. Temporary safety-control impairment needs the same rigor as a technical security exception.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "perimeter-control"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o14-physical-security-retry-v2",
+    "prompt": "The corridor camera is repaired, but badge logs show repeated tailgating and no guard response. Is the physical path restored?",
+    "options": [
+      {
+        "id": "test-layered-path",
+        "label": "Investigate crossings, enforce entry controls, and test alert-to-response performance",
+        "correct": true,
+        "feedback": "Correct. Detection hardware without effective prevention and response does not restore the layered control path.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "camera-enough",
+        "label": "Close the exception because the camera now records the corridor",
+        "correct": false,
+        "feedback": "Recording alone does not resolve observed tailgating or missing response.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "disable-zone",
+        "label": "Permanently close the server room to all staff without reviewing business need or alternate controls",
+        "correct": false,
+        "feedback": "A permanent blanket closure is not a proportionate repair of the specific entry and response failures.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "physical-access-monitoring",
+      "entry-control",
+      "internal-security-controls"
+    ],
+    "hint": "A repaired sensor is one layer; consider the observed crossing and response chain."
+  },
+  "takeaway": "Treat the camera outage as a control exception, restore or compensate for detection, review badge and visitor logs, verify zone boundaries and escort procedures, and assess whether the contractor's access should be restricted until coverage is restored.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o14",
+    "official-d7-88-89",
+    "sybex-d7-476-483"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o14-physical-security-nested-facility-cutaway-with-control-health-overlay",
+      "disposition": "equivalent",
+      "rationale": "The boundary model preserves perimeter versus restricted-zone authority, visitor/escort controls, detector health, compensating observation, exception ownership, and restoration testing. It uses semantic lanes and relations rather than the reviewed nested spatial cutaway and independently overlaid control-health view, so it is equivalent."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Critical facilities need layered deterrent, preventive, detective, environmental, life-safety, and response controls. A failed camera or disabled alarm is an owned exception that may require temporary observation, access limits, and validation.",
+    "visualReasoningGain": "The grouped facility zones and path labels let the learner trace entry, bypass, observation, response, and safe egress across nested boundaries."
+  }
+}

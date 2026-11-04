@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d8-o01-secure-requirements-design",
+  "treatmentIds": [
+    "fresh-d8-o01-secure-requirements-design-threat-to-acceptance-traceability-map"
+  ],
+  "title": "Turn risk into secure requirements and design",
+  "question": "How does a product risk become a testable security/privacy requirement, a design decision, and acceptance evidence?",
+  "scenario": "A product team adds a partner payment endpoint handling personal and financial data.",
+  "focalRelation": "asset/abuse case --risk--> testable requirement requirement --IPT owner and acceptance criterion--> design control design control --implementation and negative test--> evidence evidence --risk owner decision--> release acceptance changed threat/incident --reopens--> requirement",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Partner payment endpoint",
+      "detail": "New externally reachable operation handling personal and financial data.",
+      "conceptIds": [
+        "security-requirements",
+        "privacy-requirements"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Personal and financial data",
+      "detail": "Classified inputs, outputs, retention, disclosure, and privacy purposes that bound the design.",
+      "conceptIds": [
+        "privacy-requirements"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Threat and abuse cases",
+      "detail": "Replay, fraud, broken authorization, tampering, disclosure, outage, and partner compromise scenarios.",
+      "conceptIds": [
+        "threat-modeling"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Testable security requirements",
+      "detail": "Named subject/object/action policy, replay resistance, rate limits, cryptography, audit events, failure behavior, and privacy criteria.",
+      "conceptIds": [
+        "security-requirements",
+        "acceptance-criteria"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Design controls",
+      "detail": "Trust-boundary enforcement, scoped authorization, nonce/signature validation, data minimization, and monitored failure paths.",
+      "conceptIds": [
+        "secure-design"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Acceptance evidence",
+      "detail": "Requirement-to-design-to-test trace reviewed by product, security, privacy, engineering, and operations owners.",
+      "conceptIds": [
+        "acceptance-criteria"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "processes data under stated purpose and classification",
+      "kind": "flow"
+    },
+    {
+      "from": "n1",
+      "to": "n3",
+      "label": "is analyzed across partner and service trust boundaries",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "drives privacy and protection criteria",
+      "kind": "dependency"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "drives abuse-resistant acceptance criteria",
+      "kind": "dependency"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "constrains architecture and control placement",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "produces test and review evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A product team adds a partner payment endpoint handling personal and financial data.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "partner payment change",
+        "n2": "personal + financial",
+        "n3": "abuse analysis open"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Security and privacy requirements should be testable rather than slogans.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "testable outcomes drafted"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A security review at the end can recover missed requirements cheaply. Late discovery can require architectural change; early traceable requirements reduce rework while operation still needs monitoring.",
+      "activeNodeIds": [
+        "n1",
+        "n5",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n5": "encryption-only design rejected"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "The IPT identifies data classification, abuse cases, fraud and replay risks, privacy obligations, trust boundaries, rate limits, authorization, encryption, audit events, and failure behavior; each becomes a testable requirement linked to design and D6 evidence.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "n5": "authorization, replay, privacy, logging, failure controls placed"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Translate stakeholder risk into testable requirements and threat-informed design decisions. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        5
+      ],
+      "statuses": {
+        "n6": "IPT accepts traced evidence"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A design encrypts data but has no stated key ownership, rotation, failure, or access requirement.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A design encrypts data but has no stated key ownership, rotation, failure, or access requirement.",
+          "activeNodeIds": [
+            "n1",
+            "n3"
+          ],
+          "activeEdgeIndexes": [
+            1
+          ],
+          "statuses": {
+            "n1": "asynchronous queue added",
+            "n3": "new trust/retention boundary"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Add lifecycle and authorization requirements before implementation and trace them to D3/D6 evidence. A mechanism without ownership and acceptance criteria leaves the security outcome ambiguous.",
+          "activeNodeIds": [
+            "n2",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "n4": "queue authorization, retention, availability criteria added"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n6": "changed design retested and traced"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Encrypted data flow",
+          "detail": "The design protects data bytes but leaves key lifecycle and failure behavior undefined.",
+          "conceptIds": [
+            "secure-design"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Sensitive stored data",
+          "detail": "Confidentiality depends on keys, access, recovery, and revocation.",
+          "conceptIds": [
+            "privacy-requirements"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Key-loss and misuse cases",
+          "detail": "Threat analysis covers unauthorized use, lost keys, stale keys, and service failure.",
+          "conceptIds": [
+            "threat-modeling"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Key lifecycle requirements",
+          "detail": "Requirements name ownership, authorization, storage, rotation, revocation, recovery, and failure behavior.",
+          "conceptIds": [
+            "security-requirements",
+            "acceptance-criteria"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Key management controls",
+          "detail": "The design implements controlled key access, rotation, logging, backup, and separation.",
+          "conceptIds": [
+            "secure-design"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Lifecycle acceptance evidence",
+          "detail": "Tests and operations evidence trace each key requirement to observable outcomes.",
+          "conceptIds": [
+            "acceptance-criteria"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "carries data whose protection depends on keys",
+          "kind": "flow"
+        },
+        {
+          "from": "n1",
+          "to": "n3",
+          "label": "creates key misuse and failure cases",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "requires explicit lifecycle criteria",
+          "kind": "dependency"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "translates threats into testable requirements",
+          "kind": "dependency"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "implements key lifecycle controls",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "produces traced acceptance evidence",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d8-o01-secure-requirements-design-prediction",
+    "prompt": "How does a product risk become a testable security/privacy requirement, a design decision, and acceptance evidence?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A security review at the end can recover missed requirements cheaply.",
+        "correct": false,
+        "feedback": "Incorrect: Late discovery can require architectural change; early traceable requirements reduce rework while operation still needs monitoring.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Define data, threat, authorization, failure, logging, and testable acceptance requirements",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Late discovery can require architectural change; early traceable requirements reduce rework while operation still needs monitoring.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "TLS and user authentication are sufficient requirements for the new partner payment endpoint.",
+        "correct": false,
+        "feedback": "Incorrect: transport and identity do not settle object authorization, data handling, abuse cases, logging, availability, partner trust, error behavior, and verifiable acceptance criteria.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "acceptance-criteria",
+      "security-requirements",
+      "integrated-product-team"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d8-o01-secure-requirements-design-transfer",
+    "prompt": "A design encrypts data but has no stated key ownership, rotation, failure, or access requirement.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A design encrypts data but has no stated key ownership, rotation, failure, or access requirement. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: The IPT identifies data classification, abuse cases, fraud and replay risks, privacy obligations, trust boundaries, rate limits, authorization, encryption, audit events, and failure behavior; each becomes a testable requirement linked to design and D6 evidence. Repair target: Decision recomputed — Add lifecycle and authorization requirements before implementation and trace them to D3/D6 evidence. A mechanism without ownership and acceptance criteria leaves the security outcome ambiguous.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A design encrypts data but has no stated key ownership, rotation, failure, or access requirement. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: The IPT identifies data classification, abuse cases, fraud and replay risks, privacy obligations, trust boundaries, rate limits, authorization, encryption, audit events, and failure behavior; each becomes a testable requirement linked to design and D6 evidence. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Add lifecycle and authorization requirements before implementation and trace them to D3/D6 evidence",
+        "correct": true,
+        "feedback": "Correct. Add lifecycle and authorization requirements before implementation and trace them to D3/D6 evidence. A mechanism without ownership and acceptance criteria leaves the security outcome ambiguous.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "security-requirements"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d8-o01-secure-requirements-design-retry-v2",
+    "prompt": "A requirement says “encrypt personal data” but names no data states, key owner, failure behavior, or acceptance evidence. What should the team do?",
+    "options": [
+      {
+        "id": "make-testable",
+        "label": "Define data states, key/access owners, failure behavior, retention, and acceptance evidence",
+        "correct": true,
+        "feedback": "Correct. A design can implement and test only requirements with bounded actors, conditions, outcomes, and evidence.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "choose-algorithm",
+        "label": "Select a strong algorithm now and treat the requirement as complete",
+        "correct": false,
+        "feedback": "Algorithm choice does not define key custody, authorization, failure, data states, or acceptance.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "defer-ops",
+        "label": "Leave ownership and recovery details for operations after release",
+        "correct": false,
+        "feedback": "Lifecycle ownership and failure behavior affect architecture and must be designed before implementation.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "security-requirements",
+      "acceptance-criteria",
+      "privacy-requirements"
+    ],
+    "hint": "Turn the control word into a testable outcome across the data lifecycle."
+  },
+  "takeaway": "The IPT identifies data classification, abuse cases, fraud and replay risks, privacy obligations, trust boundaries, rate limits, authorization, encryption, audit events, and failure behavior; each becomes a testable requirement linked to design and D6 evidence.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d8-1",
+    "official-d8-9-35",
+    "sybex-d8-1017-1049",
+    "miller-d8-705-727"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d8-o01-secure-requirements-design-threat-to-acceptance-traceability-map",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable decision states: Partner payment endpoint processes data under stated purpose and classification Personal and financial data; Partner payment endpoint is analyzed across partner and service trust boundaries Threat and abuse cases. The model keeps Partner payment endpoint, Personal and financial data, Threat and abuse cases, Testable security requirements, Design controls, Acceptance evidence distinct. Its changed case is “A design encrypts data but has no stated key ownership, rotation, failure, or access requirement.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Security and privacy goals must become testable requirements tied to threats, design choices, and acceptance evidence. Encryption, for example, still needs explicit key ownership, access, rotation, failure, and recovery requirements.",
+    "visualReasoningGain": "A traceability map could connect each risk and abuse case to a testable requirement, design owner, and acceptance evidence; the opening endpoint/data/threat boxes do not."
+  },
+  "openingFacts": [
+    {
+      "label": "Partner payment endpoint",
+      "value": "New externally reachable operation handling personal and financial data."
+    },
+    {
+      "label": "Personal and financial data",
+      "value": "Classified inputs, outputs, retention, disclosure, and privacy purposes that bound the design."
+    },
+    {
+      "label": "Threat and abuse cases",
+      "value": "Replay, fraud, broken authorization, tampering, disclosure, outage, and partner compromise scenarios."
+    },
+    {
+      "label": "Testable security requirements",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Design controls",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Acceptance evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

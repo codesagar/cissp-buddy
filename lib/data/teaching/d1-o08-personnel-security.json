@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o08-personnel-security",
+  "treatmentIds": [
+    "fresh-d1-o08-personnel-security-relationship-event-orchestration"
+  ],
+  "title": "relationship event orchestration",
+  "question": "Which people, identity, asset, contract, and evidence actions must complete when a worker transfers or a contractor engagement ends?",
+  "scenario": "Clinical-to-procurement transfer: An employee moves departments and gains new purchasing duties while retaining a clinical role.",
+  "focalRelation": "A relationship event triggers coordinated owner actions; a mover removes obsolete access before or with new access; a leaver or contractor end requires verified revocation across physical, logical, session, key, device, and supplier paths.",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "event",
+      "label": "Authoritative relationship event",
+      "detail": "HR or contract authority confirms the person, effective time, sponsor, relationship, and approved role change.",
+      "conceptIds": [
+        "personnel-security",
+        "onboarding",
+        "transfer",
+        "termination",
+        "contractor-security"
+      ]
+    },
+    {
+      "id": "sponsor",
+      "label": "Business sponsor decision",
+      "detail": "The accountable sponsor approves the new duties, retained exceptions, expiry, and proportional screening or agreement requirements.",
+      "conceptIds": [
+        "candidate-screening",
+        "employment-agreement",
+        "vendor-agreement",
+        "proportionality"
+      ]
+    },
+    {
+      "id": "identity",
+      "label": "Identity and access actions",
+      "detail": "Provisioning changes entitlements, sessions, credentials, privileged paths, and expiry from the authoritative event.",
+      "conceptIds": [
+        "identity-lifecycle",
+        "access-revocation"
+      ]
+    },
+    {
+      "id": "assets",
+      "label": "Asset and facility actions",
+      "detail": "Facilities and asset custodians transfer badges, devices, keys, and records for the new role and retain issue, return, or disablement evidence.",
+      "conceptIds": [
+        "personnel-security"
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "Completion evidence",
+      "detail": "Reconciliation proves old access and assets were removed while explicitly approved temporary duties remain bounded.",
+      "conceptIds": [
+        "access-revocation",
+        "identity-lifecycle"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "event",
+      "to": "sponsor",
+      "label": "defines the effective relationship and decision scope for",
+      "kind": "flow"
+    },
+    {
+      "from": "sponsor",
+      "to": "identity",
+      "label": "authorizes create, change, expiry, or revoke actions in",
+      "kind": "flow"
+    },
+    {
+      "from": "sponsor",
+      "to": "assets",
+      "label": "authorizes issue, transfer, return, or disable actions in",
+      "kind": "flow"
+    },
+    {
+      "from": "identity",
+      "to": "evidence",
+      "label": "produces entitlement and session closure records for",
+      "kind": "evidence"
+    },
+    {
+      "from": "assets",
+      "to": "evidence",
+      "label": "produces custody and return records for",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Clinical-to-procurement transfer: An employee moves departments and gains new purchasing duties while retaining a clinical role.",
+      "activeNodeIds": [
+        "event",
+        "sponsor"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "event": "HR or contract authority confirms the person, effective time, sponsor, relationship, and approved role change.",
+        "sponsor": "The accountable sponsor approves the new duties, retained exceptions, expiry, and proportional screening or agreement requirements."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Authoritative relationship event defines the effective relationship and decision scope for Business sponsor decision. Business sponsor decision authorizes create, change, expiry, or revoke actions in Identity and access actions.",
+      "activeNodeIds": [
+        "event",
+        "sponsor",
+        "identity"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "sponsor": "The accountable sponsor approves the new duties, retained exceptions, expiry, and proportional screening or agreement requirements.",
+        "event": "HR or contract authority confirms the person, effective time, sponsor, relationship, and approved role change.",
+        "identity": "Provisioning changes entitlements, sessions, credentials, privileged paths, and expiry from the authoritative event."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Identity and access actions produces entitlement and session closure records for Completion evidence. Asset and facility actions produces custody and return records for Completion evidence.",
+      "activeNodeIds": [
+        "identity",
+        "evidence",
+        "assets"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "evidence": "Reconciliation proves old access and assets were removed while explicitly approved temporary duties remain bounded.",
+        "identity": "Provisioning changes entitlements, sessions, credentials, privileged paths, and expiry from the authoritative event.",
+        "assets": "Facilities and asset custodians transfer badges, devices, keys, and records for the new role and retain issue, return, or disablement evidence."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "A procurement mover still performs one approved on-call clinical duty for thirty days. Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege, then reconcile it at the end date.",
+      "activeNodeIds": [
+        "event",
+        "sponsor",
+        "identity",
+        "evidence",
+        "assets"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "evidence": "Reconciliation proves old access and assets were removed while explicitly approved temporary duties remain bounded.",
+        "event": "HR or contract authority confirms the person, effective time, sponsor, relationship, and approved role change.",
+        "sponsor": "The accountable sponsor approves the new duties, retained exceptions, expiry, and proportional screening or agreement requirements.",
+        "identity": "Provisioning changes entitlements, sessions, credentials, privileged paths, and expiry from the authoritative event.",
+        "assets": "Facilities and asset custodians transfer badges, devices, keys, and records for the new role and retain issue, return, or disablement evidence."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Most former-role access is no longer needed. One clinical privilege has a documented temporary business need.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "A procurement mover still performs one approved on-call clinical duty for thirty days.",
+          "activeNodeIds": [
+            "identity",
+            "evidence",
+            "assets"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "evidence": "Most former-role access is no longer needed. One clinical privilege has a documented temporary business need.",
+            "identity": "Provisioning changes entitlements, sessions, credentials, privileged paths, and expiry from the authoritative event.",
+            "assets": "Facilities and asset custodians transfer badges, devices, keys, and records for the new role and retain issue, return, or disablement evidence."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege, then reconcile it at the end date.",
+          "activeNodeIds": [
+            "identity",
+            "evidence",
+            "assets"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "evidence": "Reconciliation proves old access and assets were removed while explicitly approved temporary duties remain bounded.",
+            "identity": "Provisioning changes entitlements, sessions, credentials, privileged paths, and expiry from the authoritative event.",
+            "assets": "Facilities and asset custodians transfer badges, devices, keys, and records for the new role and retain issue, return, or disablement evidence."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o08-personnel-security-prediction-v1",
+    "prompt": "Which people, identity, asset, contract, and evidence actions must complete when a worker transfers or a contractor engagement ends?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Keep every old entitlement until the employee confirms the new role is comfortable.",
+        "correct": false,
+        "feedback": "That creates unmanaged privilege accumulation; retain only justified duties through explicit approval and time bounds.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Remove old access, grant approved new access, and verify every affected path.",
+        "correct": true,
+        "feedback": "A personnel or contract status change does not execute technical and physical revocation or prove asset return.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Updating the HR record automatically revokes every access path and session.",
+        "correct": false,
+        "feedback": "The event is a trigger; each identity, session, key, device, physical credential, and supplier account needs verified action.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "transfer",
+      "contractor-security",
+      "access-revocation",
+      "identity-lifecycle"
+    ],
+    "hint": "A role change requires both removal of old access and bounded approval of new access."
+  },
+  "transfer": {
+    "id": "d1-o08-personnel-security-transfer-v1",
+    "prompt": "A procurement mover still performs one approved on-call clinical duty for thirty days.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Keep every old entitlement until the employee confirms the new role is comfortable",
+        "correct": false,
+        "feedback": "Changed fact: Most former-role access is no longer needed. One clinical privilege has a documented temporary business need. Why this answer fails: “Keep every old entitlement until the employee confirms the new role is comfortable” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: A relationship event triggers coordinated owner actions; a mover removes obsolete access before or with new access; a leaver or contractor end requires verified revocation across physical, logical, session, key, device, and supplier paths. Repair target: Control and evidence consequence — Identity and access actions produces entitlement and session closure records for Completion evidence. Asset and facility actions produces custody and return records for Completion evidence.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege",
+        "correct": true,
+        "feedback": "Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege, then reconcile it at the end date.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Updating the HR record automatically revokes every access path and session",
+        "correct": false,
+        "feedback": "Changed fact: Most former-role access is no longer needed. One clinical privilege has a documented temporary business need. Why this answer fails: “Updating the HR record automatically revokes every access path and session” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: A relationship event triggers coordinated owner actions; a mover removes obsolete access before or with new access; a leaver or contractor end requires verified revocation across physical, logical, session, key, device, and supplier paths. Repair target: Changed fact, recomputed result — A procurement mover still performs one approved on-call clinical duty for thirty days. Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege, then reconcile it at the end date.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "access-revocation"
+    ],
+    "hint": "Separate the legacy procurement privilege from the time-limited clinical need."
+  },
+  "retry": {
+    "id": "d1-o08-personnel-security-retry-v1",
+    "prompt": "A contractor’s engagement ends Friday, but the account is reviewed only monthly. Which change most directly reduces exposure?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "An HR termination record automatically ends all access",
+        "correct": false,
+        "feedback": "Technical and physical access, sessions, keys, supplier accounts, and assets require coordinated revocation and verification.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "evidence-based",
+        "label": "The authoritative end event precedes the periodic review",
+        "correct": true,
+        "feedback": "Correct. The authoritative end event precedes the periodic review.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "shortcut",
+        "label": "Keep every old entitlement until the employee confirms the new role is comfortable",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. The authoritative end event precedes the periodic review.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "termination",
+      "contractor-security",
+      "access-revocation"
+    ],
+    "hint": "Look for explicit reapproval, an end date, and reconciliation of every downstream entitlement."
+  },
+  "takeaway": "Use the case evidence to apply this relation: A relationship event triggers coordinated owner actions; a mover removes obsolete access before or with new access; a leaver or contractor end requires verified revocation across physical, logical, session, key, device, and supplier paths.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o08-outline",
+    "d1-o08-textbook",
+    "d1-o08-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o08-personnel-security-relationship-event-orchestration",
+      "disposition": "equivalent",
+      "rationale": "The timeline preserves the authoritative mover event, sponsor decision, old-access removal, approved new access, asset and facility actions, completion evidence, and a time-bounded retained clinical duty. It does not render separate joiner, mover, leaver, and contractor swimlanes or a proportionality inset."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A role change must trigger explicit sponsor decisions, access changes, asset transfers, and completion evidence. A temporary retained duty needs separate approval and an expiry rather than blanket legacy access.",
+    "visualReasoningGain": "A lifecycle view adds value when all event, decision, action, and evidence columns remain visible; the current opening omits most of that model."
+  },
+  "openingFacts": [
+    {
+      "label": "Authoritative relationship event",
+      "value": "HR or contract authority confirms the person, effective time, sponsor, relationship, and approved role change."
+    },
+    {
+      "label": "Business sponsor decision",
+      "value": "The accountable sponsor approves the new duties, retained exceptions, expiry, and proportional screening or agreement requirements."
+    },
+    {
+      "label": "Identity and access actions",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Asset and facility actions",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Completion evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

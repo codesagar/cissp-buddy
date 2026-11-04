@@ -1,0 +1,745 @@
+{
+  "conceptIds": [
+    "acquired-software",
+    "cots",
+    "open-source",
+    "third-party-risk",
+    "software-bill-of-materials",
+    "vendor-risk"
+  ],
+  "concepts": [
+    {
+      "decision": "Assess fit, architecture, data/identity/dependency impact, evidence, support, contract, and exit before adoption and periodically thereafter.",
+      "definition": "Software or service obtained from outside the organization whose security, support, and lifecycle still affect the organization’s risk.",
+      "failureExample": "A product can meet today’s feature need yet leave the organization unable to patch, audit, or exit a critical dependency.",
+      "id": "acquired-software",
+      "label": "Acquired Software",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "sourceVisualId": "d8-o04-acquired-software-decision-comparison-1"
+    },
+    {
+      "decision": "Evaluate vendor support, update cadence, configuration, integrations, vulnerability response, and compensating controls for the intended use.",
+      "definition": "Commercial off-the-shelf software supplied as a vendor product with limited customer control over source and release timing.",
+      "failureExample": "Assuming a popular COTS package is secure can leave a known vulnerable configuration or unsupported version in production.",
+      "id": "cots",
+      "label": "Cots",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "sourceVisualId": "d8-o04-acquired-software-decision-comparison-1"
+    },
+    {
+      "decision": "Evaluate maintainer health, release integrity, transitive dependencies, license, internal ownership, update/review capacity, and support plan.",
+      "definition": "Software whose source can be inspected and modified under its license, while maintenance, provenance, dependency, and support responsibilities remain.",
+      "failureExample": "Inspectable source does not help if nobody owns timely review and updates for the deployed component.",
+      "id": "open-source",
+      "label": "Open Source",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "sourceVisualId": "d8-o04-acquired-software-decision-comparison-1"
+    },
+    {
+      "decision": "Identify shared dependencies and contractually/operationally allocate notification, audit, security, resilience, and exit responsibilities.",
+      "definition": "Risk arising from an external supplier’s software, service, people, subprocessors, operations, or failure to meet obligations.",
+      "failureExample": "A provider incident can expose customer data when subprocessor access and notification duties were never understood.",
+      "id": "third-party-risk",
+      "label": "Third Party Risk",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "sourceVisualId": "d8-o04-acquired-software-decision-comparison-1"
+    },
+    {
+      "decision": "Use it to identify direct/transitive components, versions, owners, and update exposure; pair it with provenance, testing, and supplier evidence.",
+      "definition": "A structured inventory of software components and related dependency information used to understand composition and support vulnerability response.",
+      "failureExample": "An SBOM can list a component without proving the artifact was built from approved source or that the component is safe.",
+      "id": "software-bill-of-materials",
+      "label": "Software Bill of Materials",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "sourceVisualId": "d8-o04-acquired-software-decision-comparison-1"
+    },
+    {
+      "decision": "Assess pre-contract evidence and establish ongoing monitoring, audit/notification, portability/deletion, transition, and termination terms.",
+      "definition": "Risk that a vendor’s security, viability, contractual performance, updates, support, hosting, or exit behavior harms the organization.",
+      "failureExample": "A vendor’s unexpected end of support can turn a patched service into an unremediable critical exposure.",
+      "id": "vendor-risk",
+      "label": "Vendor Risk",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "sourceVisualId": "d8-o04-acquired-software-decision-comparison-1"
+    }
+  ],
+  "domainId": 8,
+  "estimatedMinutes": 30,
+  "id": "d8-o04-acquired-software",
+  "misconceptions": [
+    {
+      "claim": "Open source has no supplier risk because code is public.",
+      "correction": "Maintainer identity, dependency chain, build provenance, support, and vulnerability response still create risk."
+    }
+  ],
+  "objectiveIds": [
+    "8.4"
+  ],
+  "outcome": "Evaluate acquired software and services for trust, dependency, data, support, contract, and exit risks, then define controls and evidence.",
+  "prerequisites": [
+    "d1-o11-supply-chain-risk",
+    "d2-o06-controls-compliance"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Review architecture, data flows, identities, dependencies, vulnerability history, update process, secure-development evidence, support lifecycle, licensing, privacy, hosting regions, subprocessors, resilience, incident duties, and ability to export or delete data. Use SBOM/provenance and independent evidence where available.",
+      "id": "due-diligence",
+      "keyPoints": [
+        "COTS and open source differ in support and control models but both carry dependency risk.",
+        "Managed service contracts must define roles and evidence.",
+        "Exit and replacement constraints are security concerns."
+      ],
+      "sourceRefIds": [
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ],
+      "title": "Assess what enters the environment"
+    },
+    {
+      "body": "Use contract controls, sandboxing, least privilege, network segmentation, monitoring, patch and vulnerability commitments, compensating controls, approval gates, and periodic reassessment. Define breach notification, audit rights, portability, key ownership, deletion, transition assistance, and termination procedures before dependency becomes critical.",
+      "id": "controls-and-exit",
+      "keyPoints": [
+        "A security questionnaire is an input, not proof.",
+        "Controls must cover updates, support expiration, and subcontractors.",
+        "Exit planning reduces lock-in and availability risk."
+      ],
+      "sourceRefIds": [
+        "official-d8-91-105",
+        "miller-d8-727-760"
+      ],
+      "title": "Manage residual and lifecycle risk"
+    },
+    {
+      "body": "COTS is vendor-developed software with limited customer control over source and release timing; open source provides inspectable and modifiable code but still has maintainer, dependency, license, and support risk; third-party software introduces supplier governance; managed enterprise applications shift more operation to a provider; SaaS, PaaS, and IaaS divide responsibility differently across application, platform, runtime, identity, data, and infrastructure. Assess each model for data location, tenant isolation, update authority, vulnerability disclosure, logging, subprocessor access, resilience, portability, contract rights, and secure exit.",
+      "id": "acquisition-models-and-exit",
+      "keyPoints": [
+        "More provider operation does not transfer customer data, identity, configuration, or risk accountability automatically.",
+        "Open source visibility is not the same as maintained, vulnerability-free, or supported software.",
+        "Exit requires export, deletion, key/access revocation, evidence, and continuity testing."
+      ],
+      "sourceRefIds": [
+        "outline-d8-4",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065",
+        "miller-d8-727-760"
+      ],
+      "title": "Compare acquisition models and preserve exit options"
+    }
+  ],
+  "sourceHash": "323fca215ca665eb8589145c1d9fc7edb8f403cc861b88bea72a8468f10c7006",
+  "sourcePath": "knowledge/domains/d8-software-development-security/units/d8-o04-acquired-software.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d8-4",
+      "locator": {
+        "type": "objective",
+        "value": "8.4"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-91-105",
+      "locator": {
+        "type": "printed-page",
+        "value": "59–64 (same PDF page numbers), objective 8.4; body headings inspected, corrupted contents page excluded"
+      },
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "sourceNotes": "D8 contents page is corrupted.",
+      "supports": [
+        "acquired software and services"
+      ]
+    },
+    {
+      "id": "sybex-d8-1017-1065",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1065, Chapter 20"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "software supply and assessment"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "supports": [
+        "acquired software"
+      ]
+    }
+  ],
+  "summary": "Commercial, open-source, managed, and third-party software introduce security, privacy, availability, licensing, support, and supply-chain decisions that must be assessed before and during use.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "is entrusted for stated processing purpose",
+        "to": "n1"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "administers under bounded privileged access",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "extends processing to disclosed subprocessors",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "dependency",
+        "label": "creates contract and evidence requirements",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "defines support end, exit, deletion, and proof",
+        "to": "n6"
+      },
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "transitions service, data, identities, and evidence",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "service/data/dependency model --due diligence evidence--> risk decision customer and provider --contractually assigned controls, not transferred accountability--> operation subprocessor/update/incident evidence --continuous reassessment--> residual risk portability/deletion/transition terms --preconditions--> exit verified export/revocation/deletion --evidence--> closure",
+    "lanes": [
+      {
+        "id": "data",
+        "label": "Customer data boundary",
+        "rule": "Classification, purpose, location, retention, and access requirements follow the data."
+      },
+      {
+        "id": "vendor",
+        "label": "Primary vendor boundary",
+        "rule": "Vendor service and operators remain subject to bounded access and evidence obligations."
+      },
+      {
+        "id": "subprocessor",
+        "label": "Downstream processing boundary",
+        "rule": "Each subprocessor and region is disclosed, assessed, and contractually controlled."
+      },
+      {
+        "id": "governance",
+        "label": "Customer governance",
+        "rule": "Contract and evidence rights support accountable residual-risk decisions."
+      },
+      {
+        "id": "exit",
+        "label": "Exit boundary",
+        "rule": "Return, revocation, deletion, portability, and retained evidence are planned before approval."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Acquired software risk includes data, identities, regions, subprocessors, support, updates, incident evidence, continuity, contract rights, deletion, and exit. Vendor reputation or public source code does not replace evidence and residual-risk ownership.",
+      "visualReasoningGain": "The acquisition-to-exit flow lets the learner trace data and responsibility through vendor, subprocessors, contract evidence, support, deletion, and exit."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "acquired-software",
+          "cots"
+        ],
+        "detail": "Third-party software/service proposed for business use and lifecycle ownership.",
+        "id": "n1",
+        "label": "Acquired service",
+        "lane": "vendor"
+      },
+      {
+        "conceptIds": [
+          "third-party-risk"
+        ],
+        "detail": "Personal, financial, or classified data sent for approved purposes under retention and location rules.",
+        "id": "n2",
+        "label": "Customer classified data",
+        "lane": "data"
+      },
+      {
+        "conceptIds": [
+          "vendor-risk"
+        ],
+        "detail": "Privileged vendor identity with bounded support access, logging, segregation, and incident obligations.",
+        "id": "n3",
+        "label": "Vendor operator",
+        "lane": "vendor"
+      },
+      {
+        "conceptIds": [
+          "third-party-risk"
+        ],
+        "detail": "Downstream entities and jurisdictions extending processing, support, availability, and breach dependencies.",
+        "id": "n4",
+        "label": "Subprocessors and regions",
+        "lane": "subprocessor"
+      },
+      {
+        "conceptIds": [
+          "vendor-risk"
+        ],
+        "detail": "Audit, incident, vulnerability, update/support, data location, access, SLA, and remediation evidence obligations.",
+        "id": "n5",
+        "label": "Contract and evidence rights",
+        "lane": "governance"
+      },
+      {
+        "conceptIds": [
+          "acquired-software",
+          "cots"
+        ],
+        "detail": "Revocation, export, portability, deletion across replicas, evidence retention, and transition capability.",
+        "id": "n6",
+        "label": "Exit and data return",
+        "lane": "exit"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "open-source",
+        "vendor-risk"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d8-o04-acquired-software-prediction-b90c7cbfe126",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Incorrect: Maintainer identity, dependency chain, build provenance, support, and vulnerability response still create risk.",
+          "id": "misconception",
+          "label": "Open source has no supplier risk because code is public.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Maintainer identity, dependency chain, build provenance, support, and vulnerability response still create risk.",
+          "id": "relation",
+          "label": "Map data, identities, subprocessors, evidence rights, continuity, and exit before approval",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: acquisition assurance needs scoped requirements, subprocessor visibility, evidence rights, incident and change duties, data return or destruction, continuity, ownership, and an executable exit path.",
+          "id": "overclaim",
+          "label": "Rely on the vendor security clause and defer subprocessor and exit checks until contract termination.",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "Before software or a managed service becomes critical, what evidence, contract terms, compensating controls, and exit conditions must support the risk decision?"
+    },
+    "question": "Before software or a managed service becomes critical, what evidence, contract terms, compensating controls, and exit conditions must support the risk decision?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "vendor-risk",
+        "third-party-risk",
+        "acquired-software"
+      ],
+      "hint": "Urgency changes timing but does not establish artifact identity or safe recovery.",
+      "id": "d8-o04-acquired-software-retry-v2-aadf0a55ecd1",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. A bounded emergency path still needs trustworthy artifact and recovery evidence.",
+          "id": "quarantine-validate",
+          "label": "Quarantine the patch, verify supplier and artifact provenance, test in scope, require rollback, and authorize promotion",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "Supplier identity and an ordinary channel do not prove artifact integrity, compatibility, or rollback.",
+          "id": "deploy-trust",
+          "label": "Deploy immediately because the contracted supplier sent it through the usual email channel",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "The gap needs resolution through an emergency assurance path, not an irreversible blanket rule.",
+          "id": "reject-forever",
+          "label": "Reject every supplier patch that lacks the normal package even after evidence can be recovered",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A supplier delivers an urgent patch without provenance, test evidence, or a rollback package. What should the buyer do?"
+    },
+    "scenario": "A vendor processes classified customer data and relies on multiple subprocessors.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d8-4",
+      "official-d8-91-105",
+      "sybex-d8-1017-1065",
+      "miller-d8-727-760"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0,
+          2
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n4"
+        ],
+        "caption": "A vendor processes classified customer data and relies on multiple subprocessors.",
+        "id": "case-observed",
+        "statuses": {
+          "n2": "classified customer data",
+          "n4": "multiple subprocessors"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4",
+          "n5",
+          "n1"
+        ],
+        "caption": "COTS and open source differ in support and control models but both carry dependency risk.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n5": "access, regions, incident, support evidence required"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n5",
+          "n6"
+        ],
+        "caption": "Open source has no supplier risk because code is public. Maintainer identity, dependency chain, build provenance, support, and vulnerability response still create risk.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n5": "vendor reputation not assurance"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3",
+          "n4",
+          "n5"
+        ],
+        "caption": "Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit. Approve only with controls and residual-risk ownership; vendor reputation alone is not assurance.",
+        "id": "control-enforced",
+        "statuses": {
+          "n5": "contract controls and residual-risk owner set"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n5",
+          "n6"
+        ],
+        "caption": "Evaluate acquired software and services for trust, dependency, data, support, contract, and exit risks, then define controls and evidence. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "exit, deletion, and return evidence accepted"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit.",
+    "title": "Assess the security impact of acquired software",
+    "transfer": {
+      "conceptIds": [
+        "vendor-risk"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d8-o04-acquired-software-transfer-bf8c7c261fcf",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A vendor refuses to disclose its support end date and data-deletion process. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit. Repair target: Decision recomputed — Treat the unknowns as material risk, require commitments or compensating controls, and consider an alternative. Unbounded support and exit uncertainty can create security and availability failure.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A vendor refuses to disclose its support end date and data-deletion process. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Treat the unknowns as material risk, require commitments or compensating controls, and consider an alternative. Unbounded support and exit uncertainty can create security and availability failure.",
+          "id": "evidence-action",
+          "label": "Treat the unknowns as material risk, require commitments or compensating controls",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A vendor refuses to disclose its support end date and data-deletion process."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implemented in 5 stable boundary states: Customer classified data is entrusted for stated processing purpose Acquired service; Vendor operator administers under bounded privileged access Acquired service. The model keeps Acquired service, Customer classified data, Vendor operator, Subprocessors and regions, Contract and evidence rights, Exit and data return distinct. Its changed case is “A vendor refuses to disclose its support end date and data-deletion process.” and every option returns to a named repair state.",
+        "treatmentId": "fresh-d8-o04-acquired-software-acquisition-to-exit-responsibility-flow"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d8-o04-acquired-software-acquisition-to-exit-responsibility-flow"
+    ],
+    "unitId": "d8-o04-acquired-software",
+    "variants": [
+      {
+        "changedFact": "A vendor refuses to disclose its support end date and data-deletion process.",
+        "edges": [
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "would place data into the service",
+            "to": "n1"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "withholds required lifecycle information",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "creates material third-party gaps",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "dependency",
+            "label": "requires contractual disposition",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "defines exit and deletion evidence",
+            "to": "n6"
+          },
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "cannot proceed without accountable lifecycle decision",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "lanes": [
+          {
+            "id": "data",
+            "label": "Customer data boundary",
+            "rule": "Classification, purpose, location, retention, and access requirements follow the data."
+          },
+          {
+            "id": "vendor",
+            "label": "Primary vendor boundary",
+            "rule": "Vendor service and operators remain subject to bounded access and evidence obligations."
+          },
+          {
+            "id": "subprocessor",
+            "label": "Downstream processing boundary",
+            "rule": "Each subprocessor and region is disclosed, assessed, and contractually controlled."
+          },
+          {
+            "id": "governance",
+            "label": "Customer governance",
+            "rule": "Contract and evidence rights support accountable residual-risk decisions."
+          },
+          {
+            "id": "exit",
+            "label": "Exit boundary",
+            "rule": "Return, revocation, deletion, portability, and retained evidence are planned before approval."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "acquired-software",
+              "cots"
+            ],
+            "detail": "The service may become critical despite unknown support and deletion commitments.",
+            "id": "n1",
+            "label": "Candidate vendor service",
+            "lane": "vendor"
+          },
+          {
+            "conceptIds": [
+              "third-party-risk"
+            ],
+            "detail": "Data entrusted to the service requires bounded lifecycle and exit controls.",
+            "id": "n2",
+            "label": "Customer sensitive data",
+            "lane": "data"
+          },
+          {
+            "conceptIds": [
+              "vendor-risk"
+            ],
+            "detail": "The supplier refuses to disclose end-of-support and deletion behavior.",
+            "id": "n3",
+            "label": "Vendor decision makers",
+            "lane": "vendor"
+          },
+          {
+            "conceptIds": [
+              "third-party-risk"
+            ],
+            "detail": "Patch support, end date, replica deletion, and evidence are material gaps.",
+            "id": "n4",
+            "label": "Lifecycle unknowns",
+            "lane": "subprocessor"
+          },
+          {
+            "conceptIds": [
+              "vendor-risk"
+            ],
+            "detail": "The customer requires commitments, evidence rights, bounded exposure, or an alternative.",
+            "id": "n5",
+            "label": "Contract or compensating controls",
+            "lane": "governance"
+          },
+          {
+            "conceptIds": [
+              "acquired-software",
+              "cots"
+            ],
+            "detail": "Approval depends on support, transition, data return, deletion, and proof.",
+            "id": "n6",
+            "label": "Exit and deletion decision",
+            "lane": "exit"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n5",
+              "n6"
+            ],
+            "caption": "A vendor refuses to disclose its support end date and data-deletion process.",
+            "id": "changed-fact",
+            "statuses": {
+              "n5": "support end undisclosed",
+              "n6": "deletion process unknown"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              3
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n5"
+            ],
+            "caption": "Treat the unknowns as material risk, require commitments or compensating controls, and consider an alternative. Unbounded support and exit uncertainty can create security and availability failure.",
+            "id": "changed-decision",
+            "statuses": {
+              "n5": "material lifecycle gap; approval held"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "n5",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "support/exit/deletion obligations evidenced or vendor rejected"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Assess the security impact of acquired software",
+  "workedExamples": [
+    {
+      "reasoning": "Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit. Approve only with controls and residual-risk ownership; vendor reputation alone is not assurance.",
+      "situation": "A vendor processes classified customer data and relies on multiple subprocessors.",
+      "takeaway": "Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit. Approve only with controls and residual-risk ownership; vendor reputation alone is not assurance.",
+      "title": "Hosted analytics service"
+    },
+    {
+      "reasoning": "The assessment records architecture/data flows, regions, tenant and identity model, subprocessors, vulnerability/update and incident commitments, logging/audit evidence, resilience, key ownership, export format, deletion evidence, transition assistance, and termination rights. If the provider cannot supply a required exit path or breach-notification duty, the IPT either negotiates it, introduces compensating controls, selects another provider, or records accountable residual risk before onboarding.",
+      "situation": "A payroll service will process employee data and become a critical monthly dependency.",
+      "takeaway": "The assessment records architecture/data flows, regions, tenant and identity model, subprocessors, vulnerability/update and incident commitments, logging/audit evidence, resilience, key ownership, export format, deletion evidence, transition assistance, and termination rights. If the provider cannot supply a required exit path or breach-notification duty, the IPT either negotiates it, introduces compensating controls, selects another provider, or records accountable residual risk before onboarding.",
+      "title": "Critical SaaS acquisition and exit decision"
+    }
+  ]
+}

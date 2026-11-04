@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-asset-data-lifecycle--copy-disposition",
+  "treatmentIds": [
+    "cross-asset-data-lifecycle--copy-disposition"
+  ],
+  "title": "Three copies at the retention deadline",
+  "question": "Original and export have expired retention; backup remains under a scoped hold. Which copies may be disposed of and which evidence establishes each disposition?",
+  "scenario": "A customer case file exists as the system of record, an analyst export, and an encrypted backup. Retention expired for the original and export. A legal hold names the backup set containing the case. Operations must decide each copy’s custody and produce evidence before any medium is released or reused.",
+  "focalRelation": "Data-lifecycle requirements become operational resource-protection and verifiable-disposal actions for each identified copy; one copy’s eligibility does not transfer to another copy with a different obligation.",
+  "representation": "ledger",
+  "nodes": [
+    {
+      "id": "original",
+      "label": "System-of-record copy",
+      "detail": "Retention expired, no hold applies, owner authorized disposition, and the copy remains in controlled storage until sanitation is verified.",
+      "conceptIds": [
+        "data-lifecycle",
+        "retention",
+        "resource-custody"
+      ],
+      "lane": "copies"
+    },
+    {
+      "id": "export",
+      "label": "Analyst export",
+      "detail": "Retention expired and no hold applies, but the export must be located and its storage medium and replicas included in the disposition scope.",
+      "conceptIds": [
+        "sharing",
+        "retention",
+        "media-management"
+      ],
+      "lane": "copies"
+    },
+    {
+      "id": "backup",
+      "label": "Backup copy",
+      "detail": "A scoped legal hold applies, so operations must preserve and restrict this copy even though the ordinary retention period expired.",
+      "conceptIds": [
+        "archival",
+        "legal-hold",
+        "media-protection"
+      ],
+      "lane": "copies"
+    },
+    {
+      "id": "sanitize",
+      "label": "Execute and verify disposition",
+      "detail": "For each authorized copy, choose a medium-appropriate method, verify execution, validate the result, and retain custody until acceptance.",
+      "conceptIds": [
+        "destruction",
+        "disposal",
+        "sanitization",
+        "data-remanence"
+      ],
+      "lane": "operations"
+    },
+    {
+      "id": "evidence",
+      "label": "Per-copy disposition record",
+      "detail": "Record identity, authority, method, operator, verification result, exception or hold status, and final custody outcome for each copy.",
+      "conceptIds": [
+        "destruction-evidence",
+        "resource-custody"
+      ],
+      "lane": "operations"
+    }
+  ],
+  "edges": [
+    {
+      "from": "original",
+      "to": "sanitize",
+      "label": "eligible after owner authorization",
+      "kind": "flow"
+    },
+    {
+      "from": "export",
+      "to": "sanitize",
+      "label": "eligible after copy and replica scope is confirmed",
+      "kind": "flow"
+    },
+    {
+      "from": "backup",
+      "to": "sanitize",
+      "label": "hold blocks disposition for this copy",
+      "kind": "blocked"
+    },
+    {
+      "from": "sanitize",
+      "to": "evidence",
+      "label": "verified method and custody outcome become evidence",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "copies",
+      "label": "Persistent copy identities",
+      "rule": "Keep original, export, and backup visible as concurrent copies with independent obligations."
+    },
+    {
+      "id": "operations",
+      "label": "Operational action and proof",
+      "rule": "Disposition is complete only for the named copy after authorized execution, verification, validation, and recorded custody."
+    }
+  ],
+  "states": [
+    {
+      "id": "inventory",
+      "title": "Three copies, three records",
+      "caption": "Do not animate one record moving through locations; each copy exists concurrently and keeps its own scope.",
+      "activeNodeIds": [
+        "original",
+        "export",
+        "backup"
+      ],
+      "statuses": {
+        "original": "retention expired",
+        "export": "retention expired",
+        "backup": "retention expired; hold active"
+      }
+    },
+    {
+      "id": "authorize",
+      "title": "The hold blocks only its scoped copy",
+      "caption": "Original and export may proceed after authorization and scope confirmation. The backup remains preserved.",
+      "activeNodeIds": [
+        "original",
+        "export",
+        "backup",
+        "sanitize"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "original": "authorized",
+        "export": "locate replicas",
+        "backup": "preserve",
+        "sanitize": "not applicable to held copy"
+      }
+    },
+    {
+      "id": "verify",
+      "title": "Execute without releasing custody",
+      "caption": "Operations verifies and validates the selected method for the original and every located export replica.",
+      "activeNodeIds": [
+        "original",
+        "export",
+        "sanitize"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "original": "verification passed",
+        "export": "verification passed",
+        "sanitize": "validation pending"
+      }
+    },
+    {
+      "id": "record",
+      "title": "Evidence closes only the eligible copies",
+      "caption": "Disposition evidence records the original and export outcomes; the backup ledger records continued hold custody.",
+      "activeNodeIds": [
+        "original",
+        "export",
+        "backup",
+        "evidence",
+        "sanitize"
+      ],
+      "activeEdgeIndexes": [
+        3
+      ],
+      "statuses": {
+        "original": "disposed",
+        "export": "disposed",
+        "backup": "held",
+        "evidence": "three outcomes recorded"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Export replica discovered late",
+      "changedFact": "After the primary export is sanitized, an indexed replica is discovered in a collaboration workspace.",
+      "states": [
+        {
+          "id": "transfer-gap",
+          "title": "Disposition scope was incomplete",
+          "caption": "The primary export’s evidence cannot establish disposition of a separately existing replica.",
+          "activeNodeIds": [
+            "export",
+            "evidence"
+          ],
+          "statuses": {
+            "export": "replica still exists",
+            "evidence": "scope incomplete"
+          },
+          "activeEdgeIndexes": [
+            0
+          ]
+        },
+        {
+          "id": "transfer-close",
+          "title": "Authorize and verify the replica separately",
+          "caption": "Apply the same lifecycle requirement to the newly identified copy and append its own disposition evidence.",
+          "activeNodeIds": [
+            "export",
+            "sanitize",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "export",
+          "label": "Late workspace replica",
+          "detail": "A separate collaboration copy still exists after the primary export disposition was recorded.",
+          "conceptIds": [
+            "sharing",
+            "retention",
+            "media-management"
+          ],
+          "lane": "copies"
+        },
+        {
+          "id": "sanitize",
+          "label": "Replica disposition path",
+          "detail": "Authorize, sanitize, verify, and record the newly identified copy as its own subject.",
+          "conceptIds": [
+            "destruction",
+            "disposal",
+            "sanitization",
+            "data-remanence"
+          ],
+          "lane": "operations"
+        },
+        {
+          "id": "evidence",
+          "label": "Primary export disposition record",
+          "detail": "The signed record names the copy it observed and cannot prove an omitted replica was destroyed.",
+          "conceptIds": [
+            "destruction-evidence",
+            "resource-custody"
+          ],
+          "lane": "operations"
+        }
+      ],
+      "edges": [
+        {
+          "from": "export",
+          "to": "evidence",
+          "label": "existing record excludes this replica",
+          "kind": "evidence"
+        },
+        {
+          "from": "export",
+          "to": "sanitize",
+          "label": "newly identified copy requires its own authorized method",
+          "kind": "dependency"
+        },
+        {
+          "from": "sanitize",
+          "to": "evidence",
+          "label": "append separately scoped outcome evidence",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "copies",
+          "label": "Persistent copy identities",
+          "rule": "Keep original, export, and backup visible as concurrent copies with independent obligations."
+        },
+        {
+          "id": "operations",
+          "label": "Operational action and proof",
+          "rule": "Disposition is complete only for the named copy after authorized execution, verification, validation, and recorded custody."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "Eligible copy lacks owner authorization",
+      "changedFact": "A removable-media copy has expired retention and no hold, but its accountable data owner has not approved disposition.",
+      "states": [
+        {
+          "id": "retry-authorization-gap",
+          "title": "Eligibility is not authorization",
+          "caption": "Operations keeps custody because the required owner decision and confirmed scope are missing.",
+          "activeNodeIds": [
+            "original",
+            "sanitize"
+          ],
+          "statuses": {
+            "original": "eligible; authorization missing",
+            "sanitize": "not authorized"
+          },
+          "activeEdgeIndexes": [
+            0
+          ]
+        },
+        {
+          "id": "retry-authorized-path",
+          "title": "Authorize before executing the method",
+          "caption": "After the owner approves the named copy and method, operations may sanitize, verify, validate, and record its outcome.",
+          "activeNodeIds": [
+            "original",
+            "sanitize",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "evidence": "must bind approval and result to this copy"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "original",
+          "label": "Removable-media copy",
+          "detail": "This eligible physical copy remains in custody because its owner has not authorized disposition.",
+          "conceptIds": [
+            "data-lifecycle",
+            "retention",
+            "resource-custody"
+          ],
+          "lane": "copies"
+        },
+        {
+          "id": "sanitize",
+          "label": "Approved sanitation method",
+          "detail": "The method may execute only after owner authorization and scope confirmation for this medium.",
+          "conceptIds": [
+            "destruction",
+            "disposal",
+            "sanitization",
+            "data-remanence"
+          ],
+          "lane": "operations"
+        },
+        {
+          "id": "evidence",
+          "label": "Media-specific disposition evidence",
+          "detail": "Record owner authority, method, verification, validation, and custody outcome for this copy.",
+          "conceptIds": [
+            "destruction-evidence",
+            "resource-custody"
+          ],
+          "lane": "operations"
+        }
+      ],
+      "edges": [
+        {
+          "from": "original",
+          "to": "sanitize",
+          "label": "owner authorization controls execution for this copy",
+          "kind": "dependency"
+        },
+        {
+          "from": "sanitize",
+          "to": "evidence",
+          "label": "verified sanitation produces scoped evidence",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "copies",
+          "label": "Persistent copy identities",
+          "rule": "Keep original, export, and backup visible as concurrent copies with independent obligations."
+        },
+        {
+          "id": "operations",
+          "label": "Operational action and proof",
+          "rule": "Disposition is complete only for the named copy after authorized execution, verification, validation, and recorded custody."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "copy-predict",
+    "prompt": "Which copies may enter sanitization now?",
+    "options": [
+      {
+        "id": "p-all",
+        "label": "All located copies, because retention expiry overrides the backup hold",
+        "correct": false,
+        "feedback": "A scoped preservation duty overrides ordinary disposition for the backup copy.",
+        "repairStateId": "inventory"
+      },
+      {
+        "id": "p-none",
+        "label": "No copy, because the backup hold automatically extends to the entire case",
+        "correct": false,
+        "feedback": "The hold does not automatically expand to copies outside its scope. Evaluate and document each copy.",
+        "repairStateId": "authorize"
+      },
+      {
+        "id": "p-two",
+        "label": "Original and located export, after owner authorization and scope confirmation",
+        "correct": true,
+        "feedback": "Correct. Their retention expired and no hold applies; the backup remains preserved under its scoped hold.",
+        "repairStateId": "authorize"
+      }
+    ],
+    "conceptIds": [
+      "retention",
+      "legal-hold",
+      "resource-custody"
+    ],
+    "hint": "Apply obligations to persistent copy identities rather than to an abstract record."
+  },
+  "transfer": {
+    "id": "copy-transfer",
+    "prompt": "A collaboration-workspace replica appears after the export’s disposition record was signed. What follows?",
+    "options": [
+      {
+        "id": "t-separate",
+        "label": "Treat the replica as a still-existing copy and disposition it separately",
+        "correct": true,
+        "feedback": "Correct. Evidence for one copy cannot prove destruction of an omitted replica.",
+        "repairStateId": "transfer-close"
+      },
+      {
+        "id": "t-covered",
+        "label": "Treat the signed export record as proof for the later workspace replica",
+        "correct": false,
+        "feedback": "The evidence is bounded by its named scope, media, and verification result.",
+        "repairStateId": "transfer-gap"
+      },
+      {
+        "id": "t-hold",
+        "label": "Preserve the replica automatically because the backup set has a scoped hold",
+        "correct": false,
+        "feedback": "A hold must be interpreted by its actual scope; neither inclusion nor exclusion should be invented.",
+        "repairStateId": "inventory"
+      }
+    ],
+    "conceptIds": [
+      "sharing",
+      "disposal",
+      "destruction-evidence"
+    ],
+    "hint": "Ask which physical or logical copy the verification actually observed."
+  },
+  "retry": {
+    "id": "copy-retry",
+    "prompt": "A fourth removable-media copy has expired retention and no hold, but the data owner has not authorized disposition. What may operations do now?",
+    "options": [
+      {
+        "id": "r-expiry",
+        "label": "Sanitize it because retention expiry is sufficient disposition authority",
+        "correct": false,
+        "feedback": "Expiry establishes eligibility for a decision path; it does not replace the required owner authorization and scope confirmation.",
+        "repairStateId": "retry-authorization-gap"
+      },
+      {
+        "id": "r-authorize",
+        "label": "Keep custody, obtain owner authorization, then execute and verify the approved method",
+        "correct": true,
+        "feedback": "Correct. Eligibility, authorization, execution, verification, and evidence remain separate obligations for this copy.",
+        "repairStateId": "retry-authorized-path"
+      },
+      {
+        "id": "r-admin",
+        "label": "Release it after an administrator records a successful delete operation",
+        "correct": false,
+        "feedback": "An administrator action does not substitute for owner authority, sanitization validation, or custody evidence.",
+        "repairStateId": "retry-authorization-gap"
+      }
+    ],
+    "conceptIds": [
+      "retention",
+      "resource-custody",
+      "sanitization",
+      "destruction-evidence"
+    ],
+    "hint": "Retention expiry makes the copy eligible for disposition; identify who must authorize the action before custody changes."
+  },
+  "takeaway": "Lifecycle rules become operational controls per copy. Holds, replicas, custody, sanitation, and disposition evidence remain scoped to the identified copy rather than inheriting another copy’s result.",
+  "assumptions": [
+    "The hold’s scope explicitly includes the named backup and does not name the original or export.",
+    "The owner has authority to approve disposition of unheld copies.",
+    "The case does not prescribe a sanitation method without media and reuse facts."
+  ],
+  "sourceRefIds": [
+    "official-d2-23-31",
+    "official-d2-32-36",
+    "d2-o05-nist-sanitization-r2",
+    "outline-d7-o05",
+    "official-d7-40-41"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-asset-data-lifecycle--copy-disposition",
+      "disposition": "implemented",
+      "rationale": "The ledger keeps three copies concurrent, applies the lifecycle-to-resource-protection relationship to each scope, and requires copy-specific operational evidence."
+    }
+  ]
+}

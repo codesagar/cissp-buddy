@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o02-monitoring-detection-triage",
+  "treatmentIds": [
+    "fresh-d7-o02-monitoring-detection-triage-branched-triage-decision-with-feedback"
+  ],
+  "title": "Operate monitoring, detection, and alert triage",
+  "question": "When should a signal be escalated, suppressed, or used to tune detection?",
+  "scenario": "UEBA flags an administrator who authenticates from two regions within ten minutes. A VPN gateway shows a corporate egress address, and a change ticket shows an approved maintenance window.",
+  "focalRelation": "signal --severity plus confidence plus asset/identity context--> triage corroborated consequential activity --authorized response--> escalation benign explanation with evidence --narrow time/host/source scope and expiry--> suppression unknown evidence --remains open or escalates by consequence--> investigation known outcome --updates threshold with missed-event review--> detection tuning",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "UEBA signal",
+      "detail": "Two-region administrator anomaly; a model score is a prioritization input, not the disposition.",
+      "conceptIds": [
+        "ueba",
+        "detection-use-case"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "VPN session",
+      "detail": "Corporate egress session tying network path, user, and source time to the activity.",
+      "conceptIds": [
+        "siem",
+        "continuous-monitoring"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Managed device and MFA",
+      "detail": "Subject and device assurance evidence for the observed session.",
+      "conceptIds": [
+        "alert-triage",
+        "idps"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Maintenance ticket",
+      "detail": "Approved target, task, time, owner, and expiry against which activity is compared.",
+      "conceptIds": [
+        "alert-triage"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Target command history",
+      "detail": "Observed operations that confirm approved work or expose deviation and impact.",
+      "conceptIds": [
+        "threat-hunting",
+        "continuous-monitoring"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Triage outcome",
+      "detail": "Escalation or documented benign closure plus scoped, expiring tuning and false-negative review.",
+      "conceptIds": [
+        "false-positive",
+        "false-negative",
+        "threshold-tuning"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n6",
+      "label": "creates triage obligation",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "adds network and time evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n6",
+      "label": "adds identity and device evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "defines approved scope and window",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "confirms or contradicts approved activity",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "UEBA flags an administrator who authenticates from two regions within ten minutes. A VPN gateway shows a corporate egress address, and a change ticket shows an approved maintenance window.",
+      "activeNodeIds": [
+        "n1",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "anomaly detected",
+        "n6": "open"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Severity and confidence are different dimensions; a low-confidence signal on a critical asset may still deserve review.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3
+      ],
+      "statuses": {
+        "n2": "corporate VPN",
+        "n3": "managed + MFA",
+        "n4": "approved maintenance"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A high alert count proves monitoring is effective. Volume can reflect noisy rules, duplicate sources, or poor triage; effectiveness requires meaningful coverage, timely decisions, and known outcomes.",
+      "activeNodeIds": [
+        "n1",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n6": "score alone cannot close or escalate"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Do not close solely on the anomaly or escalate solely on the model score. Correlate VPN session identity, device, ticket, MFA, target systems, and command history. If the evidence matches the approved work, document the benign cause and tune the model or exception with an expiry; if it does not, escalate and protect the account under incident procedures.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "n5": "commands match or deviate",
+        "n6": "evidence-based disposition"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a detection signal, classify and prioritize it, select corroborating evidence, escalate or close it, and improve the use case without hiding meaningful risk. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n1",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n6": "scoped expiry/tuning or incident escalation recorded"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise.",
+          "activeNodeIds": [
+            "n1",
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            3
+          ],
+          "statuses": {
+            "n1": "service-account failures noisy",
+            "n4": "maintenance context known"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Scope the exception to the approved host, window, and source; retain counts and an expiry; add a separate alert for deviation from the maintenance pattern. A broad suppression can hide credential abuse and removes the evidence needed to reassess the rule.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "n6": "global suppression rejected"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n1",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n6": "host/window/source exception expires; deviation alert retained"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Noisy failed-login alert",
+          "detail": "Repeated service-account failures occur during overnight maintenance.",
+          "conceptIds": [
+            "ueba",
+            "detection-use-case"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Service-account identity",
+          "detail": "The account remains security relevant even when maintenance explains some failures.",
+          "conceptIds": [
+            "siem",
+            "continuous-monitoring"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Host and source context",
+          "detail": "The approved maintenance pattern is limited to named hosts and sources.",
+          "conceptIds": [
+            "alert-triage",
+            "idps"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Approved maintenance window",
+          "detail": "The ticket defines the allowed time, target, source, and owner.",
+          "conceptIds": [
+            "alert-triage"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Deviation evidence",
+          "detail": "Counts and activity outside the pattern expose credential abuse or failed automation.",
+          "conceptIds": [
+            "threat-hunting",
+            "continuous-monitoring"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Scoped expiring exception",
+          "detail": "Only the matching pattern is suppressed; deviations remain alerting and evidence is retained.",
+          "conceptIds": [
+            "false-positive",
+            "false-negative",
+            "threshold-tuning"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n6",
+          "label": "opens tuning review",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "adds identity risk",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n6",
+          "label": "adds host and source constraints",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "bounds the exception in time",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "preserves a deviation alert",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o02-monitoring-detection-triage-prediction",
+    "prompt": "When should a signal be escalated, suppressed, or used to tune detection?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A high alert count proves monitoring is effective.",
+        "correct": false,
+        "feedback": "Incorrect: Volume can reflect noisy rules, duplicate sources, or poor triage; effectiveness requires meaningful coverage, timely decisions, and known outcomes.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Escalate the two-region login as confirmed compromise without checking the VPN or change window.",
+        "correct": false,
+        "feedback": "Incorrect: the alert is a triage lead. Correlate the corporate egress path, approved maintenance, actor, device, actions, and corroborating signals before disposition.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "relation",
+        "label": "Do not close solely on the anomaly or escalate solely on the model score",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Volume can reflect noisy rules, duplicate sources, or poor triage; effectiveness requires meaningful coverage, timely decisions, and known outcomes.",
+        "repairStateId": "failure-exposed"
+      }
+    ],
+    "conceptIds": [
+      "ueba",
+      "alert-triage"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o02-monitoring-detection-triage-transfer",
+    "prompt": "An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Scope the exception to the approved host, window, and source",
+        "correct": true,
+        "feedback": "Correct. Scope the exception to the approved host, window, and source; retain counts and an expiry; add a separate alert for deviation from the maintenance pattern. A broad suppression can hide credential abuse and removes the evidence needed to reassess the rule.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Do not close solely on the anomaly or escalate solely on the model score. Repair target: Decision recomputed — Scope the exception to the approved host, window, and source; retain counts and an expiry; add a separate alert for deviation from the maintenance pattern. A broad suppression can hide credential abuse and removes the evidence needed to reassess the rule.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Do not close solely on the anomaly or escalate solely on the model score. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "detection-use-case"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o02-monitoring-detection-triage-retry-v2",
+    "prompt": "A behavior model assigns a high anomaly score to a service account, but asset role, maintenance window, and command details are missing. What should triage do?",
+    "options": [
+      {
+        "id": "auto-isolate",
+        "label": "Automatically isolate every asset with a high model score",
+        "correct": false,
+        "feedback": "A score without context can create unsafe false positives; automation needs bounded confidence and rollback conditions.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "enrich-triage",
+        "label": "Add asset, identity, change, and command context before deciding the alert",
+        "correct": true,
+        "feedback": "Correct. Context turns an anomaly into a reviewable detection decision.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "ignore-service",
+        "label": "Suppress the alert because service accounts normally behave differently from users",
+        "correct": false,
+        "feedback": "Service identities can be compromised; distinct behavior calls for tuned context, not blanket suppression.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "ueba",
+      "alert-triage",
+      "continuous-monitoring"
+    ],
+    "hint": "A score ranks attention; it does not supply the absent business and event context."
+  },
+  "takeaway": "Do not close solely on the anomaly or escalate solely on the model score.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o02-monitoring",
+    "official-d7-15-30-monitoring",
+    "sybex-d7-834-850",
+    "sybex-d7-841-850"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o02-monitoring-detection-triage-branched-triage-decision-with-feedback",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable decision states: UEBA signal creates triage obligation Triage outcome; VPN session adds network and time evidence Triage outcome. The model keeps UEBA signal, VPN session, Managed device and MFA, Maintenance ticket, Target command history, Triage outcome distinct. Its changed case is “An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Severity and confidence are separate dimensions, so even a low-confidence signal on a critical asset may require review. Close, escalate, or tune only after corroboration, and bound any exception by source, host, time, owner, and expiry.",
+    "visualReasoningGain": "A branched decision view can compare confidence, severity, corroboration, escalation, closure, and bounded tuning; the initial signal/outcome pair does not."
+  },
+  "openingFacts": [
+    {
+      "label": "UEBA signal",
+      "value": "Two-region administrator anomaly; a model score is a prioritization input, not the disposition."
+    },
+    {
+      "label": "VPN session",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Managed device and MFA",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Maintenance ticket",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Target command history",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Triage outcome",
+      "value": "Escalation or documented benign closure plus scoped, expiring tuning and false-negative review."
+    }
+  ]
+}

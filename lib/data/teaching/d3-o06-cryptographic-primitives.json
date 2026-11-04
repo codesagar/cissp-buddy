@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o06-cryptographic-primitives",
+  "treatmentIds": [
+    "fresh-d3-o06-cryptographic-primitives-crypto-claims-small-multiples"
+  ],
+  "title": "crypto claims small multiples",
+  "question": "What may a recipient infer from each artifact, and which key, validation, endpoint, or protocol dependency limits that inference?",
+  "scenario": "Signed release archive: A company wants customers to detect altered release packages and verify the approving publisher.",
+  "focalRelation": "Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "Shared secret and approved encryption",
+      "label": "Shared Secret And Approved Encryption",
+      "detail": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state.",
+      "conceptIds": [
+        "symmetric-cryptography",
+        "confidentiality"
+      ]
+    },
+    {
+      "id": "Protected payload",
+      "label": "Protected Payload",
+      "detail": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+      "conceptIds": [
+        "confidentiality"
+      ]
+    },
+    {
+      "id": "Payload",
+      "label": "Payload",
+      "detail": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+      "conceptIds": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "Hash value",
+      "label": "Hash Value",
+      "detail": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+      "conceptIds": [
+        "hashing",
+        "integrity"
+      ]
+    },
+    {
+      "id": "Protected signer authority",
+      "label": "Protected Signer Authority",
+      "detail": "The publisher protects the signing key and restricts who may authorize a release signature.",
+      "conceptIds": [
+        "digital-signature",
+        "authenticity"
+      ]
+    },
+    {
+      "id": "Signature",
+      "label": "Signature",
+      "detail": "A validated signature binds the package digest to the authorized publisher identity and signing key.",
+      "conceptIds": [
+        "digital-signature"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Shared secret and approved encryption",
+      "to": "Protected payload",
+      "label": "support confidentiality for the defined state",
+      "kind": "flow"
+    },
+    {
+      "from": "Payload",
+      "to": "Hash value",
+      "label": "produces a digest without secrecy",
+      "kind": "flow"
+    },
+    {
+      "from": "Protected signer authority",
+      "to": "Signature",
+      "label": "creates integrity and origin evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Signed release archive: A company wants customers to detect altered release packages and verify the approving publisher.",
+      "activeNodeIds": [
+        "Shared secret and approved encryption",
+        "Protected payload"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Shared secret and approved encryption": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state.",
+        "Protected payload": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Shared Secret And Approved Encryption support confidentiality for the defined state Protected Payload. Payload produces a digest without secrecy Hash Value.",
+      "activeNodeIds": [
+        "Shared secret and approved encryption",
+        "Protected payload",
+        "Payload",
+        "Hash value"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Protected payload": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+        "Shared secret and approved encryption": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state.",
+        "Payload": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+        "Hash value": "A digest detects change only when the expected value is obtained through an authenticated trust path."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Payload produces a digest without secrecy Hash Value. Protected Signer Authority creates integrity and origin evidence Signature.",
+      "activeNodeIds": [
+        "Payload",
+        "Hash value",
+        "Protected signer authority",
+        "Signature"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Signature": "A validated signature binds the package digest to the authorized publisher identity and signing key.",
+        "Payload": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+        "Hash value": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+        "Protected signer authority": "The publisher protects the signing key and restricts who may authorize a release signature."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "Two administrators share the same MAC key and later dispute which one approved a change. A MAC can show possession of the shared key and integrity, but cannot attribute the act between holders; use individual authenticated signing or another accountable approval record.",
+      "activeNodeIds": [
+        "Shared secret and approved encryption",
+        "Protected payload",
+        "Payload",
+        "Hash value",
+        "Protected signer authority",
+        "Signature"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "Signature": "A MAC can show integrity and possession of the shared key, but it cannot attribute the act to one key holder when several parties share that key.",
+        "Shared secret and approved encryption": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state.",
+        "Protected payload": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+        "Payload": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+        "Hash value": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+        "Protected signer authority": "The publisher protects the signing key and restricts who may authorize a release signature."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "shared-mac-attribution",
+      "label": "Shared MAC key cannot name an approver",
+      "changedFact": "Two administrators share the same MAC key and later dispute which one approved a change.",
+      "nodes": [
+        {
+          "id": "admin-a",
+          "label": "Administrator A",
+          "detail": "Administrator A holds the shared MAC key and can generate a valid tag.",
+          "conceptIds": [
+            "message-authentication",
+            "authenticity"
+          ]
+        },
+        {
+          "id": "admin-b",
+          "label": "Administrator B",
+          "detail": "Administrator B holds the same MAC key and can generate the same kind of valid tag.",
+          "conceptIds": [
+            "message-authentication",
+            "authenticity"
+          ]
+        },
+        {
+          "id": "shared-key",
+          "label": "Shared MAC key",
+          "detail": "One symmetric secret supports integrity and holder authentication but cannot distinguish which holder acted.",
+          "conceptIds": [
+            "message-authentication",
+            "integrity"
+          ]
+        },
+        {
+          "id": "change",
+          "label": "Release change",
+          "detail": "The disputed release content requires integrity protection and an accountable approval decision.",
+          "conceptIds": [
+            "integrity",
+            "authenticity"
+          ]
+        },
+        {
+          "id": "mac",
+          "label": "Valid MAC tag",
+          "detail": "The tag proves that some holder of the shared key authenticated unchanged content.",
+          "conceptIds": [
+            "message-authentication",
+            "integrity"
+          ]
+        },
+        {
+          "id": "approval",
+          "label": "Individual approval evidence",
+          "detail": "An individual signing key or separately authenticated approval record attributes the decision to one approver.",
+          "conceptIds": [
+            "authenticity",
+            "digital-signature"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "admin-a",
+          "to": "shared-key",
+          "label": "can use",
+          "kind": "dependency"
+        },
+        {
+          "from": "admin-b",
+          "to": "shared-key",
+          "label": "can also use",
+          "kind": "dependency"
+        },
+        {
+          "from": "shared-key",
+          "to": "mac",
+          "label": "authenticates content possession through",
+          "kind": "evidence"
+        },
+        {
+          "from": "change",
+          "to": "mac",
+          "label": "is protected for integrity by",
+          "kind": "evidence"
+        },
+        {
+          "from": "admin-a",
+          "to": "approval",
+          "label": "requires individual attribution through",
+          "kind": "evidence"
+        },
+        {
+          "from": "admin-b",
+          "to": "approval",
+          "label": "requires distinct individual attribution through",
+          "kind": "evidence"
+        }
+      ],
+      "states": [
+        {
+          "id": "mac-facts",
+          "title": "Both holders can make the same evidence",
+          "caption": "Administrators A and B share one MAC key, so either can produce a valid tag for the release change.",
+          "activeNodeIds": [
+            "admin-a",
+            "admin-b",
+            "shared-key",
+            "change",
+            "mac"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "statuses": {
+            "admin-a": "Administrator A can generate a valid tag.",
+            "admin-b": "Administrator B can generate an indistinguishable valid tag.",
+            "shared-key": "The secret is shared by both disputed actors.",
+            "change": "The release content needs both integrity and accountable approval.",
+            "mac": "A valid tag identifies a key holder class, not one holder."
+          }
+        },
+        {
+          "id": "mac-result",
+          "title": "Use evidence that supports attribution",
+          "caption": "Keep the MAC claim bounded to integrity and shared-key possession; use individual authenticated signing or another accountable approval record to identify the approver.",
+          "activeNodeIds": [
+            "admin-a",
+            "admin-b",
+            "mac",
+            "approval"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "admin-a": "Administrator A receives an individually attributable approval path.",
+            "admin-b": "Administrator B receives a distinct attributable approval path.",
+            "mac": "The shared-key MAC remains valid integrity evidence without individual attribution.",
+            "approval": "The approval record can distinguish which authorized person approved the release."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o06-cryptographic-primitives-prediction-v1",
+    "prompt": "What may a recipient infer from each artifact, and which key, validation, endpoint, or protocol dependency limits that inference?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Match the required property to the primitive and key relationship.",
+        "correct": true,
+        "feedback": "A hash does not hide content or identify an origin; encryption does not prove authorship; a valid signature does not prove safe content.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Use a shared MAC as proof that one named employee approved the record.",
+        "correct": false,
+        "feedback": "Any holder of the shared key can generate the MAC, so it cannot distinguish one holder from another.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Encryption proves who created a protected file.",
+        "correct": false,
+        "feedback": "Confidentiality does not by itself establish origin, signer identity, or individual accountability.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "digital-signature",
+      "confidentiality",
+      "integrity"
+    ],
+    "hint": "Ask what the artifact proves: change detection, shared-key possession, confidentiality, or individual origin."
+  },
+  "transfer": {
+    "id": "d3-o06-cryptographic-primitives-transfer-v1",
+    "prompt": "Two administrators share the same MAC key and later dispute which one approved a change.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Use one shared MAC key for all approvers and treat any valid tag as proof of the individual approver.",
+        "correct": false,
+        "feedback": "Changed fact: Two administrators share the same MAC key and later dispute which one approved a change. Why this answer fails: “Use one shared MAC key for all approvers and treat any valid tag as proof of the individual approver.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property. Repair target: Both holders can make the same evidence — Administrators A and B share one MAC key, so either can produce a valid tag for the release change.",
+        "repairStateId": "mac-facts"
+      },
+      {
+        "id": "recompute",
+        "label": "Use individual authenticated signing or another approval record that supports attribution",
+        "correct": true,
+        "feedback": "A MAC can show possession of the shared key and integrity, but cannot attribute the act between holders; use individual authenticated signing or another accountable approval record.",
+        "repairStateId": "mac-result"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Use a shared checksum stored beside the record and treat a match as attributable approval evidence.",
+        "correct": false,
+        "feedback": "Changed fact: Two administrators share the same MAC key and later dispute which one approved a change. Why this answer fails: “Use a shared checksum stored beside the record and treat a match as attributable approval evidence.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property. Repair target: Both holders can make the same evidence — Administrators A and B share one MAC key, so either can produce a valid tag for the release change.",
+        "repairStateId": "mac-facts"
+      }
+    ],
+    "conceptIds": [
+      "message-authentication",
+      "integrity",
+      "authenticity"
+    ],
+    "hint": "When two people share a MAC key, either can create the same valid tag."
+  },
+  "retry": {
+    "id": "d3-o06-cryptographic-primitives-retry-v1",
+    "prompt": "A team sends a hash beside a downloaded installer over the same unauthenticated channel. What is missing?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Verify the installer through an authenticated signature or trusted channel",
+        "correct": true,
+        "feedback": "Correct. An attacker can replace both; use an authenticated trust or signature process and validate it before relying on the integrity value.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Encrypting a file proves who created it",
+        "correct": false,
+        "feedback": "Encryption primarily addresses confidentiality; origin evidence requires an appropriate authenticated or signature process and protected keys.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Use a shared MAC as proof that one named employee approved the record",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. An attacker can replace both; use an authenticated trust or signature process and validate it before relying on the integrity value.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "hashing",
+      "digital-signature",
+      "authenticity"
+    ],
+    "hint": "Use individually attributable evidence when the decision must name one approver."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o06-primitives-outline",
+    "d3-o06-outline",
+    "d3-o06-primitives-textbook",
+    "d3-o06-primitives-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o06-cryptographic-primitives-crypto-claims-small-multiples",
+      "disposition": "equivalent",
+      "rationale": "The comparison distinguishes shared-key encryption, hashes, signatures, signer authority, payload protection, and the inferences each artifact supports; the changed case shows why a shared-key MAC lacks individual attribution. Asymmetric signing is exercised through its key relationship, while elliptic-curve selection remains canonical reference content rather than a separately assessed property."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Encryption, hashes, signatures, and MACs support different claims under different key relationships. A shared MAC can show that a key holder produced a tag but cannot identify which holder approved the change.",
+    "visualReasoningGain": "The small multiples and shared-key counterexample materially add claim comparison and attribution reasoning."
+  }
+}

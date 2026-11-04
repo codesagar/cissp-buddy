@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o12-security-awareness",
+  "treatmentIds": [
+    "fresh-d1-o12-security-awareness-behavior-measurement-lab"
+  ],
+  "title": "behavior measurement lab",
+  "question": "Did the intervention change the intended behavior, or did the population, reporting path, exposure, or measurement method change?",
+  "scenario": "Invoice fraud reports: Finance receives targeted payment-change emails and reports them inconsistently.",
+  "focalRelation": "Risk and audience select awareness, education, practiced training, or local reinforcement; observed behavior requires a defined population and process; incidents, friction, and change feed the next intervention.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "defined-risk-and-audience",
+      "label": "Defined Risk And Audience",
+      "detail": "Finance staff who receive payment-change requests are the defined audience, and fraudulent invoice redirection is the target risk.",
+      "conceptIds": [
+        "security-awareness",
+        "role-based-training"
+      ]
+    },
+    {
+      "id": "target-behavior",
+      "label": "Target Behavior",
+      "detail": "The intended behavior is to verify payment changes through an independent channel and report suspicious messages promptly.",
+      "conceptIds": [
+        "program-effectiveness",
+        "behavioral-metrics"
+      ]
+    },
+    {
+      "id": "intervention-choice",
+      "label": "Intervention Choice",
+      "detail": "The program chooses awareness, role training, guided practice, champion support, or process redesign from the behavior and audience needs.",
+      "conceptIds": [
+        "security-training",
+        "security-education"
+      ]
+    },
+    {
+      "id": "guided-practice-and-reinforcement",
+      "label": "Guided Practice And Reinforcement",
+      "detail": "Finance and security owners review examples for accuracy and role fit, then staff rehearse verification and reporting with timely reinforcement.",
+      "conceptIds": [
+        "phishing-resistance",
+        "security-champions",
+        "content-review"
+      ]
+    },
+    {
+      "id": "practice-and-real-work",
+      "label": "Practice And Real Work",
+      "detail": "Exercises and actual payment-change requests provide separate observations of the target behavior.",
+      "conceptIds": [
+        "program-effectiveness",
+        "behavioral-metrics"
+      ]
+    },
+    {
+      "id": "behavioral-evidence",
+      "label": "Behavioral Evidence",
+      "detail": "Reporting rates, verification behavior, prevented loss, exposure opportunity, and process friction support the effectiveness judgment.",
+      "conceptIds": [
+        "behavioral-metrics"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "defined-risk-and-audience",
+      "to": "target-behavior",
+      "label": "determines",
+      "kind": "dependency"
+    },
+    {
+      "from": "target-behavior",
+      "to": "intervention-choice",
+      "label": "selects awareness, education, training, champion support, or process change in",
+      "kind": "flow"
+    },
+    {
+      "from": "intervention-choice",
+      "to": "guided-practice-and-reinforcement",
+      "label": "enables",
+      "kind": "flow"
+    },
+    {
+      "from": "guided-practice-and-reinforcement",
+      "to": "practice-and-real-work",
+      "label": "changes the behavior observed in exercises and real requests through",
+      "kind": "flow"
+    },
+    {
+      "from": "practice-and-real-work",
+      "to": "behavioral-evidence",
+      "label": "produces",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Invoice fraud reports: Finance receives targeted payment-change emails and reports them inconsistently.",
+      "activeNodeIds": [
+        "defined-risk-and-audience",
+        "target-behavior"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "defined-risk-and-audience": "Finance staff who receive payment-change requests are the defined audience, and fraudulent invoice redirection is the target risk.",
+        "target-behavior": "The defined workforce risk and intended audience determine the observable behavior the program must change."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Defined Risk And Audience determines Target Behavior. Target Behavior selects awareness, education, training, champion support, or process change in Intervention Choice.",
+      "activeNodeIds": [
+        "defined-risk-and-audience",
+        "target-behavior",
+        "intervention-choice"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "target-behavior": "The intended behavior is to verify payment changes through an independent channel and report suspicious messages promptly.",
+        "defined-risk-and-audience": "Finance staff who receive payment-change requests are the defined audience, and fraudulent invoice redirection is the target risk.",
+        "intervention-choice": "The program chooses awareness, role training, guided practice, champion support, or process redesign from the behavior and audience needs."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Intervention Choice enables Guided Practice And Reinforcement. Practice And Real Work produces Behavioral Evidence.",
+      "activeNodeIds": [
+        "intervention-choice",
+        "guided-practice-and-reinforcement",
+        "practice-and-real-work",
+        "behavioral-evidence"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        4,
+        3
+      ],
+      "statuses": {
+        "behavioral-evidence": "Reporting rates, verification behavior, prevented loss, exposure opportunity, and process friction support the effectiveness judgment.",
+        "intervention-choice": "The program chooses awareness, role training, guided practice, champion support, or process redesign from the behavior and audience needs.",
+        "guided-practice-and-reinforcement": "Finance and security owners review examples for accuracy and role fit, then staff rehearse verification and reporting with timely reinforcement.",
+        "practice-and-real-work": "Exercises and actual payment-change requests provide separate observations of the target behavior."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "Course completion is flat, verified reporting calls improve, and confirmed fraud losses fall after a reporting exercise. Treat the behavior and outcome signals as more relevant than completion while checking population, exposure, process changes, and confounds before claiming causation.",
+      "activeNodeIds": [
+        "defined-risk-and-audience",
+        "target-behavior",
+        "intervention-choice",
+        "guided-practice-and-reinforcement",
+        "practice-and-real-work",
+        "behavioral-evidence"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        4,
+        3
+      ],
+      "statuses": {
+        "behavioral-evidence": "Reporting rates, verification behavior, prevented loss, exposure opportunity, and process friction support the effectiveness judgment.",
+        "defined-risk-and-audience": "Finance staff who receive payment-change requests are the defined audience, and fraudulent invoice redirection is the target risk.",
+        "target-behavior": "The intended behavior is to verify payment changes through an independent channel and report suspicious messages promptly.",
+        "intervention-choice": "The program chooses awareness, role training, guided practice, champion support, or process redesign from the behavior and audience needs.",
+        "guided-practice-and-reinforcement": "Finance and security owners review examples for accuracy and role fit, then staff rehearse verification and reporting with timely reinforcement.",
+        "practice-and-real-work": "Exercises and actual payment-change requests provide separate observations of the target behavior."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Exposure did not increase. Observed reporting behavior and outcome changed. Other concurrent causes remain possible.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "Course completion is flat, verified reporting calls improve, and confirmed fraud losses fall after a reporting exercise.",
+          "activeNodeIds": [
+            "intervention-choice",
+            "guided-practice-and-reinforcement",
+            "practice-and-real-work",
+            "behavioral-evidence"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "behavioral-evidence": "Exposure did not increase. Observed reporting behavior and outcome changed. Other concurrent causes remain possible.",
+            "intervention-choice": "The program chooses awareness, role training, guided practice, champion support, or process redesign from the behavior and audience needs.",
+            "guided-practice-and-reinforcement": "Finance and security owners review examples for accuracy and role fit, then staff rehearse verification and reporting with timely reinforcement.",
+            "practice-and-real-work": "Exercises and actual payment-change requests provide separate observations of the target behavior."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Treat the behavior and outcome signals as more relevant than completion while checking population, exposure, process changes, and confounds before claiming causation.",
+          "activeNodeIds": [
+            "intervention-choice",
+            "guided-practice-and-reinforcement",
+            "practice-and-real-work",
+            "behavioral-evidence"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            4,
+            3
+          ],
+          "statuses": {
+            "behavioral-evidence": "Reporting rates, verification behavior, prevented loss, exposure opportunity, and process friction support the effectiveness judgment.",
+            "intervention-choice": "The program chooses awareness, role training, guided practice, champion support, or process redesign from the behavior and audience needs.",
+            "guided-practice-and-reinforcement": "Finance and security owners review examples for accuracy and role fit, then staff rehearse verification and reporting with timely reinforcement.",
+            "practice-and-real-work": "Exercises and actual payment-change requests provide separate observations of the target behavior."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o12-security-awareness-prediction-v1",
+    "prompt": "Did the intervention change the intended behavior, or did the population, reporting path, exposure, or measurement method change?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Use stable-population behavior measures and check confounds before claiming effect.",
+        "correct": true,
+        "feedback": "Completion proves exposure to material; a falling report count can reflect a removed button or fewer opportunities rather than safer behavior.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Use completion rate as the outcome because it is the easiest stable percentage to report.",
+        "correct": false,
+        "feedback": "Completion measures exposure to training, not the target behavior or its operational consequence.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Annual course completion proves safer behavior.",
+        "correct": false,
+        "feedback": "Completion measures exposure; behavior needs a defined population, opportunity, process, result, and confound check.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "security-awareness",
+      "security-education",
+      "security-training"
+    ],
+    "hint": "Completion is an activity measure; behavior and incident outcomes require separate evidence."
+  },
+  "transfer": {
+    "id": "d1-o12-security-awareness-transfer-v1",
+    "prompt": "Course completion is flat, verified reporting calls improve, and confirmed fraud losses fall after a reporting exercise.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Use completion rate as the outcome and ignore reporting behavior, exposure opportunity, and incident consequence.",
+        "correct": false,
+        "feedback": "Changed fact: Exposure did not increase. Observed reporting behavior and outcome changed. Other concurrent causes remain possible. Why this answer fails: “Use completion rate as the outcome and ignore reporting behavior, exposure opportunity, and incident consequence.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Risk and audience select awareness, education, practiced training, or local reinforcement; observed behavior requires a defined population and process; incidents, friction, and change feed the next intervention. Repair target: Control and evidence consequence — Intervention Choice enables Guided Practice And Reinforcement. Practice And Real Work produces Behavioral Evidence.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Treat annual course completion as proof of safer behavior without checking observed actions or comparable exposure.",
+        "correct": false,
+        "feedback": "Changed fact: Exposure did not increase. Observed reporting behavior and outcome changed. Other concurrent causes remain possible. Why this answer fails: “Treat annual course completion as proof of safer behavior without checking observed actions or comparable exposure.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Risk and audience select awareness, education, practiced training, or local reinforcement; observed behavior requires a defined population and process; incidents, friction, and change feed the next intervention. Repair target: Changed fact, recomputed result — Course completion is flat, verified reporting calls improve, and confirmed fraud losses fall after a reporting exercise. Treat the behavior and outcome signals as more relevant than completion while checking population, exposure, process changes, and confounds before claiming causation.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Treat the behavior and outcome signals as more relevant than completion while checking population, exposure",
+        "correct": true,
+        "feedback": "Treat the behavior and outcome signals as more relevant than completion while checking population, exposure, process changes, and confounds before claiming causation.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "behavioral-metrics",
+      "program-effectiveness",
+      "security-awareness"
+    ],
+    "hint": "Check population, exposure, process changes, and confounders before attributing improvement."
+  },
+  "retry": {
+    "id": "d1-o12-security-awareness-retry-v1",
+    "prompt": "Employees complete phishing modules, but real suspicious messages still go unreported. What should the program owner examine next?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A yearly completion rate proves the program is effective",
+        "correct": false,
+        "feedback": "Completion shows exposure; effectiveness needs evidence of the intended behavior and risk reduction in context.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Use completion rate as the outcome because it is the easiest stable percentage to report",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Completion is not the desired outcome; assess reporting behavior, friction, reinforcement, and the reporting process.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "evidence-based",
+        "label": "Measure reporting behavior, remove friction, and reinforce the desired response",
+        "correct": true,
+        "feedback": "Correct. Completion is not the desired outcome; assess reporting behavior, friction, reinforcement, and the reporting process.",
+        "repairStateId": "consequence"
+      }
+    ],
+    "conceptIds": [
+      "program-effectiveness",
+      "phishing-resistance",
+      "behavioral-metrics"
+    ],
+    "hint": "Prefer the measure tied to observed work behavior over the easiest training count."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Risk and audience select awareness, education, practiced training, or local reinforcement; observed behavior requires a defined population and process; incidents, friction, and change feed the next intervention.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o12-outline",
+    "d1-o12-textbook",
+    "d1-o12-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o12-security-awareness-behavior-measurement-lab",
+      "disposition": "equivalent",
+      "rationale": "The decision states preserve the reviewed links among audience, target behavior, intervention, exposure, measurement, and confounds. The changed case recomputes the inference, but the loop is authored rather than directly manipulable."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Course completion measures exposure to training, not safer behavior. Claims of effect require the target behavior, comparable population and exposure, operational outcomes, and plausible confounds.",
+    "visualReasoningGain": "A before-and-after measurement table could make denominators and confounds inspectable; the present chain mostly restates the prose."
+  }
+}

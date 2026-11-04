@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d4-o02-components-and-endpoints",
+  "treatmentIds": [
+    "fresh-d4-o02-components-and-endpoints-admission-to-session-assurance"
+  ],
+  "title": "admission to session assurance",
+  "question": "What does a successful admission decision prove at that moment, and what protection must continue afterward?",
+  "scenario": "Contractor laptop admission: A contractor needs temporary access from a personal laptop to a restricted engineering segment.",
+  "focalRelation": "Physical or virtual NAC evaluates scoped identity/posture/freshness and routes admit, remediate, quarantine, or deny; endpoint controls, telemetry, isolation, updates, support, component hardening, media, and redundancy continue after admission.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "Identity and posture evidence",
+      "label": "Identity And Posture Evidence",
+      "detail": "The contractor presents a named identity, device ownership, support state, patch, encryption, and monitoring evidence.",
+      "conceptIds": [
+        "network-access-control",
+        "endpoint-security"
+      ]
+    },
+    {
+      "id": "NAC decision",
+      "label": "NAC Decision",
+      "detail": "Network admission evaluates current identity and posture and chooses allow, restricted access, remediation, or quarantine.",
+      "conceptIds": [
+        "network-access-control"
+      ]
+    },
+    {
+      "id": "Assigned segment",
+      "label": "Assigned Segment",
+      "detail": "The selected segment limits reachable services and actions for the temporary contractor session.",
+      "conceptIds": [
+        "network-access-control"
+      ]
+    },
+    {
+      "id": "Admitted endpoint",
+      "label": "Admitted Endpoint",
+      "detail": "Admission creates a bounded network state; it does not make the personal laptop permanently trustworthy.",
+      "conceptIds": [
+        "endpoint-security"
+      ]
+    },
+    {
+      "id": "Host protection and monitoring",
+      "label": "Host Protection And Monitoring",
+      "detail": "Current patching, malware protection, encryption, configuration, logging, and posture monitoring remain required after admission.",
+      "conceptIds": [
+        "endpoint-security",
+        "support-lifecycle"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Identity and posture evidence",
+      "to": "NAC decision",
+      "label": "inform allow, restrict or quarantine",
+      "kind": "flow"
+    },
+    {
+      "from": "NAC decision",
+      "to": "Assigned segment",
+      "label": "limits initial connectivity",
+      "kind": "dependency"
+    },
+    {
+      "from": "Assigned segment",
+      "to": "Admitted endpoint",
+      "label": "creates the bounded network state for",
+      "kind": "flow"
+    },
+    {
+      "from": "Admitted endpoint",
+      "to": "Host protection and monitoring",
+      "label": "still requires ongoing local controls",
+      "kind": "dependency"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Contractor laptop admission: A contractor needs temporary access from a personal laptop to a restricted engineering segment.",
+      "activeNodeIds": [
+        "Identity and posture evidence",
+        "NAC decision"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Identity and posture evidence": "The contractor presents a named identity, device ownership, support state, patch, encryption, and monitoring evidence.",
+        "NAC decision": "Network admission evaluates current identity and posture and chooses allow, restricted access, remediation, or quarantine."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Identity And Posture Evidence inform allow, restrict or quarantine NAC Decision. NAC Decision limits initial connectivity Assigned Segment.",
+      "activeNodeIds": [
+        "Identity and posture evidence",
+        "NAC decision",
+        "Assigned segment"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "NAC decision": "Network admission evaluates current identity and posture and chooses allow, restricted access, remediation, or quarantine.",
+        "Identity and posture evidence": "The contractor presents a named identity, device ownership, support state, patch, encryption, and monitoring evidence.",
+        "Assigned segment": "The selected segment limits reachable services and actions for the temporary contractor session."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "NAC Decision limits initial connectivity Assigned Segment. Admitted Endpoint still requires ongoing local controls Host Protection And Monitoring.",
+      "activeNodeIds": [
+        "NAC decision",
+        "Assigned segment",
+        "Admitted endpoint",
+        "Host protection and monitoring"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        3,
+        2
+      ],
+      "statuses": {
+        "Host protection and monitoring": "Current patching, malware protection, encryption, configuration, logging, and posture monitoring remain required after admission.",
+        "NAC decision": "Network admission evaluates current identity and posture and chooses allow, restricted access, remediation, or quarantine.",
+        "Assigned segment": "The selected segment limits reachable services and actions for the temporary contractor session.",
+        "Admitted endpoint": "Admission creates a bounded network state; it does not make the personal laptop permanently trustworthy."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The contractor laptop passes admission posture once, then disables host monitoring while its temporary session remains connected to the engineering segment. The visible NAC and host-control states must respond when posture changes after admission.",
+      "activeNodeIds": [
+        "Identity and posture evidence",
+        "NAC decision",
+        "Assigned segment",
+        "Admitted endpoint",
+        "Host protection and monitoring"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        3,
+        2
+      ],
+      "statuses": {
+        "Identity and posture evidence": "Monitoring-disabled posture replaces the earlier compliant observation.",
+        "NAC decision": "The changed posture triggers reevaluation, restriction, or quarantine.",
+        "Assigned segment": "Engineering access no longer remains justified at its prior scope.",
+        "Admitted endpoint": "Admission creates a bounded network state; it does not make the personal laptop permanently trustworthy.",
+        "Host protection and monitoring": "Current patching, malware protection, encryption, configuration, logging, and posture monitoring remain required after admission."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The contractor laptop passes admission posture once, then disables host monitoring while its temporary session remains connected to the engineering segment.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The contractor laptop passes admission posture once, then disables host monitoring while its temporary session remains connected to the engineering segment.",
+          "activeNodeIds": [
+            "NAC decision",
+            "Assigned segment",
+            "Admitted endpoint",
+            "Host protection and monitoring"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "NAC decision": "The changed posture triggers reevaluation, restriction, or quarantine.",
+            "Assigned segment": "Engineering access no longer remains justified at its prior scope.",
+            "Admitted endpoint": "Admission creates a bounded network state; it does not make the personal laptop permanently trustworthy.",
+            "Host protection and monitoring": "Current patching, malware protection, encryption, configuration, logging, and posture monitoring remain required after admission."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "The visible NAC and host-control states must respond when posture changes after admission.",
+          "activeNodeIds": [
+            "NAC decision",
+            "Assigned segment",
+            "Admitted endpoint",
+            "Host protection and monitoring"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            3,
+            2
+          ],
+          "statuses": {
+            "NAC decision": "The changed posture triggers reevaluation, restriction, or quarantine.",
+            "Assigned segment": "Engineering access no longer remains justified at its prior scope.",
+            "Admitted endpoint": "Admission creates a bounded network state; it does not make the personal laptop permanently trustworthy.",
+            "Host protection and monitoring": "Current patching, malware protection, encryption, configuration, logging, and posture monitoring remain required after admission."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d4-o02-components-and-endpoints-prediction-v2",
+    "prompt": "What does a successful admission decision prove at that moment, and what protection must continue afterward?",
+    "options": [
+      {
+        "id": "login-is-continuous",
+        "label": "Keep access for the full session because login and posture passed at admission.",
+        "correct": false,
+        "feedback": "A successful admission is a time-bounded gate. Later posture or session evidence can invalidate the access state and must trigger reevaluation.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Use admission as one gate, then keep endpoint and session controls operating.",
+        "correct": true,
+        "feedback": "Correct. Identity and posture support the admission decision at that moment; continuing monitoring and enforcement protect the rest of the session.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "segment-replaces-monitoring",
+        "label": "Keep access because assignment to the engineering segment replaces endpoint and session monitoring.",
+        "correct": false,
+        "feedback": "Segmentation limits reachable resources but does not prove the admitted endpoint stays healthy or that its session remains within policy.",
+        "repairStateId": "consequence"
+      }
+    ],
+    "conceptIds": [
+      "network-access-control",
+      "endpoint-security"
+    ],
+    "hint": "Admission and continuing host control are separate decisions joined by segment assignment."
+  },
+  "transfer": {
+    "id": "d4-o02-components-and-endpoints-transfer-v1",
+    "prompt": "The contractor laptop passes admission posture once, then disables host monitoring while its temporary session remains connected to the engineering segment.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Keep the session because the device passed the admission check before host monitoring was disabled.",
+        "correct": false,
+        "feedback": "Admission is a point-in-time decision; changed posture can invalidate the assigned access state.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Reevaluate posture continuously, restrict or quarantine the session, preserve evidence, and require monitoring before restored access.",
+        "correct": true,
+        "feedback": "Correct. The visible NAC and host-control states must respond when posture changes after admission.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Keep full segment access because network isolation makes ongoing endpoint posture and monitoring unnecessary.",
+        "correct": false,
+        "feedback": "A restricted segment limits reach but does not replace host controls or detection on the admitted endpoint.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "network-access-control",
+      "endpoint-security"
+    ],
+    "hint": "A device that passed entry can still drift or lose posture after admission."
+  },
+  "retry": {
+    "id": "d4-o02-components-and-endpoints-retry-v1",
+    "prompt": "The contractor identity is valid, but the personal laptop’s current security posture cannot be verified. Which admission state is defensible?",
+    "options": [
+      {
+        "id": "restrict",
+        "label": "Require verified device posture and place the session in a least-privilege, expiring access path",
+        "correct": true,
+        "feedback": "Correct. Admission can preserve the business task through a bounded alternative without placing an unknown endpoint on the restricted segment.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "full-access",
+        "label": "Grant full engineering access because a valid user identity is enough for endpoint admission",
+        "correct": false,
+        "feedback": "Identity and device posture are separate admission inputs; the endpoint condition remains unknown.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "permanent-deny",
+        "label": "Permanently deny the contractor account because unknown posture proves the user is malicious",
+        "correct": false,
+        "feedback": "Missing device evidence does not prove malicious identity. It supports a restricted state until posture or an approved alternative is available.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "network-access-control",
+      "endpoint-security"
+    ],
+    "hint": "Trace identity and posture through the admission decision into the assigned segment and ongoing checks."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Physical or virtual NAC evaluates scoped identity/posture/freshness and routes admit, remediate, quarantine, or deny; endpoint controls, telemetry, isolation, updates, support, component hardening, media, and redundancy continue after admission.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "outline-d4-2",
+    "official-d4-78-84",
+    "sybex-d4-621-645",
+    "aio-d4-937-989"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d4-o02-components-and-endpoints-admission-to-session-assurance",
+      "disposition": "equivalent",
+      "rationale": "The state model preserves identity and posture evidence, NAC admission, segment assignment, continuing endpoint monitoring, quarantine, and session closure. It focuses on the admission-to-session progression rather than a separate component, media, and resilience timeline."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Admission proves that observed identity and posture met policy at one moment. The endpoint and session still need monitoring, and changed posture can require restriction or quarantine.",
+    "visualReasoningGain": "A state transition from admitted to restricted or quarantined adds temporal reasoning, but the current Predict mismatch interrupts the visual repair."
+  }
+}

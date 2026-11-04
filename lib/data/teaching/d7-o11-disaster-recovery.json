@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o11-disaster-recovery",
+  "treatmentIds": [
+    "fresh-d7-o11-disaster-recovery-cross-functional-recovery-timeline"
+  ],
+  "title": "Implement disaster recovery processes",
+  "question": "What must happen between impact assessment and an authorized return to normal, and who accepts each transition?",
+  "scenario": "A flood closes a data center and interrupts power, access, network connectivity, and staff travel.",
+  "focalRelation": "assessment --authority and impact--> declaration declaration --priority and communication--> activation restoration --dependency order--> validation validation --technical/security/business evidence--> acceptance accepted service --controlled transition--> return to normal",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Flood and safety impact",
+      "detail": "Data-center loss affecting people, power, access, network, and travel.",
+      "conceptIds": [
+        "emergency-response",
+        "damage-assessment"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "DR declaration",
+      "detail": "Authorized activation based on safety, impact, thresholds, and continuity priority.",
+      "conceptIds": [
+        "disaster-recovery-process"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Damage and dependency assessment",
+      "detail": "Evidence about facilities, identities, data, network, suppliers, staffing, and recoverable paths.",
+      "conceptIds": [
+        "damage-assessment"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Alternate processing site",
+      "detail": "Controlled site and backup capability selected for prioritized restoration.",
+      "conceptIds": [
+        "alternate-site",
+        "backup-storage"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Validated critical services",
+      "detail": "Restored services with identity, data, security, monitoring, communications, and business acceptance.",
+      "conceptIds": []
+    },
+    {
+      "id": "n6",
+      "label": "Return-to-normal change",
+      "detail": "Separate planned migration/failback with validation, rollback, residual risk, and owner.",
+      "conceptIds": [
+        "return-to-normal"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "meets safety and impact declaration criteria",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "authorizes assessment and communication",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "selects feasible alternate capability and order",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "restores prioritized services for validation",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "creates candidate for separately approved failback",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A flood closes a data center and interrupts power, access, network connectivity, and staff travel.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "site closed; staff travel affected",
+        "n2": "DR criteria evaluated"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Life safety and emergency communications precede technology restoration.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "dependencies and evidence assessed"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "The DR coordinator can make every business-priority decision. Business owners, technical leads, security, facilities, communications, legal, and executives each provide authority and acceptance for their decisions.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n2": "restoration does not override safety"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Activate the plan based on impact and safety, establish communications and a decision log, assess dependencies and available alternate processing, protect evidence and personnel, recover critical services in priority order, validate identity and data controls, and obtain business acceptance. Treat return to the original site as a separate change and risk decision.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "alternate path active",
+        "n5": "critical services under validation"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a disaster scenario, sequence the disaster-recovery process, identify the people and dependencies involved, preserve decision evidence, and coordinate recovery without treating restoration as the whole plan. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n5": "business accepted",
+        "n6": "failback treated as new change"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "The alternate site can run the application but has no current contact list for the identity, network, and key-management teams.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "The alternate site can run the application but has no current contact list for the identity, network, and key-management teams.",
+          "activeNodeIds": [
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "n4": "application available; contact list stale"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Treat contacts and dependencies as a recovery gap, activate alternates, and update and test the plan before relying on that site. Technical capacity without people and trust dependencies is not an executable DR capability.",
+          "activeNodeIds": [
+            "n3",
+            "n5",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n5": "identity/network/key teams unreachable"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "n3": "alternate contacts activated",
+            "n4": "plan updated and tested before reliance"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Alternate-site activation",
+          "detail": "The site can run the application but depends on teams outside the site.",
+          "conceptIds": [
+            "damage-assessment",
+            "disaster-recovery-process"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Recovery authority",
+          "detail": "The authority evaluates whether the dependency gap permits activation.",
+          "conceptIds": []
+        },
+        {
+          "id": "n3",
+          "label": "Missing dependency contacts",
+          "detail": "Identity, network, and key-management contact information is stale or absent.",
+          "conceptIds": [
+            "damage-assessment"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Identity, network, and key teams",
+          "detail": "Named responders and alternate contacts must be reachable through tested channels.",
+          "conceptIds": [
+            "alternate-site",
+            "recovery-team"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Validated critical application",
+          "detail": "The application is usable only after supporting services and escalation paths work.",
+          "conceptIds": []
+        },
+        {
+          "id": "n6",
+          "label": "Updated plan and contact test",
+          "detail": "The plan records owners, alternates, channels, and periodic contact validation.",
+          "conceptIds": [
+            "return-to-normal"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "triggers dependency readiness check",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "directs contact and escalation repair",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "enables supporting teams",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "allows end-to-end service validation",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "updates the plan and future test",
+          "kind": "flow"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o11-disaster-recovery-prediction",
+    "prompt": "What must happen between impact assessment and an authorized return to normal, and who accepts each transition?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "The DR coordinator can make every business-priority decision.",
+        "correct": false,
+        "feedback": "Incorrect: Business owners, technical leads, security, facilities, communications, legal, and executives each provide authority and acceptance for their decisions.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Restore the most visible application first and defer dependency checks until users report failures.",
+        "correct": false,
+        "feedback": "Incorrect: restoration follows the scenario’s assessed business priorities and declared dependencies, with authorization, communication, validation, acceptance, and return-to-normal decisions recorded.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "relation",
+        "label": "Restore declared dependencies by business priority, validate, accept, then return to normal",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Business owners, technical leads, security, facilities, communications, legal, and executives each provide authority and acceptance for their decisions.",
+        "repairStateId": "failure-exposed"
+      }
+    ],
+    "conceptIds": [
+      "return-to-normal"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o11-disaster-recovery-transfer",
+    "prompt": "The alternate site can run the application but has no current contact list for the identity, network, and key-management teams.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Treat contacts and dependencies as a recovery gap, activate alternates",
+        "correct": true,
+        "feedback": "Correct. Treat contacts and dependencies as a recovery gap, activate alternates, and update and test the plan before relying on that site. Technical capacity without people and trust dependencies is not an executable DR capability.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: The alternate site can run the application but has no current contact list for the identity, network, and key-management teams. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Activate the plan based on impact and safety, establish communications and a decision log, assess dependencies and available alternate processing, protect evidence and personnel, recover critical services in priority order, validate identity and data controls, and obtain business acceptance. Repair target: Decision recomputed — Treat contacts and dependencies as a recovery gap, activate alternates, and update and test the plan before relying on that site. Technical capacity without people and trust dependencies is not an executable DR capability.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: The alternate site can run the application but has no current contact list for the identity, network, and key-management teams. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Activate the plan based on impact and safety, establish communications and a decision log, assess dependencies and available alternate processing, protect evidence and personnel, recover critical services in priority order, validate identity and data controls, and obtain business acceptance. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "alternate-site"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o11-disaster-recovery-retry-v2",
+    "prompt": "The team proposes return to primary while replication backlog remains and customer writes continue at the alternate site. What should govern failback?",
+    "options": [
+      {
+        "id": "switch-now",
+        "label": "Switch immediately because the primary site is available again",
+        "correct": false,
+        "feedback": "Site availability does not prove data consistency, dependency readiness, or rollback safety.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "reconcile-failback",
+        "label": "Coordinate writes, reconcile data, validate rollback, then authorize failback",
+        "correct": true,
+        "feedback": "Correct. Unreconciled concurrent state can lose or overwrite accepted recovery work.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "stay-forever",
+        "label": "Keep the alternate site permanent without evaluating capacity, cost, support, or normal ownership",
+        "correct": false,
+        "feedback": "Extended alternate operation may be possible, but it needs an explicit governed decision and evidence.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "return-to-normal",
+      "alternate-site",
+      "backup-storage"
+    ],
+    "hint": "Return-to-normal is a controlled migration with data and service acceptance, not a location preference."
+  },
+  "takeaway": "Activate the plan based on impact and safety, establish communications and a decision log, assess dependencies and available alternate processing, protect evidence and personnel, recover critical services in priority order, validate identity and data controls, and obtain business acceptance.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o11",
+    "official-d7-75-81",
+    "sybex-d7-884-898",
+    "d7-o11-disaster-recovery-visual-corroboration-1",
+    "d7-o11-disaster-recovery-visual-corroboration-2"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o11-disaster-recovery-cross-functional-recovery-timeline",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable timeline states: Flood and safety impact meets safety and impact declaration criteria DR declaration; DR declaration authorizes assessment and communication Damage and dependency assessment. The model keeps Flood and safety impact, DR declaration, Damage and dependency assessment, Alternate processing site, Validated critical services, Return-to-normal change distinct. Its changed case is “The alternate site can run the application but has no current contact list for the identity, network, and key-management teams.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Life safety and emergency communication precede technology restoration. Declaration, dependency recovery, validation, business acceptance, and return to the original site require distinct authorities and recorded decisions.",
+    "visualReasoningGain": "A timeline or responsibility sequence could show safety, declaration, communications, dependency recovery, validation, acceptance, and return-to-normal; the opening pair cannot."
+  },
+  "openingFacts": [
+    {
+      "label": "Flood and safety impact",
+      "value": "Data-center loss affecting people, power, access, network, and travel."
+    },
+    {
+      "label": "DR declaration",
+      "value": "Authorized activation based on safety, impact, thresholds, and continuity priority."
+    },
+    {
+      "label": "Damage and dependency assessment",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Alternate processing site",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Validated critical services",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Return-to-normal change",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

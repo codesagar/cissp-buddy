@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o11-disaster-recovery-process-governance",
+  "treatmentIds": [
+    "fresh-d7-o11-disaster-recovery-process-governance-decision-rights-and-alternate-communications-swimlane"
+  ],
+  "title": "Govern disaster recovery activation and coordination",
+  "question": "Who may declare DR, set restoration priority, communicate, validate, and accept the recovered business service when the primary channel is unavailable?",
+  "scenario": "A regional outage affects identity, network, and application services. The operations lead wants to declare DR, while the business owner has not confirmed which customer functions must be restored first.",
+  "focalRelation": "incident authority --declares disaster--> DR coordinator business owner --sets priority and accepts service--> restoration sequence technical teams --restore and evidence--> validators communications lead --authenticated message and audience control--> stakeholders primary channel failure --preplanned alternate channel--> coordination",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Regional outage",
+      "detail": "Impact to identity, network, and applications with business priorities not yet confirmed.",
+      "conceptIds": [
+        "damage-assessment",
+        "disaster-recovery-process"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Recovery authority",
+      "detail": "Role applying declaration criteria, activating teams, controlling emergency access, and recording assumptions.",
+      "conceptIds": [
+        "dr-declaration",
+        "recovery-authority",
+        "dr-roles"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Business priority owner",
+      "detail": "Accountable leader who selects customer functions and acceptable degraded modes.",
+      "conceptIds": [
+        "dr-roles",
+        "recovery-authority"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Technical recovery teams",
+      "detail": "Identity, network, application, supplier, and security teams assessing and restoring dependencies.",
+      "conceptIds": [
+        "recovery-team",
+        "dr-training"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Out-of-band communications",
+      "detail": "Approved alternate channel used when normal collaboration or identity paths are unavailable.",
+      "conceptIds": [
+        "crisis-communications"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Decision and assumption log",
+      "detail": "Authoritative record of declaration, priority, access, uncertainty, status, lessons, and owners.",
+      "conceptIds": [
+        "dr-lessons-learned",
+        "disaster-recovery-process"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "is compared with declaration criteria",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "requests prioritized business outcome",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "activates bounded technical assessment",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n5",
+      "label": "opens approved alternate communications",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "sets restoration priority and acceptance owner",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "records authority, uncertainty, and emergency access",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "reports dependency status and recovery decisions",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A regional outage affects identity, network, and application services. The operations lead wants to declare DR, while the business owner has not confirmed which customer functions must be restored first.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "regional outage",
+        "n2": "criteria met; activation pending"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Declaration authority and activation criteria should be defined before an event.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        4
+      ],
+      "statuses": {
+        "n3": "priority decision needed",
+        "n4": "dependency assessment begins"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "The technical team can declare and prioritize DR alone. Technical evidence informs the decision, but business authority and continuity priorities determine which services and risks are accepted.",
+      "activeNodeIds": [
+        "n2",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "technical recovery cannot choose business priority"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Use the defined declaration criteria, record the uncertainty, activate the recovery authority, and obtain the business priority decision while technical teams assess dependencies. Use out-of-band communication if the normal channel is affected, restrict emergency access, and document the assumptions that will be revisited during restoration.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n5": "alternate channel active"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a disruptive event, coordinate declaration, response, personnel, communications, assessment, training, and lessons ownership without confusing technical recovery with business acceptance. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n4",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        5,
+        6
+      ],
+      "statuses": {
+        "n6": "decisions, assumptions, and owners current"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "The primary crisis bridge is unavailable, and a supplier requests privileged credentials by email to accelerate recovery.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "The primary crisis bridge is unavailable, and a supplier requests privileged credentials by email to accelerate recovery.",
+          "activeNodeIds": [
+            "n2",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n5": "primary bridge unavailable; email credential request"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Use the approved out-of-band channel, verify supplier identity and authority, issue bounded emergency access through the controlled process, and record the decision. Pressure and unavailable systems do not remove the need for authenticated communication and least privilege.",
+          "activeNodeIds": [
+            "n2",
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3
+          ],
+          "statuses": {
+            "n5": "supplier identity verified out of band",
+            "n4": "bounded access path selected"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            5
+          ],
+          "statuses": {
+            "n6": "authority, access, expiry, and decision recorded"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Unavailable crisis bridge",
+          "detail": "The normal coordination channel cannot establish trusted recovery communication.",
+          "conceptIds": [
+            "damage-assessment",
+            "disaster-recovery-process"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Recovery authority",
+          "detail": "The authorized leader opens the approved alternate channel and controls emergency access.",
+          "conceptIds": [
+            "dr-declaration",
+            "recovery-authority",
+            "dr-roles"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Business priority owner",
+          "detail": "The owner states the recovery outcome and accepts timing and risk.",
+          "conceptIds": [
+            "dr-roles",
+            "recovery-authority"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Supplier recovery team",
+          "detail": "The supplier requests privileged access to accelerate recovery.",
+          "conceptIds": [
+            "recovery-team",
+            "dr-training"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Authenticated out-of-band channel",
+          "detail": "The alternate channel verifies supplier identity and instructions.",
+          "conceptIds": [
+            "crisis-communications"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Emergency access record",
+          "detail": "The log captures authority, identity verification, scope, expiry, use, and revocation.",
+          "conceptIds": [
+            "dr-lessons-learned",
+            "disaster-recovery-process"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "triggers alternate-channel activation",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "requests prioritized outcome",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "activates bounded supplier recovery",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n5",
+          "label": "opens authenticated out-of-band communication",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "sets accepted work scope",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "records access decision and uncertainty",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "records supplier activity and dependency status",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o11-disaster-recovery-process-governance-prediction",
+    "prompt": "Who may declare DR, set restoration priority, communicate, validate, and accept the recovered business service when the primary channel is unavailable?",
+    "options": [
+      {
+        "id": "relation",
+        "label": "Use declared DR authority and obtain the business restoration priority",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Technical evidence informs the decision, but business authority and continuity priorities determine which services and risks are accepted.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "misconception",
+        "label": "The technical team can declare and prioritize DR alone.",
+        "correct": false,
+        "feedback": "Incorrect: Technical evidence informs the decision, but business authority and continuity priorities determine which services and risks are accepted.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Let the operations lead declare DR and set customer restoration order without business confirmation.",
+        "correct": false,
+        "feedback": "Incorrect: technical urgency does not confer every decision right. Use the declared authority, alternate communications, business priorities, status ownership, validation, and acceptance roles.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "dr-roles"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o11-disaster-recovery-process-governance-transfer",
+    "prompt": "The primary crisis bridge is unavailable, and a supplier requests privileged credentials by email to accelerate recovery.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: The primary crisis bridge is unavailable, and a supplier requests privileged credentials by email to accelerate recovery. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Use the defined declaration criteria, record the uncertainty, activate the recovery authority, and obtain the business priority decision while technical teams assess dependencies. Repair target: Decision recomputed — Use the approved out-of-band channel, verify supplier identity and authority, issue bounded emergency access through the controlled process, and record the decision. Pressure and unavailable systems do not remove the need for authenticated communication and least privilege.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Use the approved out-of-band channel, verify supplier identity and authority",
+        "correct": true,
+        "feedback": "Correct. Use the approved out-of-band channel, verify supplier identity and authority, issue bounded emergency access through the controlled process, and record the decision. Pressure and unavailable systems do not remove the need for authenticated communication and least privilege.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: The primary crisis bridge is unavailable, and a supplier requests privileged credentials by email to accelerate recovery. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Use the defined declaration criteria, record the uncertainty, activate the recovery authority, and obtain the business priority decision while technical teams assess dependencies. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "recovery-authority"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o11-disaster-recovery-process-governance-retry-v2",
+    "prompt": "The primary declaration officer is unreachable and the succession list has not been tested in two years. What should the recovery team do?",
+    "options": [
+      {
+        "id": "self-declare",
+        "label": "Let the most senior technician declare the disaster because action is urgent",
+        "correct": false,
+        "feedback": "Technical seniority does not automatically carry business declaration authority.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "wait-only",
+        "label": "Take no protective action until the primary officer is found, even if delay increases harm",
+        "correct": false,
+        "feedback": "The plan should permit bounded protective action and alternate authority; a missing path is a governance defect to escalate.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "invoke-succession",
+        "label": "Invoke approved alternate authority, record it, and later test the succession path",
+        "correct": true,
+        "feedback": "Correct. A predefined alternate preserves accountable declaration under degraded conditions.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "dr-declaration",
+      "recovery-authority",
+      "dr-roles"
+    ],
+    "hint": "Recovery authority needs an approved alternate path; urgency does not allow the team to invent one."
+  },
+  "takeaway": "Use the defined declaration criteria, record the uncertainty, activate the recovery authority, and obtain the business priority decision while technical teams assess dependencies.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o11-governance",
+    "official-d7-75-81-process",
+    "sybex-d7-884-889",
+    "sybex-d7-890-898",
+    "d7-o11-disaster-recovery-process-governance-visual-corroboration-1",
+    "d7-o11-disaster-recovery-process-governance-visual-corroboration-2"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o11-disaster-recovery-process-governance-decision-rights-and-alternate-communications-swimlane",
+      "disposition": "equivalent",
+      "rationale": "The decision graph preserves declaration authority, business priority ownership, technical recovery roles, out-of-band communications, credential limits, and an attributable decision/assumption log. It omits the reviewed responsibility swimlane and message-lane geometry, so the mechanism is equivalent."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Technical evidence informs disaster declaration, but defined authority and business priorities govern activation and restoration order. Alternate communications and bounded emergency access are required when the normal channel is unavailable.",
+    "visualReasoningGain": "The observed responsibility lanes let the learner compare declaration authority, business priority, technical assessment, alternate communication, and acceptance ownership."
+  }
+}

@@ -1,0 +1,585 @@
+{
+  "id": "cross-identity-trust--revocation",
+  "model": {
+    "assumptions": [
+      "The HR mover event is authoritative and approved.",
+      "The application entitlement and session can survive a directory group change.",
+      "The negative test is authorized and does not perform a prohibited business transaction."
+    ],
+    "edges": [
+      {
+        "from": "role-event",
+        "kind": "flow",
+        "label": "authorizes and triggers directory change",
+        "to": "group-config"
+      },
+      {
+        "from": "role-event",
+        "kind": "dependency",
+        "label": "requires downstream entitlement reconciliation",
+        "to": "app-entitlement"
+      },
+      {
+        "from": "role-event",
+        "kind": "dependency",
+        "label": "requires runtime revocation or re-evaluation",
+        "to": "active-session"
+      },
+      {
+        "from": "group-config",
+        "kind": "evidence",
+        "label": "supplies one configuration result",
+        "to": "verification"
+      },
+      {
+        "from": "app-entitlement",
+        "kind": "evidence",
+        "label": "supplies application-state result",
+        "to": "verification"
+      },
+      {
+        "from": "active-session",
+        "kind": "evidence",
+        "label": "supplies effective runtime result",
+        "to": "verification"
+      }
+    ],
+    "focalRelation": "The identity lifecycle event is operationalized through controlled configuration changes across every downstream entitlement and session, followed by evidence that effective access now matches desired state.",
+    "lanes": [
+      {
+        "id": "identity",
+        "label": "Lifecycle authority",
+        "rule": "The role event changes approved access but is not proof of downstream completion."
+      },
+      {
+        "id": "configuration",
+        "label": "Controlled configuration",
+        "rule": "Each configuration item must reach the approved desired state."
+      },
+      {
+        "id": "runtime",
+        "label": "Effective runtime access",
+        "rule": "Existing sessions and cached permissions require explicit treatment."
+      },
+      {
+        "id": "evidence",
+        "label": "Verification",
+        "rule": "Closure requires observed effective access, not only a successful workflow status."
+      }
+    ],
+    "nodes": [
+      {
+        "conceptIds": [
+          "joiner-mover-leaver",
+          "identity-lifecycle",
+          "role-definition"
+        ],
+        "detail": "The mover event changes the employee’s approved duties and initiates removal of finance-approver access.",
+        "id": "role-event",
+        "label": "Authoritative role change",
+        "lane": "identity"
+      },
+      {
+        "conceptIds": [
+          "deprovisioning",
+          "provisioning"
+        ],
+        "detail": "The identity platform removes the approver group and records the approved provisioning change.",
+        "id": "group-config",
+        "label": "Directory group removed",
+        "lane": "configuration"
+      },
+      {
+        "conceptIds": [
+          "access-review",
+          "privilege-creep",
+          "configuration-item"
+        ],
+        "detail": "A separately stored approval entitlement must be reconciled and removed; the directory change alone does not prove this state changed.",
+        "id": "app-entitlement",
+        "label": "Application entitlement",
+        "lane": "configuration"
+      },
+      {
+        "conceptIds": [
+          "deprovisioning",
+          "desired-state"
+        ],
+        "detail": "A previously issued session retains approval capability until revoked, expired, or re-evaluated by the application.",
+        "id": "active-session",
+        "label": "Existing session",
+        "lane": "runtime"
+      },
+      {
+        "conceptIds": [
+          "access-review",
+          "configuration-baseline",
+          "configuration-documentation"
+        ],
+        "detail": "Compare directory, application entitlement, active session, and a negative approval test against the auditor desired state.",
+        "id": "verification",
+        "label": "Effective-access verification",
+        "lane": "evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "deprovisioning",
+        "configuration-item",
+        "desired-state",
+        "access-review"
+      ],
+      "hint": "List every place that can still authorize the old action.",
+      "id": "revocation-predict-94264c0c39c4",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The directory is authoritative for intent, but the application and session can retain effective authority independently.",
+          "id": "p-yes",
+          "label": "Yes; the authoritative directory is the only state that matters",
+          "repairStateId": "partial"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The lifecycle event must become controlled changes across each downstream subject and a verified runtime outcome.",
+          "id": "p-no",
+          "label": "No; reconcile the app entitlement and session, then verify effective access",
+          "repairStateId": "reconcile"
+        },
+        {
+          "correct": false,
+          "feedback": "Unmeasured expiry leaves a period of unauthorized authority and no evidence that the entitlement itself was removed.",
+          "id": "p-wait",
+          "label": "Yes after the session eventually expires, without checking",
+          "repairStateId": "verify"
+        }
+      ],
+      "prompt": "Can the role change be closed after the directory group is removed?"
+    },
+    "question": "An employee changes role while a session and an entitlement remain active. Which configuration changes and verification evidence establish removal of the old access?",
+    "representation": "state",
+    "retry": {
+      "conceptIds": [
+        "joiner-mover-leaver",
+        "deprovisioning",
+        "desired-state",
+        "service-account-management"
+      ],
+      "hint": "Inventory every runtime credential and entitlement that can exercise the old role, not only interactive sessions.",
+      "id": "revocation-retry-93a14d3033eb",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Effective authority remains until the old-role token is removed and the protected action is tested.",
+          "id": "r-token",
+          "label": "No; revoke the token, reconcile every credential subject, and verify payment denial",
+          "repairStateId": "retry-token-response"
+        },
+        {
+          "correct": false,
+          "feedback": "The surviving API token is another configuration and credential subject carrying the old authority.",
+          "id": "r-ticket",
+          "label": "Yes; removing the interactive entitlement and session completes the mover event",
+          "repairStateId": "retry-token-gap"
+        },
+        {
+          "correct": false,
+          "feedback": "Waiting preserves prohibited effective access and does not meet the changed desired state.",
+          "id": "r-wait",
+          "label": "Yes; leave the token active until its normal expiry because directory state is correct",
+          "repairStateId": "retry-token-gap"
+        }
+      ],
+      "prompt": "A third review confirms the user entitlement and browser session are gone, but a scheduled API token issued under the old role still approves payments. Is the mover complete?"
+    },
+    "scenario": "A finance approver moves to an audit role at 09:00. HR records the move and the identity platform removes the approver group, but an application entitlement and a session issued before the move remain active. The service’s desired-state configuration says auditors may view records but may not approve payments.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d5-o05",
+      "official-d5-42-49",
+      "outline-d7-o03",
+      "official-d7-31-34"
+    ],
+    "states": [
+      {
+        "activeNodeIds": [
+          "role-event"
+        ],
+        "caption": "At 09:00 the employee should retain auditor viewing but lose payment approval.",
+        "id": "event",
+        "statuses": {
+          "role-event": "approved auditor role"
+        },
+        "title": "The mover event changes the target state"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "role-event",
+          "group-config",
+          "app-entitlement",
+          "active-session"
+        ],
+        "caption": "Removing the group is necessary, but the application entitlement and live session remain independent configuration subjects.",
+        "id": "partial",
+        "statuses": {
+          "active-session": "still active",
+          "app-entitlement": "still present",
+          "group-config": "removed"
+        },
+        "title": "Directory state changes first"
+      },
+      {
+        "activeNodeIds": [
+          "group-config",
+          "app-entitlement",
+          "active-session"
+        ],
+        "caption": "Apply approved changes to the application record and session, retaining change evidence for each subject.",
+        "id": "reconcile",
+        "statuses": {
+          "active-session": "revoked",
+          "app-entitlement": "removed",
+          "group-config": "desired state"
+        },
+        "title": "Remove entitlement and revoke runtime authority"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "group-config",
+          "app-entitlement",
+          "active-session",
+          "verification"
+        ],
+        "caption": "A negative approval test plus state evidence establishes removal; ticket completion alone does not.",
+        "id": "verify",
+        "statuses": {
+          "verification": "approval denied; audit viewing retained"
+        },
+        "title": "Test effective access against desired state"
+      }
+    ],
+    "takeaway": "Identity lifecycle events define desired access. Configuration management operationalizes the change across directory, application, credentials, and sessions; verification establishes the effective result.",
+    "title": "A role change across connected systems",
+    "transfer": {
+      "conceptIds": [
+        "service-account-management",
+        "deprovisioning",
+        "configuration-baseline"
+      ],
+      "hint": "Distinguish the desired owner record from every credential and session that still carries authority.",
+      "id": "revocation-transfer-fa6ba691fbdb",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Ownership metadata does not invalidate copied secrets, tokens, or privileges.",
+          "id": "t-owner",
+          "label": "Update the service owner field and retain the existing runtime credential",
+          "repairStateId": "transfer-partial"
+        },
+        {
+          "correct": false,
+          "feedback": "Workflow success is administrative evidence; it must be reconciled with effective configuration and runtime access.",
+          "id": "t-ticket",
+          "label": "Close the departure after automation reports success without access testing",
+          "repairStateId": "verify"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Each authority-bearing subject reaches desired state and the outcome is tested.",
+          "id": "t-all",
+          "label": "Rotate the credential, revoke tokens, reconcile entitlement, and run a negative access test",
+          "repairStateId": "transfer-verified"
+        }
+      ],
+      "prompt": "For the departed service owner, which action proves the old administrative authority is removed?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "The state model makes the assigned lifecycle-to-configuration relationship concrete across distinct subjects and requires verification of effective removal.",
+        "treatmentId": "cross-identity-trust--revocation"
+      }
+    ],
+    "treatmentIds": [
+      "cross-identity-trust--revocation"
+    ],
+    "unitId": "cross-identity-trust--revocation",
+    "variants": [
+      {
+        "changedFact": "A service owner leaves, the directory owner field changes, but the old owner still holds a vaulted credential and active administrative token.",
+        "edges": [
+          {
+            "from": "role-event",
+            "kind": "flow",
+            "label": "updates accountable ownership record",
+            "to": "group-config"
+          },
+          {
+            "from": "role-event",
+            "kind": "dependency",
+            "label": "requires credential and token revocation",
+            "to": "active-session"
+          },
+          {
+            "from": "group-config",
+            "kind": "evidence",
+            "label": "metadata is evidence but not effective revocation",
+            "to": "verification"
+          },
+          {
+            "from": "app-entitlement",
+            "kind": "evidence",
+            "label": "supplies reconciled administrative state",
+            "to": "verification"
+          },
+          {
+            "from": "active-session",
+            "kind": "evidence",
+            "label": "supplies runtime credential result",
+            "to": "verification"
+          }
+        ],
+        "id": "transfer-case",
+        "label": "Service account ownership change",
+        "lanes": [
+          {
+            "id": "identity",
+            "label": "Lifecycle authority",
+            "rule": "The role event changes approved access but is not proof of downstream completion."
+          },
+          {
+            "id": "configuration",
+            "label": "Controlled configuration",
+            "rule": "Each configuration item must reach the approved desired state."
+          },
+          {
+            "id": "runtime",
+            "label": "Effective runtime access",
+            "rule": "Existing sessions and cached permissions require explicit treatment."
+          },
+          {
+            "id": "evidence",
+            "label": "Verification",
+            "rule": "Closure requires observed effective access, not only a successful workflow status."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "joiner-mover-leaver",
+              "identity-lifecycle",
+              "role-definition"
+            ],
+            "detail": "The departure changes accountable ownership and requires removal of the old owner’s runtime authority.",
+            "id": "role-event",
+            "label": "Service owner departed",
+            "lane": "identity"
+          },
+          {
+            "conceptIds": [
+              "deprovisioning",
+              "provisioning"
+            ],
+            "detail": "The service record names a new owner, but metadata alone does not revoke the former owner’s credential.",
+            "id": "group-config",
+            "label": "Ownership metadata updated",
+            "lane": "configuration"
+          },
+          {
+            "conceptIds": [
+              "access-review",
+              "privilege-creep",
+              "configuration-item"
+            ],
+            "detail": "Reconcile who may administer the service under the new owner assignment.",
+            "id": "app-entitlement",
+            "label": "Service administrative entitlement",
+            "lane": "configuration"
+          },
+          {
+            "conceptIds": [
+              "deprovisioning",
+              "desired-state"
+            ],
+            "detail": "The old runtime token remains capable until rotated or revoked.",
+            "id": "active-session",
+            "label": "Former owner token",
+            "lane": "runtime"
+          },
+          {
+            "conceptIds": [
+              "access-review",
+              "configuration-baseline",
+              "configuration-documentation"
+            ],
+            "detail": "Verify the former owner credential fails while authorized service operation remains available.",
+            "id": "verification",
+            "label": "Negative service-admin test",
+            "lane": "evidence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "role-event",
+              "group-config",
+              "active-session"
+            ],
+            "caption": "The ownership record does not revoke credential copies or active tokens.",
+            "id": "transfer-partial",
+            "statuses": {
+              "active-session": "old token active",
+              "group-config": "owner field changed"
+            },
+            "title": "Metadata changed; authority persists"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "app-entitlement",
+              "active-session",
+              "verification"
+            ],
+            "caption": "Rotate the credential, revoke active tokens, reconcile entitlements, and verify the former owner cannot administer the service.",
+            "id": "transfer-verified",
+            "title": "Rotate, revoke, and test"
+          }
+        ]
+      },
+      {
+        "changedFact": "Interactive access is removed, but a scheduled API token issued under the old role can still approve payments.",
+        "edges": [
+          {
+            "from": "role-event",
+            "kind": "dependency",
+            "label": "changed role requires token revocation",
+            "to": "active-session"
+          },
+          {
+            "from": "active-session",
+            "kind": "evidence",
+            "label": "runtime result proves whether old authority remains",
+            "to": "verification"
+          }
+        ],
+        "id": "retry-case",
+        "label": "A noninteractive token keeps old authority",
+        "lanes": [
+          {
+            "id": "identity",
+            "label": "Lifecycle authority",
+            "rule": "The role event changes approved access but is not proof of downstream completion."
+          },
+          {
+            "id": "runtime",
+            "label": "Effective runtime access",
+            "rule": "Existing sessions and cached permissions require explicit treatment."
+          },
+          {
+            "id": "evidence",
+            "label": "Verification",
+            "rule": "Closure requires observed effective access, not only a successful workflow status."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "joiner-mover-leaver",
+              "identity-lifecycle",
+              "role-definition"
+            ],
+            "detail": "The employee may audit records but may no longer approve payments through any credential.",
+            "id": "role-event",
+            "label": "Mover target state",
+            "lane": "identity"
+          },
+          {
+            "conceptIds": [
+              "deprovisioning",
+              "desired-state"
+            ],
+            "detail": "A noninteractive token issued under the old approver role still authorizes payment approval.",
+            "id": "active-session",
+            "label": "Scheduled API token",
+            "lane": "runtime"
+          },
+          {
+            "conceptIds": [
+              "access-review",
+              "configuration-baseline",
+              "configuration-documentation"
+            ],
+            "detail": "Revoke every old-role credential and prove the approval action is denied.",
+            "id": "verification",
+            "label": "Effective payment-approval test",
+            "lane": "evidence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "role-event",
+              "active-session",
+              "verification"
+            ],
+            "caption": "Directory, entitlement, and browser-session changes do not revoke the independent API token.",
+            "id": "retry-token-gap",
+            "statuses": {
+              "active-session": "interactive revoked; API token active",
+              "verification": "payment approval still succeeds"
+            },
+            "title": "One credential subject remains outside reconciliation"
+          },
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "role-event",
+              "active-session",
+              "verification"
+            ],
+            "caption": "Bring every credential subject to desired state and verify that payment approval fails while allowed audit access remains.",
+            "id": "retry-token-response",
+            "statuses": {
+              "active-session": "all old-role credentials revoked",
+              "verification": "negative approval test required"
+            },
+            "title": "Revoke the token and test effective denial"
+          }
+        ]
+      }
+    ]
+  },
+  "relationshipIds": [
+    "rel-d5-o05-to-d7-o03-identity-configuration-lifecycle"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "title": "A role change across connected systems",
+  "unitIds": [
+    "d5-o05-provisioning-lifecycle",
+    "d7-o03-configuration-management"
+  ]
+}

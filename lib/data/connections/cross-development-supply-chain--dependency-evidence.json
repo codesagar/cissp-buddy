@@ -1,0 +1,525 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-development-supply-chain--dependency-evidence",
+  "treatmentIds": [
+    "cross-development-supply-chain--dependency-evidence"
+  ],
+  "title": "Two builds with different dependencies",
+  "question": "A dependency changes after build-specific tests. Which provenance and lifecycle evidence is still bound to the prior subject, and which must be regenerated for the changed build?",
+  "scenario": "Build 418 of a claims service passed composition analysis, security tests, provenance verification, and deployment approval using library version 3.4. Before release, an automated update changes the library to 3.5 and creates build 419. The supplier is the same, but artifact digest, dependency graph, and executable build have changed.",
+  "focalRelation": "Supply-chain risk requirements constrain acquired-software evidence, while system lifecycle traceability constrains the secure SDLC’s build and release gates. Evidence remains valid for the subject it actually observed; a changed build needs new bound evidence.",
+  "representation": "ledger",
+  "nodes": [
+    {
+      "id": "requirements",
+      "label": "Supplier and lifecycle requirements",
+      "detail": "The release requires approved source, dependency provenance, vulnerability assessment, build traceability, security tests, and an accountable release decision.",
+      "conceptIds": [
+        "supply-chain-risk-management",
+        "security-requirements",
+        "stakeholder-requirements"
+      ],
+      "lane": "requirements"
+    },
+    {
+      "id": "build418",
+      "label": "Build 418 / library 3.4",
+      "detail": "The artifact digest, SBOM, provenance record, test results, and approval all identify this exact build and dependency graph.",
+      "conceptIds": [
+        "software-bill-of-materials",
+        "acquired-software",
+        "verification-validation"
+      ],
+      "lane": "subjects"
+    },
+    {
+      "id": "change",
+      "label": "Dependency update to 3.5",
+      "detail": "The update produces a new dependency graph and executable artifact even though the supplier and application purpose remain the same.",
+      "conceptIds": [
+        "open-source",
+        "third-party-risk",
+        "implementation"
+      ],
+      "lane": "change"
+    },
+    {
+      "id": "build419",
+      "label": "Build 419 / library 3.5",
+      "detail": "This new artifact needs its own SBOM, provenance binding, relevant security tests, and release decision.",
+      "conceptIds": [
+        "software-bill-of-materials",
+        "sdlc",
+        "deployment"
+      ],
+      "lane": "subjects"
+    },
+    {
+      "id": "ledger",
+      "label": "Evidence binding ledger",
+      "detail": "Retain build 418 evidence as historical evidence for build 418; mark it non-transferable to build 419 and record newly generated evidence by digest and gate.",
+      "conceptIds": [
+        "information-system-lifecycle",
+        "security-acceptance",
+        "supply-chain-assurance"
+      ],
+      "lane": "evidence"
+    }
+  ],
+  "edges": [
+    {
+      "from": "requirements",
+      "to": "build418",
+      "label": "constrains required acquired-software and lifecycle evidence",
+      "kind": "dependency"
+    },
+    {
+      "from": "build418",
+      "to": "change",
+      "label": "dependency change creates a new evidence subject",
+      "kind": "flow"
+    },
+    {
+      "from": "change",
+      "to": "build419",
+      "label": "new graph and artifact identity",
+      "kind": "flow"
+    },
+    {
+      "from": "build418",
+      "to": "ledger",
+      "label": "prior evidence retained with original scope",
+      "kind": "evidence"
+    },
+    {
+      "from": "build419",
+      "to": "ledger",
+      "label": "new build requires newly bound evidence",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "requirements",
+      "label": "Governed requirements",
+      "rule": "State provenance, supplier, test, traceability, and acceptance criteria before the gate."
+    },
+    {
+      "id": "subjects",
+      "label": "Immutable build subjects",
+      "rule": "Bind SBOM, provenance, tests, and approval to an artifact digest and dependency graph."
+    },
+    {
+      "id": "change",
+      "label": "Lifecycle change",
+      "rule": "A changed dependency creates a changed build even when the product name is unchanged."
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence ledger",
+      "rule": "Retain history; never relabel prior evidence as if it observed new bytes."
+    }
+  ],
+  "states": [
+    {
+      "id": "bound",
+      "title": "Build 418 has a complete evidence set",
+      "caption": "Every artifact names build 418, its digest, library 3.4, and the gate that evaluated it.",
+      "activeNodeIds": [
+        "requirements",
+        "build418",
+        "ledger"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        3
+      ],
+      "statuses": {
+        "build418": "tested and approved",
+        "ledger": "bound to build 418"
+      }
+    },
+    {
+      "id": "changed",
+      "title": "The dependency update changes the subject",
+      "caption": "The supplier name stays the same, but build 419 is not the artifact that passed the earlier tests.",
+      "activeNodeIds": [
+        "build418",
+        "change",
+        "build419"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "build419": "new evidence subject"
+      }
+    },
+    {
+      "id": "invalidated",
+      "title": "Build-specific claims do not transfer",
+      "caption": "Keep build 418 history intact; mark its composition, provenance, test, and approval claims as inapplicable to build 419.",
+      "activeNodeIds": [
+        "build418",
+        "build419",
+        "ledger"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "ledger": "build 419 gate blocked"
+      }
+    },
+    {
+      "id": "regenerate",
+      "title": "Regenerate evidence and decide again",
+      "caption": "Produce the new SBOM and provenance, rerun affected tests, trace the change, and obtain release approval for build 419.",
+      "activeNodeIds": [
+        "requirements",
+        "build419",
+        "ledger"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "build419": "awaiting bound evidence"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Documentation-only change",
+      "changedFact": "Only a deployment runbook changes; the build digest, dependency graph, and executable bytes remain build 418.",
+      "states": [
+        {
+          "id": "transfer-scope",
+          "title": "The executable evidence subject is unchanged",
+          "caption": "Build-specific test and provenance evidence can remain valid, while the changed operational document follows its own review and approval path.",
+          "activeNodeIds": [
+            "build418",
+            "ledger"
+          ],
+          "statuses": {
+            "build418": "same artifact",
+            "ledger": "build evidence retained"
+          },
+          "activeEdgeIndexes": [
+            1
+          ]
+        },
+        {
+          "id": "transfer-review",
+          "title": "Review only the affected lifecycle artifact",
+          "caption": "Trace and approve the runbook change without pretending that unchanged code was rebuilt or retested.",
+          "activeNodeIds": [
+            "requirements",
+            "ledger"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "requirements",
+          "label": "Runbook governance requirement",
+          "detail": "The changed deployment procedure requires traceability and approval without inventing a rebuild.",
+          "conceptIds": [
+            "supply-chain-risk-management",
+            "security-requirements",
+            "stakeholder-requirements"
+          ],
+          "lane": "requirements"
+        },
+        {
+          "id": "build418",
+          "label": "Unchanged executable build",
+          "detail": "The artifact digest, dependencies, provenance, and build-specific security results remain the same.",
+          "conceptIds": [
+            "software-bill-of-materials",
+            "acquired-software",
+            "verification-validation"
+          ],
+          "lane": "subjects"
+        },
+        {
+          "id": "ledger",
+          "label": "Scoped evidence ledger",
+          "detail": "Preserve unaffected build evidence while recording review of the changed operating runbook.",
+          "conceptIds": [
+            "information-system-lifecycle",
+            "security-acceptance",
+            "supply-chain-assurance"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "requirements",
+          "to": "ledger",
+          "label": "changed runbook requires its own review record",
+          "kind": "dependency"
+        },
+        {
+          "from": "build418",
+          "to": "ledger",
+          "label": "unchanged build evidence remains bound to the same artifact",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "requirements",
+          "label": "Governed requirements",
+          "rule": "State provenance, supplier, test, traceability, and acceptance criteria before the gate."
+        },
+        {
+          "id": "subjects",
+          "label": "Immutable build subjects",
+          "rule": "Bind SBOM, provenance, tests, and approval to an artifact digest and dependency graph."
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence ledger",
+          "rule": "Retain history; never relabel prior evidence as if it observed new bytes."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "Build environment changes the artifact",
+      "changedFact": "The source and dependency versions stay fixed, but a different compiler image produces build 420 with a new digest.",
+      "states": [
+        {
+          "id": "retry-build-gap",
+          "title": "Same source does not mean same release subject",
+          "caption": "The compiler image and artifact digest changed, so build 419 evidence cannot silently authorize build 420.",
+          "activeNodeIds": [
+            "build419",
+            "ledger"
+          ],
+          "statuses": {
+            "build419": "new digest and build environment",
+            "ledger": "prior claims bound to earlier build"
+          },
+          "activeEdgeIndexes": [
+            1
+          ]
+        },
+        {
+          "id": "retry-build-decision",
+          "title": "Rebind affected claims to build 420",
+          "caption": "Verify compiler provenance, regenerate the SBOM and affected tests, and record a build-specific release decision.",
+          "activeNodeIds": [
+            "requirements",
+            "build419",
+            "ledger"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "ledger": "build 420 evidence required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "requirements",
+          "label": "Build 420 release requirements",
+          "detail": "Compiler provenance, SBOM, affected security tests, traceability, and approval must address the new build subject.",
+          "conceptIds": [
+            "supply-chain-risk-management",
+            "security-requirements",
+            "stakeholder-requirements"
+          ],
+          "lane": "requirements"
+        },
+        {
+          "id": "build419",
+          "label": "Build 420 · new compiler image",
+          "detail": "The same source and dependency versions produce a new digest under a different compiler image.",
+          "conceptIds": [
+            "software-bill-of-materials",
+            "sdlc",
+            "deployment"
+          ],
+          "lane": "subjects"
+        },
+        {
+          "id": "ledger",
+          "label": "Build-specific evidence ledger",
+          "detail": "Build 419 history remains intact; build 420 needs provenance and affected claims bound to its actual artifact.",
+          "conceptIds": [
+            "information-system-lifecycle",
+            "security-acceptance",
+            "supply-chain-assurance"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "requirements",
+          "to": "build419",
+          "label": "defines evidence required for build 420",
+          "kind": "dependency"
+        },
+        {
+          "from": "build419",
+          "to": "ledger",
+          "label": "new digest and compiler require newly bound evidence",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "requirements",
+          "label": "Governed requirements",
+          "rule": "State provenance, supplier, test, traceability, and acceptance criteria before the gate."
+        },
+        {
+          "id": "subjects",
+          "label": "Immutable build subjects",
+          "rule": "Bind SBOM, provenance, tests, and approval to an artifact digest and dependency graph."
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence ledger",
+          "rule": "Retain history; never relabel prior evidence as if it observed new bytes."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "dependency-predict",
+    "prompt": "May build 418’s security-test and approval evidence be used to release build 419 unchanged?",
+    "options": [
+      {
+        "id": "p-supplier",
+        "label": "Yes; unchanged supplier identity lets build 418 evidence authorize build 419",
+        "correct": false,
+        "feedback": "Supplier identity is only one fact. Version, bytes, graph, vulnerabilities, behavior, and provenance subject changed.",
+        "repairStateId": "changed"
+      },
+      {
+        "id": "p-no",
+        "label": "No; retain build 418 evidence and regenerate affected claims for build 419",
+        "correct": true,
+        "feedback": "Correct. The dependency graph and artifact digest changed, so build-specific evidence no longer describes the release candidate.",
+        "repairStateId": "invalidated"
+      },
+      {
+        "id": "p-delete",
+        "label": "No; delete build 418 evidence before assessing the replacement build",
+        "correct": false,
+        "feedback": "Historical evidence should remain immutable and scoped to build 418 rather than erased or relabeled.",
+        "repairStateId": "bound"
+      }
+    ],
+    "conceptIds": [
+      "software-bill-of-materials",
+      "verification-validation",
+      "security-acceptance"
+    ],
+    "hint": "Ask which exact bytes and dependency graph each evidence artifact observed."
+  },
+  "transfer": {
+    "id": "dependency-transfer",
+    "prompt": "Only the deployment runbook changes while the build digest and dependencies remain identical. What must be redone?",
+    "options": [
+      {
+        "id": "t-all",
+        "label": "Regenerate every build test because any supporting document changed",
+        "correct": false,
+        "feedback": "Evidence invalidation follows the changed subject and claim. Unaffected executable evidence can remain bound to the same build.",
+        "repairStateId": "transfer-scope"
+      },
+      {
+        "id": "t-none",
+        "label": "Keep every approval because executable bytes and dependencies stayed fixed",
+        "correct": false,
+        "feedback": "The runbook is a lifecycle artifact affecting deployment operation and still requires controlled review and approval.",
+        "repairStateId": "transfer-review"
+      },
+      {
+        "id": "t-doc",
+        "label": "Review and approve the changed runbook; retain unaffected build evidence with its original scope",
+        "correct": true,
+        "feedback": "Correct. Traceability identifies the changed artifact and avoids both under-testing and meaningless full reruns.",
+        "repairStateId": "transfer-review"
+      }
+    ],
+    "conceptIds": [
+      "information-system-lifecycle",
+      "deployment",
+      "verification-validation"
+    ],
+    "hint": "Identify the changed artifact, then revisit the evidence claims that depend on it."
+  },
+  "retry": {
+    "id": "dependency-retry",
+    "prompt": "Build 420 uses the same source and dependency versions as build 419, but a different compiler image produces a new artifact digest. Which evidence can authorize release?",
+    "options": [
+      {
+        "id": "r-rebind",
+        "label": "Evidence regenerated or justified for build 420, including compiler provenance and affected tests",
+        "correct": true,
+        "feedback": "Correct. The build environment and artifact changed, so claims affected by that change must bind to build 420.",
+        "repairStateId": "retry-build-decision"
+      },
+      {
+        "id": "r-same-source",
+        "label": "Build 419 approval because source code and declared dependency versions are unchanged",
+        "correct": false,
+        "feedback": "Source equality does not make a differently produced artifact the subject previously tested and approved.",
+        "repairStateId": "retry-build-gap"
+      },
+      {
+        "id": "r-sbom",
+        "label": "A copied build 419 SBOM with only the artifact digest replaced by build 420",
+        "correct": false,
+        "feedback": "Editing an identifier does not regenerate provenance or demonstrate how the changed compiler affected the artifact.",
+        "repairStateId": "retry-build-gap"
+      }
+    ],
+    "conceptIds": [
+      "supply-chain-assurance",
+      "information-system-lifecycle",
+      "verification-validation",
+      "security-acceptance"
+    ],
+    "hint": "Ask which subject and build environment the evidence actually observed."
+  },
+  "takeaway": "Supply-chain and lifecycle evidence is claim- and subject-bound. Preserve prior evidence as history, invalidate only the claims affected by a change, and regenerate the required evidence for the actual release candidate.",
+  "assumptions": [
+    "Build digests and dependency graphs are available and trustworthy identifiers for this case.",
+    "The dependency update occurs before release and creates new executable bytes.",
+    "The transfer case changes only a controlled operational document, not the build artifact."
+  ],
+  "sourceRefIds": [
+    "d1-o11-outline",
+    "d1-o11-textbook",
+    "outline-d8-4",
+    "official-d8-91-105",
+    "d3-o10-outline",
+    "d3-o10-textbook",
+    "outline-d8",
+    "official-d8-9-35"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-development-supply-chain--dependency-evidence",
+      "disposition": "implemented",
+      "rationale": "The evidence ledger makes both assigned constraints observable: supplier assurance governs acquired dependency evidence, and lifecycle traceability governs which SDLC evidence must be regenerated after a changed build."
+    }
+  ]
+}

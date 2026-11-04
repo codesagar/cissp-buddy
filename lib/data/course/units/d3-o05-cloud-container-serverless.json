@@ -1,0 +1,722 @@
+{
+  "conceptIds": [
+    "cloud-security",
+    "shared-responsibility",
+    "saas",
+    "iaas",
+    "paas",
+    "microservices",
+    "api-security",
+    "containerization",
+    "serverless",
+    "orchestration",
+    "workload-identity",
+    "event-validation",
+    "cloud-service-model",
+    "configuration-management"
+  ],
+  "concepts": [
+    {
+      "decision": "Evaluate the actual tenant configuration and service layer, not the cloud label.",
+      "definition": "Protection of cloud data, identity, configuration, integration, operations, and contracts.",
+      "failureExample": "A public object store exposes data despite provider infrastructure security.",
+      "id": "cloud-security",
+      "label": "Cloud Security",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Assign provider and customer actions for identity, data, network, logs, backups, and incidents.",
+      "definition": "Explicit division of who operates and assures each cloud control layer.",
+      "failureExample": "Neither party monitors a customer-controlled access rule.",
+      "id": "shared-responsibility",
+      "label": "Shared Responsibility",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Focus on tenant access, sharing, data handling, integration, and contractual evidence.",
+      "definition": "Provider application consumed by the customer, with customer configuration and data-use duties.",
+      "failureExample": "A SaaS collaboration space retains an open default sharing policy.",
+      "id": "saas",
+      "label": "Saas",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Focus on guest OS, workload, virtual network, identities, and configuration.",
+      "definition": "Provider processing, storage, and networking on which the customer manages more of the stack.",
+      "failureExample": "An IaaS guest remains unpatched because the customer assumes the provider does it.",
+      "id": "iaas",
+      "label": "Iaas",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Focus on application code, identities, data, configurations, integrations, and platform limits.",
+      "definition": "Provider platform for customer-deployed applications.",
+      "failureExample": "An application exposes credentials in a PaaS configuration variable.",
+      "id": "paas",
+      "label": "Paas",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Give each service a workload identity and authorize each call.",
+      "definition": "Many collaborating services with separate deployment and communication boundaries.",
+      "failureExample": "A mesh routes calls but a service accepts an unauthenticated internal request.",
+      "id": "microservices",
+      "label": "Microservices",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Check caller, object, action, input, rate, and audit context at each endpoint.",
+      "definition": "Server-side enforcement of authenticated, authorized, validated API actions.",
+      "failureExample": "A token holder accesses another tenant’s object by changing an API parameter.",
+      "id": "api-security",
+      "label": "API Security",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Control image provenance, registry access, runtime privilege, secrets, and network policy.",
+      "definition": "Deployment of packaged workload images under a runtime and orchestration context.",
+      "failureExample": "A stale image with a vulnerable library is redeployed from an unprotected registry.",
+      "id": "containerization",
+      "label": "Containerization",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Validate event origin and payload; bound permission, retries, and side effects.",
+      "definition": "Event-triggered managed execution with function-specific identities and dependencies.",
+      "failureExample": "A replayed event causes a function to create the same privileged record repeatedly.",
+      "id": "serverless",
+      "label": "Serverless",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-1"
+    },
+    {
+      "decision": "Treat deployment authority, policies, secrets, and cluster admin roles as high-impact.",
+      "definition": "Control plane that schedules and configures containers or workloads.",
+      "failureExample": "A cluster administrator changes a network policy for all tenants.",
+      "id": "orchestration",
+      "label": "Orchestration",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-2"
+    },
+    {
+      "decision": "Use unique, scoped, rotated identities rather than shared static credentials.",
+      "definition": "Identity used by a running service or workload to request another service or resource.",
+      "failureExample": "All jobs use one broad database credential for convenience.",
+      "id": "workload-identity",
+      "label": "Workload Identity",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-2"
+    },
+    {
+      "decision": "Validate before a function or workflow turns an event into a sensitive action.",
+      "definition": "Checking event structure, provenance, freshness, and suitability before acting on it.",
+      "failureExample": "An internally routed but forged event invokes a payment function.",
+      "id": "event-validation",
+      "label": "Event Validation",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-2"
+    },
+    {
+      "decision": "Select the model by what the provider operates and what the customer must configure.",
+      "definition": "SaaS, PaaS, or IaaS classification used to map operating responsibility.",
+      "failureExample": "A review calls every hosted service “cloud secure” without mapping the layer.",
+      "id": "cloud-service-model",
+      "label": "Cloud Service Model",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-2"
+    },
+    {
+      "decision": "Use approved baselines, change evidence, drift detection, and rollback.",
+      "definition": "Controlled, reviewable maintenance of intended system configuration over time.",
+      "failureExample": "A manual production change widens a cloud security group without record or review.",
+      "id": "configuration-management",
+      "label": "Configuration Management",
+      "sourceRefIds": [
+        "d3-o05-cloud-sybex",
+        "d3-o05-cloud-textbook"
+      ],
+      "sourceVisualId": "d3-o05-cloud-container-serverless-concept-comparison-2"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 52,
+  "id": "d3-o05-cloud-container-serverless",
+  "misconceptions": [
+    {
+      "claim": "Serverless applications need no patching or access review.",
+      "correction": "The platform may operate infrastructure, while the customer remains responsible for code, dependencies, function permissions, event sources, data, configuration, and deployment authority."
+    },
+    {
+      "claim": "A cloud service model transfers every security responsibility to the provider.",
+      "correction": "The model allocates operation of layers; customers retain responsibilities such as data, identity, configuration, integration, monitoring, and contractual assurance appropriate to the service."
+    }
+  ],
+  "objectiveIds": [
+    "3.5"
+  ],
+  "outcome": "Assess shared responsibility, orchestration, image, API, and serverless failure paths and recommend controls with accountable owners.",
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d3-o04-system-security-capabilities",
+    "d1-o10-threat-modeling"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "SaaS, PaaS, and IaaS shift operational responsibility but do not eliminate customer accountability for data, identity, configuration, integration, and use. A defensible design states who configures identity, network exposure, encryption options, logging, backups, incident interfaces, and service continuity. Assess the contract and the actual implementation separately: a provider capability is not automatically enabled, appropriately scoped, or monitored by the customer.",
+      "id": "shared-responsibility",
+      "keyPoints": [
+        "Shared responsibility is a layer-by-layer allocation, not a transfer of all risk.",
+        "Configuration and identity decisions are frequent cloud control boundaries."
+      ],
+      "sourceRefIds": [
+        "d3-o05-cloud-outline",
+        "d3-o05-cloud-textbook",
+        "d3-o05-cloud-sybex"
+      ],
+      "title": "Assign responsibility by service and layer"
+    },
+    {
+      "body": "A container packages a workload but depends on its image supply chain, runtime settings, host or cluster, network policy, secrets, and orchestration control plane. Microservices replace one large trust boundary with many service and API calls. Use authenticated workload identities, least-privilege service authorization, constrained images, protected registries, secrets management, segmentation, input and object authorization, and logging that preserves request context. The cluster administrator and deployment pipeline are high-impact authorities.",
+      "id": "container-and-api",
+      "keyPoints": [
+        "Container isolation is not a substitute for host, control-plane, or identity protection.",
+        "An API must authorize an action and object, not only authenticate the calling service."
+      ],
+      "sourceRefIds": [
+        "d3-o05-cloud-textbook",
+        "d3-o05-cloud-sybex"
+      ],
+      "title": "Treat image, orchestrator, API, and workload identity as boundaries"
+    },
+    {
+      "body": "Serverless reduces direct server administration but introduces event source permissions, function identities, dependency packages, secret handling, timeout and retry behavior, concurrency, and observability concerns. An event-driven function must validate the event and authorize the resulting action even when the event came from an internal service. Bound retries, make sensitive operations idempotent where appropriate, protect deployment authority, and capture correlation evidence without recording secrets. Plan for a failed dependency rather than silently widening access or repeating an irreversible action.",
+      "id": "serverless-events",
+      "keyPoints": [
+        "Managed execution changes the control surface; it does not remove it.",
+        "Retry and event handling can create security-relevant duplicate or unauthorized effects."
+      ],
+      "sourceRefIds": [
+        "d3-o05-outline",
+        "d3-o05-cloud-textbook",
+        "d3-o05-cloud-sybex"
+      ],
+      "title": "Design for event-driven and serverless failure modes"
+    },
+    {
+      "body": "SaaS provides the provider application for consumer use; PaaS provides a platform for consumer-deployed applications; IaaS provides processing, storage, and networking resources on which the consumer manages more of the stack. The service model changes who operates infrastructure, but the customer still needs to decide and verify data handling, identities, configuration, integration, logging, recovery, and contractual obligations. Compare each offered control to the service layer and actual configuration. A customer cannot rely on an IaaS provider to secure a guest operating-system configuration it administers, and cannot assume a SaaS provider’s default sharing setting meets its data policy.",
+      "id": "service-model-control-allocation",
+      "keyPoints": [
+        "“Provider managed” describes an operating allocation, not an automatic security outcome.",
+        "Verify the control boundary by service and configuration, not cloud marketing terms."
+      ],
+      "sourceRefIds": [
+        "d3-o05-cloud-textbook"
+      ],
+      "title": "Choose cloud controls at the service-model boundary"
+    }
+  ],
+  "sourceHash": "928b6e2ae9d6879b2cf428ae7e57dc3c9f1ed0357cbbe80c767568f83f80ee61",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o05-cloud-container-serverless.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o05-cloud-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5: cloud SaaS/IaaS/PaaS, microservices/API, containerization, serverless"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary",
+        "cloud-and-modern-architecture-topics"
+      ]
+    },
+    {
+      "id": "d3-o05-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o05-cloud-textbook",
+      "locator": {
+        "note": "Domain 3 architecture-vulnerability range; printed page is the citation anchor.",
+        "pdfPage": "26-44",
+        "printedPage": "26-44",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "cloud-shared-responsibility",
+        "container-api-serverless-risk"
+      ]
+    },
+    {
+      "id": "d3-o05-cloud-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 9, Security Vulnerabilities, Threats, and Countermeasures, pp. 353-446"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Broad secondary locator requires section-level refinement; this unit remains draft.",
+      "supports": [
+        "cloud-and-container-vulnerability-correlation"
+      ]
+    }
+  ],
+  "summary": "Cloud service models, microservices, containers, and serverless functions change control ownership and multiply management, identity, image, interface, and event boundaries. Assess the specific provider-customer responsibility and the path from deployment authority to protected data.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "upload",
+        "kind": "flow",
+        "label": "sends the upload event and caller context to",
+        "to": "gateway"
+      },
+      {
+        "from": "gateway",
+        "kind": "flow",
+        "label": "invokes only after source, content, and action checks pass",
+        "to": "function"
+      },
+      {
+        "from": "function",
+        "kind": "flow",
+        "label": "calls with a scoped workload identity",
+        "to": "classifier"
+      },
+      {
+        "from": "classifier",
+        "kind": "flow",
+        "label": "writes only the authorized result object to",
+        "to": "store"
+      },
+      {
+        "from": "deploy",
+        "kind": "dependency",
+        "label": "can change code, secret, route, and runtime configuration for",
+        "to": "function"
+      },
+      {
+        "from": "deploy",
+        "kind": "dependency",
+        "label": "can change approved image and orchestration policy for",
+        "to": "classifier"
+      }
+    ],
+    "focalRelation": "Provider operation and customer responsibility are allocated per layer; events require source and replay validation; workload identity authorizes actions; API object/action authorization differs from authentication; orchestration and deployment paths can change execution.",
+    "lanes": [
+      {
+        "id": "external",
+        "label": "External actor and input",
+        "rule": "Partner identity and upload content begin outside the managed workload boundary."
+      },
+      {
+        "id": "service",
+        "label": "Customer-governed service path",
+        "rule": "Gateway, function, and classifier each authorize only their named action and identity."
+      },
+      {
+        "id": "data",
+        "label": "Protected data service",
+        "rule": "Object writes, retention, encryption, and audit remain separately authorized."
+      },
+      {
+        "id": "control",
+        "label": "Privileged deployment plane",
+        "rule": "Code, image, secret, route, and configuration authority is governed independently from runtime requests."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Managed infrastructure does not remove customer responsibility for tenant identities, code, configuration, secrets, data, and events. Deployment authority can replace an approved image or secret after scanning.",
+      "visualReasoningGain": "Service-path and deployment-plane lanes add independent authority reasoning; persistent provider and customer ownership would make the gain stronger."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "api-security",
+          "event-validation"
+        ],
+        "detail": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints.",
+        "id": "upload",
+        "label": "External upload event",
+        "lane": "external"
+      },
+      {
+        "conceptIds": [
+          "api-security",
+          "event-validation",
+          "cloud-security"
+        ],
+        "detail": "The managed API authenticates the partner, validates the upload event, and authorizes invocation of the intake function.",
+        "id": "gateway",
+        "label": "API and event gate",
+        "lane": "service"
+      },
+      {
+        "conceptIds": [
+          "serverless",
+          "workload-identity",
+          "paas"
+        ],
+        "detail": "A workload identity executes the bounded intake code and requests only the classifier and object actions it needs.",
+        "id": "function",
+        "label": "Serverless intake function",
+        "lane": "service"
+      },
+      {
+        "conceptIds": [
+          "containerization",
+          "microservices",
+          "orchestration"
+        ],
+        "detail": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+        "id": "classifier",
+        "label": "Containerized classifier",
+        "lane": "service"
+      },
+      {
+        "conceptIds": [
+          "cloud-service-model",
+          "shared-responsibility"
+        ],
+        "detail": "The object service authorizes the result write and applies retention, encryption, and audit policy.",
+        "id": "store",
+        "label": "Protected object store",
+        "lane": "data"
+      },
+      {
+        "conceptIds": [
+          "configuration-management"
+        ],
+        "detail": "A separate privileged authority controls function code, images, secrets, routes, and runtime configuration.",
+        "id": "deploy",
+        "label": "Deployment authority",
+        "lane": "control"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "cloud-security",
+        "saas",
+        "api-security",
+        "event-validation",
+        "cloud-service-model"
+      ],
+      "hint": "Assign each control to the customer, provider, workload, identity, or platform layer that can operate it.",
+      "id": "d3-o05-cloud-container-serverless-prediction-v1-a4b06277cfba",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Provider operation does not remove customer responsibility for tenant identity, sharing, configuration, retention, and data use.",
+          "id": "unit-specific-alternative",
+          "label": "Rely on the SaaS provider because the provider secures all settings in its service.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": true,
+          "feedback": "Managed infrastructure or an internal event does not remove customer responsibility for code, data, permissions, sources, configuration, and monitoring.",
+          "id": "correct",
+          "label": "Authorize each event and object at enforcement; govern deployment authority separately.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Shared responsibility leaves tenant configuration, authorization, data use, logging, and retention with the customer where specified.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Provider infrastructure security also secures the customer’s tenant sharing and identities.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Who validates and authorizes each step from upload event to function, container, and protected object, and who may change that path?"
+    },
+    "question": "Who validates and authorizes each step from upload event to function, container, and protected object, and who may change that path?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "serverless",
+        "event-validation",
+        "workload-identity"
+      ],
+      "hint": "Do not treat provider operation as customer authorization or complete evidence.",
+      "id": "d3-o05-cloud-container-serverless-retry-v1-dbdcba757ded",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Authenticate the producing path as appropriate, validate event content and freshness, and authorize the requested account action under the function's scoped identity.",
+          "id": "evidence-based",
+          "label": "Authenticate the producing path as appropriate, validate event content and freshness",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "The platform may operate infrastructure, while the customer remains responsible for code, dependencies, function permissions, event sources, data, configuration, and deployment authority.",
+          "id": "misconception",
+          "label": "Serverless applications need no patching or access review",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Authenticate the producing path as appropriate, validate event content and freshness, and authorize the requested account action under the function's scoped identity.",
+          "id": "shortcut",
+          "label": "Rely on the SaaS provider because the provider secures all settings in its service",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "A function trusts every event from an internal queue and grants the event's requested account change. What must be added?"
+    },
+    "scenario": "Document intake on a managed cloud: An external upload invokes a serverless function that stores files and calls a containerized classifier.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o05-cloud-outline",
+      "d3-o05-outline",
+      "d3-o05-cloud-textbook",
+      "d3-o05-cloud-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "upload"
+        ],
+        "caption": "Document intake on a managed cloud: An external upload invokes a serverless function that stores files and calls a containerized classifier.",
+        "id": "case",
+        "statuses": {
+          "upload": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "upload",
+          "gateway",
+          "function"
+        ],
+        "caption": "External upload event sends the upload event and caller context to API and event gate. API and event gate invokes only after source, content, and action checks pass Serverless intake function.",
+        "id": "decision",
+        "statuses": {
+          "function": "A workload identity executes the bounded intake code and requests only the classifier and object actions it needs.",
+          "gateway": "The managed API authenticates the partner, validates the upload event, and authorizes invocation of the intake function.",
+          "upload": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "deploy",
+          "function",
+          "classifier"
+        ],
+        "caption": "Deployment authority can change code, secret, route, and runtime configuration for Serverless intake function. Deployment authority can change approved image and orchestration policy for Containerized classifier.",
+        "id": "consequence",
+        "statuses": {
+          "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+          "deploy": "A separate privileged authority controls function code, images, secrets, routes, and runtime configuration.",
+          "function": "A workload identity executes the bounded intake code and requests only the classifier and object actions it needs."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "upload",
+          "gateway",
+          "function",
+          "deploy",
+          "classifier",
+          "store"
+        ],
+        "caption": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review. Runtime assurance depends on the independently governed deployment authority shown in the map.",
+        "id": "changed-case",
+        "statuses": {
+          "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+          "deploy": "Image and secret changes require separated approval, provenance, logging, and rollback.",
+          "function": "Function code and secret can be changed by the deployment authority.",
+          "gateway": "Caller, event, and action validation still apply before invocation.",
+          "store": "The object service authorizes the result write and applies retention, encryption, and audit policy.",
+          "upload": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Provider operation and customer responsibility are allocated per layer; events require source and replay validation; workload identity authorizes actions; API object/action authorization differs from authentication; orchestration and deployment paths can change execution.",
+    "title": "event authority swimlane",
+    "transfer": {
+      "conceptIds": [
+        "shared-responsibility",
+        "containerization",
+        "configuration-management",
+        "orchestration"
+      ],
+      "hint": "A new managed-service boundary changes who configures, observes, and proves the control.",
+      "id": "d3-o05-cloud-container-serverless-transfer-v1-338653dcefac",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The privileged deployment path can replace the approved image or secret after the scan.",
+          "id": "single-signal",
+          "label": "Trust the classifier because its currently running container image passed the security scan.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "The provider operates infrastructure, while the customer still governs function code, identities, secrets, routes, and data use.",
+          "id": "unchanged-rule",
+          "label": "Trust the function because serverless infrastructure removes customer responsibility for code and secrets.",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Runtime assurance depends on the independently governed deployment authority shown in the map.",
+          "id": "recompute",
+          "label": "Separate deployment duties, restrict image and secret changes, require approved provenance, log changes, and test rollback.",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The boundary model preserves event validation, workload identities, container and object authorization, shared responsibility, and separate deployment authority. It uses authority lanes and staged relations rather than a message-order swimlane.",
+        "treatmentId": "fresh-d3-o05-cloud-container-serverless-event-authority-swimlane"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o05-cloud-container-serverless-event-authority-swimlane"
+    ],
+    "unitId": "d3-o05-cloud-container-serverless",
+    "variants": [
+      {
+        "changedFact": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "deploy",
+              "function",
+              "classifier"
+            ],
+            "caption": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review.",
+            "id": "variant-facts",
+            "statuses": {
+              "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+              "deploy": "Image and secret changes require separated approval, provenance, logging, and rollback.",
+              "function": "Function code and secret can be changed by the deployment authority."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "deploy",
+              "function",
+              "classifier"
+            ],
+            "caption": "Runtime assurance depends on the independently governed deployment authority shown in the map.",
+            "id": "variant-result",
+            "statuses": {
+              "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+              "deploy": "Image and secret changes require separated approval, provenance, logging, and rollback.",
+              "function": "Function code and secret can be changed by the deployment authority."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Assess cloud, container, API, and serverless security paths",
+  "workedExamples": [
+    {
+      "reasoning": "Assign provider and customer responsibilities; validate uploads and events at both functions, use distinct workload identities, scope object-storage and classifier permissions, scan and pin images, protect deployment and registry access, record correlation IDs, and test retries and failed identity-service behavior.",
+      "situation": "An external upload invokes a serverless function that stores files and calls a containerized classifier.",
+      "takeaway": "The secure design is a chain of accountable decisions across cloud service, function, container, API, and data store.",
+      "title": "Document intake on a managed cloud"
+    },
+    {
+      "reasoning": "Determine the provider-operated layer and customer-controlled sharing, identity, retention, audit, integration, and recovery settings. Configure and test those controls, define accountable ownership, and review material provider or tenant changes.",
+      "situation": "A team enables a SaaS workspace that is provider-operated but contains regulated documents.",
+      "takeaway": "A provider-operated application still has customer-side data and configuration decisions.",
+      "title": "Data-sharing default in a SaaS collaboration service"
+    }
+  ]
+}

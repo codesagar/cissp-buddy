@@ -1,0 +1,829 @@
+{
+  "conceptIds": [
+    "dr-test",
+    "read-through",
+    "walkthrough",
+    "simulation",
+    "parallel-test",
+    "full-interruption",
+    "dr-test-evidence",
+    "lessons-learned"
+  ],
+  "concepts": [
+    {
+      "decision": "Select the form only after defining the recovery claim, impact tolerance, participants, and evidence required.",
+      "definition": "An authorized examination of a DR plan or capability against explicit recovery criteria.",
+      "failureExample": "A test with no criteria can complete without proving a business-relevant recovery capability.",
+      "id": "dr-test",
+      "label": "DR Test",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Use for completeness, contact, and assumption defects when no behavioral or technical evidence is required.",
+      "definition": "A review in which responsible people read and challenge plan content without rehearsing operational steps.",
+      "failureExample": "It cannot establish that people can execute a handoff under time pressure.",
+      "id": "read-through",
+      "label": "Read Through",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Use to verify sequencing and ownership before committing alternate systems or production services.",
+      "definition": "A procedural rehearsal that traces roles and steps through a recovery scenario.",
+      "failureExample": "A walkthrough may expose a missing handoff but not a broken replication link.",
+      "id": "walkthrough",
+      "label": "Walkthrough",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Use when leaders need evidence of timely escalation, communication, and decision quality under uncertainty.",
+      "definition": "A realistic scenario exercise using events or injects to test decisions and coordination without necessarily operating recovery infrastructure.",
+      "failureExample": "A simulation cannot alone prove alternate hardware capacity or backup restorability.",
+      "id": "simulation",
+      "label": "Simulation",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Use for high-value technical proof when parallel resources, safe data handling, and reconciliation are available.",
+      "definition": "A recovery exercise in which alternate capability runs while the production environment remains in service.",
+      "failureExample": "If outputs are not reconciled, parallel processing can mask integrity defects.",
+      "id": "parallel-test",
+      "label": "Parallel Test",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Use only with executive authority, business consent, defined rollback, and communications because it carries the greatest disruption risk.",
+      "definition": "A full-scale test that interrupts or transfers normal operations to exercise the real contingency response.",
+      "failureExample": "A poorly planned interruption creates a real outage that obscures whether recovery would have succeeded.",
+      "id": "full-interruption",
+      "label": "Full Interruption",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Preserve expected-versus-actual results and unresolved limitations before declaring status.",
+      "definition": "The objective-linked records—timelines, logs, outputs, decisions, and acceptance sign-off—showing what the DR test established.",
+      "failureExample": "An attendance list proves participation, not recovery performance.",
+      "id": "dr-test-evidence",
+      "label": "DR Test Evidence",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    },
+    {
+      "decision": "Create lessons after analyzing evidence and route material changes through ownership and controlled maintenance.",
+      "definition": "Documented, supported insight from test outcomes that changes recovery plans, capability, or future test design.",
+      "failureExample": "Repeating the same exercise without acting on evidence turns testing into ritual.",
+      "id": "lessons-learned",
+      "label": "Lessons Learned",
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "sourceVisualId": "d7-o12-dr-plan-testing-decision-comparison-1"
+    }
+  ],
+  "domainId": 7,
+  "estimatedMinutes": 30,
+  "id": "d7-o12-dr-plan-testing",
+  "misconceptions": [
+    {
+      "claim": "Reading the plan proves recoverability.",
+      "correction": "A read-through proves shared understanding only; technical, dependency, timing, and business acceptance evidence require more realistic testing."
+    },
+    {
+      "claim": "A failed exercise is a failure of the team.",
+      "correction": "A controlled failure is valuable evidence that reveals assumptions and improves the plan before a real disaster."
+    }
+  ],
+  "objectiveIds": [
+    "7.12"
+  ],
+  "outcome": "Given a recovery objective and test constraint, choose an appropriate exercise type, define success criteria and safety controls, capture results, and turn findings into verified improvements.",
+  "prerequisites": [
+    "d7-o10-recovery-strategies",
+    "d7-o11-disaster-recovery",
+    "d6-o02-control-testing"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "A read-through checks shared understanding of a plan; a structured walkthrough rehearses roles and decisions; a simulation exercises responses to injects; a parallel test runs recovery capability alongside production; a full-interruption test deliberately transfers or stops production and carries the greatest operational risk. Select the type based on maturity, objectives, safety, dependencies, and tolerance for disruption, and define scope, authority, observers, communications, and stop criteria.",
+      "id": "test-types",
+      "keyPoints": [
+        "A tabletop can reveal coordination gaps without proving technical recovery.",
+        "Parallel and full-interruption tests provide stronger evidence but require careful authorization and rollback.",
+        "Tests should include suppliers, identity, keys, communications, facilities, and people where they are dependencies."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o12",
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "title": "Choose a test with a purpose"
+    },
+    {
+      "body": "Success criteria should trace to recovery objectives, service integrity, data currency, security controls, communications, decision time, and business acceptance. Capture expected versus actual results, assumptions, failures, workarounds, evidence, and residual risk without hiding uncomfortable outcomes. Assign corrective actions with owners and due dates, update plans and architecture, and retest material changes.",
+      "id": "evidence-and-improvement",
+      "keyPoints": [
+        "A passed exercise is evidence about the tested scope and conditions, not a guarantee of future recovery.",
+        "Findings need priority, owner, due date, and verification.",
+        "Lessons should update procedures, contacts, dependencies, training, contracts, or technology."
+      ],
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ],
+      "title": "Measure and close findings"
+    }
+  ],
+  "sourceHash": "21cb2f247e0f98b05cdc542ca4aa313fb552c3a8cacc95ba8bc239c2e378e413",
+  "sourcePath": "knowledge/domains/d7-security-operations/units/d7-o12-dr-plan-testing.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o12",
+      "locator": {
+        "type": "objective",
+        "value": "7.12"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "DR plan testing"
+      ]
+    },
+    {
+      "id": "official-d7-82-84",
+      "locator": {
+        "type": "printed-page",
+        "value": "82-84 (PDF pp. 82-84)"
+      },
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "supports": [
+        "DR tests",
+        "test types",
+        "test findings"
+      ]
+    },
+    {
+      "id": "sybex-d7-899-901",
+      "locator": {
+        "type": "printed-page",
+        "value": "899-901, Chapter 18"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "read-through",
+        "walkthrough",
+        "simulation",
+        "parallel and interruption tests",
+        "lessons learned"
+      ]
+    }
+  ],
+  "summary": "DR testing provides evidence that people, procedures, dependencies, technology, communications, and recovery objectives work together. A test should reveal gaps safely, not merely confirm that a plan was read.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "selects parallel form and success criteria",
+        "to": "n2"
+      },
+      {
+        "from": "n3",
+        "kind": "dependency",
+        "label": "limits the identity scope exercised by",
+        "to": "n2"
+      },
+      {
+        "from": "n4",
+        "kind": "dependency",
+        "label": "limits the key-service scope exercised by",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "kind": "evidence",
+        "label": "produces measured component evidence",
+        "to": "n5"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "creates owned identity-dependency gap",
+        "to": "n6"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "creates owned key-dependency gap",
+        "to": "n6"
+      },
+      {
+        "from": "n5",
+        "kind": "evidence",
+        "label": "produces results and lessons",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "Record the scope limitation and do not claim end-to-end recovery evidence.",
+    "learningJob": {
+      "plainExplanation": "A recovery test report must state tested components and excluded dependencies. Application start cannot support an end-to-end recovery claim when identity, keys, safety constraints, or business acceptance were not tested.",
+      "visualReasoningGain": "Aligned test forms and exclusions would let the learner compare what each exercise can prove; the opening objective/test pair does not."
+    },
+    "matrix": {
+      "columns": [
+        {
+          "id": "scope",
+          "label": "Executed scope"
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence produced"
+        },
+        {
+          "id": "risk",
+          "label": "Disruption / safety"
+        },
+        {
+          "id": "limits",
+          "label": "Claim limit"
+        }
+      ],
+      "description": "Compare forms by what they execute and keep material exclusions visible next to the conclusion.",
+      "notes": [],
+      "rows": [
+        {
+          "cells": {
+            "evidence": "Role understanding and documented gaps",
+            "limits": "Does not prove systems or timing",
+            "risk": "Low",
+            "scope": "People, plan, decisions and communications"
+          },
+          "id": "tabletop",
+          "label": "Tabletop"
+        },
+        {
+          "cells": {
+            "evidence": "Coordination and decision records",
+            "limits": "Unexecuted dependencies remain assumptions",
+            "risk": "Low to moderate",
+            "scope": "Scenario decisions with selected technical inputs"
+          },
+          "id": "simulation",
+          "label": "Simulation"
+        },
+        {
+          "cells": {
+            "evidence": "Measured restore and validation in recovery environment",
+            "limits": "This case excludes identity and key services; no end-to-end claim",
+            "risk": "Moderate and bounded",
+            "scope": "Recovery components without replacing production"
+          },
+          "id": "parallel",
+          "label": "Parallel"
+        },
+        {
+          "cells": {
+            "evidence": "Direct cutover and operation evidence",
+            "limits": "Scenario and observation window still bound the claim",
+            "risk": "High; never use where life safety cannot be protected",
+            "scope": "Authorized production replacement"
+          },
+          "id": "interruption",
+          "label": "Interruption"
+        }
+      ],
+      "title": "A test claim cannot exceed exercised scope"
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "dr-test"
+        ],
+        "detail": "Specific service, RTO/RPO, dependency, security, and business acceptance question.",
+        "id": "n1",
+        "label": "Recovery objective"
+      },
+      {
+        "conceptIds": [
+          "parallel-test"
+        ],
+        "detail": "Recovery components exercised without replacing production traffic.",
+        "id": "n2",
+        "label": "Parallel test"
+      },
+      {
+        "conceptIds": [
+          "dr-test-evidence"
+        ],
+        "detail": "Material trust dependency omitted because another group owns it.",
+        "id": "n3",
+        "label": "Identity provider exclusion"
+      },
+      {
+        "conceptIds": [
+          "dr-test-evidence"
+        ],
+        "detail": "Material decryption/signing dependency omitted from the exercised path.",
+        "id": "n4",
+        "label": "Key service exclusion"
+      },
+      {
+        "conceptIds": [
+          "dr-test-evidence"
+        ],
+        "detail": "Observed timing, integrity, authorization, monitoring, capacity, and workflow results.",
+        "id": "n5",
+        "label": "Measured service criteria"
+      },
+      {
+        "conceptIds": [
+          "lessons-learned"
+        ],
+        "detail": "Finding, owner, due date, additional dependency test, plan update, and verified lesson.",
+        "id": "n6",
+        "label": "Owned improvement"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "parallel-test",
+        "dr-test-evidence",
+        "lessons-learned"
+      ],
+      "hint": "State exactly what was exercised, observed, excluded, and left for follow-up.",
+      "id": "d7-o12-dr-plan-testing-prediction-170515c41d71",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Application start omits identity and key dependencies that may prevent trusted service. The scope cannot support that claim.",
+          "id": "end-to-end",
+          "label": "Claim end-to-end recovery because the application and database started at the alternate site.",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Included timing and component results remain useful when accurately bounded; the exclusions become owned follow-up work.",
+          "id": "discard",
+          "label": "Discard the whole exercise because any excluded dependency makes every observation useless.",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The exercise supplies evidence for its measured scope while leaving end-to-end recovery unproven.",
+          "id": "bounded",
+          "label": "Report component results and the exclusions; create owned tests for identity and key dependencies.",
+          "repairStateId": "control-enforced"
+        }
+      ],
+      "prompt": "A parallel recovery test excludes identity and key-management services because other teams operate them. What may the report claim?"
+    },
+    "question": "Given a recovery objective and test constraint, choose an appropriate exercise type, define success criteria and safety controls, capture results, and turn findings into verified improvements.",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "walkthrough",
+        "dr-test-evidence",
+        "lessons-learned"
+      ],
+      "hint": "The walkthrough has produced evidence about a communication dependency.",
+      "id": "d7-o12-dr-plan-testing-retry-v2-d5cb29c7e691",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Safety does not make an obsolete required contact a pass.",
+          "id": "walkthrough-pass",
+          "label": "Mark the plan successful because no production system was affected",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. A walkthrough can validate or fail procedural dependencies even without interrupting production.",
+          "id": "fix-retest-contact",
+          "label": "Update the owned contact path, verify an alternate, and retest communication",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "The known contact defect can be repaired and retested without creating unnecessary production risk.",
+          "id": "full-interrupt",
+          "label": "Run a full-interruption test immediately to prove whether the phone number matters",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A walkthrough finds that the emergency carrier number is obsolete before any technical recovery step begins. What should happen next?"
+    },
+    "scenario": "A team performs a parallel recovery test but excludes the identity provider and key-management service because they are operated by other groups.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d7-o12",
+      "official-d7-82-84",
+      "sybex-d7-899-901"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "activeRowIds": [],
+        "caption": "A team performs a parallel recovery test but excludes the identity provider and key-management service because they are operated by other groups.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "end-to-end objective",
+          "n2": "parallel form"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4"
+        ],
+        "activeRowIds": [
+          "tabletop"
+        ],
+        "caption": "A tabletop can reveal coordination gaps without proving technical recovery.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "identity excluded",
+          "n4": "KMS excluded"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n3",
+          "n4",
+          "n2"
+        ],
+        "activeRowIds": [
+          "simulation"
+        ],
+        "caption": "Reading the plan proves recoverability. A read-through proves shared understanding only; technical, dependency, timing, and business acceptance evidence require more realistic testing.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n1": "end-to-end claim withheld"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          3
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n5"
+        ],
+        "activeRowIds": [
+          "parallel"
+        ],
+        "caption": "Record the scope limitation and do not claim end-to-end recovery evidence. Include or separately test those dependencies, measure service and security criteria, and make the gap an owned improvement before relying on the result for a high-impact recovery claim.",
+        "id": "control-enforced",
+        "statuses": {
+          "n5": "included service/security criteria measured"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5,
+          6
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "activeRowIds": [
+          "interruption"
+        ],
+        "caption": "Given a recovery objective and test constraint, choose an appropriate exercise type, define success criteria and safety controls, capture results, and turn findings into verified improvements. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "separate dependency tests owned"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Record the scope limitation and do not claim end-to-end recovery evidence.",
+    "title": "Test disaster recovery plans",
+    "transfer": {
+      "conceptIds": [
+        "full-interruption",
+        "parallel-test",
+        "dr-test-evidence"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d7-o12-dr-plan-testing-transfer-66d6159665b0",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Use staged or parallel testing, targeted technical tests, simulations, and dependency evidence while documenting the residual assurance gap.",
+          "id": "evidence-action",
+          "label": "Use staged or parallel testing, targeted technical tests, simulations",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A full-interruption test would affect life-safety systems and cannot be authorized. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Record the scope limitation and do not claim end-to-end recovery evidence. Repair target: Decision recomputed — Use staged or parallel testing, targeted technical tests, simulations, and dependency evidence while documenting the residual assurance gap.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A full-interruption test would affect life-safety systems and cannot be authorized. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Record the scope limitation and do not claim end-to-end recovery evidence. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A full-interruption test would affect life-safety systems and cannot be authorized."
+    },
+    "treatmentDispositions": [],
+    "treatmentIds": [],
+    "unitId": "d7-o12-dr-plan-testing",
+    "variants": [
+      {
+        "changedFact": "A full-interruption test would affect life-safety systems and cannot be authorized.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "is translated into a safe test",
+            "to": "n2"
+          },
+          {
+            "from": "n3",
+            "kind": "dependency",
+            "label": "requires a bounded alternate instead of unsafe full interruption in",
+            "to": "n2"
+          },
+          {
+            "from": "n4",
+            "kind": "dependency",
+            "label": "sets the authorized boundary for",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "produces measured capability evidence",
+            "to": "n5"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "records safety exclusion",
+            "to": "n6"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "records authority and residual gap",
+            "to": "n6"
+          },
+          {
+            "from": "n5",
+            "kind": "evidence",
+            "label": "supports the bounded conclusion",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "matrix": {
+          "columns": [
+            {
+              "id": "scope",
+              "label": "Executed scope"
+            },
+            {
+              "id": "evidence",
+              "label": "Evidence produced"
+            },
+            {
+              "id": "risk",
+              "label": "Disruption / safety"
+            },
+            {
+              "id": "limits",
+              "label": "Claim limit"
+            }
+          ],
+          "description": "Compare forms by what they execute and keep material exclusions visible next to the conclusion.",
+          "notes": [],
+          "rows": [
+            {
+              "cells": {
+                "evidence": "Role understanding and documented gaps",
+                "limits": "Does not prove systems or timing",
+                "risk": "Low",
+                "scope": "People, plan, decisions and communications"
+              },
+              "id": "tabletop",
+              "label": "Tabletop"
+            },
+            {
+              "cells": {
+                "evidence": "Coordination and decision records",
+                "limits": "Unexecuted dependencies remain assumptions",
+                "risk": "Low to moderate",
+                "scope": "Scenario decisions with selected technical inputs"
+              },
+              "id": "simulation",
+              "label": "Simulation"
+            },
+            {
+              "cells": {
+                "evidence": "Measured restore and validation in recovery environment",
+                "limits": "This case excludes identity and key services; no end-to-end claim",
+                "risk": "Moderate and bounded",
+                "scope": "Recovery components without replacing production"
+              },
+              "id": "parallel",
+              "label": "Parallel"
+            },
+            {
+              "cells": {
+                "evidence": "Direct cutover and operation evidence",
+                "limits": "Scenario and observation window still bound the claim",
+                "risk": "High; never use where life safety cannot be protected",
+                "scope": "Authorized production replacement"
+              },
+              "id": "interruption",
+              "label": "Interruption"
+            }
+          ],
+          "title": "A test claim cannot exceed exercised scope"
+        },
+        "nodes": [
+          {
+            "conceptIds": [
+              "dr-test"
+            ],
+            "detail": "The evidence need must be met without endangering life-safety operation.",
+            "id": "n1",
+            "label": "Life-safety recovery objective"
+          },
+          {
+            "conceptIds": [
+              "parallel-test",
+              "simulation"
+            ],
+            "detail": "Parallel, simulation, component, or scheduled evidence replaces unsafe interruption.",
+            "id": "n2",
+            "label": "Bounded alternate test"
+          },
+          {
+            "conceptIds": [
+              "full-interruption",
+              "dr-test"
+            ],
+            "detail": "Full interruption is prohibited because it could harm people.",
+            "id": "n3",
+            "label": "Life-safety system constraint"
+          },
+          {
+            "conceptIds": [
+              "dr-test"
+            ],
+            "detail": "Safety and business authorities refuse the high-impact method.",
+            "id": "n4",
+            "label": "Authorization boundary"
+          },
+          {
+            "conceptIds": [
+              "dr-test-evidence"
+            ],
+            "detail": "The alternate method records recovery time, dependency, control, and acceptance evidence.",
+            "id": "n5",
+            "label": "Measured safe criteria"
+          },
+          {
+            "conceptIds": [
+              "dr-test-evidence"
+            ],
+            "detail": "Unexercised behavior remains explicit with an owner and safer future evidence plan.",
+            "id": "n6",
+            "label": "Residual gap and next test"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n2"
+            ],
+            "activeRowIds": [
+              "tabletop"
+            ],
+            "caption": "A full-interruption test would affect life-safety systems and cannot be authorized.",
+            "id": "changed-fact",
+            "statuses": {
+              "n1": "life-safety systems in scope",
+              "n2": "full interruption unauthorized"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              3
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n5",
+              "n2"
+            ],
+            "activeRowIds": [
+              "simulation"
+            ],
+            "caption": "Use staged or parallel testing, targeted technical tests, simulations, and dependency evidence while documenting the residual assurance gap.",
+            "id": "changed-decision",
+            "statuses": {
+              "n5": "staged, simulation, and targeted evidence selected"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              6
+            ],
+            "activeNodeIds": [
+              "n5",
+              "n6"
+            ],
+            "activeRowIds": [
+              "parallel"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "limitations recorded; follow-up realism increased safely"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Test disaster recovery plans",
+  "workedExamples": [
+    {
+      "reasoning": "Record the scope limitation and do not claim end-to-end recovery evidence. Include or separately test those dependencies, measure service and security criteria, and make the gap an owned improvement before relying on the result for a high-impact recovery claim.",
+      "situation": "A team performs a parallel recovery test but excludes the identity provider and key-management service because they are operated by other groups.",
+      "takeaway": "Record the scope limitation and do not claim end-to-end recovery evidence. Include or separately test those dependencies, measure service and security criteria, and make the gap an owned improvement before relying on the result for a high-impact recovery claim.",
+      "title": "Parallel recovery exercise"
+    }
+  ]
+}

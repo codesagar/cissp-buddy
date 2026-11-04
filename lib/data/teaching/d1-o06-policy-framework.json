@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o06-policy-framework",
+  "treatmentIds": [
+    "fresh-d1-o06-policy-framework-document-system-exception-loop"
+  ],
+  "title": "document system exception loop",
+  "question": "Where should a remote-administration rule live, and how can a temporary variance remain subordinate, bounded, and reviewable?",
+  "scenario": "Remote administration: Leadership requires strong protection for administrative access.",
+  "focalRelation": "Policy sets direction; standards state mandatory minima; procedures state repeatable method; guidelines advise; an approved exception varies a named requirement for a scope and period and returns to review.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "security-policy",
+      "label": "Leadership direction",
+      "detail": "Leadership policy requires strong protection for remote administrative access and assigns accountability for that direction.",
+      "conceptIds": [
+        "security-policy"
+      ]
+    },
+    {
+      "id": "security-standard",
+      "label": "Security Standard",
+      "detail": "The standard converts policy into measurable minimums such as MFA, approved protocols, logging, and session limits.",
+      "conceptIds": [
+        "security-standard"
+      ]
+    },
+    {
+      "id": "security-procedure",
+      "label": "Security Procedure",
+      "detail": "The approved procedure tells administrators how to configure, use, review, and close remote sessions.",
+      "conceptIds": [
+        "security-procedure"
+      ]
+    },
+    {
+      "id": "security-guideline",
+      "label": "Security Guideline",
+      "detail": "Guidance offers adaptable implementation choices without weakening the mandatory policy or standard.",
+      "conceptIds": [
+        "security-guideline"
+      ]
+    },
+    {
+      "id": "policy-exception",
+      "label": "Policy Exception",
+      "detail": "A named owner may approve a scoped, risk-treated, time-limited variance from a specific standard requirement.",
+      "conceptIds": [
+        "policy-exception"
+      ]
+    },
+    {
+      "id": "review-or-expiry",
+      "label": "Review Or Expiry",
+      "detail": "The exception ends or returns for reassessment on its recorded date or when its assumptions change.",
+      "conceptIds": [
+        "document-lifecycle",
+        "policy-exception",
+        "control-owner"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "security-policy",
+      "to": "security-standard",
+      "label": "is implemented through measurable",
+      "kind": "flow"
+    },
+    {
+      "from": "security-standard",
+      "to": "security-procedure",
+      "label": "is performed by approved",
+      "kind": "flow"
+    },
+    {
+      "from": "security-policy",
+      "to": "security-guideline",
+      "label": "is supported by adaptable",
+      "kind": "flow"
+    },
+    {
+      "from": "policy-exception",
+      "to": "security-standard",
+      "label": "records authorized variance from named",
+      "kind": "evidence"
+    },
+    {
+      "from": "policy-exception",
+      "to": "review-or-expiry",
+      "label": "must terminate or be reassessed at",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Remote administration: Leadership requires strong protection for administrative access.",
+      "activeNodeIds": [
+        "security-policy"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "security-policy": "Leadership policy requires strong protection for remote administrative access and assigns accountability for that direction."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Security Policy is implemented through measurable Security Standard. Security Standard is performed by approved Security Procedure.",
+      "activeNodeIds": [
+        "security-policy",
+        "security-standard",
+        "security-procedure"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "security-standard": "The standard converts policy into measurable minimums such as MFA, approved protocols, logging, and session limits.",
+        "security-policy": "Leadership policy requires strong protection for remote administrative access and assigns accountability for that direction.",
+        "security-procedure": "The approved procedure tells administrators how to configure, use, review, and close remote sessions."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Policy Exception records authorized variance from named Security Standard. Policy Exception must terminate or be reassessed at Review Or Expiry.",
+      "activeNodeIds": [
+        "policy-exception",
+        "security-standard",
+        "review-or-expiry"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "review-or-expiry": "The exception ends or returns for reassessment on its recorded date or when its assumptions change.",
+        "policy-exception": "A named owner may approve a scoped, risk-treated, time-limited variance from a specific standard requirement.",
+        "security-standard": "The standard converts policy into measurable minimums such as MFA, approved protocols, logging, and session limits."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The MFA procedure names screens from a retired identity platform, while the policy goal and mandatory MFA standard still apply. Update and approve the procedure; do not rewrite the policy or standard unless their requirement also changed.",
+      "activeNodeIds": [
+        "security-policy",
+        "security-standard",
+        "security-procedure",
+        "policy-exception",
+        "review-or-expiry",
+        "security-guideline"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "review-or-expiry": "Update and approve the procedure; do not rewrite the policy or standard unless their requirement also changed.",
+        "security-policy": "Leadership policy requires strong protection for remote administrative access and assigns accountability for that direction.",
+        "security-standard": "The standard converts policy into measurable minimums such as MFA, approved protocols, logging, and session limits.",
+        "security-procedure": "The approved procedure tells administrators how to configure, use, review, and close remote sessions.",
+        "policy-exception": "A named owner may approve a scoped, risk-treated, time-limited variance from a specific standard requirement.",
+        "security-guideline": "Guidance offers adaptable implementation choices without weakening the mandatory policy or standard."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The repeatable implementation steps are obsolete. The direction and measurable minimum have not changed.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The MFA procedure names screens from a retired identity platform, while the policy goal and mandatory MFA standard still apply.",
+          "activeNodeIds": [
+            "policy-exception",
+            "security-standard",
+            "review-or-expiry"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "review-or-expiry": "The exception ends or returns for reassessment on its recorded date or when its assumptions change.",
+            "policy-exception": "A named owner may approve a scoped, risk-treated, time-limited variance from a specific standard requirement.",
+            "security-standard": "The standard converts policy into measurable minimums such as MFA, approved protocols, logging, and session limits."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Update and approve the procedure; do not rewrite the policy or standard unless their requirement also changed.",
+          "activeNodeIds": [
+            "policy-exception",
+            "security-standard",
+            "review-or-expiry"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "review-or-expiry": "Update and approve the procedure; do not rewrite the policy or standard unless their requirement also changed.",
+            "policy-exception": "A named owner may approve a scoped, risk-treated, time-limited variance from a specific standard requirement.",
+            "security-standard": "The standard converts policy into measurable minimums such as MFA, approved protocols, logging, and session limits."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o06-policy-framework-prediction-v1",
+    "prompt": "Where should a remote-administration rule live, and how can a temporary variance remain subordinate, bounded, and reviewable?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Put the eight-character minimum in a guideline and let each administrator decide whether to follow it.",
+        "correct": false,
+        "feedback": "Document purpose, scope, approval, and expiry determine placement; a temporary variance does not become enduring direction by moving it upward.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Put the measurable minimum in a standard and treat any variance as a scoped, owned, expiring exception.",
+        "correct": true,
+        "feedback": "A policy supplies direction, while an informal waiver cannot silently redefine the mandatory minimum or prove operation.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Put the eight-character minimum in the policy and allow teams to document permanent local alternatives.",
+        "correct": false,
+        "feedback": "Approval establishes direction; operating and assurance evidence establish implementation and effect.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "security-policy",
+      "security-standard",
+      "policy-exception",
+      "control-owner"
+    ],
+    "hint": "Distinguish the mandatory rule from the repeatable steps used to carry it out."
+  },
+  "transfer": {
+    "id": "d1-o06-policy-framework-transfer-v1",
+    "prompt": "The MFA procedure names screens from a retired identity platform, while the policy goal and mandatory MFA standard still apply.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Ignore the obsolete procedure because the higher-level policy still requires multi-factor authentication.",
+        "correct": false,
+        "feedback": "Changed fact: The repeatable implementation steps are obsolete. The direction and measurable minimum have not changed. Why this answer fails: “Ignore the obsolete procedure because the higher-level policy still requires multi-factor authentication.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Policy sets direction; standards state mandatory minima; procedures state repeatable method; guidelines advise; an approved exception varies a named requirement for a scope and period and returns to review. Repair target: Control and evidence consequence — Policy Exception records authorized variance from named Security Standard. Policy Exception must terminate or be reassessed at Review Or Expiry.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Update and approve the obsolete procedure while preserving the valid policy and MFA standard",
+        "correct": true,
+        "feedback": "Update and approve the procedure; do not rewrite the policy or standard unless their requirement also changed.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Replace the multi-factor standard with the old single-factor procedure until the next annual policy review.",
+        "correct": false,
+        "feedback": "Changed fact: The repeatable implementation steps are obsolete. The direction and measurable minimum have not changed. Why this answer fails: “Replace the multi-factor standard with the old single-factor procedure until the next annual policy review.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Policy sets direction; standards state mandatory minima; procedures state repeatable method; guidelines advise; an approved exception varies a named requirement for a scope and period and returns to review. Repair target: Changed fact, recomputed result — The MFA procedure names screens from a retired identity platform, while the policy goal and mandatory MFA standard still apply. Update and approve the procedure; do not rewrite the policy or standard unless their requirement also changed.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "security-policy",
+      "security-standard",
+      "security-procedure",
+      "policy-exception"
+    ],
+    "hint": "Ask which document changed when only the operating steps changed."
+  },
+  "retry": {
+    "id": "d1-o06-policy-framework-retry-v1",
+    "prompt": "A team asks to permanently bypass a baseline because its legacy platform cannot meet it. What should the security manager require?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A policy alone proves a control is operating",
+        "correct": false,
+        "feedback": "Operation needs implementation, evidence, monitoring, and correction when practice diverges.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Put the temporary workaround in policy so it has the highest authority",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. A documented, authorized, time-bound exception with risk treatment—not an undocumented permanent workaround.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "evidence-based",
+        "label": "Require an authorized, time-bound exception with documented risk treatment",
+        "correct": true,
+        "feedback": "Correct. A documented, authorized, time-bound exception with risk treatment—not an undocumented permanent workaround.",
+        "repairStateId": "consequence"
+      }
+    ],
+    "conceptIds": [
+      "policy-exception",
+      "security-standard"
+    ],
+    "hint": "Revise the lowest document that is no longer accurate, then obtain its required approval."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Policy sets direction; standards state mandatory minima; procedures state repeatable method; guidelines advise; an approved exception varies a named requirement for a scope and period and returns to review.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o06-outline",
+    "d1-o06-textbook",
+    "d1-o06-policy-framework-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o06-policy-framework-document-system-exception-loop",
+      "disposition": "equivalent",
+      "rationale": "The state model preserves direction in policy, measurable minima in standards, repeatable work in procedures, adaptable guidance, and a scoped expiring exception that returns to review. It uses a worked remote-administration case rather than the reviewed static document comparison plus adjacent retrieval cards."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Policy sets direction, standards make requirements measurable, procedures define repeatable steps, and guidelines advise. Exceptions must name the requirement, owner, compensating controls, scope, and expiry.",
+    "visualReasoningGain": "The hierarchy and exception loop add useful placement and expiry reasoning, but a persistent stack would clarify what changes when only a procedure becomes obsolete."
+  }
+}

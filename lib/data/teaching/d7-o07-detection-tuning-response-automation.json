@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o07-detection-tuning-response-automation",
+  "treatmentIds": [
+    "fresh-d7-o07-detection-tuning-response-automation-guarded-automation-state-machine"
+  ],
+  "title": "Tune detections and constrain response automation",
+  "question": "When may a detection or automated response be changed without creating a new blind spot or harm?",
+  "scenario": "An endpoint model detects ransomware-like file changes and isolates the device automatically. A backup administrator's maintenance tool triggers the same pattern on a recovery server.",
+  "focalRelation": "signal --confidence/consequence/scope guard--> recommend or act high-impact uncertain action --requires--> human authorization automated action --bounded target/time and evidence--> verify unexpected harm --rollback or safe stop--> prior state confirmed outcome --updates detection with change control--> tuning",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Ransomware-like file changes",
+      "detail": "Behavior signal that can indicate attack or authorized backup maintenance.",
+      "conceptIds": [
+        "ml-detection",
+        "false-positive",
+        "false-negative"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Endpoint model",
+      "detail": "Detection logic with measured coverage, threshold, version, and labeled performance.",
+      "conceptIds": [
+        "ai-security-tool",
+        "detection-tuning",
+        "security-metrics"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Recovery server context",
+      "detail": "Asset criticality, maintenance window, signer, process, and backup role used to distinguish the case.",
+      "conceptIds": [
+        "control-coverage",
+        "control-health"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Guarded isolation action",
+      "detail": "Automation allowed only when authority, confidence, asset constraints, notifications, and stop conditions hold.",
+      "conceptIds": [
+        "response-automation",
+        "escalation-boundary"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Alternate console and rollback",
+      "detail": "Tested path that preserves recovery access and reverses mistaken isolation safely.",
+      "conceptIds": [
+        "response-automation",
+        "control-health"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Labeled tuning evidence",
+      "detail": "Trigger, context, disposition, false-positive/negative impact, owner, expiry, and regression result.",
+      "conceptIds": [
+        "detection-tuning",
+        "security-metrics"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "is scored by detection model",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "requests asset and maintenance context",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "authorizes, denies, or escalates automation",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "requires tested rollback and alternate access",
+      "kind": "dependency"
+    },
+    {
+      "from": "n1",
+      "to": "n6",
+      "label": "supplies labeled case after disposition",
+      "kind": "evidence"
+    },
+    {
+      "from": "n6",
+      "to": "n2",
+      "label": "updates targeted rule with regression check",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "An endpoint model detects ransomware-like file changes and isolates the device automatically. A backup administrator's maintenance tool triggers the same pattern on a recovery server.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "ransomware-like changes",
+        "n2": "high score"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A quiet control can be disabled, blind, or over-suppressed.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "recovery server + approved maintenance"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Machine-learning detection removes the need for rule tuning. Models also need data quality, drift monitoring, threshold decisions, validation, and response governance.",
+      "activeNodeIds": [
+        "n2",
+        "n4",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "unconditional isolation rejected"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "The action should require asset criticality and maintenance context, capture the triggering events, notify the owner, and provide a tested rollback or alternate console path. Tune the model using the labeled case but do not suppress the behavior globally; preserve a targeted detection for unauthorized encryption on recovery assets.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "guarded action or escalation",
+        "n5": "alternate console ready"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given noisy or changing detection data, tune a control, measure false positives and false negatives, and automate only actions whose authority, safeguards, and rollback are explicit. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n6": "case labeled; targeted tuning regression-tested"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold.",
+          "activeNodeIds": [
+            "n2",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n6": "threshold raise proposed due to workload"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Reject a volume-only change; test alternative enrichment, routing, asset-based thresholds, and staffing, and document residual risk if scope changes. Reducing analyst workload by discarding low-volume high-impact signals can increase false negatives.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            4
+          ],
+          "statuses": {
+            "n1": "prior incident below proposed threshold",
+            "n6": "false-negative cost exposed"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            5
+          ],
+          "statuses": {
+            "n6": "enrichment/routing/staffing tested before threshold change"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Prior low-volume incident",
+          "detail": "The last confirmed incident triggered below the proposed higher threshold.",
+          "conceptIds": [
+            "detection-tuning"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Proposed raised threshold",
+          "detail": "The change reduces alert volume but risks hiding the known attack pattern.",
+          "conceptIds": [
+            "false-negative"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Asset and threat context",
+          "detail": "Criticality and technique impact determine acceptable sensitivity.",
+          "conceptIds": [
+            "control-coverage"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Enrichment and routing alternatives",
+          "detail": "Better context, deduplication, ownership, and staffing address workload without blind suppression.",
+          "conceptIds": [
+            "response-automation"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Canary and rollback",
+          "detail": "A bounded trial measures misses, workload, latency, and restores the prior rule on harm.",
+          "conceptIds": [
+            "escalation-boundary"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Labeled tuning evidence",
+          "detail": "Known incidents and benign events show false-positive and false-negative effects.",
+          "conceptIds": [
+            "false-positive",
+            "false-negative"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "shows the threshold that detected it",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "must be evaluated against threat context",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "selects safer workload responses",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "is tested with stop and rollback",
+          "kind": "dependency"
+        },
+        {
+          "from": "n1",
+          "to": "n6",
+          "label": "supplies a protected positive example",
+          "kind": "evidence"
+        },
+        {
+          "from": "n6",
+          "to": "n2",
+          "label": "measures proposed rule behavior",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o07-detection-tuning-response-automation-prediction",
+    "prompt": "When may a detection or automated response be changed without creating a new blind spot or harm?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "Machine-learning detection removes the need for rule tuning.",
+        "correct": false,
+        "feedback": "Incorrect: Models also need data quality, drift monitoring, threshold decisions, validation, and response governance.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Use context, bounded authority, owner notice, evidence, and tested rollback",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Models also need data quality, drift monitoring, threshold decisions, validation, and response governance.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Always isolate a host when the ransomware model fires, including the recovery server.",
+        "correct": false,
+        "feedback": "Incorrect: guarded automation needs confidence, asset criticality, exceptions, timeout, human escalation, rollback, and evidence. The maintenance false positive is a case for narrow tuning, not unconditional isolation or broad suppression.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "false-positive",
+      "detection-tuning",
+      "response-automation"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o07-detection-tuning-response-automation-transfer",
+    "prompt": "A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: The action should require asset criticality and maintenance context, capture the triggering events, notify the owner, and provide a tested rollback or alternate console path. Repair target: Decision recomputed — Reject a volume-only change; test alternative enrichment, routing, asset-based thresholds, and staffing, and document residual risk if scope changes. Reducing analyst workload by discarding low-volume high-impact signals can increase false negatives.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: The action should require asset criticality and maintenance context, capture the triggering events, notify the owner, and provide a tested rollback or alternate console path. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Reject a volume-only change; test alternative enrichment, routing, asset-based thresholds, and staffing",
+        "correct": true,
+        "feedback": "Correct. Reject a volume-only change; test alternative enrichment, routing, asset-based thresholds, and staffing, and document residual risk if scope changes. Reducing analyst workload by discarding low-volume high-impact signals can increase false negatives.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "detection-tuning"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o07-detection-tuning-response-automation-retry-v2",
+    "prompt": "An automation playbook isolates a production database after one low-confidence anomaly and has no rollback action. What should change?",
+    "options": [
+      {
+        "id": "gate-automation",
+        "label": "Require corroboration or approval for disruptive isolation, add health checks and rollback, and log each decision",
+        "correct": true,
+        "feedback": "Correct. High-impact automation needs bounded triggers, authority, observable effects, and recovery.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "keep-fast",
+        "label": "Keep immediate isolation because false positives are acceptable whenever security is involved",
+        "correct": false,
+        "feedback": "An unsafe false positive can create major harm; response speed does not remove impact controls.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "disable-all",
+        "label": "Disable every automated response and require manual handling for all detections",
+        "correct": false,
+        "feedback": "Automation can remain useful when actions are tiered by confidence and impact with escalation and rollback.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "response-automation",
+      "escalation-boundary",
+      "control-health"
+    ],
+    "hint": "Match the action’s business impact to confidence, authority, and reversal evidence."
+  },
+  "takeaway": "The action should require asset criticality and maintenance context, capture the triggering events, notify the owner, and provide a tested rollback or alternate console path.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o07-tuning",
+    "official-d7-52-59-tuning",
+    "sybex-d7-810-828",
+    "sybex-d7-819-828"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o07-detection-tuning-response-automation-guarded-automation-state-machine",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable state states: Ransomware-like file changes is scored by detection model Endpoint model; Endpoint model requests asset and maintenance context Recovery server context. The model keeps Ransomware-like file changes, Endpoint model, Recovery server context, Guarded isolation action, Alternate console and rollback, Labeled tuning evidence distinct. Its changed case is “A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Automated response needs explicit authority, context, evidence capture, safeguards, owner notification, and tested rollback. Tune a labeled false positive narrowly without suppressing the behavior everywhere or hiding false negatives.",
+    "visualReasoningGain": "The guarded state sequence makes context checks, authority, isolation action, evidence capture, rollback, and targeted model tuning inspectable in one causal chain."
+  }
+}

@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d6-o01-strategy",
+  "treatmentIds": [
+    "fresh-d6-o01-strategy-claim-to-evidence-map"
+  ],
+  "title": "Design and validate assessment, test, and audit strategies",
+  "question": "Which assurance activity, scope, criteria, and independence are credible for this claim?",
+  "scenario": "Leadership asks whether privileged cloud access is safe.",
+  "focalRelation": "leadership claim --defines--> criteria and scope criteria/scope --select--> assessment, executed test, or audit test result --supports observed behavior only--> evidence set audit --uses defined criteria and sufficient independent evidence--> bounded conclusion",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Privileged cloud population",
+      "detail": "Named accounts, roles, regions, paths, and time period to which the safety claim applies.",
+      "conceptIds": [
+        "scope"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Control claim",
+      "detail": "The question “Is privileged cloud access safe?” decomposed into lifecycle, authentication, authorization, monitoring, and review criteria.",
+      "conceptIds": [
+        "assessment",
+        "criteria"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Assessment criteria",
+      "detail": "Explicit required behavior and failure conditions against which evidence is evaluated.",
+      "conceptIds": [
+        "criteria",
+        "test"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Independent assessor",
+      "detail": "Reviewer with enough objectivity and authority to challenge owners and report limitations.",
+      "conceptIds": [
+        "independence",
+        "audit"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Evidence set",
+      "detail": "Configuration, account population, exceptions, observed access paths, logs, and representative samples.",
+      "conceptIds": [
+        "assessment",
+        "test"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Bounded conclusion",
+      "detail": "Finding that names supported controls, exceptions, excluded paths, sampling limits, and the decision it informs.",
+      "conceptIds": [
+        "assessment",
+        "audit"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n5",
+      "label": "defines population from which evidence is selected",
+      "kind": "evidence"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "is translated into testable criteria",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n5",
+      "label": "determines required evidence and tests",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "collects and challenges evidence independently",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "supports conclusion only for stated scope and limits",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "Leadership asks whether privileged cloud access is safe.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n1": "population not yet bounded",
+        "n2": "broad claim"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Assessment is the broad decision activity; testing is a method; audit emphasizes independence and criteria.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n3": "lifecycle and path criteria defined",
+        "n5": "evidence plan set"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A penetration test is the same as an audit. A penetration test explores technical exploitability; an audit evaluates evidence against defined criteria and independence requirements.",
+      "activeNodeIds": [
+        "n1",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "password scan covers only one path",
+        "n5": "governance and lifecycle evidence missing"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Define accounts, roles, regions, time window, control criteria, evidence sources, sampling, assessor independence, and report decision. A password scan alone cannot answer the governance and lifecycle question.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "independence declared",
+        "n5": "configuration, sample, exceptions, and logs tested"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Choose an assessment strategy for a stated control question and explain its scope, criteria, evidence, independence, and limitations. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n6": "conclusion bounded to named population and period"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A manager requests a full-security conclusion from a one-day vulnerability scan.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A manager requests a full-security conclusion from a one-day vulnerability scan.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n3"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "n2": "full-security conclusion requested",
+            "n5": "one-day scan only"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Narrow the conclusion to the scanned scope and method, or design a broader program. Evidence cannot support claims beyond population, time, and method.",
+          "activeNodeIds": [
+            "n3",
+            "n6",
+            "n2",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            4
+          ],
+          "statuses": {
+            "n3": "scan criterion covers technical exposure only",
+            "n6": "full conclusion withheld"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n1",
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            3,
+            4
+          ],
+          "statuses": {
+            "n1": "additional scope defined",
+            "n5": "additional evidence required",
+            "n6": "limited scan finding reported"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "One-day scan scope",
+          "detail": "The observed population and time window cover only systems reached by the scan.",
+          "conceptIds": [
+            "scope"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Full-security claim",
+          "detail": "Management asks for a conclusion broader than the method can support.",
+          "conceptIds": [
+            "assessment",
+            "criteria"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Scan criteria",
+          "detail": "The method checks selected technical exposures, not every control or operating period.",
+          "conceptIds": [
+            "criteria",
+            "test"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Assurance owner",
+          "detail": "The assessor must preserve independence and state scope and limitations.",
+          "conceptIds": [
+            "independence",
+            "audit"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Vulnerability scan evidence",
+          "detail": "The evidence shows findings and nonfindings only within the scanned scope.",
+          "conceptIds": [
+            "assessment",
+            "test"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Bounded scan conclusion",
+          "detail": "The report limits the conclusion or requires a broader assurance program.",
+          "conceptIds": [
+            "assessment",
+            "audit"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n5",
+          "label": "defines the observed population",
+          "kind": "evidence"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "is translated into supportable criteria",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "bounds what scan evidence can show",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "challenges the requested claim",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "supports only a limited conclusion",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d6-o01-strategy-prediction",
+    "prompt": "Which assurance activity, scope, criteria, and independence are credible for this claim?",
+    "options": [
+      {
+        "id": "relation",
+        "label": "Limit the conclusion to the named accounts, regions, period, criteria, and tests",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. A penetration test explores technical exploitability; an audit evaluates evidence against defined criteria and independence requirements.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "misconception",
+        "label": "A penetration test is the same as an audit.",
+        "correct": false,
+        "feedback": "Incorrect: A penetration test explores technical exploitability; an audit evaluates evidence against defined criteria and independence requirements.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Treat the policy and leadership interview as proof that privileged cloud access is operating safely.",
+        "correct": false,
+        "feedback": "Incorrect: policy and testimony establish intent, not operating effectiveness. The conclusion needs scoped configuration, population, event, exception, and independent test evidence.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "test",
+      "audit",
+      "scope"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d6-o01-strategy-transfer",
+    "prompt": "A manager requests a full-security conclusion from a one-day vulnerability scan.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A manager requests a full-security conclusion from a one-day vulnerability scan. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Define accounts, roles, regions, time window, control criteria, evidence sources, sampling, assessor independence, and report decision. Repair target: Decision recomputed — Narrow the conclusion to the scanned scope and method, or design a broader program. Evidence cannot support claims beyond population, time, and method.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Narrow the conclusion to the scanned scope and method, or design a broader program",
+        "correct": true,
+        "feedback": "Correct. Narrow the conclusion to the scanned scope and method, or design a broader program. Evidence cannot support claims beyond population, time, and method.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A manager requests a full-security conclusion from a one-day vulnerability scan. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Define accounts, roles, regions, time window, control criteria, evidence sources, sampling, assessor independence, and report decision. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "scope"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d6-o01-strategy-retry-v2",
+    "prompt": "A penetration test excludes the payment processor API, yet the draft conclusion says the checkout service resists external attack. How should the conclusion change?",
+    "options": [
+      {
+        "id": "infer-provider",
+        "label": "Infer the processor path is safe because the provider is certified and the tested application passed",
+        "correct": false,
+        "feedback": "A provider certificate and another path’s test do not establish this integration’s behavior.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "publish-clean",
+        "label": "Publish the broad conclusion and put the exclusion only in a technical appendix",
+        "correct": false,
+        "feedback": "A material scope limit must constrain the conclusion, not be hidden from decision makers.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "bound-conclusion",
+        "label": "Limit the claim to tested paths and state the excluded processor API, or add authorized coverage before broadening it",
+        "correct": true,
+        "feedback": "Correct. Assessment evidence supports only the defined scope and method.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "scope",
+      "assessment",
+      "test"
+    ],
+    "hint": "The conclusion cannot be broader than the assets, paths, time, and methods actually examined."
+  },
+  "takeaway": "Define accounts, roles, regions, time window, control criteria, evidence sources, sampling, assessor independence, and report decision.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d6",
+    "official-d6-9-20",
+    "sybex-d6-799-807",
+    "aio-d6-1172-1176"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d6-o01-strategy-claim-to-evidence-map",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable decision states: Privileged cloud population defines population from which evidence is selected Evidence set; Control claim is translated into testable criteria Assessment criteria. The model keeps Privileged cloud population, Control claim, Assessment criteria, Independent assessor, Evidence set, Bounded conclusion distinct. Its changed case is “A manager requests a full-security conclusion from a one-day vulnerability scan.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Assessment answers a bounded control question, testing supplies methods and evidence, and audit adds criteria and independence expectations. The conclusion must remain limited to the defined population, period, evidence, sampling, and assessor role.",
+    "visualReasoningGain": "A stronger comparison would align assessment, test, and audit against scope, evidence, criteria, and independence; the opening population/claim/criteria boxes do not enable that selection."
+  },
+  "openingFacts": [
+    {
+      "label": "Privileged cloud population",
+      "value": "Named accounts, roles, regions, paths, and time period to which the safety claim applies."
+    },
+    {
+      "label": "Control claim",
+      "value": "The question “Is privileged cloud access safe?” decomposed into lifecycle, authentication, authorization, monitoring, and review criteria."
+    },
+    {
+      "label": "Assessment criteria",
+      "value": "Explicit required behavior and failure conditions against which evidence is evaluated."
+    },
+    {
+      "label": "Independent assessor",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Evidence set",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Bounded conclusion",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

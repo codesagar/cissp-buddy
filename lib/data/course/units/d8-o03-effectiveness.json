@@ -1,0 +1,723 @@
+{
+  "conceptIds": [
+    "software-assessment",
+    "appsec-testing",
+    "security-metrics",
+    "runtime-monitoring",
+    "vulnerability-management",
+    "logging"
+  ],
+  "concepts": [
+    {
+      "decision": "Match methods to the claim and report scope, assumptions, coverage, limitations, findings, owner, and retest plan.",
+      "definition": "A structured evaluation of whether software security requirements, controls, evidence, and residual risks are adequate for the stated claim.",
+      "failureExample": "A checklist that never tests the privileged export path cannot establish that authorization is effective.",
+      "id": "software-assessment",
+      "label": "Software Assessment",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "sourceVisualId": "d8-o03-effectiveness-decision-comparison-1"
+    },
+    {
+      "decision": "Select methods from threat and lifecycle stage; use realistic roles/data and state what paths or configurations were not covered.",
+      "definition": "Testing of application security behavior through appropriate methods such as review, SAST, DAST, IAST, dependency checks, fuzzing, abuse cases, interface tests, and configuration tests.",
+      "failureExample": "An unauthenticated scan cannot prove privileged-role access control is enforced.",
+      "id": "appsec-testing",
+      "label": "Appsec Testing",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "sourceVisualId": "d8-o03-effectiveness-decision-comparison-1"
+    },
+    {
+      "decision": "Choose metrics tied to a decision and pair volume/speed with severity, exposure, exceptions, outcome evidence, and potential gaming.",
+      "definition": "Quantitative measures used to understand security control performance, trends, coverage, exposure, timeliness, or outcomes.",
+      "failureExample": "A high closure percentage can hide indefinitely accepted internet-facing critical vulnerabilities.",
+      "id": "security-metrics",
+      "label": "Security Metrics",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "sourceVisualId": "d8-o03-effectiveness-decision-comparison-1"
+    },
+    {
+      "decision": "Monitor signals that relate to stated threats and response decisions; tune ownership, escalation, coverage, and feedback into engineering.",
+      "definition": "Ongoing observation of deployed software behavior, configuration, performance, security events, and anomalies.",
+      "failureExample": "A control may pass pre-release tests but fail in production due to a changed identity or configuration.",
+      "id": "runtime-monitoring",
+      "label": "Runtime Monitoring",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "sourceVisualId": "d8-o03-effectiveness-decision-comparison-1"
+    },
+    {
+      "decision": "Prioritize with exploitability, exposure, impact, dependencies, compensating controls, and owner; retest remediation and review exceptions.",
+      "definition": "The lifecycle of identifying, validating, prioritizing, assigning, remediating or accepting, verifying, and tracking vulnerability risk.",
+      "failureExample": "Closing a ticket after applying a patch without verifying the running version leaves exposure unknown.",
+      "id": "vulnerability-management",
+      "label": "Vulnerability Management",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "sourceVisualId": "d8-o03-effectiveness-decision-comparison-1"
+    },
+    {
+      "decision": "Log sufficient actor/action/target/time/outcome/correlation context without secrets; protect integrity and verify alerts/queries lead to action.",
+      "definition": "Generation, protection, retention, and analysis of security-relevant records that support detection, investigation, accountability, and response.",
+      "failureExample": "Verbose logs that include tokens create a new disclosure risk while still failing to identify who authorized an export.",
+      "id": "logging",
+      "label": "Logging",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "sourceVisualId": "d8-o03-effectiveness-decision-comparison-1"
+    }
+  ],
+  "domainId": 8,
+  "estimatedMinutes": 30,
+  "id": "d8-o03-effectiveness",
+  "misconceptions": [
+    {
+      "claim": "A passed scan proves an application is secure.",
+      "correction": "Scans have coverage and false-negative limits; use layered evidence and operational feedback."
+    }
+  ],
+  "objectiveIds": [
+    "8.3"
+  ],
+  "outcome": "Build an evidence plan that evaluates whether software controls reduce risk through development and operation.",
+  "prerequisites": [
+    "d6-o02-control-testing",
+    "d7-o02-logging-monitoring"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Assess requirements traceability, threat-model coverage, design and code review, SAST/DAST/IAST where suitable, dependency and container checks, abuse-case and interface tests, deployment configuration, logs, vulnerability age, incident outcomes, and remediation retests. Match each method to a claim and state coverage and limitations.",
+      "id": "evidence",
+      "keyPoints": [
+        "Testing evidence should connect to requirements and threats.",
+        "Runtime evidence validates assumptions made before deployment.",
+        "Metrics need context, trends, and defined response thresholds."
+      ],
+      "sourceRefIds": [
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ],
+      "title": "Use layered evidence"
+    },
+    {
+      "body": "Combine findings with exploitability, business impact, exposure, exceptions, and control operation. Feed results into backlog, change, patch, incident, and architecture decisions. Logging should support detection and investigation without leaking secrets; effectiveness includes response speed and learning, not only defect counts.",
+      "id": "improve",
+      "keyPoints": [
+        "A low defect count can reflect weak testing or telemetry.",
+        "Risk-based prioritization prevents tool volume from driving every decision.",
+        "Retest and trend after remediation."
+      ],
+      "sourceRefIds": [
+        "official-d8-56-90",
+        "miller-d8-727-760"
+      ],
+      "title": "Measure and improve"
+    },
+    {
+      "body": "Audit and logging of changes should connect an authorized request, identity, code/configuration revision, reviewer, test evidence, deployment target, time, and rollback or emergency path. Assess effectiveness by comparing the control claim and threat to observed prevention, detection, response, and recovery evidence. Analyze likelihood, impact, exploitability, exposure, dependencies, and compensating controls; select mitigation, transfer, avoidance, acceptance, or redesign with an accountable owner and retest plan.",
+      "id": "change-audit-and-risk-mitigation",
+      "keyPoints": [
+        "A log is evidence only when complete, protected, time-correlated, and reviewed for the stated claim.",
+        "Risk analysis explains why a finding matters and which mitigation changes residual risk.",
+        "Trend and outcome evidence are stronger than raw scan or backlog counts."
+      ],
+      "sourceRefIds": [
+        "outline-d8-3",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113",
+        "miller-d8-727-760"
+      ],
+      "title": "Audit changes and connect evidence to risk reduction"
+    }
+  ],
+  "sourceHash": "1015b2f24e2bcc3355c43bb2aa67bf1778d69a223e5fd8008816700139954027",
+  "sourcePath": "knowledge/domains/d8-software-development-security/units/d8-o03-effectiveness.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d8-3",
+      "locator": {
+        "type": "objective",
+        "value": "8.3"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-56-90",
+      "locator": {
+        "type": "printed-page",
+        "value": "50–58 (same PDF page numbers), objective 8.3; body headings inspected, corrupted contents page excluded"
+      },
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "sourceNotes": "D8 contents page is corrupted.",
+      "supports": [
+        "software assessment and effectiveness"
+      ]
+    },
+    {
+      "id": "sybex-d8-1069-1113",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1069-1113, Chapter 21"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "application testing and controls"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "supports": [
+        "software assessment"
+      ]
+    }
+  ],
+  "summary": "Software security is evidenced by requirements, design and code review, testing, runtime telemetry, vulnerability response, and outcomes over time.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "evidence",
+        "label": "is examined by static analysis",
+        "to": "n2"
+      },
+      {
+        "from": "n1",
+        "kind": "evidence",
+        "label": "is challenged by executable abuse case",
+        "to": "n3"
+      },
+      {
+        "from": "n1",
+        "kind": "evidence",
+        "label": "is observed in runtime behavior",
+        "to": "n4"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "creates owned finding when control fails",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "evidence",
+        "label": "supplies fix and retest evidence",
+        "to": "n6"
+      },
+      {
+        "from": "n2",
+        "kind": "evidence",
+        "label": "contributes static scope and limitations",
+        "to": "n6"
+      },
+      {
+        "from": "n4",
+        "kind": "evidence",
+        "label": "contributes operational outcome evidence",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "control claim --prevent/detect/respond/recover dimensions--> evidence plan design/code/config/test/runtime logs --independent bounded evidence--> judgment metric --population/age/severity/exposure/reopen rate--> interpretation gap --remediation and retest--> updated evidence evidence limits --prevent--> secure-product overclaim",
+    "learningJob": {
+      "plainExplanation": "A passed scan is one evidence stream rather than proof that an application is secure. Judge effectiveness against defined threats and flows using layered tests, runtime evidence, remediation, and retest.",
+      "visualReasoningGain": "An evidence map could compare claim, threat, test coverage, observed failures, runtime outcomes, remediation, and retest; the opening claim/SAST/test boxes do not decompose sufficiency."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "software-assessment"
+        ],
+        "detail": "Defined expectation that each API operation enforces object and action policy for stated flows.",
+        "id": "n1",
+        "label": "Authorization control claim"
+      },
+      {
+        "conceptIds": [
+          "appsec-testing"
+        ],
+        "detail": "Static evidence about code patterns and paths; a pass does not prove runtime authorization effectiveness.",
+        "id": "n2",
+        "label": "SAST result"
+      },
+      {
+        "conceptIds": [
+          "appsec-testing",
+          "vulnerability-management"
+        ],
+        "detail": "Negative request with changed object/role/context that exercises the actual enforcement boundary.",
+        "id": "n3",
+        "label": "Integration abuse test"
+      },
+      {
+        "conceptIds": [
+          "runtime-monitoring",
+          "logging"
+        ],
+        "detail": "Production deny/allow, subject, object, action, policy, anomaly, and error evidence.",
+        "id": "n4",
+        "label": "Runtime authorization logs"
+      },
+      {
+        "conceptIds": [
+          "vulnerability-management"
+        ],
+        "detail": "Accountable owner for root cause, affected flows, fix, exception, due date, and retest.",
+        "id": "n5",
+        "label": "Remediation owner"
+      },
+      {
+        "conceptIds": [
+          "software-assessment",
+          "security-metrics"
+        ],
+        "detail": "Bounded decision integrating static, abuse, runtime, remediation, and residual-risk evidence.",
+        "id": "n6",
+        "label": "Retest conclusion"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Authorization control claim",
+        "value": "Defined expectation that each API operation enforces object and action policy for stated flows."
+      },
+      {
+        "label": "SAST result",
+        "value": "Static evidence about code patterns and paths; a pass does not prove runtime authorization effectiveness."
+      },
+      {
+        "label": "Integration abuse test",
+        "value": "Negative request with changed object/role/context that exercises the actual enforcement boundary."
+      },
+      {
+        "label": "Runtime authorization logs",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Remediation owner",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Retest conclusion",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "appsec-testing"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d8-o03-effectiveness-prediction-a181fd592ddb",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Scans have coverage and false-negative limits; use layered evidence and operational feedback.",
+          "id": "relation",
+          "label": "Treat SAST as one evidence stream and retest the authorization failures",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: Scans have coverage and false-negative limits; use layered evidence and operational feedback.",
+          "id": "misconception",
+          "label": "A passed scan proves an application is secure.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: SAST supplies one bounded evidence type and the authorization failures contradict the broad claim. Decompose the claim, inspect design, code, configuration, negative tests, runtime evidence, remediation, and retest.",
+          "id": "overclaim",
+          "label": "Treat the clean SAST result as proof that the API security controls are effective.",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "What evidence is sufficient to judge whether a software security control prevents, detects, responds to, or recovers from the threat it claims to address?"
+    },
+    "question": "What evidence is sufficient to judge whether a software security control prevents, detects, responds to, or recovers from the threat it claims to address?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "security-metrics",
+        "vulnerability-management",
+        "software-assessment"
+      ],
+      "hint": "Check whether the measurement rule changed the denominator or elapsed time rather than the outcome.",
+      "id": "d8-o03-effectiveness-retry-v2-47801a370f3b",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Paused accepted findings change the measurement and may remain exposed.",
+          "id": "claim-faster",
+          "label": "Claim remediation is faster because the dashboard mean decreased",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Acceptance is a governed residual-risk decision, not technical remediation.",
+          "id": "count-accepted-fixed",
+          "label": "Count every accepted finding as fixed because an owner decided not to remediate",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. A process-state change can improve the metric without reducing exposure.",
+          "id": "separate-states",
+          "label": "Separate remediation from acceptance; disclose clock rules and validate approval evidence",
+          "repairStateId": "evidence-accepted"
+        }
+      ],
+      "prompt": "Mean time to close falls after teams pause the clock whenever a finding is marked risk accepted. What may the metric show?"
+    },
+    "scenario": "An API passes SAST but has authorization failures in integration testing.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d8-3",
+      "official-d8-56-90",
+      "sybex-d8-1069-1113",
+      "miller-d8-727-760"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3"
+        ],
+        "caption": "An API passes SAST but has authorization failures in integration testing.",
+        "id": "case-observed",
+        "statuses": {
+          "n2": "SAST pass",
+          "n3": "authorization abuse fails"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3",
+          "n4"
+        ],
+        "caption": "Testing evidence should connect to requirements and threats.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n4": "runtime evidence requested"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "caption": "A passed scan proves an application is secure. Scans have coverage and false-negative limits; use layered evidence and operational feedback.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n2": "static pass not effectiveness proof"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4",
+          "n5",
+          "n1"
+        ],
+        "caption": "Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest. The relevant conclusion is control effectiveness for defined flows, not 'secure code' in the abstract.",
+        "id": "control-enforced",
+        "statuses": {
+          "n5": "authorization finding owned and fixed"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5,
+          6
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "caption": "Build an evidence plan that evaluates whether software controls reduce risk through development and operation. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "defined flows effective or residual gaps stated"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest.",
+    "title": "Assess software-security effectiveness",
+    "transfer": {
+      "conceptIds": [
+        "security-metrics"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d8-o03-effectiveness-transfer-f1466aa99358",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A team reduces security backlog count by closing findings as risk accepted without review. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest. Repair target: Decision recomputed — Require accountable acceptance, rationale, expiry, and trend reporting. A lower count is not improvement if residual risk is hidden.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Require accountable acceptance, rationale, expiry, and trend reporting. A lower count is not improvement if residual risk is hidden.",
+          "id": "evidence-action",
+          "label": "Require accountable acceptance, rationale, expiry, and trend reporting",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A team reduces security backlog count by closing findings as risk accepted without review. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A team reduces security backlog count by closing findings as risk accepted without review."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implemented in 5 stable comparison states: Authorization control claim is examined by static analysis SAST result; Authorization control claim is challenged by executable abuse case Integration abuse test. The model keeps Authorization control claim, SAST result, Integration abuse test, Runtime authorization logs, Remediation owner, Retest conclusion distinct. Its changed case is “A team reduces security backlog count by closing findings as risk accepted without review.” and every option returns to a named repair state.",
+        "treatmentId": "fresh-d8-o03-effectiveness-claim-centered-evidence-map-with-metric-decomposition"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d8-o03-effectiveness-claim-centered-evidence-map-with-metric-decomposition"
+    ],
+    "unitId": "d8-o03-effectiveness",
+    "variants": [
+      {
+        "changedFact": "A team reduces security backlog count by closing findings as risk accepted without review.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "is compared with the count",
+            "to": "n2"
+          },
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "is challenged by review outcomes",
+            "to": "n3"
+          },
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "is tested against residual risk",
+            "to": "n4"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "creates owned acceptance or remediation",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "evidence",
+            "label": "supplies retest and expiry evidence",
+            "to": "n6"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "contributes count and denominator limits",
+            "to": "n6"
+          },
+          {
+            "from": "n4",
+            "kind": "evidence",
+            "label": "contributes outcome evidence",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "software-assessment"
+            ],
+            "detail": "The team claims lower backlog means better security.",
+            "id": "n1",
+            "label": "Security improvement claim"
+          },
+          {
+            "conceptIds": [
+              "appsec-testing",
+              "security-metrics"
+            ],
+            "detail": "The count falls when findings are closed, regardless of exposure or outcome.",
+            "id": "n2",
+            "label": "Backlog count"
+          },
+          {
+            "conceptIds": [
+              "appsec-testing",
+              "vulnerability-management"
+            ],
+            "detail": "Authorized owners evaluate rationale, exposure, alternatives, expiry, and residual risk.",
+            "id": "n3",
+            "label": "Risk-acceptance review"
+          },
+          {
+            "conceptIds": [
+              "runtime-monitoring",
+              "logging",
+              "security-metrics"
+            ],
+            "detail": "Outcome measures keep hidden risk and denominator changes visible.",
+            "id": "n4",
+            "label": "Severity, exposure, and age evidence"
+          },
+          {
+            "conceptIds": [
+              "vulnerability-management"
+            ],
+            "detail": "Each accepted or remediated finding has a named owner and due review.",
+            "id": "n5",
+            "label": "Accountable finding owner"
+          },
+          {
+            "conceptIds": [
+              "software-assessment",
+              "security-metrics"
+            ],
+            "detail": "The conclusion distinguishes remediation, accepted residual risk, expiry, and retest results.",
+            "id": "n6",
+            "label": "Defensible effectiveness conclusion"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "n5",
+              "n6"
+            ],
+            "caption": "A team reduces security backlog count by closing findings as risk accepted without review.",
+            "id": "changed-fact",
+            "statuses": {
+              "n5": "findings closed as risk accepted",
+              "n6": "backlog count improves"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              2,
+              6
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n4",
+              "n6"
+            ],
+            "caption": "Require accountable acceptance, rationale, expiry, and trend reporting. A lower count is not improvement if residual risk is hidden.",
+            "id": "changed-decision",
+            "statuses": {
+              "n6": "closure speed not control outcome"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "n3",
+              "n5",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n5": "risk decisions reviewed; remediation retested",
+              "n6": "severity/exposure/age denominators visible"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Assess software-security effectiveness",
+  "workedExamples": [
+    {
+      "reasoning": "Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest. The relevant conclusion is control effectiveness for defined flows, not 'secure code' in the abstract.",
+      "situation": "An API passes SAST but has authorization failures in integration testing.",
+      "takeaway": "Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest. The relevant conclusion is control effectiveness for defined flows, not 'secure code' in the abstract.",
+      "title": "Secure API release"
+    },
+    {
+      "reasoning": "Assessment traces the requirement and authorization design, reviews code/configuration, runs authenticated negative-role and abuse-case tests, verifies logs contain actor, decision, target, time, and correlation without sensitive data, checks alert/response records, and retests after remediation. The report states coverage limits: no test result proves every future role/configuration combination.",
+      "situation": "The system claims that only finance approvers can export customer payment reports and that suspicious exports are detected.",
+      "takeaway": "Assessment traces the requirement and authorization design, reviews code/configuration, runs authenticated negative-role and abuse-case tests, verifies logs contain actor, decision, target, time, and correlation without sensitive data, checks alert/response records, and retests after remediation. The report states coverage limits: no test result proves every future role/configuration combination.",
+      "title": "Privileged export effectiveness claim"
+    }
+  ]
+}

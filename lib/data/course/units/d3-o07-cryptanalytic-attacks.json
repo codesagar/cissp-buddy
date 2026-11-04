@@ -1,0 +1,603 @@
+{
+  "conceptIds": [
+    "cryptanalysis",
+    "brute-force",
+    "ciphertext-only-attack",
+    "known-plaintext-attack",
+    "chosen-ciphertext-attack",
+    "frequency-analysis",
+    "side-channel",
+    "timing-attack",
+    "fault-injection",
+    "man-in-the-middle",
+    "pass-the-hash",
+    "kerberos-attack",
+    "ransomware",
+    "implementation-security"
+  ],
+  "concepts": [
+    {
+      "decision": "Identify whether the weakness is math, protocol, credential, endpoint, or recovery.",
+      "definition": "Analysis of the attack path against cryptography or its implementation.",
+      "failureExample": "Ransomware is treated as an algorithm-breaking event.",
+      "id": "cryptanalysis",
+      "label": "Cryptanalysis",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Combine adequate secret strength with online-guess protections and detection.",
+      "definition": "Search through candidate secrets until one works.",
+      "failureExample": "A privileged login permits repeated password trials without alerting.",
+      "id": "brute-force",
+      "label": "Brute Force",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use current approved designs and avoid weak pattern-preserving systems.",
+      "definition": "Attempt to infer plaintext or keys from intercepted ciphertexts alone.",
+      "failureExample": "A legacy cipher exposes recognizable structure from ciphertext samples.",
+      "id": "ciphertext-only-attack",
+      "label": "Ciphertext Only Attack",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Avoid vulnerable schemes; protect protocol composition and keys.",
+      "definition": "Attack using known matched plaintext and ciphertext.",
+      "failureExample": "A predictable message template supplies useful plaintext to a weak scheme.",
+      "id": "known-plaintext-attack",
+      "label": "Known Plaintext Attack",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Reject invalid input uniformly and avoid exploitable decryption feedback.",
+      "definition": "Attack using attacker-selected ciphertexts and observable decryption behavior.",
+      "failureExample": "Different server errors reveal whether a ciphertext has valid structure.",
+      "id": "chosen-ciphertext-attack",
+      "label": "Chosen Ciphertext Attack",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use modern schemes that do not expose classical frequency patterns.",
+      "definition": "Analysis of repeated character or pattern frequencies in weak ciphers.",
+      "failureExample": "A substitution cipher’s repeated symbols reveal likely words.",
+      "id": "frequency-analysis",
+      "label": "Frequency Analysis",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Assess attacker access, repeatability, secret value, and measurement path.",
+      "definition": "Information leakage through observable implementation behavior such as timing or power.",
+      "failureExample": "Power traces reveal differences during private-key operations.",
+      "id": "side-channel",
+      "label": "Side Channel",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use constant-time or equivalent handling where the attacker model requires it.",
+      "definition": "Side-channel attack comparing operation time to infer secrets or branches.",
+      "failureExample": "A remote comparison returns earlier for a matching prefix.",
+      "id": "timing-attack",
+      "label": "Timing Attack",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Protect hardware, boot/update paths, integrity checks, and error handling proportionately.",
+      "definition": "Inducing abnormal execution to bypass checks or expose secrets.",
+      "failureExample": "Voltage disturbance skips a signature-verification branch.",
+      "id": "fault-injection",
+      "label": "Fault Injection",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Require authenticated peers, correct validation, freshness, and downgrade resistance.",
+      "definition": "Active intermediary attack that observes, alters, relays, or influences an exchange.",
+      "failureExample": "A user accepts an untrusted certificate prompt on public Wi-Fi.",
+      "id": "man-in-the-middle",
+      "label": "Man In The Middle",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+    },
+    {
+      "decision": "Protect credential material, limit privilege, segment, monitor, and remediate sessions/endpoints.",
+      "definition": "Use of stolen password-derived credential material in authentication flows that accept it.",
+      "failureExample": "A stolen artifact authenticates to another host even after a password change.",
+      "id": "pass-the-hash",
+      "label": "Pass The Hash",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+    },
+    {
+      "decision": "Review ticket, service-account, delegation, time, endpoint, and privileged-directory paths.",
+      "definition": "Abuse of Kerberos identities, tickets, service accounts, delegation, or directory authority.",
+      "failureExample": "An overprivileged service account enables forged or misused ticket access.",
+      "id": "kerberos-attack",
+      "label": "Kerberos Attack",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+    },
+    {
+      "decision": "Layer prevention with privilege limits, segmentation, monitored administration, protected backups, and rehearsed recovery.",
+      "definition": "Attack chain that can encrypt, exfiltrate, disrupt, and pressure business operations.",
+      "failureExample": "Backups are reachable with the same admin credentials used by attackers.",
+      "id": "ransomware",
+      "label": "Ransomware",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+    },
+    {
+      "decision": "Maintain vetted libraries, safe configuration, patching, validation, and testing.",
+      "definition": "Secure engineering of cryptographic code, configuration, hardware, and operations.",
+      "failureExample": "A correct algorithm runs in a vulnerable outdated library.",
+      "id": "implementation-security",
+      "label": "Implementation Security",
+      "sourceRefIds": [
+        "d3-o07-sybex",
+        "d3-o07-textbook"
+      ],
+      "sourceVisualId": "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 34,
+  "id": "d3-o07-cryptanalytic-attacks",
+  "misconceptions": [
+    {
+      "claim": "Ransomware is mainly an encryption-algorithm problem.",
+      "correction": "It is commonly an endpoint, privilege, propagation, backup, and recovery problem with major availability consequences."
+    }
+  ],
+  "objectiveIds": [
+    "3.7"
+  ],
+  "outcome": "Classify a cryptographic attack path and recommend the mitigation category that addresses its decisive weakness.",
+  "prerequisites": [
+    "d3-o06-cryptographic-solutions",
+    "threat-modeling"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Brute force targets key search feasibility. Ciphertext-only, known-plaintext, chosen-plaintext, and chosen-ciphertext approaches rely on different attacker knowledge or influence. Frequency analysis exploits patterns in weak or historical ciphers. Man-in-the-middle attacks target unauthenticated or poorly validated exchanges. Pass-the-hash and Kerberos abuses target authentication material and ticket handling, not necessarily the confidentiality of an encrypted file.",
+      "id": "attack-surfaces",
+      "keyPoints": [
+        "Attacker capability and protocol context determine relevance.",
+        "Authentication and endpoint controls can be decisive cryptographic protections."
+      ],
+      "sourceRefIds": [
+        "d3-o07-outline",
+        "d3-o07-textbook",
+        "d3-o07-sybex"
+      ],
+      "title": "Cryptography fails at several layers"
+    },
+    {
+      "body": "Side-channel, timing, power, electromagnetic, and fault-injection attacks exploit observable behavior or induced errors rather than breaking the mathematical design. Mitigations include resistant implementations, constant-time operations where appropriate, physical protections, secure hardware use, patching, key protection, validation, monitoring, and incident response. Ransomware often targets availability and recovery; encryption used by the attacker is not a reason to frame the response as ordinary cryptanalysis.",
+      "id": "implementation",
+      "keyPoints": [
+        "A sound algorithm can fail in an unsound implementation.",
+        "Recovery and segmentation are central to ransomware resilience."
+      ],
+      "sourceRefIds": [
+        "d3-o07-textbook",
+        "d3-o07-sybex"
+      ],
+      "title": "Implementation and operations leak too"
+    }
+  ],
+  "sourceHash": "15cb1cb77a29e2f5321d047f666889fcf8142c18043cfca9c865d1ab530efff9",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o07-cryptanalytic-attacks.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o07-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o07-textbook",
+      "locator": {
+        "note": "Printed page is the citation anchor; verify PDF index in a reader.",
+        "pdfPage": "85-95",
+        "printedPage": "85-95",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "cryptanalytic-attacks"
+      ]
+    },
+    {
+      "id": "d3-o07-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7 and 9, pp. 219-446; attack-specific locator refinement pending"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Secondary correlation is recorded from chapter ranges; unit remains draft.",
+      "supports": [
+        "cryptanalysis",
+        "implementation-attacks",
+        "mitm"
+      ]
+    }
+  ],
+  "summary": "Attacks against cryptographic protection can target algorithm assumptions, protocol negotiation, key handling, implementation defects, side channels, authentication material, or availability. The correct mitigation depends on the actual attack path.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "Missing peer validation",
+        "kind": "flow",
+        "label": "permits an untrusted exchange path",
+        "to": "Intermediary opportunity"
+      },
+      {
+        "from": "Observable implementation behavior",
+        "kind": "flow",
+        "label": "can reveal information under relevant assumptions",
+        "to": "Side-channel analysis"
+      },
+      {
+        "from": "Stolen usable credential artifact",
+        "kind": "flow",
+        "label": "may enable accepted authentication",
+        "to": "Authentication abuse"
+      }
+    ],
+    "focalRelation": "A case is classified by attacker capability and failure surface; the mitigation must address that surface, while algorithm strength may remain irrelevant to endpoint, credential, availability, or recovery failures.",
+    "nodes": [
+      {
+        "conceptIds": [
+          "man-in-the-middle",
+          "implementation-security"
+        ],
+        "detail": "The client proceeds after a certificate warning and does not establish the intended server identity.",
+        "id": "Missing peer validation",
+        "label": "Missing Peer Validation"
+      },
+      {
+        "conceptIds": [
+          "man-in-the-middle"
+        ],
+        "detail": "An untrusted network intermediary can terminate separate connections when peer validation is bypassed.",
+        "id": "Intermediary opportunity",
+        "label": "Intermediary Opportunity"
+      },
+      {
+        "conceptIds": [
+          "implementation-security"
+        ],
+        "detail": "Timing, cache, power, error, or fault behavior may depend on secret processing under stated access assumptions.",
+        "id": "Observable implementation behavior",
+        "label": "Observable Implementation Behavior"
+      },
+      {
+        "conceptIds": [
+          "side-channel"
+        ],
+        "detail": "Repeated controlled measurements test whether observable behavior correlates with secret-dependent computation.",
+        "id": "Side-channel analysis",
+        "label": "Side Channel Analysis"
+      },
+      {
+        "conceptIds": [
+          "pass-the-hash",
+          "kerberos-attack"
+        ],
+        "detail": "A captured hash, ticket, token, or session artifact remains accepted by an authentication path.",
+        "id": "Stolen usable credential artifact",
+        "label": "Stolen Usable Credential Artifact"
+      },
+      {
+        "conceptIds": [
+          "pass-the-hash"
+        ],
+        "detail": "The attacker reuses the artifact through a protocol path that does not require the original secret.",
+        "id": "Authentication abuse",
+        "label": "Authentication Abuse"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "ciphertext-only-attack",
+        "known-plaintext-attack",
+        "chosen-ciphertext-attack",
+        "timing-attack",
+        "fault-injection"
+      ],
+      "hint": "Separate mathematical cryptanalysis from leakage caused by implementation behavior.",
+      "id": "d3-o07-cryptanalytic-attacks-prediction-v1-94883450a907",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Implementation leakage can reveal information without breaking the mathematical primitive.",
+          "id": "unit-specific-alternative",
+          "label": "Increase key length because every cryptographic attack is caused by insufficient key strength.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": true,
+          "feedback": "Credential replay and ransomware can use sound cryptography while failing endpoint, privilege, segmentation, backup, or recovery controls.",
+          "id": "correct",
+          "label": "Identify the failure surface and attacker prerequisite before selecting a mitigation category.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Key length addresses a limited brute-force relation; other attack surfaces require controls at their actual prerequisite and observation path.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Longer keys fix timing, fault, credential, protocol, and availability attacks.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Is the decisive weakness in cryptographic construction, implementation behavior, peer validation, credential handling, privilege/propagation, or recovery?"
+    },
+    "question": "Is the decisive weakness in cryptographic construction, implementation behavior, peer validation, credential handling, privilege/propagation, or recovery?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "man-in-the-middle",
+        "implementation-security"
+      ],
+      "hint": "Measure across realistic noise, then reduce leakage with constant-time or equivalent design.",
+      "id": "d3-o07-cryptanalytic-attacks-retry-v1-635d8d6adaac",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. An active intermediary succeeds when users or software accept the wrong peer despite an encrypted channel.",
+          "id": "peer-validation",
+          "label": "Restore certificate and peer validation, improve warning handling, and constrain the intermediary path",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "The decisive failure is peer trust validation, not evidence that the bulk cipher was cryptanalyzed.",
+          "id": "cipher-strength",
+          "label": "Increase the bulk-encryption key size because the warning proves the cipher was broken",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "The observed path is an active intermediary and validation failure, not an offline password search.",
+          "id": "offline-brute",
+          "label": "Treat the event as an offline brute-force attack against stored password hashes",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "On public Wi-Fi, users bypass a certificate warning and continue to a login page. Which failure path should drive mitigation?"
+    },
+    "scenario": "Certificate warning bypass: Users ignore certificate warnings on a public Wi-Fi network because the application still loads.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o07-outline",
+      "d3-o07-textbook",
+      "d3-o07-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "Missing peer validation",
+          "Intermediary opportunity"
+        ],
+        "caption": "Certificate warning bypass: Users ignore certificate warnings on a public Wi-Fi network because the application still loads.",
+        "id": "case",
+        "statuses": {
+          "Intermediary opportunity": "An untrusted network intermediary can terminate separate connections when peer validation is bypassed.",
+          "Missing peer validation": "The client proceeds after a certificate warning and does not establish the intended server identity."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "Missing peer validation",
+          "Intermediary opportunity",
+          "Observable implementation behavior",
+          "Side-channel analysis"
+        ],
+        "caption": "Missing Peer Validation permits an untrusted exchange path Intermediary Opportunity. Observable Implementation Behavior can reveal information under relevant assumptions Side Channel Analysis.",
+        "id": "decision",
+        "statuses": {
+          "Intermediary opportunity": "An untrusted network intermediary can terminate separate connections when peer validation is bypassed.",
+          "Missing peer validation": "The client proceeds after a certificate warning and does not establish the intended server identity.",
+          "Observable implementation behavior": "Timing, cache, power, error, or fault behavior may depend on secret processing under stated access assumptions.",
+          "Side-channel analysis": "Repeated controlled measurements test whether observable behavior correlates with secret-dependent computation."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Observable implementation behavior",
+          "Side-channel analysis",
+          "Stolen usable credential artifact",
+          "Authentication abuse"
+        ],
+        "caption": "Observable Implementation Behavior can reveal information under relevant assumptions Side Channel Analysis. Stolen Usable Credential Artifact may enable accepted authentication Authentication Abuse.",
+        "id": "consequence",
+        "statuses": {
+          "Authentication abuse": "The attacker reuses the artifact through a protocol path that does not require the original secret.",
+          "Observable implementation behavior": "Timing, cache, power, error, or fault behavior may depend on secret processing under stated access assumptions.",
+          "Side-channel analysis": "Repeated controlled measurements test whether observable behavior correlates with secret-dependent computation.",
+          "Stolen usable credential artifact": "A captured hash, ticket, token, or session artifact remains accepted by an authentication path."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "Observable implementation behavior",
+          "Side-channel analysis"
+        ],
+        "caption": "Decryption remains mathematically sound, but response time varies with a secret-dependent branch. Classify and test an implementation timing side channel, use constant-time design or other leakage reduction, and measure across realistic noise and access conditions.",
+        "id": "changed-case",
+        "statuses": {
+          "Observable implementation behavior": "Response time varies with a secret-dependent branch under the stated remote access conditions.",
+          "Side-channel analysis": "Controlled timing measurements test the correlation and guide constant-time or other leakage-reduction work."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: A case is classified by attacker capability and failure surface; the mitigation must address that surface, while algorithm strength may remain irrelevant to endpoint, credential, availability, or recovery failures.",
+    "title": "attack surface classifier",
+    "transfer": {
+      "conceptIds": [
+        "side-channel",
+        "timing-attack",
+        "implementation-security"
+      ],
+      "hint": "A timing difference tied to secret processing is an implementation side channel.",
+      "id": "d3-o07-cryptanalytic-attacks-transfer-v1-01216f62d73e",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Classify and test an implementation timing side channel, use constant-time design or other leakage reduction, and measure across realistic noise and access conditions.",
+          "id": "recompute",
+          "label": "Classify and test an implementation timing side channel, use constant-time design or other leakage reduction",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": false,
+          "feedback": "Implementation leakage can reveal information without breaking the mathematical primitive. Recompute the decision from The primitive is not shown broken. Observable timing correlates with secret processing.",
+          "id": "single-signal",
+          "label": "Increase key length because every cryptographic attack is caused by insufficient key strength",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Key length addresses a limited brute-force relation; other attack surfaces require controls at their actual prerequisite and observation path. In this case, the primitive is not shown broken; observable timing correlates with secret processing.",
+          "id": "unchanged-rule",
+          "label": "Longer keys fix timing, fault, credential, protocol, and availability attacks",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "Decryption remains mathematically sound, but response time varies with a secret-dependent branch."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The comparison classifies peer-validation failure, observable implementation leakage, and stolen-credential abuse by prerequisite and mitigation; the transfer recomputes the result for secret-dependent timing. It preserves the reviewed failure-surface method for three concrete surfaces, while key-search and ransomware traces remain outside this bounded model.",
+        "treatmentId": "fresh-d3-o07-cryptanalytic-attacks-attack-surface-classifier"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o07-cryptanalytic-attacks-attack-surface-classifier"
+    ],
+    "unitId": "d3-o07-cryptanalytic-attacks",
+    "variants": [
+      {
+        "changedFact": "The primitive is not shown broken. Observable timing correlates with secret processing.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "Observable implementation behavior",
+              "Side-channel analysis"
+            ],
+            "caption": "Decryption remains mathematically sound, but response time varies with a secret-dependent branch.",
+            "id": "variant-facts",
+            "statuses": {
+              "Observable implementation behavior": "Response time varies with a secret-dependent branch under the stated remote access conditions.",
+              "Side-channel analysis": "The correlation requires controlled measurement before exploitability is claimed."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              1
+            ],
+            "activeNodeIds": [
+              "Observable implementation behavior",
+              "Side-channel analysis"
+            ],
+            "caption": "Classify and test an implementation timing side channel, use constant-time design or other leakage reduction, and measure across realistic noise and access conditions.",
+            "id": "variant-result",
+            "statuses": {
+              "Observable implementation behavior": "Response time varies with secret processing even though the cryptographic construction remains sound.",
+              "Side-channel analysis": "Measure realistic timing, apply constant-time or other leakage reduction, and retest the deployed implementation."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Reason about cryptanalytic and implementation attacks",
+  "workedExamples": [
+    {
+      "reasoning": "The decisive weakness is trust validation that enables an active intermediary, not insufficient bulk-encryption strength. Correct certificate validation, user experience, and network controls address the path.",
+      "situation": "Users ignore certificate warnings on a public Wi-Fi network because the application still loads.",
+      "takeaway": "Name the protocol failure before selecting mitigation.",
+      "title": "Certificate warning bypass"
+    }
+  ]
+}

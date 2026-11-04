@@ -1,0 +1,391 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d4-o03-secure-communication-channels",
+  "treatmentIds": [
+    "fresh-d4-o03-secure-communication-channels-vendor-session-artifact-swimlane"
+  ],
+  "title": "vendor session artifact swimlane",
+  "question": "Which authority, identity, endpoint, channel, object/action, monitoring, artifact, and revocation evidence constrain a vendor session?",
+  "scenario": "Vendor maintenance channel: A hardware vendor requests remote access to a production network for a scheduled repair.",
+  "focalRelation": "Request and purpose precede approval; time-bounded identity and endpoint/channel validation precede resource authorization; session activity produces governed logs/artifacts; completion, expiry, or revocation ends grants and requires verification.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Approved maintenance request",
+      "detail": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties.",
+      "conceptIds": [
+        "third-party-connectivity"
+      ],
+      "lane": "sponsor"
+    },
+    {
+      "id": "identity",
+      "label": "Vendor identity and device",
+      "detail": "The vendor uses a named identity with MFA and required device posture rather than a shared or permanent credential.",
+      "conceptIds": [
+        "remote-access",
+        "vpn"
+      ],
+      "lane": "vendor"
+    },
+    {
+      "id": "broker",
+      "label": "Managed jump and channel endpoint",
+      "detail": "The approved broker terminates the VPN, TLS, or SSH channel, enforces session scope, and prevents a permanent inbound path.",
+      "conceptIds": [
+        "secure-channel",
+        "vpn",
+        "tls",
+        "ssh"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "operation",
+      "label": "Authorized production operation",
+      "detail": "The target accepts only the ticket-bound object or command through the broker and not every action available to the vendor account.",
+      "conceptIds": [
+        "remote-access",
+        "third-party-connectivity"
+      ],
+      "lane": "target"
+    },
+    {
+      "id": "evidence",
+      "label": "Observed session and artifacts",
+      "detail": "Commands, flows, recording, chat, shared-screen output, and created files become bounded evidence or separately governed assets.",
+      "conceptIds": [
+        "voice-video-security"
+      ],
+      "lane": "evidence"
+    },
+    {
+      "id": "closure",
+      "label": "Revocation and verified closure",
+      "detail": "The sponsor verifies that the vendor session ended, access was revoked, artifacts received handling decisions, and later work requires new authorization.",
+      "conceptIds": [
+        "remote-access"
+      ],
+      "lane": "evidence"
+    }
+  ],
+  "edges": [
+    {
+      "from": "request",
+      "to": "identity",
+      "label": "authorizes this vendor and window before validation of",
+      "kind": "flow"
+    },
+    {
+      "from": "identity",
+      "to": "broker",
+      "label": "establishes the approved authenticated channel through",
+      "kind": "flow"
+    },
+    {
+      "from": "broker",
+      "to": "operation",
+      "label": "permits only the ticket-bound target action in",
+      "kind": "flow"
+    },
+    {
+      "from": "operation",
+      "to": "evidence",
+      "label": "produces commands, flows, and artifacts recorded in",
+      "kind": "evidence"
+    },
+    {
+      "from": "evidence",
+      "to": "closure",
+      "label": "supports review and confirms the required",
+      "kind": "evidence"
+    },
+    {
+      "from": "request",
+      "to": "closure",
+      "label": "sets the expiry and interruption condition for",
+      "kind": "dependency"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "sponsor",
+      "label": "Authorized purpose",
+      "rule": "A named sponsor and ticket define vendor, target, action, window, and evidence."
+    },
+    {
+      "id": "vendor",
+      "label": "External vendor",
+      "rule": "A named identity and assessed device remain outside the production boundary."
+    },
+    {
+      "id": "control",
+      "label": "Managed channel boundary",
+      "rule": "The broker terminates and constrains the remote channel."
+    },
+    {
+      "id": "target",
+      "label": "Protected production target",
+      "rule": "The target accepts only the ticket-bound action."
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence and closure",
+      "rule": "Session evidence, artifact handling, expiry, and revocation prove bounded completion."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Vendor maintenance channel: A hardware vendor requests remote access to a production network for a scheduled repair.",
+      "activeNodeIds": [
+        "request",
+        "identity"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "request": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties.",
+        "identity": "The vendor uses a named identity with MFA and required device posture rather than a shared or permanent credential."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Approved maintenance request authorizes this vendor and window before validation of Vendor identity and device. Vendor identity and device establishes the approved authenticated channel through Managed jump and channel endpoint.",
+      "activeNodeIds": [
+        "request",
+        "identity",
+        "broker"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "identity": "The vendor uses a named identity with MFA and required device posture rather than a shared or permanent credential.",
+        "request": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties.",
+        "broker": "The approved broker terminates the VPN, TLS, or SSH channel, enforces session scope, and prevents a permanent inbound path."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Observed session and artifacts supports review and confirms the required Revocation and verified closure. Approved maintenance request sets the expiry and interruption condition for Revocation and verified closure.",
+      "activeNodeIds": [
+        "evidence",
+        "closure",
+        "request"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "closure": "The sponsor verifies that the vendor session ended, access was revoked, artifacts received handling decisions, and later work requires new authorization.",
+        "evidence": "Commands, flows, recording, chat, shared-screen output, and created files become bounded evidence or separately governed assets.",
+        "request": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The approved vendor session ends, but the shared jump-host account remains active and a copied maintenance script remains on the production target. Closure covers identity, session, target artifacts, evidence, and expiry, not only the network tunnel.",
+      "activeNodeIds": [
+        "request",
+        "identity",
+        "broker",
+        "evidence",
+        "closure",
+        "operation"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "request": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties.",
+        "identity": "A reusable shared account remains active after the approved session.",
+        "broker": "The encrypted session ended, but channel closure alone does not revoke identity.",
+        "evidence": "Closure evidence must cover the account, session, target artifact, and resulting access.",
+        "closure": "Revoke shared access, govern the script, and verify the bounded task is closed.",
+        "operation": "A maintenance script remains on the production target as a governed artifact."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The approved vendor session ends, but the shared jump-host account remains active and a copied maintenance script remains on the production target.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The approved vendor session ends, but the shared jump-host account remains active and a copied maintenance script remains on the production target.",
+          "activeNodeIds": [
+            "evidence",
+            "closure",
+            "request"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "evidence": "Closure evidence must cover the account, session, target artifact, and resulting access.",
+            "closure": "Revoke shared access, govern the script, and verify the bounded task is closed.",
+            "request": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Closure covers identity, session, target artifacts, evidence, and expiry, not only the network tunnel.",
+          "activeNodeIds": [
+            "evidence",
+            "closure",
+            "request"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "evidence": "Closure evidence must cover the account, session, target artifact, and resulting access.",
+            "closure": "Revoke shared access, govern the script, and verify the bounded task is closed.",
+            "request": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and incident duties."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d4-o03-secure-communication-channels-prediction-v1",
+    "prompt": "Which authority, identity, endpoint, channel, object/action, monitoring, artifact, and revocation evidence constrain a vendor session?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Treat recordings as protected because the live meeting used end-to-end encryption.",
+        "correct": false,
+        "feedback": "A live-channel property does not govern a separately stored artifact after capture.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "End-to-end encryption of a live meeting also governs every stored recording.",
+        "correct": false,
+        "feedback": "The recording is a new artifact with its own identity, storage, sharing, retention, and access boundary.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Authorize the session, constrain actions, observe use, revoke, and verify closure.",
+        "correct": true,
+        "feedback": "A trusted vendor or protected channel does not justify permanent broad access or govern stored collaboration artifacts and onward hops.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "secure-channel",
+      "remote-access",
+      "third-party-connectivity",
+      "vpn",
+      "tls",
+      "ssh"
+    ],
+    "hint": "Match confidentiality, peer authentication, integrity, and endpoint trust to each hop."
+  },
+  "transfer": {
+    "id": "d4-o03-secure-communication-channels-transfer-v1",
+    "prompt": "The approved vendor session ends, but the shared jump-host account remains active and a copied maintenance script remains on the production target.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Revoke the shared access, replace it with named time-bound identity, govern the copied script, and verify closure evidence.",
+        "correct": true,
+        "feedback": "Correct. Closure covers identity, session, target artifacts, evidence, and expiry, not only the network tunnel.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Leave the account active because the VPN session ended and transport encryption protected the work.",
+        "correct": false,
+        "feedback": "Ending an encrypted channel does not revoke a reusable credential or govern artifacts left on the target.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Retain the script and permanent account because the original maintenance ticket authorized future reuse.",
+        "correct": false,
+        "feedback": "The ticket bounded a named purpose and window; later access and retained artifacts require their own authorization and lifecycle.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "secure-channel",
+      "remote-access",
+      "third-party-connectivity"
+    ],
+    "hint": "A changed intermediary may terminate one channel and create another trust boundary."
+  },
+  "retry": {
+    "id": "d4-o03-secure-communication-channels-retry-v1",
+    "prompt": "The vendor’s encrypted maintenance session is still active when its approved ticket window expires. What must happen?",
+    "options": [
+      {
+        "id": "encryption-allows",
+        "label": "Let the session continue because channel encryption remains valid after the ticket expires",
+        "correct": false,
+        "feedback": "Cryptographic channel validity does not extend the business authorization, action scope, or support window.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "vendor-trust",
+        "label": "Leave access open until the vendor says the repair is complete because the vendor is trusted",
+        "correct": false,
+        "feedback": "Vendor trust does not replace the ticket-bound window, monitoring, revocation, and accountable closure.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "revoke-close",
+        "label": "End or reauthorize the session, revoke expired grants, and verify closure and artifact handling",
+        "correct": true,
+        "feedback": "Correct. Expiry is an authorization boundary; closure includes sessions, credentials, evidence, recordings, chat, and created files.",
+        "repairStateId": "consequence"
+      }
+    ],
+    "conceptIds": [
+      "secure-channel",
+      "voice-video-security"
+    ],
+    "hint": "Verify both channel endpoints and the artifact or message across the full route."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Request and purpose precede approval; time-bounded identity and endpoint/channel validation precede resource authorization; session activity produces governed logs/artifacts; completion, expiry, or revocation ends grants and requires verification.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "outline-d4-3",
+    "official-d4-85-98",
+    "sybex-d4-657-678",
+    "sybex-d4-657-707",
+    "aio-d4-990-1020"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d4-o03-secure-communication-channels-vendor-session-artifact-swimlane",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve request authority, named vendor and device identity, channel termination, constrained operation, observation, artifacts, revocation, and closure evidence. These are integrated in one boundary progression rather than separate swimlane and artifact maps."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A secure channel requires authorized purpose, named identity and device, constrained actions, observation, revocation, and verified closure. A live-channel property does not automatically protect stored recordings, copied scripts, or lingering accounts.",
+    "visualReasoningGain": "A vendor-session swimlane adds lifecycle accountability; a channel-versus-artifact table would extend the reasoning to voice, video, data, and stored copies."
+  }
+}

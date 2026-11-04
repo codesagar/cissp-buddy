@@ -1,0 +1,477 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d6-o03-process-data",
+  "treatmentIds": [
+    "fresh-d6-o03-process-data-manipulable-denominator-bounds-and-reporting-filter"
+  ],
+  "title": "A percentage inherits its denominator",
+  "question": "What can a patch-compliance percentage support when part of the active fleet is excluded or unknown?",
+  "scenario": "The active-asset census contains 120 devices: 98 are known patched, 2 are known unpatched, and 20 have unknown patch status. A dashboard filter reports only the 100 managed devices and displays 98% patched.",
+  "focalRelation": "The reporting filter changes the denominator, while unknown observations define a bounded range rather than an exact fleet rate.",
+  "representation": "quantitative",
+  "nodes": [
+    {
+      "id": "patched",
+      "label": "98 known patched",
+      "detail": "Observed patched assets in the active census.",
+      "conceptIds": [
+        "security-metrics",
+        "evidence"
+      ]
+    },
+    {
+      "id": "unpatched",
+      "label": "2 known unpatched",
+      "detail": "Observed unpatched assets in the active census.",
+      "conceptIds": [
+        "security-metrics",
+        "evidence"
+      ]
+    },
+    {
+      "id": "unknown",
+      "label": "20 status unknown",
+      "detail": "Active assets whose patch state has not been verified; unknown is neither success nor failure.",
+      "conceptIds": [
+        "data-quality",
+        "continuous-monitoring"
+      ]
+    },
+    {
+      "id": "filter",
+      "label": "Managed-only filter",
+      "detail": "Excludes the 20 unknown assets from the displayed 98/100 rate without changing their real state.",
+      "conceptIds": [
+        "data-quality",
+        "security-metrics"
+      ]
+    },
+    {
+      "id": "bounds",
+      "label": "Fleet bounds",
+      "detail": "Lower bound 98/120 = 81.7%; upper bound 118/120 = 98.3%, assuming all 120 active assets are in the census.",
+      "conceptIds": [
+        "security-metrics",
+        "kri"
+      ]
+    },
+    {
+      "id": "decision",
+      "label": "Risk decision",
+      "detail": "Needs criticality, exposure, patch age, exception ownership, and action threshold in addition to the bounded measure.",
+      "conceptIds": [
+        "kpi",
+        "kri"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "patched",
+      "to": "filter",
+      "label": "included in numerator and denominator",
+      "kind": "evidence"
+    },
+    {
+      "from": "unpatched",
+      "to": "filter",
+      "label": "included in denominator",
+      "kind": "evidence"
+    },
+    {
+      "from": "unknown",
+      "to": "filter",
+      "label": "is explicitly omitted from the displayed denominator by",
+      "kind": "dependency"
+    },
+    {
+      "from": "patched",
+      "to": "bounds",
+      "label": "sets observed minimum",
+      "kind": "evidence"
+    },
+    {
+      "from": "unknown",
+      "to": "bounds",
+      "label": "sets uncertainty width",
+      "kind": "evidence"
+    },
+    {
+      "from": "bounds",
+      "to": "decision",
+      "label": "constrains but does not settle risk",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "census",
+      "title": "Name the population",
+      "caption": "The denominator starts with all 120 active assets, including the 20 whose state is unknown.",
+      "activeNodeIds": [
+        "patched",
+        "unpatched",
+        "unknown"
+      ],
+      "statuses": {
+        "patched": "98 assets",
+        "unpatched": "2 assets",
+        "unknown": "20 assets"
+      }
+    },
+    {
+      "id": "filtered",
+      "title": "Apply the reporting filter",
+      "caption": "The dashboard shows 98/100 managed assets. The filter changes what is reported, not the fleet.",
+      "activeNodeIds": [
+        "patched",
+        "unpatched",
+        "filter",
+        "unknown"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "filter": "98/100 = 98% managed subset"
+      }
+    },
+    {
+      "id": "lower-bound",
+      "title": "Compute the minimum",
+      "caption": "If none of the unknown assets are patched, the fleet rate is 98/120 = 81.7%.",
+      "activeNodeIds": [
+        "patched",
+        "unknown",
+        "bounds"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "bounds": "lower bound 81.7%"
+      }
+    },
+    {
+      "id": "upper-bound",
+      "title": "Compute the maximum",
+      "caption": "If all 20 unknown assets are patched, the fleet rate is 118/120 = 98.3%.",
+      "activeNodeIds": [
+        "patched",
+        "unknown",
+        "bounds"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "bounds": "upper bound 98.3%"
+      }
+    },
+    {
+      "id": "evidence-added",
+      "title": "Replace uncertainty with evidence",
+      "caption": "After verifying 12 of the 20 unknown assets as patched and 8 as unpatched, the exact fleet rate becomes 110/120 = 91.7%.",
+      "activeNodeIds": [
+        "patched",
+        "unpatched",
+        "bounds"
+      ],
+      "statuses": {
+        "patched": "110 assets",
+        "unpatched": "10 assets",
+        "bounds": "exact fleet rate 91.7%"
+      }
+    },
+    {
+      "id": "action-context",
+      "title": "Keep the conclusion bounded",
+      "caption": "Even the exact rate needs criticality, exposure, age, exceptions, owner, threshold, and action before it supports a risk decision.",
+      "activeNodeIds": [
+        "bounds",
+        "decision"
+      ],
+      "activeEdgeIndexes": [
+        5
+      ],
+      "statuses": {
+        "decision": "risk conclusion withheld pending context"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "telemetry-migration",
+      "label": "Missing log sources",
+      "changedFact": "After migration, observed incidents fall from 50 to 20, but only 12 of 20 expected log sources are confirmed.",
+      "states": [
+        {
+          "id": "observed-drop",
+          "title": "Observe the count change",
+          "caption": "The arithmetic decline is real for observed alerts, but the collection population changed.",
+          "activeNodeIds": [
+            "filter",
+            "unknown"
+          ],
+          "statuses": {
+            "filter": "12/20 sources confirmed",
+            "unknown": "8 sources unverified"
+          }
+        },
+        {
+          "id": "trend-withheld",
+          "title": "Withhold the risk trend",
+          "caption": "Missing sources cannot be counted as zero incidents; restore or account for telemetry before comparing risk.",
+          "activeNodeIds": [
+            "unknown",
+            "decision",
+            "bounds"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "decision": "trend not comparable"
+          }
+        },
+        {
+          "id": "comparison-restored",
+          "title": "Validate comparability",
+          "caption": "Reconcile source coverage, time window, and detection behavior, then compare independent control and outcome evidence.",
+          "activeNodeIds": [
+            "filter",
+            "bounds",
+            "decision"
+          ],
+          "statuses": {
+            "decision": "new evidence required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "patched",
+          "label": "50 pre-migration incidents",
+          "detail": "The earlier count came from the former telemetry population.",
+          "conceptIds": [
+            "security-metrics",
+            "evidence"
+          ]
+        },
+        {
+          "id": "unpatched",
+          "label": "20 observed incidents",
+          "detail": "The post-migration count covers only sources currently reporting.",
+          "conceptIds": [
+            "security-metrics",
+            "evidence"
+          ]
+        },
+        {
+          "id": "unknown",
+          "label": "8 unconfirmed log sources",
+          "detail": "Eight expected sources have unknown collection status after migration.",
+          "conceptIds": [
+            "data-quality",
+            "continuous-monitoring"
+          ]
+        },
+        {
+          "id": "filter",
+          "label": "12 confirmed sources",
+          "detail": "Only twelve of twenty expected sources are confirmed in the new observation set.",
+          "conceptIds": [
+            "data-quality",
+            "security-metrics"
+          ]
+        },
+        {
+          "id": "bounds",
+          "label": "Comparability limits",
+          "detail": "Changed source coverage and detection behavior prevent a like-for-like trend.",
+          "conceptIds": [
+            "security-metrics",
+            "kri"
+          ]
+        },
+        {
+          "id": "decision",
+          "label": "Risk trend withheld",
+          "detail": "The owner waits for reconciled coverage and behavior before declaring improvement.",
+          "conceptIds": [
+            "kpi",
+            "kri"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "patched",
+          "to": "filter",
+          "label": "contributes the old observed count",
+          "kind": "evidence"
+        },
+        {
+          "from": "unpatched",
+          "to": "filter",
+          "label": "contributes the new observed count",
+          "kind": "evidence"
+        },
+        {
+          "from": "unknown",
+          "to": "filter",
+          "label": "is absent from the new display because collection coverage changed",
+          "kind": "dependency"
+        },
+        {
+          "from": "patched",
+          "to": "bounds",
+          "label": "sets confirmed coverage",
+          "kind": "evidence"
+        },
+        {
+          "from": "unknown",
+          "to": "bounds",
+          "label": "defines uncertainty in the observed decline",
+          "kind": "evidence"
+        },
+        {
+          "from": "bounds",
+          "to": "decision",
+          "label": "prevents an unsupported risk conclusion",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d6-o03-predict",
+    "prompt": "Which statement is supported by 98 known patched, 2 known unpatched, and 20 unknown active assets?",
+    "options": [
+      {
+        "id": "exact98",
+        "label": "Exactly 98% of all active assets are patched.",
+        "correct": false,
+        "feedback": "98% uses the managed-only denominator of 100 and omits 20 active assets.",
+        "repairStateId": "filtered"
+      },
+      {
+        "id": "unknown-fail",
+        "label": "Exactly 81.7% are patched because unknown means failed.",
+        "correct": false,
+        "feedback": "81.7% is the lower bound. Unknown is not an observed failure.",
+        "repairStateId": "lower-bound"
+      },
+      {
+        "id": "bounded",
+        "label": "Managed is 98%; fleet is bounded from 81.7% to 98.3%",
+        "correct": true,
+        "feedback": "Correct. The subset rate and whole-fleet bounds use explicit denominators and preserve missingness.",
+        "repairStateId": "upper-bound"
+      },
+      {
+        "id": "lowrisk",
+        "label": "The fleet has low patch risk.",
+        "correct": false,
+        "feedback": "The measure lacks asset criticality, exposure, patch age, exception ownership, and a decision threshold.",
+        "repairStateId": "action-context"
+      }
+    ],
+    "conceptIds": [
+      "security-metrics",
+      "evidence",
+      "data-quality"
+    ],
+    "hint": "Write each claim as numerator divided by a named population, then keep unknown observations visible."
+  },
+  "transfer": {
+    "id": "d6-o03-transfer",
+    "prompt": "Incidents fell from 50 to 20 after migration, but only 12 of 20 expected log sources are confirmed. What can you conclude?",
+    "options": [
+      {
+        "id": "verify",
+        "label": "Withhold the trend until source coverage and detection behavior are reconciled",
+        "correct": true,
+        "feedback": "Correct. Validate the telemetry population and comparability before drawing a risk conclusion.",
+        "repairStateId": "comparison-restored"
+      },
+      {
+        "id": "fell60",
+        "label": "Risk fell 60% because observed incidents fell 60%.",
+        "correct": false,
+        "feedback": "The observed count changed along with source coverage, so it is not yet a comparable risk measure.",
+        "repairStateId": "observed-drop"
+      },
+      {
+        "id": "scaleup",
+        "label": "Scale 20 alerts by 20/12 and treat the estimate as the true comparable count.",
+        "correct": false,
+        "feedback": "That assumes equal source contribution and representative missingness without evidence.",
+        "repairStateId": "trend-withheld"
+      }
+    ],
+    "conceptIds": [
+      "data-quality",
+      "continuous-monitoring",
+      "kri"
+    ],
+    "hint": "Ask whether the observation system stayed comparable when the count changed."
+  },
+  "retry": {
+    "id": "d6-o03-retry",
+    "prompt": "A backup dashboard reports 100% job success for 40 systems, but only 15 had restore tests this quarter. Which metric statement is defensible?",
+    "options": [
+      {
+        "id": "recoverable",
+        "label": "All 40 systems are proven recoverable.",
+        "correct": false,
+        "feedback": "Job completion is activity evidence; only 15 systems have the stated restore-test evidence.",
+        "repairStateId": "census"
+      },
+      {
+        "id": "tested15",
+        "label": "Separate 40/40 job success from 15/40 restore evidence",
+        "correct": true,
+        "feedback": "Correct. Separate the measures and retain each denominator instead of turning job success into a recovery outcome.",
+        "repairStateId": "action-context"
+      },
+      {
+        "id": "fail25",
+        "label": "The 25 untested systems have failed restoration.",
+        "correct": false,
+        "feedback": "Untested is an evidence gap, not a failed result.",
+        "repairStateId": "lower-bound"
+      }
+    ],
+    "conceptIds": [
+      "security-metrics",
+      "kpi",
+      "evidence",
+      "data-quality"
+    ],
+    "hint": "Keep activity evidence and outcome evidence as separate fractions."
+  },
+  "takeaway": "A rate is only as sound as its population, denominator, observation quality, time window, and decision context; missing data creates bounds, not permission to impute success or failure.",
+  "assumptions": [
+    "All 120 assets are active members of the stated census.",
+    "Patch state is binary only for this bounded exercise; real decisions also use patch age, exposure, and criticality.",
+    "Bounds are possible extremes, not a confidence interval or probability."
+  ],
+  "sourceRefIds": [
+    "outline-d6-3",
+    "official-d6-39-49",
+    "sybex-d6-829-835",
+    "aio-d6-1223-1250"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d6-o03-process-data-manipulable-denominator-bounds-and-reporting-filter",
+      "disposition": "implemented",
+      "rationale": "Implemented in 6 stable quantitative states: 98 known patched included in numerator and denominator Managed-only filter; 2 known unpatched included in denominator Managed-only filter. The model keeps 98 known patched, 2 known unpatched, 20 status unknown, Managed-only filter, Fleet bounds, Risk decision distinct. Its changed case is “After migration, observed incidents fall from 50 to 20, but only 12 of 20 expected log sources are confirmed.” and every option returns to a named repair state."
+    }
+  ]
+}

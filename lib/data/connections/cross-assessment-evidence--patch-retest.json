@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-assessment-evidence--patch-retest",
+  "treatmentIds": [
+    "cross-assessment-evidence--patch-retest"
+  ],
+  "title": "A patch ticket and its repeat test",
+  "question": "A patch ticket closes but the original scoped abuse path remains reachable. Can remediation be claimed for that path, and what does this test say about untargeted assets?",
+  "scenario": "A control test showed that an authenticated low-privilege user could reach an administrative export endpoint on application A. Vulnerability management linked a vendor patch, deployed it, and closed the ticket. A retest using the same authorized precondition and endpoint still reaches the export. Application B was not in the original or repeat scope.",
+  "focalRelation": "Control testing informs remediation by supplying a scoped failure path and repeatable evidence. Vulnerability management owns correction and closure, but closure requires verification of the original path and cannot be generalized to untested assets.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "finding",
+      "label": "Original scoped finding",
+      "detail": "On application A, a low-privilege authenticated user can reach the administrative export endpoint under a defined test procedure.",
+      "conceptIds": [
+        "control-testing",
+        "misuse-case",
+        "vulnerability-testing"
+      ],
+      "lane": "test"
+    },
+    {
+      "id": "patch",
+      "label": "Patch deployed and ticket closed",
+      "detail": "Operations records successful deployment of the vendor patch; that proves a change occurred, not that the abuse path is gone.",
+      "conceptIds": [
+        "patch-management",
+        "patch-testing"
+      ],
+      "lane": "remediation"
+    },
+    {
+      "id": "retest",
+      "label": "Original path retested",
+      "detail": "The assessor repeats the authorized precondition, request, target, and expected denial on application A.",
+      "conceptIds": [
+        "control-testing",
+        "remediation-verification"
+      ],
+      "lane": "test"
+    },
+    {
+      "id": "reachable",
+      "label": "Abuse path still reachable",
+      "detail": "The export still succeeds, so remediation cannot be claimed for the tested path and the ticket must reopen or be re-scoped.",
+      "conceptIds": [
+        "remediation-verification",
+        "exception-management"
+      ],
+      "lane": "decision"
+    },
+    {
+      "id": "outside",
+      "label": "Application B outside scope",
+      "detail": "No conclusion about application B follows from a test that did not target its build, configuration, or path.",
+      "conceptIds": [
+        "sampling",
+        "asset-criticality"
+      ],
+      "lane": "scope"
+    }
+  ],
+  "edges": [
+    {
+      "from": "finding",
+      "to": "patch",
+      "label": "test evidence informs remediation work",
+      "kind": "evidence"
+    },
+    {
+      "from": "patch",
+      "to": "retest",
+      "label": "deployment claim requires outcome verification",
+      "kind": "flow"
+    },
+    {
+      "from": "retest",
+      "to": "reachable",
+      "label": "same scoped path still succeeds",
+      "kind": "evidence"
+    },
+    {
+      "from": "retest",
+      "to": "outside",
+      "label": "test scope excludes other assets",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "test",
+      "label": "Assessment evidence",
+      "rule": "Keep precondition, target, procedure, expected result, and observed result attached."
+    },
+    {
+      "id": "remediation",
+      "label": "Remediation workflow",
+      "rule": "Deployment and ticket state are process evidence, not outcome verification."
+    },
+    {
+      "id": "decision",
+      "label": "Closure decision",
+      "rule": "Close only the tested claim supported by repeat evidence."
+    },
+    {
+      "id": "scope",
+      "label": "Untested scope",
+      "rule": "Do not extend results to assets or paths not sampled."
+    }
+  ],
+  "states": [
+    {
+      "id": "baseline",
+      "title": "The finding names one abuse path",
+      "caption": "The original result is bounded to application A, a low-privilege precondition, and the administrative export.",
+      "activeNodeIds": [
+        "finding",
+        "outside"
+      ],
+      "statuses": {
+        "finding": "failed control",
+        "outside": "untested"
+      }
+    },
+    {
+      "id": "deployment",
+      "title": "The patch changes implementation state",
+      "caption": "A successful deployment is necessary process evidence but does not answer whether the path now denies access.",
+      "activeNodeIds": [
+        "finding",
+        "patch"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "patch": "deployed; closure claimed"
+      }
+    },
+    {
+      "id": "repeat",
+      "title": "Replay the original scoped test",
+      "caption": "Preserve the decisive precondition and expected denial so the comparison addresses the same claim.",
+      "activeNodeIds": [
+        "patch",
+        "retest",
+        "outside"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "reopen",
+      "title": "Reachability defeats the remediation claim",
+      "caption": "Reopen the finding for application A. Keep application B explicitly unknown.",
+      "activeNodeIds": [
+        "retest",
+        "reachable",
+        "outside"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "reachable": "remediation not verified",
+        "outside": "no conclusion"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Original path now denied, alternate path untested",
+      "changedFact": "The administrative export now denies the original request, but a second export endpoint appears in documentation and was not tested.",
+      "states": [
+        {
+          "id": "transfer-pass",
+          "title": "The original claim is verified",
+          "caption": "Evidence supports closure of the named path on application A.",
+          "activeNodeIds": [
+            "finding",
+            "patch",
+            "retest"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "retest": "expected denial observed"
+          }
+        },
+        {
+          "id": "transfer-limit",
+          "title": "The alternate endpoint remains a separate unknown",
+          "caption": "Do not silently extend the passing result; assess the alternate path according to risk and scope.",
+          "activeNodeIds": [
+            "retest",
+            "outside"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "outside": "alternate path untested"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "finding",
+          "label": "Original scoped finding",
+          "detail": "On application A, a low-privilege authenticated user can reach the administrative export endpoint under a defined test procedure.",
+          "conceptIds": [
+            "control-testing",
+            "misuse-case",
+            "vulnerability-testing"
+          ],
+          "lane": "test"
+        },
+        {
+          "id": "patch",
+          "label": "Patch deployed and ticket closed",
+          "detail": "Operations records successful deployment of the vendor patch; that proves a change occurred, not that the abuse path is gone.",
+          "conceptIds": [
+            "patch-management",
+            "patch-testing"
+          ],
+          "lane": "remediation"
+        },
+        {
+          "id": "retest",
+          "label": "Original path retested",
+          "detail": "The assessor repeats the authorized precondition, request, target, and expected denial on application A.",
+          "conceptIds": [
+            "control-testing",
+            "remediation-verification"
+          ],
+          "lane": "test"
+        },
+        {
+          "id": "outside",
+          "label": "Alternate endpoint outside repeat scope",
+          "detail": "The passing result does not establish whether a different endpoint enforces the same control.",
+          "conceptIds": [
+            "sampling",
+            "asset-criticality"
+          ],
+          "lane": "scope"
+        }
+      ],
+      "edges": [
+        {
+          "from": "finding",
+          "to": "patch",
+          "label": "original evidence identifies remediation work",
+          "kind": "evidence"
+        },
+        {
+          "from": "patch",
+          "to": "retest",
+          "label": "deployment requires a comparable repeat test",
+          "kind": "flow"
+        },
+        {
+          "from": "retest",
+          "to": "outside",
+          "label": "passing scoped result does not extend to an untested endpoint",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "test",
+          "label": "Assessment evidence",
+          "rule": "Keep precondition, target, procedure, expected result, and observed result attached."
+        },
+        {
+          "id": "remediation",
+          "label": "Remediation workflow",
+          "rule": "Deployment and ticket state are process evidence, not outcome verification."
+        },
+        {
+          "id": "scope",
+          "label": "Untested scope",
+          "rule": "Do not extend results to assets or paths not sampled."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "Retest precondition drifts",
+      "changedFact": "The assessor repeats the endpoint request with an administrator account rather than the low-privilege account in the finding.",
+      "states": [
+        {
+          "id": "retry-scope-drift",
+          "title": "The new run answers a different question",
+          "caption": "Administrator export success does not show whether the prohibited low-privilege path was removed.",
+          "activeNodeIds": [
+            "finding",
+            "retest"
+          ],
+          "statuses": {
+            "finding": "low-privilege claim still open",
+            "retest": "privilege precondition changed"
+          },
+          "activeEdgeIndexes": [
+            0
+          ]
+        },
+        {
+          "id": "retry-comparable",
+          "title": "Restore the decisive precondition",
+          "caption": "Repeat the authorized low-privilege request and observe the expected denial before deciding closure.",
+          "activeNodeIds": [
+            "finding",
+            "retest",
+            "patch"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "retest": "comparable repeat required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "finding",
+          "label": "Original low-privilege claim",
+          "detail": "The finding is specifically bounded to a low-privilege authenticated user reaching the export.",
+          "conceptIds": [
+            "control-testing",
+            "misuse-case",
+            "vulnerability-testing"
+          ],
+          "lane": "test"
+        },
+        {
+          "id": "patch",
+          "label": "Comparable repeat required",
+          "detail": "Closure still requires the original low-privilege precondition and expected denial.",
+          "conceptIds": [
+            "patch-management",
+            "patch-testing"
+          ],
+          "lane": "remediation"
+        },
+        {
+          "id": "retest",
+          "label": "Administrator-path test",
+          "detail": "The changed run uses a privileged account and therefore answers a different authorization question.",
+          "conceptIds": [
+            "control-testing",
+            "remediation-verification"
+          ],
+          "lane": "test"
+        }
+      ],
+      "edges": [
+        {
+          "from": "finding",
+          "to": "retest",
+          "label": "changed privilege makes this run non-comparable",
+          "kind": "dependency"
+        },
+        {
+          "from": "patch",
+          "to": "retest",
+          "label": "restore the original precondition for closure evidence",
+          "kind": "flow"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "test",
+          "label": "Assessment evidence",
+          "rule": "Keep precondition, target, procedure, expected result, and observed result attached."
+        },
+        {
+          "id": "remediation",
+          "label": "Remediation workflow",
+          "rule": "Deployment and ticket state are process evidence, not outcome verification."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "patch-predict",
+    "prompt": "Can the team claim remediation for the original path after the repeat test still succeeds?",
+    "options": [
+      {
+        "id": "p-ticket",
+        "label": "Yes; deployment and ticket closure establish control effectiveness",
+        "correct": false,
+        "feedback": "Ticket and deployment records prove workflow activity, not that the control now blocks the abuse path.",
+        "repairStateId": "deployment"
+      },
+      {
+        "id": "p-no",
+        "label": "No; reopen the finding because the scoped failure remains",
+        "correct": true,
+        "feedback": "Correct. Patch deployment did not produce the required outcome on the tested path.",
+        "repairStateId": "reopen"
+      },
+      {
+        "id": "p-version",
+        "label": "Yes; the new version number proves the abuse path is gone",
+        "correct": false,
+        "feedback": "A version change may be relevant, but the repeated path still demonstrates the required control outcome is absent.",
+        "repairStateId": "repeat"
+      }
+    ],
+    "conceptIds": [
+      "control-testing",
+      "patch-management",
+      "remediation-verification"
+    ],
+    "hint": "Compare the claimed corrective action with the observed outcome it was supposed to change."
+  },
+  "transfer": {
+    "id": "patch-transfer",
+    "prompt": "The original path now denies access, but an alternate endpoint was not tested. What may be concluded?",
+    "options": [
+      {
+        "id": "t-all",
+        "label": "The passing path proves every application endpoint is now remediated",
+        "correct": false,
+        "feedback": "One passing path does not establish every endpoint, configuration, or control outcome.",
+        "repairStateId": "transfer-limit"
+      },
+      {
+        "id": "t-none",
+        "label": "No finding can close until every possible application path has been tested",
+        "correct": false,
+        "feedback": "Evidence can support a bounded claim. The error is extending that claim beyond its stated scope.",
+        "repairStateId": "transfer-pass"
+      },
+      {
+        "id": "t-bounded",
+        "label": "Only the repeated path is verified; the alternate endpoint remains unknown",
+        "correct": true,
+        "feedback": "Correct. Close only the claim supported by evidence and separately scope the alternate path.",
+        "repairStateId": "transfer-limit"
+      }
+    ],
+    "conceptIds": [
+      "sampling",
+      "control-testing",
+      "remediation-verification"
+    ],
+    "hint": "State exactly which target, precondition, action, and expected result the test covered."
+  },
+  "retry": {
+    "id": "patch-retry",
+    "prompt": "A third retest reaches the same endpoint with an administrator account instead of the low-privilege account named in the finding, and the export succeeds. Can that result close the original finding?",
+    "options": [
+      {
+        "id": "r-rerun",
+        "label": "No; rerun the original low-privilege precondition and expected denial",
+        "correct": true,
+        "feedback": "Correct. A privileged success does not test whether the prohibited low-privilege path was removed.",
+        "repairStateId": "retry-comparable"
+      },
+      {
+        "id": "r-close",
+        "label": "Yes; any successful export proves the patched endpoint is functioning normally",
+        "correct": false,
+        "feedback": "Endpoint availability is not the control claim. The finding concerns access under a specific low-privilege precondition.",
+        "repairStateId": "retry-scope-drift"
+      },
+      {
+        "id": "r-broaden",
+        "label": "No; expand the finding to every administrator before repeating the original test",
+        "correct": false,
+        "feedback": "The changed account may support a separate test, but it does not justify broadening or closing the original scoped claim.",
+        "repairStateId": "retry-scope-drift"
+      }
+    ],
+    "conceptIds": [
+      "control-testing",
+      "remediation-verification",
+      "misuse-case"
+    ],
+    "hint": "Compare the retest subject, privilege, action, target, and expected outcome with the original finding."
+  },
+  "takeaway": "Testing supplies scoped evidence to remediation. Deployment and ticket closure do not prove effectiveness; repeat the decisive path and state clearly what remains outside the test scope.",
+  "assumptions": [
+    "The original and repeat tests are authorized and use equivalent decisive preconditions.",
+    "Application B was not sampled in either run.",
+    "A failed retest does not identify the root cause by itself; it disproves the closure claim."
+  ],
+  "sourceRefIds": [
+    "outline-d6-2",
+    "official-d6-21-38",
+    "outline-d7-o08",
+    "official-d7-60-62"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-assessment-evidence--patch-retest",
+      "disposition": "implemented",
+      "rationale": "The case makes the testing-to-remediation direction explicit and preserves the tested claim’s target, path, outcome, and limits through prediction and changed transfer."
+    }
+  ]
+}

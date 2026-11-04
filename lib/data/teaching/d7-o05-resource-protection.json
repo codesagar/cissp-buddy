@@ -1,0 +1,528 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o05-resource-protection",
+  "treatmentIds": [
+    "fresh-d7-o05-resource-protection-copy-custody-map-across-provider-boundary"
+  ],
+  "title": "Apply resource protection in operations",
+  "question": "How is data/media protected, moved, retained, and exited across provider boundaries?",
+  "scenario": "A provider is returning encrypted backup drives at contract end and offers a generic destruction letter without listing serial numbers or destruction method.",
+  "focalRelation": "media/data copy --use/transfer/storage/reuse/disposal state--> control obligation custody transfer --named sender/receiver and evidence--> accountability provider service boundary --divides operation, not customer accountability--> shared responsibility legal/retention need --governs--> disposal eligibility destruction --scope and remanence verification--> closure",
+  "representation": "ledger",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Encrypted backup drives",
+      "detail": "Named physical media containing protected data; encryption does not remove custody or disposal duties.",
+      "conceptIds": [
+        "media-management",
+        "media-protection",
+        "data-at-rest"
+      ],
+      "lane": "media"
+    },
+    {
+      "id": "n2",
+      "label": "Provider custodian",
+      "detail": "Named provider role holding the drives under shared contractual responsibilities.",
+      "conceptIds": [
+        "cloud-shared-responsibility",
+        "managed-service-risk",
+        "resource-custody"
+      ],
+      "lane": "custody"
+    },
+    {
+      "id": "n3",
+      "label": "Transfer record",
+      "detail": "Time, sender, receiver, condition, transport protection, and destination for each custody handoff.",
+      "conceptIds": [
+        "resource-custody",
+        "data-in-transit"
+      ],
+      "lane": "custody"
+    },
+    {
+      "id": "n4",
+      "label": "Serial-number inventory",
+      "detail": "One-to-one reconciliation between physical drive, data scope, retention state, key status, and required outcome.",
+      "conceptIds": [
+        "media-management",
+        "data-remanence"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "n5",
+      "label": "Destruction process",
+      "detail": "Approved sanitization or physical destruction method appropriate to media, classification, and residual data risk.",
+      "conceptIds": [
+        "sanitization",
+        "data-remanence"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "n6",
+      "label": "Verification evidence",
+      "detail": "Serial-specific method, performer, date, result, exceptions, retained copies, and accountable acceptance.",
+      "conceptIds": [
+        "destruction-evidence",
+        "resource-custody"
+      ],
+      "lane": "evidence"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "is held by named provider custodian",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "records each transfer and condition",
+      "kind": "evidence"
+    },
+    {
+      "from": "n1",
+      "to": "n4",
+      "label": "is reconciled by serial and data scope",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "selects required sanitization or destruction",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "produces serial-specific completion evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n6",
+      "label": "proves continuous custody to final disposition",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "media",
+      "label": "Media in scope",
+      "rule": "Each encrypted drive remains a protected asset until its final disposition is verified."
+    },
+    {
+      "id": "custody",
+      "label": "Custody chain",
+      "rule": "Every transfer names sender, receiver, time, condition, and destination."
+    },
+    {
+      "id": "control",
+      "label": "Disposition control",
+      "rule": "Inventory and classification determine the approved sanitization or destruction method."
+    },
+    {
+      "id": "evidence",
+      "label": "Acceptance evidence",
+      "rule": "Closure requires serial-specific result and retained-copy accounting."
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A provider is returning encrypted backup drives at contract end and offers a generic destruction letter without listing serial numbers or destruction method.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "encrypted drives returned",
+        "n2": "provider custodian"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Media includes removable devices, tapes, disks, printouts, mobile devices, and cloud or virtual representations.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n4",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n3": "custody chain required",
+        "n4": "serial list missing"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Encryption makes media disposal unnecessary. Keys can leak, algorithms or configuration can fail, and metadata or residual copies may remain; disposal and custody still require control.",
+      "activeNodeIds": [
+        "n4",
+        "n6",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n6": "generic letter insufficient"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Match the evidence to the media and data classification. Confirm chain of custody, key status, serials, sanitization or destruction method, provider responsibilities, retained copies, and verification. If the generic letter cannot prove the required outcome, use a controlled destruction or compensating process before closing the contract.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n4",
+        "n5",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "all serials reconciled",
+        "n5": "approved method applied"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a resource and lifecycle event, select protection, custody, handling, cloud-responsibility, and disposal controls that preserve confidentiality, integrity, availability, and recoverability. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n3",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n6": "serial-specific closure accepted"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A SaaS provider cannot confirm where tenant backups are stored or when deleted records leave all replicas.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A SaaS provider cannot confirm where tenant backups are stored or when deleted records leave all replicas.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2
+          ],
+          "statuses": {
+            "n1": "tenant backup copies",
+            "n2": "provider location unknown",
+            "n4": "replica inventory missing"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Treat this as a material lifecycle and recovery gap; require evidence, contract controls, or a different design before placing sensitive data there. Unknown copies undermine retention, destruction, privacy, and incident response decisions.",
+          "activeNodeIds": [
+            "n2",
+            "n4",
+            "n6",
+            "n1",
+            "n3"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            5
+          ],
+          "statuses": {
+            "n6": "material lifecycle gap; closure held"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "n6": "copy locations, deletion timing, and evidence contract resolved"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Tenant backup replicas",
+          "detail": "Sensitive tenant records may persist in primary, backup, and replicated copies.",
+          "conceptIds": [
+            "media-management",
+            "media-protection",
+            "data-at-rest"
+          ],
+          "lane": "media"
+        },
+        {
+          "id": "n2",
+          "label": "SaaS provider custodian",
+          "detail": "The provider cannot identify all storage locations or copy ownership.",
+          "conceptIds": [
+            "cloud-shared-responsibility",
+            "managed-service-risk",
+            "resource-custody"
+          ],
+          "lane": "custody"
+        },
+        {
+          "id": "n3",
+          "label": "Contract and data-flow record",
+          "detail": "The agreement should state regions, transfers, retention, deletion, and evidence rights.",
+          "conceptIds": [
+            "resource-custody",
+            "data-in-transit"
+          ],
+          "lane": "custody"
+        },
+        {
+          "id": "n4",
+          "label": "Missing replica inventory",
+          "detail": "The customer cannot reconcile where copies exist or when deletion reaches them.",
+          "conceptIds": [
+            "media-management",
+            "data-remanence"
+          ],
+          "lane": "control"
+        },
+        {
+          "id": "n5",
+          "label": "Replica deletion process",
+          "detail": "A defined process removes records from active and backup copies under retention rules.",
+          "conceptIds": [
+            "sanitization",
+            "data-remanence"
+          ],
+          "lane": "control"
+        },
+        {
+          "id": "n6",
+          "label": "Deletion and location evidence",
+          "detail": "Provider evidence supports lifecycle, privacy, recovery, and exit decisions.",
+          "conceptIds": [
+            "destruction-evidence",
+            "resource-custody"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "places copies under provider custody",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "must disclose transfer and retention terms",
+          "kind": "evidence"
+        },
+        {
+          "from": "n1",
+          "to": "n4",
+          "label": "must reconcile every copy class",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "selects deletion timing and method",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "proves deletion completion",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n6",
+          "label": "supports accountable lifecycle decision",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "media",
+          "label": "Media in scope",
+          "rule": "Each encrypted drive remains a protected asset until its final disposition is verified."
+        },
+        {
+          "id": "custody",
+          "label": "Custody chain",
+          "rule": "Every transfer names sender, receiver, time, condition, and destination."
+        },
+        {
+          "id": "control",
+          "label": "Disposition control",
+          "rule": "Inventory and classification determine the approved sanitization or destruction method."
+        },
+        {
+          "id": "evidence",
+          "label": "Acceptance evidence",
+          "rule": "Closure requires serial-specific result and retained-copy accounting."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o05-resource-protection-prediction",
+    "prompt": "How is data/media protected, moved, retained, and exited across provider boundaries?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "Encryption makes media disposal unnecessary.",
+        "correct": false,
+        "feedback": "Incorrect: Keys can leak, algorithms or configuration can fail, and metadata or residual copies may remain; disposal and custody still require control.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Accept the generic destruction letter as proof that every returned drive was destroyed.",
+        "correct": false,
+        "feedback": "Incorrect: copy-specific custody and disposition need serials or other accountable identifiers, transfer records, method, authority, exceptions, and evidence tied to the affected media.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "relation",
+        "label": "Match the evidence to the media and data classification",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Keys can leak, algorithms or configuration can fail, and metadata or residual copies may remain; disposal and custody still require control.",
+        "repairStateId": "failure-exposed"
+      }
+    ],
+    "conceptIds": [
+      "destruction-evidence"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o05-resource-protection-transfer",
+    "prompt": "A SaaS provider cannot confirm where tenant backups are stored or when deleted records leave all replicas.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Treat this as a material lifecycle and recovery gap",
+        "correct": true,
+        "feedback": "Correct. Treat this as a material lifecycle and recovery gap; require evidence, contract controls, or a different design before placing sensitive data there. Unknown copies undermine retention, destruction, privacy, and incident response decisions.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "The changed fact is “A SaaS provider cannot confirm where tenant backups are stored or when deleted records leave all replicas.” Reusing the earlier conclusion skips the changed condition and the model’s is held by named provider custodian relation.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "This bypasses the named decision owner and leaves Verification evidence unverified. Treat this as a material lifecycle and recovery gap; require evidence, contract controls, or a different design before placing sensitive data there. Unknown copies undermine retention, destruction, privacy, and incident response decisions.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "destruction-evidence"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o05-resource-protection-retry-v2",
+    "prompt": "A destruction certificate lists a media batch but no device serials, method, date, or custody handoff. What does it prove?",
+    "options": [
+      {
+        "id": "batch-proves",
+        "label": "Accept it as proof that every device in inventory was destroyed",
+        "correct": false,
+        "feedback": "Without serials and custody linkage, the certificate cannot establish which media the vendor handled.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "insufficient-certificate",
+        "label": "Reconcile media identity and custody; obtain method and verification evidence",
+        "correct": true,
+        "feedback": "Correct. A generic batch statement cannot prove disposition of each governed item.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "delete-inventory",
+        "label": "Remove the media records because a vendor certificate ends the organization’s custody duty",
+        "correct": false,
+        "feedback": "Disposition evidence closes inventory only when identity, method, outcome, and custody reconcile.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "destruction-evidence",
+      "media-management",
+      "resource-custody"
+    ],
+    "hint": "Match the artifact to the exact media and disposition claim it is supposed to support."
+  },
+  "takeaway": "Match the evidence to the media and data classification.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o05",
+    "official-d7-40-41",
+    "sybex-d7-776-782"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o05-resource-protection-copy-custody-map-across-provider-boundary",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable ledger states: Encrypted backup drives is held by named provider custodian Provider custodian; Provider custodian records each transfer and condition Transfer record. The model keeps Encrypted backup drives, Provider custodian, Transfer record, Serial-number inventory, Destruction process, Verification evidence distinct. Its changed case is “A SaaS provider cannot confirm where tenant backups are stored or when deleted records leave all replicas.” and every option returns to a named repair state."
+    }
+  ]
+}

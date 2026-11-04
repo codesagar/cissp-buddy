@@ -1,0 +1,518 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d2-o06-controls-compliance",
+  "treatmentIds": [
+    "fresh-d2-o06-controls-compliance-coverage-scope-evidence-map"
+  ],
+  "title": "coverage scope evidence map",
+  "question": "Where do DRM, DLP, CASB, identity, contract, logging, response, and recovery act on a contractor data path, and where are their blind spots?",
+  "scenario": "Payment data in a managed service: A company sends payment-related data to a managed service provider and claims compliance because the provider has an audit report.",
+  "focalRelation": "Each control covers a specific actor, state, channel, action, or evidence path; scoping decides applicability before tailoring; compensating controls address the same objective with documented evidence and residual risk.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "data",
+      "label": "Payment-data copy and purpose",
+      "detail": "The company identifies classification, minimum fields, recipient, use, location, retention, and every managed or unmanaged copy.",
+      "conceptIds": [
+        "privacy",
+        "compliance"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "identity",
+      "label": "Identity and entitlement controls",
+      "detail": "Named workforce and provider identities receive least-privilege access with review, expiry, and response ownership.",
+      "conceptIds": [
+        "data-security-controls",
+        "layered-controls"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "content",
+      "label": "DRM and DLP coverage",
+      "detail": "DRM constrains supported document uses; DLP detects or blocks defined content on covered channels but cannot govern every screenshot or alternate path.",
+      "conceptIds": [
+        "digital-rights-management",
+        "data-loss-prevention"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "cloud",
+      "label": "CASB and service controls",
+      "detail": "CASB observes or enforces policy on supported cloud paths while tenant settings, APIs, provider operations, and alternate clients remain separate surfaces.",
+      "conceptIds": [
+        "cloud-access-security-broker",
+        "data-security-controls"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "provider",
+      "label": "Contract and provider responsibility",
+      "detail": "The agreement assigns data location, access, incident, evidence, recovery, retention, deletion, and subcontractor duties across the shared service.",
+      "conceptIds": [
+        "compliance",
+        "tailoring"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "evidence",
+      "label": "Scoped assurance and residual risk",
+      "detail": "Audit reports and telemetry support only matched services, periods, controls, paths, and responsibilities; gaps remain explicit decisions.",
+      "conceptIds": [
+        "control-assurance",
+        "layered-controls"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "data",
+      "to": "identity",
+      "label": "sets the people and actions constrained by",
+      "kind": "dependency"
+    },
+    {
+      "from": "data",
+      "to": "content",
+      "label": "sets the content and channels inspected or restricted by",
+      "kind": "dependency"
+    },
+    {
+      "from": "data",
+      "to": "cloud",
+      "label": "sets the tenant and paths observed or enforced by",
+      "kind": "dependency"
+    },
+    {
+      "from": "provider",
+      "to": "cloud",
+      "label": "assigns provider and customer duties around",
+      "kind": "dependency"
+    },
+    {
+      "from": "identity",
+      "to": "evidence",
+      "label": "produces access and review evidence for",
+      "kind": "evidence"
+    },
+    {
+      "from": "content",
+      "to": "evidence",
+      "label": "produces scoped detection or restriction evidence for",
+      "kind": "evidence"
+    },
+    {
+      "from": "cloud",
+      "to": "evidence",
+      "label": "produces tenant and channel evidence for",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "Governed data and purpose",
+      "rule": "Classification and purpose define the copy and handling scope."
+    },
+    {
+      "id": "control",
+      "label": "Enforcement surfaces",
+      "rule": "Each control covers named identities, content, channels, clients, and service paths only."
+    },
+    {
+      "id": "protected",
+      "label": "Provider duties and evidence",
+      "rule": "Attestation supports a conclusion only when service, period, responsibility, and control scope match."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Payment data in a managed service: A company sends payment-related data to a managed service provider and claims compliance because the provider has an audit report.",
+      "activeNodeIds": [
+        "data",
+        "identity"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "data": "The company identifies classification, minimum fields, recipient, use, location, retention, and every managed or unmanaged copy.",
+        "identity": "Named workforce and provider identities receive least-privilege access with review, expiry, and response ownership."
+      },
+      "activeRowIds": []
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Payment-data copy and purpose sets the people and actions constrained by Identity and entitlement controls. Payment-data copy and purpose sets the content and channels inspected or restricted by DRM and DLP coverage.",
+      "activeNodeIds": [
+        "data",
+        "identity",
+        "content"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "identity": "Named workforce and provider identities receive least-privilege access with review, expiry, and response ownership.",
+        "data": "The company identifies classification, minimum fields, recipient, use, location, retention, and every managed or unmanaged copy.",
+        "content": "DRM constrains supported document uses; DLP detects or blocks defined content on covered channels but cannot govern every screenshot or alternate path."
+      },
+      "activeRowIds": [
+        "managed-app"
+      ]
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "DRM and DLP coverage produces scoped detection or restriction evidence for Scoped assurance and residual risk. CASB and service controls produces tenant and channel evidence for Scoped assurance and residual risk.",
+      "activeNodeIds": [
+        "content",
+        "evidence",
+        "cloud"
+      ],
+      "activeEdgeIndexes": [
+        5,
+        6
+      ],
+      "statuses": {
+        "evidence": "Audit reports and telemetry support only matched services, periods, controls, paths, and responsibilities; gaps remain explicit decisions.",
+        "content": "DRM constrains supported document uses; DLP detects or blocks defined content on covered channels but cannot govern every screenshot or alternate path.",
+        "cloud": "CASB observes or enforces policy on supported cloud paths while tenant settings, APIs, provider operations, and alternate clients remain separate surfaces."
+      },
+      "activeRowIds": [
+        "provider"
+      ]
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "An authorized user captures a sensitive record in an unmanaged screenshot outside the governed SaaS client. Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response, and verified disposition rather than claiming inherited protection.",
+      "activeNodeIds": [
+        "data",
+        "identity",
+        "content",
+        "evidence",
+        "cloud",
+        "provider"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "evidence": "Audit reports and telemetry support only matched services, periods, controls, paths, and responsibilities; gaps remain explicit decisions.",
+        "data": "The company identifies classification, minimum fields, recipient, use, location, retention, and every managed or unmanaged copy.",
+        "identity": "Named workforce and provider identities receive least-privilege access with review, expiry, and response ownership.",
+        "content": "DRM constrains supported document uses; DLP detects or blocks defined content on covered channels but cannot govern every screenshot or alternate path.",
+        "cloud": "CASB observes or enforces policy on supported cloud paths while tenant settings, APIs, provider operations, and alternate clients remain separate surfaces.",
+        "provider": "The agreement assigns data location, access, incident, evidence, recovery, retention, deletion, and subcontractor duties across the shared service."
+      },
+      "activeRowIds": [
+        "unmanaged-copy"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The content leaves the managed application path. DRM, DLP, and provider logging may no longer cover the copy.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "An authorized user captures a sensitive record in an unmanaged screenshot outside the governed SaaS client.",
+          "activeNodeIds": [
+            "content",
+            "evidence",
+            "cloud"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "evidence": "The content leaves the managed application path. DRM, DLP, and provider logging may no longer cover the copy.",
+            "content": "DRM constrains supported document uses; DLP detects or blocks defined content on covered channels but cannot govern every screenshot or alternate path.",
+            "cloud": "CASB observes or enforces policy on supported cloud paths while tenant settings, APIs, provider operations, and alternate clients remain separate surfaces."
+          },
+          "activeRowIds": [
+            "managed-app"
+          ]
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response, and verified disposition rather than claiming inherited protection.",
+          "activeNodeIds": [
+            "content",
+            "evidence",
+            "cloud"
+          ],
+          "activeEdgeIndexes": [
+            5,
+            6
+          ],
+          "statuses": {
+            "evidence": "Audit reports and telemetry support only matched services, periods, controls, paths, and responsibilities; gaps remain explicit decisions.",
+            "content": "DRM constrains supported document uses; DLP detects or blocks defined content on covered channels but cannot govern every screenshot or alternate path.",
+            "cloud": "CASB observes or enforces policy on supported cloud paths while tenant settings, APIs, provider operations, and alternate clients remain separate surfaces."
+          },
+          "activeRowIds": [
+            "provider"
+          ]
+        }
+      ],
+      "matrix": {
+        "title": "Coverage follows the copy, surface, and evidence",
+        "description": "Compare each control against the surface it can actually observe or enforce. A provider report is evidence about stated scope, not a universal compliance result.",
+        "columns": [
+          {
+            "id": "surface",
+            "label": "Surface in this case"
+          },
+          {
+            "id": "control",
+            "label": "Control action"
+          },
+          {
+            "id": "evidence",
+            "label": "Evidence"
+          },
+          {
+            "id": "blind",
+            "label": "Blind spot / residual question"
+          }
+        ],
+        "rows": [
+          {
+            "id": "managed-app",
+            "label": "Managed application",
+            "cells": {
+              "surface": "Payment fields inside the approved service workflow",
+              "control": "Tenant policy, least privilege, DLP/CASB on supported paths",
+              "evidence": "Tenant configuration, access events, DLP/CASB decisions",
+              "blind": "Provider operations and unsupported clients require separate coverage"
+            }
+          },
+          {
+            "id": "provider",
+            "label": "Provider operations",
+            "cells": {
+              "surface": "Provider staff, subprocessors, recovery and deletion processes",
+              "control": "Contracted duties, provider controls, customer configuration",
+              "evidence": "Matched audit scope, exceptions, telemetry and follow-up",
+              "blind": "An audit period or service exclusion remains outside the claim"
+            }
+          },
+          {
+            "id": "unmanaged-copy",
+            "label": "Unmanaged screenshot or export",
+            "cells": {
+              "surface": "Copy outside the managed application channel",
+              "control": "Endpoint, handling, recipient and response controls",
+              "evidence": "Endpoint/case evidence and owned exception record",
+              "blind": "Source DLP, DRM and provider logs may no longer see the copy"
+            }
+          }
+        ],
+        "notes": [
+          "Scoping decides applicability before tailoring.",
+          "A compensating control must address the same objective and leave residual risk explicit."
+        ]
+      }
+    }
+  ],
+  "prediction": {
+    "id": "d2-o06-controls-compliance-prediction-v1",
+    "prompt": "Where do DRM, DLP, CASB, identity, contract, logging, response, and recovery act on a contractor data path, and where are their blind spots?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Treat the screenshot as controlled because the source SaaS had DLP and DRM enabled.",
+        "correct": false,
+        "feedback": "Source controls do not automatically follow a copy into an unmanaged channel.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Controls configured in the source SaaS protect every exported or captured copy.",
+        "correct": false,
+        "feedback": "Coverage can end when data leaves the managed path; each new copy and channel needs an explicit coverage decision.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Map each failure path to scoped controls, coverage evidence, and remaining risk.",
+        "correct": true,
+        "feedback": "Product-family names do not guarantee visibility or enforcement across every device, service, identity, encrypted payload, or channel.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "data-security-controls",
+      "layered-controls",
+      "control-assurance",
+      "data-loss-prevention"
+    ],
+    "hint": "Inherited protection ends where the new copy, custodian, or processing boundary changes."
+  },
+  "transfer": {
+    "id": "d2-o06-controls-compliance-transfer-v1",
+    "prompt": "An authorized user captures a sensitive record in an unmanaged screenshot outside the governed SaaS client.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Approve the unmanaged copy because the SaaS audit covers provider infrastructure and service operations.",
+        "correct": false,
+        "feedback": "Changed fact: The content leaves the managed application path. DRM, DLP, and provider logging may no longer cover the copy. Why this answer fails: “Approve the unmanaged copy because the SaaS audit covers provider infrastructure and service operations.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Each control covers a specific actor, state, channel, action, or evidence path; scoping decides applicability before tailoring; compensating controls address the same objective with documented evidence and residual risk. Repair target: Control and evidence consequence — DRM and DLP coverage produces scoped detection or restriction evidence for Scoped assurance and residual risk. CASB and service controls produces tenant and channel evidence for Scoped assurance and residual risk.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Apply only the existing DLP rule because every external copy inherits the managed tenant controls automatically.",
+        "correct": false,
+        "feedback": "Changed fact: The content leaves the managed application path. DRM, DLP, and provider logging may no longer cover the copy. Why this answer fails: “Apply only the existing DLP rule because every external copy inherits the managed tenant controls automatically.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Each control covers a specific actor, state, channel, action, or evidence path; scoping decides applicability before tailoring; compensating controls address the same objective with documented evidence and residual risk. Repair target: Changed fact, recomputed result — An authorized user captures a sensitive record in an unmanaged screenshot outside the governed SaaS client. Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response, and verified disposition rather than claiming inherited protection.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response",
+        "correct": true,
+        "feedback": "Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response, and verified disposition rather than claiming inherited protection.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "data-security-controls",
+      "layered-controls",
+      "control-assurance"
+    ],
+    "hint": "Identify which technical coverage disappeared and which governance controls must replace it."
+  },
+  "retry": {
+    "id": "d2-o06-controls-compliance-retry-v1",
+    "prompt": "A vendor offers a compliance certificate but cannot explain data location or deletion after contract end. What should the security owner decide?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Treat the certificate as limited evidence, resolve scope and contractual lifecycle requirements",
+        "correct": true,
+        "feedback": "Correct. Treat the certificate as limited evidence, resolve scope and contractual lifecycle requirements, and assess residual risk before approval.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Treat the provider certificate as complete proof for every tenant control, contract duty, and retention period.",
+        "correct": false,
+        "feedback": "An audit has scope, criteria, timing, and evidence limits; residual risk and changing threats still require management.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Reject the provider solely because one certificate scope is narrow, without resolving other evidence or duties.",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Treat the certificate as limited evidence, resolve scope and contractual lifecycle requirements, and assess residual risk before approval.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "data-security-controls",
+      "compliance",
+      "data-loss-prevention",
+      "cloud-access-security-broker"
+    ],
+    "hint": "A new copy needs its own identity, monitoring, contract, response, and disposition evidence."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Each control covers a specific actor, state, channel, action, or evidence path; scoping decides applicability before tailoring; compensating controls address the same objective with documented evidence and residual risk.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "official-d2-37-47",
+    "takeaways-d2-controls",
+    "sybex-d2"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d2-o06-controls-compliance-coverage-scope-evidence-map",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve the contractor data path, distinct control coverage, evidence limits, shared responsibility, and remaining risk. Scoping and tailoring are integrated into the staged case rather than a separate linked panel."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Identity, DRM, DLP, CASB, contracts, logging, response, and recovery cover different actors, copies, and channels. An unmanaged screenshot can leave the source application’s technical coverage while remaining governed data.",
+    "visualReasoningGain": "A control-by-surface matrix would reveal coverage and blind spots; the current edge map adds little to that cross-control comparison."
+  },
+  "matrix": {
+    "title": "Coverage follows the copy, surface, and evidence",
+    "description": "Compare each control against the surface it can actually observe or enforce. A provider report is evidence about stated scope, not a universal compliance result.",
+    "columns": [
+      {
+        "id": "surface",
+        "label": "Surface in this case"
+      },
+      {
+        "id": "control",
+        "label": "Control action"
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence"
+      },
+      {
+        "id": "blind",
+        "label": "Blind spot / residual question"
+      }
+    ],
+    "rows": [
+      {
+        "id": "managed-app",
+        "label": "Managed application",
+        "cells": {
+          "surface": "Payment fields inside the approved service workflow",
+          "control": "Tenant policy, least privilege, DLP/CASB on supported paths",
+          "evidence": "Tenant configuration, access events, DLP/CASB decisions",
+          "blind": "Provider operations and unsupported clients require separate coverage"
+        }
+      },
+      {
+        "id": "provider",
+        "label": "Provider operations",
+        "cells": {
+          "surface": "Provider staff, subprocessors, recovery and deletion processes",
+          "control": "Contracted duties, provider controls, customer configuration",
+          "evidence": "Matched audit scope, exceptions, telemetry and follow-up",
+          "blind": "An audit period or service exclusion remains outside the claim"
+        }
+      },
+      {
+        "id": "unmanaged-copy",
+        "label": "Unmanaged screenshot or export",
+        "cells": {
+          "surface": "Copy outside the managed application channel",
+          "control": "Endpoint, handling, recipient and response controls",
+          "evidence": "Endpoint/case evidence and owned exception record",
+          "blind": "Source DLP, DRM and provider logs may no longer see the copy"
+        }
+      }
+    ],
+    "notes": [
+      "Scoping decides applicability before tailoring.",
+      "A compensating control must address the same objective and leave residual risk explicit."
+    ]
+  }
+}

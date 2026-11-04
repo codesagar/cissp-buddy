@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-networks-communications--channel-validation",
+  "treatmentIds": [
+    "cross-networks-communications--channel-validation"
+  ],
+  "title": "An encrypted administration session",
+  "question": "A channel encrypts payload but has no verified peer binding. Which identity assurance claim is unsupported even though confidentiality mechanisms are present?",
+  "scenario": "A remote administration client negotiates an encrypted channel to a server. The operator bypasses certificate validation after a name mismatch. Payload bytes are encrypted, but the client has not established that the key belongs to the intended administration endpoint rather than an active intermediary.",
+  "focalRelation": "Secure channels implement cryptographic mechanisms and trust validation together. Active-intermediary and downgrade threats inform the validation and configuration checks; encryption alone does not establish peer identity.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "intended-peer",
+      "label": "Intended administration service",
+      "detail": "The operator expects a named service governed by a known trust anchor and certificate lifecycle.",
+      "conceptIds": [
+        "secure-channel",
+        "trust-anchor",
+        "certificate"
+      ],
+      "lane": "peer"
+    },
+    {
+      "id": "negotiated-crypto",
+      "label": "Encrypted payload channel",
+      "detail": "A cryptographic session protects payload bytes under the key negotiated with the endpoint that answered.",
+      "conceptIds": [
+        "cryptography",
+        "tls",
+        "key-management"
+      ],
+      "lane": "channel"
+    },
+    {
+      "id": "validation-gap",
+      "label": "Peer binding not established",
+      "detail": "Name, chain, validity, revocation, or trust-anchor checks were bypassed, so the answering endpoint is not proven to be the intended peer.",
+      "conceptIds": [
+        "certificate-validation",
+        "mutual-authentication"
+      ],
+      "lane": "peer"
+    },
+    {
+      "id": "active-intermediary",
+      "label": "Active intermediary remains possible",
+      "detail": "An attacker controlling routing or name resolution can terminate one encrypted channel and create another if the client accepts an untrusted peer.",
+      "conceptIds": [
+        "man-in-the-middle",
+        "secure-channel"
+      ],
+      "lane": "threat"
+    },
+    {
+      "id": "decision",
+      "label": "Reject and repair validation",
+      "detail": "Stop the session, confirm the expected service identity and trust path, correct configuration or certificate state, and reconnect with validation enabled.",
+      "conceptIds": [
+        "certificate-validation",
+        "key-lifecycle",
+        "secure-channel"
+      ],
+      "lane": "decision"
+    }
+  ],
+  "edges": [
+    {
+      "from": "negotiated-crypto",
+      "to": "validation-gap",
+      "label": "payload secrecy does not supply peer binding",
+      "kind": "dependency"
+    },
+    {
+      "from": "validation-gap",
+      "to": "active-intermediary",
+      "label": "missing validation leaves intermediary path plausible",
+      "kind": "dependency"
+    },
+    {
+      "from": "intended-peer",
+      "to": "decision",
+      "label": "expected identity and trust path define acceptance criteria",
+      "kind": "dependency"
+    },
+    {
+      "from": "active-intermediary",
+      "to": "decision",
+      "label": "threat context requires fail-closed validation",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "peer",
+      "label": "Peer identity evidence",
+      "rule": "Show what binds the endpoint key to the intended service."
+    },
+    {
+      "id": "channel",
+      "label": "Payload mechanism",
+      "rule": "State the supported confidentiality/integrity claim without extending it to identity."
+    },
+    {
+      "id": "threat",
+      "label": "Threat path",
+      "rule": "Represent a possible active intermediary, not a claimed observed compromise."
+    },
+    {
+      "id": "decision",
+      "label": "Operator decision",
+      "rule": "Fail closed and repair trust configuration before privileged use."
+    }
+  ],
+  "states": [
+    {
+      "id": "crypto",
+      "title": "The channel has a cryptographic mechanism",
+      "caption": "The client negotiated encryption with the endpoint that answered.",
+      "activeNodeIds": [
+        "negotiated-crypto"
+      ],
+      "statuses": {
+        "negotiated-crypto": "encrypted"
+      }
+    },
+    {
+      "id": "identity-gap",
+      "title": "The intended peer is still unsupported",
+      "caption": "Bypassing validation removes the evidence that binds the session key to the expected service.",
+      "activeNodeIds": [
+        "intended-peer",
+        "negotiated-crypto",
+        "validation-gap"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "validation-gap": "validation bypassed"
+      }
+    },
+    {
+      "id": "threat",
+      "title": "An active intermediary remains possible",
+      "caption": "This is a threat path exposed by the gap, not proof that interception occurred.",
+      "activeNodeIds": [
+        "validation-gap",
+        "active-intermediary"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ]
+    },
+    {
+      "id": "reject",
+      "title": "Stop and restore the peer binding",
+      "caption": "Validate the expected identity, chain, time, revocation, and trust anchor before privileged traffic resumes.",
+      "activeNodeIds": [
+        "intended-peer",
+        "active-intermediary",
+        "decision"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "decision": "connection rejected"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Valid certificate, wrong service name",
+      "changedFact": "The certificate chains to a trusted authority and is current, but it names a different administration service.",
+      "states": [
+        {
+          "id": "transfer-name-gap",
+          "title": "A valid chain is not a name match",
+          "caption": "Trust in the issuer does not bind this key to the operator’s intended service name.",
+          "activeNodeIds": [
+            "intended-peer",
+            "validation-gap"
+          ],
+          "statuses": {
+            "validation-gap": "service identity mismatch"
+          },
+          "activeEdgeIndexes": [
+            0
+          ]
+        },
+        {
+          "id": "transfer-reject",
+          "title": "Reject the mismatched endpoint",
+          "caption": "Investigate routing, configuration, and certificate issuance rather than overriding the mismatch.",
+          "activeNodeIds": [
+            "validation-gap",
+            "decision",
+            "intended-peer"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "intended-peer",
+          "label": "Expected administration service",
+          "detail": "The operator must bind the session to this exact service name.",
+          "conceptIds": [
+            "secure-channel",
+            "trust-anchor",
+            "certificate"
+          ],
+          "lane": "peer"
+        },
+        {
+          "id": "validation-gap",
+          "label": "Certificate names another service",
+          "detail": "A current trusted certificate for a different name does not authenticate the intended endpoint.",
+          "conceptIds": [
+            "certificate-validation",
+            "mutual-authentication"
+          ],
+          "lane": "peer"
+        },
+        {
+          "id": "decision",
+          "label": "Reject mismatched channel",
+          "detail": "Stop privileged traffic and investigate configuration or interception without declaring an attack as fact.",
+          "conceptIds": [
+            "certificate-validation",
+            "key-lifecycle",
+            "secure-channel"
+          ],
+          "lane": "decision"
+        }
+      ],
+      "edges": [
+        {
+          "from": "intended-peer",
+          "to": "validation-gap",
+          "label": "presented name does not match expected service",
+          "kind": "evidence"
+        },
+        {
+          "from": "validation-gap",
+          "to": "decision",
+          "label": "identity mismatch requires fail-closed handling",
+          "kind": "dependency"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "peer",
+          "label": "Peer identity evidence",
+          "rule": "Show what binds the endpoint key to the intended service."
+        },
+        {
+          "id": "decision",
+          "label": "Operator decision",
+          "rule": "Fail closed and repair trust configuration before privileged use."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "Expected name chains to an unverified anchor",
+      "changedFact": "The certificate names the intended service, but the trust anchor was installed from an unauthenticated email.",
+      "states": [
+        {
+          "id": "retry-anchor-gap",
+          "title": "A matching name does not repair an untrusted root",
+          "caption": "The client lacks governed evidence for the anchor that vouches for the endpoint key.",
+          "activeNodeIds": [
+            "intended-peer",
+            "negotiated-crypto",
+            "validation-gap"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "validation-gap": "trust-anchor provenance unverified"
+          }
+        },
+        {
+          "id": "retry-anchor-response",
+          "title": "Restore an approved trust path",
+          "caption": "Remove the unverified anchor and validate name, chain, time, revocation, and anchor provenance before reconnecting.",
+          "activeNodeIds": [
+            "intended-peer",
+            "validation-gap",
+            "decision"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "decision": "reject until approved anchor validates"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "intended-peer",
+          "label": "Expected service identity",
+          "detail": "The service name must be bound through a governed trust path.",
+          "conceptIds": [
+            "secure-channel",
+            "trust-anchor",
+            "certificate"
+          ],
+          "lane": "peer"
+        },
+        {
+          "id": "negotiated-crypto",
+          "label": "Encrypted session with named endpoint",
+          "detail": "Encryption and a matching name are present, but trust still depends on the anchor.",
+          "conceptIds": [
+            "cryptography",
+            "tls",
+            "key-management"
+          ],
+          "lane": "channel"
+        },
+        {
+          "id": "validation-gap",
+          "label": "Unauthenticated trust anchor",
+          "detail": "The root was installed from an unauthenticated email and lacks approved provenance.",
+          "conceptIds": [
+            "certificate-validation",
+            "mutual-authentication"
+          ],
+          "lane": "peer"
+        },
+        {
+          "id": "decision",
+          "label": "Remove anchor and reject",
+          "detail": "Use an approved anchor, then validate chain, name, time, and revocation before reconnecting.",
+          "conceptIds": [
+            "certificate-validation",
+            "key-lifecycle",
+            "secure-channel"
+          ],
+          "lane": "decision"
+        }
+      ],
+      "edges": [
+        {
+          "from": "negotiated-crypto",
+          "to": "validation-gap",
+          "label": "encryption does not authenticate the root of trust",
+          "kind": "dependency"
+        },
+        {
+          "from": "intended-peer",
+          "to": "validation-gap",
+          "label": "expected identity requires an approved anchor",
+          "kind": "dependency"
+        },
+        {
+          "from": "validation-gap",
+          "to": "decision",
+          "label": "unverified anchor requires rejection",
+          "kind": "dependency"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "peer",
+          "label": "Peer identity evidence",
+          "rule": "Show what binds the endpoint key to the intended service."
+        },
+        {
+          "id": "channel",
+          "label": "Payload mechanism",
+          "rule": "State the supported confidentiality/integrity claim without extending it to identity."
+        },
+        {
+          "id": "decision",
+          "label": "Operator decision",
+          "rule": "Fail closed and repair trust configuration before privileged use."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "channel-predict",
+    "prompt": "Which claim is unsupported after certificate validation is bypassed?",
+    "options": [
+      {
+        "id": "p-cipher",
+        "label": "That a cryptographic session was negotiated",
+        "correct": false,
+        "feedback": "A session may be encrypted even while the peer binding is unsupported.",
+        "repairStateId": "crypto"
+      },
+      {
+        "id": "p-attack",
+        "label": "That an active intermediary definitely intercepted this exact session",
+        "correct": false,
+        "feedback": "The gap makes interception possible; it does not prove an event occurred.",
+        "repairStateId": "threat"
+      },
+      {
+        "id": "p-peer",
+        "label": "That the encrypted endpoint is the intended administration service",
+        "correct": true,
+        "feedback": "Correct. Encryption protects bytes to the answering key; validation is what binds that key to the intended peer.",
+        "repairStateId": "identity-gap"
+      }
+    ],
+    "conceptIds": [
+      "secure-channel",
+      "certificate-validation",
+      "man-in-the-middle"
+    ],
+    "hint": "Ask what evidence connects the session key to the service the operator intended."
+  },
+  "transfer": {
+    "id": "channel-transfer",
+    "prompt": "The certificate is current and chains to a trusted authority but names another service. What should the operator conclude?",
+    "options": [
+      {
+        "id": "t-reject",
+        "label": "Peer identity remains unsupported, so reject the channel and investigate",
+        "correct": true,
+        "feedback": "Correct. Chain validity and service-name binding are separate checks, and both matter.",
+        "repairStateId": "transfer-reject"
+      },
+      {
+        "id": "t-accept",
+        "label": "Any currently valid certificate proves this is the intended service",
+        "correct": false,
+        "feedback": "A trusted issuer can issue many identities; the certificate must match the intended service.",
+        "repairStateId": "transfer-name-gap"
+      },
+      {
+        "id": "t-breach",
+        "label": "The name mismatch confirms an active intermediary rather than misconfiguration",
+        "correct": false,
+        "feedback": "The mismatch is evidence of a validation failure or anomaly, not by itself proof of interception.",
+        "repairStateId": "threat"
+      }
+    ],
+    "conceptIds": [
+      "certificate-validation",
+      "trust-anchor",
+      "secure-channel"
+    ],
+    "hint": "A certificate can be valid in general and still wrong for this endpoint."
+  },
+  "retry": {
+    "id": "channel-retry",
+    "prompt": "A third endpoint presents the expected service name and a current certificate, but its trust anchor was added manually from an unauthenticated email. Is peer identity established?",
+    "options": [
+      {
+        "id": "r-name",
+        "label": "Yes; the expected service name makes the trust-anchor source irrelevant",
+        "correct": false,
+        "feedback": "A matching name must be evaluated through an authenticated trust path; it does not validate an untrusted anchor.",
+        "repairStateId": "retry-anchor-gap"
+      },
+      {
+        "id": "r-anchor",
+        "label": "No; remove the unverified anchor and validate through an approved trust path",
+        "correct": true,
+        "feedback": "Correct. Peer binding depends on both the expected name and a governed, authenticated trust anchor.",
+        "repairStateId": "retry-anchor-response"
+      },
+      {
+        "id": "r-key",
+        "label": "Yes; increase cipher strength so the unverified anchor cannot affect identity",
+        "correct": false,
+        "feedback": "Cipher strength protects cryptographic operations but does not establish why the endpoint identity should be trusted.",
+        "repairStateId": "retry-anchor-gap"
+      }
+    ],
+    "conceptIds": [
+      "certificate-validation",
+      "trust-anchor",
+      "secure-channel",
+      "man-in-the-middle"
+    ],
+    "hint": "Trace trust from the expected service through the certificate to an independently governed anchor."
+  },
+  "takeaway": "An encrypted session supports a payload-protection claim. Peer identity additionally requires a validated binding among the expected service, endpoint key, certificate, trust anchor, time, and revocation state.",
+  "assumptions": [
+    "The case stays at conceptual validation semantics and does not assert a version-specific TLS message order.",
+    "No interception is claimed without event evidence.",
+    "The administration client is expected to fail closed on peer-validation errors."
+  ],
+  "sourceRefIds": [
+    "d3-o06-pki-outline",
+    "d3-o06-pki-textbook",
+    "d3-o07-protocol-outline",
+    "d3-o07-protocol-textbook",
+    "outline-d4-3",
+    "official-d4-85-98"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-networks-communications--channel-validation",
+      "disposition": "implemented",
+      "rationale": "The fixed panels distinguish cryptographic channel implementation from threat-informed peer validation and avoid implying a packet sequence or observed compromise."
+    }
+  ]
+}

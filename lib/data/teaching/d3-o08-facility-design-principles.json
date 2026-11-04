@@ -1,0 +1,451 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o08-facility-design-principles",
+  "treatmentIds": [
+    "fresh-d3-o08-facility-design-principles-facility-egress-security-overlay"
+  ],
+  "title": "facility egress security overlay",
+  "question": "Can occupants leave safely during an emergency while unauthorized entry to restricted assets remains controlled and observable?",
+  "scenario": "Regional operations room: A utility is relocating a control-support team to a shared office building.",
+  "focalRelation": "Site selection and perimeter shape exposure; deterrence, delay, detection, visitor management, restricted zones, response, safety, and fail-safe behavior must coexist; emergency egress cannot be treated as ordinary ingress.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "Public entrance",
+      "label": "Public Entrance",
+      "detail": "Visitors and staff enter the shared building through the public approach.",
+      "conceptIds": [
+        "perimeter",
+        "visitor-management"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Reception boundary",
+      "label": "Reception Boundary",
+      "detail": "Reception identifies visitors, confirms sponsors, issues bounded credentials, and directs circulation.",
+      "conceptIds": [
+        "visitor-management",
+        "crime-prevention-through-environmental-design",
+        "defense-in-depth"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Restricted operations room",
+      "label": "Restricted Operations Room",
+      "detail": "The control-support room contains assets and work that require an explicitly restricted physical zone.",
+      "conceptIds": [
+        "restricted-area",
+        "defense-in-depth"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "Approved personnel",
+      "label": "Approved Personnel",
+      "detail": "Named personnel enter only for an authorized purpose and remain subject to escort or access conditions.",
+      "conceptIds": [
+        "physical-security"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Emergency egress",
+      "label": "Emergency Egress",
+      "detail": "The exit path permits safe evacuation during alarm or power loss without granting uncontrolled reentry.",
+      "conceptIds": [
+        "safety",
+        "fail-safe"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "People safety",
+      "label": "People Safety",
+      "detail": "Life-safety design keeps occupants and responders able to leave or enter as required during an emergency.",
+      "conceptIds": [
+        "safety",
+        "fail-safe"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "Public entrance",
+      "to": "Reception boundary",
+      "label": "requires managed visitor circulation",
+      "kind": "dependency"
+    },
+    {
+      "from": "Restricted operations room",
+      "to": "Approved personnel",
+      "label": "requires governed entry",
+      "kind": "dependency"
+    },
+    {
+      "from": "Emergency egress",
+      "to": "People safety",
+      "label": "must remain compatible with the applicable design",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "Public and personnel side",
+      "rule": "Visitors and approved personnel approach from outside the restricted room."
+    },
+    {
+      "id": "control",
+      "label": "Entry and egress controls",
+      "rule": "Reception, governed entry, and emergency egress apply distinct ingress and life-safety rules."
+    },
+    {
+      "id": "protected",
+      "label": "Restricted operations and life safety",
+      "rule": "The operations room remains restricted while occupants retain safe emergency exit."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Regional operations room: A utility is relocating a control-support team to a shared office building.",
+      "activeNodeIds": [
+        "Public entrance",
+        "Reception boundary"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Public entrance": "Visitors and staff enter the shared building through the public approach.",
+        "Reception boundary": "Reception identifies visitors, confirms sponsors, issues bounded credentials, and directs circulation."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Public Entrance requires managed visitor circulation Reception Boundary. Restricted Operations Room requires governed entry Approved Personnel.",
+      "activeNodeIds": [
+        "Public entrance",
+        "Reception boundary",
+        "Restricted operations room",
+        "Approved personnel"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Reception boundary": "Reception identifies visitors, confirms sponsors, issues bounded credentials, and directs circulation.",
+        "Public entrance": "Visitors and staff enter the shared building through the public approach.",
+        "Restricted operations room": "The control-support room contains assets and work that require an explicitly restricted physical zone.",
+        "Approved personnel": "Named personnel enter only for an authorized purpose and remain subject to escort or access conditions."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Restricted Operations Room requires governed entry Approved Personnel. Emergency Egress must remain compatible with the applicable design People Safety.",
+      "activeNodeIds": [
+        "Restricted operations room",
+        "Approved personnel",
+        "Emergency egress",
+        "People safety"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "People safety": "Life-safety design keeps occupants and responders able to leave or enter as required during an emergency.",
+        "Restricted operations room": "The control-support room contains assets and work that require an explicitly restricted physical zone.",
+        "Approved personnel": "Named personnel enter only for an authorized purpose and remain subject to escort or access conditions.",
+        "Emergency egress": "The exit path permits safe evacuation during alarm or power loss without granting uncontrolled reentry."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "A protected-area door remains locked in the exit direction after fire alarm and utility-power loss. Redesign for code-compliant life-safety egress while controlling reentry and alarming/recording the event; security zoning cannot block required escape.",
+      "activeNodeIds": [
+        "Public entrance",
+        "Reception boundary",
+        "Restricted operations room",
+        "Approved personnel",
+        "Emergency egress",
+        "People safety"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "People safety": "The door must be redesigned for code-compliant life-safety egress while controlling reentry and recording the event.",
+        "Public entrance": "Visitors and staff enter the shared building through the public approach.",
+        "Reception boundary": "Reception identifies visitors, confirms sponsors, issues bounded credentials, and directs circulation.",
+        "Restricted operations room": "The control-support room contains assets and work that require an explicitly restricted physical zone.",
+        "Approved personnel": "Named personnel enter only for an authorized purpose and remain subject to escort or access conditions.",
+        "Emergency egress": "The exit path permits safe evacuation during alarm or power loss without granting uncontrolled reentry."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The security boundary is preserved. Safe emergency egress is blocked.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "A protected-area door remains locked in the exit direction after fire alarm and utility-power loss.",
+          "activeNodeIds": [
+            "Restricted operations room",
+            "Approved personnel",
+            "Emergency egress",
+            "People safety"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "People safety": "Life-safety design keeps occupants and responders able to leave or enter as required during an emergency.",
+            "Restricted operations room": "The control-support room contains assets and work that require an explicitly restricted physical zone.",
+            "Approved personnel": "Named personnel enter only for an authorized purpose and remain subject to escort or access conditions.",
+            "Emergency egress": "The exit path permits safe evacuation during alarm or power loss without granting uncontrolled reentry."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Redesign for code-compliant life-safety egress while controlling reentry and alarming/recording the event; security zoning cannot block required escape.",
+          "activeNodeIds": [
+            "Restricted operations room",
+            "Approved personnel",
+            "Emergency egress",
+            "People safety"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "People safety": "The door must be redesigned for code-compliant life-safety egress while controlling reentry and recording the event.",
+            "Restricted operations room": "The control-support room contains assets and work that require an explicitly restricted physical zone.",
+            "Approved personnel": "Named personnel enter only for an authorized purpose and remain subject to escort or access conditions.",
+            "Emergency egress": "The exit path permits safe evacuation during alarm or power loss without granting uncontrolled reentry."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o08-facility-design-principles-prediction-v1",
+    "prompt": "Can occupants leave safely during an emergency while unauthorized entry to restricted assets remains controlled and observable?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Fail-lock every ingress and egress door, then rely on responders to override locks during an emergency.",
+        "correct": false,
+        "feedback": "Life-safety egress requirements can override a security preference and require independent safe operation.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Preserve the restricted boundary during power loss, even when occupants cannot use the designated exit.",
+        "correct": false,
+        "feedback": "Life-safety egress can require fail-safe exit behavior while ingress, alarm, and reentry remain controlled.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Design separate safe egress and controlled ingress behaviors, with response and monitoring that preserve life safety.",
+        "correct": true,
+        "feedback": "More barriers can delay occupants or responders and create unsafe failure behavior without improving protection.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "facility-security",
+      "physical-security",
+      "crime-prevention-through-environmental-design",
+      "safety",
+      "restricted-area"
+    ],
+    "hint": "Security zoning must coexist with code-compliant life-safety egress."
+  },
+  "transfer": {
+    "id": "d3-o08-facility-design-principles-transfer-v1",
+    "prompt": "A protected-area door remains locked in the exit direction after fire alarm and utility-power loss.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Fail-lock every door during power loss to preserve the strongest physical security boundary",
+        "correct": false,
+        "feedback": "Changed fact: The security boundary is preserved. Safe emergency egress is blocked. Why this answer fails: “Fail-lock every door during power loss to preserve the strongest physical security boundary” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Site selection and perimeter shape exposure; deterrence, delay, detection, visitor management, restricted zones, response, safety, and fail-safe behavior must coexist; emergency egress cannot be treated as ordinary ingress. Repair target: Control and evidence consequence — Restricted Operations Room requires governed entry Approved Personnel. Emergency Egress must remain compatible with the applicable design People Safety.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Redesign for code-compliant life-safety egress while controlling reentry and alarming/recording the event",
+        "correct": true,
+        "feedback": "Redesign for code-compliant life-safety egress while controlling reentry and alarming/recording the event; security zoning cannot block required escape.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Fail-locking every door is always the most secure emergency behavior",
+        "correct": false,
+        "feedback": "Changed fact: The security boundary is preserved. Safe emergency egress is blocked. Why this answer fails: “Fail-locking every door is always the most secure emergency behavior” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Site selection and perimeter shape exposure; deterrence, delay, detection, visitor management, restricted zones, response, safety, and fail-safe behavior must coexist; emergency egress cannot be treated as ordinary ingress. Repair target: Changed fact, recomputed result — A protected-area door remains locked in the exit direction after fire alarm and utility-power loss. Redesign for code-compliant life-safety egress while controlling reentry and alarming/recording the event; security zoning cannot block required escape.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "facility-security",
+      "physical-security",
+      "crime-prevention-through-environmental-design",
+      "safety",
+      "restricted-area"
+    ],
+    "hint": "A changed exit path requires controlled reentry and evidence without delaying escape."
+  },
+  "retry": {
+    "id": "d3-o08-facility-design-principles-retry-v1",
+    "prompt": "A proposed operations site has inexpensive space but sits in a floodplain with one utility feed and no practical alternate work location. What should the design review conclude?",
+    "options": [
+      {
+        "id": "cheap-site",
+        "label": "Choose the site because perimeter barriers can compensate for environmental and utility exposure",
+        "correct": false,
+        "feedback": "Barriers address some entry threats; they do not remove flood, utility, continuity, and safe-operations dependencies.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "site-risk",
+        "label": "Reassess site selection, environmental exposure, utility resilience, safety, and alternate operations together",
+        "correct": true,
+        "feedback": "Correct. Facility security begins with site and dependency choices, not only doors and guards.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "locked-room",
+        "label": "Accept the site if the server room is placed inside a restricted area",
+        "correct": false,
+        "feedback": "A restricted room does not resolve site-wide flood, utility, evacuation, or continuity risk.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "site-selection",
+      "environmental-risk",
+      "safety",
+      "facility-security"
+    ],
+    "hint": "Choose the design that preserves safe evacuation while alarming and recording the boundary crossing."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Site selection and perimeter shape exposure; deterrence, delay, detection, visitor management, restricted zones, response, safety, and fail-safe behavior must coexist; emergency egress cannot be treated as ordinary ingress.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o08-outline",
+    "d3-o08-textbook",
+    "d3-o08-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o08-facility-design-principles-facility-egress-security-overlay",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve public approach, visitor circulation, restricted entry, emergency egress, reentry control, and life-safety priority. They use named zones and relations rather than a spatial floor-plan overlay."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Occupants must be able to exit safely during an emergency while unauthorized entry and re-entry remain controlled and observable. The exact behavior depends on applicable life-safety requirements.",
+    "visualReasoningGain": "A plan view would materially add route, direction, door behavior, and boundary reasoning; the current abstract row map adds little beyond prose."
+  },
+  "spatialPlan": {
+    "title": "Controlled entry and safe egress use separate directional paths",
+    "description": "A visitor enters through reception and an authorization gate. During an emergency, occupants exit directly to safety; the alarm and exterior control prevent that life-safety path from becoming uncontrolled re-entry.",
+    "locations": [
+      {
+        "id": "outside",
+        "label": "Public exterior",
+        "x": 24,
+        "y": 140,
+        "width": 136,
+        "height": 100,
+        "kind": "public"
+      },
+      {
+        "id": "reception",
+        "label": "Reception",
+        "x": 220,
+        "y": 140,
+        "width": 136,
+        "height": 100,
+        "kind": "controlled"
+      },
+      {
+        "id": "restricted",
+        "label": "Restricted room",
+        "x": 416,
+        "y": 92,
+        "width": 180,
+        "height": 196,
+        "kind": "restricted"
+      },
+      {
+        "id": "exit",
+        "label": "Emergency exit + alarm",
+        "x": 636,
+        "y": 140,
+        "width": 100,
+        "height": 100,
+        "kind": "safety"
+      }
+    ],
+    "paths": [
+      {
+        "id": "entry",
+        "label": "Authorized entry →",
+        "points": "40,112 188,112 188,190 220,190 356,190 356,132 416,132",
+        "kind": "entry"
+      },
+      {
+        "id": "egress",
+        "label": "Emergency egress →",
+        "points": "506,288 506,334 686,334 686,240",
+        "kind": "egress"
+      },
+      {
+        "id": "reentry",
+        "label": "Re-entry remains controlled",
+        "points": "636,206 612,206 612,252 596,252",
+        "kind": "reentry"
+      }
+    ],
+    "notes": [
+      "The emergency path is available from the inside without requiring normal entry authorization.",
+      "Opening the emergency exit raises an alarm; it does not authorize entry from outside.",
+      "A blocked or locked egress route is a life-safety failure even when the restricted boundary remains intact."
+    ]
+  },
+  "openingFacts": [
+    {
+      "label": "Authorized entry",
+      "value": "Visitors enter through reception and the restricted-room authorization gate."
+    },
+    {
+      "label": "Emergency condition",
+      "value": "Occupants must be able to exit without relying on the normal entry decision."
+    },
+    {
+      "label": "Unknown outcome",
+      "value": "Trace both directions before deciding whether security and life safety are both preserved."
+    }
+  ]
+}

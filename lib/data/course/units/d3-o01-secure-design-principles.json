@@ -1,0 +1,688 @@
+{
+  "conceptIds": [
+    "secure-design",
+    "least-privilege",
+    "defense-in-depth",
+    "secure-defaults",
+    "fail-securely",
+    "separation-of-duties",
+    "zero-trust",
+    "privacy-by-design",
+    "shared-responsibility",
+    "threat-modeling",
+    "keep-it-simple-and-small",
+    "secure-access-service-edge"
+  ],
+  "concepts": [
+    {
+      "decision": "Use when a requirement must survive change, misuse, or component failure.",
+      "definition": "Deliberate architecture that reduces exploitable failure paths before deployment.",
+      "failureExample": "A feature works in normal testing but has no defined behavior when its authorization service fails.",
+      "id": "secure-design",
+      "label": "Secure Design",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Scope each human, service, and admin role to its required action.",
+      "definition": "Grant only authority necessary for a defined task and duration.",
+      "failureExample": "One deployment account can read every production secret.",
+      "id": "least-privilege",
+      "label": "Least Privilege",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Choose layers with different failure modes across identity, network, endpoint, and recovery.",
+      "definition": "Independent safeguards arranged so one failed control does not expose the asset.",
+      "failureExample": "A stolen password reaches sensitive data because no second control checks device or action.",
+      "id": "defense-in-depth",
+      "label": "Defense In Depth",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Choose the safe initial state when setup is incomplete or ambiguous.",
+      "definition": "Initial configuration that protects the asset without requiring a user to opt in.",
+      "failureExample": "A new storage bucket is publicly readable until an owner changes a setting.",
+      "id": "secure-defaults",
+      "label": "Secure Defaults",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Define the safe state for dependency loss, timeout, or malformed input.",
+      "definition": "Behavior that denies or limits unsafe action when a security decision cannot be made.",
+      "failureExample": "An authorization timeout causes a gateway to allow the request.",
+      "id": "fail-securely",
+      "label": "Fail Securely",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Separate request, approval, implementation, and review where fraud or error matters.",
+      "definition": "Division of conflicting authority so one role cannot complete a sensitive action alone.",
+      "failureExample": "The same administrator requests, deploys, and approves a payment-rule change.",
+      "id": "separation-of-duties",
+      "label": "Separation Of Duties",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Re-evaluate access at a meaningful request or session boundary.",
+      "definition": "Access approach that evaluates identity, device, context, and request instead of trusting network location.",
+      "failureExample": "An internal subnet lets a compromised workstation call an admin API.",
+      "id": "zero-trust",
+      "label": "Zero Trust",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Ask what personal data is needed for the stated purpose and lifecycle.",
+      "definition": "Design practice that makes purpose, minimization, and accountability part of the system.",
+      "failureExample": "A feature collects precise location forever for a one-time delivery estimate.",
+      "id": "privacy-by-design",
+      "label": "Privacy By Design",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Map every layer and control to an accountable operator and verifier.",
+      "definition": "Explicit allocation of security operation and assurance duties among parties.",
+      "failureExample": "A customer assumes a provider configured tenant sharing and alerting.",
+      "id": "shared-responsibility",
+      "label": "Shared Responsibility",
+      "sourceRefIds": [
+        "d3-o01-sybex",
+        "d3-o01-textbook"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-1"
+    },
+    {
+      "decision": "Use before design commitment and when a material boundary or dependency changes.",
+      "definition": "Structured examination of assets, actors, data flows, trust boundaries, abuse cases, and assumptions.",
+      "failureExample": "An API accepts a partner callback without modeling replay or forged requests.",
+      "id": "threat-modeling",
+      "label": "Threat Modeling",
+      "sourceRefIds": [
+        "d3-o01-sase-cisco",
+        "d3-o01-sase-official",
+        "d3-o01-sybex",
+        "d3-o01-textbook",
+        "d3-o01-zero-trust-nist"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-2"
+    },
+    {
+      "decision": "Prefer the smallest architecture that meets the stated requirement; justify each added dependency, interface, and privilege.",
+      "definition": "Reduce unnecessary components, privileges, states, and interactions so the design can be understood, tested, and operated.",
+      "failureExample": "A convenience integration creates unreviewed state transitions and a hidden administrative bypass.",
+      "id": "keep-it-simple-and-small",
+      "label": "Keep It Simple And Small",
+      "sourceRefIds": [
+        "d3-o01-sase-cisco",
+        "d3-o01-sase-official",
+        "d3-o01-sybex",
+        "d3-o01-textbook",
+        "d3-o01-zero-trust-nist"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-2"
+    },
+    {
+      "decision": "Use when identity-aware access, traffic steering, and policy enforcement at distributed edges fit the data flow and service boundary.",
+      "definition": "An architecture delivering integrated network and security access controls at distributed user, branch, and application edges.",
+      "failureExample": "A team assumes SASE replaces application authorization and leaves a broad API role unchanged.",
+      "id": "secure-access-service-edge",
+      "label": "Secure Access Service Edge",
+      "sourceRefIds": [
+        "d3-o01-sase-cisco",
+        "d3-o01-sase-official",
+        "d3-o01-sybex",
+        "d3-o01-textbook",
+        "d3-o01-zero-trust-nist"
+      ],
+      "sourceVisualId": "d3-o01-secure-design-principles-concept-comparison-2"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 30,
+  "id": "d3-o01-secure-design-principles",
+  "misconceptions": [
+    {
+      "claim": "Defense in depth means adding many overlapping products.",
+      "correction": "Layers should address different failure paths and have understandable ownership and evidence."
+    },
+    {
+      "claim": "Buying SASE makes every application zero trust.",
+      "correction": "A service label does not establish resource-level authorization, correct policy, endpoint posture, or operational evidence. Validate each relevant boundary and action."
+    }
+  ],
+  "objectiveIds": [
+    "3.1"
+  ],
+  "outcome": "Recommend secure design principles for a stated architecture tradeoff and explain the failure they reduce.",
+  "prerequisites": [
+    "risk-management",
+    "threat-modeling",
+    "security-requirements"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Least privilege narrows what a subject or service can do. Defense in depth avoids reliance on one control. Secure defaults make the safer state the initial state. Fail-secure behavior denies or limits action when a required security decision cannot be made. Separation of duties reduces conflicting power, while simplicity reduces hidden assumptions and review burden.",
+      "id": "principles",
+      "keyPoints": [
+        "Use several principles together against a specific failure path.",
+        "Availability requirements may need carefully designed fail-safe behavior; state the tradeoff."
+      ],
+      "sourceRefIds": [
+        "d3-o01-outline",
+        "d3-o01-textbook",
+        "d3-o01-sybex"
+      ],
+      "title": "Principles constrain failure paths"
+    },
+    {
+      "body": "Zero trust treats access as a continually evaluated decision rather than a location-based entitlement. Privacy by design brings collection, purpose, minimization, and accountability into design. Shared responsibility assigns which party secures each layer in a service model. Threat modeling tests whether these assumptions hold across data flows, trust boundaries, operations, and change.",
+      "id": "context",
+      "keyPoints": [
+        "A cloud provider’s responsibility does not remove the customer’s responsibility for configuration and data use.",
+        "Trust boundaries and ownership must be explicit."
+      ],
+      "sourceRefIds": [
+        "d3-o01-textbook",
+        "d3-o01-sybex"
+      ],
+      "title": "Architecture includes ownership and trust"
+    },
+    {
+      "body": "Threat modeling exposes assets, actors, data flows, trust boundaries, abuse cases, and assumptions before implementation. Least privilege limits each subject or service to necessary actions; defense in depth covers independent failure paths; secure defaults make protection the initial state; and fail-secure behavior limits unsafe action when a security dependency fails. Segregation of duties separates conflicting authority, while keeping designs simple and small reduces hidden interactions. Traditional trust-but-verify can retain broad trust after initial authentication. Zero trust grants no implicit trust solely from network location or ownership; authentication and authorization precede resource access and decisions use relevant evidence. privacy by design constrains collection and use early; shared responsibility assigns each service-layer control; and secure access service edge (SASE) delivers integrated network and security access controls at distributed user, branch, and application edges. Select SASE where its identity-aware access, traffic steering, and policy enforcement boundaries meet the use case; it does not replace application authorization, endpoint security, or responsibility for policy configuration. Each principle needs an owner, test, and stated availability or usability tradeoff; slogans without those details create untested trust.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o01-outline",
+        "d3-o01-textbook",
+        "d3-o01-sybex",
+        "d3-o01-sase-official",
+        "d3-o01-sase-cisco",
+        "d3-o01-zero-trust-nist"
+      ],
+      "title": "Apply every secure-design principle to a decision and failure path"
+    },
+    {
+      "body": "SASE combines WAN connectivity and cloud-delivered security services for distributed access. Typical capabilities include SD-WAN, secure web gateways, CASB, firewall services, and identity-aware application access. Compare traffic paths, enforcement locations, identity/device signals, resilience, logging, provider responsibilities, and application needs before adoption. Edge access approval does not authorize every application action. Keeping a design simple and small means eliminating unnecessary interfaces and states so people can reason about, test, and operate it; it does not mean removing required protection. A SASE rollout with many overlapping exceptions can remain complex and overprivileged.",
+      "id": "sase-and-simple-design-decisions",
+      "keyPoints": [
+        "Zero trust is a set of trust and access principles; SASE is a network/security delivery architecture that can support them.",
+        "Justify each interface and exception against the requirement, failure behavior, and evidence needed to operate it."
+      ],
+      "sourceRefIds": [
+        "d3-o01-sase-official",
+        "d3-o01-sase-cisco",
+        "d3-o01-zero-trust-nist"
+      ],
+      "title": "Separate access architecture, trust assumptions, and design complexity"
+    }
+  ],
+  "sourceHash": "ab428bbf80205fa38c94355fba94ed028de9b03580a37bec392c8efa21b8d8a1",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o01-secure-design-principles.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o01-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.1"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o01-textbook",
+      "locator": {
+        "note": "Printed page is the citation anchor; verify PDF index in a reader.",
+        "pdfPage": "8-12",
+        "printedPage": "8-12",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "secure-design-principles"
+      ]
+    },
+    {
+      "id": "d3-o01-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, Principles of Security Models, Design, and Capabilities, p. 309 onward; precise locator refinement pending"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft.",
+      "supports": [
+        "secure-design",
+        "least-privilege",
+        "defense-in-depth"
+      ]
+    },
+    {
+      "id": "d3-o01-sase-official",
+      "locator": {
+        "heading": "Keep It Simple; Trust, but Verify; Zero Trust; Secure Access Service Edge",
+        "pdfPage": "11–12",
+        "type": "pdf-page-heading"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "simple-design",
+        "SASE-scope-and-responsibility"
+      ]
+    },
+    {
+      "id": "d3-o01-sase-cisco",
+      "locator": {
+        "heading": "What does SASE converge?; How does SASE relate to Zero Trust?",
+        "type": "web-heading",
+        "url": "https://www.cisco.com/site/us/en/learn/topics/security/what-is-secure-access-service-edge-sase.html"
+      },
+      "sourceId": "cisco-sase-definition",
+      "supports": [
+        "SASE-network-security-convergence",
+        "SASE-versus-zero-trust"
+      ]
+    },
+    {
+      "id": "d3-o01-zero-trust-nist",
+      "locator": {
+        "heading": "Abstract: no implicit trust from location or ownership; authentication and authorization before a session",
+        "type": "web-heading",
+        "url": "https://csrc.nist.gov/pubs/sp/800/207/final"
+      },
+      "sourceId": "nist-sp-800-207-2020",
+      "supports": [
+        "zero-trust-definition-and-scope"
+      ]
+    }
+  ],
+  "summary": "Secure design principles make security properties explicit before implementation: minimize privilege and complexity, separate conflicting duties, set safe defaults, layer controls, verify continuously, and account for shared responsibility.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "Partner upload",
+        "kind": "flow",
+        "label": "crosses before processing",
+        "to": "Validation boundary"
+      },
+      {
+        "from": "Processor identity",
+        "kind": "dependency",
+        "label": "must have only required permissions",
+        "to": "Storage operation"
+      },
+      {
+        "from": "Administrator",
+        "kind": "flow",
+        "label": "controls under separate authority",
+        "to": "Deployment configuration"
+      }
+    ],
+    "focalRelation": "Least privilege, secure defaults, separation, fail behavior, simplicity, privacy, zero trust, and shared responsibility shape distinct boundaries; defense in depth requires independent failure coverage rather than product count.",
+    "nodes": [
+      {
+        "conceptIds": [
+          "threat-modeling"
+        ],
+        "detail": "A partner supplies an untrusted document through the external upload path.",
+        "id": "Partner upload",
+        "label": "Partner Upload"
+      },
+      {
+        "conceptIds": [
+          "secure-defaults",
+          "fail-securely"
+        ],
+        "detail": "The boundary checks format, content, identity, size, and allowed action before processing.",
+        "id": "Validation boundary",
+        "label": "Validation Boundary"
+      },
+      {
+        "conceptIds": [
+          "least-privilege"
+        ],
+        "detail": "The document processor uses a dedicated identity with only the permissions required for its job.",
+        "id": "Processor identity",
+        "label": "Processor Identity"
+      },
+      {
+        "conceptIds": [
+          "least-privilege"
+        ],
+        "detail": "The processor may perform only the specific object writes and reads its task needs.",
+        "id": "Storage operation",
+        "label": "Storage Operation"
+      },
+      {
+        "conceptIds": [
+          "separation-of-duties"
+        ],
+        "detail": "A separately accountable administrator controls deployment and emergency configuration.",
+        "id": "Administrator",
+        "label": "Administrator"
+      },
+      {
+        "conceptIds": [
+          "secure-design",
+          "defense-in-depth"
+        ],
+        "detail": "Versioned configuration records validation, identity, storage, fail-secure, logging, and recovery behavior.",
+        "id": "Deployment configuration",
+        "label": "Deployment Configuration"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "secure-design",
+        "defense-in-depth",
+        "fail-securely",
+        "privacy-by-design"
+      ],
+      "hint": "Trace privilege and trust across each boundary; a convenient shared service may widen both.",
+      "id": "d3-o01-secure-design-principles-prediction-v1-c3f4b0287cc4",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Availability priority does not silently erase authorization; any emergency path must be explicitly bounded and accountable.",
+          "id": "unit-specific-alternative",
+          "label": "Permit the transaction because availability is more important than authorization during an outage.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Useful layers constrain different credible paths and have independent owners and operating evidence.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Defense in depth means stacking several products on the same failure path.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Several products or a SASE label do not create least privilege, safe failure, or independent defense by themselves.",
+          "id": "correct",
+          "label": "Choose layers that constrain different credible failure paths and assign operating evidence and ownership to each.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Which independent failure path does each proposed layer constrain, and which design principle explains that choice?"
+    },
+    "question": "Which independent failure path does each proposed layer constrain, and which design principle explains that choice?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "separation-of-duties",
+        "least-privilege"
+      ],
+      "hint": "Select the design that keeps one compromise from becoming universal authority.",
+      "id": "d3-o01-secure-design-principles-retry-v1-14391761ccc8",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Logging may improve detection, but the same role can still turn an untrusted-file path into deployment authority.",
+          "id": "more-logging",
+          "label": "Keep the shared role and add more logs around every privileged action",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Separation of duties and least privilege prevent one compromised path from controlling validation and deployment.",
+          "id": "separate",
+          "label": "Separate upload validation, processing, and deployment administration into least-privilege roles",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Partner authentication does not make uploaded content safe or justify deployment privilege.",
+          "id": "trust-partner",
+          "label": "Keep the shared role because authenticated partner files are trusted by default",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "The partner-upload service uses the same privileged role to validate untrusted files and administer deployment. Which redesign most directly reduces the combined failure path?"
+    },
+    "scenario": "Document-processing platform: A service accepts partner files and uses an administrative processing role.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o01-outline",
+      "d3-o01-textbook",
+      "d3-o01-sybex",
+      "d3-o01-sase-official",
+      "d3-o01-sase-cisco",
+      "d3-o01-zero-trust-nist"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "Partner upload",
+          "Validation boundary"
+        ],
+        "caption": "Document-processing platform: A service accepts partner files and uses an administrative processing role.",
+        "id": "case",
+        "statuses": {
+          "Partner upload": "A partner supplies an untrusted document through the external upload path.",
+          "Validation boundary": "The boundary checks format, content, identity, size, and allowed action before processing."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "Partner upload",
+          "Validation boundary",
+          "Processor identity",
+          "Storage operation"
+        ],
+        "caption": "Partner Upload crosses before processing Validation Boundary. Processor Identity must have only required permissions Storage Operation.",
+        "id": "decision",
+        "statuses": {
+          "Partner upload": "A partner supplies an untrusted document through the external upload path.",
+          "Processor identity": "The document processor uses a dedicated identity with only the permissions required for its job.",
+          "Storage operation": "The processor may perform only the specific object writes and reads its task needs.",
+          "Validation boundary": "The boundary checks format, content, identity, size, and allowed action before processing."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Processor identity",
+          "Storage operation",
+          "Administrator",
+          "Deployment configuration"
+        ],
+        "caption": "Processor Identity must have only required permissions Storage Operation. Administrator controls under separate authority Deployment Configuration.",
+        "id": "consequence",
+        "statuses": {
+          "Administrator": "A separately accountable administrator controls deployment and emergency configuration.",
+          "Deployment configuration": "Versioned configuration records validation, identity, storage, fail-secure, logging, and recovery behavior.",
+          "Processor identity": "The document processor uses a dedicated identity with only the permissions required for its job.",
+          "Storage operation": "The processor may perform only the specific object writes and reads its task needs."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Partner upload",
+          "Validation boundary",
+          "Processor identity",
+          "Storage operation",
+          "Administrator",
+          "Deployment configuration"
+        ],
+        "caption": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage. The failed validation boundary requires fail-secure behavior or a separately approved, isolated, auditable emergency path.",
+        "id": "changed-case",
+        "statuses": {
+          "Administrator": "Named approver owns any time-bound emergency intake decision.",
+          "Deployment configuration": "Fail-closed behavior, logging, expiry, and later reconciliation remain enforced.",
+          "Partner upload": "Queued partner files have not passed content validation.",
+          "Processor identity": "Processor must not gain permission to bypass validation.",
+          "Storage operation": "Production write remains denied; isolated holding is allowed only by emergency procedure.",
+          "Validation boundary": "Validator unavailable; normal acceptance is blocked."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Least privilege, secure defaults, separation, fail behavior, simplicity, privacy, zero trust, and shared responsibility shape distinct boundaries; defense in depth requires independent failure coverage rather than product count.",
+    "title": "failure path layer builder",
+    "transfer": {
+      "conceptIds": [
+        "secure-design",
+        "least-privilege",
+        "secure-defaults",
+        "fail-securely"
+      ],
+      "hint": "When a dependency changes, recheck least privilege, fail-safe behavior, and complete mediation.",
+      "id": "d3-o01-secure-design-principles-transfer-v1-77306b60878e",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. The failed validation boundary requires fail-secure behavior or a separately approved, isolated, auditable emergency path.",
+          "id": "recompute",
+          "label": "Fail closed or use a narrow emergency intake path with isolated storage, minimum privilege, approval, logging, and later validation.",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": false,
+          "feedback": "Availability does not erase validation and authorization; untrusted files need bounded isolation and accountable handling.",
+          "id": "single-signal",
+          "label": "Write every queued partner file into production storage because intake availability outweighs failed validation.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "A scoped storage permission does not establish that partner content is safe or authorized for processing.",
+          "id": "unchanged-rule",
+          "label": "Let the processor bypass validation because its scoped storage permission also proves the uploaded content is safe.",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The comparison states preserve independent failure paths, validation, least privilege, separation of duties, fail-secure behavior, layered controls, named owners, evidence, and residual escape paths. Layers are authored rather than assembled in a builder, and zero-trust, shared-responsibility, and simplicity principles are not separately assessed in this bounded upload case.",
+        "treatmentId": "fresh-d3-o01-secure-design-principles-failure-path-layer-builder"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o01-secure-design-principles-failure-path-layer-builder"
+    ],
+    "unitId": "d3-o01-secure-design-principles",
+    "variants": [
+      {
+        "changedFact": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "Processor identity",
+              "Storage operation",
+              "Administrator",
+              "Deployment configuration"
+            ],
+            "caption": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage.",
+            "id": "variant-facts",
+            "statuses": {
+              "Administrator": "Named approver owns any time-bound emergency intake decision.",
+              "Deployment configuration": "Fail-closed behavior, logging, expiry, and later reconciliation remain enforced.",
+              "Processor identity": "Processor must not gain permission to bypass validation.",
+              "Storage operation": "Production write remains denied; isolated holding is allowed only by emergency procedure."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              1,
+              2
+            ],
+            "activeNodeIds": [
+              "Processor identity",
+              "Storage operation",
+              "Administrator",
+              "Deployment configuration"
+            ],
+            "caption": "The failed validation boundary requires fail-secure behavior or a separately approved, isolated, auditable emergency path.",
+            "id": "variant-result",
+            "statuses": {
+              "Administrator": "Named approver owns any time-bound emergency intake decision.",
+              "Deployment configuration": "Fail-closed behavior, logging, expiry, and later reconciliation remain enforced.",
+              "Processor identity": "Processor must not gain permission to bypass validation.",
+              "Storage operation": "Production write remains denied; isolated holding is allowed only by emergency procedure."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Engineer security into design decisions",
+  "workedExamples": [
+    {
+      "reasoning": "Separate upload, processing, and administration duties; default the upload path to deny unknown formats; validate at boundaries; give the processor only required storage access; log and review elevated actions.",
+      "situation": "A service accepts partner files and uses an administrative processing role.",
+      "takeaway": "Principles become design constraints, not a generic control checklist.",
+      "title": "Document-processing platform"
+    },
+    {
+      "reasoning": "Check the service’s routing and access enforcement, then separately reduce API permissions and test authorized inventory actions. Remove duplicate exceptions so the resulting path is understandable and observable.",
+      "situation": "A retailer replaces branch backhaul with a cloud access service while store users retain broad inventory API privileges.",
+      "takeaway": "A changed access path does not establish least privilege inside the application.",
+      "title": "Distributed access without broad application rights"
+    }
+  ]
+}

@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d8-o01-secure-sdlc",
+  "treatmentIds": [],
+  "title": "Integrate security into the SDLC",
+  "question": "Place security activities and decision gates across an SDLC and explain how methodology affects timing, ownership, and evidence.",
+  "scenario": "A sprint adds a payment API and changes authorization logic.",
+  "focalRelation": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release.",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Payment API change",
+      "detail": "Sprint increment changing authorization logic and a protected transaction path.",
+      "conceptIds": [
+        "agile",
+        "sdlc"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Refined security requirement",
+      "detail": "Object/action authorization, secrets, replay, telemetry, and failure outcomes added to acceptance criteria.",
+      "conceptIds": [
+        "security-requirements",
+        "shift-left"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Changed-flow threat model",
+      "detail": "Updated subjects, data, trust boundaries, abuse cases, dependencies, and residual risk.",
+      "conceptIds": [
+        "threat-modeling"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Code and design review",
+      "detail": "Review of policy placement, object ownership, secrets, error handling, and configuration.",
+      "conceptIds": [
+        "devsecops"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Abuse and integration tests",
+      "detail": "Automated and targeted negative tests exercising authorization bypass, replay, logging, and failure behavior.",
+      "conceptIds": [
+        "devops",
+        "devsecops"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Release evidence",
+      "detail": "Linked requirement, threat decision, review, test result, exception, owner, and operational signal.",
+      "conceptIds": [
+        "sdlc",
+        "shift-left"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "creates or changes testable security criteria",
+      "kind": "flow"
+    },
+    {
+      "from": "n1",
+      "to": "n3",
+      "label": "changes the threat and trust-boundary model",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "guides implementation review",
+      "kind": "dependency"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "guides abuse-focused review",
+      "kind": "dependency"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "produces candidate for negative testing",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "supplies release and operational evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A sprint adds a payment API and changes authorization logic.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "authorization logic changed",
+        "n2": "security acceptance criteria required"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Earlier discovery usually lowers the cost and disruption of correction.",
+      "activeNodeIds": [
+        "n1",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "changed flow modeled"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Shift-left means security is finished before deployment. Early prevention is valuable, but runtime monitoring, patching, incident response, and retirement remain necessary.",
+      "activeNodeIds": [
+        "n1",
+        "n6",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        5
+      ],
+      "statuses": {
+        "n6": "annual penetration test alone arrives too late"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. A single annual penetration test would arrive too late.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n4": "policy/secrets reviewed",
+        "n5": "abuse tests passed or finding opened"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Place security activities and decision gates across an SDLC and explain how methodology affects timing, ownership, and evidence. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n6": "change-specific evidence retained before release"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A team says an approved agile framework removes the need for threat modeling.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A team says an approved agile framework removes the need for threat modeling.",
+          "activeNodeIds": [
+            "n1",
+            "n3"
+          ],
+          "activeEdgeIndexes": [
+            1
+          ],
+          "statuses": {
+            "n1": "replay incident",
+            "n3": "threat model missing replay path"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4",
+            "n1"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2,
+            3
+          ],
+          "statuses": {
+            "n2": "nonce/signature + audit requirements added"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n5": "replay tests passed",
+            "n6": "production rejection monitoring owned"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Agile payment increment",
+          "detail": "The approved delivery method changes a payment flow on a short cadence.",
+          "conceptIds": [
+            "agile",
+            "sdlc"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Increment security criteria",
+          "detail": "Stories include replay resistance, authorization, logging, and acceptance conditions.",
+          "conceptIds": [
+            "security-requirements",
+            "shift-left"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Lightweight threat model",
+          "detail": "The team examines changed assets, actors, trust boundaries, and abuse paths within the increment.",
+          "conceptIds": [
+            "threat-modeling"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Design and code review",
+          "detail": "Review checks the implementation against criteria and modeled threats.",
+          "conceptIds": [
+            "devsecops"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Replay and abuse tests",
+          "detail": "Negative tests exercise the risks identified for this increment.",
+          "conceptIds": [
+            "devops",
+            "devsecops"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Release and runtime evidence",
+          "detail": "The team retains test evidence and owns production monitoring for rejected abuse.",
+          "conceptIds": [
+            "sdlc",
+            "shift-left"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "creates testable security criteria",
+          "kind": "flow"
+        },
+        {
+          "from": "n1",
+          "to": "n3",
+          "label": "changes assets and abuse paths",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "guides implementation review",
+          "kind": "dependency"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "guides abuse-focused review",
+          "kind": "dependency"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "produces candidate for negative testing",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "supports release and operational decision",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d8-o01-secure-sdlc-prediction",
+    "prompt": "A sprint adds a payment API and changes authorization logic. Which security work belongs in this increment?",
+    "options": [
+      {
+        "id": "annual-test",
+        "label": "Rely on the annual penetration test because it evaluates the integrated system.",
+        "correct": false,
+        "feedback": "The annual test arrives after this decision and may not exercise the changed object/action flow or release criteria.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "framework",
+        "label": "Accept the change because the approved Agile framework already includes security responsibilities.",
+        "correct": false,
+        "feedback": "A delivery framework does not supply the change-specific requirement, threat decision, review, test, or operational evidence.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "change-specific",
+        "label": "Update requirements and threat model, review enforcement and secrets, run abuse tests, and verify telemetry before release.",
+        "correct": true,
+        "feedback": "Correct. The changed flow receives timely design, implementation, negative-test, and operational evidence.",
+        "repairStateId": "control-enforced"
+      }
+    ],
+    "conceptIds": [
+      "sdlc",
+      "security-requirements",
+      "threat-modeling",
+      "devsecops"
+    ],
+    "hint": "Identify what changed in the flow and the earliest evidence that can challenge it."
+  },
+  "transfer": {
+    "id": "d8-o01-secure-sdlc-transfer",
+    "prompt": "A team says an approved agile framework removes the need for threat modeling.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Add lightweight threat modeling and abuse-case acceptance to the increment workflow",
+        "correct": true,
+        "feedback": "Correct. Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A team says an approved agile framework removes the need for threat modeling. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. Repair target: Decision recomputed — Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A team says an approved agile framework removes the need for threat modeling. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "threat-modeling",
+      "agile"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d8-o01-secure-sdlc-retry-v2",
+    "prompt": "A sprint adds a public webhook after the increment’s threat review and acceptance criteria were approved. What should happen before release?",
+    "options": [
+      {
+        "id": "next-quarter",
+        "label": "Release it and defer security review to the next quarterly architecture cycle",
+        "correct": false,
+        "feedback": "The webhook creates a current release boundary and needs current acceptance evidence.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "update-increment",
+        "label": "Update the threat model and abuse cases, revise acceptance criteria, and test the webhook within the increment",
+        "correct": true,
+        "feedback": "Correct. Agile change does not freeze security assumptions made before a new exposure path.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "framework-covers",
+        "label": "Assume the web framework secures the webhook because the rest of the application passed",
+        "correct": false,
+        "feedback": "Framework controls do not establish this endpoint’s authentication, authorization, replay, input, and abuse behavior.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "threat-modeling",
+      "agile",
+      "shift-left"
+    ],
+    "hint": "The new trust boundary changes the increment’s threat and test assumptions."
+  },
+  "takeaway": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d8",
+    "official-d8-9-35",
+    "sybex-d8-1017-1049",
+    "miller-d8-705-727"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "Security work belongs in each increment that changes risk, requirements, architecture, code, or operation. Early threat modeling and abuse tests complement rather than replace runtime monitoring, patching, incident response, and retirement.",
+    "visualReasoningGain": "A lifecycle view could place security activities, owners, gates, evidence, and operational feedback at the stages they affect; the opening change/requirement pair cannot."
+  },
+  "openingFacts": [
+    {
+      "label": "Payment API change",
+      "value": "Sprint increment changing authorization logic and a protected transaction path."
+    },
+    {
+      "label": "Refined security requirement",
+      "value": "Object/action authorization, secrets, replay, telemetry, and failure outcomes added to acceptance criteria."
+    },
+    {
+      "label": "Changed-flow threat model",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Code and design review",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Abuse and integration tests",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Release evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

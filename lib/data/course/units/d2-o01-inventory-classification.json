@@ -1,0 +1,612 @@
+{
+  "conceptIds": [
+    "asset-inventory",
+    "data-owner",
+    "data-custodian",
+    "classification",
+    "sensitivity",
+    "criticality",
+    "categorization",
+    "security-requirements"
+  ],
+  "concepts": [
+    {
+      "decision": "Record owner, custodian, location, type, purpose, classification, support state, and review trigger.",
+      "definition": "Authoritative record of information assets, systems, media, services, and dependencies.",
+      "failureExample": "An unregistered cloud store cannot be reliably protected or disposed.",
+      "id": "asset-inventory",
+      "label": "Asset Inventory",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Assign a business authority that can set handling and accept appropriate risk.",
+      "definition": "Role accountable for value, classification, permitted use, and protection requirements.",
+      "failureExample": "A storage team decides a business record needs no retention.",
+      "id": "data-owner",
+      "label": "Data Owner",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Give custody implementation duties and evidence without transferring owner decisions.",
+      "definition": "Role operating storage and safeguards for the owner.",
+      "failureExample": "Custodian changes classification without owner direction.",
+      "id": "data-custodian",
+      "label": "Data Custodian",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Consider confidentiality, integrity, availability, privacy, law, criticality, aggregation, and owner context.",
+      "definition": "Label or scheme result that drives protection and handling from sensitivity and impact.",
+      "failureExample": "A label is applied but access and disposal rules do not change.",
+      "id": "classification",
+      "label": "Classification",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Assess content, subject, obligation, aggregation, and exposure consequence.",
+      "definition": "Degree of harm from unauthorized disclosure or misuse of information.",
+      "failureExample": "Public fragments combine into a sensitive profile but remain low label.",
+      "id": "sensitivity",
+      "label": "Sensitivity",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Assess disruption impact, time sensitivity, dependencies, and recovery need.",
+      "definition": "Importance of an asset or service to mission and required continuity.",
+      "failureExample": "Low-data-sensitivity dispatch service gets no availability plan.",
+      "id": "criticality",
+      "label": "Criticality",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Use the governing framework and impact factors before assigning group.",
+      "definition": "Grouping information with comparable sensitivity or protection obligations.",
+      "failureExample": "NIST categorization is assumed identical to every local classification label.",
+      "id": "categorization",
+      "label": "Categorization",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    },
+    {
+      "decision": "Name property, control, owner, evidence, and review trigger.",
+      "definition": "Testable protection obligations derived from asset value and classification.",
+      "failureExample": "Classified record has no rule for sharing or retention.",
+      "id": "security-requirements",
+      "label": "Security Requirements",
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "sybex-d2",
+        "takeaways-d2"
+      ],
+      "sourceVisualId": "d2-o01-inventory-classification-concept-comparison-1"
+    }
+  ],
+  "domainId": 2,
+  "estimatedMinutes": 35,
+  "id": "d2-o01-inventory-classification",
+  "misconceptions": [
+    {
+      "claim": "The IT department automatically owns all data.",
+      "correction": "IT commonly acts as custodian; business/data owners remain accountable for meaning, value, and requirements."
+    },
+    {
+      "claim": "Removing a name makes data non-sensitive.",
+      "correction": "Re-identification, joins, context, and aggregation can preserve sensitivity."
+    },
+    {
+      "claim": "Categorization is just another name for a higher or lower classification.",
+      "correction": "Classification is a protection-level decision; categorization groups assets by a shared characteristic or requirement and may not be a hierarchy."
+    }
+  ],
+  "objectiveIds": [
+    "2.1"
+  ],
+  "outcome": "Given a mixed set of information and technology, identify the owner and custodian, select a defensible classification, and explain what decision the label enables.",
+  "prerequisites": [
+    "d1-o03-security-governance",
+    "d1-o09-risk-management"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Inventory the information, systems, devices, media, services, and dependencies that support business processes. The owner is accountable for classification and protection requirements; a custodian operates controls on the owner's behalf; a user consumes the asset under authorized rules. A single person may hold more than one role in a small organization, but the accountability distinction still matters.",
+      "id": "inventory-and-roles",
+      "keyPoints": [
+        "Inventory scope includes information and the resources that process, store, transmit, or protect it.",
+        "Ownership is an accountability decision, not merely physical possession.",
+        "Criticality describes business consequence; sensitivity describes harm from inappropriate disclosure or handling."
+      ],
+      "sourceRefIds": [
+        "outline-d2",
+        "official-d2-9-13",
+        "sybex-d2"
+      ],
+      "title": "Know what exists and who decides"
+    },
+    {
+      "body": "Classification schemes should be few enough to use consistently and precise enough to drive handling. A useful decision considers confidentiality, integrity, availability, privacy, legal obligations, business criticality, and data aggregation. Classification should be reviewed when the business context, content, owner, or legal requirement changes; a label is not a substitute for risk analysis.",
+      "id": "classification-decisions",
+      "keyPoints": [
+        "Classification is an information-owner decision supported by security expertise.",
+        "Aggregation can make a collection more sensitive than individual records.",
+        "Labels must map to handling, access, retention, and disposal rules."
+      ],
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "takeaways-d2",
+        "sybex-d2"
+      ],
+      "title": "Turn value and sensitivity into a label"
+    },
+    {
+      "body": "In the supplied ISC2 textbook terminology, classification assesses the impact of compromised security properties, while categorization groups data with comparable sensitivity and protection obligations. Terminology is framework-dependent: NIST FIPS 199 uses security categorization for the potential-impact assessment of confidentiality, integrity, and availability. Identify the governing scheme before interpreting a label. The owner sets protection requirements and remains accountable when classification work is delegated. Define the impact factors, grouping rules, label vocabulary, handling baseline, review trigger, and inventory evidence. A label without enforced handling, access, retention, and disposal requirements does not protect an asset.",
+      "id": "classification-and-categorization-decisions",
+      "keyPoints": [
+        "Classification is not merely a secrecy label; integrity, availability, authenticity, safety, and obligation can matter.",
+        "Do not infer the meaning of classification or categorization without the framework and organizational policy.",
+        "Reassess on change to content, purpose, owner, legal requirement, or aggregation."
+      ],
+      "sourceRefIds": [
+        "official-d2-9-13"
+      ],
+      "title": "Distinguish impact assessment, grouping, and labels"
+    }
+  ],
+  "sourceHash": "660783db584e69c0f11e8ca6be64c0697a427fae4b2a5b087818fedf1e05f3ff",
+  "sourcePath": "knowledge/domains/d2-asset-security/units/d2-o01-inventory-classification.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d2",
+      "locator": {
+        "type": "objective",
+        "value": "Domain 2 objectives 2.1-2.6"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d2-9-13",
+      "locator": {
+        "type": "printed-page",
+        "value": "9-13 (PDF pp. 9-13)"
+      },
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "supports": [
+        "inventory",
+        "classification",
+        "ownership"
+      ]
+    },
+    {
+      "id": "takeaways-d2",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-8"
+      },
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "supports": [
+        "classification rationale"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "locator": {
+        "type": "pdf-page",
+        "value": "256-263 (Chapter 5, Identifying and Classifying Information and Assets; PDF pp. 256-263)"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "secondary cross-check"
+      ]
+    }
+  ],
+  "summary": "Asset protection starts with a usable inventory and a decision about value, sensitivity, criticality, and ownership. Classification makes handling rules repeatable; it is not a label applied once and forgotten.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "asset-copies-and-dependencies",
+        "kind": "evidence",
+        "label": "are recorded in",
+        "to": "asset-inventory"
+      },
+      {
+        "from": "asset-inventory",
+        "kind": "flow",
+        "label": "assigns accountable",
+        "to": "data-owner"
+      },
+      {
+        "from": "data-owner",
+        "kind": "flow",
+        "label": "evaluates",
+        "to": "sensitivity-criticality-and-obligations"
+      },
+      {
+        "from": "governing-scheme",
+        "kind": "flow",
+        "label": "defines meaning of",
+        "to": "classification-or-categorization"
+      },
+      {
+        "from": "sensitivity-criticality-and-obligations",
+        "kind": "dependency",
+        "label": "supplies impact and obligation facts that the governing scheme uses to assign",
+        "to": "classification-or-categorization"
+      }
+    ],
+    "focalRelation": "Inventory establishes what exists, context, copies, dependencies, owner, and custodian; sensitivity and criticality inform but do not equal classification; categorization groups by a scheme-specific characteristic; labels map to controls and review.",
+    "learningJob": {
+      "plainExplanation": "The export, join key, source, copies, recipients, purpose, and dependencies remain one asset context. The accountable owner applies the governing scheme using sensitivity, criticality, and obligations; the custodian does not decide value.",
+      "visualReasoningGain": "An inventory table would make omitted copies and dependencies visible before classification; the current chain explains ownership but does not visually inventory the case."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "asset-inventory"
+        ],
+        "detail": "The export, join key, source dataset, workspace copy, recipients, purpose, and supporting services remain part of one inventory context.",
+        "id": "asset-copies-and-dependencies",
+        "label": "Export, copies, and dependencies"
+      },
+      {
+        "conceptIds": [
+          "asset-inventory"
+        ],
+        "detail": "The inventory records each copy, owner, custodian, dependency, location, support state, and relationship to the source data.",
+        "id": "asset-inventory",
+        "label": "Asset Inventory"
+      },
+      {
+        "conceptIds": [
+          "data-owner"
+        ],
+        "detail": "The accountable business owner decides classification and protection needs using the governing scheme.",
+        "id": "data-owner",
+        "label": "Data Owner"
+      },
+      {
+        "conceptIds": [
+          "sensitivity",
+          "criticality"
+        ],
+        "detail": "Re-identification potential, business impact, availability need, integrity need, and legal duties determine the protection level.",
+        "id": "sensitivity-criticality-and-obligations",
+        "label": "Sensitivity Criticality And Obligations"
+      },
+      {
+        "conceptIds": [
+          "classification",
+          "categorization",
+          "security-requirements"
+        ],
+        "detail": "The organization’s classification or categorization scheme defines each label and its required handling.",
+        "id": "governing-scheme",
+        "label": "Governing Scheme"
+      },
+      {
+        "conceptIds": [
+          "classification",
+          "categorization",
+          "security-requirements"
+        ],
+        "detail": "The assigned class changes access, storage, transfer, retention, monitoring, and disposal requirements for every copy.",
+        "id": "classification-or-categorization",
+        "label": "Classification Or Categorization"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "asset-inventory",
+        "data-owner",
+        "security-requirements"
+      ],
+      "hint": "Classification starts with the named scheme and the asset’s actual consequences.",
+      "id": "d2-o01-inventory-classification-prediction-v1-1212bd136547",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Custody, pseudonymization, or an asset name does not decide business value, re-identification risk, or the governing scheme.",
+          "id": "correct",
+          "label": "Inventory the full asset and copy context, then let the accountable owner choose scheme-specific protection requirements.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Custody supports handling; the accountable owner decides value, use, sensitivity, and scheme-specific requirements.",
+          "id": "unit-specific-alternative",
+          "label": "Let the storage administrator classify only the export bucket and omit linked copies, keys, dependencies, and business use.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Linked keys, context, copies, purpose, and re-identification risk remain part of the owner’s classification decision.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Remove the pseudonymized export from inventory even though linked context and reidentification paths remain.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Why must a pseudonymized export, join key, API token, backups, and derived sets remain visible before an owner assigns protection requirements?"
+    },
+    "question": "Why must a pseudonymized export, join key, API token, backups, and derived sets remain visible before an owner assigns protection requirements?",
+    "representation": "decision",
+    "retry": {
+      "conceptIds": [
+        "asset-inventory",
+        "data-owner",
+        "security-requirements"
+      ],
+      "hint": "Do not invent a confidentiality requirement when the scenario’s harm is corrupted or unavailable data.",
+      "id": "d2-o01-inventory-classification-retry-v1-bf2acc91c392",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "IT commonly acts as custodian; business/data owners remain accountable for meaning, value, and requirements.",
+          "id": "misconception",
+          "label": "The IT department automatically owns all data",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Expand the asset inventory and assign ownership across copies and supporting resources before selecting controls.",
+          "id": "shortcut",
+          "label": "Let the storage administrator classify the export because that person controls the bucket",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Expand the asset inventory and assign ownership across copies and supporting resources before selecting controls.",
+          "id": "evidence-based",
+          "label": "Expand the inventory across copies and supporting resources, then assign ownership",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A SaaS inventory lists an HR report but not its exports, backups, or API tokens. What is the first governance gap to correct? What should the security owner decide?"
+    },
+    "scenario": "Customer analytics export: An analyst exports pseudonymized customer records with a join key into a shared workspace.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d2",
+      "official-d2-9-13",
+      "takeaways-d2",
+      "sybex-d2"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "asset-copies-and-dependencies"
+        ],
+        "caption": "Customer analytics export: An analyst exports pseudonymized customer records with a join key into a shared workspace.",
+        "id": "case",
+        "statuses": {
+          "asset-copies-and-dependencies": "The export, join key, source dataset, workspace copy, recipients, purpose, and supporting services remain part of one inventory context."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "asset-copies-and-dependencies",
+          "asset-inventory",
+          "data-owner"
+        ],
+        "caption": "Asset Copies And Dependencies are recorded in Asset Inventory. Asset Inventory assigns accountable Data Owner.",
+        "id": "decision",
+        "statuses": {
+          "asset-copies-and-dependencies": "The export, join key, source dataset, workspace copy, recipients, purpose, and supporting services remain part of one inventory context.",
+          "asset-inventory": "The inventory records each copy, owner, custodian, dependency, location, support state, and relationship to the source data.",
+          "data-owner": "The accountable business owner decides classification and protection needs using the governing scheme."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "data-owner",
+          "sensitivity-criticality-and-obligations",
+          "governing-scheme",
+          "classification-or-categorization"
+        ],
+        "caption": "Data Owner evaluates Sensitivity Criticality And Obligations. Governing Scheme defines meaning of Classification Or Categorization.",
+        "id": "consequence",
+        "statuses": {
+          "classification-or-categorization": "The assigned class changes access, storage, transfer, retention, monitoring, and disposal requirements for every copy.",
+          "data-owner": "The accountable business owner decides classification and protection needs using the governing scheme.",
+          "governing-scheme": "The organization’s classification or categorization scheme defines each label and its required handling.",
+          "sensitivity-criticality-and-obligations": "Re-identification potential, business impact, availability need, integrity need, and legal duties determine the protection level."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "asset-copies-and-dependencies",
+          "asset-inventory",
+          "data-owner",
+          "sensitivity-criticality-and-obligations",
+          "governing-scheme",
+          "classification-or-categorization"
+        ],
+        "caption": "The asset is a public safety alert with no secrecy requirement, but false or unavailable alerts could cause harm. Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity, and any accountability requirement rather than inventing confidentiality.",
+        "id": "changed-case",
+        "statuses": {
+          "asset-copies-and-dependencies": "The export, join key, source dataset, workspace copy, recipients, purpose, and supporting services remain part of one inventory context.",
+          "asset-inventory": "The inventory records each copy, owner, custodian, dependency, location, support state, and relationship to the source data.",
+          "classification-or-categorization": "The assigned class changes access, storage, transfer, retention, monitoring, and disposal requirements for every copy.",
+          "data-owner": "The accountable business owner decides classification and protection needs using the governing scheme.",
+          "governing-scheme": "The organization’s classification or categorization scheme defines each label and its required handling.",
+          "sensitivity-criticality-and-obligations": "Re-identification potential, business impact, availability need, integrity need, and legal duties determine the protection level."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Inventory establishes what exists, context, copies, dependencies, owner, and custodian; sensitivity and criticality inform but do not equal classification; categorization groups by a scheme-specific characteristic; labels map to controls and review.",
+    "title": "inventory classification workbench",
+    "transfer": {
+      "conceptIds": [
+        "classification",
+        "sensitivity",
+        "criticality",
+        "security-requirements"
+      ],
+      "hint": "A changed service may depend more on integrity, availability, or authenticity than secrecy.",
+      "id": "d2-o01-inventory-classification-transfer-v1-58d578af5a0c",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: Confidentiality is not required. Integrity, availability, and trustworthy origin are critical. Why this answer fails: “Let the storage administrator classify the export because that person controls the bucket” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Inventory establishes what exists, context, copies, dependencies, owner, and custodian; sensitivity and criticality inform but do not equal classification; categorization groups by a scheme-specific characteristic; labels map to controls and review. Repair target: Control and evidence consequence — Data Owner evaluates Sensitivity Criticality And Obligations. Governing Scheme defines meaning of Classification Or Categorization.",
+          "id": "single-signal",
+          "label": "Let the storage administrator classify the export because that person controls the bucket",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: Confidentiality is not required. Integrity, availability, and trustworthy origin are critical. Why this answer fails: “Pseudonymization removes the export from the sensitive asset inventory” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Inventory establishes what exists, context, copies, dependencies, owner, and custodian; sensitivity and criticality inform but do not equal classification; categorization groups by a scheme-specific characteristic; labels map to controls and review. Repair target: Changed fact, recomputed result — The asset is a public safety alert with no secrecy requirement, but false or unavailable alerts could cause harm. Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity, and any accountability requirement rather than inventing confidentiality.",
+          "id": "unchanged-rule",
+          "label": "Pseudonymization removes the export from the sensitive asset inventory",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity, and any accountability requirement rather than inventing confidentiality.",
+          "id": "recompute",
+          "label": "Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "The asset is a public safety alert with no secrecy requirement, but false or unavailable alerts could cause harm."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The decision model preserves the reviewed order: enumerate the export, copies, join key, dependencies, owners, and custodians; assess sensitivity and criticality; apply the governing scheme; then derive handling requirements. It presents one pseudonymized-export case rather than a reusable inventory and classification workbench.",
+        "treatmentId": "fresh-d2-o01-inventory-classification-inventory-classification-workbench"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d2-o01-inventory-classification-inventory-classification-workbench"
+    ],
+    "unitId": "d2-o01-inventory-classification",
+    "variants": [
+      {
+        "changedFact": "Confidentiality is not required. Integrity, availability, and trustworthy origin are critical.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "data-owner",
+              "sensitivity-criticality-and-obligations",
+              "governing-scheme",
+              "classification-or-categorization"
+            ],
+            "caption": "The asset is a public safety alert with no secrecy requirement, but false or unavailable alerts could cause harm.",
+            "id": "variant-facts",
+            "statuses": {
+              "classification-or-categorization": "The assigned class changes access, storage, transfer, retention, monitoring, and disposal requirements for every copy.",
+              "data-owner": "The accountable business owner decides classification and protection needs using the governing scheme.",
+              "governing-scheme": "The organization’s classification or categorization scheme defines each label and its required handling.",
+              "sensitivity-criticality-and-obligations": "Re-identification potential, business impact, availability need, integrity need, and legal duties determine the protection level."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              2,
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "data-owner",
+              "sensitivity-criticality-and-obligations",
+              "governing-scheme",
+              "classification-or-categorization"
+            ],
+            "caption": "Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity, and any accountability requirement rather than inventing confidentiality.",
+            "id": "variant-result",
+            "statuses": {
+              "classification-or-categorization": "The assigned class changes access, storage, transfer, retention, monitoring, and disposal requirements for every copy.",
+              "data-owner": "The accountable business owner decides classification and protection needs using the governing scheme.",
+              "governing-scheme": "The organization’s classification or categorization scheme defines each label and its required handling.",
+              "sensitivity-criticality-and-obligations": "Re-identification potential, business impact, availability need, integrity need, and legal duties determine the protection level."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Inventory, own, and classify information assets",
+  "workedExamples": [
+    {
+      "reasoning": "The join key can restore identity, so the export remains sensitive. The data owner sets the classification; the custodian applies workspace access, encryption, monitoring, and retention controls. The right response is not to declare it public merely because direct names were removed.",
+      "situation": "An analyst exports pseudonymized customer records with a join key into a shared workspace.",
+      "takeaway": "The join key can restore identity, so the export remains sensitive. The data owner sets the classification; the custodian applies workspace access, encryption, monitoring, and retention controls. The right response is not to declare it public merely because direct names were removed.",
+      "title": "Customer analytics export"
+    },
+    {
+      "reasoning": "Classify the restricted history by the impact of unauthorized disclosure or alteration. Categorize both sets as safety-critical because incorrect or unavailable instructions can affect safe operation. Apply different access/handling baselines while preserving the safety category’s integrity, availability, and change-control requirements.",
+      "situation": "A utility has public maintenance instructions and a restricted service history for the same equipment.",
+      "takeaway": "Classification and categorization may coexist; they should lead to explicit controls rather than competing labels.",
+      "title": "Safety-critical maintenance data"
+    }
+  ]
+}

@@ -1,0 +1,716 @@
+{
+  "conceptIds": [
+    "sdlc",
+    "security-requirements",
+    "threat-modeling",
+    "waterfall",
+    "agile",
+    "devops",
+    "devsecops",
+    "shift-left"
+  ],
+  "concepts": [
+    {
+      "decision": "Put security decisions and evidence in each applicable phase and feed operational results into subsequent work.",
+      "definition": "The software development life cycle: coordinated phases from initiation and requirements through design, build, test, deployment, operation, and retirement.",
+      "failureExample": "A project that ends controls at deployment leaves patching, monitoring, revocation, and disposal unmanaged.",
+      "id": "sdlc",
+      "label": "Sdlc",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Define requirements from asset value, threat, compliance, privacy, resilience, and owner needs, then trace them to evidence.",
+      "definition": "Testable security outcomes that constrain the product before design and implementation.",
+      "failureExample": "A vague “secure API” requirement gives testers no criterion for access or audit behavior.",
+      "id": "security-requirements",
+      "label": "Security Requirements",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Use it at design and revisit it after material changes or operational evidence changes assumptions.",
+      "definition": "Attacker-oriented analysis of system boundaries, assets, entry points, abuse cases, and control assumptions.",
+      "failureExample": "An added partner integration can create replay/spoofing paths that the original model never assessed.",
+      "id": "threat-modeling",
+      "label": "Threat Modeling",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Integrate security at initiation, requirements, design, test, and release gates; manage authorized rework when requirements change.",
+      "definition": "A phased SDLC with formal baselines and milestone approvals before proceeding.",
+      "failureExample": "A final-only security review may uncover an architectural flaw after the baseline is costly to change.",
+      "id": "waterfall",
+      "label": "Waterfall",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Include security stories, acceptance criteria, threat-model updates, and tests in each increment.",
+      "definition": "Iterative lifecycle delivery in small, collaborative increments that can incorporate frequent feedback.",
+      "failureExample": "Deferring security stories to a final sprint recreates a late hardening phase.",
+      "id": "agile",
+      "label": "Agile",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Use operational telemetry and ownership to inform delivery decisions, while keeping security evidence and release accountability.",
+      "definition": "An approach that connects development and operations for rapid, reliable delivery and feedback.",
+      "failureExample": "Fast automation without monitored rollback can spread a faulty configuration rapidly.",
+      "id": "devops",
+      "label": "Devops",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Use early automated checks where reliable, with accountable human review for risk, architecture, exceptions, and incident learning.",
+      "definition": "Integration of security practices, people, and suitable automation into development and operations workflows.",
+      "failureExample": "A pipeline can pass static checks while the deployed authorization configuration is wrong.",
+      "id": "devsecops",
+      "label": "Devsecops",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    },
+    {
+      "decision": "Apply it to discover issues before implementation while retaining runtime monitoring and feedback; it does not mean “only early security.”",
+      "definition": "Moving security analysis, requirements, design review, and defect discovery earlier in the lifecycle where change is cheaper and more influential.",
+      "failureExample": "Treating shift-left as a substitute for production monitoring misses deployed configuration and abuse behavior.",
+      "id": "shift-left",
+      "label": "Shift Left",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-sdlc-decision-comparison-1"
+    }
+  ],
+  "domainId": 8,
+  "estimatedMinutes": 40,
+  "id": "d8-o01-secure-sdlc",
+  "misconceptions": [
+    {
+      "claim": "Shift-left means security is finished before deployment.",
+      "correction": "Early prevention is valuable, but runtime monitoring, patching, incident response, and retirement remain necessary."
+    }
+  ],
+  "objectiveIds": [
+    "8.1"
+  ],
+  "outcome": "Place security activities and decision gates across an SDLC and explain how methodology affects timing, ownership, and evidence.",
+  "prerequisites": [
+    "d1-o10-threat-modeling",
+    "d3-o01-secure-design-principles"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Requirements should express security, privacy, resilience, and compliance needs; design should model threats, trust boundaries, and controls; implementation should use secure standards and review; testing should challenge abuse cases and controls; deployment should preserve configuration and provenance; operations should monitor, patch, respond, and learn; retirement should revoke access and dispose of data and secrets.",
+      "id": "lifecycle",
+      "keyPoints": [
+        "Earlier discovery usually lowers the cost and disruption of correction.",
+        "Security ownership follows the product and system lifecycle.",
+        "Trace requirements to design, code, tests, and operational evidence."
+      ],
+      "sourceRefIds": [
+        "outline-d8",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "title": "Build security into each phase"
+    },
+    {
+      "body": "Waterfall emphasizes phase gates and formal baselines; iterative and agile methods deliver smaller increments; DevOps integrates development and operations; DevSecOps adds security collaboration and automation. No method makes security automatic: define acceptance criteria, threat-model changes, protect pipelines, and keep feedback fast enough to influence delivery.",
+      "id": "methodologies",
+      "keyPoints": [
+        "Security activities can be continuous even when governance gates remain formal.",
+        "Automation supports consistency but does not replace judgment.",
+        "Speed-to-market pressure must be balanced with risk and evidence."
+      ],
+      "sourceRefIds": [
+        "official-d8-9-35",
+        "miller-d8-705-727"
+      ],
+      "title": "Adapt to delivery method"
+    }
+  ],
+  "sourceHash": "f4013cd7ab8b9675dfee0a0460edf4c32264fc29b1627d0f51b6b6b75813cf7c",
+  "sourcePath": "knowledge/domains/d8-software-development-security/units/d8-o01-secure-sdlc.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d8",
+      "locator": {
+        "type": "objective",
+        "value": "8.1"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-9-35",
+      "locator": {
+        "type": "printed-page",
+        "value": "9–34 (same PDF page numbers), objective 8.1; body headings inspected, corrupted contents page excluded"
+      },
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "sourceNotes": "D8 contents page is corrupted; body headings are used.",
+      "supports": [
+        "secure SDLC and methodologies"
+      ]
+    },
+    {
+      "id": "sybex-d8-1017-1049",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1049, Chapter 20"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "SDLC and development controls"
+      ]
+    },
+    {
+      "id": "miller-d8-705-727",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-727, Chapter 10"
+      },
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "supports": [
+        "SDLC methodologies"
+      ]
+    }
+  ],
+  "summary": "Secure SDLC practices make security requirements, threat analysis, design review, testing, deployment, operations, and retirement explicit throughout development.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "creates or changes testable security criteria",
+        "to": "n2"
+      },
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "changes the threat and trust-boundary model",
+        "to": "n3"
+      },
+      {
+        "from": "n2",
+        "kind": "dependency",
+        "label": "guides implementation review",
+        "to": "n4"
+      },
+      {
+        "from": "n3",
+        "kind": "dependency",
+        "label": "guides abuse-focused review",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "produces candidate for negative testing",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "evidence",
+        "label": "supplies release and operational evidence",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release.",
+    "learningJob": {
+      "plainExplanation": "Security work belongs in each increment that changes risk, requirements, architecture, code, or operation. Early threat modeling and abuse tests complement rather than replace runtime monitoring, patching, incident response, and retirement.",
+      "visualReasoningGain": "A lifecycle view could place security activities, owners, gates, evidence, and operational feedback at the stages they affect; the opening change/requirement pair cannot."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "agile",
+          "sdlc"
+        ],
+        "detail": "Sprint increment changing authorization logic and a protected transaction path.",
+        "id": "n1",
+        "label": "Payment API change"
+      },
+      {
+        "conceptIds": [
+          "security-requirements",
+          "shift-left"
+        ],
+        "detail": "Object/action authorization, secrets, replay, telemetry, and failure outcomes added to acceptance criteria.",
+        "id": "n2",
+        "label": "Refined security requirement"
+      },
+      {
+        "conceptIds": [
+          "threat-modeling"
+        ],
+        "detail": "Updated subjects, data, trust boundaries, abuse cases, dependencies, and residual risk.",
+        "id": "n3",
+        "label": "Changed-flow threat model"
+      },
+      {
+        "conceptIds": [
+          "devsecops"
+        ],
+        "detail": "Review of policy placement, object ownership, secrets, error handling, and configuration.",
+        "id": "n4",
+        "label": "Code and design review"
+      },
+      {
+        "conceptIds": [
+          "devops",
+          "devsecops"
+        ],
+        "detail": "Automated and targeted negative tests exercising authorization bypass, replay, logging, and failure behavior.",
+        "id": "n5",
+        "label": "Abuse and integration tests"
+      },
+      {
+        "conceptIds": [
+          "sdlc",
+          "shift-left"
+        ],
+        "detail": "Linked requirement, threat decision, review, test result, exception, owner, and operational signal.",
+        "id": "n6",
+        "label": "Release evidence"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Payment API change",
+        "value": "Sprint increment changing authorization logic and a protected transaction path."
+      },
+      {
+        "label": "Refined security requirement",
+        "value": "Object/action authorization, secrets, replay, telemetry, and failure outcomes added to acceptance criteria."
+      },
+      {
+        "label": "Changed-flow threat model",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Code and design review",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Abuse and integration tests",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Release evidence",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "sdlc",
+        "security-requirements",
+        "threat-modeling",
+        "devsecops"
+      ],
+      "hint": "Identify what changed in the flow and the earliest evidence that can challenge it.",
+      "id": "d8-o01-secure-sdlc-prediction-f722ec898f30",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The annual test arrives after this decision and may not exercise the changed object/action flow or release criteria.",
+          "id": "annual-test",
+          "label": "Rely on the annual penetration test because it evaluates the integrated system.",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "A delivery framework does not supply the change-specific requirement, threat decision, review, test, or operational evidence.",
+          "id": "framework",
+          "label": "Accept the change because the approved Agile framework already includes security responsibilities.",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The changed flow receives timely design, implementation, negative-test, and operational evidence.",
+          "id": "change-specific",
+          "label": "Update requirements and threat model, review enforcement and secrets, run abuse tests, and verify telemetry before release.",
+          "repairStateId": "control-enforced"
+        }
+      ],
+      "prompt": "A sprint adds a payment API and changes authorization logic. Which security work belongs in this increment?"
+    },
+    "question": "Place security activities and decision gates across an SDLC and explain how methodology affects timing, ownership, and evidence.",
+    "representation": "timeline",
+    "retry": {
+      "conceptIds": [
+        "threat-modeling",
+        "agile",
+        "shift-left"
+      ],
+      "hint": "The new trust boundary changes the increment’s threat and test assumptions.",
+      "id": "d8-o01-secure-sdlc-retry-v2-181c74990f6b",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The webhook creates a current release boundary and needs current acceptance evidence.",
+          "id": "next-quarter",
+          "label": "Release it and defer security review to the next quarterly architecture cycle",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Agile change does not freeze security assumptions made before a new exposure path.",
+          "id": "update-increment",
+          "label": "Update the threat model and abuse cases, revise acceptance criteria, and test the webhook within the increment",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "Framework controls do not establish this endpoint’s authentication, authorization, replay, input, and abuse behavior.",
+          "id": "framework-covers",
+          "label": "Assume the web framework secures the webhook because the rest of the application passed",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A sprint adds a public webhook after the increment’s threat review and acceptance criteria were approved. What should happen before release?"
+    },
+    "scenario": "A sprint adds a payment API and changes authorization logic.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d8",
+      "official-d8-9-35",
+      "sybex-d8-1017-1049",
+      "miller-d8-705-727"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "caption": "A sprint adds a payment API and changes authorization logic.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "authorization logic changed",
+          "n2": "security acceptance criteria required"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n3"
+        ],
+        "caption": "Earlier discovery usually lowers the cost and disruption of correction.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "changed flow modeled"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          5
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n6",
+          "n5"
+        ],
+        "caption": "Shift-left means security is finished before deployment. Early prevention is valuable, but runtime monitoring, patching, incident response, and retirement remain necessary.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n6": "annual penetration test alone arrives too late"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4",
+          "n5"
+        ],
+        "caption": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. A single annual penetration test would arrive too late.",
+        "id": "control-enforced",
+        "statuses": {
+          "n4": "policy/secrets reviewed",
+          "n5": "abuse tests passed or finding opened"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "caption": "Place security activities and decision gates across an SDLC and explain how methodology affects timing, ownership, and evidence. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "change-specific evidence retained before release"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release.",
+    "title": "Integrate security into the SDLC",
+    "transfer": {
+      "conceptIds": [
+        "threat-modeling",
+        "agile"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d8-o01-secure-sdlc-transfer-089f087d4774",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+          "id": "evidence-action",
+          "label": "Add lightweight threat modeling and abuse-case acceptance to the increment workflow",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A team says an approved agile framework removes the need for threat modeling. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. Repair target: Decision recomputed — Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A team says an approved agile framework removes the need for threat modeling. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A team says an approved agile framework removes the need for threat modeling."
+    },
+    "treatmentDispositions": [],
+    "treatmentIds": [],
+    "unitId": "d8-o01-secure-sdlc",
+    "variants": [
+      {
+        "changedFact": "A team says an approved agile framework removes the need for threat modeling.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "creates testable security criteria",
+            "to": "n2"
+          },
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "changes assets and abuse paths",
+            "to": "n3"
+          },
+          {
+            "from": "n2",
+            "kind": "dependency",
+            "label": "guides implementation review",
+            "to": "n4"
+          },
+          {
+            "from": "n3",
+            "kind": "dependency",
+            "label": "guides abuse-focused review",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "produces candidate for negative testing",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "evidence",
+            "label": "supports release and operational decision",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "agile",
+              "sdlc"
+            ],
+            "detail": "The approved delivery method changes a payment flow on a short cadence.",
+            "id": "n1",
+            "label": "Agile payment increment"
+          },
+          {
+            "conceptIds": [
+              "security-requirements",
+              "shift-left"
+            ],
+            "detail": "Stories include replay resistance, authorization, logging, and acceptance conditions.",
+            "id": "n2",
+            "label": "Increment security criteria"
+          },
+          {
+            "conceptIds": [
+              "threat-modeling"
+            ],
+            "detail": "The team examines changed assets, actors, trust boundaries, and abuse paths within the increment.",
+            "id": "n3",
+            "label": "Lightweight threat model"
+          },
+          {
+            "conceptIds": [
+              "devsecops"
+            ],
+            "detail": "Review checks the implementation against criteria and modeled threats.",
+            "id": "n4",
+            "label": "Design and code review"
+          },
+          {
+            "conceptIds": [
+              "devops",
+              "devsecops"
+            ],
+            "detail": "Negative tests exercise the risks identified for this increment.",
+            "id": "n5",
+            "label": "Replay and abuse tests"
+          },
+          {
+            "conceptIds": [
+              "sdlc",
+              "shift-left"
+            ],
+            "detail": "The team retains test evidence and owns production monitoring for rejected abuse.",
+            "id": "n6",
+            "label": "Release and runtime evidence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              1
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n3"
+            ],
+            "caption": "A team says an approved agile framework removes the need for threat modeling.",
+            "id": "changed-fact",
+            "statuses": {
+              "n1": "replay incident",
+              "n3": "threat model missing replay path"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              0,
+              2,
+              3
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n3",
+              "n4",
+              "n1"
+            ],
+            "caption": "Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+            "id": "changed-decision",
+            "statuses": {
+              "n2": "nonce/signature + audit requirements added"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n5",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n5": "replay tests passed",
+              "n6": "production rejection monitoring owned"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Integrate security into the SDLC",
+  "workedExamples": [
+    {
+      "reasoning": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. A single annual penetration test would arrive too late.",
+      "situation": "A sprint adds a payment API and changes authorization logic.",
+      "takeaway": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. A single annual penetration test would arrive too late.",
+      "title": "Agile payment feature"
+    },
+    {
+      "reasoning": "The team inventories clients, data, service identities, encryption keys, queues, logs, support obligations, and evidence retention. Acceptance criteria require client migration confirmation, revoked credentials and keys, disabled routes, retained records per approved requirements, monitoring for residual use, and an owner for exceptions. Retirement is accepted only after residual access and data handling are verified.",
+      "situation": "A company replaces an API used by a partner and plans to decommission the legacy endpoint.",
+      "takeaway": "The team inventories clients, data, service identities, encryption keys, queues, logs, support obligations, and evidence retention. Acceptance criteria require client migration confirmation, revoked credentials and keys, disabled routes, retained records per approved requirements, monitoring for residual use, and an owner for exceptions. Retirement is accepted only after residual access and data handling are verified.",
+      "title": "Retire a partner integration without leaving access behind"
+    }
+  ]
+}

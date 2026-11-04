@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o02-security-concepts",
+  "treatmentIds": [
+    "fresh-d1-o02-security-concepts-failure-to-requirement-workbench"
+  ],
+  "title": "failure to requirement workbench",
+  "question": "Which security property actually failed, and what measurable sentence would show that the chosen protection works?",
+  "scenario": "Public status service: A public transit status page contains no sensitive data, but altered arrival times could create safety and operational problems.",
+  "focalRelation": "Observed consequence selects one or more properties; each selected property must bind an asset, actor or state, consequence, threshold, and evidence rather than merely naming CIA.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "publisher",
+      "label": "Transit status publisher",
+      "detail": "The authorized operations system publishes signed route and arrival updates.",
+      "conceptIds": [
+        "authenticity"
+      ]
+    },
+    {
+      "id": "update",
+      "label": "Arrival-time update",
+      "detail": "The displayed update was altered after publication even though the service remained reachable.",
+      "conceptIds": [
+        "integrity"
+      ]
+    },
+    {
+      "id": "rider",
+      "label": "Rider decision",
+      "detail": "Riders and dispatchers act on the altered arrival time, creating an operational and safety consequence.",
+      "conceptIds": [
+        "integrity",
+        "availability"
+      ]
+    },
+    {
+      "id": "requirement",
+      "label": "Integrity requirement",
+      "detail": "Only authorized arrival-time changes may reach the public page, and monitoring must detect any unauthorized change within five minutes.",
+      "conceptIds": [
+        "integrity",
+        "security-requirements"
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "Verification evidence",
+      "detail": "Signature validation, change authorization, and monitor timestamps demonstrate source, content, and detection time.",
+      "conceptIds": [
+        "integrity",
+        "authenticity",
+        "security-requirements"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "publisher",
+      "to": "update",
+      "label": "authorizes and originates",
+      "kind": "flow"
+    },
+    {
+      "from": "update",
+      "to": "rider",
+      "label": "drives an unsafe decision when altered",
+      "kind": "flow"
+    },
+    {
+      "from": "requirement",
+      "to": "update",
+      "label": "permits only authorized changes to",
+      "kind": "dependency"
+    },
+    {
+      "from": "evidence",
+      "to": "requirement",
+      "label": "demonstrates authorized origin and five-minute detection for",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Public status service: A public transit status page contains no sensitive data, but altered arrival times could create safety and operational problems.",
+      "activeNodeIds": [
+        "publisher",
+        "update"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "publisher": "The authorized operations system publishes signed route and arrival updates.",
+        "update": "The displayed update was altered after publication even though the service remained reachable."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Transit status publisher authorizes and originates Arrival-time update. Arrival-time update drives an unsafe decision when altered Rider decision.",
+      "activeNodeIds": [
+        "publisher",
+        "update",
+        "rider"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "publisher": "The authorized operations system publishes signed route and arrival updates.",
+        "update": "The displayed update was altered after publication even though the service remained reachable.",
+        "rider": "Riders and dispatchers act on the altered arrival time, creating an operational and safety consequence."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Integrity requirement permits only authorized changes to Arrival-time update. Verification evidence demonstrates authorized origin and five-minute detection for Integrity requirement.",
+      "activeNodeIds": [
+        "requirement",
+        "update",
+        "evidence"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "requirement": "Only authorized changes may reach the public page, and unauthorized changes must be detected within five minutes.",
+        "update": "The displayed update was altered after publication even though the service remained reachable.",
+        "evidence": "Signature validation, change authorization, and monitor timestamps demonstrate source, content, and detection time."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "A mirror page shows arrival values that match the official feed, but the mirror cannot authenticate the transit publisher. Matching values support integrity, while absent publisher verification fails authenticity.",
+      "activeNodeIds": [
+        "publisher",
+        "update",
+        "rider",
+        "requirement",
+        "evidence"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "statuses": {
+        "publisher": "The authorized operations system publishes signed route and arrival updates.",
+        "update": "Displayed arrival values match the official feed.",
+        "rider": "Riders cannot verify the mirror’s source.",
+        "requirement": "Add an authenticated-origin requirement.",
+        "evidence": "Content comparison exists; publisher verification is missing."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Publisher impersonation",
+      "changedFact": "The mirror values match the official transit feed, but the mirror cannot authenticate the transit publisher.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "A mirror page shows arrival values that match the official feed, but the mirror cannot authenticate the transit publisher.",
+          "activeNodeIds": [
+            "publisher",
+            "update",
+            "evidence",
+            "requirement"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            3
+          ],
+          "statuses": {
+            "publisher": "The authorized operations system publishes signed route and arrival updates.",
+            "update": "Values match the official feed.",
+            "evidence": "Signature validation, change authorization, and monitor timestamps demonstrate source, content, and detection time.",
+            "requirement": "Only authorized arrival-time changes may reach the public page, and monitoring must detect any unauthorized change within five minutes."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Authenticity fails even though the matching arrival values may retain integrity; verify publisher identity and origin.",
+          "activeNodeIds": [
+            "publisher",
+            "update",
+            "requirement",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2,
+            3
+          ],
+          "statuses": {
+            "publisher": "Authenticity not established.",
+            "update": "The mirror values match the official feed, so unauthorized alteration is not established.",
+            "requirement": "Require authenticated publisher origin.",
+            "evidence": "Signature validation, change authorization, and monitor timestamps demonstrate source, content, and detection time."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o02-security-concepts-prediction-v1",
+    "prompt": "The public page remains reachable and discloses no sensitive data, but an attacker changes arrival times. Which property failed, and which requirement tests the fix?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Availability failed; require continuous page reachability and treat every reachable update as trustworthy.",
+        "correct": false,
+        "feedback": "The page was reachable. Availability alone does not show that displayed values were protected from unauthorized alteration.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Integrity failed; permit only authorized updates and detect unauthorized changes within five minutes.",
+        "correct": true,
+        "feedback": "Correct. The observed harm comes from unauthorized alteration, and the requirement names scope, allowed change, evidence, and a measurable detection threshold.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Confidentiality failed; encrypt the public page and restrict arrival details to authenticated riders.",
+        "correct": false,
+        "feedback": "The page is intentionally public. Encryption does not correct unauthorized modification of the displayed schedule.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "integrity",
+      "availability",
+      "confidentiality",
+      "security-requirements"
+    ],
+    "hint": "Check confidentiality, integrity, and availability independently; one safeguard may affect them differently."
+  },
+  "transfer": {
+    "id": "d1-o02-security-concepts-transfer-v1",
+    "prompt": "A mirror page shows arrival values that match the official feed, but the mirror cannot authenticate the transit publisher.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Authenticity fails even though the matching values may retain integrity.",
+        "correct": true,
+        "feedback": "Correct. Matching values do not prove who published them; verify the publisher and origin separately from content integrity.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Integrity fails because any unauthenticated publisher necessarily altered the arrival values.",
+        "correct": false,
+        "feedback": "The values match the official feed, so alteration is not established. The missing evidence concerns publisher authenticity.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "All properties pass because the mirror values match the official transit feed.",
+        "correct": false,
+        "feedback": "Accurate values can retain integrity while the claimed source remains unauthenticated.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "integrity",
+      "authenticity"
+    ],
+    "hint": "Re-evaluate which property is harmed when data is readable but silently changed."
+  },
+  "retry": {
+    "id": "d1-o02-security-concepts-retry-v1",
+    "prompt": "A clinical portal encrypts patient records correctly, but an outage prevents clinicians from retrieving them during an emergency. Which property controls the immediate requirement?",
+    "options": [
+      {
+        "id": "authenticity-only",
+        "label": "Authenticity controls because every outage means the service source is untrusted",
+        "correct": false,
+        "feedback": "An outage does not establish source impersonation. Diagnose the observed consequence before selecting a property.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "availability",
+        "label": "Availability controls the immediate recovery requirement while confidentiality still remains required",
+        "correct": true,
+        "feedback": "Correct. The observed consequence is loss of timely authorized access, so the measurable recovery requirement must address availability without discarding confidentiality.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "confidentiality-only",
+        "label": "Confidentiality is the only failed property because the records are sensitive",
+        "correct": false,
+        "feedback": "Sensitivity makes confidentiality important, but the stated failure is that authorized clinicians cannot obtain the records when needed.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "availability",
+      "confidentiality",
+      "security-requirements"
+    ],
+    "hint": "Name the security property proven by the evidence, not the control’s marketing label."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Observed consequence selects one or more properties; each selected property must bind an asset, actor or state, consequence, threshold, and evidence rather than merely naming CIA.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o02-outline",
+    "d1-o02-textbook",
+    "d1-o02-security-concepts-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o02-security-concepts-failure-to-requirement-workbench",
+      "disposition": "equivalent",
+      "rationale": "The comparison traces an altered transit update from authorized publisher to rider consequence, then turns integrity into an authorization-and-five-minute-detection requirement with evidence. The changed mirror case distinguishes authenticity, and the retry distinguishes availability from confidentiality; nonrepudiation remains canonical reference content rather than an assessed claim in this model."
+    }
+  ]
+}

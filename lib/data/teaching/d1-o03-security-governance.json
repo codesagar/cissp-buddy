@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o03-security-governance",
+  "treatmentIds": [
+    "fresh-d1-o03-security-governance-decision-rights-evidence-board"
+  ],
+  "title": "decision rights evidence board",
+  "question": "Who may direct, analyze, operate, assure, and accept an urgent acquisition exception, and what evidence crosses each role boundary?",
+  "scenario": "Acquisition integration: An acquired company must connect to corporate systems before a financial close.",
+  "focalRelation": "Mission and appetite constrain analysis; analysis informs but does not own acceptance; the authorized business owner decides; operators implement; independent assurance and oversight receive evidence and trigger reassessment.",
+  "representation": "ledger",
+  "nodes": [
+    {
+      "id": "mission-and-strategy",
+      "label": "Acquisition deadline and purpose",
+      "detail": "The acquisition deadline and business purpose define what the integration must achieve without replacing security accountability.",
+      "conceptIds": [
+        "security-strategy"
+      ],
+      "lane": "subject"
+    },
+    {
+      "id": "risk-appetite",
+      "label": "Risk Appetite",
+      "detail": "The approved appetite sets the maximum integration risk that delegated owners may accept.",
+      "conceptIds": [
+        "risk-appetite"
+      ],
+      "lane": "constraint"
+    },
+    {
+      "id": "authorized-owner",
+      "label": "Authorized Owner",
+      "detail": "A business owner with sufficient delegation chooses treatment, resources, and any residual-risk acceptance.",
+      "conceptIds": [
+        "roles-responsibilities",
+        "risk-appetite"
+      ],
+      "lane": "constraint"
+    },
+    {
+      "id": "security-analysis",
+      "label": "Security Analysis",
+      "detail": "Security staff document exposure, control evidence, uncertainty, and options for the accountable owner; they do not accept business risk on the owner’s behalf.",
+      "conceptIds": [
+        "security-governance"
+      ],
+      "lane": "constraint"
+    },
+    {
+      "id": "management-operation",
+      "label": "Management Operation",
+      "detail": "Named operators implement the approved treatment and retain evidence that the controls are working in the acquired environment.",
+      "conceptIds": [
+        "security-governance",
+        "due-care",
+        "due-diligence"
+      ],
+      "lane": "evidence"
+    },
+    {
+      "id": "assurance",
+      "label": "Assurance",
+      "detail": "Independent review reports control performance, exceptions, and residual risk back to governance.",
+      "conceptIds": [
+        "control-assurance"
+      ],
+      "lane": "evidence"
+    }
+  ],
+  "edges": [
+    {
+      "from": "mission-and-strategy",
+      "to": "risk-appetite",
+      "label": "establishes decision boundary for",
+      "kind": "flow"
+    },
+    {
+      "from": "risk-appetite",
+      "to": "authorized-owner",
+      "label": "constrains acceptance by",
+      "kind": "dependency"
+    },
+    {
+      "from": "security-analysis",
+      "to": "authorized-owner",
+      "label": "informs but does not replace decision by",
+      "kind": "flow"
+    },
+    {
+      "from": "authorized-owner",
+      "to": "management-operation",
+      "label": "authorizes treatment and resources for",
+      "kind": "flow"
+    },
+    {
+      "from": "management-operation",
+      "to": "assurance",
+      "label": "produces operating evidence tested by",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "subject",
+      "label": "Decision subjects",
+      "rule": "Each row keeps a stable identity and its own requirement state."
+    },
+    {
+      "id": "constraint",
+      "label": "Constraints and controls",
+      "rule": "Requirements attach to named subjects and do not spread by proximity."
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence and result",
+      "rule": "A result is supported only by the evidence and scope shown for that row."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Acquisition integration: An acquired company must connect to corporate systems before a financial close.",
+      "activeNodeIds": [
+        "mission-and-strategy"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "mission-and-strategy": "The acquisition deadline and business purpose define what the integration must achieve without replacing security accountability."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Mission And Strategy establishes decision boundary for Risk Appetite. Risk Appetite constrains acceptance by Authorized Owner.",
+      "activeNodeIds": [
+        "mission-and-strategy",
+        "risk-appetite",
+        "authorized-owner"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "risk-appetite": "The approved appetite sets the maximum integration risk that delegated owners may accept.",
+        "mission-and-strategy": "The acquisition deadline and business purpose define what the integration must achieve without replacing security accountability.",
+        "authorized-owner": "A business owner with sufficient delegation chooses treatment, resources, and any residual-risk acceptance."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Authorized Owner authorizes treatment and resources for Management Operation. Management Operation produces operating evidence tested by Assurance.",
+      "activeNodeIds": [
+        "authorized-owner",
+        "management-operation",
+        "assurance"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "assurance": "Independent review reports control performance, exceptions, and residual risk back to governance.",
+        "authorized-owner": "A business owner with sufficient delegation chooses treatment, resources, and any residual-risk acceptance.",
+        "management-operation": "Named operators implement the approved treatment and retain evidence that the controls are working in the acquired environment."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The estimated residual risk exceeds the appetite limit delegated to the named business owner. Escalate to the higher authorized governance or business authority; the original owner cannot accept beyond delegated appetite.",
+      "activeNodeIds": [
+        "mission-and-strategy",
+        "risk-appetite",
+        "authorized-owner",
+        "management-operation",
+        "assurance",
+        "security-analysis"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "assurance": "The proposed acceptance exceeds the owner’s delegated threshold and must be escalated to a higher authorized authority.",
+        "mission-and-strategy": "The acquisition deadline and business purpose define what the integration must achieve without replacing security accountability.",
+        "risk-appetite": "The approved appetite sets the maximum integration risk that delegated owners may accept.",
+        "authorized-owner": "A business owner with sufficient delegation chooses treatment, resources, and any residual-risk acceptance.",
+        "management-operation": "Named operators implement the approved treatment and retain evidence that the controls are working in the acquired environment.",
+        "security-analysis": "Security staff document exposure, control evidence, uncertainty, and options for the accountable owner; they do not accept business risk on the owner’s behalf."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The analysis and evidence are unchanged. The proposed acceptance exceeds the owner’s delegated threshold.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The estimated residual risk exceeds the appetite limit delegated to the named business owner.",
+          "activeNodeIds": [
+            "authorized-owner",
+            "management-operation",
+            "assurance"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "assurance": "Independent review reports control performance, exceptions, and residual risk back to governance.",
+            "authorized-owner": "A business owner with sufficient delegation chooses treatment, resources, and any residual-risk acceptance.",
+            "management-operation": "Named operators implement the approved treatment and retain evidence that the controls are working in the acquired environment."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Escalate to the higher authorized governance or business authority; the original owner cannot accept beyond delegated appetite.",
+          "activeNodeIds": [
+            "authorized-owner",
+            "management-operation",
+            "assurance"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "assurance": "The proposed acceptance exceeds the owner’s delegated threshold and must be escalated to a higher authorized authority.",
+            "authorized-owner": "A business owner with sufficient delegation chooses treatment, resources, and any residual-risk acceptance.",
+            "management-operation": "Named operators implement the approved treatment and retain evidence that the controls are working in the acquired environment."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o03-security-governance-prediction-v1",
+    "prompt": "Who may direct, analyze, operate, assure, and accept an urgent acquisition exception, and what evidence crosses each role boundary?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Let the security analyst accept the exception after calculating residual risk and collecting assurance evidence.",
+        "correct": false,
+        "feedback": "Analysis informs the choice but does not create the business decision right.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "The authorized business owner accepts or treats the residual risk after receiving scoped analysis and assurance evidence.",
+        "correct": true,
+        "feedback": "Security and operators supply expertise and evidence; their work does not silently transfer the business decision right.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Let the analyst both calculate and accept residual risk whenever the analysis stays within the security team.",
+        "correct": false,
+        "feedback": "Analysis supports a decision; acceptance remains with the authorized business authority.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "security-governance",
+      "risk-appetite",
+      "roles-responsibilities",
+      "control-assurance"
+    ],
+    "hint": "Find the delegated decision right and the risk limit attached to it."
+  },
+  "transfer": {
+    "id": "d1-o03-security-governance-transfer-v1",
+    "prompt": "The estimated residual risk exceeds the appetite limit delegated to the named business owner.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Escalate to the higher authorized governance or business authority",
+        "correct": true,
+        "feedback": "Escalate to the higher authorized governance or business authority; the original owner cannot accept beyond delegated appetite.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Let the security analyst accept the exception because that analyst calculated the residual risk",
+        "correct": false,
+        "feedback": "Changed fact: The analysis and evidence are unchanged. The proposed acceptance exceeds the owner’s delegated threshold. Why this answer fails: “Let the security analyst accept the exception because that analyst calculated the residual risk” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Mission and appetite constrain analysis; analysis informs but does not own acceptance; the authorized business owner decides; operators implement; independent assurance and oversight receive evidence and trigger reassessment. Repair target: Control and evidence consequence — Authorized Owner authorizes treatment and resources for Management Operation. Management Operation produces operating evidence tested by Assurance.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "The analyst who calculates residual risk may also accept it",
+        "correct": false,
+        "feedback": "Changed fact: The analysis and evidence are unchanged. The proposed acceptance exceeds the owner’s delegated threshold. Why this answer fails: “The analyst who calculates residual risk may also accept it” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Mission and appetite constrain analysis; analysis informs but does not own acceptance; the authorized business owner decides; operators implement; independent assurance and oversight receive evidence and trigger reassessment. Repair target: Changed fact, recomputed result — The estimated residual risk exceeds the appetite limit delegated to the named business owner. Escalate to the higher authorized governance or business authority; the original owner cannot accept beyond delegated appetite.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "security-governance",
+      "risk-appetite"
+    ],
+    "hint": "Compare the requested acceptance with the owner’s approved risk appetite."
+  },
+  "retry": {
+    "id": "d1-o03-security-governance-retry-v1",
+    "prompt": "A product team wants to accept a vendor-integration risk because revenue is at stake. What is the CISO’s best first recommendation?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "The CISO alone owns every cyber risk",
+        "correct": false,
+        "feedback": "Security informs and operates controls, but accountable business leadership owns decisions within delegated authority.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "evidence-based",
+        "label": "Require documented analysis and acceptance by an authorized business owner",
+        "correct": true,
+        "feedback": "Correct. The decision needs documented risk analysis and an authorized business owner, not unilateral technical approval.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "shortcut",
+        "label": "Let the security analyst accept the exception because that analyst calculated the residual risk",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. The decision needs documented risk analysis and an authorized business owner, not unilateral technical approval.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "security-governance",
+      "due-diligence"
+    ],
+    "hint": "If the current owner lacks authority, identify the next accountable governance level."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Mission and appetite constrain analysis; analysis informs but does not own acceptance; the authorized business owner decides; operators implement; independent assurance and oversight receive evidence and trigger reassessment.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o03-outline",
+    "d1-o03-textbook",
+    "d1-o03-security-governance-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o03-security-governance-decision-rights-evidence-board",
+      "disposition": "equivalent",
+      "rationale": "The ledger preserves mission and appetite constraints, separation of analysis from business acceptance, treatment ownership, operating evidence, and independent assurance. It stages those decision rights in one acquisition case; control-framework selection and a separate scope inset remain reference content rather than distinct visual controls."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Analysis informs a risk decision but does not grant authority to accept it. An authorized business owner decides within delegated appetite and escalates beyond that limit.",
+    "visualReasoningGain": "A role-and-evidence visual can show decision, analysis, operation, and assurance boundaries simultaneously; the current one-edge view adds less than the full accountability system requires."
+  }
+}

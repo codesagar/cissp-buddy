@@ -1,0 +1,745 @@
+{
+  "conceptIds": [
+    "programming-languages",
+    "libraries",
+    "ide",
+    "source-control",
+    "secrets-management",
+    "repository-security",
+    "developer-identity"
+  ],
+  "concepts": [
+    {
+      "decision": "Select maintained language/runtime versions with security support and an accountable upgrade plan.",
+      "definition": "Languages and supported versions chosen for maintainability, secure features, tool support, and known lifecycle ownership.",
+      "failureExample": "A team can write careful code yet inherit risk from an unsupported runtime with no security fixes.",
+      "id": "programming-languages",
+      "label": "Programming Languages",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    },
+    {
+      "decision": "Choose maintained, reviewed libraries with known provenance, licensing, version constraints, and vulnerability response ownership.",
+      "definition": "Reusable code components and frameworks included in an application to supply functions or security-relevant behavior.",
+      "failureExample": "Copying an unvetted package or stale library can import an exploitable dependency into every build.",
+      "id": "libraries",
+      "label": "Libraries",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    },
+    {
+      "decision": "Harden and manage IDEs/extensions, keep them updated, and prevent privileged credentials or unreviewed plugins from widening the workstation attack surface.",
+      "definition": "An integrated development environment and its extensions, settings, credentials, and plugins used to create and maintain code.",
+      "failureExample": "A malicious IDE extension can read source and developer tokens before code ever reaches the repository.",
+      "id": "ide",
+      "label": "Ide",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    },
+    {
+      "decision": "Require authenticated changes, protected critical branches, review/approval rules, and traceable links from change to revision.",
+      "definition": "A system that records controlled versions, branches, changes, authorship, and merge history for source and related artifacts.",
+      "failureExample": "Direct unreviewed pushes to the release branch can introduce a backdoor with no accountable review.",
+      "id": "source-control",
+      "label": "Source Control",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    },
+    {
+      "decision": "Keep secrets out of code/logs, use scoped identities to retrieve them, rotate on exposure or lifecycle events, and record references rather than values.",
+      "definition": "Controlled storage, retrieval, rotation, revocation, and audit of credentials, keys, tokens, and other sensitive values.",
+      "failureExample": "A production token in a repository can be cloned, cached, and reused long after the code change is removed.",
+      "id": "secrets-management",
+      "label": "Secrets Management",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    },
+    {
+      "decision": "Apply least privilege, review rules, protected release paths, backup/availability, and alerting for sensitive changes.",
+      "definition": "Protection of source/artifact repositories through access control, branch protection, review, integrity, availability, and audit.",
+      "failureExample": "A repository administrator’s unmonitored account can alter both source history and release configuration.",
+      "id": "repository-security",
+      "label": "Repository Security",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    },
+    {
+      "decision": "Use strong authentication, least privilege, separate personal/organizational and environment identities, and timely revocation.",
+      "definition": "An attributable, managed identity used by a developer or automation to access development resources with defined privileges.",
+      "failureExample": "Shared developer accounts erase accountability and make compromise containment uncertain.",
+      "id": "developer-identity",
+      "label": "Developer Identity",
+      "sourceRefIds": [
+        "miller-d8-727-760",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "sourceVisualId": "d8-o02-development-environment-access-decision-comparison-1"
+    }
+  ],
+  "domainId": 8,
+  "estimatedMinutes": 35,
+  "id": "d8-o02-development-environment-access",
+  "misconceptions": [
+    {
+      "claim": "Deleting a secret from the current branch removes exposure.",
+      "correction": "History, forks, caches, logs, and build artifacts may retain it; revoke and rotate first, then clean and monitor."
+    }
+  ],
+  "objectiveIds": [
+    "8.2"
+  ],
+  "outcome": "Apply access, isolation, inventory, and secret controls to the development environment.",
+  "prerequisites": [
+    "d1-o11-supply-chain-risk",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Select supported languages and libraries with maintained versions, secure defaults, inventory, license and vulnerability review, and clear ownership. Harden IDEs and developer endpoints, require strong identity and least privilege, separate personal and organizational credentials, and protect repository branches and reviews.",
+      "id": "people-tools-boundaries",
+      "keyPoints": [
+        "Language and library choice changes vulnerability and maintenance exposure.",
+        "IDE plugins and local tooling can read source and secrets.",
+        "Repository permissions and review protect source integrity but do not prove build integrity."
+      ],
+      "sourceRefIds": [
+        "outline-d8-2",
+        "official-d8-36-55",
+        "miller-d8-727-760"
+      ],
+      "title": "Control people, languages, libraries, and IDEs"
+    },
+    {
+      "body": "Store secrets in managed systems, scope and rotate them, prevent leakage in code and logs, and use separate credentials per environment. Document runtime versions, configuration, dependencies, and service identity so deployment behavior is reproducible and drift is detectable.",
+      "id": "secrets-and-runtime",
+      "keyPoints": [
+        "A secret in source control remains exposed even after deletion from the latest commit.",
+        "Runtime and configuration drift can invalidate test assumptions.",
+        "Short-lived, scoped credentials reduce blast radius."
+      ],
+      "sourceRefIds": [
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ],
+      "title": "Keep secrets and runtime assumptions bounded"
+    }
+  ],
+  "sourceHash": "9ced8c0d4068194ca86fda5c0f4909bac3faba7eebc61e934edde6ae00755a2a",
+  "sourcePath": "knowledge/domains/d8-software-development-security/units/d8-o02-development-environment-access.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d8-2",
+      "locator": {
+        "type": "objective",
+        "value": "8.2 bullets: languages, libraries, toolsets, IDE, runtime, CI/CD, CM, repositories, testing"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-36-55",
+      "locator": {
+        "type": "printed-page",
+        "value": "36–49 (same PDF page numbers), objective 8.2; body headings inspected, corrupted contents page excluded"
+      },
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "supports": [
+        "development ecosystem controls"
+      ]
+    },
+    {
+      "id": "sybex-d8-1049-1065",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1049-1065, Chapter 20"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "toolchain, libraries, secrets"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "supports": [
+        "ecosystem and environment controls"
+      ]
+    }
+  ],
+  "summary": "Developer workstations, IDEs, repositories, libraries, secrets, and collaboration services form a privileged ecosystem whose identities and boundaries must be protected.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "writes local configuration under plugin permission",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "stores token in plaintext file",
+        "to": "n3"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "crosses into committed repository history",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "triggers revoke, rotate, scanning, and prevention",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "issues short-lived scoped credential",
+        "to": "n6"
+      },
+      {
+        "from": "n6",
+        "kind": "flow",
+        "label": "accesses repository under attributable identity",
+        "to": "n4"
+      }
+    ],
+    "focalRelation": "developer identity --scoped permission--> source repository build identity --source/dependency access but no production secret--> runner deployment identity --approved artifact and target only--> production runtime service identity --managed secret reference, not value in build--> service break-glass support --time-bound approval and evidence--> production diagnosis",
+    "lanes": [
+      {
+        "id": "developer",
+        "label": "Developer endpoint",
+        "rule": "Local tools and plugins operate only within managed identity and permission boundaries."
+      },
+      {
+        "id": "tool",
+        "label": "Tool extension",
+        "rule": "Plugin code is third-party execution and receives explicit minimum permissions."
+      },
+      {
+        "id": "leak",
+        "label": "Compromised secret",
+        "rule": "The committed token is invalidated and investigated; deletion alone is not recovery."
+      },
+      {
+        "id": "repository",
+        "label": "Source-control boundary",
+        "rule": "History, access, review, and secret scanning protect repository state."
+      },
+      {
+        "id": "control",
+        "label": "Credential control plane",
+        "rule": "Managed store owns issue, scope, rotation, revocation, and audit."
+      },
+      {
+        "id": "runtime",
+        "label": "Scoped use",
+        "rule": "Short-lived identity is attributable and constrained to required environment actions."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Deleting a leaked secret from the current branch does not remove it from history, forks, caches, logs, or artifacts. Revoke and rotate first, inspect use, clean copies, restrict tools, and issue scoped managed credentials.",
+      "visualReasoningGain": "The trust-boundary map links workstation, plugin, secret, repository, managed store, and runtime identity, showing how one leaked token crosses environments."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "developer-identity",
+          "ide"
+        ],
+        "detail": "Managed endpoint where developer identity, local files, tools, and plugin permissions are controlled.",
+        "id": "n1",
+        "label": "Developer workstation",
+        "lane": "developer"
+      },
+      {
+        "conceptIds": [
+          "ide",
+          "libraries"
+        ],
+        "detail": "Third-party code running with explicitly bounded workspace, network, and credential permissions.",
+        "id": "n2",
+        "label": "IDE plugin",
+        "lane": "tool"
+      },
+      {
+        "conceptIds": [
+          "secrets-management"
+        ],
+        "detail": "Long-lived secret written locally and committed; it must be revoked, rotated, and investigated.",
+        "id": "n3",
+        "label": "Exposed cloud token",
+        "lane": "leak"
+      },
+      {
+        "conceptIds": [
+          "source-control",
+          "repository-security"
+        ],
+        "detail": "Protected history, branch, review, signing, and access boundary that now contains a secret copy.",
+        "id": "n4",
+        "label": "Source repository",
+        "lane": "repository"
+      },
+      {
+        "conceptIds": [
+          "secrets-management"
+        ],
+        "detail": "Authoritative service issuing scoped, short-lived credentials and audit evidence at runtime.",
+        "id": "n5",
+        "label": "Managed secret store",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "developer-identity"
+        ],
+        "detail": "Named developer/workload identity receiving only required environment access and revocable sessions.",
+        "id": "n6",
+        "label": "Scoped runtime identity",
+        "lane": "runtime"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "repository-security"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d8-o02-development-environment-access-prediction-5c3de83e7ef6",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Incorrect: History, forks, caches, logs, and build artifacts may retain it; revoke and rotate first, then clean and monitor.",
+          "id": "misconception",
+          "label": "Deleting a secret from the current branch removes exposure.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. History, forks, caches, logs, and build artifacts may retain it; revoke and rotate first, then clean and monitor.",
+          "id": "relation",
+          "label": "Revoke the token, inspect use, remove exposure, and issue a scoped runtime secret",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: repository visibility does not make a live secret safe. Revoke and rotate it, remove it from reachable history where feasible, inspect use, constrain developer and plugin access, and move the value to approved secret handling.",
+          "id": "overclaim",
+          "label": "Leave the committed cloud token in place because the repository is private.",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "How can a developer build and support software with reproducible environments while keeping identities, repositories, and secrets appropriately separated?"
+    },
+    "question": "How can a developer build and support software with reproducible environments while keeping identities, repositories, and secrets appropriately separated?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "secrets-management",
+        "source-control",
+        "repository-security"
+      ],
+      "hint": "Removing visible text does not invalidate a credential or erase every copy.",
+      "id": "d8-o02-development-environment-access-retry-v2-d85b7d25de69",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Credential invalidation and copy handling are both required after repository exposure.",
+          "id": "rotate-clean",
+          "label": "Rotate the secret, clean exposed copies, inspect use, and verify scoped storage",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "History, clones, caches, and CI logs can retain a still-valid credential.",
+          "id": "delete-head",
+          "label": "Accept the latest-commit deletion as proof the secret can no longer be used",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Changing repository visibility does not invalidate copies already obtained or logged.",
+          "id": "hide-branch",
+          "label": "Move the commit to a private branch without rotating the credential",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A repository secret is deleted from the latest commit, but it remains in history and a CI log. What closes the exposure?"
+    },
+    "scenario": "A plugin writes a cloud token into a local configuration file that is committed to a repository.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d8-2",
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3"
+        ],
+        "caption": "A plugin writes a cloud token into a local configuration file that is committed to a repository.",
+        "id": "case-observed",
+        "statuses": {
+          "n3": "token written locally"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4"
+        ],
+        "caption": "Language and library choice changes vulnerability and maintenance exposure.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n4": "secret committed to history"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4"
+        ],
+        "caption": "Deleting a secret from the current branch removes exposure. History, forks, caches, logs, and build artifacts may retain it; revoke and rotate first, then clean and monitor.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n3": "file deletion alone insufficient"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4",
+          "n5"
+        ],
+        "caption": "Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store.",
+        "id": "control-enforced",
+        "statuses": {
+          "n3": "revoked/rotated",
+          "n4": "history and use inspected"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "caption": "Apply access, isolation, inventory, and secret controls to the development environment. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "short-lived scoped access; prevention active"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store.",
+    "title": "Protect development environments and identities",
+    "transfer": {
+      "conceptIds": [
+        "source-control"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d8-o02-development-environment-access-transfer-68deedb54b7c",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: Developers share one privileged repository token because individual access is inconvenient. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store. Repair target: Decision recomputed — Replace it with individual MFA-backed roles and scoped automation identities with reviewable ownership. Shared privilege destroys attribution and increases blast radius.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: Developers share one privileged repository token because individual access is inconvenient. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Replace it with individual MFA-backed roles and scoped automation identities with reviewable ownership. Shared privilege destroys attribution and increases blast radius.",
+          "id": "evidence-action",
+          "label": "Replace it with individual MFA-backed roles and scoped automation identities with reviewable ownership",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "Developers share one privileged repository token because individual access is inconvenient."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implemented in 5 stable boundary states: IDE plugin writes local configuration under plugin permission Developer workstation; Developer workstation stores token in plaintext file Exposed cloud token. The model keeps Developer workstation, IDE plugin, Exposed cloud token, Source repository, Managed secret store, Scoped runtime identity distinct. Its changed case is “Developers share one privileged repository token because individual access is inconvenient.” and every option returns to a named repair state.",
+        "treatmentId": "fresh-d8-o02-development-environment-access-identity-resource-trust-boundary-map"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d8-o02-development-environment-access-identity-resource-trust-boundary-map"
+    ],
+    "unitId": "d8-o02-development-environment-access",
+    "variants": [
+      {
+        "changedFact": "Developers share one privileged repository token because individual access is inconvenient.",
+        "edges": [
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "requests attributable access",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "replaces the shared secret",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "currently crosses the repository boundary without attribution",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "triggers rotation and controlled issuance",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "issues short-lived scoped credential",
+            "to": "n6"
+          },
+          {
+            "from": "n6",
+            "kind": "flow",
+            "label": "accesses under a reviewable identity",
+            "to": "n4"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "lanes": [
+          {
+            "id": "developer",
+            "label": "Developer endpoint",
+            "rule": "Local tools and plugins operate only within managed identity and permission boundaries."
+          },
+          {
+            "id": "tool",
+            "label": "Tool extension",
+            "rule": "Plugin code is third-party execution and receives explicit minimum permissions."
+          },
+          {
+            "id": "leak",
+            "label": "Compromised secret",
+            "rule": "The committed token is invalidated and investigated; deletion alone is not recovery."
+          },
+          {
+            "id": "repository",
+            "label": "Source-control boundary",
+            "rule": "History, access, review, and secret scanning protect repository state."
+          },
+          {
+            "id": "control",
+            "label": "Credential control plane",
+            "rule": "Managed store owns issue, scope, rotation, revocation, and audit."
+          },
+          {
+            "id": "runtime",
+            "label": "Scoped use",
+            "rule": "Short-lived identity is attributable and constrained to required environment actions."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "developer-identity"
+            ],
+            "detail": "Each person uses an attributable identity with MFA.",
+            "id": "n1",
+            "label": "Individual developer identities",
+            "lane": "developer"
+          },
+          {
+            "conceptIds": [
+              "ide"
+            ],
+            "detail": "Convenience and support needs enter an approved access process.",
+            "id": "n2",
+            "label": "Developer support workflow",
+            "lane": "tool"
+          },
+          {
+            "conceptIds": [
+              "secrets-management"
+            ],
+            "detail": "One reusable token hides who acted and expands compromise impact.",
+            "id": "n3",
+            "label": "Shared privileged repository token",
+            "lane": "leak"
+          },
+          {
+            "conceptIds": [
+              "source-control",
+              "repository-security"
+            ],
+            "detail": "Repository policy requires attributable human and automation access.",
+            "id": "n4",
+            "label": "Source repository",
+            "lane": "repository"
+          },
+          {
+            "conceptIds": [
+              "secrets-management"
+            ],
+            "detail": "Short-lived scoped tokens are issued, rotated, and revoked centrally.",
+            "id": "n5",
+            "label": "Managed credential service",
+            "lane": "control"
+          },
+          {
+            "conceptIds": [
+              "developer-identity"
+            ],
+            "detail": "Nonhuman and support access has named ownership, purpose, expiry, and review.",
+            "id": "n6",
+            "label": "Scoped automation or JIT role",
+            "lane": "runtime"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              5
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n4",
+              "n6"
+            ],
+            "caption": "Developers share one privileged repository token because individual access is inconvenient.",
+            "id": "changed-fact",
+            "statuses": {
+              "n6": "shared privileged repo token"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n5",
+              "n6"
+            ],
+            "caption": "Replace it with individual MFA-backed roles and scoped automation identities with reviewable ownership. Shared privilege destroys attribution and increases blast radius.",
+            "id": "changed-decision",
+            "statuses": {
+              "n6": "shared token revoked; individual identity required"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n5",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "JIT support identity scoped, audited, and expiring"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Protect development environments and identities",
+  "workedExamples": [
+    {
+      "reasoning": "Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store.",
+      "situation": "A plugin writes a cloud token into a local configuration file that is committed to a repository.",
+      "takeaway": "Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store.",
+      "title": "Leaked cloud token in an IDE project"
+    },
+    {
+      "reasoning": "The release manifest records source revision, approved runtime/library versions, build configuration, environment-specific configuration references, service identity, and secret-manager path/version—not secret values. The deployment identity can read only the production reference, and the build cannot read production secrets.",
+      "situation": "A service must be rebuilt after a production incident.",
+      "takeaway": "The release manifest records source revision, approved runtime/library versions, build configuration, environment-specific configuration references, service identity, and secret-manager path/version—not secret values. The deployment identity can read only the production reference, and the build cannot read production secrets.",
+      "title": "Reproducible release without exposing a secret"
+    }
+  ]
+}

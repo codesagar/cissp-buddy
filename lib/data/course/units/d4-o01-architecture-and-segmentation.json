@@ -1,0 +1,881 @@
+{
+  "conceptIds": [
+    "osi-model",
+    "tcp-ip-model",
+    "network-segmentation",
+    "micro-segmentation",
+    "traffic-flows",
+    "network-planes",
+    "network-observability",
+    "secure-protocols",
+    "wireless-security",
+    "software-defined-networking",
+    "physical-logical-boundary"
+  ],
+  "concepts": [
+    {
+      "decision": "Use it to locate the affected function and control, while recognizing real protocols can span layers.",
+      "definition": "Seven-layer reference model for locating communication functions, controls, and faults.",
+      "failureExample": "Calling an application authorization flaw a Layer 3 issue directs remediation to routing.",
+      "id": "osi-model",
+      "label": "Osi Model",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Use it to reason about deployed Internet protocols; translate, rather than equate blindly, to OSI terms.",
+      "definition": "Implementation-oriented stack that groups networking functions into fewer protocol layers.",
+      "failureExample": "Assuming TCP/IP and OSI layers map one-for-one obscures where encryption or routing terminates.",
+      "id": "tcp-ip-model",
+      "label": "Tcp Ip Model",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Define zones and enforce/observe every required crossing using policy that matches the actual flow.",
+      "definition": "Physical or logical restriction of communication between network groups to reduce reachability and blast radius.",
+      "failureExample": "A separate VLAN has an unrestricted routed path into a sensitive subnet.",
+      "id": "network-segmentation",
+      "label": "Network Segmentation",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-3"
+    },
+    {
+      "decision": "Use when east-west blast radius matters and maintain explicit service identity, policy, and observability.",
+      "definition": "Fine-grained workload or identity-aware policy enforced close to services rather than only at large network zones.",
+      "failureExample": "A broad subnet rule lets one compromised host laterally reach every workload in the segment.",
+      "id": "micro-segmentation",
+      "label": "Micro Segmentation",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Allow only flows with known purpose, source/destination identity, protocol, path, and monitoring point.",
+      "definition": "Documented north-south and east-west communications among users, services, management, and dependencies.",
+      "failureExample": "An undocumented east-west path lets a compromised workload reach a sensitive service.",
+      "id": "traffic-flows",
+      "label": "Traffic Flows",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Separate and protect planes where risk warrants, especially management identities and control interfaces.",
+      "definition": "Data plane forwards traffic; control plane decides forwarding; management plane configures and administers devices.",
+      "failureExample": "A protected data path still fails if an attacker reconfigures it through the management plane.",
+      "id": "network-planes",
+      "label": "Network Planes",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Collect protected, actionable signals at enforcement and management points without creating an unmanaged collector path.",
+      "definition": "Flow, fault, capacity, and policy telemetry that lets operators detect and explain network behavior.",
+      "failureExample": "Encryption or segmentation failures remain invisible when denied flows and device health are not observed.",
+      "id": "network-observability",
+      "label": "Network Observability",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Choose by protected traffic, termination points, key/certificate validation, metadata exposure, inspection, and availability impact.",
+      "definition": "Protocols selected for a specific layer, endpoint identity, confidentiality, integrity, and failure model.",
+      "failureExample": "Selecting “encryption” without locating endpoints leaves an onward path unprotected.",
+      "id": "secure-protocols",
+      "label": "Secure Protocols",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Match authentication, segmentation, monitoring, and physical/radio risks to the wireless use case.",
+      "definition": "Controls for radio association, encryption, admission, rogue detection, management, and RF availability.",
+      "failureExample": "A strong Wi-Fi password does not isolate guest or IoT traffic from enterprise services.",
+      "id": "wireless-security",
+      "label": "Wireless Security",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Protect controller identity, policy changes, APIs, availability, logs, and rollback as a high-value control plane.",
+      "definition": "Architecture that separates/centralizes programmable network control from forwarding devices through software control interfaces.",
+      "failureExample": "A compromised SDN controller can alter policy across many forwarding devices.",
+      "id": "software-defined-networking",
+      "label": "Software Defined Networking",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-1"
+    },
+    {
+      "decision": "Choose physical, VLAN/VRF/VPN, or workload policy boundary from the required reduction in available paths and operational constraints.",
+      "definition": "Explicit physical or logical separation point whose crossing must be controlled and observed.",
+      "failureExample": "A cable-sharing “separate” path bypasses the assumed physical boundary.",
+      "id": "physical-logical-boundary",
+      "label": "Physical Logical Boundary",
+      "sourceRefIds": [
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+        "official-d4-8-77",
+        "sybex-d4-571-620",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-architecture-and-segmentation-concept-comparison-2"
+    }
+  ],
+  "domainId": 4,
+  "estimatedMinutes": 60,
+  "id": "d4-o01-architecture-and-segmentation",
+  "misconceptions": [
+    {
+      "claim": "A firewall at the perimeter makes internal segmentation unnecessary.",
+      "correction": "East-west movement, cloud paths, wireless, and compromised insiders require internal boundaries and monitoring."
+    },
+    {
+      "claim": "The OSI model tells you exactly where every modern protocol belongs.",
+      "correction": "It is a conceptual aid; multilayer and tunneled protocols may span or encapsulate layers."
+    },
+    {
+      "claim": "Any encrypted tunnel protects the application end to end.",
+      "correction": "Protection ends where the selected protocol terminates; proxies, gateways, endpoints, and management paths require separately verified controls."
+    }
+  ],
+  "objectiveIds": [
+    "4.1"
+  ],
+  "outcome": "Given a network scenario, map the flow and architecture, choose proportionate segmentation and protocol protections, and identify the metrics and monitoring needed to validate the design.",
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d3-o06-cryptographic-solutions"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "The OSI model is a troubleshooting and control vocabulary; TCP/IP groups those functions differently for implementation. IPv4/IPv6 addressing and unicast, broadcast, multicast, and anycast shape reachability. Document north-south and east-west flows, data/control/management planes, and transport choices such as store-and-forward versus cut-through. Capacity decisions require bandwidth, throughput, latency, jitter, and signal-to-noise context because availability and security controls can affect each other.",
+      "id": "models-and-flows",
+      "keyPoints": [
+        "Models help locate a control or failure; they are not themselves security controls.",
+        "Traffic direction and plane separation expose different trust and monitoring needs.",
+        "Performance metrics should be tied to an availability or user requirement."
+      ],
+      "sourceRefIds": [
+        "outline-d4",
+        "official-d4-8-77",
+        "sybex-d4-571-620"
+      ],
+      "title": "Reason about layers, flows, and performance"
+    },
+    {
+      "body": "Physical separation includes in-band, out-of-band, and air-gapped designs; logical separation includes VLANs, VPNs, virtual routing and forwarding, and virtual domains. Micro-segmentation applies policy closer to workloads through overlays, distributed firewalls, routers, IDS/IPS, and zero-trust decisions. Edge, VPC, SDN, SD-WAN, NFV, CDN, wireless, cellular, satellite, and converged protocols add dependencies that must be inventoried, authenticated, monitored, and capacity-managed.",
+      "id": "segmentation-and-modern-networks",
+      "keyPoints": [
+        "Segmentation is useful only when routing, identity, and policy enforcement prevent unintended paths.",
+        "Zero trust is a continuous decision model, not a synonym for a VLAN.",
+        "Wireless, cellular, CDN, VPC, and SDN boundaries remain part of the security architecture."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "title": "Reduce blast radius with deliberate boundaries"
+    },
+    {
+      "body": "Use secure protocol choices appropriate to the communication purpose: IPSec for network-layer protection, SSH for secure administration, and TLS for protected application sessions are examples. Consider what each protocol authenticates, encrypts, protects against modification, exposes to intermediaries, and logs. Monitoring and management should detect faults, abnormal flow, capacity pressure, and policy violations without creating an unmanaged management path.",
+      "id": "protocol-selection",
+      "keyPoints": [
+        "Protocol selection depends on endpoint trust, layer, threat, and operational support.",
+        "Encryption does not automatically authenticate every endpoint or protect metadata.",
+        "Management interfaces and observability pipelines require their own access and integrity controls."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "title": "Select secure protocols and observability"
+    },
+    {
+      "body": "IPsec provides security services at the IP layer and uses security associations, key management, and cryptographic algorithms; SSH protects an administrative transport/session; TLS protects an application session. Do not select only by the word “encryption.” Identify the endpoints that terminate protection, traffic and metadata exposed before/after that boundary, identity/authentication, keys/certificates, policy enforcement point, logging, inspection impact, availability dependency, and failure behavior. A secure tunnel to an untrusted endpoint or unmanaged management plane does not make the protected service trustworthy.",
+      "id": "protocol-layer-and-endpoint-boundary",
+      "keyPoints": [
+        "The layer and termination point determine what a channel control can and cannot protect.",
+        "Protocol deployment requires policy, key/identity operations, monitoring, and recovery planning."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+      ],
+      "title": "Select a channel control from its protection boundary"
+    }
+  ],
+  "sourceHash": "6a763fb2e0d15e4f739eadb237e420d19c518763b303adfb1cf01cdf49d50d56",
+  "sourcePath": "knowledge/domains/d4-communication-network-security/units/d4-o01-architecture-and-segmentation.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d4",
+      "locator": {
+        "type": "objective",
+        "value": "4.1"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective topics"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77)"
+      },
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "supports": [
+        "architecture",
+        "protocols",
+        "segmentation",
+        "wireless",
+        "SDN"
+      ]
+    },
+    {
+      "id": "sybex-d4-571-620",
+      "locator": {
+        "type": "pdf-page",
+        "value": "571-620, Chapter 11 Secure Network Architecture and Components"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "models",
+        "protocols",
+        "wireless",
+        "cellular"
+      ]
+    },
+    {
+      "id": "sybex-d4-597-645",
+      "locator": {
+        "type": "pdf-page",
+        "value": "597-645, Chapter 11"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "secure protocols",
+        "microsegmentation",
+        "network components"
+      ]
+    },
+    {
+      "id": "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+      "locator": {
+        "type": "section",
+        "value": "RFC 4301, Security Architecture for IP"
+      },
+      "sourceId": "rfc-4301-2005",
+      "supports": [
+        "RFC 4301 defines IPsec architecture, security associations, key management, and its IP-layer scope."
+      ]
+    }
+  ],
+  "summary": "Secure network architecture makes flows, trust boundaries, protocol layers, planes, dependencies, and performance visible, then uses physical, logical, and micro-segmentation to constrain impact.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "client",
+        "kind": "flow",
+        "label": "crosses the declared external boundary at",
+        "to": "ingress"
+      },
+      {
+        "from": "ingress",
+        "kind": "flow",
+        "label": "forwards only the authorized application request into",
+        "to": "services"
+      },
+      {
+        "from": "management",
+        "kind": "dependency",
+        "label": "can change edge route and policy behavior at",
+        "to": "ingress"
+      },
+      {
+        "from": "management",
+        "kind": "dependency",
+        "label": "can change east–west route and enforcement behavior in",
+        "to": "services"
+      },
+      {
+        "from": "ingress",
+        "kind": "evidence",
+        "label": "records termination, permit, deny, capacity, and fault evidence in",
+        "to": "telemetry"
+      },
+      {
+        "from": "services",
+        "kind": "evidence",
+        "label": "records east–west identity and flow evidence in",
+        "to": "telemetry"
+      },
+      {
+        "from": "models",
+        "kind": "dependency",
+        "label": "locates functions and channel termination for analysis of",
+        "to": "ingress"
+      }
+    ],
+    "focalRelation": "Models locate functions; real flows cross physical/logical boundaries and planes; segmentation requires enforcement and evidence; protocol claims end at configured termination; observability and management are protected paths too.",
+    "lanes": [
+      {
+        "id": "external",
+        "label": "External and wireless sources",
+        "rule": "Client location and channel do not grant internal trust."
+      },
+      {
+        "id": "control",
+        "label": "Ingress, management, and control surfaces",
+        "rule": "Each path has a named identity, protocol, action, enforcement point, and failure behavior."
+      },
+      {
+        "id": "protected",
+        "label": "Internal service path",
+        "rule": "East–west access remains explicitly segmented and authorized."
+      },
+      {
+        "id": "evidence",
+        "label": "Models and operating evidence",
+        "rule": "Models locate functions; telemetry shows actual flow, policy, route, capacity, and fault behavior."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Client ingress protection does not automatically constrain east-west traffic, administrators, control-plane changes, wireless clients, or telemetry. TLS protection ends at its termination point and the next hop needs its own trust decision.",
+      "visualReasoningGain": "A multi-lane flow map could coordinate user, data, management, control, and telemetry paths; the current one-edge map cannot support the unit’s integrated breadth."
+    },
+    "matrix": {
+      "columns": [
+        {
+          "id": "flow",
+          "label": "System / flow"
+        },
+        {
+          "id": "boundary",
+          "label": "Boundary"
+        },
+        {
+          "id": "enforcement",
+          "label": "Enforcement or termination"
+        },
+        {
+          "id": "dependency",
+          "label": "Privileged/common dependency"
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence"
+        }
+      ],
+      "description": "Keep traffic direction, enforcement, channel termination, management authority, and evidence separate so success in one row cannot imply the others.",
+      "notes": [],
+      "rows": [
+        {
+          "cells": {
+            "boundary": "External client to public edge",
+            "dependency": "Edge policy, DNS and control-plane administration",
+            "enforcement": "Ingress policy; external TLS terminates here",
+            "evidence": "Permit/deny, channel endpoint, route, capacity and fault records",
+            "flow": "North–south application request"
+          },
+          "id": "ingress",
+          "label": "Client → public ingress"
+        },
+        {
+          "cells": {
+            "boundary": "Workload identity and micro-segment",
+            "dependency": "Identity, policy distribution and service credentials",
+            "enforcement": "Explicit source, destination, service and direction",
+            "evidence": "Flow, policy and authorization decision records",
+            "flow": "East–west service call"
+          },
+          "id": "east-west",
+          "label": "Web/API → database"
+        },
+        {
+          "cells": {
+            "boundary": "Separate management authority",
+            "dependency": "Shared controller, credential, power or provider plane",
+            "enforcement": "Strong admin identity, approval and least privilege",
+            "evidence": "Change, admin session and resulting-state evidence",
+            "flow": "Route, policy and identity change"
+          },
+          "id": "management",
+          "label": "Administrator → control plane"
+        }
+      ],
+      "title": "One platform, independent boundary claims"
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "wireless-security",
+          "traffic-flows"
+        ],
+        "detail": "External and wireless sources reach only the intended protected ingress and never inherit trust from transport or location.",
+        "id": "client",
+        "label": "Public and wireless clients",
+        "lane": "external"
+      },
+      {
+        "conceptIds": [
+          "secure-protocols",
+          "physical-logical-boundary"
+        ],
+        "detail": "The public ingress terminates the external channel, enforces the allowed application path, and records permits, denials, capacity, and faults.",
+        "id": "ingress",
+        "label": "North–south ingress",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "network-segmentation",
+          "micro-segmentation",
+          "traffic-flows"
+        ],
+        "detail": "Web, API, worker, and database calls use identity-aware micro-segmentation and explicit source, destination, service, and direction.",
+        "id": "services",
+        "label": "East–west service path",
+        "lane": "protected"
+      },
+      {
+        "conceptIds": [
+          "network-planes",
+          "software-defined-networking"
+        ],
+        "detail": "Separate management and control planes change routes, policy, identities, and enforcement for ingress and east–west paths.",
+        "id": "management",
+        "label": "Management and control planes",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "network-observability"
+        ],
+        "detail": "Flow, policy, route, capacity, fault, wireless, and administration telemetry show how the boundary operated.",
+        "id": "telemetry",
+        "label": "Network evidence",
+        "lane": "evidence"
+      },
+      {
+        "conceptIds": [
+          "osi-model",
+          "tcp-ip-model"
+        ],
+        "detail": "OSI and TCP/IP models help locate functions and encapsulation but do not by themselves prove security or termination.",
+        "id": "models",
+        "label": "Protocol and layer model",
+        "lane": "evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "network-segmentation",
+        "micro-segmentation",
+        "traffic-flows",
+        "network-planes",
+        "network-observability"
+      ],
+      "hint": "Mark exactly where protected traffic terminates and where a new trust hop begins.",
+      "id": "d4-o01-architecture-and-segmentation-prediction-v1-4a0ce5a263df",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Transport protection ends where TLS terminates; the next hop needs its own protection and authentication decision.",
+          "id": "unit-specific-alternative",
+          "label": "Treat the backend hop as end-to-end protected because clients use TLS to reach the gateway.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "A channel claim ends at its termination point; each onward hop needs an explicit protection and trust decision.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Client-to-gateway TLS also protects cleartext traffic after the gateway terminates it.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Perimeter protection or an encrypted link covers only the paths and endpoints it actually intercepts and validates.",
+          "id": "correct",
+          "label": "Evaluate every relevant flow and its actual enforcement and termination points, including management and telemetry.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Does protecting public ingress also constrain internal service traffic, administrators, wireless clients, control-plane changes, and telemetry?"
+    },
+    "question": "Does protecting public ingress also constrain internal service traffic, administrators, wireless clients, control-plane changes, and telemetry?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "network-segmentation",
+        "traffic-flows",
+        "network-planes",
+        "network-observability",
+        "wireless-security"
+      ],
+      "hint": "Do not carry the client-side security claim across an unprotected internal segment.",
+      "id": "d4-o01-architecture-and-segmentation-retry-v1-b26f239a82cd",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "East-west movement, cloud paths, wireless, and compromised insiders require internal boundaries and monitoring.",
+          "id": "misconception",
+          "label": "Rely on the perimeter firewall while leaving internal management paths, east-west flows, and privileged crossings unsegmented.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Use separated management and data paths, explicit brokered access, strong authentication, narrowly defined flows, monitoring, and tested break-glass procedures.",
+          "id": "shortcut",
+          "label": "Treat the backend hop as protected by client TLS even though the gateway terminates that channel before forwarding.",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Use separated management and data paths, explicit brokered access, strong authentication, narrowly defined flows, monitoring, and tested break-glass procedures.",
+          "id": "evidence-based",
+          "label": "Use separated management and data paths, explicit brokered access, strong authentication, narrowly defined flows",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A hospital wants an isolated clinical network but still needs controlled vendor maintenance and emergency data exchange. What should the security owner decide?"
+    },
+    "scenario": "Multi-tier customer platform: A public web tier, internal API, database, administrative plane, and analytics workers share a cloud VPC.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d4",
+      "official-d4-8-77",
+      "sybex-d4-571-620",
+      "sybex-d4-597-645",
+      "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "client",
+          "ingress"
+        ],
+        "activeRowIds": [],
+        "caption": "Multi-tier customer platform: A public web tier, internal API, database, administrative plane, and analytics workers share a cloud VPC.",
+        "id": "case",
+        "statuses": {
+          "client": "External and wireless sources reach only the intended protected ingress and never inherit trust from transport or location.",
+          "ingress": "Edge controls terminate named protocols, authenticate and authorize requests, apply policy, and record observable decisions."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "client",
+          "ingress",
+          "services"
+        ],
+        "activeRowIds": [
+          "ingress"
+        ],
+        "caption": "Public and wireless clients crosses the declared external boundary at North–south ingress. North–south ingress forwards only the authorized application request into East–west service path.",
+        "id": "decision",
+        "statuses": {
+          "client": "External and wireless sources reach only the intended protected ingress and never inherit trust from transport or location.",
+          "ingress": "The public ingress terminates the external channel, enforces the allowed application path, and records permits, denials, capacity, and faults.",
+          "services": "Web, API, worker, and database calls use identity-aware micro-segmentation and explicit source, destination, service, and direction."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          5,
+          6
+        ],
+        "activeNodeIds": [
+          "services",
+          "telemetry",
+          "models",
+          "ingress"
+        ],
+        "activeRowIds": [
+          "east-west"
+        ],
+        "caption": "East–west service path records east–west identity and flow evidence in Network evidence. Protocol and layer model locates functions and channel termination for analysis of North–south ingress.",
+        "id": "consequence",
+        "statuses": {
+          "ingress": "The public ingress terminates the external channel, enforces the allowed application path, and records permits, denials, capacity, and faults.",
+          "models": "OSI and TCP/IP models help locate functions and encapsulation but do not by themselves prove security or termination.",
+          "services": "Web, API, worker, and database calls use identity-aware micro-segmentation and explicit source, destination, service, and direction.",
+          "telemetry": "Flow, policy, route, capacity, fault, wireless, and administration telemetry show how the boundary operated."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "client",
+          "ingress",
+          "services",
+          "telemetry",
+          "models",
+          "management"
+        ],
+        "activeRowIds": [
+          "management"
+        ],
+        "caption": "Client TLS terminates at the API gateway, which sends cleartext requests over a shared backend network. Mark the gateway as the termination boundary and protect and authenticate the backend hop or place it within an explicitly justified trusted boundary.",
+        "id": "changed-case",
+        "statuses": {
+          "client": "External and wireless sources reach only the intended protected ingress and never inherit trust from transport or location.",
+          "ingress": "Edge controls terminate named protocols, authenticate and authorize requests, apply policy, and record observable decisions.",
+          "management": "Separate management and control planes change routes, policy, identities, and enforcement for ingress and east–west paths.",
+          "models": "OSI and TCP/IP models help locate functions and encapsulation but do not by themselves prove security or termination.",
+          "services": "Web, API, worker, and database calls use identity-aware micro-segmentation and explicit source, destination, service, and direction.",
+          "telemetry": "Flow, policy, route, capacity, fault, wireless, and administration telemetry show how the boundary operated."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Models locate functions; real flows cross physical/logical boundaries and planes; segmentation requires enforcement and evidence; protocol claims end at configured termination; observability and management are protected paths too.",
+    "title": "network flow claim map",
+    "transfer": {
+      "conceptIds": [
+        "network-segmentation",
+        "network-planes",
+        "network-observability",
+        "physical-logical-boundary"
+      ],
+      "hint": "If the gateway terminates TLS, the backend hop needs its own protection or justified boundary.",
+      "id": "d4-o01-architecture-and-segmentation-transfer-v1-77b477572a2b",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Mark the gateway as the termination boundary and protect and authenticate the backend hop or place it within an explicitly justified trusted boundary.",
+          "id": "recompute",
+          "label": "Treat the gateway as the boundary; authenticate and protect the backend hop explicitly",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The client-to-gateway channel is protected. The gateway-to-backend channel is not. Why this answer fails: “Treat the backend hop as end-to-end protected because clients use TLS to reach the gateway” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Models locate functions; real flows cross physical/logical boundaries and planes; segmentation requires enforcement and evidence; protocol claims end at configured termination; observability and management are protected paths too. Repair target: Control and evidence consequence — East–west service path records east–west identity and flow evidence in Network evidence. Protocol and layer model locates functions and channel termination for analysis of North–south ingress.",
+          "id": "single-signal",
+          "label": "Treat the backend hop as end-to-end protected because clients use TLS to reach the gateway",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The client-to-gateway channel is protected. The gateway-to-backend channel is not. Why this answer fails: “Client-to-gateway TLS also protects cleartext traffic after the gateway terminates it” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Models locate functions; real flows cross physical/logical boundaries and planes; segmentation requires enforcement and evidence; protocol claims end at configured termination; observability and management are protected paths too. Repair target: Changed fact, recomputed result — Client TLS terminates at the API gateway, which sends cleartext requests over a shared backend network. Mark the gateway as the termination boundary and protect and authenticate the backend hop or place it within an explicitly justified trusted boundary.",
+          "id": "unchanged-rule",
+          "label": "Client-to-gateway TLS also protects cleartext traffic after the gateway terminates it",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "Client TLS terminates at the API gateway, which sends cleartext requests over a shared backend network."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The boundary states preserve north-south, east-west, management, observability, wireless, and protocol-termination paths and their distinct enforcement points. The paths are staged rather than independently overlaid on one map.",
+        "treatmentId": "fresh-d4-o01-architecture-and-segmentation-network-flow-claim-map"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d4-o01-architecture-and-segmentation-network-flow-claim-map"
+    ],
+    "unitId": "d4-o01-architecture-and-segmentation",
+    "variants": [
+      {
+        "changedFact": "The client-to-gateway channel is protected. The gateway-to-backend channel is not.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "matrix": {
+          "columns": [
+            {
+              "id": "flow",
+              "label": "System / flow"
+            },
+            {
+              "id": "boundary",
+              "label": "Boundary"
+            },
+            {
+              "id": "enforcement",
+              "label": "Enforcement or termination"
+            },
+            {
+              "id": "dependency",
+              "label": "Privileged/common dependency"
+            },
+            {
+              "id": "evidence",
+              "label": "Evidence"
+            }
+          ],
+          "description": "Keep traffic direction, enforcement, channel termination, management authority, and evidence separate so success in one row cannot imply the others.",
+          "notes": [],
+          "rows": [
+            {
+              "cells": {
+                "boundary": "External client to public edge",
+                "dependency": "Edge policy, DNS and control-plane administration",
+                "enforcement": "Ingress policy; external TLS terminates here",
+                "evidence": "Permit/deny, channel endpoint, route, capacity and fault records",
+                "flow": "North–south application request"
+              },
+              "id": "ingress",
+              "label": "Client → public ingress"
+            },
+            {
+              "cells": {
+                "boundary": "Workload identity and micro-segment",
+                "dependency": "Identity, policy distribution and service credentials",
+                "enforcement": "Explicit source, destination, service and direction",
+                "evidence": "Flow, policy and authorization decision records",
+                "flow": "East–west service call"
+              },
+              "id": "east-west",
+              "label": "Web/API → database"
+            },
+            {
+              "cells": {
+                "boundary": "Separate management authority",
+                "dependency": "Shared controller, credential, power or provider plane",
+                "enforcement": "Strong admin identity, approval and least privilege",
+                "evidence": "Change, admin session and resulting-state evidence",
+                "flow": "Route, policy and identity change"
+              },
+              "id": "management",
+              "label": "Administrator → control plane"
+            }
+          ],
+          "title": "One platform, independent boundary claims"
+        },
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "services",
+              "telemetry",
+              "models",
+              "ingress"
+            ],
+            "activeRowIds": [
+              "ingress"
+            ],
+            "caption": "Client TLS terminates at the API gateway, which sends cleartext requests over a shared backend network.",
+            "id": "variant-facts",
+            "statuses": {
+              "ingress": "The client-to-gateway channel is protected. The gateway-to-backend channel is not.",
+              "models": "OSI and TCP/IP models help locate functions and encapsulation but do not by themselves prove security or termination.",
+              "services": "Web, API, worker, and database calls use identity-aware micro-segmentation and explicit source, destination, service, and direction.",
+              "telemetry": "Flow, policy, route, capacity, fault, wireless, and administration telemetry show how the boundary operated."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              5,
+              6
+            ],
+            "activeNodeIds": [
+              "services",
+              "telemetry",
+              "models",
+              "ingress"
+            ],
+            "activeRowIds": [
+              "east-west"
+            ],
+            "caption": "Mark the gateway as the termination boundary and protect and authenticate the backend hop or place it within an explicitly justified trusted boundary.",
+            "id": "variant-result",
+            "statuses": {
+              "ingress": "Edge controls terminate named protocols, authenticate and authorize requests, apply policy, and record observable decisions.",
+              "models": "OSI and TCP/IP models help locate functions and encapsulation but do not by themselves prove security or termination.",
+              "services": "Web, API, worker, and database calls use identity-aware micro-segmentation and explicit source, destination, service, and direction.",
+              "telemetry": "Flow, policy, route, capacity, fault, wireless, and administration telemetry show how the boundary operated."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Design secure network architectures and segmentation",
+  "workedExamples": [
+    {
+      "reasoning": "Model north-south ingress and east-west service flows separately. Place public ingress behind protected edge controls, isolate management out-of-band or by tightly controlled logical segment, use identity-aware micro-segmentation between tiers, protect service channels with appropriate TLS, and send flow, capacity, and policy events to monitoring. A flat subnet would make compromise of one tier unnecessarily broad.",
+      "situation": "A public web tier, internal API, database, administrative plane, and analytics workers share a cloud VPC.",
+      "takeaway": "Model north-south ingress and east-west service flows separately. Place public ingress behind protected edge controls, isolate management out-of-band or by tightly controlled logical segment, use identity-aware micro-segmentation between tiers, protect service channels with appropriate TLS, and send flow, capacity, and policy events to monitoring. A flat subnet would make compromise of one tier unnecessarily broad.",
+      "title": "Multi-tier customer platform"
+    },
+    {
+      "reasoning": "Separate API application-session protection from IP-path protection and remote administration. Define TLS endpoints and service identity, use IPsec where the path threat model requires it, broker SSH through a managed jump path, and monitor each control boundary.",
+      "situation": "A service crosses a cloud VPC and partner network and is administered remotely.",
+      "takeaway": "One encrypted link cannot answer every data, identity, and administration boundary.",
+      "title": "Managed API across a hybrid network"
+    }
+  ]
+}

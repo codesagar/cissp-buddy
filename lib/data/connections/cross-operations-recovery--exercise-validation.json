@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-operations-recovery--exercise-validation",
+  "treatmentIds": [
+    "cross-operations-recovery--exercise-validation"
+  ],
+  "title": "A payroll continuity exercise",
+  "question": "A documented workaround meets a claimed recovery target until a drill reveals an unavailable owner. Which continuity assumption did the exercise invalidate?",
+  "scenario": "The payroll continuity plan claims that payroll can resume within six hours using a manual file-transfer workaround. The plan requires the payroll owner to approve the emergency file and contact the bank. During an announced drill, the named owner is on leave, the delegate has no approval authority, and the team reaches the technical handoff in three hours but cannot release the file.",
+  "focalRelation": "Continuity exercises validate the requirements, dependencies, communications, authority, and workarounds recorded in the continuity plan. A drill result updates confidence in a specific assumption; it does not redefine the target or prove every continuity function.",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "requirement",
+      "label": "Six-hour payroll outcome",
+      "detail": "The continuity requirement is approved payroll release to the bank within six hours, not merely preparation of a transfer file.",
+      "conceptIds": [
+        "business-continuity",
+        "continuity-priority",
+        "critical-function"
+      ],
+      "lane": "requirement"
+    },
+    {
+      "id": "workaround",
+      "label": "Manual transfer workaround",
+      "detail": "Staff can prepare and securely transfer an emergency payroll file when normal payroll processing is unavailable.",
+      "conceptIds": [
+        "manual-workaround",
+        "continuity-planning"
+      ],
+      "lane": "plan"
+    },
+    {
+      "id": "owner",
+      "label": "Approval owner and delegate",
+      "detail": "The plan assumes an authorized owner or delegate is reachable to approve release and contact the bank.",
+      "conceptIds": [
+        "continuity-communications",
+        "external-dependency"
+      ],
+      "lane": "dependency"
+    },
+    {
+      "id": "drill",
+      "label": "Exercise observation",
+      "detail": "The technical file is ready in three hours, but no available person has release authority, so payroll cannot complete.",
+      "conceptIds": [
+        "continuity-exercise",
+        "exercise-scope",
+        "continuity-evidence"
+      ],
+      "lane": "exercise"
+    },
+    {
+      "id": "remediation",
+      "label": "Repair authority and availability",
+      "detail": "Assign and train authorized delegates, update contacts and escalation, repeat the blocked decision point, and preserve evidence.",
+      "conceptIds": [
+        "continuity-remediation",
+        "continuity-evidence"
+      ],
+      "lane": "decision"
+    }
+  ],
+  "edges": [
+    {
+      "from": "requirement",
+      "to": "workaround",
+      "label": "workaround is intended to meet the six-hour outcome",
+      "kind": "dependency"
+    },
+    {
+      "from": "workaround",
+      "to": "owner",
+      "label": "release depends on available approval authority",
+      "kind": "dependency"
+    },
+    {
+      "from": "owner",
+      "to": "drill",
+      "label": "unavailable authority blocks completion during exercise",
+      "kind": "dependency"
+    },
+    {
+      "from": "drill",
+      "to": "remediation",
+      "label": "exercise evidence identifies the assumption to repair and retest",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "requirement",
+      "label": "Required outcome",
+      "rule": "Keep the business completion criterion and deadline visible."
+    },
+    {
+      "id": "plan",
+      "label": "Documented workaround",
+      "rule": "A written step is a hypothesis until exercised with its dependencies."
+    },
+    {
+      "id": "dependency",
+      "label": "Authority dependency",
+      "rule": "Name who can decide, their delegate, availability, and escalation."
+    },
+    {
+      "id": "exercise",
+      "label": "Observed drill state",
+      "rule": "Record what the exercise actually tested and where execution stopped."
+    },
+    {
+      "id": "decision",
+      "label": "Remediation and retest",
+      "rule": "Repair the invalid assumption and repeat the relevant decision point."
+    }
+  ],
+  "states": [
+    {
+      "id": "claim",
+      "title": "The plan claims a six-hour workaround",
+      "caption": "The stated outcome includes approval and release, with owner availability as a dependency.",
+      "activeNodeIds": [
+        "requirement",
+        "workaround",
+        "owner"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "owner": "named in plan"
+      }
+    },
+    {
+      "id": "technical",
+      "title": "The technical handoff is ready in three hours",
+      "caption": "Early file preparation is partial progress, not completion of the payroll outcome.",
+      "activeNodeIds": [
+        "requirement",
+        "workaround",
+        "drill"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "drill": "file ready"
+      }
+    },
+    {
+      "id": "blocked",
+      "title": "Unavailable authority stops release",
+      "caption": "The exercise invalidates the availability-and-delegation assumption attached to the workaround.",
+      "activeNodeIds": [
+        "owner",
+        "drill"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "owner": "unavailable; delegate unauthorized",
+        "drill": "outcome not met"
+      }
+    },
+    {
+      "id": "repair",
+      "title": "Remediate the assumption, then retest it",
+      "caption": "Update authority, contacts, training, and escalation; repeat the approval and release step before claiming the target is credible.",
+      "activeNodeIds": [
+        "drill",
+        "remediation"
+      ],
+      "activeEdgeIndexes": [
+        3
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Owner available, bank contact stale",
+      "changedFact": "The authorized owner approves on time, but the bank’s emergency contact number in the plan is no longer valid.",
+      "states": [
+        {
+          "id": "transfer-blocked",
+          "title": "A different external dependency fails",
+          "caption": "Authority is available, but the communication path needed to complete release is invalid.",
+          "activeNodeIds": [
+            "owner",
+            "drill"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "owner": "available",
+            "drill": "bank contact failed"
+          }
+        },
+        {
+          "id": "transfer-repair",
+          "title": "Repair and verify the external contact path",
+          "caption": "Update the authenticated emergency contact and repeat that scoped interaction.",
+          "activeNodeIds": [
+            "drill",
+            "remediation"
+          ],
+          "activeEdgeIndexes": [
+            1
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "owner",
+          "label": "Authorized payroll owner available",
+          "detail": "Internal approval authority is present and clears the plan’s owner dependency.",
+          "conceptIds": [
+            "continuity-communications",
+            "external-dependency"
+          ],
+          "lane": "dependency"
+        },
+        {
+          "id": "drill",
+          "label": "Stale bank emergency contact",
+          "detail": "The external contact no longer reaches a party able to accept the emergency file.",
+          "conceptIds": [
+            "continuity-exercise",
+            "exercise-scope",
+            "continuity-evidence"
+          ],
+          "lane": "exercise"
+        },
+        {
+          "id": "remediation",
+          "label": "External contact remediation",
+          "detail": "Update and verify the bank contact, then repeat the external handoff.",
+          "conceptIds": [
+            "continuity-remediation",
+            "continuity-evidence"
+          ],
+          "lane": "decision"
+        }
+      ],
+      "edges": [
+        {
+          "from": "owner",
+          "to": "drill",
+          "label": "internal approval succeeds; external contact still fails",
+          "kind": "evidence"
+        },
+        {
+          "from": "drill",
+          "to": "remediation",
+          "label": "exercise isolates the stale external dependency",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "dependency",
+          "label": "Authority dependency",
+          "rule": "Name who can decide, their delegate, availability, and escalation."
+        },
+        {
+          "id": "exercise",
+          "label": "Observed drill state",
+          "rule": "Record what the exercise actually tested and where execution stopped."
+        },
+        {
+          "id": "decision",
+          "label": "Remediation and retest",
+          "rule": "Repair the invalid assumption and repeat the relevant decision point."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "The external file format is obsolete",
+      "changedFact": "Authority and contact checks pass, but the bank rejects the emergency file because its format is no longer accepted.",
+      "states": [
+        {
+          "id": "retry-format-gap",
+          "title": "The drill reaches a different failed dependency",
+          "caption": "The delegate and contact assumptions hold; the obsolete format prevents the required external acceptance.",
+          "activeNodeIds": [
+            "requirement",
+            "workaround",
+            "owner",
+            "drill"
+          ],
+          "statuses": {
+            "owner": "authorized delegate available",
+            "workaround": "format rejected by bank",
+            "drill": "business outcome incomplete"
+          },
+          "activeEdgeIndexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "id": "retry-format-response",
+          "title": "Remediate and retest the rejected handoff",
+          "caption": "Update the format and repeat bank receipt and acceptance before restoring confidence in the workaround.",
+          "activeNodeIds": [
+            "workaround",
+            "drill",
+            "remediation"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            3
+          ],
+          "statuses": {
+            "remediation": "format update and acceptance retest required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "requirement",
+          "label": "Complete payroll release requirement",
+          "detail": "The target covers a bank-accepted emergency file, not merely local preparation.",
+          "conceptIds": [
+            "business-continuity",
+            "continuity-priority",
+            "critical-function"
+          ],
+          "lane": "requirement"
+        },
+        {
+          "id": "workaround",
+          "label": "Obsolete emergency file format",
+          "detail": "The plan produces a format the bank no longer accepts.",
+          "conceptIds": [
+            "manual-workaround",
+            "continuity-planning"
+          ],
+          "lane": "plan"
+        },
+        {
+          "id": "owner",
+          "label": "Authorized delegate available",
+          "detail": "Delegated authority is valid in this drill and is not the failed assumption.",
+          "conceptIds": [
+            "continuity-communications",
+            "external-dependency"
+          ],
+          "lane": "dependency"
+        },
+        {
+          "id": "drill",
+          "label": "Bank rejects the file",
+          "detail": "Current contact succeeds, but the external handoff fails on format compatibility.",
+          "conceptIds": [
+            "continuity-exercise",
+            "exercise-scope",
+            "continuity-evidence"
+          ],
+          "lane": "exercise"
+        },
+        {
+          "id": "remediation",
+          "label": "Format remediation and acceptance retest",
+          "detail": "Update the file format and repeat bank receipt and acceptance.",
+          "conceptIds": [
+            "continuity-remediation",
+            "continuity-evidence"
+          ],
+          "lane": "decision"
+        }
+      ],
+      "edges": [
+        {
+          "from": "requirement",
+          "to": "workaround",
+          "label": "requires an externally acceptable file",
+          "kind": "dependency"
+        },
+        {
+          "from": "workaround",
+          "to": "drill",
+          "label": "obsolete format reaches but fails bank acceptance",
+          "kind": "flow"
+        },
+        {
+          "from": "owner",
+          "to": "drill",
+          "label": "authorized delegate clears approval dependency",
+          "kind": "dependency"
+        },
+        {
+          "from": "drill",
+          "to": "remediation",
+          "label": "rejection evidence identifies the format to repair",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "requirement",
+          "label": "Required outcome",
+          "rule": "Keep the business completion criterion and deadline visible."
+        },
+        {
+          "id": "plan",
+          "label": "Documented workaround",
+          "rule": "A written step is a hypothesis until exercised with its dependencies."
+        },
+        {
+          "id": "dependency",
+          "label": "Authority dependency",
+          "rule": "Name who can decide, their delegate, availability, and escalation."
+        },
+        {
+          "id": "exercise",
+          "label": "Observed drill state",
+          "rule": "Record what the exercise actually tested and where execution stopped."
+        },
+        {
+          "id": "decision",
+          "label": "Remediation and retest",
+          "rule": "Repair the invalid assumption and repeat the relevant decision point."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "exercise-predict",
+    "prompt": "Which continuity assumption did the drill invalidate?",
+    "options": [
+      {
+        "id": "p-authority",
+        "label": "That an authorized payroll approver or delegate would be available within the target",
+        "correct": true,
+        "feedback": "Correct. Technical preparation succeeded, but the authority dependency blocked the required business outcome.",
+        "repairStateId": "blocked"
+      },
+      {
+        "id": "p-file",
+        "label": "That preparing the emergency file alone completes payroll continuity",
+        "correct": false,
+        "feedback": "The exercise observed the file ready in three hours; that part of the workaround was supported.",
+        "repairStateId": "technical"
+      },
+      {
+        "id": "p-rto",
+        "label": "That the six-hour target should automatically be lengthened",
+        "correct": false,
+        "feedback": "An exercise reveals a plan gap; operations cannot redefine the business requirement to make the drill pass.",
+        "repairStateId": "claim"
+      }
+    ],
+    "conceptIds": [
+      "continuity-exercise",
+      "manual-workaround",
+      "continuity-evidence"
+    ],
+    "hint": "Identify the exact step that prevented the business outcome after the technical work was ready."
+  },
+  "transfer": {
+    "id": "exercise-transfer",
+    "prompt": "The owner is available, but the bank’s emergency contact is stale. What changed?",
+    "options": [
+      {
+        "id": "t-owner",
+        "label": "The owner-availability assumption failed despite the owner being present",
+        "correct": false,
+        "feedback": "The changed case explicitly observes the owner available and approving; the stop point moved to the bank contact.",
+        "repairStateId": "transfer-blocked"
+      },
+      {
+        "id": "t-contact",
+        "label": "The external communication dependency, not approval authority",
+        "correct": true,
+        "feedback": "Correct. Preserve the supported owner assumption and remediate the failed contact path.",
+        "repairStateId": "transfer-repair"
+      },
+      {
+        "id": "t-all",
+        "label": "Every continuity assumption failed because one external contact was stale",
+        "correct": false,
+        "feedback": "Exercise evidence is bounded. It supports some steps, invalidates one dependency, and leaves unexercised claims unknown.",
+        "repairStateId": "technical"
+      }
+    ],
+    "conceptIds": [
+      "external-dependency",
+      "continuity-communications",
+      "continuity-remediation"
+    ],
+    "hint": "Retain assumptions the exercise supported and isolate the new stop point."
+  },
+  "retry": {
+    "id": "exercise-retry",
+    "prompt": "A third drill has an authorized delegate and current bank contact, but the bank rejects the emergency file because the plan uses an obsolete format. What did the exercise establish?",
+    "options": [
+      {
+        "id": "r-document",
+        "label": "The workaround is valid because its documented approval and contact steps passed",
+        "correct": false,
+        "feedback": "Those steps passed, but the business outcome still failed at the file-format dependency.",
+        "repairStateId": "retry-format-gap"
+      },
+      {
+        "id": "r-technical",
+        "label": "The continuity target is met because the team produced a file before the deadline",
+        "correct": false,
+        "feedback": "Producing an unusable file is partial technical progress, not the required payroll release outcome.",
+        "repairStateId": "retry-format-gap"
+      },
+      {
+        "id": "r-retest",
+        "label": "The format assumption failed; update the workaround and retest bank acceptance end to end",
+        "correct": true,
+        "feedback": "Correct. Preserve the supported authority and contact steps while remediating and retesting the failed format dependency.",
+        "repairStateId": "retry-format-response"
+      }
+    ],
+    "conceptIds": [
+      "continuity-exercise",
+      "manual-workaround",
+      "external-dependency",
+      "continuity-remediation"
+    ],
+    "hint": "Locate the first failed dependency in the complete business path and preserve the steps the drill actually supported."
+  },
+  "takeaway": "Exercises validate specific continuity assumptions by observing the complete business path. Preserve supported steps, identify the exact failed dependency, remediate it, and retest before restoring confidence.",
+  "assumptions": [
+    "The exercise scope includes preparation, approval, bank contact, and release but does not move real payroll funds.",
+    "The six-hour target comes from an accountable continuity requirement.",
+    "The drill result is evidence about the tested workaround and dependencies, not every continuity process."
+  ],
+  "sourceRefIds": [
+    "d1-o07-outline",
+    "d1-o07-textbook",
+    "outline-d7-o13",
+    "official-d7-85-87"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-operations-recovery--exercise-validation",
+      "disposition": "implemented",
+      "rationale": "The timeline makes the exercise-to-requirement validation direction explicit by preserving partial success, isolating the failed authority assumption, and requiring targeted remediation and retest."
+    }
+  ]
+}

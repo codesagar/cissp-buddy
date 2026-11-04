@@ -1,0 +1,732 @@
+{
+  "conceptIds": [
+    "federated-identity",
+    "identity-provider",
+    "relying-party",
+    "federated-assertion",
+    "trust-validation",
+    "saml",
+    "openid-connect",
+    "oauth",
+    "identity-as-a-service"
+  ],
+  "concepts": [
+    {
+      "decision": "choose trust boundary",
+      "definition": "external identity trust",
+      "failureExample": "tenant confusion",
+      "id": "federated-identity",
+      "label": "Federated Identity",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "protect issuance/key rollover",
+      "definition": "issuer/authenticator",
+      "failureExample": "Identity Provider failure example: compromised IdP.",
+      "id": "identity-provider",
+      "label": "Identity Provider",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "Validate issuer, signature/key, audience, time and replay protections, then map the subject to local permissions.",
+      "definition": "A service that relies on an external identity provider’s assertion to establish information about a subject.",
+      "failureExample": "A validly signed token intended for another service is accepted without checking its audience.",
+      "id": "relying-party",
+      "label": "Relying Party",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "validate audience/time",
+      "definition": "signed/scoped claims",
+      "failureExample": "Federated Assertion failure example: replay.",
+      "id": "federated-assertion",
+      "label": "Federated Assertion",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "reject invalid claim",
+      "definition": "issuer/key/name/time checks",
+      "failureExample": "stale signing key",
+      "id": "trust-validation",
+      "label": "Trust Validation",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "validate audience/signature",
+      "definition": "XML assertion federation",
+      "failureExample": "SAML failure example: wrapping attack.",
+      "id": "saml",
+      "label": "SAML",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "validate ID token/nonce",
+      "definition": "OIDC identity layer",
+      "failureExample": "OpenID Connect failure example: token mix-up.",
+      "id": "openid-connect",
+      "label": "OpenID Connect",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "validate scopes/redirect",
+      "definition": "delegated authorization",
+      "failureExample": "OAuth called authentication",
+      "id": "oauth",
+      "label": "Oauth",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    },
+    {
+      "decision": "assign customer/provider duties",
+      "definition": "provider-operated identity",
+      "failureExample": "unreviewed SaaS config",
+      "id": "identity-as-a-service",
+      "label": "Identity as a Service",
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "sourceVisualId": "d5-o03-federated-identity-decision-comparison-1"
+    }
+  ],
+  "domainId": 5,
+  "estimatedMinutes": 30,
+  "id": "d5-o03-federated-identity",
+  "misconceptions": [
+    {
+      "claim": "A signed assertion means the relying party can accept every claim in it.",
+      "correction": "The relying party must validate issuer, audience, signature, time, replay protections, claim semantics, and local policy before creating a session."
+    },
+    {
+      "claim": "Outsourcing IAM transfers security accountability to the provider.",
+      "correction": "The provider operates contracted controls, but the organization retains due care, risk, authorization, and compliance responsibilities."
+    },
+    {
+      "claim": "OAuth access tokens prove who authenticated the user.",
+      "correction": "OAuth expresses delegated access; user authentication requires an appropriate identity protocol or separately verified context."
+    }
+  ],
+  "objectiveIds": [
+    "5.3"
+  ],
+  "outcome": "Given an on-premises, cloud, or hybrid integration, identify the federation roles, trust artifacts, protocol purpose, assurance boundaries, and controls needed before accepting a third-party assertion.",
+  "prerequisites": [
+    "d5-o02-identification-authentication-strategy",
+    "d1-o03-security-governance"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "In a federated flow, an identity provider authenticates a subject and issues an assertion or token; a relying party or service provider consumes it to establish a local session and make an authorization decision. A client or principal may initiate the request, while the organization defines which attributes, audiences, issuers, signing keys, time bounds, and assurance claims it will trust. On-premises, cloud, and hybrid deployment change operational ownership and failure modes, but they do not remove the need for validation and local policy.",
+      "id": "federation-roles",
+      "keyPoints": [
+        "The issuer of an assertion is not automatically the owner of the resource being accessed.",
+        "Audience, issuer, signature, freshness, nonce or replay controls, and required claims are trust-boundary checks.",
+        "Federation delegates authentication evidence, not organizational due care or authorization accountability."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o03",
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "title": "Make the trust relationship explicit"
+    },
+    {
+      "body": "SAML and OpenID Connect commonly carry authentication assertions for single sign-on; OAuth is an authorization delegation framework for scoped access to an HTTP service and is not, by itself, an authentication protocol. Federation design should document the trust agreement, metadata or discovery process, key rotation, attribute minimization, logout and revocation behavior, incident contacts, service levels, and what happens when the provider is unavailable or compromised. A third-party identity service can simplify operations while concentrating identity risk.",
+      "id": "protocol-purpose-and-governance",
+      "keyPoints": [
+        "Do not describe OAuth access tokens as proof of user authentication without an appropriate identity layer.",
+        "Cloud and hybrid federation require vendor assessment, contractual controls, and tested failure handling.",
+        "Attribute release should be limited to what the relying service needs for its policy decision."
+      ],
+      "sourceRefIds": [
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "title": "Match protocol purpose to the integration"
+    },
+    {
+      "body": "On-premises federation often connects local directories and applications under enterprise-operated network and certificate boundaries. Cloud federation adds provider tenancy, external endpoints, shared-responsibility configuration, and contractual availability or logging dependencies. Hybrid federation bridges both and must handle identity source, synchronization, trust direction, assertion claims, credential lifecycle, network reachability, deprovisioning, and failure behavior. In every location, validate issuer, audience, recipient, time, signatures, protocol state, and authorization mapping; configure least-privilege claims rather than trusting a successful login as complete authorization. Failure modes include overbroad cloud claims, mismatched identities, stale synchronization, unsafe local fallback, and a compromised identity provider issuing trusted assertions.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o03",
+        "official-d5-32-34",
+        "sybex-d5-659-663"
+      ],
+      "title": "Adapt federation trust to on-premises, cloud, and hybrid boundaries"
+    }
+  ],
+  "sourceHash": "b42df698987e32ec5949348e7bc52938d23126f35bce842f31e9cd6bb68dd22e",
+  "sourcePath": "knowledge/domains/d5-identity-access-management/units/d5-o03-federated-identity.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o03",
+      "locator": {
+        "type": "objective",
+        "value": "5.3"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "on-premises, cloud, and hybrid federation"
+      ]
+    },
+    {
+      "id": "official-d5-32-34",
+      "locator": {
+        "type": "printed-page",
+        "value": "32-34 (PDF pp. 32-34)"
+      },
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "supports": [
+        "third-party federation",
+        "on-premises/cloud/hybrid models",
+        "provider responsibility and risk"
+      ]
+    },
+    {
+      "id": "sybex-d5-659-663",
+      "locator": {
+        "type": "printed-page",
+        "value": "659-663, Chapter 13"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "SSO and federated identities",
+        "credential management",
+        "federated integration"
+      ]
+    }
+  ],
+  "summary": "Federation lets separate security domains rely on agreed identity assertions or tokens, reducing duplicated accounts while introducing trust, availability, privacy, configuration, and vendor-governance responsibilities.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "authenticates using the home identity process",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "issues signed audience-bound identity assertion",
+        "to": "n3"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "crosses federation boundary for validation",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "maps validated claims to local portal authorization",
+        "to": "n6"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "delegates only approved project API action",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "The organization should constrain the audience, claims, group mapping, token lifetime, scopes, and privileged role assignment.",
+    "lanes": [
+      {
+        "id": "home",
+        "label": "Organization identity domain",
+        "rule": "The organization owns proofing, authentication, group claims, and deprovisioning."
+      },
+      {
+        "id": "crossing",
+        "label": "Federation trust crossing",
+        "rule": "Only signed, scoped, time-bounded assertions or tokens cross; protocol role is explicit."
+      },
+      {
+        "id": "vendor",
+        "label": "Vendor service domain",
+        "rule": "The relying party validates trust artifacts and enforces local authorization on project data."
+      }
+    ],
+    "nodes": [
+      {
+        "conceptIds": [
+          "federated-identity"
+        ],
+        "detail": "Human subject authenticated by the organization’s identity provider.",
+        "id": "n1",
+        "label": "Workforce user",
+        "lane": "home"
+      },
+      {
+        "conceptIds": [
+          "identity-provider",
+          "federated-assertion",
+          "trust-validation"
+        ],
+        "detail": "Home authority that authenticates the user and issues a signed, audience-bound assertion.",
+        "id": "n2",
+        "label": "Workforce identity provider",
+        "lane": "home"
+      },
+      {
+        "conceptIds": [
+          "federated-assertion",
+          "saml",
+          "openid-connect"
+        ],
+        "detail": "Identity statement carrying only approved claims, issuer, audience, time bounds, and signature.",
+        "id": "n3",
+        "label": "Signed identity assertion",
+        "lane": "crossing"
+      },
+      {
+        "conceptIds": [
+          "relying-party",
+          "trust-validation"
+        ],
+        "detail": "Cloud portal that validates issuer metadata, signature, audience, lifetime, and local group mapping.",
+        "id": "n4",
+        "label": "Vendor relying party",
+        "lane": "vendor"
+      },
+      {
+        "conceptIds": [
+          "oauth"
+        ],
+        "detail": "Separate OAuth delegation for a named API action and project; it is not the sign-in assertion.",
+        "id": "n5",
+        "label": "Scoped API token",
+        "lane": "crossing"
+      },
+      {
+        "conceptIds": [],
+        "detail": "Vendor-hosted object protected by local authorization, narrow scopes, deprovisioning, and review.",
+        "id": "n6",
+        "label": "Project data",
+        "lane": "vendor"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "federated-assertion",
+        "trust-validation",
+        "oauth"
+      ],
+      "hint": "Distinguish the sign-in assertion from delegated API scope and local authorization.",
+      "id": "d5-o03-federated-identity-prediction-adf519e4b1bf",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "OAuth delegation is not the sign-in assertion, and a broad reusable scope expands impact beyond the required action.",
+          "id": "one-token",
+          "label": "Use one broad OAuth token for both sign-in and every project API.",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "A home-directory label is not a vendor authorization decision. Minimize claims and govern the relying party’s local mapping.",
+          "id": "trust-group",
+          "label": "Send the whole directory group and let the vendor decide local access.",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The relying party receives only the identity and delegation needed for this vendor and project.",
+          "id": "constrain",
+          "label": "Limit audience, claims, group mapping, token lifetime, and API scopes to the required project.",
+          "repairStateId": "control-enforced"
+        }
+      ],
+      "prompt": "The vendor requests a broad directory-group claim and OAuth scopes covering every project. Which design is defensible?"
+    },
+    "question": "Given an on-premises, cloud, or hybrid integration, identify the federation roles, trust artifacts, protocol purpose, assurance boundaries, and controls needed before accepting a third-party assertion.",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "federated-assertion",
+        "trust-validation",
+        "relying-party"
+      ],
+      "hint": "A valid signature proves origin and integrity; another field limits where the assertion may be used.",
+      "id": "d5-o03-federated-identity-retry-v2-8af0b6a74a47",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Signature validation does not override an audience mismatch. Trust validation includes issuer, audience, time, and replay checks.",
+          "id": "accept-signature",
+          "label": "Accept it because a trusted identity provider signed the assertion",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Audience validation prevents a valid assertion for one service from being replayed at another.",
+          "id": "reject-audience",
+          "label": "Reject the assertion, log the audience mismatch, and obtain a token issued for this relying party",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "Changing the assertion destroys its signed meaning and invents authority the issuer did not grant.",
+          "id": "rewrite-audience",
+          "label": "Replace the audience locally and continue so the user does not need to authenticate again",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A federation assertion has a valid signature and issuer, but its audience names a different application. What should the relying party do?"
+    },
+    "scenario": "An organization uses its workforce identity provider for a cloud vendor portal. The vendor asks for a broad directory group claim and wants OAuth scopes that include all project data.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d5-o03",
+      "official-d5-32-34",
+      "sybex-d5-659-663"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n4"
+        ],
+        "caption": "An organization uses its workforce identity provider for a cloud vendor portal. The vendor asks for a broad directory group claim and wants OAuth scopes that include all project data.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "workforce user",
+          "n4": "vendor portal"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4"
+        ],
+        "caption": "The issuer of an assertion is not automatically the owner of the resource being accessed.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "audience=vendor; claims minimized",
+          "n4": "signature and issuer validation pending"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4"
+        ],
+        "caption": "A signed assertion means the relying party can accept every claim in it. The relying party must validate issuer, audience, signature, time, replay protections, claim semantics, and local policy before creating a session.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n3": "broad directory group rejected",
+          "n4": "local mapping constrained"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "caption": "The organization should constrain the audience, claims, group mapping, token lifetime, scopes, and privileged role assignment. Verify signatures and issuer metadata, test replay and deprovisioning, and contract for incident notification and availability. Use OIDC or SAML for the sign-in assertion and OAuth only for narrowly scoped API delegation when needed.",
+        "id": "control-enforced",
+        "statuses": {
+          "n5": "OAuth scope limited to project action",
+          "n6": "local authorization enforced"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n4",
+          "n6",
+          "n3"
+        ],
+        "caption": "Given an on-premises, cloud, or hybrid integration, identify the federation roles, trust artifacts, protocol purpose, assurance boundaries, and controls needed before accepting a third-party assertion. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n2": "deprovision event sent",
+          "n4": "session/token invalidated",
+          "n6": "access review evidence retained"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "The organization should constrain the audience, claims, group mapping, token lifetime, scopes, and privileged role assignment.",
+    "title": "Use federated identity with a third-party service",
+    "transfer": {
+      "conceptIds": [
+        "identity-provider"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d5-o03-federated-identity-transfer-e7ec04195653",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Document resilient break-glass access, provider dependencies, notification and recovery commitments, and test the path without weakening normal federation controls.",
+          "id": "evidence-action",
+          "label": "Document resilient break-glass access, provider dependencies, notification and recovery commitments",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "The changed fact is “A vendor's IdP outage would block all administrator access to a critical cloud service.” Reusing the earlier conclusion skips the changed condition and the model’s authenticates using the home identity process relation.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "This bypasses the named decision owner and leaves Project data unverified. Document resilient break-glass access, provider dependencies, notification and recovery commitments, and test the path without weakening normal federation controls.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A vendor's IdP outage would block all administrator access to a critical cloud service."
+    },
+    "treatmentDispositions": [],
+    "treatmentIds": [],
+    "unitId": "d5-o03-federated-identity",
+    "variants": [
+      {
+        "changedFact": "A vendor's IdP outage would block all administrator access to a critical cloud service.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "normally authenticates through federation",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "cannot issue assertion while unavailable",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "fails at the relying-service trust boundary",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "records blocked administration and recovery dependency",
+            "to": "n6"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "provides bounded emergency access under approval",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "lanes": [
+          {
+            "id": "home",
+            "label": "Organization identity domain",
+            "rule": "The organization owns proofing, authentication, group claims, and deprovisioning."
+          },
+          {
+            "id": "crossing",
+            "label": "Federation trust crossing",
+            "rule": "Only signed, scoped, time-bounded assertions or tokens cross; protocol role is explicit."
+          },
+          {
+            "id": "vendor",
+            "label": "Vendor service domain",
+            "rule": "The relying party validates trust artifacts and enforces local authorization on project data."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "federated-identity"
+            ],
+            "detail": "The administrator normally enters through the vendor federation path.",
+            "id": "n1",
+            "label": "Cloud administrator",
+            "lane": "home"
+          },
+          {
+            "conceptIds": [
+              "identity-provider",
+              "trust-validation"
+            ],
+            "detail": "The identity provider outage removes the normal assertion source.",
+            "id": "n2",
+            "label": "Unavailable vendor IdP",
+            "lane": "vendor"
+          },
+          {
+            "conceptIds": [
+              "federated-assertion",
+              "saml",
+              "openid-connect"
+            ],
+            "detail": "No current audience-bound assertion can be issued during the outage.",
+            "id": "n3",
+            "label": "Missing federation assertion",
+            "lane": "crossing"
+          },
+          {
+            "conceptIds": [
+              "relying-party",
+              "trust-validation"
+            ],
+            "detail": "The relying service blocks all normal administrator sign-in.",
+            "id": "n4",
+            "label": "Critical cloud service",
+            "lane": "vendor"
+          },
+          {
+            "conceptIds": [
+              "oauth"
+            ],
+            "detail": "A separately protected, monitored identity provides bounded emergency administration.",
+            "id": "n5",
+            "label": "Tested break-glass identity",
+            "lane": "crossing"
+          },
+          {
+            "conceptIds": [],
+            "detail": "The owner records provider dependency, activation, use, expiry, and recovery evidence.",
+            "id": "n6",
+            "label": "Recovery and access record",
+            "lane": "vendor"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              2
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n4",
+              "n3"
+            ],
+            "caption": "A vendor's IdP outage would block all administrator access to a critical cloud service.",
+            "id": "changed-fact",
+            "statuses": {
+              "n2": "identity provider unavailable",
+              "n4": "administrator sign-in blocked"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              3
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n6"
+            ],
+            "caption": "Document resilient break-glass access, provider dependencies, notification and recovery commitments, and test the path without weakening normal federation controls.",
+            "id": "changed-decision",
+            "statuses": {
+              "n4": "tested break-glass path required",
+              "n6": "normal broad bypass denied"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              2,
+              3
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n4",
+              "n6",
+              "n3"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n4": "bounded alternate access tested",
+              "n6": "provider dependency and recovery evidence recorded"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Use federated identity with a third-party service",
+  "workedExamples": [
+    {
+      "reasoning": "The organization should constrain the audience, claims, group mapping, token lifetime, scopes, and privileged role assignment. Verify signatures and issuer metadata, test replay and deprovisioning, and contract for incident notification and availability. Use OIDC or SAML for the sign-in assertion and OAuth only for narrowly scoped API delegation when needed.",
+      "situation": "An organization uses its workforce identity provider for a cloud vendor portal. The vendor asks for a broad directory group claim and wants OAuth scopes that include all project data.",
+      "takeaway": "The organization should constrain the audience, claims, group mapping, token lifetime, scopes, and privileged role assignment. Verify signatures and issuer metadata, test replay and deprovisioning, and contract for incident notification and availability. Use OIDC or SAML for the sign-in assertion and OAuth only for narrowly scoped API delegation when needed.",
+      "title": "Federated access to a cloud maintenance portal"
+    }
+  ]
+}

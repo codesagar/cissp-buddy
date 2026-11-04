@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o05-cloud-container-serverless",
+  "treatmentIds": [
+    "fresh-d3-o05-cloud-container-serverless-event-authority-swimlane"
+  ],
+  "title": "event authority swimlane",
+  "question": "Who validates and authorizes each step from upload event to function, container, and protected object, and who may change that path?",
+  "scenario": "Document intake on a managed cloud: An external upload invokes a serverless function that stores files and calls a containerized classifier.",
+  "focalRelation": "Provider operation and customer responsibility are allocated per layer; events require source and replay validation; workload identity authorizes actions; API object/action authorization differs from authentication; orchestration and deployment paths can change execution.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "upload",
+      "label": "External upload event",
+      "detail": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints.",
+      "conceptIds": [
+        "api-security",
+        "event-validation"
+      ],
+      "lane": "external"
+    },
+    {
+      "id": "gateway",
+      "label": "API and event gate",
+      "detail": "The managed API authenticates the partner, validates the upload event, and authorizes invocation of the intake function.",
+      "conceptIds": [
+        "api-security",
+        "event-validation",
+        "cloud-security"
+      ],
+      "lane": "service"
+    },
+    {
+      "id": "function",
+      "label": "Serverless intake function",
+      "detail": "A workload identity executes the bounded intake code and requests only the classifier and object actions it needs.",
+      "conceptIds": [
+        "serverless",
+        "workload-identity",
+        "paas"
+      ],
+      "lane": "service"
+    },
+    {
+      "id": "classifier",
+      "label": "Containerized classifier",
+      "detail": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+      "conceptIds": [
+        "containerization",
+        "microservices",
+        "orchestration"
+      ],
+      "lane": "service"
+    },
+    {
+      "id": "store",
+      "label": "Protected object store",
+      "detail": "The object service authorizes the result write and applies retention, encryption, and audit policy.",
+      "conceptIds": [
+        "cloud-service-model",
+        "shared-responsibility"
+      ],
+      "lane": "data"
+    },
+    {
+      "id": "deploy",
+      "label": "Deployment authority",
+      "detail": "A separate privileged authority controls function code, images, secrets, routes, and runtime configuration.",
+      "conceptIds": [
+        "configuration-management"
+      ],
+      "lane": "control"
+    }
+  ],
+  "edges": [
+    {
+      "from": "upload",
+      "to": "gateway",
+      "label": "sends the upload event and caller context to",
+      "kind": "flow"
+    },
+    {
+      "from": "gateway",
+      "to": "function",
+      "label": "invokes only after source, content, and action checks pass",
+      "kind": "flow"
+    },
+    {
+      "from": "function",
+      "to": "classifier",
+      "label": "calls with a scoped workload identity",
+      "kind": "flow"
+    },
+    {
+      "from": "classifier",
+      "to": "store",
+      "label": "writes only the authorized result object to",
+      "kind": "flow"
+    },
+    {
+      "from": "deploy",
+      "to": "function",
+      "label": "can change code, secret, route, and runtime configuration for",
+      "kind": "dependency"
+    },
+    {
+      "from": "deploy",
+      "to": "classifier",
+      "label": "can change approved image and orchestration policy for",
+      "kind": "dependency"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "external",
+      "label": "External actor and input",
+      "rule": "Partner identity and upload content begin outside the managed workload boundary."
+    },
+    {
+      "id": "service",
+      "label": "Customer-governed service path",
+      "rule": "Gateway, function, and classifier each authorize only their named action and identity."
+    },
+    {
+      "id": "data",
+      "label": "Protected data service",
+      "rule": "Object writes, retention, encryption, and audit remain separately authorized."
+    },
+    {
+      "id": "control",
+      "label": "Privileged deployment plane",
+      "rule": "Code, image, secret, route, and configuration authority is governed independently from runtime requests."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Document intake on a managed cloud: An external upload invokes a serverless function that stores files and calls a containerized classifier.",
+      "activeNodeIds": [
+        "upload"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "upload": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "External upload event sends the upload event and caller context to API and event gate. API and event gate invokes only after source, content, and action checks pass Serverless intake function.",
+      "activeNodeIds": [
+        "upload",
+        "gateway",
+        "function"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "gateway": "The managed API authenticates the partner, validates the upload event, and authorizes invocation of the intake function.",
+        "upload": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints.",
+        "function": "A workload identity executes the bounded intake code and requests only the classifier and object actions it needs."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Deployment authority can change code, secret, route, and runtime configuration for Serverless intake function. Deployment authority can change approved image and orchestration policy for Containerized classifier.",
+      "activeNodeIds": [
+        "deploy",
+        "function",
+        "classifier"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+        "deploy": "A separate privileged authority controls function code, images, secrets, routes, and runtime configuration.",
+        "function": "A workload identity executes the bounded intake code and requests only the classifier and object actions it needs."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review. Runtime assurance depends on the independently governed deployment authority shown in the map.",
+      "activeNodeIds": [
+        "upload",
+        "gateway",
+        "function",
+        "deploy",
+        "classifier",
+        "store"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "upload": "A partner submits a document through the approved API with source, freshness, schema, size, and content constraints.",
+        "gateway": "Caller, event, and action validation still apply before invocation.",
+        "function": "Function code and secret can be changed by the deployment authority.",
+        "deploy": "Image and secret changes require separated approval, provenance, logging, and rollback.",
+        "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result.",
+        "store": "The object service authorizes the result write and applies retention, encryption, and audit policy."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review.",
+          "activeNodeIds": [
+            "deploy",
+            "function",
+            "classifier"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "deploy": "Image and secret changes require separated approval, provenance, logging, and rollback.",
+            "function": "Function code and secret can be changed by the deployment authority.",
+            "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Runtime assurance depends on the independently governed deployment authority shown in the map.",
+          "activeNodeIds": [
+            "deploy",
+            "function",
+            "classifier"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "deploy": "Image and secret changes require separated approval, provenance, logging, and rollback.",
+            "function": "Function code and secret can be changed by the deployment authority.",
+            "classifier": "The containerized classifier accepts only the function identity, runs an approved image, and writes a bounded result."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o05-cloud-container-serverless-prediction-v1",
+    "prompt": "Who validates and authorizes each step from upload event to function, container, and protected object, and who may change that path?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Rely on the SaaS provider because the provider secures all settings in its service.",
+        "correct": false,
+        "feedback": "Provider operation does not remove customer responsibility for tenant identity, sharing, configuration, retention, and data use.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Authorize each event and object at enforcement; govern deployment authority separately.",
+        "correct": true,
+        "feedback": "Managed infrastructure or an internal event does not remove customer responsibility for code, data, permissions, sources, configuration, and monitoring.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Provider infrastructure security also secures the customer’s tenant sharing and identities.",
+        "correct": false,
+        "feedback": "Shared responsibility leaves tenant configuration, authorization, data use, logging, and retention with the customer where specified.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "cloud-security",
+      "saas",
+      "api-security",
+      "event-validation",
+      "cloud-service-model"
+    ],
+    "hint": "Assign each control to the customer, provider, workload, identity, or platform layer that can operate it."
+  },
+  "transfer": {
+    "id": "d3-o05-cloud-container-serverless-transfer-v1",
+    "prompt": "The classifier image is approved, but the deployment authority can replace it and rotate the function secret without independent review.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Trust the classifier because its currently running container image passed the security scan.",
+        "correct": false,
+        "feedback": "The privileged deployment path can replace the approved image or secret after the scan.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Trust the function because serverless infrastructure removes customer responsibility for code and secrets.",
+        "correct": false,
+        "feedback": "The provider operates infrastructure, while the customer still governs function code, identities, secrets, routes, and data use.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Separate deployment duties, restrict image and secret changes, require approved provenance, log changes, and test rollback.",
+        "correct": true,
+        "feedback": "Correct. Runtime assurance depends on the independently governed deployment authority shown in the map.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "shared-responsibility",
+      "containerization",
+      "configuration-management",
+      "orchestration"
+    ],
+    "hint": "A new managed-service boundary changes who configures, observes, and proves the control."
+  },
+  "retry": {
+    "id": "d3-o05-cloud-container-serverless-retry-v1",
+    "prompt": "A function trusts every event from an internal queue and grants the event's requested account change. What must be added?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Authenticate the producing path as appropriate, validate event content and freshness",
+        "correct": true,
+        "feedback": "Correct. Authenticate the producing path as appropriate, validate event content and freshness, and authorize the requested account action under the function's scoped identity.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Serverless applications need no patching or access review",
+        "correct": false,
+        "feedback": "The platform may operate infrastructure, while the customer remains responsible for code, dependencies, function permissions, event sources, data, configuration, and deployment authority.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Rely on the SaaS provider because the provider secures all settings in its service",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Authenticate the producing path as appropriate, validate event content and freshness, and authorize the requested account action under the function's scoped identity.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "serverless",
+      "event-validation",
+      "workload-identity"
+    ],
+    "hint": "Do not treat provider operation as customer authorization or complete evidence."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Provider operation and customer responsibility are allocated per layer; events require source and replay validation; workload identity authorizes actions; API object/action authorization differs from authentication; orchestration and deployment paths can change execution.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o05-cloud-outline",
+    "d3-o05-outline",
+    "d3-o05-cloud-textbook",
+    "d3-o05-cloud-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o05-cloud-container-serverless-event-authority-swimlane",
+      "disposition": "equivalent",
+      "rationale": "The boundary model preserves event validation, workload identities, container and object authorization, shared responsibility, and separate deployment authority. It uses authority lanes and staged relations rather than a message-order swimlane."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Managed infrastructure does not remove customer responsibility for tenant identities, code, configuration, secrets, data, and events. Deployment authority can replace an approved image or secret after scanning.",
+    "visualReasoningGain": "Service-path and deployment-plane lanes add independent authority reasoning; persistent provider and customer ownership would make the gain stronger."
+  }
+}

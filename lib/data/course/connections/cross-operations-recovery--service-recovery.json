@@ -1,0 +1,625 @@
+{
+  "id": "cross-operations-recovery--service-recovery",
+  "model": {
+    "assumptions": [
+      "The continuity requirement explicitly includes the named dependencies and usable order entry.",
+      "Database integrity checks passed but no end-to-end service test can pass without identity.",
+      "An authorized manual workaround could change the path, but it would still require validation and acceptance."
+    ],
+    "edges": [
+      {
+        "from": "continuity-requirement",
+        "kind": "dependency",
+        "label": "constrains database recovery target and validation",
+        "to": "database"
+      },
+      {
+        "from": "continuity-requirement",
+        "kind": "dependency",
+        "label": "names identity as a required dependency",
+        "to": "identity"
+      },
+      {
+        "from": "database",
+        "kind": "evidence",
+        "label": "restored component supplies partial recovery evidence",
+        "to": "service-validation"
+      },
+      {
+        "from": "identity",
+        "kind": "blocked",
+        "label": "unavailable dependency blocks end-to-end use",
+        "to": "service-validation"
+      },
+      {
+        "from": "service-validation",
+        "kind": "evidence",
+        "label": "validated service outcome supports business acceptance",
+        "to": "acceptance"
+      }
+    ],
+    "focalRelation": "Business continuity requirements constrain recovery capability and operations. Disaster recovery restores and validates technology dependencies in service of those requirements, but technical restoration alone does not establish business recovery or acceptance.",
+    "lanes": [
+      {
+        "id": "requirement",
+        "label": "Continuity requirement",
+        "rule": "Define the business outcome, deadline, priority, and dependencies."
+      },
+      {
+        "id": "technology",
+        "label": "Recovery execution",
+        "rule": "Track component restoration and dependency readiness separately."
+      },
+      {
+        "id": "validation",
+        "label": "End-to-end validation",
+        "rule": "Test the usable service and its security, not only component health."
+      },
+      {
+        "id": "acceptance",
+        "label": "Business acceptance",
+        "rule": "An accountable owner decides whether the continuity outcome is met."
+      }
+    ],
+    "nodes": [
+      {
+        "conceptIds": [
+          "business-continuity",
+          "recovery-time-objective",
+          "external-dependency",
+          "recovery-priority"
+        ],
+        "detail": "Resume usable order entry within four hours, including named technology, identity, network, staffing, and acceptance dependencies.",
+        "id": "continuity-requirement",
+        "label": "Priority order-entry requirement",
+        "lane": "requirement"
+      },
+      {
+        "conceptIds": [
+          "restoration",
+          "data-integrity",
+          "backup-verification"
+        ],
+        "detail": "Data and database service are restored and pass their technical integrity checks.",
+        "id": "database",
+        "label": "Order database",
+        "lane": "technology"
+      },
+      {
+        "conceptIds": [
+          "dependency-mapping",
+          "recovery-capability"
+        ],
+        "detail": "The authentication dependency remains unavailable, preventing authorized users from entering orders.",
+        "id": "identity",
+        "label": "Identity provider",
+        "lane": "technology"
+      },
+      {
+        "conceptIds": [
+          "service-validation",
+          "security-validation",
+          "recovery-evidence"
+        ],
+        "detail": "Validate an authorized user’s complete order-entry path, security controls, data behavior, and critical interfaces.",
+        "id": "service-validation",
+        "label": "End-to-end service validation",
+        "lane": "validation"
+      },
+      {
+        "conceptIds": [
+          "service-acceptance",
+          "security-validation",
+          "business-impact-analysis"
+        ],
+        "detail": "The accountable business owner accepts restored service against the continuity requirement and records gaps or residual risk.",
+        "id": "acceptance",
+        "label": "Business service acceptance",
+        "lane": "acceptance"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "external-dependency",
+        "recovery-capability",
+        "service-validation",
+        "service-acceptance"
+      ],
+      "hint": "Trace the complete business action named by the continuity requirement.",
+      "id": "recovery-predict-ed230d4721b6",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The continuity requirement is the usable business service, not isolated database health.",
+          "id": "p-yes",
+          "label": "Yes; the primary data component met its technical target",
+          "repairStateId": "partial"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Database restoration is partial recovery evidence, while the continuity outcome remains unmet.",
+          "id": "p-no",
+          "label": "No; a named dependency still blocks usable service and validation",
+          "repairStateId": "blocked"
+        },
+        {
+          "correct": false,
+          "feedback": "A technical team’s component status does not replace end-to-end validation and accountable business acceptance.",
+          "id": "p-auto",
+          "label": "Yes if the recovery team marks the database complete",
+          "repairStateId": "not-accepted"
+        }
+      ],
+      "prompt": "Is the order-entry service recovered when the database is healthy but identity is unavailable?"
+    },
+    "question": "A database is restored but its identity dependency remains unavailable. Is the business service recovered against its continuity requirement?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "recovery-point-objective",
+        "service-validation",
+        "data-integrity",
+        "service-acceptance"
+      ],
+      "hint": "Evaluate functional usability and recoverable-data age as separate conditions of the business recovery claim.",
+      "id": "recovery-retry-365a8ddfe487",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Functional restoration does not satisfy the continuity outcome when recovered data exceeds the allowed loss window.",
+          "id": "r-rpo",
+          "label": "No; the usable service still fails the approved data-recoverability limit",
+          "repairStateId": "retry-rpo-response"
+        },
+        {
+          "correct": false,
+          "feedback": "Those tests support usability and integrity claims, but they do not change the approved data-loss limit.",
+          "id": "r-components",
+          "label": "Yes; successful component and transaction tests override the older data cutoff",
+          "repairStateId": "retry-rpo-gap"
+        },
+        {
+          "correct": false,
+          "feedback": "A technical team cannot silently redefine or accept deviation from the business continuity requirement.",
+          "id": "r-owner",
+          "label": "Yes; the recovery team may accept the missed RPO without accountable review",
+          "repairStateId": "retry-rpo-gap"
+        }
+      ],
+      "prompt": "In a third recovery, authentication, network, database, and transaction tests pass, but the restored data cutoff is older than the approved RPO. Is the service recovered against the continuity requirement?"
+    },
+    "scenario": "The order-entry database is restored within its technical target after a regional outage. The identity provider it depends on remains unavailable, so staff cannot authenticate and orders cannot be entered. The continuity requirement is to resume priority order entry within four hours, with the database, identity, network, and business acceptance dependencies named.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d1-o07-outline",
+      "d1-o07-textbook",
+      "outline-d7-o10-capability",
+      "official-d7-66-74-capability",
+      "outline-d7-o11-restoration",
+      "official-d7-75-81-restoration"
+    ],
+    "states": [
+      {
+        "activeNodeIds": [
+          "continuity-requirement"
+        ],
+        "caption": "The four-hour target applies to usable priority order entry and its named dependencies.",
+        "id": "requirement",
+        "statuses": {
+          "continuity-requirement": "usable service required"
+        },
+        "title": "Recovery begins with a business outcome"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "continuity-requirement",
+          "database",
+          "identity"
+        ],
+        "caption": "Technical integrity checks support one component claim; they do not make the end-to-end service usable.",
+        "id": "partial",
+        "statuses": {
+          "database": "restored",
+          "identity": "unavailable"
+        },
+        "title": "The database is restored"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "database",
+          "identity",
+          "service-validation"
+        ],
+        "caption": "Without authentication, the required order-entry path cannot be exercised or accepted.",
+        "id": "blocked",
+        "statuses": {
+          "service-validation": "blocked"
+        },
+        "title": "Identity blocks end-to-end validation"
+      },
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "continuity-requirement",
+          "service-validation",
+          "acceptance"
+        ],
+        "caption": "Continue dependency recovery or invoke an authorized workaround; do not declare the continuity requirement met.",
+        "id": "not-accepted",
+        "statuses": {
+          "acceptance": "not granted"
+        },
+        "title": "The business service is not recovered yet"
+      }
+    ],
+    "takeaway": "Continuity requirements define the business outcome and dependencies. Recovery operations restore components; disaster recovery validation and business acceptance establish whether the usable service actually meets that requirement.",
+    "title": "Order entry after a database restore",
+    "transfer": {
+      "conceptIds": [
+        "external-dependency",
+        "business-continuity",
+        "service-acceptance"
+      ],
+      "hint": "Use the unchanged business outcome, then test every dependency needed to complete it.",
+      "id": "recovery-transfer-65848ab5b717",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Authentication repairs one dependency, but the required payment step still fails.",
+          "id": "t-identity",
+          "label": "Authentication recovery alone establishes the complete business service",
+          "repairStateId": "transfer-partial"
+        },
+        {
+          "correct": false,
+          "feedback": "Operations cannot silently redefine the continuity requirement to match available technology.",
+          "id": "t-ignore",
+          "label": "Remove the unavailable gateway from the requirement after the outage",
+          "repairStateId": "requirement"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The changed dependency still blocks the stated business outcome.",
+          "id": "t-notyet",
+          "label": "The paid-order outcome remains unmet until recovery or a validated workaround",
+          "repairStateId": "transfer-decision"
+        }
+      ],
+      "prompt": "Identity is restored but the required external payment gateway is down. What is the correct conclusion?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "The dependency view makes continuity constraints and DR recovery contributions separately visible and requires end-to-end validation before business acceptance.",
+        "treatmentId": "cross-operations-recovery--service-recovery"
+      }
+    ],
+    "treatmentIds": [
+      "cross-operations-recovery--service-recovery"
+    ],
+    "unitId": "cross-operations-recovery--service-recovery",
+    "variants": [
+      {
+        "changedFact": "Authentication succeeds, but the external payment gateway remains unavailable and the continuity requirement includes paid order completion.",
+        "edges": [
+          {
+            "from": "continuity-requirement",
+            "kind": "dependency",
+            "label": "requires restored order data",
+            "to": "database"
+          },
+          {
+            "from": "continuity-requirement",
+            "kind": "dependency",
+            "label": "names payment as an external dependency",
+            "to": "identity"
+          },
+          {
+            "from": "database",
+            "kind": "evidence",
+            "label": "restored data supplies partial evidence",
+            "to": "service-validation"
+          },
+          {
+            "from": "identity",
+            "kind": "blocked",
+            "label": "unavailable gateway blocks the paid-order path",
+            "to": "service-validation"
+          },
+          {
+            "from": "service-validation",
+            "kind": "evidence",
+            "label": "complete outcome evidence supports acceptance",
+            "to": "acceptance"
+          }
+        ],
+        "id": "transfer-case",
+        "label": "Identity restored, payment gateway unavailable",
+        "lanes": [
+          {
+            "id": "requirement",
+            "label": "Continuity requirement",
+            "rule": "Define the business outcome, deadline, priority, and dependencies."
+          },
+          {
+            "id": "technology",
+            "label": "Recovery execution",
+            "rule": "Track component restoration and dependency readiness separately."
+          },
+          {
+            "id": "validation",
+            "label": "End-to-end validation",
+            "rule": "Test the usable service and its security, not only component health."
+          },
+          {
+            "id": "acceptance",
+            "label": "Business acceptance",
+            "rule": "An accountable owner decides whether the continuity outcome is met."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "business-continuity",
+              "recovery-time-objective",
+              "external-dependency",
+              "recovery-priority"
+            ],
+            "detail": "Recovery requires an accepted order through the named payment dependency within the target.",
+            "id": "continuity-requirement",
+            "label": "Paid-order continuity outcome",
+            "lane": "requirement"
+          },
+          {
+            "conceptIds": [
+              "restoration",
+              "data-integrity",
+              "backup-verification"
+            ],
+            "detail": "Order data and database integrity checks pass.",
+            "id": "database",
+            "label": "Order database restored",
+            "lane": "technology"
+          },
+          {
+            "conceptIds": [
+              "dependency-mapping",
+              "recovery-capability"
+            ],
+            "detail": "Authentication is restored, but the external payment dependency cannot complete the business path.",
+            "id": "identity",
+            "label": "External payment gateway unavailable",
+            "lane": "technology"
+          },
+          {
+            "conceptIds": [
+              "service-validation",
+              "security-validation",
+              "recovery-evidence"
+            ],
+            "detail": "The transaction cannot complete while the gateway is unavailable.",
+            "id": "service-validation",
+            "label": "Paid-order path validation",
+            "lane": "validation"
+          },
+          {
+            "conceptIds": [
+              "service-acceptance",
+              "security-validation",
+              "business-impact-analysis"
+            ],
+            "detail": "Do not accept recovery until the gateway works or an approved workaround completes the outcome.",
+            "id": "acceptance",
+            "label": "Business recovery decision",
+            "lane": "acceptance"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "activeNodeIds": [
+              "continuity-requirement",
+              "database",
+              "identity",
+              "service-validation"
+            ],
+            "caption": "Database and identity health do not satisfy the paid-order requirement while the external gateway is unavailable.",
+            "id": "transfer-partial",
+            "statuses": {
+              "identity": "payment gateway unavailable",
+              "service-validation": "paid-order path blocked"
+            },
+            "title": "A different dependency now blocks the outcome"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "continuity-requirement",
+              "service-validation",
+              "acceptance"
+            ],
+            "caption": "Recover the gateway path or invoke an approved bounded workaround, then validate and obtain acceptance.",
+            "id": "transfer-decision",
+            "title": "Use the stated requirement to choose next action"
+          }
+        ]
+      },
+      {
+        "changedFact": "Every named component works and transactions pass, but the restored data cutoff is older than the approved RPO.",
+        "edges": [
+          {
+            "from": "continuity-requirement",
+            "kind": "dependency",
+            "label": "constrains recoverable data age",
+            "to": "database"
+          },
+          {
+            "from": "database",
+            "kind": "evidence",
+            "label": "old cutoff fails the data-loss condition",
+            "to": "service-validation"
+          },
+          {
+            "from": "identity",
+            "kind": "evidence",
+            "label": "working dependencies support functional use",
+            "to": "service-validation"
+          },
+          {
+            "from": "service-validation",
+            "kind": "blocked",
+            "label": "missed RPO blocks continuity acceptance",
+            "to": "acceptance"
+          }
+        ],
+        "id": "retry-case",
+        "label": "Usable service misses the data-loss limit",
+        "lanes": [
+          {
+            "id": "requirement",
+            "label": "Continuity requirement",
+            "rule": "Define the business outcome, deadline, priority, and dependencies."
+          },
+          {
+            "id": "technology",
+            "label": "Recovery execution",
+            "rule": "Track component restoration and dependency readiness separately."
+          },
+          {
+            "id": "validation",
+            "label": "End-to-end validation",
+            "rule": "Test the usable service and its security, not only component health."
+          },
+          {
+            "id": "acceptance",
+            "label": "Business acceptance",
+            "rule": "An accountable owner decides whether the continuity outcome is met."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "business-continuity",
+              "recovery-time-objective",
+              "external-dependency",
+              "recovery-priority"
+            ],
+            "detail": "The service must be usable and restore data within the approved loss window.",
+            "id": "continuity-requirement",
+            "label": "Usability and RPO requirement",
+            "lane": "requirement"
+          },
+          {
+            "conceptIds": [
+              "restoration",
+              "data-integrity",
+              "backup-verification"
+            ],
+            "detail": "The database works, but its recoverable cutoff is older than the allowed loss window.",
+            "id": "database",
+            "label": "Restored data set beyond RPO",
+            "lane": "technology"
+          },
+          {
+            "conceptIds": [
+              "dependency-mapping",
+              "recovery-capability"
+            ],
+            "detail": "Identity, network, and other named dependencies are available.",
+            "id": "identity",
+            "label": "Recovered service dependencies",
+            "lane": "technology"
+          },
+          {
+            "conceptIds": [
+              "service-validation",
+              "security-validation",
+              "recovery-evidence"
+            ],
+            "detail": "Functional validation succeeds while data-recoverability validation does not.",
+            "id": "service-validation",
+            "label": "Transaction passes; data limit fails",
+            "lane": "validation"
+          },
+          {
+            "conceptIds": [
+              "service-acceptance",
+              "security-validation",
+              "business-impact-analysis"
+            ],
+            "detail": "Preserve passing evidence but do not claim the business outcome while the RPO is missed.",
+            "id": "acceptance",
+            "label": "Continuity acceptance held",
+            "lane": "acceptance"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1,
+              2
+            ],
+            "activeNodeIds": [
+              "continuity-requirement",
+              "database",
+              "identity",
+              "service-validation"
+            ],
+            "caption": "End-to-end transactions work, but the restored data age exceeds a separate continuity requirement.",
+            "id": "retry-rpo-gap",
+            "statuses": {
+              "database": "restored beyond RPO",
+              "service-validation": "transactions pass; data limit fails"
+            },
+            "title": "Usability passes while data recoverability fails"
+          },
+          {
+            "activeEdgeIndexes": [
+              3
+            ],
+            "activeNodeIds": [
+              "continuity-requirement",
+              "service-validation",
+              "acceptance"
+            ],
+            "caption": "Continue data recovery or route the deviation to accountable decision-making; preserve the passing component evidence.",
+            "id": "retry-rpo-response",
+            "statuses": {
+              "acceptance": "blocked by missed RPO"
+            },
+            "title": "Do not declare the continuity outcome met"
+          }
+        ]
+      }
+    ]
+  },
+  "relationshipIds": [
+    "rel-d1-o07-to-d7-o10-continuity-recovery",
+    "rel-d7-o11-to-d1-o07-disaster-recovery-continuity"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "title": "Order entry after a database restore",
+  "unitIds": [
+    "d1-o07-business-continuity-requirements",
+    "d7-o10-recovery-capability-operations",
+    "d7-o11-disaster-recovery-restoration-validation"
+  ]
+}

@@ -1,0 +1,767 @@
+{
+  "conceptIds": [
+    "physical-access",
+    "logical-access",
+    "subject",
+    "object",
+    "access-control-boundary",
+    "centralized-access-administration",
+    "need-to-know"
+  ],
+  "concepts": [
+    {
+      "decision": "approve identity/location",
+      "definition": "entry to facility/area",
+      "failureExample": "tailgating bypass",
+      "id": "physical-access",
+      "label": "Physical Access",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    },
+    {
+      "decision": "authorize subject-object action",
+      "definition": "system/service action",
+      "failureExample": "valid login reads forbidden record",
+      "id": "logical-access",
+      "label": "Logical Access",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    },
+    {
+      "decision": "bind identity to request",
+      "definition": "requesting person/device/service",
+      "failureExample": "Subject failure example: shared account.",
+      "id": "subject",
+      "label": "Subject",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    },
+    {
+      "decision": "classify owner/action",
+      "definition": "protected resource",
+      "failureExample": "unowned data store",
+      "id": "object",
+      "label": "Object",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    },
+    {
+      "decision": "place PEP/entry check",
+      "definition": "enforcement crossing",
+      "failureExample": "management bypass",
+      "id": "access-control-boundary",
+      "label": "Access Control Boundary",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    },
+    {
+      "decision": "reconcile changes",
+      "definition": "consistent administration",
+      "failureExample": "local orphan account",
+      "id": "centralized-access-administration",
+      "label": "Centralized Access Administration",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    },
+    {
+      "decision": "limit recipient/scope",
+      "definition": "minimum business access",
+      "failureExample": "Need To Know failure example: overbroad group.",
+      "id": "need-to-know",
+      "label": "Need To Know",
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "sourceVisualId": "d5-o01-physical-logical-access-decision-comparison-1"
+    }
+  ],
+  "domainId": 5,
+  "estimatedMinutes": 35,
+  "id": "d5-o01-physical-logical-access",
+  "misconceptions": [
+    {
+      "claim": "A successful login gives the user access to the environment.",
+      "correction": "Authentication supplies evidence about a claimant; resource and facility policy still determines which objects and actions are permitted."
+    },
+    {
+      "claim": "Physical access is only a facilities concern.",
+      "correction": "Physical entry can expose consoles, media, network paths, and devices, so IAM and security architecture must account for it."
+    }
+  ],
+  "objectiveIds": [
+    "5.1"
+  ],
+  "outcome": "Given an access scenario spanning a facility, device, application, and data set, identify the subject, object, action, control plane, owner, and evidence needed to permit or deny the request.",
+  "prerequisites": [
+    "d2-o01-inventory-classification",
+    "d1-o03-security-governance"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "An access request is easier to govern when its subject, object, action, and context are explicit. A subject may be a person, device, process, or service; an object may be a file, record, facility, device, application, or network resource. Physical access controls movement through spaces and handling of tangible assets, while logical access controls information flows and system operations. Administrative controls set the rules, but a badge reader, operating system, application, or API must enforce them at the relevant boundary.",
+      "id": "access-language",
+      "keyPoints": [
+        "Physical and logical controls protect different manifestations of an asset and often must work together.",
+        "A username or badge is a claim or token; the policy still needs to decide what action is allowed.",
+        "Inventory, classification, ownership, and business need should precede control selection."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o01",
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "title": "Name the request precisely"
+    },
+    {
+      "body": "Centralized administration gives one function consistent policy and visibility; decentralized administration lets resource owners manage access close to the asset; a hybrid model combines central guardrails with delegated decisions. The choice is about accountability and operating context, not about whether enforcement is technical. A privileged administrator may need both a physical barrier and a logical control, with independent logs and periodic review so one compromised path does not silently bypass the other.",
+      "id": "administration-and-enforcement",
+      "keyPoints": [
+        "Centralized, decentralized, and hybrid describe administration and authority, not authentication factors.",
+        "Least privilege and need to know constrain what a permitted subject may do.",
+        "Access evidence should cover both entry to the environment and use of the resource."
+      ],
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "title": "Choose where access is administered and enforced"
+    },
+    {
+      "body": "Apply the same request model—subject, asset, action, context, owner, policy, enforcement point, evidence, and revocation—to information, systems, devices, facilities, applications, and services. Information access may constrain reading, changing, printing, or exporting; systems and devices add administration, console, and physical-port paths; facilities add entry, escort, and visitor controls; applications and services add APIs, workloads, and service identities. Select identity assurance and least privilege proportionate to consequence, and preserve an accountable record. A common failure is protecting an application screen while leaving its data export, device administrator, physical facility, or service API path broadly available.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o01",
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ],
+      "title": "Authorize every physical and logical asset type"
+    }
+  ],
+  "sourceHash": "d766024e0eb54c274cc3af22d57e7fd1aaa1239d0884b63506e2ddfbdf116fbb",
+  "sourcePath": "knowledge/domains/d5-identity-access-management/units/d5-o01-physical-logical-access.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o01",
+      "locator": {
+        "type": "objective",
+        "value": "5.1"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "physical and logical access scope"
+      ]
+    },
+    {
+      "id": "official-d5-9-16",
+      "locator": {
+        "type": "printed-page",
+        "value": "9-16 (PDF pp. 9-16)"
+      },
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "supports": [
+        "access-control definition",
+        "subjects and objects",
+        "physical and logical controls",
+        "administration models"
+      ]
+    },
+    {
+      "id": "sybex-d5-639-642",
+      "locator": {
+        "type": "printed-page",
+        "value": "639-642, Chapter 13"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "controlling access to assets",
+        "physical and logical access",
+        "subjects and objects"
+      ]
+    }
+  ],
+  "summary": "Access control is the positive, reviewable control of subjects attempting to view, use, modify, move, or enter protected assets. A sound design coordinates administrative direction with physical and logical enforcement.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "requests escorted entry; valid login does not cross this boundary",
+        "to": "n2"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "connects only through approved maintenance path",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "permits named controller update during approved window",
+        "to": "n5"
+      },
+      {
+        "from": "n6",
+        "kind": "evidence",
+        "label": "authorizes and records escorted entry",
+        "to": "n2"
+      },
+      {
+        "from": "n6",
+        "kind": "evidence",
+        "label": "binds sponsor, session, and revocation evidence",
+        "to": "n4"
+      }
+    ],
+    "focalRelation": "vendor request --remote maintenance action--> logical jump boundary vendor movement --laboratory entry--> physical boundary each boundary --independent permit/deny and evidence--> protected controller",
+    "lanes": [
+      {
+        "id": "outside",
+        "label": "External subjects and devices",
+        "rule": "Vendor identity and equipment remain outside both protected boundaries until separately authorized."
+      },
+      {
+        "id": "physical",
+        "label": "Restricted physical zone",
+        "rule": "Only escorted people with facility approval cross into the lab."
+      },
+      {
+        "id": "logical",
+        "label": "Controlled maintenance path",
+        "rule": "Only the monitored jump path may mediate the approved logical operation."
+      },
+      {
+        "id": "protected",
+        "label": "Protected asset",
+        "rule": "The controller accepts only the named, time-bounded update."
+      },
+      {
+        "id": "evidence",
+        "label": "Accountability",
+        "rule": "The sponsor owns approval, monitoring, and closure evidence."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Authentication does not itself authorize physical entry or controller changes. Facility entry and logical maintenance each need approved scope, an accountable owner, enforcement, and evidence.",
+      "visualReasoningGain": "A useful visual would place the facility and logical paths side by side so the learner can compare owners, permits, denies, and evidence simultaneously; the opening two boxes do not."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "subject"
+        ],
+        "detail": "External human subject with a valid account but no authorization for unescorted lab entry.",
+        "id": "n1",
+        "label": "Vendor technician",
+        "lane": "outside"
+      },
+      {
+        "conceptIds": [
+          "physical-access",
+          "access-control-boundary",
+          "object"
+        ],
+        "detail": "Physical access-control boundary containing the controller; entry requires a sponsor and escort.",
+        "id": "n2",
+        "label": "Restricted lab",
+        "lane": "physical"
+      },
+      {
+        "conceptIds": [
+          "logical-access",
+          "subject"
+        ],
+        "detail": "Vendor-controlled device that must not gain a general route into the maintenance network.",
+        "id": "n3",
+        "label": "Maintenance laptop",
+        "lane": "outside"
+      },
+      {
+        "conceptIds": [
+          "logical-access",
+          "centralized-access-administration"
+        ],
+        "detail": "Logical enforcement point that binds the approved technician, device, controller, action, and time window.",
+        "id": "n4",
+        "label": "Monitored jump host",
+        "lane": "logical"
+      },
+      {
+        "conceptIds": [
+          "object",
+          "need-to-know"
+        ],
+        "detail": "Protected object; the permit covers only the named maintenance action and does not imply lab-wide access.",
+        "id": "n5",
+        "label": "Industrial controller",
+        "lane": "protected"
+      },
+      {
+        "conceptIds": [
+          "centralized-access-administration",
+          "need-to-know"
+        ],
+        "detail": "Accountable owner and evidence for entry, remote session, controller change, and exit.",
+        "id": "n6",
+        "label": "Named sponsor and access record",
+        "lane": "evidence"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Vendor technician",
+        "value": "External human subject with a valid account but no authorization for unescorted lab entry."
+      },
+      {
+        "label": "Restricted lab",
+        "value": "Physical access-control boundary containing the controller; entry requires a sponsor and escort."
+      },
+      {
+        "label": "Maintenance laptop",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Monitored jump host",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Industrial controller",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Named sponsor and access record",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "logical-access"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d5-o01-physical-logical-access-prediction-108ba3ee8e9e",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Authentication supplies evidence about a claimant; resource and facility policy still determines which objects and actions are permitted.",
+          "id": "relation",
+          "label": "Require separate facility-entry and controller-update decisions",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: Authentication supplies evidence about a claimant; resource and facility policy still determines which objects and actions are permitted.",
+          "id": "misconception",
+          "label": "A successful login gives the user access to the environment.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: the login supports a logical identity claim. Facility entry and the controller update remain separately mediated actions with their own subjects, objects, approvals, and enforcement points.",
+          "id": "overclaim",
+          "label": "The valid vendor login is enough for unescorted entry to the restricted lab.",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "Which subject may use which object through which physical/logical boundary?"
+    },
+    "question": "Which subject may use which object through which physical/logical boundary?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "physical-access",
+        "access-control-boundary"
+      ],
+      "hint": "Compare the enforcement path that changed with the one that still grants entry.",
+      "id": "d5-o01-physical-logical-access-retry-v2-b44368a92169",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Application roles do not control the badge reader. Physical access needs its own revocation and verification.",
+          "id": "app-enough",
+          "label": "Accept the application-role update as proof that every former access path is closed",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "A blanket outage is not a bounded mover control. Remove the obsolete entitlement and verify the affected path.",
+          "id": "disable-all",
+          "label": "Disable every employee badge until the access-review system is rebuilt",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. A role change must reach each independent enforcement path, and a rejected badge test supplies physical closure evidence.",
+          "id": "reconcile-paths",
+          "label": "Revoke the badge, test the door denial, and reconcile physical and logical mover evidence",
+          "repairStateId": "evidence-accepted"
+        }
+      ],
+      "prompt": "A mover loses data-center duties but keeps a working server-room badge while application roles are updated. What closes the gap?"
+    },
+    "scenario": "A vendor needs to update a controller in a restricted lab. The vendor has a valid account but is not approved for unescorted facility entry.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d5-o01",
+      "official-d5-9-16",
+      "sybex-d5-639-642"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "caption": "A vendor needs to update a controller in a restricted lab. The vendor has a valid account but is not approved for unescorted facility entry.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "account valid; entry not approved",
+          "n2": "escort required"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4",
+          "n5"
+        ],
+        "caption": "Physical and logical controls protect different manifestations of an asset and often must work together.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "vendor device",
+          "n4": "time-bounded session",
+          "n5": "only named update permitted"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          3
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n4",
+          "n6"
+        ],
+        "caption": "A successful login gives the user access to the environment. Authentication supplies evidence about a claimant; resource and facility policy still determines which objects and actions are permitted.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n1": "login does not grant entry",
+          "n2": "physical deny remains",
+          "n4": "logical path separate"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "caption": "Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects. Provide approved logical access through a monitored jump path, require a time-bounded authorization and named sponsor, and arrange escorted physical access only if hands-on work is unavoidable. The valid account does not defeat the physical boundary or authorize unrelated systems.",
+        "id": "control-enforced",
+        "statuses": {
+          "n2": "escorted if hands-on required",
+          "n4": "monitored",
+          "n5": "update constrained",
+          "n6": "sponsor accountable"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "n5",
+          "n6",
+          "n4"
+        ],
+        "caption": "Given an access scenario spanning a facility, device, application, and data set, identify the subject, object, action, control plane, owner, and evidence needed to permit or deny the request. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n5": "change verified",
+          "n6": "entry, session, and exit recorded"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects.",
+    "title": "Control physical and logical access to assets",
+    "transfer": {
+      "conceptIds": [
+        "access-control-boundary"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d5-o01-physical-logical-access-transfer-4c4e322100f2",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A terminated contractor's badge is disabled, but the contractor's VPN certificate still works. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects. Repair target: Decision recomputed — Treat physical and logical deprovisioning as separate enforcement paths and revoke the certificate through the identity lifecycle process. Access is a set of paths, not a single account record.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Treat physical and logical deprovisioning as separate enforcement paths and revoke the certificate through the identity lifecycle process. Access is a set of paths, not a single account record.",
+          "id": "evidence-action",
+          "label": "Treat physical and logical deprovisioning as separate enforcement paths and revoke the certificate",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A terminated contractor's badge is disabled, but the contractor's VPN certificate still works. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A terminated contractor's badge is disabled, but the contractor's VPN certificate still works."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implemented in 5 stable boundary states: Vendor technician requests escorted entry; valid login does not cross this boundary Restricted lab; Maintenance laptop connects only through approved maintenance path Monitored jump host. The model keeps Vendor technician, Restricted lab, Maintenance laptop, Monitored jump host, Industrial controller, Named sponsor and access record distinct. Its changed case is “A terminated contractor's badge is disabled, but the contractor's VPN certificate still works.” and every option returns to a named repair state.",
+        "treatmentId": "fresh-d5-o01-physical-logical-access-parallel-boundary-trace"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d5-o01-physical-logical-access-parallel-boundary-trace"
+    ],
+    "unitId": "d5-o01-physical-logical-access",
+    "variants": [
+      {
+        "changedFact": "A terminated contractor's badge is disabled, but the contractor's VPN certificate still works.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "is disabled at the physical boundary",
+            "to": "n2"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "still presents the unrevoked certificate",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "permits remote access until revoked",
+            "to": "n5"
+          },
+          {
+            "from": "n6",
+            "kind": "evidence",
+            "label": "confirms badge disablement",
+            "to": "n2"
+          },
+          {
+            "from": "n6",
+            "kind": "evidence",
+            "label": "revokes certificate and records both outcomes",
+            "to": "n4"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "lanes": [
+          {
+            "id": "outside",
+            "label": "External subjects and devices",
+            "rule": "Vendor identity and equipment remain outside both protected boundaries until separately authorized."
+          },
+          {
+            "id": "physical",
+            "label": "Restricted physical zone",
+            "rule": "Only escorted people with facility approval cross into the lab."
+          },
+          {
+            "id": "logical",
+            "label": "Controlled maintenance path",
+            "rule": "Only the monitored jump path may mediate the approved logical operation."
+          },
+          {
+            "id": "protected",
+            "label": "Protected asset",
+            "rule": "The controller accepts only the named, time-bounded update."
+          },
+          {
+            "id": "evidence",
+            "label": "Accountability",
+            "rule": "The sponsor owns approval, monitoring, and closure evidence."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [],
+            "detail": "The human relationship has ended and no access path remains authorized.",
+            "id": "n1",
+            "label": "Terminated contractor",
+            "lane": "outside"
+          },
+          {
+            "conceptIds": [
+              "physical-access",
+              "access-control-boundary"
+            ],
+            "detail": "The physical credential is disabled at the facility boundary.",
+            "id": "n2",
+            "label": "Disabled facility badge",
+            "lane": "physical"
+          },
+          {
+            "conceptIds": [
+              "logical-access",
+              "subject"
+            ],
+            "detail": "The remote identity still holds a certificate mapped to the former contractor.",
+            "id": "n3",
+            "label": "Contractor VPN identity",
+            "lane": "outside"
+          },
+          {
+            "conceptIds": [
+              "logical-access",
+              "centralized-access-administration"
+            ],
+            "detail": "The logical credential continues to establish a remote session until separately revoked.",
+            "id": "n4",
+            "label": "Active VPN certificate",
+            "lane": "logical"
+          },
+          {
+            "conceptIds": [
+              "object",
+              "need-to-know"
+            ],
+            "detail": "Remote resources remain exposed through the still-valid certificate.",
+            "id": "n5",
+            "label": "Protected remote systems",
+            "lane": "protected"
+          },
+          {
+            "conceptIds": [
+              "centralized-access-administration",
+              "need-to-know"
+            ],
+            "detail": "The accountable owner reconciles physical and logical deprovisioning evidence.",
+            "id": "n6",
+            "label": "Identity lifecycle owner",
+            "lane": "evidence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n2",
+              "n4"
+            ],
+            "caption": "A terminated contractor's badge is disabled, but the contractor's VPN certificate still works.",
+            "id": "changed-fact",
+            "statuses": {
+              "n2": "badge disabled",
+              "n4": "VPN certificate still active"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n6"
+            ],
+            "caption": "Treat physical and logical deprovisioning as separate enforcement paths and revoke the certificate through the identity lifecycle process. Access is a set of paths, not a single account record.",
+            "id": "changed-decision",
+            "statuses": {
+              "n4": "certificate revocation required",
+              "n6": "downstream owner engaged"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n4",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n2": "physical path revoked",
+              "n4": "logical path revoked",
+              "n6": "both paths reconciled"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Control physical and logical access to assets",
+  "workedExamples": [
+    {
+      "reasoning": "Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects. Provide approved logical access through a monitored jump path, require a time-bounded authorization and named sponsor, and arrange escorted physical access only if hands-on work is unavoidable. The valid account does not defeat the physical boundary or authorize unrelated systems.",
+      "situation": "A vendor needs to update a controller in a restricted lab. The vendor has a valid account but is not approved for unescorted facility entry.",
+      "takeaway": "Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects. Provide approved logical access through a monitored jump path, require a time-bounded authorization and named sponsor, and arrange escorted physical access only if hands-on work is unavoidable. The valid account does not defeat the physical boundary or authorize unrelated systems.",
+      "title": "Remote maintenance of a restricted lab"
+    }
+  ]
+}

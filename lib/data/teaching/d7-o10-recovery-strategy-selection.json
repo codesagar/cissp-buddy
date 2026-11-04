@@ -1,0 +1,629 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o10-recovery-strategy-selection",
+  "treatmentIds": [],
+  "title": "Select recovery site and processing strategies",
+  "question": "Given a critical service and disruption profile, compare storage, site, and processing strategies against RTO, RPO, capacity, dependency, cost, and trust requirements.",
+  "scenario": "A claims service has an RTO of four hours and an RPO of fifteen minutes. A proposed warm site has compute capacity but no current identity replica, key escrow access, or staff agreement.",
+  "focalRelation": "The warm site does not yet meet the service objective.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Claims service objectives",
+      "detail": "Four-hour RTO, fifteen-minute RPO, required capacity, geographic risks, and business acceptance criteria.",
+      "conceptIds": [
+        "recovery-site"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Warm site compute",
+      "detail": "Prepared facility and compute with partial readiness; it reduces setup time but is not automatically usable.",
+      "conceptIds": [
+        "warm-site"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Current data replica",
+      "detail": "Storage strategy capable of meeting the RPO only when replication and recovery are verified.",
+      "conceptIds": [
+        "backup-storage",
+        "offsite-backup",
+        "cloud-backup"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Identity and key access",
+      "detail": "Trust dependencies that must be current, reachable, and exercised at the selected site.",
+      "conceptIds": []
+    },
+    {
+      "id": "n5",
+      "label": "Staff and supplier agreement",
+      "detail": "Named staffing, access, licenses, communications, and supplier commitments that make the site executable.",
+      "conceptIds": [
+        "reciprocal-agreement",
+        "multiple-processing-sites"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Selected recovery strategy",
+      "detail": "Accepted combination of site, storage, processing, dependencies, cost, and residual risk.",
+      "conceptIds": [
+        "cold-site",
+        "hot-site",
+        "onsite-backup"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "tests site readiness against RTO and capacity",
+      "kind": "dependency"
+    },
+    {
+      "from": "n1",
+      "to": "n3",
+      "label": "tests data strategy against RPO",
+      "kind": "dependency"
+    },
+    {
+      "from": "n4",
+      "to": "n2",
+      "label": "enables trusted operation at the site",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n2",
+      "label": "enables staffed activation and support",
+      "kind": "dependency"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "contributes site and compute capability",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n6",
+      "label": "contributes verified recovery point",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "contributes trusted-service readiness",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "contributes executable people and supplier capability",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A claims service has an RTO of four hours and an RPO of fifteen minutes. A proposed warm site has compute capacity but no current identity replica, key escrow access, or staff agreement.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "RTO 4h; RPO 15m",
+        "n2": "warm compute ready",
+        "n3": "replica proposed"
+      },
+      "activeRowIds": []
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Location and independence matter as much as backup frequency.",
+      "activeNodeIds": [
+        "n2",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "identity/key absent",
+        "n5": "staff agreement absent"
+      },
+      "activeRowIds": [
+        "cold"
+      ]
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Cloud backup automatically satisfies offsite and recovery requirements. Provider region, account, identity, key, deletion, bandwidth, restoration, and contractual assumptions must be verified.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        4
+      ],
+      "statuses": {
+        "n6": "warm-site label insufficient"
+      },
+      "activeRowIds": [
+        "warm"
+      ]
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "The warm site does not yet meet the service objective. Add or test identity, keys, network, licensing, data replication, staffing, and acceptance steps, or revise the strategy and business expectation. A site's technical capacity is only one part of recovery capability.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "trust dependencies added/tested",
+        "n5": "staffing committed"
+      },
+      "activeRowIds": [
+        "hot"
+      ]
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a critical service and disruption profile, compare storage, site, and processing strategies against RTO, RPO, capacity, dependency, cost, and trust requirements. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "statuses": {
+        "n6": "strategy accepted against objectives"
+      },
+      "activeRowIds": [
+        "hot"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A provider offers a hot site in the same region as production at a lower cost.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A provider offers a hot site in the same region as production at a lower cost.",
+          "activeNodeIds": [
+            "n1",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n2": "hot site in same region"
+          },
+          "activeRowIds": [
+            "cold"
+          ]
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Compare regional hazard, provider control-plane, identity, staffing, and network dependencies against the BIA; require explicit residual-risk acceptance if geographic separation is insufficient.",
+          "activeNodeIds": [
+            "n2",
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3
+          ],
+          "statuses": {
+            "n4": "provider control-plane dependence",
+            "n5": "regional staffing/network exposure"
+          },
+          "activeRowIds": [
+            "warm"
+          ]
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n1",
+            "n6",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n6": "regional hazard assessed; residual risk explicitly accepted or option rejected"
+          },
+          "activeRowIds": [
+            "hot"
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Claims recovery objectives",
+          "detail": "The BIA defines acceptable outage, data loss, capacity, and hazard independence.",
+          "conceptIds": [
+            "recovery-site"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Same-region hot site",
+          "detail": "The offered site has rapid readiness but shares the production region hazard.",
+          "conceptIds": [
+            "hot-site"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Current regional replica",
+          "detail": "Data currency alone does not remove regional or provider common modes.",
+          "conceptIds": [
+            "backup-storage",
+            "offsite-backup",
+            "cloud-backup"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Shared provider control plane",
+          "detail": "Identity, key, and management dependencies may span both sites.",
+          "conceptIds": []
+        },
+        {
+          "id": "n5",
+          "label": "Regional staff and network",
+          "detail": "People and connectivity may be affected by the same event.",
+          "conceptIds": [
+            "reciprocal-agreement",
+            "multiple-processing-sites"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Recovery strategy decision",
+          "detail": "The owner accepts residual regional risk or selects a sufficiently separated option.",
+          "conceptIds": [
+            "recovery-site",
+            "hot-site"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "tests readiness and hazard independence",
+          "kind": "dependency"
+        },
+        {
+          "from": "n1",
+          "to": "n3",
+          "label": "tests data strategy against RPO",
+          "kind": "dependency"
+        },
+        {
+          "from": "n4",
+          "to": "n2",
+          "label": "reveals provider common mode",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n2",
+          "label": "reveals people and network common mode",
+          "kind": "dependency"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "contributes fast site capability",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n6",
+          "label": "contributes recovery point evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "contributes trust dependency evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "contributes executable staffing evidence",
+          "kind": "evidence"
+        }
+      ],
+      "matrix": {
+        "title": "Select a recovery strategy against the complete objective",
+        "description": "Site labels are shorthand. Compare readiness, dependency coverage, disruption, evidence, and uncertainty against this service’s RTO/RPO and acceptance needs.",
+        "columns": [
+          {
+            "id": "readiness",
+            "label": "Readiness / RTO"
+          },
+          {
+            "id": "data",
+            "label": "Data / RPO"
+          },
+          {
+            "id": "dependencies",
+            "label": "Dependencies"
+          },
+          {
+            "id": "disruption",
+            "label": "Disruption / cost"
+          },
+          {
+            "id": "evidence",
+            "label": "Evidence / uncertainty"
+          }
+        ],
+        "rows": [
+          {
+            "id": "cold",
+            "label": "Cold site",
+            "cells": {
+              "readiness": "Facility available; systems must be installed",
+              "data": "Separate backup/restore design required",
+              "dependencies": "Identity, keys, network, staff and suppliers assembled later",
+              "disruption": "Lower standing cost; longer activation",
+              "evidence": "Plans and component tests leave integration uncertainty"
+            }
+          },
+          {
+            "id": "warm",
+            "label": "Warm site",
+            "cells": {
+              "readiness": "Partial compute may reduce setup time",
+              "data": "Replica can meet RPO only if verified",
+              "dependencies": "This case lacks current identity, keys and staff agreement",
+              "disruption": "Moderate standing readiness",
+              "evidence": "Cannot yet support the four-hour end-to-end claim"
+            }
+          },
+          {
+            "id": "hot",
+            "label": "Hot site",
+            "cells": {
+              "readiness": "High standing capacity and faster activation potential",
+              "data": "Current replication still needs integrity/recovery proof",
+              "dependencies": "Same-region or shared services may defeat independence",
+              "disruption": "Higher cost; failover still affects operations",
+              "evidence": "Exercises must include dependencies and business acceptance"
+            }
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "prediction": {
+    "id": "d7-o10-recovery-strategy-selection-prediction",
+    "prompt": "A four-hour/15-minute claims service is assigned a warm site with compute but no current identity replica, key access, or staff agreement. What follows?",
+    "options": [
+      {
+        "id": "warm-meets",
+        "label": "A warm site inherently meets a four-hour RTO, so the missing items can follow activation.",
+        "correct": false,
+        "feedback": "Warm describes relative readiness, not a guaranteed time or complete dependency set. Missing trust and staffing can block use.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "cheapest",
+        "label": "Replace it with the cheapest reciprocal agreement because cost is the remaining comparison.",
+        "correct": false,
+        "feedback": "A reciprocal agreement also needs compatible capacity, priority, trust, data, staffing, contracts, and testing.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "incomplete",
+        "label": "The warm site is incomplete; add and test trust, data, network, licensing, staffing, and acceptance capability.",
+        "correct": true,
+        "feedback": "Correct. A site label and compute capacity cover only part of the service recovery strategy.",
+        "repairStateId": "control-enforced"
+      }
+    ],
+    "conceptIds": [
+      "warm-site",
+      "recovery-site",
+      "multiple-processing-sites"
+    ],
+    "hint": "Evaluate the complete service against objectives rather than inferring readiness from the site category."
+  },
+  "transfer": {
+    "id": "d7-o10-recovery-strategy-selection-transfer",
+    "prompt": "A provider offers a hot site in the same region as production at a lower cost.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Compare regional hazard, provider control-plane, identity, staffing",
+        "correct": true,
+        "feedback": "Correct. Compare regional hazard, provider control-plane, identity, staffing, and network dependencies against the BIA; require explicit residual-risk acceptance if geographic separation is insufficient.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A provider offers a hot site in the same region as production at a lower cost. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: The warm site does not yet meet the service objective. Repair target: Decision recomputed — Compare regional hazard, provider control-plane, identity, staffing, and network dependencies against the BIA; require explicit residual-risk acceptance if geographic separation is insufficient.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A provider offers a hot site in the same region as production at a lower cost. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: The warm site does not yet meet the service objective. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "hot-site"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o10-recovery-strategy-selection-retry-v2",
+    "prompt": "A warm site has adequate compute, but its backup route and staffing depend on the same flood zone as production. How should it be evaluated?",
+    "options": [
+      {
+        "id": "accept-warm",
+        "label": "Accept it because warm sites inherently provide geographic resilience",
+        "correct": false,
+        "feedback": "Warm describes readiness, not hazard separation or dependency independence.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "map-common-mode",
+        "label": "Map shared hazard, backup route, staffing, and provider dependencies before acceptance",
+        "correct": true,
+        "feedback": "Correct. Recovery value depends on independence of the failure and operating paths.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "reject-all-warm",
+        "label": "Reject every warm site because only a hot site can meet continuity needs",
+        "correct": false,
+        "feedback": "Site class follows objectives and evidence; a well-designed warm site may be appropriate.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "warm-site",
+      "recovery-site",
+      "offsite-backup"
+    ],
+    "hint": "A named site type does not remove common hazards and operating dependencies."
+  },
+  "takeaway": "The warm site does not yet meet the service objective.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o10-sites",
+    "official-d7-66-74-strategy",
+    "sybex-d7-875-878",
+    "sybex-d7-879-883"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "Warm and hot are relative readiness labels rather than guaranteed recovery times. Compare site, storage, and processing options against RTO, RPO, capacity, geographic independence, trust dependencies, staffing, cost, and acceptance.",
+    "visualReasoningGain": "Aligned option rows would allow simultaneous comparison of site readiness, RTO/RPO, common-mode dependencies, capacity, staffing, and cost; the single-path reveal does not."
+  },
+  "matrix": {
+    "title": "Select a recovery strategy against the complete objective",
+    "description": "Site labels are shorthand. Compare readiness, dependency coverage, disruption, evidence, and uncertainty against this service’s RTO/RPO and acceptance needs.",
+    "columns": [
+      {
+        "id": "readiness",
+        "label": "Readiness / RTO"
+      },
+      {
+        "id": "data",
+        "label": "Data / RPO"
+      },
+      {
+        "id": "dependencies",
+        "label": "Dependencies"
+      },
+      {
+        "id": "disruption",
+        "label": "Disruption / cost"
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence / uncertainty"
+      }
+    ],
+    "rows": [
+      {
+        "id": "cold",
+        "label": "Cold site",
+        "cells": {
+          "readiness": "Facility available; systems must be installed",
+          "data": "Separate backup/restore design required",
+          "dependencies": "Identity, keys, network, staff and suppliers assembled later",
+          "disruption": "Lower standing cost; longer activation",
+          "evidence": "Plans and component tests leave integration uncertainty"
+        }
+      },
+      {
+        "id": "warm",
+        "label": "Warm site",
+        "cells": {
+          "readiness": "Partial compute may reduce setup time",
+          "data": "Replica can meet RPO only if verified",
+          "dependencies": "This case lacks current identity, keys and staff agreement",
+          "disruption": "Moderate standing readiness",
+          "evidence": "Cannot yet support the four-hour end-to-end claim"
+        }
+      },
+      {
+        "id": "hot",
+        "label": "Hot site",
+        "cells": {
+          "readiness": "High standing capacity and faster activation potential",
+          "data": "Current replication still needs integrity/recovery proof",
+          "dependencies": "Same-region or shared services may defeat independence",
+          "disruption": "Higher cost; failover still affects operations",
+          "evidence": "Exercises must include dependencies and business acceptance"
+        }
+      }
+    ],
+    "notes": []
+  }
+}

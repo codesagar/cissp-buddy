@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d5-o05-provisioning-lifecycle",
+  "treatmentIds": [
+    "fresh-d5-o05-provisioning-lifecycle-state-machine-with-downstream-reconciliation-panel"
+  ],
+  "title": "Manage the identity and access provisioning lifecycle",
+  "question": "Which event creates, changes, expires, reviews, or removes access?",
+  "scenario": "An engineer transfers from application development to production operations. HR updates the role, but the identity platform fails to remove the developer's source-repository administrator permission.",
+  "focalRelation": "joiner --approved provisioning--> active mover --remove old role before/add new approved role--> reconciled active task --time-bounded approval--> elevated --expiry/completion--> active leaver or service end --disable and revoke all downstream credentials/sessions/keys/badges--> retired review --detects privilege creep or orphaned access--> remediation",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Transferred engineer",
+      "detail": "Mover subject whose old development privileges and new operations duties must be reconciled.",
+      "conceptIds": [
+        "joiner-mover-leaver",
+        "identity-lifecycle"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Authoritative HR mover event",
+      "detail": "Approved role change that starts remove-old and add-new access workflows.",
+      "conceptIds": [
+        "identity-lifecycle",
+        "role-definition"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Identity governance workflow",
+      "detail": "Coordinates approvals, downstream changes, exception tracking, and access review.",
+      "conceptIds": [
+        "provisioning",
+        "deprovisioning",
+        "access-review"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Source repository administrator grant",
+      "detail": "Obsolete development privilege that must remain pending until removal is verified.",
+      "conceptIds": [
+        "deprovisioning",
+        "privilege-creep"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "JIT production role",
+      "detail": "New least-duration production access approved for operations and elevated only when needed.",
+      "conceptIds": [
+        "just-in-time-access",
+        "privilege-escalation",
+        "role-definition"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Reconciliation evidence",
+      "detail": "Directory, repository, cloud, VPN, production, and physical results proving or excepting each change.",
+      "conceptIds": [
+        "access-review",
+        "privilege-creep"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "receives approved role transfer",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "triggers mover workflow with old and new role set",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "requests and verifies obsolete grant removal",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n5",
+      "label": "provisions approved time-bounded operations role",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "reports removal result or owned exception",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "reports issuance, expiry, and use evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "An engineer transfers from application development to production operations. HR updates the role, but the identity platform fails to remove the developer's source-repository administrator permission.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "mover",
+        "n2": "role transfer approved"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Joiner, mover, and leaver events are business triggers that should be linked to access workflow.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "removal required",
+        "n5": "new approval required"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Removing a user from the directory completes offboarding. Offboarding must account for downstream applications, cloud roles, API tokens, sessions, certificates, keys, devices, badges, and delegated access.",
+      "activeNodeIds": [
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "revocation failed; access remains pending"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Treat the transfer as a mover event with an explicit old-role removal and new-role approval. Reconcile directory, source control, cloud, production, VPN, and physical access; issue only the production privileges needed; require JIT elevation for sensitive changes; and document the failed downstream revocation as an exception until verified.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "n4": "exception open until verified",
+        "n5": "JIT role issued",
+        "n6": "reconciliation running"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a human or nonhuman identity change, specify the approvals, provisioning or deprovisioning actions, downstream revocations, elevated-access controls, and evidence needed to keep permissions accurate. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n4": "obsolete grant removed",
+        "n5": "expiry confirmed",
+        "n6": "mover complete"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A vendor's contract ends on Friday, but an integration uses a long-lived API key with no inventory owner.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A vendor's contract ends on Friday, but an integration uses a long-lived API key with no inventory owner.",
+          "activeNodeIds": [
+            "n1",
+            "n3",
+            "n4",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "n1": "vendor contract ended",
+            "n4": "unowned API key remains"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Identify ownership, rotate or revoke the key, disable the service identity, review logs and downstream dependencies, and retain evidence of completion. Third-party and nonhuman access can outlive the human relationship unless explicitly linked to lifecycle controls.",
+          "activeNodeIds": [
+            "n3",
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            4
+          ],
+          "statuses": {
+            "n3": "owner and downstream use identified",
+            "n4": "key rotation/revocation ordered"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n4": "service identity disabled or reassigned",
+            "n6": "logs, dependencies, and retirement recorded"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Ended vendor contract",
+          "detail": "The business relationship ends Friday and should trigger access retirement.",
+          "conceptIds": [
+            "joiner-mover-leaver",
+            "identity-lifecycle"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Vendor termination event",
+          "detail": "The authoritative event identifies the vendor and contract end time.",
+          "conceptIds": [
+            "identity-lifecycle",
+            "role-definition"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Access reconciliation workflow",
+          "detail": "The workflow searches human, service, key, and downstream access tied to the vendor.",
+          "conceptIds": [
+            "provisioning",
+            "deprovisioning",
+            "access-review"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Unowned API key",
+          "detail": "A long-lived integration key has no inventory owner and can survive the contract.",
+          "conceptIds": [
+            "deprovisioning",
+            "privilege-creep"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Integration service identity",
+          "detail": "The nonhuman identity using the key must be disabled, rotated, or reassigned.",
+          "conceptIds": [
+            "just-in-time-access",
+            "privilege-escalation",
+            "role-definition"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Retirement evidence",
+          "detail": "Logs, dependencies, credential action, and accountable completion are retained.",
+          "conceptIds": [
+            "access-review",
+            "privilege-creep"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "creates termination trigger",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "starts reconciliation across access types",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "finds and assigns the orphan key",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "controls the linked service identity",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "records rotation or revocation",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "records disablement and downstream validation",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d5-o05-provisioning-lifecycle-prediction",
+    "prompt": "Which event creates, changes, expires, reviews, or removes access?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "Removing a user from the directory completes offboarding.",
+        "correct": false,
+        "feedback": "Incorrect: Offboarding must account for downstream applications, cloud roles, API tokens, sessions, certificates, keys, devices, badges, and delegated access.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Treat the transfer as a mover event with an explicit old-role removal and new-role approval",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Offboarding must account for downstream applications, cloud roles, API tokens, sessions, certificates, keys, devices, badges, and delegated access.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Leave the old repository-admin grant until the next periodic review because HR already recorded the transfer.",
+        "correct": false,
+        "feedback": "Incorrect: the HR event does not prove downstream removal. Quarantine or remove the stale grant, reconcile target state, and record completion or an owned exception.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "access-review"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d5-o05-provisioning-lifecycle-transfer",
+    "prompt": "A vendor's contract ends on Friday, but an integration uses a long-lived API key with no inventory owner.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: an unowned long-lived API key can survive the vendor’s human offboarding. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” leaves the credential’s service dependency and accountable owner unresolved. Corrected consequence: identify the linked service and owner, choose an approved rotate-or-revoke action that preserves any still-required integration, and verify credential plus service-identity closure. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: an unowned long-lived API key can survive the vendor’s human offboarding. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” leaves the credential’s service dependency and accountable owner unresolved. Corrected consequence: identify the linked service and owner, choose an approved rotate-or-revoke action that preserves any still-required integration, and verify credential plus service-identity closure. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Identify ownership, rotate or revoke the key, disable the service identity",
+        "correct": true,
+        "feedback": "Correct. Identify ownership, rotate or revoke the key, disable the service identity, review logs and downstream dependencies, and retain evidence of completion. Third-party and nonhuman access can outlive the human relationship unless explicitly linked to lifecycle controls.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "identity-lifecycle"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d5-o05-provisioning-lifecycle-retry-v2",
+    "prompt": "An access review finds a shared emergency administrator account with no owner, no checkout record, and a credential older than the stated rotation period. What is the bounded response?",
+    "options": [
+      {
+        "id": "govern-emergency",
+        "label": "Assign an accountable owner, rotate the credential, control checkout, and test monitored emergency use",
+        "correct": true,
+        "feedback": "Correct. Emergency availability and accountability can coexist through owned, logged, rotated, and tested access.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "leave-available",
+        "label": "Leave the account unchanged because rotating an emergency credential could reduce availability",
+        "correct": false,
+        "feedback": "Availability does not justify an ownerless shared credential. Controlled rotation and tested access preserve both needs.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "delete-now",
+        "label": "Delete the emergency account immediately without checking the recovery design or replacing the path",
+        "correct": false,
+        "feedback": "Removing an ungoverned path may create a recovery failure. Replace and test the emergency mechanism before closure.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "service-account-management",
+      "access-review",
+      "identity-lifecycle"
+    ],
+    "hint": "A usable emergency path still needs accountable ownership, controlled use, and lifecycle evidence."
+  },
+  "takeaway": "Treat the transfer as a mover event with an explicit old-role removal and new-role approval.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d5-o05",
+    "official-d5-42-49",
+    "sybex-d5-664-667"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d5-o05-provisioning-lifecycle-state-machine-with-downstream-reconciliation-panel",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable state states: Transferred engineer receives approved role transfer Authoritative HR mover event; Authoritative HR mover event triggers mover workflow with old and new role set Identity governance workflow. The model keeps Transferred engineer, Authoritative HR mover event, Identity governance workflow, Source repository administrator grant, JIT production role, Reconciliation evidence distinct. Its changed case is “A vendor's contract ends on Friday, but an integration uses a long-lived API key with no inventory owner.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A mover event must remove obsolete grants as well as approve the new role. Failed downstream revocation remains an owned exception until every linked credential, session, key, badge, and service identity is reconciled.",
+    "visualReasoningGain": "The revealed lifecycle trace shows an HR event propagating to old-grant removal, new-role approval, reconciliation, and evidence; the opening hides the stale grant and downstream exception."
+  },
+  "openingFacts": [
+    {
+      "label": "Transferred engineer",
+      "value": "Mover subject whose old development privileges and new operations duties must be reconciled."
+    },
+    {
+      "label": "Authoritative HR mover event",
+      "value": "Approved role change that starts remove-old and add-new access workflows."
+    },
+    {
+      "label": "Identity governance workflow",
+      "value": "Coordinates approvals, downstream changes, exception tracking, and access review."
+    },
+    {
+      "label": "Source repository administrator grant",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "JIT production role",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Reconciliation evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

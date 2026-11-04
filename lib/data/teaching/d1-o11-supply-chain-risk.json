@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o11-supply-chain-risk",
+  "treatmentIds": [
+    "fresh-d1-o11-supply-chain-risk-dependency-assurance-trust-chains"
+  ],
+  "title": "dependency assurance trust chains",
+  "question": "What evidence must change as supplier criticality, subcontractors, components, update authority, or exit feasibility changes?",
+  "scenario": "Network appliance acquisition: A utility plans to deploy a remotely managed network appliance in operational sites.",
+  "focalRelation": "Criticality and access set assurance depth; requirements become enforceable terms; monitoring and material change trigger reassessment or contingency; device identity and firmware authorization remain separate trust chains.",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "criticality",
+      "label": "Need, dependency, and criticality",
+      "detail": "The utility records the service dependency, remote management, data access, safety consequence, subcontractors, component/update path, and exit difficulty.",
+      "conceptIds": [
+        "supply-chain-risk-management",
+        "supplier-risk",
+        "supply-chain-assurance"
+      ]
+    },
+    {
+      "id": "assessment",
+      "label": "Supplier and product assurance",
+      "detail": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires.",
+      "conceptIds": [
+        "third-party-assessment",
+        "product-tampering",
+        "counterfeit",
+        "malicious-implant",
+        "software-bill-of-materials"
+      ]
+    },
+    {
+      "id": "requirements",
+      "label": "Contract and security requirements",
+      "detail": "The agreement assigns security requirements, service levels, evidence, incident duties, support, change notification, remediation, and exit rights.",
+      "conceptIds": [
+        "security-requirements",
+        "service-level-agreement"
+      ]
+    },
+    {
+      "id": "operation",
+      "label": "Device identity and firmware authorization",
+      "detail": "A PUF enrollment may support a device-specific identity claim; a protected root, signing authority, verification path, and recovery design separately govern approved firmware. Neither chain replaces the other.",
+      "conceptIds": [
+        "puf",
+        "firmware-integrity",
+        "silicon-root-of-trust"
+      ]
+    },
+    {
+      "id": "monitoring",
+      "label": "Monitoring and material change",
+      "detail": "Support status, supplier changes, vulnerabilities, update evidence, incidents, and service performance trigger reassessment.",
+      "conceptIds": [
+        "continuous-monitoring"
+      ]
+    },
+    {
+      "id": "exit",
+      "label": "Remediation, contingency, or exit",
+      "detail": "Unacceptable residual risk or end of support activates owned remediation, alternate service, recovery, or verified exit.",
+      "conceptIds": [
+        "supplier-risk",
+        "supply-chain-assurance"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "criticality",
+      "to": "assessment",
+      "label": "sets the depth and scope of",
+      "kind": "dependency"
+    },
+    {
+      "from": "assessment",
+      "to": "requirements",
+      "label": "turns findings into enforceable",
+      "kind": "flow"
+    },
+    {
+      "from": "requirements",
+      "to": "operation",
+      "label": "governs approved onboarding and operation of",
+      "kind": "flow"
+    },
+    {
+      "from": "operation",
+      "to": "monitoring",
+      "label": "produces service, update, component, and assurance evidence for",
+      "kind": "evidence"
+    },
+    {
+      "from": "monitoring",
+      "to": "assessment",
+      "label": "triggers reassessment when a material fact changes",
+      "kind": "flow"
+    },
+    {
+      "from": "monitoring",
+      "to": "exit",
+      "label": "triggers contingency or exit when risk is unacceptable",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Network appliance acquisition: A utility plans to deploy a remotely managed network appliance in operational sites.",
+      "activeNodeIds": [
+        "criticality",
+        "assessment"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "criticality": "The utility records the service dependency, remote management, data access, safety consequence, subcontractors, component/update path, and exit difficulty.",
+        "assessment": "Due diligence, third-party assessment, provenance, tamper and counterfeit risk, SBOM visibility, and update authority are examined to the depth criticality warrants."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Need, dependency, and criticality sets the depth and scope of Supplier and product assurance. Supplier and product assurance turns findings into enforceable Contract and security requirements.",
+      "activeNodeIds": [
+        "criticality",
+        "assessment",
+        "requirements"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "assessment": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires.",
+        "criticality": "The utility records the service dependency, remote management, data access, safety consequence, subcontractors, component/update path, and exit difficulty.",
+        "requirements": "The agreement assigns security requirements, service levels, evidence, incident duties, support, change notification, remediation, and exit rights."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Monitoring and material change triggers reassessment when a material fact changes Supplier and product assurance. Monitoring and material change triggers contingency or exit when risk is unacceptable Remediation, contingency, or exit.",
+      "activeNodeIds": [
+        "monitoring",
+        "assessment",
+        "exit"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "exit": "Unacceptable residual risk or end of support activates owned remediation, alternate service, recovery, or verified exit.",
+        "monitoring": "Support status, supplier changes, vulnerabilities, update evidence, incidents, and service performance trigger reassessment.",
+        "assessment": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The sole supplier announces end of support for a component that remains on the critical service path. Treat the announcement as a monitoring trigger, reassess exposure and contractual options, and activate remediation or exit/continuity planning.",
+      "activeNodeIds": [
+        "criticality",
+        "assessment",
+        "requirements",
+        "monitoring",
+        "exit",
+        "operation"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "exit": "Unacceptable residual risk or end of support activates owned remediation, alternate service, recovery, or verified exit.",
+        "criticality": "The utility records the service dependency, remote management, data access, safety consequence, subcontractors, component/update path, and exit difficulty.",
+        "assessment": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires.",
+        "requirements": "The agreement assigns security requirements, service levels, evidence, incident duties, support, change notification, remediation, and exit rights.",
+        "monitoring": "Support status, supplier changes, vulnerabilities, update evidence, incidents, and service performance trigger reassessment.",
+        "operation": "A PUF enrollment may support a device-specific identity claim; a protected root, signing authority, verification path, and recovery design separately govern approved firmware. Neither chain replaces the other."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Support status materially changes. The business dependency remains critical and has no ready substitute.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The sole supplier announces end of support for a component that remains on the critical service path.",
+          "activeNodeIds": [
+            "monitoring",
+            "assessment",
+            "exit"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "exit": "Support status materially changes. The business dependency remains critical and has no ready substitute.",
+            "monitoring": "Support status, supplier changes, vulnerabilities, update evidence, incidents, and service performance trigger reassessment.",
+            "assessment": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Treat the announcement as a monitoring trigger, reassess exposure and contractual options, and activate remediation or exit/continuity planning.",
+          "activeNodeIds": [
+            "monitoring",
+            "assessment",
+            "exit"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "exit": "Unacceptable residual risk or end of support activates owned remediation, alternate service, recovery, or verified exit.",
+            "monitoring": "Support status, supplier changes, vulnerabilities, update evidence, incidents, and service performance trigger reassessment.",
+            "assessment": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hardware-trust-chains",
+      "label": "Device identity versus firmware authorization",
+      "changedFact": "The product presents a stable PUF-derived device claim, but the firmware signing authority and update-recovery path are not verified.",
+      "states": [
+        {
+          "id": "device-identity",
+          "title": "Device-specific claim",
+          "caption": "PUF enrollment and protected helper data may support a device-specific identity claim; they do not identify which firmware is authorized.",
+          "activeNodeIds": [
+            "assessment",
+            "operation",
+            "requirements"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "operation": "The hardware root can support device identity, but it does not by itself authorize the firmware version.",
+            "assessment": "Due diligence examines the supplier, product provenance, tamper risk, component visibility, remote management, and update authority to the depth the utility dependency requires.",
+            "requirements": "The agreement assigns security requirements, service levels, evidence, incident duties, support, change notification, remediation, and exit rights."
+          }
+        },
+        {
+          "id": "firmware-chain",
+          "title": "Separate firmware decision",
+          "caption": "Approved firmware still requires a protected root or trust anchor, signing authority, verification behavior, update path, rollback or recovery, and operating evidence.",
+          "activeNodeIds": [
+            "requirements",
+            "operation",
+            "monitoring"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3
+          ],
+          "statuses": {
+            "operation": "The device may install firmware only after verifying its signature, approved version, and rollback policy.",
+            "monitoring": "Operators retain update, rollback, and recovery evidence for the device fleet.",
+            "requirements": "The agreement assigns security requirements, service levels, evidence, incident duties, support, change notification, remediation, and exit rights."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o11-supply-chain-risk-prediction-v1",
+    "prompt": "What evidence must change as supplier criticality, subcontractors, components, update authority, or exit feasibility changes?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Reassess when supplier, component, update path, access, or criticality changes.",
+        "correct": true,
+        "feedback": "Point-in-time evidence and a known vendor do not preserve assurance after the dependency or trust path changes.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Accept the supplier because its onboarding questionnaire and certificate were satisfactory last year.",
+        "correct": false,
+        "feedback": "Point-in-time artifacts do not establish current support, dependency, component, or update-path assurance.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "An SBOM proves that supplier software is secure.",
+        "correct": false,
+        "feedback": "An SBOM gives component visibility; it does not prove configuration, absence of vulnerabilities, update authorization, or continuing support.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "supplier-risk",
+      "software-bill-of-materials"
+    ],
+    "hint": "A supplier announcement is a trigger for evidence-based exposure and dependency review."
+  },
+  "transfer": {
+    "id": "d1-o11-supply-chain-risk-transfer-v1",
+    "prompt": "The sole supplier announces end of support for a component that remains on the critical service path.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Treat the announcement as a monitoring trigger, reassess exposure and contractual options",
+        "correct": true,
+        "feedback": "Treat the announcement as a monitoring trigger, reassess exposure and contractual options, and activate remediation or exit/continuity planning.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Accept the supplier because its onboarding questionnaire and certificate were satisfactory last year",
+        "correct": false,
+        "feedback": "Changed fact: Support status materially changes. The business dependency remains critical and has no ready substitute. Why this answer fails: “Accept the supplier because its onboarding questionnaire and certificate were satisfactory last year” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Criticality and access set assurance depth; requirements become enforceable terms; monitoring and material change trigger reassessment or contingency; device identity and firmware authorization remain separate trust chains. Repair target: Control and evidence consequence — Monitoring and material change triggers reassessment when a material fact changes Supplier and product assurance. Monitoring and material change triggers contingency or exit when risk is unacceptable Remediation, contingency, or exit.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "An SBOM proves that supplier software is secure",
+        "correct": false,
+        "feedback": "Changed fact: Support status materially changes. The business dependency remains critical and has no ready substitute. Why this answer fails: “An SBOM proves that supplier software is secure” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Criticality and access set assurance depth; requirements become enforceable terms; monitoring and material change trigger reassessment or contingency; device identity and firmware authorization remain separate trust chains. Repair target: Changed fact, recomputed result — The sole supplier announces end of support for a component that remains on the critical service path. Treat the announcement as a monitoring trigger, reassess exposure and contractual options, and activate remediation or exit/continuity planning.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "supplier-risk",
+      "service-level-agreement",
+      "continuous-monitoring"
+    ],
+    "hint": "Check affected versions, deployed use, contract rights, and continuity options before declaring impact."
+  },
+  "retry": {
+    "id": "d1-o11-supply-chain-risk-retry-v1",
+    "prompt": "The appliance has verified vendor provenance, but its remote update service uses an undocumented signing authority. What must the buyer resolve before onboarding?",
+    "options": [
+      {
+        "id": "provenance-enough",
+        "label": "Accept the appliance because verified vendor provenance also proves every firmware update is authorized",
+        "correct": false,
+        "feedback": "Vendor or device identity does not establish which signing authority, update, rollback, and recovery behavior is trusted.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "separate-chains",
+        "label": "Verify the firmware signing, validation, update, and recovery chain separately from device provenance",
+        "correct": true,
+        "feedback": "Correct. Device identity and firmware authorization are distinct chains; both require bounded evidence before operation.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "puf-replaces",
+        "label": "Require a PUF response and skip review of signing keys and the update service",
+        "correct": false,
+        "feedback": "A PUF may support a device-specific claim, but it does not authorize firmware or protect an undocumented update authority.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "supplier-risk",
+      "third-party-assessment",
+      "software-bill-of-materials",
+      "puf",
+      "silicon-root-of-trust",
+      "firmware-integrity",
+      "supply-chain-assurance"
+    ],
+    "hint": "Choose the response that keeps remediation and exit paths open until exposure is verified."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Criticality and access set assurance depth; requirements become enforceable terms; monitoring and material change trigger reassessment or contingency; device identity and firmware authorization remain separate trust chains.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o11-outline",
+    "d1-o11-textbook",
+    "d1-o11-sybex",
+    "d1-o11-supply-chain-risk-depth-source-1"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o11-supply-chain-risk-dependency-assurance-trust-chains",
+      "disposition": "implemented",
+      "rationale": "The timeline connects service criticality to supplier assurance, contractual requirements, device operation, material-change monitoring, and contingency or exit. A second focus distinguishes a hardware-derived device identity from the separate firmware signing, version, rollback, and recovery authorization chain."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Supplier assurance must match dependency criticality and continue after onboarding. Material changes such as end of support trigger reassessment, remediation, contingency, or exit.",
+    "visualReasoningGain": "A dependency register would expose supplier, component, update authority, evidence age, and exit readiness together; the current edge chain only partially adds this comparison."
+  }
+}

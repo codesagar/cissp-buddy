@@ -1,0 +1,697 @@
+{
+  "conceptIds": [
+    "agile",
+    "waterfall",
+    "devops",
+    "devsecops",
+    "scaled-agile",
+    "cmm",
+    "samm",
+    "change-management",
+    "operations-maintenance"
+  ],
+  "concepts": [
+    {
+      "decision": "Put security stories, acceptance criteria, threat-model changes, and security tests into each increment rather than a final hardening phase.",
+      "definition": "An iterative approach that delivers small increments through collaborative planning, building, testing, and feedback cycles.",
+      "failureExample": "A rapid sprint cadence with security work kept in a separate backlog ships repeated unreviewed exposure.",
+      "id": "agile",
+      "label": "Agile",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Use when controlled requirements, documentation, and formal gates suit the mission; still manage rework and security changes across phases.",
+      "definition": "A lifecycle approach that organizes work into formal phases and baselines, commonly with approval milestones before transition.",
+      "failureExample": "Deferring security until a final phase embeds missing requirements into design and makes remediation expensive.",
+      "id": "waterfall",
+      "label": "Waterfall",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Use shared operational telemetry and deployment practice to shorten feedback, while retaining security requirements and accountable change decisions.",
+      "definition": "A delivery/operating model that joins development, operations, and often quality practices to improve flow, reliability, and feedback.",
+      "failureExample": "Fast deployment without production ownership or rollback turns operational feedback into repeated outages.",
+      "id": "devops",
+      "label": "Devops",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Automate repeatable checks early and keep human ownership for design tradeoffs, exceptions, incident response, and acceptance.",
+      "definition": "DevOps practices with security collaboration, security criteria, and appropriate automated/manual checks integrated through delivery and operations.",
+      "failureExample": "Treating a passed scanner as authorization to release can miss a changed trust boundary or unmet privacy requirement.",
+      "id": "devsecops",
+      "label": "Devsecops",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Use common security standards, architecture decisions, dependency visibility, and cross-team acceptance evidence when one team’s change affects another.",
+      "definition": "Coordination practices that align multiple Agile teams, shared dependencies, and integrated delivery outcomes.",
+      "failureExample": "One team can safely pass its service tests while breaking a shared authorization contract used by another team.",
+      "id": "scaled-agile",
+      "label": "Scaled Agile",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Use it to prioritize process improvement; pair it with change-specific product evidence and risk decisions.",
+      "definition": "Capability Maturity Model: a framework for assessing whether development processes are repeatable, defined, measured, and improving.",
+      "failureExample": "A mature documentation process can repeatedly produce a release with an untested authorization flaw.",
+      "id": "cmm",
+      "label": "Cmm",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Use it to identify practice gaps and a realistic improvement roadmap, not to declare an individual system free of vulnerabilities.",
+      "definition": "Software Assurance Maturity Model: a maturity framework for evaluating and improving software-security practices across the development organization.",
+      "failureExample": "A high SAMM practice level does not prove that a newly added endpoint has been threat-modeled.",
+      "id": "samm",
+      "label": "Samm",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Link the change to code/configuration, tests, approver, deployment owner, monitoring, rollback, and retrospective; use a governed emergency path when needed.",
+      "definition": "Controlled transition from a current software/configuration state to a future state through scoped request, risk review, authorization, implementation, verification, and learning.",
+      "failureExample": "An urgent patch with no rollback owner can convert a vulnerability response into prolonged service loss.",
+      "id": "change-management",
+      "label": "Change Management",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    },
+    {
+      "decision": "Treat production signals and incidents as input to risk, backlog, design, and lifecycle decisions; retain responsibility through retirement.",
+      "definition": "Post-production activity that monitors, patches, recovers, manages vulnerabilities and changes, maintains ownership, and retires software safely.",
+      "failureExample": "Leaving a superseded service account or secret active after retirement extends attack surface indefinitely.",
+      "id": "operations-maintenance",
+      "label": "Operations Maintenance",
+      "sourceRefIds": [
+        "miller-d8-705-727",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "sourceVisualId": "d8-o01-secure-delivery-operations-decision-comparison-1"
+    }
+  ],
+  "domainId": 8,
+  "estimatedMinutes": 40,
+  "id": "d8-o01-secure-delivery-operations",
+  "misconceptions": [
+    {
+      "claim": "DevSecOps means every security control must be fully automated.",
+      "correction": "Automation improves consistency and speed, but design judgment, exceptions, incident response, and accountability remain human responsibilities."
+    }
+  ],
+  "objectiveIds": [
+    "8.1"
+  ],
+  "outcome": "Select lifecycle gates and operational feedback appropriate to delivery speed, risk, and system change.",
+  "prerequisites": [
+    "d8-o01-secure-requirements-design",
+    "d7-o09-change-management",
+    "d6-o01-strategy"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Waterfall uses formal phase baselines; Agile iterates in small increments; DevOps joins delivery and operations; DevSecOps makes security collaboration and automation explicit; scaled frameworks coordinate many teams. CMM and SAMM can reveal process capability and improvement priorities, but maturity scores do not prove a product is secure.",
+      "id": "methodology-and-maturity",
+      "keyPoints": [
+        "The method changes timing and evidence, not the need for security decisions.",
+        "Maturity models assess capability and repeatability, not residual risk alone.",
+        "Automated checks should be fast enough to influence the change."
+      ],
+      "sourceRefIds": [
+        "outline-d8-1",
+        "official-d8-9-35",
+        "miller-d8-705-727"
+      ],
+      "title": "Choose feedback and governance deliberately"
+    },
+    {
+      "body": "Secure delivery requires environment separation, release authorization, configuration baselines, rollback, vulnerability response, monitoring, incident feedback, maintenance ownership, and retirement actions. Emergency changes need an explicit path with retrospective evidence rather than bypassing accountability.",
+      "id": "delivery-operations-change",
+      "keyPoints": [
+        "Deployment is a transition into operational assurance, not its endpoint.",
+        "Change records connect code, configuration, approver, test evidence, and rollback.",
+        "Retirement revokes access, handles data and secrets, and preserves required evidence."
+      ],
+      "sourceRefIds": [
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ],
+      "title": "Preserve assurance after release"
+    }
+  ],
+  "sourceHash": "2279e142022ff73add7ee936ea93c6fe9ff0760cbb69c99655c70f7eac10ea88",
+  "sourcePath": "knowledge/domains/d8-software-development-security/units/d8-o01-secure-delivery-operations.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d8-1",
+      "locator": {
+        "type": "objective",
+        "value": "8.1 bullets: methodologies, maturity, operations, change, IPT"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-9-35",
+      "locator": {
+        "type": "printed-page",
+        "value": "9–34 (same PDF page numbers), objective 8.1; body headings inspected, corrupted contents page excluded"
+      },
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "supports": [
+        "methodologies, maturity, operations, change"
+      ]
+    },
+    {
+      "id": "sybex-d8-1017-1049",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1049, Chapter 20"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "development lifecycle and change"
+      ]
+    },
+    {
+      "id": "miller-d8-705-727",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-727, Chapter 10"
+      },
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "supports": [
+        "development methodologies"
+      ]
+    }
+  ],
+  "summary": "Security continues through implementation, testing, deployment, operation, change, maintenance, and retirement; delivery method and maturity model shape evidence and feedback but do not remove accountability.",
+  "teaching": {
+    "assumptions": [
+      "The canary percentage and threshold are scenario-specific, not universal release guidance.",
+      "The sequence shows responsibility and evidence order rather than elapsed time.",
+      "Compensating review may be defined for emergencies, but the example retains an independent reviewer."
+    ],
+    "edges": [
+      {
+        "from": "incident-owner",
+        "kind": "flow",
+        "label": "authorizes bounded emergency scope",
+        "to": "developer"
+      },
+      {
+        "from": "developer",
+        "kind": "flow",
+        "label": "submits fix and threat rationale",
+        "to": "reviewer"
+      },
+      {
+        "from": "reviewer",
+        "kind": "flow",
+        "label": "approves build candidate",
+        "to": "pipeline"
+      },
+      {
+        "from": "pipeline",
+        "kind": "evidence",
+        "label": "delivers artifact and test evidence",
+        "to": "release-owner"
+      },
+      {
+        "from": "release-owner",
+        "kind": "flow",
+        "label": "authorizes staged deployment",
+        "to": "production"
+      },
+      {
+        "from": "production",
+        "kind": "evidence",
+        "label": "returns outcome, rollback evidence, and learning to",
+        "to": "incident-owner"
+      }
+    ],
+    "focalRelation": "An emergency path shortens decision time while preserving named responsibility and evidence from threat declaration through rollback or retrospective review.",
+    "nodes": [
+      {
+        "conceptIds": [
+          "change-management",
+          "operations-maintenance",
+          "cmm",
+          "samm"
+        ],
+        "detail": "Declares scope and authority, owns success and rollback criteria, and closes outcomes, exceptions, follow-up, and maturity-improvement evidence.",
+        "id": "incident-owner",
+        "label": "Change owner and record"
+      },
+      {
+        "conceptIds": [
+          "agile",
+          "devops"
+        ],
+        "detail": "Produces the smallest defensible change and links it to the affected component and threat.",
+        "id": "developer",
+        "label": "Fix author"
+      },
+      {
+        "conceptIds": [
+          "devsecops",
+          "scaled-agile"
+        ],
+        "detail": "Reviews code, dependency change, and focused threat assumptions; emergency authority remains bounded.",
+        "id": "reviewer",
+        "label": "Independent reviewer"
+      },
+      {
+        "conceptIds": [
+          "devsecops"
+        ],
+        "detail": "Produces attributable artifact, regression and authentication results, provenance, and deployable version.",
+        "id": "pipeline",
+        "label": "Build and test pipeline"
+      },
+      {
+        "conceptIds": [
+          "change-management",
+          "scaled-agile"
+        ],
+        "detail": "Approves the evidence bundle, canary scope, monitoring signal, and rollback trigger.",
+        "id": "release-owner",
+        "label": "Release owner"
+      },
+      {
+        "conceptIds": [
+          "operations-maintenance",
+          "devops"
+        ],
+        "detail": "Receives staged deployment; operations watch the declared signals and can stop or roll back.",
+        "id": "production",
+        "label": "Production service"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "devsecops",
+        "change-management",
+        "operations-maintenance"
+      ],
+      "hint": "Trace who owns scope, evidence, production exposure, and the stop decision.",
+      "id": "d8-o01-predict-47ce10f4fc38",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Each handoff preserves ownership and evidence while the emergency path reduces delay.",
+          "id": "bounded",
+          "label": "Use scoped approval, attributable tests, canary monitoring, rollback, and retrospective review",
+          "repairStateId": "deploy-monitor"
+        },
+        {
+          "correct": false,
+          "feedback": "Urgency shortens timing; it does not erase bounded authority, review, attributable evidence, staged rollout, or rollback.",
+          "id": "same-person",
+          "label": "Let the fix author approve and release globally because exploitation is active.",
+          "repairStateId": "author-review"
+        },
+        {
+          "correct": false,
+          "feedback": "Automation supplies fast evidence. Scope, exceptions, risk ownership, and release authority remain human responsibilities.",
+          "id": "all-automated",
+          "label": "Accept any change that passes automated tests because DevSecOps removes manual judgment.",
+          "repairStateId": "approve"
+        }
+      ],
+      "prompt": "Which emergency-release approach preserves accountable speed?"
+    },
+    "question": "Which controls must remain attributable when an exploited vulnerability forces an emergency release?",
+    "representation": "state",
+    "retry": {
+      "conceptIds": [
+        "cmm",
+        "samm",
+        "operations-maintenance"
+      ],
+      "hint": "Distinguish process capability from evidence that a particular release is effective and recoverable.",
+      "id": "d8-o01-retry-1c8fe3d6474d",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Capability and repeatability scores do not prove product effectiveness or residual risk.",
+          "id": "secure-proof",
+          "label": "It proves the released product is secure.",
+          "repairStateId": "close-learn"
+        },
+        {
+          "correct": false,
+          "feedback": "Observed operational gaps are direct evidence that rollback and ownership controls need repair.",
+          "id": "ignore-incidents",
+          "label": "It outweighs incident evidence because it covers the whole process.",
+          "repairStateId": "declare"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Use maturity as an improvement signal and operational evidence to test whether the change works.",
+          "id": "improvement",
+          "label": "Repair ownership and rollback, then validate outcomes",
+          "repairStateId": "close-learn"
+        }
+      ],
+      "prompt": "A mature pipeline scores highly, but recent incidents lack rollback evidence and named owners. What does the maturity score support?"
+    },
+    "scenario": "Several teams release a shared identity service weekly. Active exploitation of a critical library vulnerability triggers the emergency path. The fix must reach production quickly while preserving bounded authority, review, test evidence, monitored rollout, rollback, and follow-up.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d8-1",
+      "official-d8-9-35",
+      "sybex-d8-1017-1049",
+      "miller-d8-705-727"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "incident-owner",
+          "developer"
+        ],
+        "caption": "The owner records exploited versions, business impact, emergency authority, success signal, and rollback trigger before work begins.",
+        "id": "declare",
+        "statuses": {
+          "incident-owner": "emergency path open; scope bounded"
+        },
+        "title": "Declare threat, scope, and owner"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "developer",
+          "reviewer"
+        ],
+        "caption": "The developer links the fix to the threat; a separate reviewer checks the code, dependency, and focused assumptions.",
+        "id": "author-review",
+        "statuses": {
+          "reviewer": "review recorded"
+        },
+        "title": "Author and review the smallest change"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "reviewer",
+          "pipeline"
+        ],
+        "caption": "The pipeline binds source, dependency, builder, artifact, regression results, and authentication tests into the release evidence.",
+        "id": "build-test",
+        "statuses": {
+          "pipeline": "artifact signed; focused tests passed"
+        },
+        "title": "Build an attributable artifact"
+      },
+      {
+        "activeEdgeIndexes": [
+          3
+        ],
+        "activeNodeIds": [
+          "pipeline",
+          "release-owner"
+        ],
+        "caption": "The release owner reviews the bundle and confirms canary population, observation window, monitoring signal, and rollback threshold.",
+        "id": "approve",
+        "statuses": {
+          "release-owner": "canary approved; rollback authority named"
+        },
+        "title": "Approve evidence and guardrails"
+      },
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "release-owner",
+          "production"
+        ],
+        "caption": "Operations sends the artifact to the canary, monitors the declared signals, and expands only if the criteria hold.",
+        "id": "deploy-monitor",
+        "statuses": {
+          "production": "10% canary; monitoring active"
+        },
+        "title": "Deploy gradually and watch outcomes"
+      },
+      {
+        "activeEdgeIndexes": [
+          5
+        ],
+        "activeNodeIds": [
+          "production",
+          "incident-owner"
+        ],
+        "caption": "The observed outcome, exceptions, temporary access, rollback decision, and follow-up owners enter the retrospective; process maturity is evidence for improvement, not proof the product is secure.",
+        "id": "close-learn",
+        "statuses": {
+          "incident-owner": "outcome recorded; follow-up assigned"
+        },
+        "title": "Rollback or close, then learn"
+      }
+    ],
+    "takeaway": "Emergency delivery remains a controlled sequence: bounded authority, attributable review and build evidence, staged exposure, an executable rollback decision, and a closed learning loop.",
+    "title": "Move quickly without losing the evidence chain",
+    "transfer": {
+      "conceptIds": [
+        "change-management",
+        "operations-maintenance",
+        "devops"
+      ],
+      "hint": "Use the criterion agreed before deployment rather than choosing a favorable signal after the fact.",
+      "id": "d8-o01-transfer-5aa60d457e2b",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "A favorable threat signal does not cancel the predeclared service-safety threshold.",
+          "id": "expand",
+          "label": "Expand globally because the security signal improved.",
+          "repairStateId": "signal-crossed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The changed outcome activates the bounded rollback path and keeps the incident and learning chain intact.",
+          "id": "rollback-option",
+          "label": "Roll back under named authority, preserve evidence, and rework",
+          "repairStateId": "rollback"
+        },
+        {
+          "correct": false,
+          "feedback": "That silently changes the acceptance criteria and exposes more users without a new accountable decision.",
+          "id": "ignore-users",
+          "label": "Continue while support handles affected users manually.",
+          "repairStateId": "rework"
+        }
+      ],
+      "prompt": "During the canary, exploit attempts fall but authentication failures cross the declared rollback threshold. What should happen?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The state graph preserves emergency scope authority, fix authorship, independent review, build/test evidence, release ownership, canary thresholds, rollback, and retrospective closure. It omits persistent actor lifelines and message-order sequence geometry, so the staged responsibility mechanism is equivalent.",
+        "treatmentId": "fresh-d8-o01-secure-delivery-operations-urgent-release-responsibility-sequence"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d8-o01-secure-delivery-operations-urgent-release-responsibility-sequence"
+    ],
+    "unitId": "d8-o01-secure-delivery-operations",
+    "variants": [
+      {
+        "changedFact": "The vulnerability signal improves, but authentication failures exceed the predeclared rollback threshold during the canary.",
+        "edges": [
+          {
+            "from": "incident-owner",
+            "kind": "flow",
+            "label": "authorizes bounded repair and records decision",
+            "to": "developer"
+          },
+          {
+            "from": "developer",
+            "kind": "flow",
+            "label": "submits minimal fix and rollback plan",
+            "to": "reviewer"
+          },
+          {
+            "from": "reviewer",
+            "kind": "flow",
+            "label": "approves attributable candidate evidence",
+            "to": "pipeline"
+          },
+          {
+            "from": "pipeline",
+            "kind": "evidence",
+            "label": "delivers candidate and thresholds",
+            "to": "release-owner"
+          },
+          {
+            "from": "release-owner",
+            "kind": "flow",
+            "label": "releases to bounded canary",
+            "to": "production"
+          },
+          {
+            "from": "production",
+            "kind": "evidence",
+            "label": "triggers stop, rollback, preserved evidence, and rework",
+            "to": "incident-owner"
+          }
+        ],
+        "id": "canary-regression",
+        "label": "Canary shows authentication failures",
+        "nodes": [
+          {
+            "conceptIds": [
+              "change-management"
+            ],
+            "detail": "The owner records vulnerability urgency, bounded authority, stop rules, and rollback decision.",
+            "id": "incident-owner",
+            "label": "Emergency change owner"
+          },
+          {
+            "conceptIds": [],
+            "detail": "The author changes only the vulnerable behavior and preserves rollback compatibility.",
+            "id": "developer",
+            "label": "Smallest reviewed fix"
+          },
+          {
+            "conceptIds": [],
+            "detail": "The reviewer checks the fix, authentication impact, evidence, and rollback plan.",
+            "id": "reviewer",
+            "label": "Independent security reviewer"
+          },
+          {
+            "conceptIds": [
+              "devsecops"
+            ],
+            "detail": "The pipeline binds source, identity, artifact, vulnerability test, and authentication regression evidence.",
+            "id": "pipeline",
+            "label": "Attributable build and tests"
+          },
+          {
+            "conceptIds": [],
+            "detail": "The owner compares vulnerability and authentication signals with predeclared thresholds.",
+            "id": "release-owner",
+            "label": "Canary release authority"
+          },
+          {
+            "conceptIds": [
+              "operations-maintenance"
+            ],
+            "detail": "The small cohort shows improved vulnerability behavior but excessive authentication failures.",
+            "id": "production",
+            "label": "Canary production slice"
+          }
+        ],
+        "states": [
+          {
+            "activeNodeIds": [
+              "production",
+              "release-owner"
+            ],
+            "caption": "The canary stays bounded; the declared authentication threshold is crossed.",
+            "id": "signal-crossed",
+            "statuses": {
+              "production": "failure threshold crossed"
+            },
+            "title": "Observe the rollback signal"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "release-owner",
+              "production"
+            ],
+            "caption": "The release owner stops expansion and operations restores the previous known artifact while preserving evidence.",
+            "id": "rollback",
+            "statuses": {
+              "production": "rolled back; incident remains open"
+            },
+            "title": "Exercise rollback authority"
+          },
+          {
+            "activeEdgeIndexes": [
+              5
+            ],
+            "activeNodeIds": [
+              "production",
+              "incident-owner",
+              "developer"
+            ],
+            "caption": "Failure data and the rollback outcome return to the fix owner and retrospective; urgency does not justify uncontrolled expansion.",
+            "id": "rework",
+            "statuses": {
+              "incident-owner": "root cause and next owner recorded"
+            },
+            "title": "Feed evidence into the next change"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Integrate security into delivery and operations",
+  "workedExamples": [
+    {
+      "reasoning": "Use risk-based gates, automated regression and security checks, peer separation, scoped approval, canary deployment, rollback, monitoring, and a retrospective. The maturity model tracks whether this process is repeatable, while the release decision remains risk-owned.",
+      "situation": "Several teams release a shared identity service weekly while an urgent vulnerability requires an emergency change.",
+      "takeaway": "Use risk-based gates, automated regression and security checks, peer separation, scoped approval, canary deployment, rollback, monitoring, and a retrospective. The maturity model tracks whether this process is repeatable, while the release decision remains risk-owned.",
+      "title": "Scaled DevSecOps release"
+    },
+    {
+      "reasoning": "The incident/change authority records affected versions and business impact, scopes the patch, names the approver and deployment owner, performs focused regression and authentication tests, defines a canary/monitoring signal and rollback trigger, then documents the post-change review. The emergency path shortens approval timing; it does not remove evidence, ownership, or learning.",
+      "situation": "A critical vulnerability affects the production identity service and exploitation is observed.",
+      "takeaway": "The incident/change authority records affected versions and business impact, scopes the patch, names the approver and deployment owner, performs focused regression and authentication tests, defines a canary/monitoring signal and rollback trigger, then documents the post-change review. The emergency path shortens approval timing; it does not remove evidence, ownership, or learning.",
+      "title": "Emergency dependency patch with accountable speed"
+    }
+  ]
+}

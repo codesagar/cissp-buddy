@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o09-facility-security-controls",
+  "treatmentIds": [
+    "fresh-d3-o09-facility-security-controls-environment-detection-response-chain"
+  ],
+  "title": "environment detection response chain",
+  "question": "What must occur after a sensor or utility control detects a threat for the protected room, media, evidence, or service to remain safe and available?",
+  "scenario": "Evidence archive room: An incident-response team stores removable evidence media in a small room shared with general IT supplies.",
+  "focalRelation": "Prevention and environmental capacity reduce exposure; detection must notify an accountable responder; containment/suppression depends on people and life safety; power and HVAC resilience depend on transfer, fuel, maintenance, testing, and upstream utilities; recovery verifies readiness.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "Environmental threat",
+      "label": "Environmental Threat",
+      "detail": "Fire, water, temperature, humidity, smoke, or power loss can damage the evidence archive and its custody records.",
+      "conceptIds": [
+        "environmental-monitoring"
+      ]
+    },
+    {
+      "id": "Sensor or prevention control",
+      "label": "Sensor Or Prevention Control",
+      "detail": "Detection, suppression, containment, power, and environmental controls are selected for the credible hazard.",
+      "conceptIds": [
+        "control-assessment"
+      ]
+    },
+    {
+      "id": "Alarm event",
+      "label": "Alarm Event",
+      "detail": "A threshold breach creates a time-stamped alarm with location, condition, and severity.",
+      "conceptIds": [
+        "environmental-monitoring"
+      ]
+    },
+    {
+      "id": "Accountable responder",
+      "label": "Accountable Responder",
+      "detail": "A named role receives the alarm, protects people and evidence, and records the response outcome.",
+      "conceptIds": [
+        "control-assessment"
+      ]
+    },
+    {
+      "id": "Generator capability",
+      "label": "Generator Capability",
+      "detail": "The generator must support the critical evidence-room load for the required duration.",
+      "conceptIds": [
+        "power-resilience"
+      ]
+    },
+    {
+      "id": "Transfer, fuel and maintenance",
+      "label": "Transfer, Fuel And Maintenance",
+      "detail": "Automatic transfer, fuel supply, preventive maintenance, alarms, and load tests determine usable generator capability.",
+      "conceptIds": [
+        "power-resilience",
+        "control-assessment"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Environmental threat",
+      "to": "Sensor or prevention control",
+      "label": "requires a proportionate protection mechanism",
+      "kind": "dependency"
+    },
+    {
+      "from": "Alarm event",
+      "to": "Accountable responder",
+      "label": "must trigger an assigned response",
+      "kind": "flow"
+    },
+    {
+      "from": "Generator capability",
+      "to": "Transfer, fuel and maintenance",
+      "label": "depends on tested operation",
+      "kind": "dependency"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Evidence archive room: An incident-response team stores removable evidence media in a small room shared with general IT supplies.",
+      "activeNodeIds": [
+        "Environmental threat",
+        "Sensor or prevention control"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Environmental threat": "Fire, water, temperature, humidity, smoke, or power loss can damage the evidence archive and its custody records.",
+        "Sensor or prevention control": "Detection, suppression, containment, power, and environmental controls are selected for the credible hazard."
+      },
+      "activeRowIds": []
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Environmental Threat requires a proportionate protection mechanism Sensor Or Prevention Control. Alarm Event must trigger an assigned response Accountable Responder.",
+      "activeNodeIds": [
+        "Environmental threat",
+        "Sensor or prevention control",
+        "Alarm event",
+        "Accountable responder"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Sensor or prevention control": "Detection, suppression, containment, power, and environmental controls are selected for the credible hazard.",
+        "Environmental threat": "Fire, water, temperature, humidity, smoke, or power loss can damage the evidence archive and its custody records.",
+        "Alarm event": "A threshold breach creates a time-stamped alarm with location, condition, and severity.",
+        "Accountable responder": "A named role receives the alarm, protects people and evidence, and records the response outcome."
+      },
+      "activeRowIds": [
+        "fire-water"
+      ]
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Alarm Event must trigger an assigned response Accountable Responder. Generator Capability depends on tested operation Transfer, Fuel And Maintenance.",
+      "activeNodeIds": [
+        "Alarm event",
+        "Accountable responder",
+        "Generator capability",
+        "Transfer, fuel and maintenance"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Transfer, fuel and maintenance": "Automatic transfer, fuel supply, preventive maintenance, alarms, and load tests determine usable generator capability.",
+        "Alarm event": "A threshold breach creates a time-stamped alarm with location, condition, and severity.",
+        "Accountable responder": "A named role receives the alarm, protects people and evidence, and records the response outcome.",
+        "Generator capability": "The generator must support the critical evidence-room load for the required duration."
+      },
+      "activeRowIds": [
+        "environment"
+      ]
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The site has UPS and generator capacity on paper, but has never tested transfer under representative critical load. Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance, and failure handling before relying on the path.",
+      "activeNodeIds": [
+        "Environmental threat",
+        "Sensor or prevention control",
+        "Alarm event",
+        "Accountable responder",
+        "Generator capability",
+        "Transfer, fuel and maintenance"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "Transfer, fuel and maintenance": "Automatic transfer, fuel supply, preventive maintenance, alarms, and load tests determine usable generator capability.",
+        "Environmental threat": "Fire, water, temperature, humidity, smoke, or power loss can damage the evidence archive and its custody records.",
+        "Sensor or prevention control": "Detection, suppression, containment, power, and environmental controls are selected for the credible hazard.",
+        "Alarm event": "A threshold breach creates a time-stamped alarm with location, condition, and severity.",
+        "Accountable responder": "A named role receives the alarm, protects people and evidence, and records the response outcome.",
+        "Generator capability": "The generator must support the critical evidence-room load for the required duration."
+      },
+      "activeRowIds": [
+        "power"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Rated components exist. End-to-end transfer and runtime evidence are absent.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The site has UPS and generator capacity on paper, but has never tested transfer under representative critical load.",
+          "activeNodeIds": [
+            "Alarm event",
+            "Accountable responder",
+            "Generator capability",
+            "Transfer, fuel and maintenance"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "Transfer, fuel and maintenance": "Rated components exist. End-to-end transfer and runtime evidence are absent.",
+            "Alarm event": "A threshold breach creates a time-stamped alarm with location, condition, and severity.",
+            "Accountable responder": "A named role receives the alarm, protects people and evidence, and records the response outcome.",
+            "Generator capability": "The generator must support the critical evidence-room load for the required duration."
+          },
+          "activeRowIds": [
+            "fire-water"
+          ]
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance, and failure handling before relying on the path.",
+          "activeNodeIds": [
+            "Alarm event",
+            "Accountable responder",
+            "Generator capability",
+            "Transfer, fuel and maintenance"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "Transfer, fuel and maintenance": "Automatic transfer, fuel supply, preventive maintenance, alarms, and load tests determine usable generator capability.",
+            "Alarm event": "A threshold breach creates a time-stamped alarm with location, condition, and severity.",
+            "Accountable responder": "A named role receives the alarm, protects people and evidence, and records the response outcome.",
+            "Generator capability": "The generator must support the critical evidence-room load for the required duration."
+          },
+          "activeRowIds": [
+            "environment"
+          ]
+        }
+      ],
+      "matrix": {
+        "title": "Facility controls form an evidenced response chain",
+        "description": "Compare credible hazards across prevention, detection, response, recovery, and proof; a rated component is not an end-to-end capability.",
+        "columns": [
+          {
+            "id": "prevent",
+            "label": "Prevention / capacity"
+          },
+          {
+            "id": "detect",
+            "label": "Detection"
+          },
+          {
+            "id": "respond",
+            "label": "Response"
+          },
+          {
+            "id": "recover",
+            "label": "Recovery"
+          },
+          {
+            "id": "proof",
+            "label": "Evidence"
+          }
+        ],
+        "rows": [
+          {
+            "id": "fire-water",
+            "label": "Fire or water",
+            "cells": {
+              "prevent": "Separation, compatible storage and suppression design",
+              "detect": "Located smoke/water condition with time and severity",
+              "respond": "Life safety first; named responder protects evidence when safe",
+              "recover": "Inspect media and custody records; restore protected storage",
+              "proof": "Alarm, response, inspection and recovery records"
+            }
+          },
+          {
+            "id": "environment",
+            "label": "Temperature or humidity",
+            "cells": {
+              "prevent": "Rated HVAC and environmental capacity",
+              "detect": "Threshold and trend monitoring",
+              "respond": "Escalate, reduce load or move media under custody",
+              "recover": "Stabilize conditions and verify affected evidence",
+              "proof": "Sensor calibration, alerts, transfer and inspection records"
+            }
+          },
+          {
+            "id": "power",
+            "label": "Power loss",
+            "cells": {
+              "prevent": "UPS/generator sized for critical load and duration",
+              "detect": "Utility, UPS, transfer and fuel alarms",
+              "respond": "Automatic/manual transfer with accountable operator",
+              "recover": "Return to stable supply and reconcile faults",
+              "proof": "Load test, transfer time, runtime, fuel and maintenance evidence"
+            }
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "prediction": {
+    "id": "d3-o09-facility-security-controls-prediction-v1",
+    "prompt": "What must occur after a sensor or utility control detects a threat for the protected room, media, evidence, or service to remain safe and available?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Accept the generator because its nameplate capacity exceeds the average building load.",
+        "correct": false,
+        "feedback": "Average capacity does not prove transfer behavior, starting load, runtime, fuel, maintenance, or dependency coverage.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Connect detection to accountable response, safe containment, continuity, recovery, and verified readiness.",
+        "correct": true,
+        "feedback": "An alarm, generator, secure room, or suppression system is only one component; availability and custody depend on maintained and tested response chains.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Redundant power equipment automatically proves service availability.",
+        "correct": false,
+        "feedback": "Capacity, transfer, runtime, fuel, maintenance, dependencies, alarms, and load tests determine whether the end-to-end path works.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "media-storage",
+      "evidence-storage",
+      "power-resilience",
+      "physical-access-control",
+      "control-assessment"
+    ],
+    "hint": "A standby component is not a capability until transfer, load, runtime, and failure behavior are tested."
+  },
+  "transfer": {
+    "id": "d3-o09-facility-security-controls-transfer-v1",
+    "prompt": "The site has UPS and generator capacity on paper, but has never tested transfer under representative critical load.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Accept the generator from nameplate capacity alone without testing transfer, critical load, runtime, fuel, alarms, or maintenance.",
+        "correct": false,
+        "feedback": "Changed fact: Rated components exist. End-to-end transfer and runtime evidence are absent. Why this answer fails: “Accept the generator from nameplate capacity alone without testing transfer, critical load, runtime, fuel, alarms, or maintenance.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Prevention and environmental capacity reduce exposure; detection must notify an accountable responder; containment/suppression depends on people and life safety; power and HVAC resilience depend on transfer, fuel, maintenance, testing, and upstream utilities; recovery verifies readiness. Repair target: Control and evidence consequence — Alarm Event must trigger an assigned response Accountable Responder. Generator Capability depends on tested operation Transfer, Fuel And Maintenance.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Treat redundant power equipment as proof of availability without end-to-end transfer and sustained-load evidence.",
+        "correct": false,
+        "feedback": "Changed fact: Rated components exist. End-to-end transfer and runtime evidence are absent. Why this answer fails: “Treat redundant power equipment as proof of availability without end-to-end transfer and sustained-load evidence.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Prevention and environmental capacity reduce exposure; detection must notify an accountable responder; containment/suppression depends on people and life safety; power and HVAC resilience depend on transfer, fuel, maintenance, testing, and upstream utilities; recovery verifies readiness. Repair target: Changed fact, recomputed result — The site has UPS and generator capacity on paper, but has never tested transfer under representative critical load. Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance, and failure handling before relying on the path.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance",
+        "correct": true,
+        "feedback": "Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance, and failure handling before relying on the path.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "hvac",
+      "fire-suppression",
+      "power-resilience"
+    ],
+    "hint": "Check the entire power path from UPS ride-through through generator fuel and alarms."
+  },
+  "retry": {
+    "id": "d3-o09-facility-security-controls-retry-v1",
+    "prompt": "Removable incident evidence is stored in a room shared with general IT supplies, and many support staff can enter. Which correction addresses the evidence risk?",
+    "options": [
+      {
+        "id": "separate-custody",
+        "label": "Separate evidence storage, restrict and log access, maintain inventory, and monitor environmental conditions",
+        "correct": true,
+        "feedback": "Correct. The control set protects custody, access, integrity, retention, and the storage environment together.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "more-power",
+        "label": "Add another UPS because evidence custody is primarily an electrical-availability problem",
+        "correct": false,
+        "feedback": "Power matters, but the changed case centers on access, custody, inventory, and environmental separation.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "same-room",
+        "label": "Keep the shared room and rely on a label attached to each evidence item",
+        "correct": false,
+        "feedback": "Labels do not restrict entry, establish custody, reconcile inventory, or protect the storage environment.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "evidence-storage",
+      "media-storage",
+      "physical-access-control",
+      "environmental-monitoring",
+      "control-assessment"
+    ],
+    "hint": "Prefer verified critical-load performance over a nameplate capacity claim."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Prevention and environmental capacity reduce exposure; detection must notify an accountable responder; containment/suppression depends on people and life safety; power and HVAC resilience depend on transfer, fuel, maintenance, testing, and upstream utilities; recovery verifies readiness.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o09-outline",
+    "d3-o09-textbook",
+    "d3-o09-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o09-facility-security-controls-environment-detection-response-chain",
+      "disposition": "equivalent",
+      "rationale": "The comparison links an environmental threat to prevention or sensing, alarm, accountable response, and the generator chain of transfer, fuel, maintenance, and representative-load testing. It preserves detection-to-response and utility evidence for an evidence archive; separate wiring-closet, data-center, and work-area cases remain canonical reference content."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A sensor or redundant component is useful only when it triggers accountable response and works through the full dependency chain. Generator nameplate capacity does not prove transfer, starting load, runtime, fuel, alarms, or maintenance.",
+    "visualReasoningGain": "A hazard-to-response-and-recovery matrix would add coordinated layer and evidence comparison; the current paired cards add only selected dependencies."
+  },
+  "matrix": {
+    "title": "Facility controls form an evidenced response chain",
+    "description": "Compare credible hazards across prevention, detection, response, recovery, and proof; a rated component is not an end-to-end capability.",
+    "columns": [
+      {
+        "id": "prevent",
+        "label": "Prevention / capacity"
+      },
+      {
+        "id": "detect",
+        "label": "Detection"
+      },
+      {
+        "id": "respond",
+        "label": "Response"
+      },
+      {
+        "id": "recover",
+        "label": "Recovery"
+      },
+      {
+        "id": "proof",
+        "label": "Evidence"
+      }
+    ],
+    "rows": [
+      {
+        "id": "fire-water",
+        "label": "Fire or water",
+        "cells": {
+          "prevent": "Separation, compatible storage and suppression design",
+          "detect": "Located smoke/water condition with time and severity",
+          "respond": "Life safety first; named responder protects evidence when safe",
+          "recover": "Inspect media and custody records; restore protected storage",
+          "proof": "Alarm, response, inspection and recovery records"
+        }
+      },
+      {
+        "id": "environment",
+        "label": "Temperature or humidity",
+        "cells": {
+          "prevent": "Rated HVAC and environmental capacity",
+          "detect": "Threshold and trend monitoring",
+          "respond": "Escalate, reduce load or move media under custody",
+          "recover": "Stabilize conditions and verify affected evidence",
+          "proof": "Sensor calibration, alerts, transfer and inspection records"
+        }
+      },
+      {
+        "id": "power",
+        "label": "Power loss",
+        "cells": {
+          "prevent": "UPS/generator sized for critical load and duration",
+          "detect": "Utility, UPS, transfer and fuel alarms",
+          "respond": "Automatic/manual transfer with accountable operator",
+          "recover": "Return to stable supply and reconcile faults",
+          "proof": "Load test, transfer time, runtime, fuel and maintenance evidence"
+        }
+      }
+    ],
+    "notes": []
+  }
+}

@@ -1,0 +1,530 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d2-o04-data-lifecycle",
+  "treatmentIds": [
+    "fresh-d2-o04-data-lifecycle-copy-state-ledger",
+    "copies"
+  ],
+  "title": "One dataset, four independent copy states",
+  "question": "After the research project closes, which copies may be destroyed, retained, or left unresolved?",
+  "scenario": "A clinical research project closes. Its participant dataset exists as a primary application record, a seven-year compliance archive, a disaster-recovery backup, and a supplier analytics export. A documented legal hold names only the archive and backup. The application owner can delete the visible record but has no supplier disposition evidence.",
+  "focalRelation": "Lifecycle obligations attach to each copy. Deleting the primary changes one ledger row; it neither deletes nor authorizes destruction of the held archive, retained backup, or unresolved supplier export.",
+  "representation": "ledger",
+  "nodes": [
+    {
+      "id": "primary",
+      "label": "Primary application record",
+      "detail": "Organization custody; active purpose ended; no hold; application deletion available.",
+      "conceptIds": [
+        "data-lifecycle",
+        "collection",
+        "use",
+        "destruction"
+      ],
+      "lane": "organization"
+    },
+    {
+      "id": "archive",
+      "label": "Compliance archive",
+      "detail": "Organization custody; seven-year retention remains; named by the legal hold.",
+      "conceptIds": [
+        "archival",
+        "data-lifecycle"
+      ],
+      "lane": "organization"
+    },
+    {
+      "id": "backup",
+      "label": "Recovery backup",
+      "detail": "Organization custody; recovery retention remains; named by the legal hold.",
+      "conceptIds": [
+        "archival",
+        "data-lifecycle"
+      ],
+      "lane": "organization"
+    },
+    {
+      "id": "export",
+      "label": "Supplier analytics export",
+      "detail": "The supplier export is an independent copy created by approved sharing; its deletion and disposition remain unverified.",
+      "conceptIds": [
+        "sharing",
+        "data-minimization",
+        "destruction"
+      ],
+      "lane": "supplier"
+    },
+    {
+      "id": "hold",
+      "label": "Scoped legal hold",
+      "detail": "The approved hold covers the archive and backup only; it does not silently expand to every copy.",
+      "conceptIds": [
+        "data-lifecycle",
+        "archival"
+      ],
+      "lane": "obligations"
+    },
+    {
+      "id": "evidence",
+      "label": "Disposition evidence",
+      "detail": "Copy-specific records prove which data was preserved, deleted, sanitized, returned, or retained under an applicable duty.",
+      "conceptIds": [
+        "destruction"
+      ],
+      "lane": "obligations"
+    }
+  ],
+  "edges": [
+    {
+      "from": "primary",
+      "to": "export",
+      "label": "approved sharing created an independent copy",
+      "kind": "flow"
+    },
+    {
+      "from": "hold",
+      "to": "archive",
+      "label": "requires preservation of this named copy",
+      "kind": "evidence"
+    },
+    {
+      "from": "hold",
+      "to": "backup",
+      "label": "requires preservation of this named copy",
+      "kind": "evidence"
+    },
+    {
+      "from": "primary",
+      "to": "evidence",
+      "label": "requires copy-specific disposition proof",
+      "kind": "evidence"
+    },
+    {
+      "from": "export",
+      "to": "evidence",
+      "label": "supplier outcome remains unverified",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "organization",
+      "label": "Organization custody",
+      "rule": "Rows share a custodian but keep independent purpose, retention, hold, and disposition states."
+    },
+    {
+      "id": "supplier",
+      "label": "Supplier custody",
+      "rule": "The export remains a governed copy; location does not erase owner obligations."
+    },
+    {
+      "id": "obligations",
+      "label": "Decision constraints",
+      "rule": "Holds and disposition evidence apply only to the copies and scope they identify."
+    }
+  ],
+  "states": [
+    {
+      "id": "inventory",
+      "title": "Four copies exist",
+      "caption": "Before closure, the ledger identifies each persistent copy, its custodian, purpose, retention trigger, and evidence owner.",
+      "activeNodeIds": [
+        "primary",
+        "archive",
+        "backup",
+        "export"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "primary": "The production copy remains active in the customer service.",
+        "archive": "The archive remains within its approved retention period.",
+        "backup": "The backup remains a governed recovery copy with its own retention schedule.",
+        "export": "The supplier holds an exported copy for the stated service purpose."
+      }
+    },
+    {
+      "id": "closure",
+      "title": "Project purpose ends",
+      "caption": "Closure ends the primary and analytics purposes, but the archive retention, backup requirement, and scoped hold remain.",
+      "activeNodeIds": [
+        "primary",
+        "archive",
+        "backup",
+        "export",
+        "hold"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "primary": "The primary copy is eligible for disposition review after the service closes.",
+        "archive": "Organization custody; seven-year retention remains; named by the legal hold.",
+        "backup": "Organization custody; recovery retention remains; named by the legal hold.",
+        "export": "The supplier’s processing purpose has ended, but disposition evidence has not arrived.",
+        "hold": "The approved hold covers the archive and backup only; it does not silently expand to every copy."
+      }
+    },
+    {
+      "id": "local-delete",
+      "title": "Application deletion is local",
+      "caption": "The primary disappears from the application view. The other three copy identities and obligations do not change.",
+      "activeNodeIds": [
+        "primary",
+        "archive",
+        "backup",
+        "export",
+        "hold",
+        "evidence"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "primary": "The application record is deleted, but accepted disposition proof is still pending.",
+        "archive": "Organization custody; seven-year retention remains; named by the legal hold.",
+        "backup": "Organization custody; recovery retention remains; named by the legal hold.",
+        "export": "The supplier copy may still exist because its disposition is unverified.",
+        "hold": "The approved hold covers the archive and backup only; it does not silently expand to every copy.",
+        "evidence": "Copy-specific records prove which data was preserved, deleted, sanitized, returned, or retained under an applicable duty."
+      }
+    },
+    {
+      "id": "verified",
+      "title": "Disposition is proven per copy",
+      "caption": "Accepted evidence closes the primary row only after scope and remanence checks; archive and backup remain held, and the supplier export remains unresolved.",
+      "activeNodeIds": [
+        "primary",
+        "archive",
+        "backup",
+        "export",
+        "hold",
+        "evidence"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "primary": "The primary copy has verified disposition evidence.",
+        "archive": "Organization custody; seven-year retention remains; named by the legal hold.",
+        "backup": "Organization custody; recovery retention remains; named by the legal hold.",
+        "export": "The supplier copy remains an open disposition action.",
+        "evidence": "The evidence proves disposition of the primary copy only.",
+        "hold": "The approved hold covers the archive and backup only; it does not silently expand to every copy."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "surviving-copies",
+      "label": "Primary deleted; two copies remain",
+      "changedFact": "The primary is gone, but the approved supplier export and the security log still contain the same participant fields.",
+      "lanes": [
+        {
+          "id": "ended",
+          "label": "Ended source record",
+          "rule": "Deleting the primary record does not change the state of surviving copies."
+        },
+        {
+          "id": "copies",
+          "label": "Surviving governed copies",
+          "rule": "Each copy keeps its own custodian, purpose, retention trigger, access rules, and disposition path."
+        },
+        {
+          "id": "evidence",
+          "label": "Copy ledger and evidence",
+          "rule": "A copy closes only when its own retention or disposition outcome is recorded and verified."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "primary-deleted",
+          "label": "Deleted primary record",
+          "detail": "The clinical application record is deleted and has accepted local disposition evidence.",
+          "conceptIds": [
+            "data-lifecycle",
+            "destruction"
+          ],
+          "lane": "ended"
+        },
+        {
+          "id": "supplier-export",
+          "label": "Supplier analytics export",
+          "detail": "The supplier still holds participant fields after the analytics purpose has ended.",
+          "conceptIds": [
+            "sharing",
+            "data-minimization",
+            "destruction"
+          ],
+          "lane": "copies"
+        },
+        {
+          "id": "supplier-purpose",
+          "label": "Ended supplier purpose",
+          "detail": "Project closure removes the approved analytics purpose, triggering return or verified disposal under the agreement.",
+          "conceptIds": [
+            "data-lifecycle",
+            "destruction"
+          ],
+          "lane": "copies"
+        },
+        {
+          "id": "security-log",
+          "label": "Security log copy",
+          "detail": "The security log contains the same fields for a separate security purpose and retention rule.",
+          "conceptIds": [
+            "archival",
+            "data-lifecycle"
+          ],
+          "lane": "copies"
+        },
+        {
+          "id": "log-retention",
+          "label": "Security-log retention rule",
+          "detail": "The security purpose, legal duties, and approved schedule determine how long the log copy remains.",
+          "conceptIds": [
+            "archival",
+            "data-lifecycle"
+          ],
+          "lane": "copies"
+        },
+        {
+          "id": "copy-ledger",
+          "label": "Copy-specific disposition ledger",
+          "detail": "Separate rows record the supplier return or disposal evidence and the security log retention outcome.",
+          "conceptIds": [
+            "data-lifecycle",
+            "destruction"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "primary-deleted",
+          "to": "supplier-export",
+          "label": "does not delete the independently held",
+          "kind": "dependency"
+        },
+        {
+          "from": "supplier-purpose",
+          "to": "supplier-export",
+          "label": "triggers return or verified disposal of",
+          "kind": "dependency"
+        },
+        {
+          "from": "log-retention",
+          "to": "security-log",
+          "label": "governs the separate retention of",
+          "kind": "dependency"
+        },
+        {
+          "from": "supplier-export",
+          "to": "copy-ledger",
+          "label": "requires supplier-specific outcome evidence in",
+          "kind": "evidence"
+        },
+        {
+          "from": "security-log",
+          "to": "copy-ledger",
+          "label": "requires its own retention and disposition record in",
+          "kind": "evidence"
+        }
+      ],
+      "states": [
+        {
+          "id": "surviving-facts",
+          "title": "Deletion is local to one copy",
+          "caption": "The primary is deleted, while the supplier export and security log remain independent governed copies.",
+          "activeNodeIds": [
+            "primary-deleted",
+            "supplier-export",
+            "security-log"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "primary-deleted": "The application record has verified local deletion.",
+            "supplier-export": "The supplier export still exists after its approved analytics purpose ended.",
+            "security-log": "The security log still contains participant fields for a separate security purpose."
+          }
+        },
+        {
+          "id": "separate-rules",
+          "title": "Each copy keeps its own rule",
+          "caption": "The ended supplier purpose triggers return or verified disposal; the security log follows its separately approved retention rule.",
+          "activeNodeIds": [
+            "supplier-purpose",
+            "supplier-export",
+            "log-retention",
+            "security-log"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "supplier-purpose": "The analytics purpose ended when the research project closed.",
+            "supplier-export": "The supplier must return or dispose of its copy under the governing agreement.",
+            "log-retention": "The security purpose and approved schedule determine the log retention period.",
+            "security-log": "The log is neither retained nor deleted merely because the primary record was deleted."
+          }
+        },
+        {
+          "id": "separate-evidence",
+          "title": "Close two ledger rows separately",
+          "caption": "The owner records and verifies the supplier outcome and security-log outcome independently.",
+          "activeNodeIds": [
+            "supplier-export",
+            "security-log",
+            "copy-ledger"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "supplier-export": "Supplier disposition remains open until return or deletion evidence is accepted.",
+            "security-log": "The log remains under its own retention decision and later disposition evidence.",
+            "copy-ledger": "Two separate rows prevent the primary deletion from being copied as the result for either survivor."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d2-o04-predict-v1",
+    "prompt": "After the application owner deletes the primary record, which claim is justified?",
+    "options": [
+      {
+        "id": "all-held",
+        "label": "Every copy must be retained because any legal hold covers the entire dataset",
+        "correct": false,
+        "feedback": "This hold names the archive and backup. Do not invent scope for the primary or supplier export; assess their independent obligations.",
+        "repairStateId": "closure"
+      },
+      {
+        "id": "each-copy",
+        "label": "Each surviving copy keeps its own hold, retention, access, and disposition decision",
+        "correct": true,
+        "feedback": "Correct. The ledger preserves copy identity so one local event cannot stand in for global lifecycle completion.",
+        "repairStateId": "closure"
+      },
+      {
+        "id": "dataset-gone",
+        "label": "The dataset is gone because its system-of-record row no longer exists",
+        "correct": false,
+        "feedback": "The archive, backup, and supplier export remain. A user-visible delete changes one copy, not the dataset’s complete inventory.",
+        "repairStateId": "local-delete"
+      }
+    ],
+    "conceptIds": [
+      "data-lifecycle",
+      "archival",
+      "destruction",
+      "sharing"
+    ],
+    "hint": "Treat every persistent copy as its own ledger row with a custodian and purpose."
+  },
+  "transfer": {
+    "id": "d2-o04-transfer-v1",
+    "prompt": "The primary is gone, but the approved supplier export and the security log still contain the same participant fields. What should the owner do?",
+    "options": [
+      {
+        "id": "separate-ledger",
+        "label": "Keep both as separate ledger rows and decide retention and disposition independently",
+        "correct": true,
+        "feedback": "Correct. The changed case leaves two independently governed copies after the primary is gone.",
+        "repairStateId": "separate-evidence"
+      },
+      {
+        "id": "archive-all",
+        "label": "Move both into the compliance archive because retention is safer than deletion",
+        "correct": false,
+        "feedback": "Archival requires a defined purpose and controls. It is not a default that resolves an ended supplier purpose or a log’s separate need.",
+        "repairStateId": "separate-rules"
+      },
+      {
+        "id": "inherit-delete",
+        "label": "Mark both deleted because copies inherit the primary record’s final state",
+        "correct": false,
+        "feedback": "Copies do not inherit a deletion state. Their custodians, purposes, retention triggers, and evidence differ.",
+        "repairStateId": "surviving-facts"
+      }
+    ],
+    "conceptIds": [
+      "sharing",
+      "archival",
+      "destruction",
+      "data-lifecycle"
+    ],
+    "hint": "Deleting the primary does not decide the supplier export or security log."
+  },
+  "retry": {
+    "id": "d2-o04-retry-v1",
+    "prompt": "The hold is released, a new analytics cache is found, and the backup’s recovery-retention period is still active. Which action is defensible?",
+    "options": [
+      {
+        "id": "assess-separately",
+        "label": "Inventory the cache and preserve the backup until each copy’s own requirement permits disposition",
+        "correct": true,
+        "feedback": "Correct. The backup remains constrained by recovery retention, while the cache receives a separate purpose and disposition review.",
+        "repairStateId": "separate-evidence"
+      },
+      {
+        "id": "delete-both",
+        "label": "Delete the cache and backup because hold release authorizes global disposition",
+        "correct": false,
+        "feedback": "Hold release ends one constraint. The backup’s independent recovery requirement still applies, and the new cache has not been assessed.",
+        "repairStateId": "surviving-facts"
+      },
+      {
+        "id": "keep-forever",
+        "label": "Retain both indefinitely because newly discovered copies cannot be safely governed",
+        "correct": false,
+        "feedback": "Discovery creates an inventory and decision obligation, not permanent retention. Define purpose, owner, requirements, and evidence for each.",
+        "repairStateId": "separate-rules"
+      }
+    ],
+    "conceptIds": [
+      "data-lifecycle",
+      "data-minimization",
+      "archival",
+      "destruction"
+    ],
+    "hint": "Close each surviving copy only with its own retention rule and disposition evidence."
+  },
+  "takeaway": "A data lifecycle is a ledger of governed copies and transitions. A local delete proves only a local state change until every surviving copy and obligation has evidence.",
+  "assumptions": [
+    "The four initial copies form the complete known inventory for the worked state.",
+    "The legal hold is approved and explicitly limited to archive and backup.",
+    "Controller and processor labels depend on applicable law and are not assigned by this scenario."
+  ],
+  "sourceRefIds": [
+    "official-d2-23-31",
+    "takeaways-d2-lifecycle",
+    "sybex-d2",
+    "d2-o04-gdpr-roles"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d2-o04-data-lifecycle-copy-state-ledger",
+      "disposition": "equivalent",
+      "rationale": "The ledger preserves independent primary, archive, backup, and supplier-copy states, a scoped legal hold, local deletion, verified evidence, and a new-copy variant. Learners step through authored states rather than selecting arbitrary copy transitions."
+    },
+    {
+      "treatmentId": "copies",
+      "disposition": "equivalent",
+      "rationale": "The production ledger includes the prototype’s persistent custody groups and three-state comparison while extending it with collection, use, sharing, minimization, and a changed hold-release retry."
+    }
+  ]
+}

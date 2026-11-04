@@ -1,0 +1,740 @@
+{
+  "conceptIds": [
+    "authorization",
+    "rbac",
+    "rule-based-access-control",
+    "mac",
+    "dac",
+    "abac",
+    "risk-based-access-control",
+    "policy-decision-point",
+    "policy-enforcement-point",
+    "least-privilege",
+    "separation-of-duties"
+  ],
+  "concepts": [
+    {
+      "decision": "evaluate action/context",
+      "definition": "permission decision",
+      "failureExample": "authenticated but unauthorized user",
+      "id": "authorization",
+      "label": "Authorization",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "define role lifecycle",
+      "definition": "RBAC means: role→permission.",
+      "failureExample": "RBAC failure example: role explosion.",
+      "id": "rbac",
+      "label": "RBAC",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "Define rule scope, precedence and conflict behavior; maintain rules as resources and conditions change.",
+      "definition": "Access is permitted or denied by evaluating explicit rules against request conditions.",
+      "failureExample": "An obsolete allow rule still exposes an administrative port after a network change.",
+      "id": "rule-based-access-control",
+      "label": "Rule-Based Access Control",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "enforce mandatory rule",
+      "definition": "label/clearance policy",
+      "failureExample": "owner cannot override",
+      "id": "mac",
+      "label": "MAC",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "DAC decision: manage grants.",
+      "definition": "owner discretion",
+      "failureExample": "uncontrolled sharing",
+      "id": "dac",
+      "label": "DAC",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "validate freshness",
+      "definition": "attribute policy",
+      "failureExample": "stale department attribute",
+      "id": "abac",
+      "label": "ABAC",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "step-up/deny threshold",
+      "definition": "risk/context decision",
+      "failureExample": "impossible-travel ignored",
+      "id": "risk-based-access-control",
+      "label": "Risk-Based Access Control",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "return permitted/denied",
+      "definition": "policy evaluator",
+      "failureExample": "Policy Decision Point failure example: unavailable PDP.",
+      "id": "policy-decision-point",
+      "label": "Policy Decision Point",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "Policy Enforcement Point decision: fail safely/log.",
+      "definition": "Policy Enforcement Point means: action gate.",
+      "failureExample": "Policy Enforcement Point failure example: PEP bypass.",
+      "id": "policy-enforcement-point",
+      "label": "Policy Enforcement Point",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-1"
+    },
+    {
+      "decision": "limit scope/time",
+      "definition": "minimum permissions",
+      "failureExample": "Least Privilege failure example: overbroad role.",
+      "id": "least-privilege",
+      "label": "Least Privilege",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-2"
+    },
+    {
+      "decision": "enforce dual control",
+      "definition": "conflicting authority split",
+      "failureExample": "self-approve payment",
+      "id": "separation-of-duties",
+      "label": "Separation Of Duties",
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "sourceVisualId": "d5-o04-authorization-mechanisms-decision-comparison-2"
+    }
+  ],
+  "domainId": 5,
+  "estimatedMinutes": 45,
+  "id": "d5-o04-authorization-mechanisms",
+  "misconceptions": [
+    {
+      "claim": "RBAC is always the simplest and safest model.",
+      "correction": "RBAC can be effective for stable functions, but role explosion, temporary context, and separation-of-duty requirements may call for attributes, rules, or a hybrid."
+    },
+    {
+      "claim": "The user interface is the enforcement point.",
+      "correction": "APIs, services, databases, operating systems, and network boundaries must enforce independently so bypassing the UI does not bypass policy."
+    },
+    {
+      "claim": "A valid token remains authorized until it expires.",
+      "correction": "High-impact systems may require fresh decisions, revocation checks, or step-up authentication when roles, device posture, or risk changes."
+    }
+  ],
+  "objectiveIds": [
+    "5.4"
+  ],
+  "outcome": "Given a resource and access request, select or compare an access-control model, identify policy inputs, place the decision and enforcement points, and explain how the result is reviewed or revoked.",
+  "prerequisites": [
+    "d5-o01-physical-logical-access",
+    "d5-o02-identification-authentication-strategy",
+    "d2-o01-inventory-classification"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Discretionary access control lets an owner or creator decide access; mandatory access control applies centrally governed labels and rules; role-based access control maps permissions to job or function roles; rule-based control evaluates explicit conditions; attribute-based access control evaluates subject, object, action, and environment attributes; risk-based control adapts the decision to assessed context. The choice is not a ranking of good and bad models. It is a question of authority, information classification, change rate, auditability, and required context.",
+      "id": "models-and-inputs",
+      "keyPoints": [
+        "RBAC is useful when stable job functions map cleanly to permissions, but role explosion can become a governance problem.",
+        "ABAC and risk-based decisions can express context, but they depend on trustworthy and timely attributes.",
+        "Least privilege, need to know, and separation of duties constrain any model."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o04",
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "title": "Choose a model that matches the policy"
+    },
+    {
+      "body": "A policy decision point evaluates the request and returns a result; a policy enforcement point applies that result at an API, application, database, operating-system, network, or physical boundary. Centralized decisions can improve consistency while distributed enforcement preserves local control and resilience. Test both sides: a correct policy is ineffective if an enforcement path fails open, caches stale permissions, ignores a deny, trusts an unverified attribute, or cannot revoke a long-lived token.",
+      "id": "decision-and-enforcement",
+      "keyPoints": [
+        "A policy decision should name the subject, object, action, policy version, and relevant context.",
+        "Default deny is a prudent response when no rule authorizes a consequential action.",
+        "Fresh decisions or step-up controls may be required for high-impact actions or changed conditions."
+      ],
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "title": "Separate decision from enforcement"
+    },
+    {
+      "body": "RBAC grants permissions through roles and supports governed job functions; rule-based access applies system-defined conditions; MAC enforces centrally controlled labels and clearances; DAC permits a resource owner to delegate within policy; ABAC evaluates subject, object, action, and environment attributes; and risk-based access changes the decision or required assurance from contextual risk. A policy decision point evaluates policy and inputs; a policy enforcement point intercepts or mediates the requested action and must fail in a policy-consistent way. Choose based on stability of job roles, classification, ownership, attribute quality, context, scale, auditability, and consequence. Failures include role explosion, untrusted attributes, policy bypass at an API, inconsistent PDP/PEP decisions, owner delegation without review, and risk signals silently converting a deny into allow.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o04",
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ],
+      "title": "Select, enforce, and review an authorization policy model"
+    }
+  ],
+  "sourceHash": "644e8839bf05e490b92374cd43b3ea4c7e9f9c21881fe3cbe5bf2950a9520285",
+  "sourcePath": "knowledge/domains/d5-identity-access-management/units/d5-o04-authorization-mechanisms.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o04",
+      "locator": {
+        "type": "objective",
+        "value": "5.4"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "authorization models",
+        "policy decision and enforcement"
+      ]
+    },
+    {
+      "id": "official-d5-35-41",
+      "locator": {
+        "type": "printed-page",
+        "value": "35-41 (PDF pp. 35-41)"
+      },
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "supports": [
+        "access-control models",
+        "DAC",
+        "MAC",
+        "RBAC",
+        "rule-based",
+        "ABAC",
+        "risk-based access"
+      ]
+    },
+    {
+      "id": "sybex-d5-677-690",
+      "locator": {
+        "type": "printed-page",
+        "value": "677-690, Chapter 14"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "authorization mechanisms",
+        "access-control models",
+        "implementing authentication systems"
+      ]
+    }
+  ],
+  "summary": "Authorization translates policy into a permit, deny, or conditional decision for a subject attempting an action on an object. The model and enforcement architecture should express business authority, least privilege, context, and risk without relying on a successful login alone.",
+  "teaching": {
+    "assumptions": [
+      "The example policy requires a current care-team assignment for ordinary access.",
+      "A defined break-glass path would be a separate conditional result with its own logging and review.",
+      "Animation timing, if used by the renderer, represents presentation pacing rather than system latency."
+    ],
+    "edges": [
+      {
+        "from": "clinician",
+        "kind": "flow",
+        "label": "submits authenticated request",
+        "to": "request"
+      },
+      {
+        "from": "request",
+        "kind": "flow",
+        "label": "supplies current decision inputs",
+        "to": "pdp"
+      },
+      {
+        "from": "pdp",
+        "kind": "flow",
+        "label": "returns scoped result and obligations",
+        "to": "pep"
+      },
+      {
+        "from": "pep",
+        "kind": "flow",
+        "label": "permits read only when result is current",
+        "to": "record"
+      },
+      {
+        "from": "pep",
+        "kind": "evidence",
+        "label": "records enforced outcome",
+        "to": "audit"
+      }
+    ],
+    "focalRelation": "The PDP evaluates current subject, object, action, and context attributes; the API PEP enforces the scoped result before the record operation.",
+    "nodes": [
+      {
+        "conceptIds": [
+          "authorization"
+        ],
+        "detail": "Authenticated clinician; authentication identifies the subject but does not authorize this record read.",
+        "id": "clinician",
+        "label": "Dr. Reyes"
+      },
+      {
+        "conceptIds": [
+          "abac",
+          "risk-based-access-control"
+        ],
+        "detail": "Subject: Reyes; object: patient 1842; action: read; device: managed; shift: active; care team: current value.",
+        "id": "request",
+        "label": "Read request"
+      },
+      {
+        "conceptIds": [
+          "policy-decision-point",
+          "rule-based-access-control"
+        ],
+        "detail": "Evaluates current attributes and policy version; returns permit, deny, or a defined step-up obligation.",
+        "id": "pdp",
+        "label": "Policy decision point"
+      },
+      {
+        "conceptIds": [
+          "policy-enforcement-point",
+          "least-privilege"
+        ],
+        "detail": "Mediates the resource operation and applies the PDP result even if the UI or token would otherwise allow a request.",
+        "id": "pep",
+        "label": "Record API enforcement"
+      },
+      {
+        "conceptIds": [
+          "authorization"
+        ],
+        "detail": "The protected object. No denied path reaches this node.",
+        "id": "record",
+        "label": "Patient record"
+      },
+      {
+        "conceptIds": [
+          "authorization",
+          "separation-of-duties"
+        ],
+        "detail": "Records subject, object, action, policy, context, result, obligation, and enforcement outcome for review.",
+        "id": "audit",
+        "label": "Decision evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "authorization",
+        "policy-decision-point",
+        "policy-enforcement-point"
+      ],
+      "hint": "Name the component that computes a result separately from the component placed on the resource path.",
+      "id": "d5-o04-predict-ea22fb6d1edd",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. The PDP computes the scoped result and the PEP enforces it at the protected operation.",
+          "id": "pdp-pep",
+          "label": "The PDP reevaluates current context; the API PEP blocks the read",
+          "repairStateId": "deny-stops"
+        },
+        {
+          "correct": false,
+          "feedback": "Authentication identifies Dr. Reyes. It does not override the changed patient relationship used by authorization.",
+          "id": "token-allows",
+          "label": "The valid sign-in token keeps the read permitted.",
+          "repairStateId": "current-inputs"
+        },
+        {
+          "correct": false,
+          "feedback": "UI hiding is not resource mediation. The API PEP must stop the operation before the record.",
+          "id": "ui-hides",
+          "label": "Hide the record in the UI; the API may still return it.",
+          "repairStateId": "deny-stops"
+        },
+        {
+          "correct": false,
+          "feedback": "The PDP returns a decision. The PEP mediates and blocks the resource operation.",
+          "id": "pdp-blocks-db",
+          "label": "The PDP directly blocks the database read.",
+          "repairStateId": "scoped-permit"
+        }
+      ],
+      "prompt": "Only the care-team assignment changes from assigned to none. What should change the outcome, and where must the deny take effect?"
+    },
+    "question": "When one authorization input changes, which component changes the decision and where must a deny stop the action?",
+    "representation": "decision",
+    "retry": {
+      "conceptIds": [
+        "rbac",
+        "least-privilege",
+        "separation-of-duties",
+        "policy-enforcement-point"
+      ],
+      "hint": "Focus on the incompatible actions and the points that actually execute them.",
+      "id": "d5-o04-retry-3b28cc3f6bd4",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Authentication strength does not remove the incompatible permission combination.",
+          "id": "longer-password",
+          "label": "Require a longer password while leaving the conflicting permissions unchanged.",
+          "repairStateId": "request-frozen"
+        },
+        {
+          "correct": false,
+          "feedback": "A hidden button does not prevent direct API use. The authorization boundary must mediate the action.",
+          "id": "hide-button",
+          "label": "Hide the approval button for normal users.",
+          "repairStateId": "deny-stops"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Separation of duties constrains the permission combination, and each protected action still needs enforcement.",
+          "id": "split-actions",
+          "label": "Separate the actions into incompatible roles and enforce both at their APIs",
+          "repairStateId": "enforced-read"
+        }
+      ],
+      "prompt": "A broad administrator role grants one engineer both payment creation and approval. Which change repairs the authorization design?"
+    },
+    "scenario": "Dr. Reyes is signed in through SSO on a managed tablet during her scheduled shift. She requests a sensitive patient record. Her role permits clinical reads, but the current care-team assignment is the fact that determines whether this patient is in scope.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d5-o04",
+      "official-d5-35-41",
+      "sybex-d5-677-690"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "clinician",
+          "request"
+        ],
+        "caption": "All decision inputs are visible before prediction; a valid sign-in is only one input.",
+        "id": "request-frozen",
+        "statuses": {
+          "request": "care team: assigned"
+        },
+        "title": "Freeze the complete request"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "request",
+          "pdp"
+        ],
+        "caption": "The PDP receives the care-team assignment along with role, object, action, device, and shift.",
+        "id": "current-inputs",
+        "statuses": {
+          "pdp": "policy v42 evaluating"
+        },
+        "title": "Evaluate current context"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "pdp",
+          "pep"
+        ],
+        "caption": "The assigned relationship produces a permit for this patient, this read action, and this request context.",
+        "id": "scoped-permit",
+        "statuses": {
+          "pdp": "permit patient 1842:read",
+          "pep": "current result received"
+        },
+        "title": "Return a scoped permit"
+      },
+      {
+        "activeEdgeIndexes": [
+          3
+        ],
+        "activeNodeIds": [
+          "pep",
+          "record"
+        ],
+        "caption": "The API PEP applies the permit and only then allows the record operation.",
+        "id": "enforced-read",
+        "statuses": {
+          "record": "read completed"
+        },
+        "title": "Enforce before the record"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "request",
+          "pdp"
+        ],
+        "caption": "The same token, role, device, shift, patient, and action remain; only care-team assignment changes to none.",
+        "id": "relationship-removed",
+        "statuses": {
+          "pdp": "fresh evaluation required",
+          "request": "care team: none"
+        },
+        "title": "Change one attribute"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          4
+        ],
+        "activeNodeIds": [
+          "pdp",
+          "pep",
+          "audit"
+        ],
+        "caption": "The PDP returns deny; the API PEP blocks the operation before the record and records the outcome.",
+        "id": "deny-stops",
+        "statuses": {
+          "pdp": "deny",
+          "pep": "read blocked",
+          "record": "not reached"
+        },
+        "title": "Deny stops at enforcement"
+      }
+    ],
+    "takeaway": "Authentication names the subject; authorization evaluates a current, scoped request; enforcement must stop an unauthorized operation at the resource boundary.",
+    "title": "The decision is not the enforcement",
+    "transfer": {
+      "conceptIds": [
+        "risk-based-access-control",
+        "policy-decision-point",
+        "policy-enforcement-point"
+      ],
+      "hint": "Ask whether the prior result contains every attribute the current policy requires.",
+      "id": "d5-o04-transfer-e987e739665f",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Token lifetime does not prove authorization context is current. Reject or bypass the stale result.",
+          "id": "reuse",
+          "label": "Reuse the permit because the token has not expired.",
+          "repairStateId": "cache-detected"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The changed issue is evidence freshness, so the PEP must obtain and enforce a current policy result.",
+          "id": "fresh",
+          "label": "Obtain a fresh result and apply deny or the defined step-up before access",
+          "repairStateId": "variant-stop"
+        },
+        {
+          "correct": false,
+          "feedback": "Missing required evidence cannot silently become a favorable attribute.",
+          "id": "assume",
+          "label": "Treat missing compliance as compliant until the next review.",
+          "repairStateId": "fresh-decision"
+        }
+      ],
+      "prompt": "A cached permit exists, but required current device-compliance context is missing. What is the defensible next action?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implemented in 6 stable decision states: Dr. Reyes submits authenticated request Read request; Read request supplies current decision inputs Policy decision point. The model keeps Dr. Reyes, Read request, Policy decision point, Record API enforcement, Patient record, Decision evidence distinct. Its changed case is “A cached permit exists, but current device-compliance evidence is missing and policy requires it for this read.” and every option returns to a named repair state.",
+        "treatmentId": "fresh-d5-o04-authorization-mechanisms-learner-controlled-slow-authorization-trace"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d5-o04-authorization-mechanisms-learner-controlled-slow-authorization-trace"
+    ],
+    "unitId": "d5-o04-authorization-mechanisms",
+    "variants": [
+      {
+        "changedFact": "A cached permit exists, but current device-compliance evidence is missing and policy requires it for this read.",
+        "edges": [
+          {
+            "from": "clinician",
+            "kind": "flow",
+            "label": "submits read with current context",
+            "to": "request"
+          },
+          {
+            "from": "request",
+            "kind": "flow",
+            "label": "sends current inputs for reevaluation",
+            "to": "pdp"
+          },
+          {
+            "from": "pdp",
+            "kind": "flow",
+            "label": "returns deny or defined step-up",
+            "to": "pep"
+          },
+          {
+            "from": "pep",
+            "kind": "flow",
+            "label": "permits access only on fresh result",
+            "to": "record"
+          },
+          {
+            "from": "pep",
+            "kind": "evidence",
+            "label": "records rejection and final enforcement",
+            "to": "audit"
+          }
+        ],
+        "id": "stale-cache",
+        "label": "Stale permit, missing device context",
+        "nodes": [
+          {
+            "conceptIds": [
+              "authorization"
+            ],
+            "detail": "The requester has a valid identity, but authentication alone does not settle this authorization.",
+            "id": "clinician",
+            "label": "Authenticated clinician"
+          },
+          {
+            "conceptIds": [
+              "abac",
+              "risk-based-access-control"
+            ],
+            "detail": "The current request lacks device compliance required by policy.",
+            "id": "request",
+            "label": "Read request without device evidence"
+          },
+          {
+            "conceptIds": [
+              "policy-decision-point",
+              "rule-based-access-control"
+            ],
+            "detail": "The decision point evaluates current identity, relationship, action, and device evidence.",
+            "id": "pdp",
+            "label": "Fresh policy evaluation"
+          },
+          {
+            "conceptIds": [
+              "policy-enforcement-point",
+              "least-privilege"
+            ],
+            "detail": "The enforcement point rejects the cached permit and requests a current result.",
+            "id": "pep",
+            "label": "API enforcement point"
+          },
+          {
+            "conceptIds": [
+              "authorization"
+            ],
+            "detail": "The record is not reached unless a new scoped permit or defined step-up succeeds.",
+            "id": "record",
+            "label": "Protected patient record"
+          },
+          {
+            "conceptIds": [
+              "authorization",
+              "separation-of-duties"
+            ],
+            "detail": "Evidence records the stale permit rejection and enforced outcome.",
+            "id": "audit",
+            "label": "Authorization decision record"
+          }
+        ],
+        "states": [
+          {
+            "activeNodeIds": [
+              "request",
+              "pep"
+            ],
+            "caption": "The PEP sees that the prior result lacks required current device context.",
+            "id": "cache-detected",
+            "statuses": {
+              "pep": "cached permit rejected",
+              "request": "device compliance: missing"
+            },
+            "title": "Detect stale evidence"
+          },
+          {
+            "activeEdgeIndexes": [
+              1,
+              2
+            ],
+            "activeNodeIds": [
+              "request",
+              "pdp",
+              "pep"
+            ],
+            "caption": "The PEP sends current inputs to the PDP rather than inferring compliance from the old permit.",
+            "id": "fresh-decision",
+            "statuses": {
+              "pdp": "deny or defined step-up",
+              "record": "not reached"
+            },
+            "title": "Request a fresh result"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "pep",
+              "audit"
+            ],
+            "caption": "Access remains stopped until policy-defined evidence or step-up produces a new scoped result.",
+            "id": "variant-stop",
+            "statuses": {
+              "pep": "blocked pending new result"
+            },
+            "title": "Hold the boundary"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Implement and manage authorization mechanisms",
+  "workedExamples": [
+    {
+      "reasoning": "Authentication supplies the subject, not the permit. An authorization request can combine subject role and assignment, object sensitivity and patient relationship, action, device posture, time, and emergency context. The policy may deny or require a documented break-glass path with heightened logging and review. Enforcement must apply the result at the record API, not only at the user interface.",
+      "situation": "A clinician authenticated through SSO requests a patient's record from a managed tablet during a scheduled shift. The clinician's role permits records, but the patient is outside the clinician's assigned care team.",
+      "takeaway": "Authentication supplies the subject, not the permit. An authorization request can combine subject role and assignment, object sensitivity and patient relationship, action, device posture, time, and emergency context. The policy may deny or require a documented break-glass path with heightened logging and review. Enforcement must apply the result at the record API, not only at the user interface.",
+      "title": "A clinician's record access"
+    }
+  ]
+}

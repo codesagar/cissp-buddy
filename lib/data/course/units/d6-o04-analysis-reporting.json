@@ -1,0 +1,756 @@
+{
+  "conceptIds": [
+    "finding",
+    "risk-rating",
+    "root-cause",
+    "executive-summary",
+    "remediation",
+    "reporting",
+    "exception-handling"
+  ],
+  "concepts": [
+    {
+      "decision": "state scope/impact",
+      "definition": "evidence-backed condition",
+      "failureExample": "Finding failure example: speculation.",
+      "id": "finding",
+      "label": "Finding",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-decision-comparison-1"
+    },
+    {
+      "decision": "consider exploit/consequence",
+      "definition": "contextual priority",
+      "failureExample": "Risk Rating failure example: CVSS alone.",
+      "id": "risk-rating",
+      "label": "Risk Rating",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-decision-comparison-1"
+    },
+    {
+      "decision": "Distinguish the immediate symptom from the process, design or control weakness; test whether the corrective action addresses recurrence.",
+      "definition": "The underlying condition or combination of conditions that produced the observed failure.",
+      "failureExample": "A vulnerable package is patched once while the unmanaged dependency process keeps reintroducing it.",
+      "id": "root-cause",
+      "label": "Root Cause",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-decision-comparison-1"
+    },
+    {
+      "decision": "state risk/owner/options",
+      "definition": "decision-oriented report",
+      "failureExample": "Executive Summary failure example: technical dump.",
+      "id": "executive-summary",
+      "label": "Executive Summary",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-decision-comparison-1"
+    },
+    {
+      "decision": "assign due/evidence",
+      "definition": "corrective action",
+      "failureExample": "Remediation failure example: no verification.",
+      "id": "remediation",
+      "label": "Remediation",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-decision-comparison-1"
+    },
+    {
+      "decision": "tailor evidence/decision",
+      "definition": "audience communication",
+      "failureExample": "Reporting failure example: oversharing.",
+      "id": "reporting",
+      "label": "Reporting",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-decision-comparison-1"
+    },
+    {
+      "decision": "Use the organization’s approval and risk-governance process; record compensating safeguards and an agreed review time or event.",
+      "definition": "Documenting and authorizing a deviation or residual-risk decision when the normal corrective path is not feasible.",
+      "failureExample": "A finding is marked accepted without an accountable owner or any condition for reconsideration.",
+      "id": "exception-handling",
+      "label": "Exception Handling",
+      "sourceRefIds": [
+        "aio-d6-1223-1250",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "sourceVisualId": "d6-o04-analysis-reporting-exception-handling-decision-trace"
+    }
+  ],
+  "domainId": 6,
+  "estimatedMinutes": 30,
+  "id": "d6-o04-analysis-reporting",
+  "misconceptions": [
+    {
+      "claim": "The longest report is the most useful.",
+      "correction": "Reports should be complete, traceable, audience-appropriate, and action-oriented."
+    },
+    {
+      "claim": "A manager’s acceptance statement closes a technical finding indefinitely.",
+      "correction": "A defensible exception identifies the risk owner, scope, rationale, compensating controls, residual risk, appropriate approval, and a planned governance review or reconsideration condition."
+    }
+  ],
+  "objectiveIds": [
+    "6.4"
+  ],
+  "outcome": "Turn test output into a defensible finding and report that states evidence, impact, likelihood, scope, limitations, and remediation ownership.",
+  "prerequisites": [
+    "d6-o02-control-testing",
+    "d6-o03-process-data"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Validate observations, remove duplicates, distinguish false positives from accepted risk, identify root cause and affected population, and rate likelihood and impact in context. Reconcile technical severity with business criticality, exploitability, compensating controls, and exposure. Preserve the evidence trail from finding to requirement and owner.",
+      "id": "validate-and-prioritize",
+      "keyPoints": [
+        "Tool severity is an input, not the final business risk rating.",
+        "Root cause helps prevent recurrence.",
+        "Uncertainty and limitations belong in the conclusion."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ],
+      "title": "Analyze before concluding"
+    },
+    {
+      "body": "Technical reports need reproducible evidence and remediation detail; executive summaries need risk, business impact, trends, decisions, and accountable owners. State scope, method, dates, criteria, exceptions, residual risk, and due dates. Avoid absolute claims when sampling or coverage is limited.",
+      "id": "audience-and-actions",
+      "keyPoints": [
+        "Every material finding needs an owner and next action.",
+        "Different audiences need different detail, not contradictory conclusions.",
+        "Remediation status should be updated and retested."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "aio-d6-1223-1250"
+      ],
+      "title": "Report for action"
+    },
+    {
+      "body": "Remediation should identify root cause, owner, priority, due date, compensating control, validation method, and residual risk. Exception handling should document affected scope, rationale, appropriate approval, residual risk, and a planned review consistent with organizational governance. Ethical disclosure protects affected parties and evidence through authorized coordination, confidentiality, and agreed notification and legal channels.",
+      "id": "remediation-exception-disclosure",
+      "keyPoints": [
+        "Closure requires retest or sufficient evidence, not a ticket status.",
+        "Exceptions should remain visible and be reconsidered according to the organization’s approved governance.",
+        "Disclosure balances harm reduction, legal duty, affected-party notice, and evidence preservation."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "sybex-d6-829-835",
+        "aio-d6-1223-1250"
+      ],
+      "title": "Turn findings into accountable remediation and ethical disclosure"
+    },
+    {
+      "body": "When remediation cannot meet the needed time frame, document the affected asset and control objective, evidence and severity context, accountable risk owner, business justification, compensating controls, residual risk, approval authority, and a planned review or reconsideration condition consistent with organizational governance. Report decision-makers the material risk, alternatives, owner, and deadline; give implementers reproducible technical evidence and the required corrective action.",
+      "id": "time-bound-exception-decision",
+      "keyPoints": [
+        "An exception is a documented, authorized residual-risk decision that must be revisited under organizational governance.",
+        "Closure requires evidence that the remediation or compensating control works in the affected environment."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024"
+      ],
+      "title": "Treat an exception as a controlled risk decision, not a closed finding"
+    }
+  ],
+  "sourceHash": "90d626f5c46894e93643693c9267296e59a7a1f50f5436c58216c5d218f6fc17",
+  "sourcePath": "knowledge/domains/d6-security-assessment-testing/units/d6-o04-analysis-reporting.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d6-4",
+      "locator": {
+        "type": "objective",
+        "value": "6.4"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d6-50-53",
+      "locator": {
+        "type": "printed-page",
+        "value": "50-53 (PDF pp. 50-53)"
+      },
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "supports": [
+        "analysis and reporting"
+      ]
+    },
+    {
+      "id": "sybex-d6-829-835",
+      "locator": {
+        "type": "pdf-page",
+        "value": "829-835, Chapter 15"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "reporting"
+      ]
+    },
+    {
+      "id": "aio-d6-1223-1250",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1223-1250, Chapter 19"
+      },
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "supports": [
+        "reporting and management review"
+      ]
+    },
+    {
+      "id": "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+      "locator": {
+        "type": "section",
+        "value": "printed/PDF pp. 50-53, Analyze Test Output and Generate Report (6.4)"
+      },
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "supports": [
+        "Inspected pages 50-53 discuss continual improvement, remediation, exceptions, ethical disclosure, and reporting; the patch supplies original operational decision details."
+      ]
+    }
+  ],
+  "summary": "Analysis converts observations into validated findings, risk context, priorities, and decisions; reporting makes limitations and actions clear to each audience.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "evidence",
+        "label": "is confirmed and scoped into a finding",
+        "to": "n4"
+      },
+      {
+        "from": "n2",
+        "kind": "evidence",
+        "label": "establishes actual exposure and business asset",
+        "to": "n4"
+      },
+      {
+        "from": "n3",
+        "kind": "evidence",
+        "label": "changes residual rating when verified",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "is assigned for accountable disposition",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "approves remediation or time-bounded exception",
+        "to": "n6"
+      },
+      {
+        "from": "n6",
+        "kind": "evidence",
+        "label": "returns retest evidence for closure",
+        "to": "n4"
+      }
+    ],
+    "focalRelation": "raw output --validation and scope check--> finding finding plus asset/context --reasoned likelihood and impact--> risk rating finding --root-cause analysis--> corrective action delayed remediation --owner/scope/rationale/compensating control/expiry--> authorized exception retest --evidence of changed state--> closure",
+    "learningJob": {
+      "plainExplanation": "Tool severity is an input to a finding rather than the final business-risk conclusion. A defensible report links evidence, exposure, compensating controls, residual risk, scope, limitations, owner, remediation, and retest.",
+      "visualReasoningGain": "The revealed trace can connect observation to validated finding, residual risk, owner, and retest, but the opening labels imply a pipeline without exposing the judgment at each transition."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "finding",
+          "reporting"
+        ],
+        "detail": "Tool output identifying a critical service; it is an observation to validate, not the final risk rating.",
+        "id": "n1",
+        "label": "Scanner observation"
+      },
+      {
+        "conceptIds": [
+          "risk-rating"
+        ],
+        "detail": "Confirmed asset, exposure, and attack path that determine applicability and potential impact.",
+        "id": "n2",
+        "label": "Reachable service path"
+      },
+      {
+        "conceptIds": [
+          "risk-rating",
+          "exception-handling"
+        ],
+        "detail": "Verified control that changes reachable likelihood or impact without erasing the underlying finding.",
+        "id": "n3",
+        "label": "Compensating control"
+      },
+      {
+        "conceptIds": [
+          "finding",
+          "root-cause"
+        ],
+        "detail": "Reproducible condition with evidence, affected scope, root cause, impact, likelihood, and limitations.",
+        "id": "n4",
+        "label": "Validated finding"
+      },
+      {
+        "conceptIds": [
+          "remediation",
+          "exception-handling"
+        ],
+        "detail": "Accountable decision maker who accepts remediation, exception, or other disposition and due date.",
+        "id": "n5",
+        "label": "Risk owner"
+      },
+      {
+        "conceptIds": [
+          "remediation",
+          "reporting"
+        ],
+        "detail": "Tracked action with validation evidence, expiry where relevant, and executive summary appropriate to audience.",
+        "id": "n6",
+        "label": "Remediation or exception record"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Scanner observation",
+        "value": "Tool output identifying a critical service; it is an observation to validate, not the final risk rating."
+      },
+      {
+        "label": "Reachable service path",
+        "value": "Confirmed asset, exposure, and attack path that determine applicability and potential impact."
+      },
+      {
+        "label": "Compensating control",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Validated finding",
+        "value": "Reproducible condition with evidence, affected scope, root cause, impact, likelihood, and limitations."
+      },
+      {
+        "label": "Risk owner",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Remediation or exception record",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "finding",
+        "remediation"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d6-o04-analysis-reporting-prediction-dada51dec667",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Reports should be complete, traceable, audience-appropriate, and action-oriented.",
+          "id": "relation",
+          "label": "Keep it open with scoped controls, owner, expiry, remediation, and retest",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: Reports should be complete, traceable, audience-appropriate, and action-oriented.",
+          "id": "misconception",
+          "label": "The longest report is the most useful.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: a named control is not closure evidence. Record its scope and effectiveness, the risk owner, expiry or remediation date, residual risk, and the retest needed for disposition.",
+          "id": "overclaim",
+          "label": "Close the critical finding because a compensating control was named.",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "How does evidence become a defensible prioritized finding and accountable action?"
+    },
+    "question": "How does evidence become a defensible prioritized finding and accountable action?",
+    "representation": "decision",
+    "retry": {
+      "conceptIds": [
+        "finding",
+        "risk-rating",
+        "reporting"
+      ],
+      "hint": "A severity label needs traceable facts and criteria before it can drive priority.",
+      "id": "d6-o04-analysis-reporting-retry-v2-71db3ffc06f8",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Inflating an unsupported rating weakens prioritization and may displace better-evidenced risk.",
+          "id": "keep-critical",
+          "label": "Keep the critical label because conservative ratings ensure faster remediation",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incomplete reporting calls for evidence and scope work; it does not prove the condition absent.",
+          "id": "drop-finding",
+          "label": "Delete the finding because incomplete evidence means the condition cannot exist",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. A reviewable finding separates observed facts from the rated risk and resulting action.",
+          "id": "rebuild-finding",
+          "label": "Document condition, scope, evidence, impact, rating basis, owner, and uncertainty",
+          "repairStateId": "evidence-accepted"
+        }
+      ],
+      "prompt": "A finding is labeled critical, but the report names no affected asset, exploit path, business consequence, or evidence. What should the analyst do?"
+    },
+    "scenario": "A scanner reports a critical service, but compensating controls limit reachable paths.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d6-4",
+      "official-d6-50-53",
+      "sybex-d6-829-835",
+      "aio-d6-1223-1250",
+      "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n4"
+        ],
+        "caption": "A scanner reports a critical service, but compensating controls limit reachable paths.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "critical tool score",
+          "n2": "reachable paths partly constrained"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2",
+          "n3",
+          "n4"
+        ],
+        "caption": "Tool severity is an input, not the final business risk rating.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n4": "validated; residual rating under analysis"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n4"
+        ],
+        "caption": "The longest report is the most useful. Reports should be complete, traceable, audience-appropriate, and action-oriented.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n1": "raw score not copied as final risk",
+          "n4": "scope and limits required"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "n4",
+          "n5",
+          "n6"
+        ],
+        "caption": "Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations. Do not hide the finding or copy the scanner score directly into the executive summary.",
+        "id": "control-enforced",
+        "statuses": {
+          "n5": "owner named",
+          "n6": "remediation and exception terms recorded"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          5
+        ],
+        "activeNodeIds": [
+          "n4",
+          "n6"
+        ],
+        "caption": "Turn test output into a defensible finding and report that states evidence, impact, likelihood, scope, limitations, and remediation ownership. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n4": "retested",
+          "n6": "closed or residual risk accepted"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations.",
+    "title": "Analyze output and generate useful reports",
+    "transfer": {
+      "conceptIds": [
+        "executive-summary"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d6-o04-analysis-reporting-transfer-ea968bfafe98",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: A report says 'no issues found' because sampled systems passed. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations. Repair target: Decision recomputed — Rewrite to state sample, scope, criteria, and residual uncertainty. A sample result cannot support a universal claim.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Rewrite to state sample, scope, criteria, and residual uncertainty. A sample result cannot support a universal claim.",
+          "id": "evidence-action",
+          "label": "Rewrite to state sample, scope, criteria, and residual uncertainty",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A report says 'no issues found' because sampled systems passed. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A report says 'no issues found' because sampled systems passed."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implemented in 5 stable decision states: Scanner observation is confirmed and scoped into a finding Validated finding; Reachable service path establishes actual exposure and business asset Validated finding. The model keeps Scanner observation, Reachable service path, Compensating control, Validated finding, Risk owner, Remediation or exception record distinct. Its changed case is “A report says 'no issues found' because sampled systems passed.” and every option returns to a named repair state.",
+        "treatmentId": "fresh-d6-o04-analysis-reporting-evidence-to-disposition-flow-with-exception-state"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d6-o04-analysis-reporting-evidence-to-disposition-flow-with-exception-state"
+    ],
+    "unitId": "d6-o04-analysis-reporting",
+    "variants": [
+      {
+        "changedFact": "A report says 'no issues found' because sampled systems passed.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "is summarized in the draft",
+            "to": "n4"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "remains outside the supported conclusion",
+            "to": "n4"
+          },
+          {
+            "from": "n3",
+            "kind": "evidence",
+            "label": "constrains the claim",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "is assigned for correction",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "approves a scoped evidence statement",
+            "to": "n6"
+          },
+          {
+            "from": "n6",
+            "kind": "evidence",
+            "label": "supports follow-up without erasing noncoverage",
+            "to": "n4"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "finding",
+              "reporting"
+            ],
+            "detail": "The tested sample met the stated criteria.",
+            "id": "n1",
+            "label": "Passing sampled systems"
+          },
+          {
+            "conceptIds": [
+              "risk-rating"
+            ],
+            "detail": "Systems outside the sample retain unknown status.",
+            "id": "n2",
+            "label": "Untested population"
+          },
+          {
+            "conceptIds": [
+              "risk-rating",
+              "exception-handling"
+            ],
+            "detail": "The selection method determines what can be generalized.",
+            "id": "n3",
+            "label": "Sampling method and limits"
+          },
+          {
+            "conceptIds": [
+              "finding",
+              "root-cause"
+            ],
+            "detail": "The draft incorrectly turns a sample result into a universal conclusion.",
+            "id": "n4",
+            "label": "'No issues found' report"
+          },
+          {
+            "conceptIds": [
+              "remediation",
+              "exception-handling"
+            ],
+            "detail": "The accountable owner must correct the claim and disclose residual uncertainty.",
+            "id": "n5",
+            "label": "Report owner"
+          },
+          {
+            "conceptIds": [
+              "remediation",
+              "reporting"
+            ],
+            "detail": "The final report identifies sample, population, criteria, limits, and follow-up.",
+            "id": "n6",
+            "label": "Scoped evidence statement"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n4"
+            ],
+            "caption": "A report says 'no issues found' because sampled systems passed.",
+            "id": "changed-fact",
+            "statuses": {
+              "n1": "sampled systems passed",
+              "n4": "no issues found claim challenged"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              1
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n4"
+            ],
+            "caption": "Rewrite to state sample, scope, criteria, and residual uncertainty. A sample result cannot support a universal claim.",
+            "id": "changed-decision",
+            "statuses": {
+              "n2": "untested population remains",
+              "n4": "scope limitation added"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              3
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n6",
+              "n5"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "report states tested sample and noncoverage"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Analyze output and generate useful reports",
+  "workedExamples": [
+    {
+      "reasoning": "Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations. Do not hide the finding or copy the scanner score directly into the executive summary.",
+      "situation": "A scanner reports a critical service, but compensating controls limit reachable paths.",
+      "takeaway": "Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations. Do not hide the finding or copy the scanner score directly into the executive summary.",
+      "title": "Critical exposed service"
+    },
+    {
+      "reasoning": "Validate the finding and exposure, assign a risk owner, define a short exception with an end date, constrain access and monitoring as compensating controls, obtain appropriate approval, schedule the replacement, then retest the gateway and document closure. Do not report an unqualified ‘accepted risk’ as if the technical weakness vanished.",
+      "situation": "A public gateway has a critical weakness, but a vendor replacement requires six weeks.",
+      "takeaway": "A deadline, owner, safeguards, and verification separate managed residual risk from ignored remediation.",
+      "title": "Unsupported gateway finding"
+    }
+  ]
+}

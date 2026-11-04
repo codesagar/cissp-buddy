@@ -1,0 +1,525 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-governance-risk--reopen-risk",
+  "treatmentIds": [
+    "cross-governance-risk--reopen-risk"
+  ],
+  "title": "New evidence for an accepted risk",
+  "question": "A newly observed exposed service contradicts the owner’s control assumption. Which risk decision must be reopened, and why does a monitoring observation not itself accept the residual risk?",
+  "scenario": "The risk owner accepted a customer portal’s residual risk on the recorded assumption that its administration service was unreachable from the internet. Monitoring now records inbound connections to that service, and vulnerability management confirms an exploitable version. No owner has reviewed the changed exposure.",
+  "focalRelation": "Monitoring and vulnerability status provide evidence to risk management; the changed risk scenario then informs control selection. Evidence can reopen the decision, but only the accountable owner can accept residual risk.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "accepted-risk",
+      "label": "Recorded risk decision",
+      "detail": "The owner accepted residual risk only under the stated assumption that the administration service was not internet reachable.",
+      "conceptIds": [
+        "risk-acceptance",
+        "residual-risk"
+      ],
+      "lane": "decision"
+    },
+    {
+      "id": "monitoring-observation",
+      "label": "Observed exposure",
+      "detail": "Correlated telemetry shows unsolicited internet connections reaching the administration service; this is evidence about exposure, not a risk-acceptance act.",
+      "conceptIds": [
+        "monitoring",
+        "telemetry"
+      ],
+      "lane": "evidence"
+    },
+    {
+      "id": "vulnerability-finding",
+      "label": "Exploitable version confirmed",
+      "detail": "Vulnerability assessment confirms that the exposed service version has a relevant exploitable weakness.",
+      "conceptIds": [
+        "vulnerability-assessment",
+        "risk-prioritization"
+      ],
+      "lane": "evidence"
+    },
+    {
+      "id": "reassessment",
+      "label": "Reopen scenario and controls",
+      "detail": "Reassess likelihood, impact, control effectiveness, and treatment because a material assumption has changed.",
+      "conceptIds": [
+        "risk-assessment",
+        "control-assessment",
+        "continuous-monitoring"
+      ],
+      "lane": "decision"
+    },
+    {
+      "id": "owner-decision",
+      "label": "Owner chooses treatment",
+      "detail": "The accountable owner selects mitigation, avoidance, transfer, or documented acceptance after reviewing the updated residual exposure.",
+      "conceptIds": [
+        "risk-treatment",
+        "control-selection",
+        "residual-risk"
+      ],
+      "lane": "decision"
+    }
+  ],
+  "edges": [
+    {
+      "from": "accepted-risk",
+      "to": "reassessment",
+      "label": "assumption contradicted; prior decision no longer sufficient",
+      "kind": "evidence"
+    },
+    {
+      "from": "monitoring-observation",
+      "to": "reassessment",
+      "label": "provides current exposure evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "vulnerability-finding",
+      "to": "reassessment",
+      "label": "provides current vulnerability evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "reassessment",
+      "to": "owner-decision",
+      "label": "updated risk scenario informs control and treatment choice",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "evidence",
+      "label": "Operational evidence",
+      "rule": "Observations can change confidence and assumptions but cannot exercise owner authority."
+    },
+    {
+      "id": "decision",
+      "label": "Accountable risk decision",
+      "rule": "The owner reviews the updated scenario and records treatment and residual-risk authority."
+    }
+  ],
+  "states": [
+    {
+      "id": "recorded",
+      "title": "The original decision has a condition",
+      "caption": "Keep the reachability assumption attached to the acceptance; acceptance is not timeless.",
+      "activeNodeIds": [
+        "accepted-risk"
+      ],
+      "statuses": {
+        "accepted-risk": "accepted under recorded assumption"
+      }
+    },
+    {
+      "id": "contradiction",
+      "title": "Two observations contradict that condition",
+      "caption": "Monitoring establishes reachability and vulnerability management establishes relevant exploitability. Neither observation is an acceptance decision.",
+      "activeNodeIds": [
+        "accepted-risk",
+        "monitoring-observation",
+        "vulnerability-finding"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "accepted-risk": "assumption contradicted",
+        "monitoring-observation": "observed",
+        "vulnerability-finding": "confirmed"
+      }
+    },
+    {
+      "id": "reopen",
+      "title": "Reassessment is required",
+      "caption": "Reopen the specific scenario and control assumptions before choosing treatment.",
+      "activeNodeIds": [
+        "accepted-risk",
+        "monitoring-observation",
+        "vulnerability-finding",
+        "reassessment"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "reassessment": "pending owner review"
+      }
+    },
+    {
+      "id": "decide",
+      "title": "Authority remains with the owner",
+      "caption": "The owner records a treatment and any newly accepted residual risk after the reassessment.",
+      "activeNodeIds": [
+        "reassessment",
+        "owner-decision"
+      ],
+      "activeEdgeIndexes": [
+        3
+      ],
+      "statuses": {
+        "owner-decision": "decision required"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Compensating control also failed",
+      "changedFact": "The service was intentionally reachable, but the rate-limiting control used in the acceptance record is now disabled.",
+      "states": [
+        {
+          "id": "transfer-evidence",
+          "title": "Control behavior changed",
+          "caption": "Monitoring evidence contradicts the control-effectiveness assumption rather than the reachability assumption.",
+          "activeNodeIds": [
+            "accepted-risk",
+            "monitoring-observation",
+            "reassessment"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": "transfer-decision",
+          "title": "Reassess the same accountable decision",
+          "caption": "The owner must review the updated residual exposure; the monitoring team still cannot accept it.",
+          "activeNodeIds": [
+            "reassessment",
+            "owner-decision"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "accepted-risk",
+          "label": "Acceptance with rate-limit assumption",
+          "detail": "The owner accepted reachability only while the compensating rate limit remained effective.",
+          "conceptIds": [
+            "risk-acceptance",
+            "residual-risk"
+          ],
+          "lane": "decision"
+        },
+        {
+          "id": "monitoring-observation",
+          "label": "Rate limit observed disabled",
+          "detail": "Operational evidence contradicts the control-effectiveness premise of the acceptance.",
+          "conceptIds": [
+            "monitoring",
+            "telemetry"
+          ],
+          "lane": "evidence"
+        },
+        {
+          "id": "reassessment",
+          "label": "Reassess control effectiveness and residual risk",
+          "detail": "Recompute exposure and select treatment because the relied-on control behavior changed.",
+          "conceptIds": [
+            "risk-assessment",
+            "control-assessment",
+            "continuous-monitoring"
+          ],
+          "lane": "decision"
+        },
+        {
+          "id": "owner-decision",
+          "label": "Owner chooses treatment",
+          "detail": "The accountable owner selects mitigation, avoidance, transfer, or documented acceptance after reviewing the updated residual exposure.",
+          "conceptIds": [
+            "risk-treatment",
+            "control-selection",
+            "residual-risk"
+          ],
+          "lane": "decision"
+        }
+      ],
+      "edges": [
+        {
+          "from": "accepted-risk",
+          "to": "reassessment",
+          "label": "control-effectiveness assumption contradicted",
+          "kind": "evidence"
+        },
+        {
+          "from": "monitoring-observation",
+          "to": "reassessment",
+          "label": "disabled control supplies current evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "reassessment",
+          "to": "owner-decision",
+          "label": "updated residual risk returns to accountable authority",
+          "kind": "flow"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "evidence",
+          "label": "Operational evidence",
+          "rule": "Observations can change confidence and assumptions but cannot exercise owner authority."
+        },
+        {
+          "id": "decision",
+          "label": "Accountable risk decision",
+          "rule": "The owner reviews the updated scenario and records treatment and residual-risk authority."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "Alert correlation is disproved",
+      "changedFact": "Independent validation shows that the exposed address belongs to an unrelated decoy and the administration service remains private.",
+      "states": [
+        {
+          "id": "retry-evidence-correction",
+          "title": "The observation is corrected before it becomes a risk premise",
+          "caption": "The alert was real telemetry, but its asset correlation was wrong and does not contradict the recorded assumption.",
+          "activeNodeIds": [
+            "accepted-risk",
+            "monitoring-observation"
+          ],
+          "statuses": {
+            "accepted-risk": "assumption still supported",
+            "monitoring-observation": "asset correlation disproved"
+          },
+          "activeEdgeIndexes": []
+        },
+        {
+          "id": "retry-evidence-decision",
+          "title": "Preserve the decision and document the evidence correction",
+          "caption": "Record the investigation outcome; reopen risk only if other validated facts materially change the accepted scenario.",
+          "activeNodeIds": [
+            "accepted-risk",
+            "monitoring-observation",
+            "reassessment"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "reassessment": "not triggered by corrected evidence"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "accepted-risk",
+          "label": "Acceptance with private-service assumption",
+          "detail": "The existing decision remains conditioned on the administration service staying non-public.",
+          "conceptIds": [
+            "risk-acceptance",
+            "residual-risk"
+          ],
+          "lane": "decision"
+        },
+        {
+          "id": "monitoring-observation",
+          "label": "Alert correlation disproved",
+          "detail": "Independent validation maps the observed address to an unrelated decoy, not the administration service.",
+          "conceptIds": [
+            "monitoring",
+            "telemetry"
+          ],
+          "lane": "evidence"
+        },
+        {
+          "id": "reassessment",
+          "label": "Material-change gate",
+          "detail": "Reopen only when validated evidence contradicts a decision premise or otherwise changes the risk scenario.",
+          "conceptIds": [
+            "risk-assessment",
+            "control-assessment",
+            "continuous-monitoring"
+          ],
+          "lane": "decision"
+        }
+      ],
+      "edges": [
+        {
+          "from": "monitoring-observation",
+          "to": "reassessment",
+          "label": "corrected asset correlation does not cross the material-change gate",
+          "kind": "evidence"
+        },
+        {
+          "from": "accepted-risk",
+          "to": "reassessment",
+          "label": "validated material change would require review",
+          "kind": "dependency"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "evidence",
+          "label": "Operational evidence",
+          "rule": "Observations can change confidence and assumptions but cannot exercise owner authority."
+        },
+        {
+          "id": "decision",
+          "label": "Accountable risk decision",
+          "rule": "The owner reviews the updated scenario and records treatment and residual-risk authority."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "cross-risk-predict",
+    "prompt": "What should happen immediately after the exposed vulnerable service is confirmed?",
+    "options": [
+      {
+        "id": "p-autoaccept",
+        "label": "Treat the alert as acceptance of the new residual risk",
+        "correct": false,
+        "feedback": "An observation has no risk-acceptance authority. It supplies evidence that reopens the owner’s decision.",
+        "repairStateId": "contradiction"
+      },
+      {
+        "id": "p-close",
+        "label": "Close the alert because the service was previously accepted",
+        "correct": false,
+        "feedback": "The acceptance depended on a reachability assumption that current evidence contradicts.",
+        "repairStateId": "recorded"
+      },
+      {
+        "id": "p-reopen",
+        "label": "Reopen the risk scenario and route it to the owner",
+        "correct": true,
+        "feedback": "Correct. Two evidence sources contradict the accepted scenario, so reassessment and an accountable treatment decision are required.",
+        "repairStateId": "reopen"
+      }
+    ],
+    "conceptIds": [
+      "continuous-monitoring",
+      "vulnerability-assessment",
+      "risk-assessment",
+      "control-selection"
+    ],
+    "hint": "Separate the evidence-producing roles from the role authorized to choose treatment."
+  },
+  "transfer": {
+    "id": "cross-risk-transfer",
+    "prompt": "In the changed case, monitoring shows the accepted rate limit is disabled even though reachability was expected. What must be reconsidered?",
+    "options": [
+      {
+        "id": "t-control",
+        "label": "The control-effectiveness and residual-risk assumptions",
+        "correct": true,
+        "feedback": "Correct. The changed control behavior alters the risk basis and informs a new control or treatment decision.",
+        "repairStateId": "transfer-decision"
+      },
+      {
+        "id": "t-telemetry",
+        "label": "Only the telemetry retention period",
+        "correct": false,
+        "feedback": "Retention may matter to evidence quality, but the decisive change is that an accepted control assumption no longer holds.",
+        "repairStateId": "transfer-evidence"
+      },
+      {
+        "id": "t-none",
+        "label": "Nothing, because the owner already accepted the service",
+        "correct": false,
+        "feedback": "Acceptance does not survive a material change to the scenario or assumed control effectiveness without review.",
+        "repairStateId": "recorded"
+      }
+    ],
+    "conceptIds": [
+      "control-assessment",
+      "residual-risk",
+      "control-selection"
+    ],
+    "hint": "Ask which fact the earlier decision relied on and whether that fact remains true."
+  },
+  "retry": {
+    "id": "cross-risk-retry",
+    "prompt": "A third alert names the administration service as internet exposed, but independent validation proves the observed address belongs to an unrelated decoy and the service remains private. What follows?",
+    "options": [
+      {
+        "id": "r-reassess",
+        "label": "Require the owner to accept a new internet-exposure risk despite the disproved correlation",
+        "correct": false,
+        "feedback": "The validated facts do not contradict the recorded reachability assumption, so there is no new exposure scenario to accept.",
+        "repairStateId": "retry-evidence-correction"
+      },
+      {
+        "id": "r-correct",
+        "label": "Correct the evidence record and preserve the existing decision unless other material facts changed",
+        "correct": true,
+        "feedback": "Correct. Monitoring evidence must be validated; a disproved correlation does not itself reopen or replace the owner’s decision.",
+        "repairStateId": "retry-evidence-decision"
+      },
+      {
+        "id": "r-autoaccept",
+        "label": "Let the monitoring team record residual-risk acceptance because it investigated the alert",
+        "correct": false,
+        "feedback": "Investigation can establish facts, but it does not transfer risk-acceptance authority to the monitoring team.",
+        "repairStateId": "retry-evidence-correction"
+      }
+    ],
+    "conceptIds": [
+      "monitoring",
+      "risk-assessment",
+      "risk-acceptance",
+      "reporting"
+    ],
+    "hint": "First decide whether validated evidence actually changed the scenario; then keep authority separate from observation."
+  },
+  "takeaway": "Operational evidence can invalidate the assumptions behind a risk decision. It triggers reassessment and informs control selection; it does not itself accept residual risk.",
+  "assumptions": [
+    "The original acceptance and its reachability assumption are documented.",
+    "The monitoring observation and vulnerability match the same service and time window.",
+    "The case does not assert exploitation; it establishes changed exposure requiring review."
+  ],
+  "sourceRefIds": [
+    "d1-o09-outline",
+    "d1-o09-textbook",
+    "d3-o03-outline",
+    "d3-o03-textbook",
+    "outline-d7-o02",
+    "official-d7-15-30",
+    "outline-d7-o08",
+    "official-d7-60-62"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-governance-risk--reopen-risk",
+      "disposition": "implemented",
+      "rationale": "The case makes all three assigned directed relationships learner-operable: two evidence streams reopen risk, and the updated risk scenario informs a distinct control/treatment decision."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "reachability and exploitability evidence contradict the condition behind the existing acceptance, so the scenario and control assumptions must be reopened for an accountable owner decision. Monitoring supplies evidence but has no authority to accept residual risk.",
+    "visualReasoningGain": "The revealed visual adds provenance from two observations into reassessment and then owner treatment, but the opening exposes only the prior decision record, so the initial figure carries almost none of the contradiction the prompt asks the learner to predict."
+  },
+  "openingFacts": [
+    {
+      "label": "Recorded risk decision",
+      "value": "The owner accepted residual risk only under the stated assumption that the administration service was not internet reachable."
+    },
+    {
+      "label": "Observed exposure",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Exploitable version confirmed",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Reopen scenario and controls",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Owner chooses treatment",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

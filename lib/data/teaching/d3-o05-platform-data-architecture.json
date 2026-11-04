@@ -1,0 +1,530 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o05-platform-data-architecture",
+  "treatmentIds": [
+    "fresh-d3-o05-platform-data-architecture-data-vs-privileged-paths"
+  ],
+  "title": "data vs privileged paths",
+  "question": "Which administrator, hypervisor, service-account, key, backup, or failover path can bypass the application’s intended data boundary?",
+  "scenario": "Partner claims platform: A browser submits claims to an API, which uses a shared service account to update a replicated database.",
+  "focalRelation": "Client, service/API, database, service identity, cryptographic key, backup/replication, hypervisor, network, and administrator are distinct trust subjects; availability fallback can weaken authorization or integrity.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "Browser request",
+      "label": "Browser Request",
+      "detail": "The browser submits an authenticated claim action and an untrusted object identifier.",
+      "conceptIds": [
+        "client-security"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "API authorization",
+      "label": "API Authorization",
+      "detail": "The API checks the caller, claim object, requested action, tenant, and current context before processing.",
+      "conceptIds": [
+        "server-security",
+        "trust-boundary"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "API service identity",
+      "label": "API Service Identity",
+      "detail": "The application uses a scoped service identity instead of one unrestricted database account.",
+      "conceptIds": [
+        "service-account-management"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Database",
+      "label": "Database",
+      "detail": "The database grants only the operations and records required by the service identity.",
+      "conceptIds": [
+        "database-security"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "Replication or backup path",
+      "label": "Replication Or Backup Path",
+      "detail": "Replication moves claims data into another administrative, storage, and recovery boundary.",
+      "conceptIds": [
+        "availability",
+        "asset-inventory"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Data copy",
+      "label": "Data Copy",
+      "detail": "Every replica or backup retains its own access, encryption, retention, monitoring, and disposition requirements.",
+      "conceptIds": [
+        "database-security",
+        "asset-inventory"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "Browser request",
+      "to": "API authorization",
+      "label": "must validate actor, object and action",
+      "kind": "flow"
+    },
+    {
+      "from": "API service identity",
+      "to": "Database",
+      "label": "needs scoped database authority",
+      "kind": "flow"
+    },
+    {
+      "from": "Replication or backup path",
+      "to": "Data copy",
+      "label": "creates another protected data boundary",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "Client request",
+      "rule": "The browser request begins outside the service boundary."
+    },
+    {
+      "id": "control",
+      "label": "Application and data controls",
+      "rule": "API authorization, service identity, database authorization, and replication govern each crossing."
+    },
+    {
+      "id": "protected",
+      "label": "Protected data states",
+      "rule": "The live database and every replicated or backup copy remain separately governed assets."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Partner claims platform: A browser submits claims to an API, which uses a shared service account to update a replicated database.",
+      "activeNodeIds": [
+        "Browser request",
+        "API authorization"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Browser request": "The browser submits an authenticated claim action and an untrusted object identifier.",
+        "API authorization": "The API checks the caller, claim object, requested action, tenant, and current context before processing."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Browser Request must validate actor, object and action API Authorization. API Service Identity needs scoped database authority Database.",
+      "activeNodeIds": [
+        "Browser request",
+        "API authorization",
+        "API service identity",
+        "Database"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "API authorization": "The API checks the caller, claim object, requested action, tenant, and current context before processing.",
+        "Browser request": "The browser submits an authenticated claim action and an untrusted object identifier.",
+        "API service identity": "The application uses a scoped service identity instead of one unrestricted database account.",
+        "Database": "The database grants only the operations and records required by the service identity."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "API Service Identity needs scoped database authority Database. Replication Or Backup Path creates another protected data boundary Data Copy.",
+      "activeNodeIds": [
+        "API service identity",
+        "Database",
+        "Replication or backup path",
+        "Data copy"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Data copy": "Every replica or backup retains its own access, encryption, retention, monitoring, and disposition requirements.",
+        "API service identity": "The application uses a scoped service identity instead of one unrestricted database account.",
+        "Database": "The database grants only the operations and records required by the service identity.",
+        "Replication or backup path": "Replication moves claims data into another administrative, storage, and recovery boundary."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The API now uses per-service database identities, but the replication path copies the same claims data into a backup account with broader administrator access. Replication creates another protected data boundary whose identity and management paths must be assessed.",
+      "activeNodeIds": [
+        "Browser request",
+        "API authorization",
+        "API service identity",
+        "Database",
+        "Replication or backup path",
+        "Data copy"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "Browser request": "Client requests still require object- and action-level authorization.",
+        "API authorization": "Per-request authorization remains in force.",
+        "API service identity": "The application uses a scoped service identity instead of one unrestricted database account.",
+        "Database": "Live claims access retains least-privilege service authorization.",
+        "Replication or backup path": "Replication moves claims data into another administrative, storage, and recovery boundary.",
+        "Data copy": "Backup data needs its own access, encryption, monitoring, retention, and recovery controls."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The API now uses per-service database identities, but the replication path copies the same claims data into a backup account with broader administrator access.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "A second administrative boundary",
+          "caption": "Scoped live access does not carry automatically into the backup account, where broader administration and separate recovery-key custody change the trust boundary.",
+          "activeNodeIds": [
+            "service",
+            "primary",
+            "replication",
+            "backup",
+            "admin"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "statuses": {
+            "service": "The application uses a least-privilege identity at the primary database.",
+            "primary": "The primary database retains the accepted live-data authorization boundary.",
+            "replication": "The recovery path creates a second administrative and storage boundary.",
+            "backup": "The backup account holds the same claims data under broader administrator access.",
+            "admin": "The backup administrator can change access and recovery state for the copy."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Protect the copy and its privileged paths",
+          "caption": "Apply separate identity, segmentation, key custody, monitoring, retention, and recovery controls to the backup copy, then make the remaining risk explicit.",
+          "activeNodeIds": [
+            "replication",
+            "backup",
+            "keys",
+            "admin"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "statuses": {
+            "replication": "Replication remains an authorized, monitored transfer into the recovery boundary.",
+            "backup": "The backup copy receives independent access, encryption, retention, monitoring, and recovery controls.",
+            "keys": "Recovery keys remain under separately authorized and audited custody.",
+            "admin": "The administration role is separated, monitored, and included in the residual-risk decision."
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "service",
+          "label": "Scoped API service identity",
+          "detail": "The claims API uses a service identity limited to the primary database operations required by the application.",
+          "conceptIds": [
+            "service-account-management",
+            "least-privilege",
+            "server-security"
+          ],
+          "lane": "live"
+        },
+        {
+          "id": "primary",
+          "label": "Primary claims database",
+          "detail": "The primary database authorizes the scoped service identity and retains the accepted live-data controls.",
+          "conceptIds": [
+            "database-security",
+            "trust-boundary"
+          ],
+          "lane": "live"
+        },
+        {
+          "id": "replication",
+          "label": "Replication and recovery path",
+          "detail": "The recovery path moves claims data and key dependencies into a separate administrative and storage boundary.",
+          "conceptIds": [
+            "distributed-system",
+            "availability",
+            "asset-inventory",
+            "virtualization"
+          ],
+          "lane": "movement"
+        },
+        {
+          "id": "backup",
+          "label": "Backup account data copy",
+          "detail": "The backup copy needs independent identity, segmentation, encryption, retention, monitoring, and recovery controls.",
+          "conceptIds": [
+            "database-security",
+            "segmentation",
+            "cryptographic-system",
+            "asset-inventory"
+          ],
+          "lane": "recovery"
+        },
+        {
+          "id": "keys",
+          "label": "Recovery key custody",
+          "detail": "Recovery keys remain separately authorized, protected, audited, and tested rather than inheriting access from backup storage.",
+          "conceptIds": [
+            "cryptographic-system",
+            "trust-boundary",
+            "least-privilege"
+          ],
+          "lane": "recovery"
+        },
+        {
+          "id": "admin",
+          "label": "Backup administration plane",
+          "detail": "A privileged backup administrator can change access and recovery state, so the role requires separation, monitoring, and an explicit residual-risk decision.",
+          "conceptIds": [
+            "management-plane",
+            "control-selection",
+            "residual-risk",
+            "least-privilege"
+          ],
+          "lane": "recovery"
+        }
+      ],
+      "edges": [
+        {
+          "from": "service",
+          "to": "primary",
+          "label": "uses scoped live-data authority at",
+          "kind": "flow"
+        },
+        {
+          "from": "primary",
+          "to": "replication",
+          "label": "copies protected claims through",
+          "kind": "flow"
+        },
+        {
+          "from": "replication",
+          "to": "backup",
+          "label": "creates a separately governed copy in",
+          "kind": "flow"
+        },
+        {
+          "from": "keys",
+          "to": "backup",
+          "label": "enables recovery under separate custody for",
+          "kind": "dependency"
+        },
+        {
+          "from": "admin",
+          "to": "backup",
+          "label": "can change access and recovery state at",
+          "kind": "dependency"
+        },
+        {
+          "from": "admin",
+          "to": "keys",
+          "label": "is denied direct recovery-key custody by independent authorization at",
+          "kind": "blocked"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "live",
+          "label": "Live application boundary",
+          "rule": "The API identity is limited to approved primary-database operations."
+        },
+        {
+          "id": "movement",
+          "label": "Replication boundary",
+          "rule": "Replication is an authorized data movement into a distinct recovery environment."
+        },
+        {
+          "id": "recovery",
+          "label": "Recovery administration boundary",
+          "rule": "The backup copy, recovery keys, and privileged administration each require separate control and evidence."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o05-platform-data-architecture-prediction-v1",
+    "prompt": "Which administrator, hypervisor, service-account, key, backup, or failover path can bypass the application’s intended data boundary?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Assess every privileged and recovery path that can read, change, restore, or reconfigure the protected data.",
+        "correct": true,
+        "feedback": "Private networking, VM separation, database controls, and encryption each leave shared administration, key, backup, and fallback dependencies.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Count two virtual hosts as independent redundancy because they have separate IP addresses.",
+        "correct": false,
+        "feedback": "Separate logical instances can share a hypervisor, controller, credential, power source, or failure domain.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "A private network makes every distributed service and privileged path trustworthy.",
+        "correct": false,
+        "feedback": "Network location does not establish workload identity, authorization, management-plane security, or recovery trust.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "distributed-system",
+      "trust-boundary",
+      "service-account-management",
+      "least-privilege"
+    ],
+    "hint": "Follow the data copy into each new administrative and recovery boundary."
+  },
+  "transfer": {
+    "id": "d3-o05-platform-data-architecture-transfer-v1",
+    "prompt": "The API now uses per-service database identities, but the replication path copies the same claims data into a backup account with broader administrator access.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Treat the backup account as protected by production API identities without evaluating its separate administrators and data copies.",
+        "correct": false,
+        "feedback": "Production authorization does not automatically govern a copy in a different account and administration path.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Remove live database authorization because backup encryption is assumed to govern every user, service, and recovery action.",
+        "correct": false,
+        "feedback": "Encryption does not replace authorization, accountability, or controlled use of the live database.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Keep scoped service identities and apply separate authorization, encryption, monitoring, retention, and recovery controls to the backup copy.",
+        "correct": true,
+        "feedback": "Correct. Replication creates another protected data boundary whose identity and management paths must be assessed.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "database-security",
+      "service-account-management",
+      "trust-boundary",
+      "least-privilege",
+      "management-plane",
+      "cryptographic-system",
+      "segmentation",
+      "residual-risk"
+    ],
+    "hint": "Scoped live access does not automatically constrain the backup administrator or recovery keys."
+  },
+  "retry": {
+    "id": "d3-o05-platform-data-architecture-retry-v1",
+    "prompt": "An API uses one unrestricted database account because deployment is easier. What architecture change most directly reduces blast radius?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Separate workloads into scoped service identities and authorize actions at the server boundary",
+        "correct": true,
+        "feedback": "Correct. Separate workloads into scoped service identities and authorize actions at the server boundary; broad shared credentials defeat accountability and least privilege.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "A private network makes distributed services trustworthy",
+        "correct": false,
+        "feedback": "Network placement does not establish an authenticated identity, authorized action, sound configuration, or safe behavior after compromise.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Count two virtual hosts as independent redundancy because they have separate IP addresses",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Separate workloads into scoped service identities and authorize actions at the server boundary; broad shared credentials defeat accountability and least privilege.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "least-privilege",
+      "service-account-management",
+      "database-security",
+      "distributed-system"
+    ],
+    "hint": "Require independent controls for the replica, key custody, and privileged recovery path."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Client, service/API, database, service identity, cryptographic key, backup/replication, hypervisor, network, and administrator are distinct trust subjects; availability fallback can weaken authorization or integrity.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o05-platform-outline",
+    "d3-o05-outline",
+    "d3-o05-platform-textbook",
+    "d3-o05-platform-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o05-platform-data-architecture-data-vs-privileged-paths",
+      "disposition": "equivalent",
+      "rationale": "The base boundary preserves client, API authorization, service identity, database, replication, and data-copy paths; the changed graph adds backup administration and separate recovery-key custody. It preserves the reviewed split between application-data and privileged recovery paths, while omitting a separate hypervisor overlay."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Scoped application identity protects only the live operations it governs. Replication and backup create separately administered copies with their own authorization, encryption, retention, recovery, and key-custody paths.",
+    "visualReasoningGain": "A data-versus-privileged-path diagram adds value when live, replication, backup, administrator, and key paths remain together; the base state currently omits some until the variant."
+  },
+  "openingFacts": [
+    {
+      "label": "Browser Request",
+      "value": "The browser submits an authenticated claim action and an untrusted object identifier."
+    },
+    {
+      "label": "API Authorization",
+      "value": "The API checks the caller, claim object, requested action, tenant, and current context before processing."
+    },
+    {
+      "label": "API Service Identity",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Database",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Replication Or Backup Path",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Data Copy",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

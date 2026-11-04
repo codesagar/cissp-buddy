@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o11-disaster-recovery-restoration-validation",
+  "treatmentIds": [
+    "fresh-d7-o11-disaster-recovery-restoration-validation-dependency-with-three-acceptance-gates"
+  ],
+  "title": "Restore and validate disaster-recovered services",
+  "question": "In what dependency order can the service be restored, and which technical, security, and business gates must pass before traffic resumes?",
+  "scenario": "A portal is restored from a clean image, but the identity provider uses a changed signing key and the monitoring agent is not enrolled in the recovery environment.",
+  "focalRelation": "in this payment-service scenario, facility/network/DNS/time are declared dependencies of identity and key services in this payment-service scenario, identity/key services are declared dependencies of data and application restoration component availability --technical gate only--> candidate service security control and integrity checks --security gate--> protected candidate business transaction and owner sign-off --business gate--> resume traffic return to normal --separate controlled change--> closure",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Restored portal image",
+      "detail": "Clean candidate application build running in the recovery environment.",
+      "conceptIds": [
+        "restoration"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Changed identity signing key",
+      "detail": "Identity trust dependency that invalidates or changes token/session verification until re-established.",
+      "conceptIds": [
+        "security-validation",
+        "dr-assessment"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Missing monitoring enrollment",
+      "detail": "Recovery instance has no expected agent, telemetry route, or alert coverage.",
+      "conceptIds": [
+        "security-validation",
+        "recovery-evidence"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Security validation",
+      "detail": "Tests identity trust, authorization, sessions, hardening, secrets, logging, and monitoring.",
+      "conceptIds": [
+        "security-validation",
+        "service-validation"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Business workflow test",
+      "detail": "Exercises customer transactions, data integrity, reconciliation, capacity, and error handling.",
+      "conceptIds": [
+        "data-integrity",
+        "service-validation"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Traffic acceptance",
+      "detail": "Joint technical, security, and business decision to open, constrain, or reject service.",
+      "conceptIds": [
+        "service-acceptance",
+        "return-to-normal"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n4",
+      "label": "enters security validation as candidate only",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "causes security validation to reject trusted token and session state",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "causes security validation to reject detection readiness",
+      "kind": "evidence"
+    },
+    {
+      "from": "n1",
+      "to": "n5",
+      "label": "enters business workflow and integrity test",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "supplies security acceptance evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "supplies business and data acceptance evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A portal is restored from a clean image, but the identity provider uses a changed signing key and the monitoring agent is not enrolled in the recovery environment.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "n1": "portal starts",
+        "n2": "signing key changed",
+        "n3": "monitoring absent"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Assessment updates the recovery decision when the event changes the assumptions.",
+      "activeNodeIds": [
+        "n1",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n4": "candidate remains controlled"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "If the application responds, restoration is complete. Identity, data integrity, keys, authorization, monitoring, dependencies, performance, and business workflow still require validation.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n4": "identity and detection gates failed"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Keep the portal in controlled recovery status. Re-establish key and identity trust, validate authorization and session behavior, enroll monitoring, test customer workflows and data integrity, and obtain business and security acceptance before opening traffic. Record the dependency gap and update the DR build sequence.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "trust and telemetry repaired",
+        "n5": "workflow/integrity passed"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given an activated DR event, sequence restoration, validate integrity and security, obtain service acceptance, and document residual risk and lessons. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n6": "traffic accepted with residuals recorded"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n5": "RTO met",
+            "n4": "stale roles + no change alert"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Keep the service constrained, correct and test authorization and monitoring, obtain acceptance, and document the RTO result and security delay separately. A fast but unauthorized or unobservable service is not a safe recovery.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "n6": "traffic remains constrained"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n4": "authorization and monitoring retested",
+            "n6": "RTO and security delay reported separately"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Alternate service within RTO",
+          "detail": "The service starts inside the time objective but remains a candidate for acceptance.",
+          "conceptIds": [
+            "restoration"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Stale authorization roles",
+          "detail": "Recovered role assignments do not reflect current approved access.",
+          "conceptIds": [
+            "security-validation",
+            "dr-assessment"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Missing admin-change alert",
+          "detail": "Recovery administrator changes are not detected or escalated.",
+          "conceptIds": [
+            "security-validation",
+            "recovery-evidence"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Security validation",
+          "detail": "Authorization and monitoring failures block full service acceptance.",
+          "conceptIds": [
+            "security-validation",
+            "service-validation"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Business workflow and RTO result",
+          "detail": "Business tests distinguish timely start from trustworthy operation.",
+          "conceptIds": [
+            "data-integrity",
+            "service-validation"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Constrained traffic decision",
+          "detail": "The owner holds or limits traffic until roles and monitoring pass retest.",
+          "conceptIds": [
+            "service-acceptance",
+            "return-to-normal"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n4",
+          "label": "enters security validation as candidate",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "causes security validation to reject authorization state",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "causes security validation to reject monitoring readiness",
+          "kind": "evidence"
+        },
+        {
+          "from": "n1",
+          "to": "n5",
+          "label": "supplies timing and workflow evidence",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "supplies retested security evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "supplies business and RTO evidence",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o11-disaster-recovery-restoration-validation-prediction",
+    "prompt": "In what dependency order can the service be restored, and which technical, security, and business gates must pass before traffic resumes?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "If the application responds, restoration is complete.",
+        "correct": false,
+        "feedback": "Incorrect: Identity, data integrity, keys, authorization, monitoring, dependencies, performance, and business workflow still require validation.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Keep the portal in controlled recovery status",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Identity, data integrity, keys, authorization, monitoring, dependencies, performance, and business workflow still require validation.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Resume customer traffic because the restored portal image is clean.",
+        "correct": false,
+        "feedback": "Incorrect: in this payment-service scenario the changed signing key and missing monitoring enrollment leave identity and observability gates unresolved. Validate the declared dependencies and technical, security, and business acceptance gates before release.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "data-integrity",
+      "restoration",
+      "service-validation"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o11-disaster-recovery-restoration-validation-transfer",
+    "prompt": "The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Keep the portal in controlled recovery status. Repair target: Decision recomputed — Keep the service constrained, correct and test authorization and monitoring, obtain acceptance, and document the RTO result and security delay separately. A fast but unauthorized or unobservable service is not a safe recovery.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Keep the portal in controlled recovery status. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Keep the service constrained, correct and test authorization and monitoring, obtain acceptance",
+        "correct": true,
+        "feedback": "Correct. Keep the service constrained, correct and test authorization and monitoring, obtain acceptance, and document the RTO result and security delay separately. A fast but unauthorized or unobservable service is not a safe recovery.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "service-validation",
+      "service-acceptance",
+      "recovery-evidence"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o11-disaster-recovery-restoration-validation-retry-v2",
+    "prompt": "Restored data matches its checksum, but inherited access roles include departed administrators. Should the service be accepted?",
+    "options": [
+      {
+        "id": "constrain-correct",
+        "label": "Constrain service, remove stale roles, test controls, and obtain accountable acceptance",
+        "correct": true,
+        "feedback": "Correct. Data integrity does not prove current identity and authorization state.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "accept-checksum",
+        "label": "Accept it because matching checksums prove the restored service is trustworthy",
+        "correct": false,
+        "feedback": "Checksums support data integrity only; stale privileged roles remain a security failure.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "discard-restore",
+        "label": "Discard the restored data and repeat recovery even though the data is intact",
+        "correct": false,
+        "feedback": "The stated defect is authorization state; correct and validate it rather than destroying valid restored data.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "data-integrity",
+      "security-validation",
+      "service-acceptance"
+    ],
+    "hint": "One successful validation dimension does not satisfy the others."
+  },
+  "takeaway": "Keep the portal in controlled recovery status.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o11-restoration",
+    "official-d7-75-81-restoration",
+    "sybex-d7-890-895",
+    "sybex-d7-896-898",
+    "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-1",
+    "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-2"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o11-disaster-recovery-restoration-validation-dependency-with-three-acceptance-gates",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable state states: Restored portal image enters security validation as candidate only Security validation; Changed identity signing key blocks trusted token and session checks until repaired Security validation. The model keeps Restored portal image, Changed identity signing key, Missing monitoring enrollment, Security validation, Business workflow test, Traffic acceptance distinct. Its changed case is “The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "An application response is not proof of complete restoration. Identity, keys, data integrity, authorization, monitoring, performance, dependencies, business workflow, and residual risk require validation and acceptance.",
+    "visualReasoningGain": "The dependency chain with separate technical, security, and business gates shows exactly why application response precedes rather than equals accepted recovery."
+  }
+}

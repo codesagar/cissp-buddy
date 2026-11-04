@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o15-personnel-safety",
+  "treatmentIds": [
+    "fresh-d7-o15-personnel-safety-safety-first-escalation-flow"
+  ],
+  "title": "Address personnel safety and security concerns",
+  "question": "When a person faces travel risk, coercion, suspicious access pressure, or an emergency, what safety-first action and escalation path protects both the person and the organization?",
+  "scenario": "A remote administrator reports a credible threat and asks to keep working alone overnight because a maintenance deadline is approaching.",
+  "focalRelation": "reported danger/duress/coercion --immediate safe stop and confidential channel--> authorized specialist specialist --HR/security/legal/emergency service by condition--> protective action access/staffing adjustment --supports--> continuity life safety --overrides--> deadline and asset availability after-action review --system improvement without blame--> readiness",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Threatened remote administrator",
+      "detail": "Employee reporting a credible personal threat while assigned solitary overnight maintenance.",
+      "conceptIds": [
+        "personnel-safety",
+        "workplace-violence",
+        "duress"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Credible safety report",
+      "detail": "Confidential facts, immediate danger, location, communication ability, and requested support.",
+      "conceptIds": [
+        "duty-of-care",
+        "duress"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Emergency and HR authority",
+      "detail": "Established safety, security, HR, legal, and emergency path empowered to protect the person.",
+      "conceptIds": [
+        "emergency-management",
+        "personnel-safety"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Privileged maintenance task",
+      "detail": "Operational deadline and access that must yield to safety and may create coercion or fatigue risk.",
+      "conceptIds": [
+        "personnel-safety",
+        "staffing-resilience"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Alternate staff or postponement",
+      "detail": "Continuity decision providing buddy coverage, replacement staff, safe location, changed access, or delay.",
+      "conceptIds": [
+        "staffing-resilience"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Protected evidence",
+      "detail": "Need-to-know record of report, actions, access changes, threat evidence, and follow-up.",
+      "conceptIds": [
+        "duty-of-care"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "reports threat through protected channel",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "activates safety and emergency authority",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "stops or changes unsafe work expectation",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n5",
+      "label": "authorizes safer staffing/continuity response",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "preserves relevant facts with restricted access",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A remote administrator reports a credible threat and asks to keep working alone overnight because a maintenance deadline is approaching.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "credible threat; asks to work alone",
+        "n2": "safety report open"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Safety escalation should be accessible, confidential where possible, and tested.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "safety/HR/security path active"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A security professional should investigate every threat personally. Use trained, authorized roles and emergency services; uncoordinated action can endanger people and compromise evidence.",
+      "activeNodeIds": [
+        "n1",
+        "n4",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "deadline does not override duty of care"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Prioritize personal safety, use the established emergency and HR/security escalation path, adjust access and staffing, and invoke continuity procedures or postpone the work. Protect the report's confidentiality and preserve relevant evidence without forcing the person to choose between safety and operational expectations.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "privilege adjusted",
+        "n5": "alternate staff or postponement chosen"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a personnel or operational safety concern, choose a proportionate escalation, communication, protection, and continuity response that supports the person and the organization's duty of care. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n1": "supported and safe",
+        "n6": "confidential evidence retained"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A lone technician must enter a restricted site after a natural disaster to restore power.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A lone technician must enter a restricted site after a natural disaster to restore power.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n1": "lone technician after disaster",
+            "n4": "power restoration urgent"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Use emergency management and safety procedures, confirm authorization and communications, provide escort or buddy coverage, assess facility hazards, and postpone if conditions are unsafe. Availability pressure does not remove duty of care or physical safety controls.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            3
+          ],
+          "statuses": {
+            "n3": "hazards/authority/communications checked",
+            "n5": "escort or buddy required"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n3",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n5": "safe plan authorized or task postponed",
+            "n6": "decision and conditions recorded"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Lone field technician",
+          "detail": "One technician is asked to enter a restricted site after a natural disaster.",
+          "conceptIds": [
+            "personnel-safety"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Hazard and access report",
+          "detail": "Structural, electrical, environmental, and security conditions may be unknown.",
+          "conceptIds": [
+            "duty-of-care",
+            "duress"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Safety and emergency authority",
+          "detail": "The authorized leader decides whether entry is allowed and under what controls.",
+          "conceptIds": [
+            "emergency-management",
+            "duty-of-care"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Power restoration task",
+          "detail": "The work is operationally urgent but does not override safety requirements.",
+          "conceptIds": [
+            "personnel-safety",
+            "staffing-resilience"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Buddy, escort, or postponement",
+          "detail": "Alternate staff, check-ins, PPE, rescue support, or delay reduce lone-worker risk.",
+          "conceptIds": [
+            "staffing-resilience"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Protected safety record",
+          "detail": "The organization records hazard assessment, authorization, check-ins, and outcome.",
+          "conceptIds": [
+            "duty-of-care"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "triggers hazard assessment",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "requires safety authority",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "is bounded by approved controls",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "uses safer staffing or postponement",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "records credible safety information",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o15-personnel-safety-prediction",
+    "prompt": "When a person faces travel risk, coercion, suspicious access pressure, or an emergency, what safety-first action and escalation path protects both the person and the organization?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A security professional should investigate every threat personally.",
+        "correct": false,
+        "feedback": "Incorrect: Use trained, authorized roles and emergency services; uncoordinated action can endanger people and compromise evidence.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Allow the administrator to work alone overnight if they agree to periodic remote check-ins.",
+        "correct": false,
+        "feedback": "Incorrect: a credible threat makes personnel safety the controlling condition. Escalate through the safety process, remove lone work, use appropriate assistance or relocation, and reschedule maintenance under accountable authority.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "relation",
+        "label": "Escalate the threat, remove lone work, and reschedule under the safety process",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Use trained, authorized roles and emergency services; uncoordinated action can endanger people and compromise evidence.",
+        "repairStateId": "failure-exposed"
+      }
+    ],
+    "conceptIds": [
+      "personnel-safety"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o15-personnel-safety-transfer",
+    "prompt": "A lone technician must enter a restricted site after a natural disaster to restore power.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Use emergency management and safety procedures, confirm authorization and communications",
+        "correct": true,
+        "feedback": "Correct. Use emergency management and safety procedures, confirm authorization and communications, provide escort or buddy coverage, assess facility hazards, and postpone if conditions are unsafe. Availability pressure does not remove duty of care or physical safety controls.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A lone technician must enter a restricted site after a natural disaster to restore power. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Prioritize personal safety, use the established emergency and HR/security escalation path, adjust access and staffing, and invoke continuity procedures or postpone the work. Repair target: Decision recomputed — Use emergency management and safety procedures, confirm authorization and communications, provide escort or buddy coverage, assess facility hazards, and postpone if conditions are unsafe. Availability pressure does not remove duty of care or physical safety controls.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A lone technician must enter a restricted site after a natural disaster to restore power. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Prioritize personal safety, use the established emergency and HR/security escalation path, adjust access and staffing, and invoke continuity procedures or postpone the work. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "emergency-management"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o15-personnel-safety-retry-v2",
+    "prompt": "A remote administrator uses the duress phrase during an active privileged session. What should the receiver do?",
+    "options": [
+      {
+        "id": "challenge-publicly",
+        "label": "Challenge the administrator in the shared operations channel to confirm whether the phrase was intentional",
+        "correct": false,
+        "feedback": "A public challenge can increase danger and expose confidential safety information.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "activate-protect",
+        "label": "Follow the trained emergency path, protect the person, contain or transfer the session safely, and restrict evidence to need-to-know roles",
+        "correct": true,
+        "feedback": "Correct. The response prioritizes life safety while preventing coerced privileged action and preserving relevant facts.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "finish-task",
+        "label": "Let the session continue until maintenance ends because interruption could affect availability",
+        "correct": false,
+        "feedback": "An operational deadline does not override a credible duress signal and duty of care.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "duress",
+      "emergency-management",
+      "duty-of-care"
+    ],
+    "hint": "Treat the safety signal and the privileged session as connected but separately controlled concerns."
+  },
+  "takeaway": "Prioritize personal safety, use the established emergency and HR/security escalation path, adjust access and staffing, and invoke continuity procedures or postpone the work.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o15",
+    "official-d7-90-95",
+    "sybex-d7-771-773"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o15-personnel-safety-safety-first-escalation-flow",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable decision states: Threatened remote administrator reports threat through protected channel Credible safety report; Credible safety report activates safety and emergency authority Emergency and HR authority. The model keeps Threatened remote administrator, Credible safety report, Emergency and HR authority, Privileged maintenance task, Alternate staff or postponement, Protected evidence distinct. Its changed case is “A lone technician must enter a restricted site after a natural disaster to restore power.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Personal safety takes priority over maintenance deadlines and availability pressure. Use authorized emergency, HR, security, escort, communication, and continuity procedures rather than asking an exposed person to investigate or work alone.",
+    "visualReasoningGain": "A safety escalation flow could keep threat, stop-work decision, authorized responders, escort, confidentiality, and continuity together; the opening person/report pair does not."
+  },
+  "openingFacts": [
+    {
+      "label": "Threatened remote administrator",
+      "value": "Employee reporting a credible personal threat while assigned solitary overnight maintenance."
+    },
+    {
+      "label": "Credible safety report",
+      "value": "Confidential facts, immediate danger, location, communication ability, and requested support."
+    },
+    {
+      "label": "Emergency and HR authority",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Privileged maintenance task",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Alternate staff or postponement",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Protected evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

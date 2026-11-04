@@ -1,0 +1,507 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o01-professional-ethics",
+  "treatmentIds": [
+    "fresh-d1-o01-professional-ethics-pressure-authority-case"
+  ],
+  "title": "The request that rank cannot authorize",
+  "question": "When must a security professional stop an executive request, preserve the facts, and escalate?",
+  "scenario": "Hours before a product announcement, the product vice president tells security manager Maya to remove a confirmed customer-data exposure from the launch report. The vice president owns the launch decision, but not the risk-reporting or disclosure process. Maya has the evidence, while legal and the incident executive hold the relevant escalation authority.",
+  "focalRelation": "Executive urgency does not create authority. Maya must test authority and foreseeable harm independently, preserve the evidence, and route the decision to an accountable owner before anyone decides disclosure scope.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Vice president’s request",
+      "detail": "The product vice president asks Maya to remove a confirmed exposure from the launch report.",
+      "conceptIds": [
+        "professional-ethics",
+        "scope-of-authority"
+      ],
+      "lane": "pressure"
+    },
+    {
+      "id": "authority",
+      "label": "Authority and independence gate",
+      "detail": "Launch ownership does not include authority to suppress the security record or decide disclosure. Maya must disclose a conflict and obtain qualified help where her competence is insufficient.",
+      "conceptIds": [
+        "scope-of-authority",
+        "competence",
+        "conflict-of-interest"
+      ],
+      "lane": "checks"
+    },
+    {
+      "id": "harm",
+      "label": "Harm and duty gate",
+      "detail": "Concealment would deprive accountable decision makers of material risk and could expose customers to avoidable harm.",
+      "conceptIds": [
+        "public-interest",
+        "professional-ethics"
+      ],
+      "lane": "checks"
+    },
+    {
+      "id": "preserve",
+      "label": "Decline and preserve",
+      "detail": "Maya declines to alter the report and preserves the original findings, request, and timestamps within her mandate.",
+      "conceptIds": [
+        "professional-ethics"
+      ],
+      "lane": "action"
+    },
+    {
+      "id": "escalate",
+      "label": "Authorized escalation",
+      "detail": "Maya sends the preserved facts to the incident executive and legal channel for an accountable decision.",
+      "conceptIds": [
+        "responsible-disclosure",
+        "scope-of-authority"
+      ],
+      "lane": "action"
+    },
+    {
+      "id": "disclosure",
+      "label": "Bounded disclosure decision",
+      "detail": "The authorized owners decide lawful recipients, timing, and scope; Maya does not publish the evidence herself.",
+      "conceptIds": [
+        "responsible-disclosure",
+        "public-interest"
+      ],
+      "lane": "action"
+    }
+  ],
+  "edges": [
+    {
+      "from": "request",
+      "to": "authority",
+      "label": "must fit the requester’s mandate",
+      "kind": "flow"
+    },
+    {
+      "from": "request",
+      "to": "harm",
+      "label": "must also satisfy professional duty",
+      "kind": "flow"
+    },
+    {
+      "from": "authority",
+      "to": "preserve",
+      "label": "fails: no authority to suppress",
+      "kind": "flow"
+    },
+    {
+      "from": "harm",
+      "to": "preserve",
+      "label": "fails: concealment creates foreseeable harm",
+      "kind": "flow"
+    },
+    {
+      "from": "preserve",
+      "to": "escalate",
+      "label": "creates an accountable evidence record",
+      "kind": "evidence"
+    },
+    {
+      "from": "escalate",
+      "to": "disclosure",
+      "label": "authorized owner sets channel and scope",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "pressure",
+      "label": "Business pressure",
+      "rule": "Urgency and rank are scenario facts, not authority grants."
+    },
+    {
+      "id": "checks",
+      "label": "Independent duty checks",
+      "rule": "Authority, harm, competence, and conflict are evaluated separately."
+    },
+    {
+      "id": "action",
+      "label": "Actions within mandate",
+      "rule": "Preserve and escalate first; authorized owners decide disclosure scope."
+    }
+  ],
+  "states": [
+    {
+      "id": "facts",
+      "title": "The urgent request",
+      "caption": "The vice president owns the launch but asks Maya to alter a security record outside that decision right.",
+      "activeNodeIds": [
+        "request"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "request": "The vice president has made an urgent request, but his launch role does not establish authority to alter the security record."
+      }
+    },
+    {
+      "id": "gates",
+      "title": "Two checks fail independently",
+      "caption": "The request exceeds the executive’s reporting authority and would conceal material risk; either failure is enough to stop compliance.",
+      "activeNodeIds": [
+        "request",
+        "authority",
+        "harm"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "authority": "The request falls outside the vice president’s launch decision mandate.",
+        "harm": "Removing the exposure would conceal material risk from accountable decision makers.",
+        "request": "The product vice president asks Maya to remove a confirmed exposure from the launch report."
+      }
+    },
+    {
+      "id": "preservation",
+      "title": "Refusal preserves accountability",
+      "caption": "Maya declines the alteration and retains the original finding and request without expanding her investigation.",
+      "activeNodeIds": [
+        "preserve",
+        "authority",
+        "harm"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "preserve": "Maya preserves the original finding, request, and timestamps.",
+        "authority": "Maya seeks qualified help or recuses herself if the decision exceeds her competence or independence.",
+        "harm": "Concealment would deprive accountable decision makers of material risk and could expose customers to avoidable harm."
+      }
+    },
+    {
+      "id": "escalation",
+      "title": "Escalation precedes disclosure",
+      "caption": "The incident executive and legal channel receive the evidence. They decide the lawful audience and timing; public release is not implied.",
+      "activeNodeIds": [
+        "preserve",
+        "escalate",
+        "disclosure"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "escalate": "The incident executive and legal channel now have the preserved facts for an accountable decision.",
+        "disclosure": "The lawful recipients, timing, and scope remain pending an authorized disclosure decision.",
+        "preserve": "Maya declines to alter the report and preserves the original findings, request, and timestamps within her mandate."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "consulting-scope",
+      "label": "Unrelated tenant",
+      "changedFact": "The same executive asks Maya to test an unrelated tenant that the company does not own.",
+      "states": [
+        {
+          "id": "variant-request",
+          "title": "Target changes",
+          "caption": "The requester and urgency stay the same, but the target lies outside the organization’s authorization boundary.",
+          "activeNodeIds": [
+            "request",
+            "authority"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "authority": "The written engagement scope does not include the tenant.",
+            "request": "The vice president requests a probe against an unrelated tenant."
+          }
+        },
+        {
+          "id": "variant-stop",
+          "title": "Stop before testing",
+          "caption": "Maya preserves the request and seeks written scope clarification or escalation; no probe is sent to the tenant.",
+          "activeNodeIds": [
+            "preserve",
+            "escalate",
+            "authority"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            4
+          ],
+          "statuses": {
+            "preserve": "Maya preserves the request and sends no probe to the unrelated tenant.",
+            "escalate": "The authorized owner must clarify the engagement scope before any testing occurs.",
+            "authority": "The written engagement scope does not authorize this target."
+          }
+        }
+      ],
+      "lanes": [
+        {
+          "id": "request",
+          "label": "Requested work",
+          "rule": "The requested target and action are recorded before any technical contact."
+        },
+        {
+          "id": "authority",
+          "label": "Authorization boundary",
+          "rule": "Written ownership and engagement scope determine whether testing may proceed."
+        },
+        {
+          "id": "response",
+          "label": "Permitted response",
+          "rule": "Preserve and escalate the request without probing an unauthorized target."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "request",
+          "label": "Requested tenant test",
+          "detail": "The product vice president asks Maya to probe a tenant that the company does not own.",
+          "conceptIds": [
+            "professional-ethics",
+            "scope-of-authority"
+          ],
+          "lane": "request"
+        },
+        {
+          "id": "authority",
+          "label": "Written engagement scope",
+          "detail": "The signed scope covers company systems and does not authorize testing against the unrelated tenant.",
+          "conceptIds": [
+            "scope-of-authority",
+            "competence"
+          ],
+          "lane": "authority"
+        },
+        {
+          "id": "harm",
+          "label": "Third-party tenant",
+          "detail": "An unauthorized probe could disrupt or expose a third party that never consented to the assessment.",
+          "conceptIds": [
+            "public-interest",
+            "professional-ethics"
+          ],
+          "lane": "authority"
+        },
+        {
+          "id": "preserve",
+          "label": "Preserved request record",
+          "detail": "Maya records the request, target, requester, and time without sending traffic to the tenant.",
+          "conceptIds": [
+            "professional-ethics"
+          ],
+          "lane": "response"
+        },
+        {
+          "id": "escalate",
+          "label": "Authorized scope owner",
+          "detail": "The engagement owner reviews ownership and written scope before deciding whether any test can be authorized.",
+          "conceptIds": [
+            "scope-of-authority",
+            "responsible-disclosure"
+          ],
+          "lane": "response"
+        },
+        {
+          "id": "disclosure",
+          "label": "Documented scope decision",
+          "detail": "The authorized owner records whether the target is excluded or requires a separate agreement with its owner.",
+          "conceptIds": [
+            "scope-of-authority",
+            "responsible-disclosure"
+          ],
+          "lane": "response"
+        }
+      ],
+      "edges": [
+        {
+          "from": "request",
+          "to": "authority",
+          "label": "must name an authorized target",
+          "kind": "flow"
+        },
+        {
+          "from": "request",
+          "to": "harm",
+          "label": "could affect a nonconsenting owner",
+          "kind": "flow"
+        },
+        {
+          "from": "authority",
+          "to": "preserve",
+          "label": "scope does not authorize a probe",
+          "kind": "flow"
+        },
+        {
+          "from": "harm",
+          "to": "preserve",
+          "label": "third-party impact must be avoided",
+          "kind": "flow"
+        },
+        {
+          "from": "preserve",
+          "to": "escalate",
+          "label": "supplies the exact request for review",
+          "kind": "evidence"
+        },
+        {
+          "from": "escalate",
+          "to": "disclosure",
+          "label": "records the authorized scope decision",
+          "kind": "flow"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o01-predict-v1",
+    "prompt": "What should Maya do before the launch report is finalized?",
+    "options": [
+      {
+        "id": "comply",
+        "label": "Remove the exposure because the launch owner accepted the business risk",
+        "correct": false,
+        "feedback": "Launch authority is not authority to suppress the security record, and Maya has no evidence that an accountable risk owner accepted this exposure.",
+        "repairStateId": "gates"
+      },
+      {
+        "id": "publish",
+        "label": "Publish the evidence immediately so customers can decide for themselves",
+        "correct": false,
+        "feedback": "Immediate public release invents disclosure authority and may create further harm. Preservation and authorized escalation come first.",
+        "repairStateId": "escalation"
+      },
+      {
+        "id": "preserve-escalate",
+        "label": "Decline the alteration, preserve the evidence, and use the authorized escalation channel",
+        "correct": true,
+        "feedback": "Correct. This keeps Maya within her mandate, protects the evidence, and puts the decision before accountable owners.",
+        "repairStateId": "preservation"
+      }
+    ],
+    "conceptIds": [
+      "professional-ethics",
+      "public-interest",
+      "scope-of-authority",
+      "responsible-disclosure"
+    ],
+    "hint": "Separate the executive’s rank from authority to alter the security record."
+  },
+  "transfer": {
+    "id": "d1-o01-transfer-v1",
+    "prompt": "The vice president now asks Maya to run the same test against an unrelated tenant. What is the defensible next action?",
+    "options": [
+      {
+        "id": "stop-scope",
+        "label": "Stop before testing, preserve the request, and seek authorized scope clarification",
+        "correct": true,
+        "feedback": "Correct. The changed target controls the decision: managerial urgency cannot authorize testing property the organization does not own.",
+        "repairStateId": "variant-stop"
+      },
+      {
+        "id": "limited-probe",
+        "label": "Run a small probe because minimal impact keeps the work ethical",
+        "correct": false,
+        "feedback": "Impact minimization does not create authorization. Even a small probe crosses the changed scope boundary.",
+        "repairStateId": "variant-request"
+      },
+      {
+        "id": "written-order",
+        "label": "Proceed after the vice president repeats the request in writing",
+        "correct": false,
+        "feedback": "A written instruction documents the request but does not give the company authority over another tenant.",
+        "repairStateId": "gates"
+      }
+    ],
+    "conceptIds": [
+      "professional-ethics",
+      "scope-of-authority"
+    ],
+    "hint": "Ask whether the changed target is inside the written engagement scope."
+  },
+  "retry": {
+    "id": "d1-o01-retry-v1",
+    "prompt": "A qualified incident executive confirms that Maya may preserve internal logs, but Maya owns stock in the affected supplier. What should she do?",
+    "options": [
+      {
+        "id": "disclose-recuse",
+        "label": "Preserve within scope, disclose the conflict, and accept recusal or supervised reassignment",
+        "correct": true,
+        "feedback": "Correct. The authorized preservation remains valid while disclosure and recusal protect the independence of later decisions.",
+        "repairStateId": "escalation"
+      },
+      {
+        "id": "destroy",
+        "label": "Delete her notes and withdraw so the conflict cannot affect the record",
+        "correct": false,
+        "feedback": "Withdrawal does not justify destroying evidence. Preserve the record, disclose the conflict, and let the authorized owner assign the work.",
+        "repairStateId": "escalation"
+      },
+      {
+        "id": "silent",
+        "label": "Continue silently because technical competence removes any bias concern",
+        "correct": false,
+        "feedback": "Competence and conflict are separate checks. Skill does not remove an interest that could bias, or appear to bias, the decision.",
+        "repairStateId": "preservation"
+      }
+    ],
+    "conceptIds": [
+      "competence",
+      "conflict-of-interest",
+      "professional-ethics"
+    ],
+    "hint": "Look for the action that preserves evidence without exceeding Maya’s mandate."
+  },
+  "takeaway": "Rank and urgency do not expand authority. Protect people and professional trust by preserving facts, acting within mandate, and escalating before any broader disclosure.",
+  "assumptions": [
+    "The exposure and request are confirmed facts in this hypothetical case.",
+    "The incident executive and legal channel are the organization’s authorized escalation route.",
+    "The model does not prescribe public disclosure law for any jurisdiction."
+  ],
+  "sourceRefIds": [
+    "d1-o01-outline",
+    "d1-o01-textbook",
+    "d1-o01-professional-ethics-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o01-professional-ethics-pressure-authority-case",
+      "disposition": "equivalent",
+      "rationale": "The boundary model preserves independent authority and harm checks, evidence preservation, escalation before disclosure, and the changed unauthorized-tenant case. It uses authored gate states and lanes in place of the reviewed persistent duty table, so the mechanism is equivalent rather than the exact reviewed form."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "The vice president controls the launch decision but not the security record. Maya must preserve the evidence and escalate through the authorized legal or incident channel when authority or professional duty fails.",
+    "visualReasoningGain": "A useful visual keeps the request, evidence, two independent gates, and authorized escalation visible together; the current opening adds almost nothing beyond prose, while the revealed map adds the two-gate trace."
+  },
+  "openingFacts": [
+    {
+      "label": "Vice president’s request",
+      "value": "The product vice president asks Maya to remove a confirmed exposure from the launch report."
+    },
+    {
+      "label": "Authority and independence gate",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Harm and duty gate",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Decline and preserve",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Authorized escalation",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Bounded disclosure decision",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

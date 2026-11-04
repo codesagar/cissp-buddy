@@ -1,0 +1,866 @@
+{
+  "conceptIds": [
+    "wireless-networks",
+    "wifi",
+    "bluetooth",
+    "zigbee",
+    "cellular-4g-5g",
+    "satellite",
+    "cdn",
+    "vpc",
+    "sdn",
+    "edge-network",
+    "remote-connectivity",
+    "ingress-egress-control",
+    "brokered-access-path",
+    "tenant-boundary",
+    "rogue-access-point-detection"
+  ],
+  "concepts": [
+    {
+      "decision": "Select identity/admission, encryption, segmentation, management, rogue detection, and availability controls for the radio environment.",
+      "definition": "Networks using RF or other nonwired media with association, radio, physical-range, and interference considerations.",
+      "failureExample": "An attacker associates from outside a facility because radio range and rogue monitoring were ignored.",
+      "id": "wireless-networks",
+      "label": "Wireless Networks",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Use strong enterprise admission where needed, separate guest/IoT/enterprise traffic, secure AP management, and monitor rogue associations.",
+      "definition": "IEEE 802.11 wireless LAN technology using access points and association/security mechanisms.",
+      "failureExample": "Guest Wi-Fi shares routes with payroll systems through a flat wireless VLAN.",
+      "id": "wifi",
+      "label": "Wifi",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Allow only needed profiles/devices, manage pairing, update firmware, and consider discovery/range exposure.",
+      "definition": "Short-range wireless technology for peripheral/device communication with pairing and proximity risks.",
+      "failureExample": "An unmanaged paired device receives data after the authorized user leaves.",
+      "id": "bluetooth",
+      "label": "Bluetooth",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Segment IoT, manage commissioning/keys/firmware, and monitor gateway/control points.",
+      "definition": "Low-power mesh wireless technology common in IoT, with coordinator/mesh and device-lifecycle dependencies.",
+      "failureExample": "A compromised sensor joins a flat enterprise path through an unprotected gateway.",
+      "id": "zigbee",
+      "label": "Zigbee",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Assess carrier trust, device identity, private/public path, data exposure, coverage/fallback, and management.",
+      "definition": "Provider-operated mobile access networks with SIM/device identity, radio coverage, carrier, and roaming dependencies.",
+      "failureExample": "Loss of carrier service disables a remote safety function with no fallback.",
+      "id": "cellular-4g-5g",
+      "label": "Cellular 4g 5g",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Use when geographic reach justifies latency/cost; plan encryption endpoints, provider trust, availability, and alternate paths.",
+      "definition": "Long-distance radio communication via satellite with coverage, provider, latency, weather, and ground-station dependencies.",
+      "failureExample": "A latency-sensitive control service fails because satellite delay/jitter was not modeled.",
+      "id": "satellite",
+      "label": "Satellite",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Define origin trust, cache rules, TLS termination, invalidation, logging, data sensitivity, and provider failure behavior.",
+      "definition": "Origin-and-edge distribution service that caches/delivers content through provider-operated edge nodes.",
+      "failureExample": "Sensitive personalized content is cached or logged at an edge contrary to policy.",
+      "id": "cdn",
+      "label": "Cdn",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Test effective routes and policy after each infrastructure-as-code or provider change.",
+      "definition": "Cloud routing/security construct owned jointly by customer configuration and provider infrastructure.",
+      "failureExample": "A default route change bypasses an inspection VPC endpoint.",
+      "id": "vpc",
+      "label": "Vpc",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    },
+    {
+      "decision": "Protect controller/API identities, policy validation, high availability, audit, staged rollout, and rollback.",
+      "definition": "Programmable separation of network control and forwarding, often with centralized policy/controller functions.",
+      "failureExample": "A controller misconfiguration pushes an allow rule across all sites.",
+      "id": "sdn",
+      "label": "Sdn",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    },
+    {
+      "decision": "Define edge identity, configuration, data path, update/rollback, telemetry, and physical/provider ownership.",
+      "definition": "Compute/enforcement close to users/devices that can reduce latency but distributes trust and management.",
+      "failureExample": "An unpatched edge node enforces stale policy close to many clients.",
+      "id": "edge-network",
+      "label": "Edge Network",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Broker identity, MFA, device posture, least privilege, time bounds, logging, revocation, and approved paths.",
+      "definition": "Controlled connectivity for offsite users/devices/services to organization resources.",
+      "failureExample": "A remote VPN user inherits broad internal routing after authentication.",
+      "id": "remote-connectivity",
+      "label": "Remote Connectivity",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1"
+    },
+    {
+      "decision": "Define permitted sources/destinations, route, inspection, identity, logs, and fail behavior for inbound and outbound flows.",
+      "definition": "Policy and enforcement governing traffic entering or leaving a cloud/network boundary.",
+      "failureExample": "Private workloads have unrestricted internet egress despite no intended external dependency.",
+      "id": "ingress-egress-control",
+      "label": "Ingress Egress Control",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    },
+    {
+      "decision": "Prefer a broker/jump path when direct broad network reach would exceed the task need.",
+      "definition": "An intermediary-controlled route that mediates remote session identity, destination, scope, and evidence.",
+      "failureExample": "A direct VPN makes every internal subnet reachable to a contractor.",
+      "id": "brokered-access-path",
+      "label": "Brokered Access Path",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    },
+    {
+      "decision": "Bind cache keys, authorization, routing, and logs to tenant context where data is tenant-specific.",
+      "definition": "Separation that prevents one customer/tenant identity, route, cache entry, or policy from affecting another.",
+      "failureExample": "A shared cache omits tenant context and returns another tenant’s content.",
+      "id": "tenant-boundary",
+      "label": "Tenant Boundary",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    },
+    {
+      "decision": "Monitor authorized AP inventory/association patterns and investigate impersonation or unapproved radios.",
+      "definition": "Detection and response for unauthorized or impersonating wireless access infrastructure.",
+      "failureExample": "A rogue AP uses a trusted SSID to collect credentials.",
+      "id": "rogue-access-point-detection",
+      "label": "Rogue Access Point Detection",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-603-621",
+        "sybex-d4-657-707"
+      ],
+      "sourceVisualId": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    }
+  ],
+  "domainId": 4,
+  "estimatedMinutes": 40,
+  "id": "d4-o01-wireless-cloud-remote-architecture",
+  "misconceptions": [
+    {
+      "claim": "A private cloud subnet is automatically trusted.",
+      "correction": "Cloud routes, identities, APIs, peering, provider personnel, and misconfiguration still create paths and trust decisions."
+    },
+    {
+      "claim": "Wireless encryption removes rogue-device risk.",
+      "correction": "Admission, management, endpoint posture, monitoring, and physical radio exposure remain relevant."
+    }
+  ],
+  "objectiveIds": [
+    "4.1"
+  ],
+  "outcome": "Assess a wireless, cloud, or remote connectivity design for trust boundaries, shared responsibility, resilience, and observable security controls.",
+  "prerequisites": [
+    "d4-o01-network-segmentation-trust-zones",
+    "d4-o01-network-protocol-routing-design",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Wi-Fi, Bluetooth, Zigbee, satellite, and 4G/5G differ in range, association, identity, encryption, interference, provider dependence, and physical exposure. Select standards and admission controls for the use case, separate guest/IoT/enterprise paths, protect management, monitor rogue devices and unusual associations, and plan loss of carrier or positioning service.",
+      "id": "wireless-and-cellular",
+      "keyPoints": [
+        "Radio reach crosses physical boundaries and can expose unmanaged clients.",
+        "Wireless security includes client, AP, controller, identity, and management paths.",
+        "Cellular and satellite add provider and availability dependencies."
+      ],
+      "sourceRefIds": [
+        "outline-4.1-wireless",
+        "official-d4-8-77",
+        "sybex-d4-603-621"
+      ],
+      "title": "Design for radio and mobile exposure"
+    },
+    {
+      "body": "VPCs, SDN/SD-WAN, NFV, CDNs, peering, ingress/egress, and edge services shift enforcement and routing into programmable or provider-operated layers. Define shared responsibility, tenant boundaries, identity, route controls, encryption endpoints, logging, region/data implications, resilience, and revocation. Remote access should use explicit brokered paths rather than treating a VPN as automatic trust.",
+      "id": "cloud-edge-remote",
+      "keyPoints": [
+        "Cloud control-plane permissions can change network reachability at scale.",
+        "CDN and peering decisions affect origin exposure, data location, and availability.",
+        "Provider controls require customer-side configuration, evidence, and exit planning."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-657-707"
+      ],
+      "title": "Govern cloud and remote trust"
+    }
+  ],
+  "sourceHash": "b4b9796a192deabc1d44844d061a43d7c55fabc6f7f1fc587acfb5aed1cc25be",
+  "sourcePath": "knowledge/domains/d4-communication-network-security/units/d4-o01-wireless-cloud-remote-architecture.json",
+  "sourceRefs": [
+    {
+      "id": "outline-4.1-wireless",
+      "locator": {
+        "type": "objective",
+        "value": "4.1 bullets: edge, wireless, cellular, CDN, SDN, VPC, monitoring/management"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "topic scope"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77), body wireless/cloud/edge architecture sections"
+      },
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "supports": [
+        "wireless, cloud, edge, monitoring"
+      ]
+    },
+    {
+      "id": "sybex-d4-603-621",
+      "locator": {
+        "type": "pdf-page",
+        "value": "603-621, Chapter 11"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "wireless, cellular, CDN"
+      ]
+    },
+    {
+      "id": "sybex-d4-657-707",
+      "locator": {
+        "type": "pdf-page",
+        "value": "657-707, Chapter 12"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "remote access, VPN, third-party channels"
+      ]
+    }
+  ],
+  "summary": "Wireless, cellular, satellite, CDN, VPC, SDN, and remote edges extend trust beyond the traditional perimeter and require explicit ownership, identity, path, and monitoring decisions.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "radio",
+        "kind": "flow",
+        "label": "requires device and identity context before remote access through",
+        "to": "broker"
+      },
+      {
+        "from": "radio",
+        "kind": "flow",
+        "label": "uses the intended public application path through",
+        "to": "edge"
+      },
+      {
+        "from": "broker",
+        "kind": "flow",
+        "label": "permits only the scoped application or administration session into",
+        "to": "cloud"
+      },
+      {
+        "from": "edge",
+        "kind": "flow",
+        "label": "uses a restricted and authenticated origin path to",
+        "to": "origin"
+      },
+      {
+        "from": "cloud",
+        "kind": "dependency",
+        "label": "applies tenant route, identity, ingress, and egress policy around",
+        "to": "origin"
+      },
+      {
+        "from": "broker",
+        "kind": "evidence",
+        "label": "records remote session and policy evidence in",
+        "to": "detection"
+      },
+      {
+        "from": "edge",
+        "kind": "evidence",
+        "label": "records direct-origin and edge-bypass evidence in",
+        "to": "detection"
+      }
+    ],
+    "focalRelation": "Radio reach, client/AP/controller/identity paths, remote broker, VPN, CDN/origin, VPC/tenant, SDN/control plane, provider dependency, ingress/egress, and detection have separate trust and responsibility boundaries.",
+    "lanes": [
+      {
+        "id": "external",
+        "label": "Radio and remote origins",
+        "rule": "Medium, carrier, and location do not grant trust."
+      },
+      {
+        "id": "control",
+        "label": "Broker and edge controls",
+        "rule": "The intended entry path has explicit identity, endpoint, action, termination, and failure behavior."
+      },
+      {
+        "id": "protected",
+        "label": "Tenant, VPC, and origin",
+        "rule": "Cloud privacy labels do not replace route, identity, API, provider, and configuration controls."
+      },
+      {
+        "id": "evidence",
+        "label": "Alternate-path evidence",
+        "rule": "Rogue radio, direct origin, peering, control plane, and administration paths remain observable and tested."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "An approved VPN or managed device authenticates a path and posture, not broad authorization inside a cloud environment. Direct origin, peering, tenant, radio, and administrator paths must be checked separately.",
+      "visualReasoningGain": "An intended-versus-alternate path map would add bypass comparison; the current serial selector crowds these paths instead of showing them together."
+    },
+    "matrix": {
+      "columns": [
+        {
+          "id": "identity",
+          "label": "Identity / device"
+        },
+        {
+          "id": "endpoint",
+          "label": "Endpoint"
+        },
+        {
+          "id": "enforcement",
+          "label": "Enforcement"
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence"
+        },
+        {
+          "id": "gap",
+          "label": "Residual path"
+        }
+      ],
+      "description": "Compare origin, bypass, and remote-administration paths against identity, endpoint, enforcement, and evidence rather than treating VPN or CDN presence as a blanket guarantee.",
+      "notes": [],
+      "rows": [
+        {
+          "cells": {
+            "endpoint": "TLS edge, then separately protected origin",
+            "enforcement": "Edge filtering plus origin allowlist/policy",
+            "evidence": "Edge and origin request/deny records",
+            "gap": "Direct origin exposure or misbound certificate",
+            "identity": "Client/service claims as required by the application"
+          },
+          "id": "intended",
+          "label": "Client → CDN → origin"
+        },
+        {
+          "cells": {
+            "endpoint": "Named application/action, not broad network",
+            "enforcement": "Broker policy, least scope and expiry",
+            "evidence": "Session, action and policy decision records",
+            "gap": "Overbroad destination scope or alternate VPN route",
+            "identity": "Admin and managed-device context"
+          },
+          "id": "remote-admin",
+          "label": "Administrator → broker → private service"
+        },
+        {
+          "cells": {
+            "endpoint": "Different carrier, peer, tenant or origin",
+            "enforcement": "Separate route, tenant and service controls",
+            "evidence": "Wireless, route, cloud and exposure telemetry",
+            "gap": "The architecture claim fails if this path remains usable",
+            "identity": "May bypass intended user/device binding"
+          },
+          "id": "alternate",
+          "label": "Rogue AP / peering / direct origin"
+        }
+      ],
+      "title": "Intended and alternate paths cross different controls"
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "wireless-networks",
+          "wifi",
+          "bluetooth",
+          "zigbee",
+          "cellular-4g-5g",
+          "satellite"
+        ],
+        "detail": "Wi-Fi, Bluetooth, Zigbee, cellular, satellite, and remote clients have different range, peer, carrier, device, and monitoring assumptions.",
+        "id": "radio",
+        "label": "Wireless and remote edge",
+        "lane": "external"
+      },
+      {
+        "conceptIds": [
+          "remote-connectivity",
+          "brokered-access-path"
+        ],
+        "detail": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+        "id": "broker",
+        "label": "Identity-aware access broker",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "cdn",
+          "edge-network"
+        ],
+        "detail": "The edge provides the intended public path, caching, filtering, and termination but does not by itself remove direct-origin exposure.",
+        "id": "edge",
+        "label": "CDN and edge entry",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "vpc",
+          "tenant-boundary",
+          "sdn"
+        ],
+        "detail": "Routes, peers, identities, APIs, subnets, provider roles, and tenant configuration determine actual cloud reachability.",
+        "id": "cloud",
+        "label": "VPC and tenant boundary",
+        "lane": "protected"
+      },
+      {
+        "conceptIds": [
+          "ingress-egress-control"
+        ],
+        "detail": "Private services accept only restricted authenticated traffic from the intended edge and tenant routes.",
+        "id": "origin",
+        "label": "Origin and private services",
+        "lane": "protected"
+      },
+      {
+        "conceptIds": [
+          "rogue-access-point-detection",
+          "ingress-egress-control"
+        ],
+        "detail": "Rogue access-point, direct-origin, peering, control-plane, tenant, and remote-administration evidence tests the intended architecture.",
+        "id": "detection",
+        "label": "Alternate-path evidence",
+        "lane": "evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "edge-network",
+        "remote-connectivity",
+        "ingress-egress-control",
+        "brokered-access-path",
+        "tenant-boundary"
+      ],
+      "hint": "Remote connectivity must be bounded by identity, device, destination, action, and session evidence.",
+      "id": "d4-o01-wireless-cloud-remote-architecture-prediction-v1-01065f7278d2",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Protected connectivity authenticates a path; it does not establish broad authorization inside the destination environment.",
+          "id": "unit-specific-alternative",
+          "label": "Grant broad cloud access because the contractor connects through the approved VPN.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": true,
+          "feedback": "Cloud management, VPN, or CDN use does not make endpoints trusted or prevent bypass of origin, routing, identity, and control-plane decisions.",
+          "id": "correct",
+          "label": "Validate the intended path and every alternate radio, origin, peering, tenant, and administrative path.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "The VPN protects and authenticates a path; destination authorization, application scope, tenant boundary, session, and endpoint state remain separate.",
+          "id": "unit-specific-primary-misconception",
+          "label": "An approved VPN makes the remote endpoint trusted for the entire cloud network.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Can a remote user, rogue radio path, direct origin request, peering route, or cloud administrator bypass the intended broker or edge control?"
+    },
+    "question": "Can a remote user, rogue radio path, direct origin request, peering route, or cloud administrator bypass the intended broker or edge control?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "ingress-egress-control",
+        "brokered-access-path",
+        "rogue-access-point-detection"
+      ],
+      "hint": "Use a scoped broker or application policy and expire the session when the task ends.",
+      "id": "d4-o01-wireless-cloud-remote-architecture-retry-v1-a8f681db94fb",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Cloud routes, identities, APIs, peering, provider personnel, and misconfiguration still create paths and trust decisions.",
+          "id": "misconception",
+          "label": "Trust the private cloud subnet and leave origin identity, direct ingress, administrative routes, and failover untested.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Restrict and authenticate origin access, monitor ingress, and test alternate paths and failover.",
+          "id": "shortcut",
+          "label": "Grant broad origin access through the approved VPN without constraining destination, action, session, or alternate paths.",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Restrict and authenticate origin access, monitor ingress, and test alternate paths and failover.",
+          "id": "evidence-based",
+          "label": "Restrict and authenticate origin access, monitor ingress, and test alternate paths and failover",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A CDN is configured to reach an origin over a public address, while the origin team assumes the CDN is the only caller. What should the security owner decide?"
+    },
+    "scenario": "Hybrid VPC and remote workforce: A company exposes a CDN-fronted application, private VPC services, and remote administrators across multiple regions.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-4.1-wireless",
+      "official-d4-8-77",
+      "sybex-d4-603-621",
+      "sybex-d4-657-707"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "radio",
+          "broker"
+        ],
+        "activeRowIds": [],
+        "caption": "Hybrid VPC and remote workforce: A company exposes a CDN-fronted application, private VPC services, and remote administrators across multiple regions.",
+        "id": "case",
+        "statuses": {
+          "broker": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+          "radio": "Wi-Fi, Bluetooth, Zigbee, cellular, satellite, and remote clients have different range, peer, carrier, device, and monitoring assumptions."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "radio",
+          "broker",
+          "edge"
+        ],
+        "activeRowIds": [
+          "intended"
+        ],
+        "caption": "Wireless and remote edge requires device and identity context before remote access through Identity-aware access broker. Wireless and remote edge uses the intended public application path through CDN and edge entry.",
+        "id": "decision",
+        "statuses": {
+          "broker": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+          "edge": "The edge provides the intended public path, caching, filtering, and termination but does not by itself remove direct-origin exposure.",
+          "radio": "Wi-Fi, Bluetooth, Zigbee, cellular, satellite, and remote clients have different range, peer, carrier, device, and monitoring assumptions."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          5,
+          6
+        ],
+        "activeNodeIds": [
+          "broker",
+          "detection",
+          "edge"
+        ],
+        "activeRowIds": [
+          "remote-admin"
+        ],
+        "caption": "Identity-aware access broker records remote session and policy evidence in Alternate-path evidence. CDN and edge entry records direct-origin and edge-bypass evidence in Alternate-path evidence.",
+        "id": "consequence",
+        "statuses": {
+          "broker": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+          "detection": "Rogue access-point, direct-origin, peering, control-plane, tenant, and remote-administration evidence tests the intended architecture.",
+          "edge": "The edge provides the intended public path, caching, filtering, and termination but does not by itself remove direct-origin exposure."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "radio",
+          "broker",
+          "edge",
+          "detection",
+          "cloud",
+          "origin"
+        ],
+        "activeRowIds": [
+          "alternate"
+        ],
+        "caption": "A contractor’s managed laptop enters through the VPN but receives reachability to the entire cloud VPC. Use a scoped broker or application access policy, narrow identity and destination rights, log the session, and expire access; VPN membership is not blanket trust.",
+        "id": "changed-case",
+        "statuses": {
+          "broker": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+          "cloud": "Routes, peers, identities, APIs, subnets, provider roles, and tenant configuration determine actual cloud reachability.",
+          "detection": "Rogue access-point, direct-origin, peering, control-plane, tenant, and remote-administration evidence tests the intended architecture.",
+          "edge": "The edge provides the intended public path, caching, filtering, and termination but does not by itself remove direct-origin exposure.",
+          "origin": "Private services accept only restricted authenticated traffic from the intended edge and tenant routes.",
+          "radio": "Wi-Fi, Bluetooth, Zigbee, cellular, satellite, and remote clients have different range, peer, carrier, device, and monitoring assumptions."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Radio reach, client/AP/controller/identity paths, remote broker, VPN, CDN/origin, VPC/tenant, SDN/control plane, provider dependency, ingress/egress, and detection have separate trust and responsibility boundaries.",
+    "title": "hybrid bypass origin map",
+    "transfer": {
+      "conceptIds": [
+        "remote-connectivity",
+        "vpc",
+        "tenant-boundary",
+        "ingress-egress-control",
+        "brokered-access-path"
+      ],
+      "hint": "VPN membership alone does not grant every internal destination.",
+      "id": "d4-o01-wireless-cloud-remote-architecture-transfer-v1-d810ac7def84",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: The remote channel and device posture are acceptable. Destination scope exceeds the contractor’s task. Why this answer fails: “Grant broad cloud access because the contractor connects through the approved VPN” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Radio reach, client/AP/controller/identity paths, remote broker, VPN, CDN/origin, VPC/tenant, SDN/control plane, provider dependency, ingress/egress, and detection have separate trust and responsibility boundaries. Repair target: Control and evidence consequence — Identity-aware access broker records remote session and policy evidence in Alternate-path evidence. CDN and edge entry records direct-origin and edge-bypass evidence in Alternate-path evidence.",
+          "id": "single-signal",
+          "label": "Grant broad cloud access because the contractor connects through the approved VPN",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": true,
+          "feedback": "Use a scoped broker or application access policy, narrow identity and destination rights, log the session, and expire access; VPN membership is not blanket trust.",
+          "id": "recompute",
+          "label": "Use a scoped broker or application access policy, narrow identity and destination rights, log the session",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The remote channel and device posture are acceptable. Destination scope exceeds the contractor’s task. Why this answer fails: “An approved VPN makes the remote endpoint trusted for the entire cloud network” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Radio reach, client/AP/controller/identity paths, remote broker, VPN, CDN/origin, VPC/tenant, SDN/control plane, provider dependency, ingress/egress, and detection have separate trust and responsibility boundaries. Repair target: Changed fact, recomputed result — A contractor’s managed laptop enters through the VPN but receives reachability to the entire cloud VPC. Use a scoped broker or application access policy, narrow identity and destination rights, log the session, and expire access; VPN membership is not blanket trust.",
+          "id": "unchanged-rule",
+          "label": "An approved VPN makes the remote endpoint trusted for the entire cloud network",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "A contractor’s managed laptop enters through the VPN but receives reachability to the entire cloud VPC."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The boundary states preserve radio and remote entry, identity broker, CDN and origin path, tenant boundary, control-plane authority, and rogue or bypass evidence. The paths are staged rather than independently toggled overlays.",
+        "treatmentId": "fresh-d4-o01-wireless-cloud-remote-architecture-hybrid-bypass-origin-map"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d4-o01-wireless-cloud-remote-architecture-hybrid-bypass-origin-map"
+    ],
+    "unitId": "d4-o01-wireless-cloud-remote-architecture",
+    "variants": [
+      {
+        "changedFact": "The remote channel and device posture are acceptable. Destination scope exceeds the contractor’s task.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "matrix": {
+          "columns": [
+            {
+              "id": "identity",
+              "label": "Identity / device"
+            },
+            {
+              "id": "endpoint",
+              "label": "Endpoint"
+            },
+            {
+              "id": "enforcement",
+              "label": "Enforcement"
+            },
+            {
+              "id": "evidence",
+              "label": "Evidence"
+            },
+            {
+              "id": "gap",
+              "label": "Residual path"
+            }
+          ],
+          "description": "Compare origin, bypass, and remote-administration paths against identity, endpoint, enforcement, and evidence rather than treating VPN or CDN presence as a blanket guarantee.",
+          "notes": [],
+          "rows": [
+            {
+              "cells": {
+                "endpoint": "TLS edge, then separately protected origin",
+                "enforcement": "Edge filtering plus origin allowlist/policy",
+                "evidence": "Edge and origin request/deny records",
+                "gap": "Direct origin exposure or misbound certificate",
+                "identity": "Client/service claims as required by the application"
+              },
+              "id": "intended",
+              "label": "Client → CDN → origin"
+            },
+            {
+              "cells": {
+                "endpoint": "Named application/action, not broad network",
+                "enforcement": "Broker policy, least scope and expiry",
+                "evidence": "Session, action and policy decision records",
+                "gap": "Overbroad destination scope or alternate VPN route",
+                "identity": "Admin and managed-device context"
+              },
+              "id": "remote-admin",
+              "label": "Administrator → broker → private service"
+            },
+            {
+              "cells": {
+                "endpoint": "Different carrier, peer, tenant or origin",
+                "enforcement": "Separate route, tenant and service controls",
+                "evidence": "Wireless, route, cloud and exposure telemetry",
+                "gap": "The architecture claim fails if this path remains usable",
+                "identity": "May bypass intended user/device binding"
+              },
+              "id": "alternate",
+              "label": "Rogue AP / peering / direct origin"
+            }
+          ],
+          "title": "Intended and alternate paths cross different controls"
+        },
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "broker",
+              "detection",
+              "edge"
+            ],
+            "activeRowIds": [
+              "intended"
+            ],
+            "caption": "A contractor’s managed laptop enters through the VPN but receives reachability to the entire cloud VPC.",
+            "id": "variant-facts",
+            "statuses": {
+              "broker": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+              "detection": "Rogue access-point, direct-origin, peering, control-plane, tenant, and remote-administration evidence tests the intended architecture.",
+              "edge": "The edge provides the intended public path, caching, filtering, and termination but does not by itself remove direct-origin exposure."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              5,
+              6
+            ],
+            "activeNodeIds": [
+              "broker",
+              "detection",
+              "edge"
+            ],
+            "activeRowIds": [
+              "remote-admin"
+            ],
+            "caption": "Use a scoped broker or application access policy, narrow identity and destination rights, log the session, and expire access; VPN membership is not blanket trust.",
+            "id": "variant-result",
+            "statuses": {
+              "broker": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and evidence.",
+              "detection": "Rogue access-point, direct-origin, peering, control-plane, tenant, and remote-administration evidence tests the intended architecture.",
+              "edge": "The edge provides the intended public path, caching, filtering, and termination but does not by itself remove direct-origin exposure."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Assess wireless, cloud, and remote network architecture",
+  "workedExamples": [
+    {
+      "reasoning": "Minimize origin exposure, segment VPC subnets and management, use identity-aware short-lived administration, log control-plane and data-plane events, define provider responsibility and region constraints, and test CDN failure, identity outage, and route misconfiguration.",
+      "situation": "A company exposes a CDN-fronted application, private VPC services, and remote administrators across multiple regions.",
+      "takeaway": "Minimize origin exposure, segment VPC subnets and management, use identity-aware short-lived administration, log control-plane and data-plane events, define provider responsibility and region constraints, and test CDN failure, identity outage, and route misconfiguration.",
+      "title": "Hybrid VPC and remote workforce"
+    }
+  ]
+}

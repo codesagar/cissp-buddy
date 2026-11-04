@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o10-recovery-capability-operations",
+  "treatmentIds": [
+    "fresh-d7-o10-recovery-capability-operations-manipulable-recovery-dependency-scenario"
+  ],
+  "title": "Running is not recovered",
+  "question": "Can the payment service resume traffic when compute and a readable backup are available but identity, keys, network paths, or acceptance remain unresolved?",
+  "scenario": "Ransomware has disabled the primary payment environment. Recovery compute is running and an older immutable backup is readable in a separate account. Identity-provider readiness and the key-management route are still unknown, DNS has not been switched, and business owners have not reconciled transactions since the recovery point.",
+  "focalRelation": "A protected copy supports trusted data only after validation; application start depends on identity, keys, and network; resuming traffic additionally requires technical, security, and business acceptance.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "copy",
+      "label": "Immutable recovery copy",
+      "detail": "Readable older copy in a separate account; immutability resists alteration but does not prove currency or usable service.",
+      "conceptIds": [
+        "immutable-backup",
+        "backup-verification"
+      ]
+    },
+    {
+      "id": "data",
+      "label": "Validated data state",
+      "detail": "Copy restored, integrity checked, and recovery-point gap recorded.",
+      "conceptIds": [
+        "restore-testing",
+        "replication"
+      ]
+    },
+    {
+      "id": "identity",
+      "label": "Identity service",
+      "detail": "Authentication and authorization dependency for operators and customers.",
+      "conceptIds": [
+        "dependency-mapping",
+        "recovery-readiness"
+      ]
+    },
+    {
+      "id": "kms",
+      "label": "Key and network services",
+      "detail": "Recoverable keys, DNS, segmentation, monitoring, and traffic routes required for controlled service use.",
+      "conceptIds": [
+        "dependency-mapping",
+        "recovery-readiness",
+        "qos"
+      ]
+    },
+    {
+      "id": "app",
+      "label": "Payment application",
+      "detail": "May start only after its data, identity, key, and network dependencies meet the scenario checks.",
+      "conceptIds": [
+        "recovery-capability",
+        "failover"
+      ]
+    },
+    {
+      "id": "accept",
+      "label": "Resume-traffic gates",
+      "detail": "Technical operation, security validation, and business transaction acceptance are separate required gates.",
+      "conceptIds": [
+        "resilience",
+        "high-availability",
+        "fault-tolerance",
+        "recovery-readiness"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "copy",
+      "to": "data",
+      "label": "read, restore, and integrity validation",
+      "kind": "dependency"
+    },
+    {
+      "from": "data",
+      "to": "app",
+      "label": "supplies trusted recoverable state",
+      "kind": "dependency"
+    },
+    {
+      "from": "identity",
+      "to": "app",
+      "label": "supplies identity and authorization",
+      "kind": "dependency"
+    },
+    {
+      "from": "kms",
+      "to": "app",
+      "label": "supplies recoverable keys and controlled reachability",
+      "kind": "dependency"
+    },
+    {
+      "from": "app",
+      "to": "accept",
+      "label": "becomes candidate for acceptance",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "inventory",
+      "title": "Expose the dependency graph",
+      "caption": "Compute and a backup are visible alongside identity, keys, network, transaction state, and the three acceptance gates.",
+      "activeNodeIds": [
+        "copy",
+        "identity",
+        "kms",
+        "app",
+        "accept"
+      ],
+      "statuses": {
+        "copy": "readable",
+        "identity": "unknown",
+        "kms": "unknown; not switched",
+        "app": "stopped",
+        "accept": "not evaluated"
+      },
+      "activeEdgeIndexes": []
+    },
+    {
+      "id": "copy-validated",
+      "title": "Validate the recovery copy",
+      "caption": "Restore and integrity checks produce a candidate data state; the RPO gap remains explicit.",
+      "activeNodeIds": [
+        "copy",
+        "data"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "data": "integrity passed; 23-minute gap recorded"
+      }
+    },
+    {
+      "id": "first-blocker",
+      "title": "Find the first blockers",
+      "caption": "The application still cannot start because identity, KMS, and network readiness are unresolved.",
+      "activeNodeIds": [
+        "identity",
+        "kms",
+        "app"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "app": "blocked by dependencies"
+      }
+    },
+    {
+      "id": "technical-start",
+      "title": "Start under controlled conditions",
+      "caption": "After identity, key, and network checks pass, the application starts at reduced capacity; start is not yet recovery acceptance.",
+      "activeNodeIds": [
+        "data",
+        "identity",
+        "kms",
+        "app"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3
+      ],
+      "statuses": {
+        "app": "running at 50% capacity",
+        "accept": "technical check pending"
+      }
+    },
+    {
+      "id": "three-gates",
+      "title": "Evaluate three acceptance gates",
+      "caption": "Operations verifies capacity and monitoring; security validates access and hardening; business owners reconcile transactions and the data gap.",
+      "activeNodeIds": [
+        "app",
+        "accept"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "accept": "technical pass; security pass; business pending"
+      }
+    },
+    {
+      "id": "traffic-resumed",
+      "title": "Resume with limits recorded",
+      "caption": "Traffic resumes only after all gates pass, with the reduced-capacity QoS plan, residual RPO gap, owners, and failback criteria documented.",
+      "activeNodeIds": [
+        "app",
+        "accept"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "accept": "all gates passed",
+        "app": "limited traffic; monitored"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "shared-dependency",
+      "label": "Two sites, one dependency",
+      "changedFact": "Two recovery sites have separate compute and storage but share one unavailable identity provider and the same small operations team.",
+      "states": [
+        {
+          "id": "two-sites",
+          "title": "Count sites and map dependencies",
+          "caption": "Site diversity is visible, but identity and staffing converge on shared dependencies.",
+          "activeNodeIds": [
+            "identity",
+            "app",
+            "accept"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "app": "two site options",
+            "identity": "shared and unavailable"
+          }
+        },
+        {
+          "id": "common-mode",
+          "title": "Expose common-mode failure",
+          "caption": "Neither site becomes usable while the shared identity service is unavailable; simultaneous operation also exceeds the shared team.",
+          "activeNodeIds": [
+            "identity",
+            "app",
+            "accept"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            4
+          ],
+          "statuses": {
+            "app": "both sites blocked",
+            "accept": "staffing not ready"
+          }
+        },
+        {
+          "id": "alternate-proved",
+          "title": "Require tested alternatives",
+          "caption": "A tested alternate identity path and staffed runbook are evidence of resilience; site count alone is not.",
+          "activeNodeIds": [
+            "identity",
+            "app",
+            "accept"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            4
+          ],
+          "statuses": {
+            "identity": "alternate path tested",
+            "accept": "staffing exercise required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "copy",
+          "label": "Two independent site copies",
+          "detail": "Each site has separate compute, storage, and recoverable data.",
+          "conceptIds": [
+            "immutable-backup",
+            "backup-verification"
+          ]
+        },
+        {
+          "id": "data",
+          "label": "Validated site data",
+          "detail": "Both sites can restore internally consistent service data.",
+          "conceptIds": [
+            "restore-testing",
+            "replication"
+          ]
+        },
+        {
+          "id": "identity",
+          "label": "One unavailable identity provider",
+          "detail": "Both recovery sites depend on the same failed identity service.",
+          "conceptIds": [
+            "dependency-mapping",
+            "recovery-readiness"
+          ]
+        },
+        {
+          "id": "kms",
+          "label": "Shared operations team",
+          "detail": "The same small team cannot activate and operate both sites concurrently.",
+          "conceptIds": [
+            "dependency-mapping",
+            "recovery-readiness"
+          ]
+        },
+        {
+          "id": "app",
+          "label": "Two candidate service sites",
+          "detail": "Infrastructure diversity exists, but neither candidate clears common dependencies.",
+          "conceptIds": [
+            "recovery-capability",
+            "failover"
+          ]
+        },
+        {
+          "id": "accept",
+          "label": "Recovery acceptance gate",
+          "detail": "Traffic remains stopped until alternate identity and staffing paths are tested.",
+          "conceptIds": [
+            "resilience",
+            "high-availability",
+            "fault-tolerance",
+            "recovery-readiness"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "copy",
+          "to": "data",
+          "label": "supplies recoverable data at both sites",
+          "kind": "dependency"
+        },
+        {
+          "from": "data",
+          "to": "app",
+          "label": "supports each candidate application",
+          "kind": "dependency"
+        },
+        {
+          "from": "identity",
+          "to": "app",
+          "label": "blocks both candidates",
+          "kind": "dependency"
+        },
+        {
+          "from": "kms",
+          "to": "app",
+          "label": "limits concurrent activation",
+          "kind": "dependency"
+        },
+        {
+          "from": "app",
+          "to": "accept",
+          "label": "requires identity, staffing, and business acceptance",
+          "kind": "flow"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o10-predict",
+    "prompt": "Compute is running and the immutable backup is readable, but identity and KMS readiness are unknown. May customer traffic resume?",
+    "options": [
+      {
+        "id": "wait",
+        "label": "No; validate dependencies and all acceptance gates first",
+        "correct": true,
+        "feedback": "Correct. Identify the first blockers, then distinguish application start from accepted service recovery.",
+        "repairStateId": "three-gates"
+      },
+      {
+        "id": "yes-running",
+        "label": "Yes; compute and a readable backup prove recovery.",
+        "correct": false,
+        "feedback": "Component availability does not prove decryptability, authorization, transaction integrity, capacity, or business acceptance.",
+        "repairStateId": "first-blocker"
+      },
+      {
+        "id": "yes-immutable",
+        "label": "Yes; immutability makes further validation unnecessary.",
+        "correct": false,
+        "feedback": "Immutability helps protect a copy. It does not prove currency, key access, dependencies, or usable service.",
+        "repairStateId": "copy-validated"
+      }
+    ],
+    "conceptIds": [
+      "immutable-backup",
+      "dependency-mapping",
+      "recovery-readiness"
+    ],
+    "hint": "Separate copy readability, application start, and permission to resume business traffic."
+  },
+  "transfer": {
+    "id": "d7-o10-transfer",
+    "prompt": "Two sites have independent compute and storage, but both use one unavailable identity provider and one operations team. What does the second site prove?",
+    "options": [
+      {
+        "id": "full-resilience",
+        "label": "It proves resilience because the sites are geographically separate.",
+        "correct": false,
+        "feedback": "Geographic diversity does not remove shared identity or staffing failure modes.",
+        "repairStateId": "two-sites"
+      },
+      {
+        "id": "storage-only",
+        "label": "It improves infrastructure options but leaves common dependencies unresolved",
+        "correct": true,
+        "feedback": "Correct. Tested alternatives for identity and staffing are needed before claiming service resilience.",
+        "repairStateId": "alternate-proved"
+      },
+      {
+        "id": "dns-fix",
+        "label": "A DNS switch alone makes either site usable.",
+        "correct": false,
+        "feedback": "Routing traffic cannot repair unavailable identity or insufficient operational capacity.",
+        "repairStateId": "common-mode"
+      }
+    ],
+    "conceptIds": [
+      "resilience",
+      "high-availability",
+      "dependency-mapping",
+      "recovery-readiness"
+    ],
+    "hint": "Trace dependencies that both sites still share."
+  },
+  "retry": {
+    "id": "d7-o10-retry",
+    "prompt": "A database cluster fails over, but the secondary has half the capacity and its key route is unmonitored. What is the sound operating decision?",
+    "options": [
+      {
+        "id": "full-recovery",
+        "label": "Declare full recovery because failover completed.",
+        "correct": false,
+        "feedback": "Failover is a transition, not proof of adequate capacity, keys, monitoring, or business acceptance.",
+        "repairStateId": "technical-start"
+      },
+      {
+        "id": "failback-now",
+        "label": "Immediately fail back without validation to restore full capacity.",
+        "correct": false,
+        "feedback": "Failback is another risky change and needs its own readiness and validation checks.",
+        "repairStateId": "traffic-resumed"
+      },
+      {
+        "id": "operate-bounded",
+        "label": "Throttle service, verify key and monitoring paths, then seek acceptance",
+        "correct": true,
+        "feedback": "Correct. Operate within known capacity while validating dependencies and acceptance criteria.",
+        "repairStateId": "three-gates"
+      }
+    ],
+    "conceptIds": [
+      "failover",
+      "qos",
+      "recovery-capability",
+      "recovery-readiness"
+    ],
+    "hint": "Treat failover, capacity, dependency health, and acceptance as separate decisions."
+  },
+  "takeaway": "Recovery is a dependency and acceptance claim: verified copies enable restoration, dependencies enable start, and technical, security, and business gates enable controlled service use.",
+  "assumptions": [
+    "The 23-minute gap and 50% capacity are scenario values, not universal thresholds.",
+    "The dependency arrows express prerequisites, not elapsed recovery time.",
+    "Business acceptance includes transaction reconciliation for this payment scenario."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o10-capability",
+    "official-d7-66-74-capability",
+    "sybex-d7-875-878",
+    "sybex-d7-879-883"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o10-recovery-capability-operations-manipulable-recovery-dependency-scenario",
+      "disposition": "equivalent",
+      "rationale": "The state model preserves the combined data, identity, key-management, DNS/network, people/vendor, validation, and resume-traffic dependencies and recomputes a shared-identity-provider failure. Learners inspect authored dependency states rather than independently manipulating every dependency and backup age, so it is equivalent."
+    }
+  ]
+}

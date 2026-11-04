@@ -1,34 +1,43 @@
 # CISSP Buddy content system
 
-The release contains 97 concepts, ten lessons, twenty supplemental diagrams, thirty embedded learning checks, and thirty practice scenarios. It covers an identity/access cluster in Domain 5 with selected Domain 1 and 2 foundations. Other domains are explicitly marked as not yet included. Content is AI source-checked, not independently expert-reviewed. Neither activity nor question coverage estimates exam readiness.
+The main course has eight domains, 90 canonical units, 11 connection cases, and five native labs. It explains 698 distinct concepts across 892 unit/concept occurrences. Its 303 checks directly assess 450 distinct concepts; explanation coverage and assessment coverage are different. The preserved pilot has ten lessons, 97 concepts, 30 practice scenarios, 20 supplemental diagrams, and 30 embedded unscored checks. Content is AI source-checked, not human-expert certified or official ISC2 training.
 
-## Current architecture
+## Authoring and delivery
 
-Authoring records live under `lib/data/`, outside React components. `lib/curriculum.ts` defines the shared types. A validated release pack is imported only by server code. The server atomically installs it into D1, then reads the immutable snapshot from D1; a React provider passes this data to the lesson, graph and practice renderers. Editing content does not require changing the renderer, but currently does require a validated deployment. There is no editing console.
+The application is React, TypeScript, and plain Vite. All delivery is static. There is no runtime D1 database, server API, authentication, or cloud learner synchronization.
 
-D1 has domains, concepts (parent/root/domain), concept relationships, lessons, questions, question-to-subtopic joins, question-to-article-section joins, and immutable content releases. Structured lesson/diagram payloads are JSON, while IDs, hierarchy, domain filters and relationships are relational and indexed. `/api/concepts` supports parent, domain, search and pagination. `/api/questions` supports domain, exact subtopic and pagination. `/api/curriculum?release=...` resolves an immutable release. All endpoints inherit the private Site access policy.
+Main-course authoring inputs are sibling `knowledge/catalog/`, canonical `knowledge/domains/**/units/` and `visuals/`, plus `web/lib/data/teaching/` and `web/lib/data/connections/`. From `web/`:
 
-The pilot loads one release snapshot per page visit. It can continue an already loaded lesson or quiz through a brief connection loss, but does not promise offline reloads. A database failure shows a retry state without overwriting saved progress. Before a substantially larger curriculum, replace the full snapshot provider with a small release manifest and paginated branch/lesson/question reads using these indexed records; do not ship thousands of questions in every page payload.
+```sh
+npm run course:generate
+npm run content:validate
+npm test
+npm run course:render-check
+npm run build
+```
 
-Learner activity remains device-local, with backup import/export. It is separate from shared curriculum records. Attempts record hint usage, content release and the original question/answer/explanation snapshot. Hints and guesses keep a topic in the review queue. Embedded knowledge checks are unscored reflections and do not inflate practice evidence. There is no cross-device learner sync.
+`generate-course.mjs` creates deterministic `lib/data/course/manifest.json`, unit and connection JSON, source bindings, and a test/server-side aggregate `release.ts`. Browser code must never import that aggregate: it includes every lesson. Source hashes and semantic check IDs bind the authored content. A metadata-only addition to the manifest does not change question wording or content identity.
 
-## Authoring a coherent slice
+The static build validates and packages generated content under `dist/content/course/`. The browser loads the manifest first, then individual files under its exact release directory. Connection indexes and details are separate. `/pilot/` loads its own validated curriculum payload; the main entry does not download it. URLs use Vite's `BASE_URL`, supporting root and project-subpath hosting while navigation stays in the hash.
 
-1. Choose one ISC2 objective and a bounded group of related distinctions. Add stable IDs under the appropriate parent; give each leaf a useful explanation and primary sources. Depth serves meaning, never a target node count.
-2. Add an original lesson with section text, misconception, recall prompt, takeaways and sources. Choose visuals by their teaching job: comparison, sequence, decision, layers, or timeline (the risk lesson also has a dedicated interactive matrix). Every connection needs a label and every diagram a caption explaining the distinction.
-3. Add scenario questions with one defensible answer, four option explanations, decisive detail, misconception, domain/objective, exact subtopics, difficulty, tags, a non-revealing hint, and section-level learning links. Include recall/application distinctions in the unscored checks.
-4. Run `npm run content:validate` and `npm test`. Review diffs for content meaning as well as structure. A security educator should review facts, distractor quality, objective mappings and misleading visuals before claims of exam-complete preparation.
-5. Assign a new unique release ID in `lib/content/release-pack.ts`; never alter the payload of a published release ID. Keep old IDs/records available. Question stem, option order and answer semantics are immutable: publish a new question ID for a changed assessment, retaining the old one for history. Do not delete or reassign learner-referenced IDs without an explicit tested migration.
-6. Validate local D1 seeding and API filters, then deploy the content release. Schema changes require `npm run db:generate`; inspect and retain prior migrations. Data is installed in a bounded atomic batch, not embedded in schema migrations.
+A lesson trace: canonical unit and visual rows + authored teaching model → deterministic generator → release-bound unit JSON → static packaging → validated lazy browser loader → Understand/Predict/Transfer/Review renderer. A connection follows the same release-pinned path. JSON/status/identity failures show recovery without modifying learner data. Reload may be necessary after a deployment removes an older release; the loader must not substitute current questions under an old release identity. Offline reload support is not promised.
 
-Current releases are additive. A future editorial system must introduce explicit retirement/aliases and learner migration before removals. Authoring JSON is source control input; D1 is the runtime content store. Do not directly edit an immutable release row.
+## Learner records and backups
 
-## Expansion sequence and gates
+Course state uses `cissp-buddy:course:v1`; pilot state uses `cissp-buddy:v1`. Both remain browser- and origin-local. An answer flows from the selected draft to `recordCourseAnswer`, which saves the original question snapshot, release, semantic ID, selected option, correctness, uncertainty and assistance flags, then updates the review schedule. Review reads that saved evidence. Saved stage, figure step/variant, lab inputs, notes, and unfinished pilot quizzes remain resumable.
 
-Complete the Domain 5 cluster first; then add coherent slices for Asset Security, Security and Risk Management, Architecture and Engineering, Network Security, Assessment and Testing, Security Operations, and Software Development Security. This is a suggested content production order, not an exam weighting claim. Reconcile against the current official ISC2 outline at each release.
+Visits indicate exposure. A correct unassisted answer is evidence for that named check's scoped concepts. Assisted answers and repeated exposure are distinct. Neither unit visits nor small question counts establish mastery, exam readiness, or evidence for every concept in a unit. Today combines resume, due reviews, and a curriculum-order unanswered recommendation with an explicit prerequisite/exposure reason.
 
-Each slice must connect graph → article → visual/check → tagged scenario → review before expanding breadth. Publish a coverage inventory by objective that distinguishes reading coverage, scenario coverage and expert-reviewed coverage. Do not imply that three questions establish mastery.
+To move addresses or devices, open Saved progress at the **old address**, export a combined backup, open Saved progress at the **new address**, select that file, inspect validation, and explicitly replace the local records. A different origin cannot automatically read the old store. Original pilot backups remain supported. Invalid imports and unreadable storage do not authorize replacement; untouched-record export supports recovery. Cross-key writes cannot be guaranteed atomic if the browser is interrupted or blocks rollback; recovery messages must state any incomplete replacement truthfully.
 
-For each batch: an author drafts, a second reviewer checks primary sources and visual logic, a subject expert resolves ambiguous scenarios, and automated gates check IDs, cycles, domains, links, block schemas and answer shapes. Record review provenance honestly. AI review is an additional check, never the expert-review label.
+## Editing safely
 
-Keep v1 scope focused: no social feed, marketplace, open-ended chatbot, gamification economy, native app, or simulated adaptive exam until the five core study surfaces and the curriculum justify them.
+1. Edit durable authoring JSON, never hand-patch generated course output. Keep stable unit/concept IDs and declared prerequisite meanings.
+2. Keep each question's scope explicit. A unit's check does not assess all its concepts. Include defensible option feedback, sources, repair targets, and a changed retry case.
+3. Regenerate and inspect the generated diff. Changed assessment semantics must produce a new semantic check ID and changed content a new release identity. Never silently reuse a published identity for different questions.
+4. Run current validation, rendering, tests, and static build. Check root and project-subpath URLs with an ordinary static server. Preserve original question snapshots and historical delivery evidence.
+5. Use `npm run qa:final` for the current reproducible release checks. New receipts go to ignored `web/outputs/`; historical reports under `planning/visual-learning-production/` and `planning/visual-explanation-implementation/` are preserved rather than regenerated as current acceptance.
+
+Reference PDFs under `resources/`, private learner backups, environment files, credentials, databases, caches, and local screenshots do not belong in published source or Pages artifacts. Publication includes only the authoring inputs, source, and selected sanitized review fixtures required by retained checks. Upload only the intended static `dist/` output.
+
+Human learners and a qualified educator still need to assess usability, factual ambiguity, and learning outcomes. Automated geometry, numerical labs, source bindings, AI review, and bounded browser sampling are technical evidence with different limits.

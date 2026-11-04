@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d6-o05-audits",
+  "treatmentIds": [
+    "fresh-d6-o05-audits-audit-scope-boundary-and-evidence-lineage"
+  ],
+  "title": "Conduct or facilitate security audits",
+  "question": "What makes an audit conclusion credible and what closes a finding?",
+  "scenario": "A critical provider offers an audit report but refuses customer access to its subprocessor controls.",
+  "focalRelation": "audit criteria --bound--> in-scope systems and period sampled evidence --supports only--> audited population and period excluded subprocessors --remain outside--> conclusion finding --management response and verified corrective action--> closure",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Provider audit report",
+      "detail": "Third-party evidence whose criteria, period, opinion, exceptions, and distribution limits must be understood.",
+      "conceptIds": [
+        "audit",
+        "audit-evidence"
+      ],
+      "lane": "report"
+    },
+    {
+      "id": "n2",
+      "label": "Declared audit scope",
+      "detail": "Named services, locations, systems, controls, period, and population included in the engagement.",
+      "conceptIds": [
+        "audit-criteria",
+        "sampling"
+      ],
+      "lane": "scope"
+    },
+    {
+      "id": "n3",
+      "label": "Subprocessor controls",
+      "detail": "Material downstream controls excluded or qualified by the offered report.",
+      "conceptIds": [
+        "audit-evidence",
+        "sampling"
+      ],
+      "lane": "outside"
+    },
+    {
+      "id": "n4",
+      "label": "Customer control duties",
+      "detail": "Complementary controls the customer must operate for the provider controls to achieve their objective.",
+      "conceptIds": [
+        "audit-criteria",
+        "follow-up"
+      ],
+      "lane": "customer"
+    },
+    {
+      "id": "n5",
+      "label": "Independent auditor evidence",
+      "detail": "Evidence collected and evaluated with appropriate independence; management representations alone are insufficient.",
+      "conceptIds": [
+        "audit-independence",
+        "audit-evidence"
+      ],
+      "lane": "report"
+    },
+    {
+      "id": "n6",
+      "label": "Management response and follow-up",
+      "detail": "Owned response to findings and limitations, alternate evidence request, residual risk decision, and closure tracking.",
+      "conceptIds": [
+        "follow-up",
+        "audit"
+      ],
+      "lane": "customer"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n2",
+      "to": "n1",
+      "label": "defines what the report covers",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n1",
+      "label": "creates a stated exclusion or qualification in",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n1",
+      "label": "conditions achievement on customer operation",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n1",
+      "label": "supports opinion through independent evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n1",
+      "to": "n6",
+      "label": "delivers findings, exceptions, and limitations",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n6",
+      "label": "requires alternate evidence or accountable risk decision",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "outside",
+      "label": "Excluded dependency",
+      "rule": "Subprocessor controls remain outside claimed coverage unless separately evidenced."
+    },
+    {
+      "id": "scope",
+      "label": "Audit scope",
+      "rule": "Named services, controls, criteria, population, and period bound the engagement."
+    },
+    {
+      "id": "report",
+      "label": "Independent evidence and report",
+      "rule": "Auditor evidence supports only the stated opinion and limitations."
+    },
+    {
+      "id": "customer",
+      "label": "Customer governance",
+      "rule": "Complementary controls, management response, and follow-up remain customer responsibilities."
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A critical provider offers an audit report but refuses customer access to its subprocessor controls.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "report offered",
+        "n2": "scope review active",
+        "n3": "subprocessor refused"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Independence is relative to the audit objective and reporting relationship.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        3
+      ],
+      "statuses": {
+        "n2": "criteria and period confirmed",
+        "n5": "independence checked"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A third-party audit report transfers accountability to the provider. The report is evidence with scope and limitations; the organization retains responsibility for its use, controls, and risk decisions.",
+      "activeNodeIds": [
+        "n1",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "coverage limitation; no inherited assurance"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Assess report scope, criteria, period, exceptions, complementary customer controls, and subprocessor coverage. Record the limitation, request alternate evidence or contractual rights, and accept residual risk only through accountable governance.",
+      "activeNodeIds": [
+        "n1",
+        "n4",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        4
+      ],
+      "statuses": {
+        "n4": "customer duties mapped",
+        "n6": "alternate evidence requested"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Plan or facilitate an audit with appropriate independence, evidence handling, interviews, sampling, findings, management response, and follow-up. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n3",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        5
+      ],
+      "statuses": {
+        "n6": "limitation and residual-risk owner recorded"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "An auditor's bonus depends on a clean result for the system owner being audited.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "An auditor's bonus depends on a clean result for the system owner being audited.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n1"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n5": "auditor bonus tied to clean result"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Disclose and remove or mitigate the conflict; preserve independent review. Undisclosed incentives undermine audit credibility.",
+          "activeNodeIds": [
+            "n1",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n1": "opinion independence challenged",
+            "n5": "conflict disclosed and reassessed"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n5",
+            "n6",
+            "n1"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n6": "independent review or alternate assurance required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Audit opinion",
+          "detail": "The conclusion is credible only if evidence and judgment remain independent.",
+          "conceptIds": [
+            "audit",
+            "audit-evidence"
+          ],
+          "lane": "report"
+        },
+        {
+          "id": "n2",
+          "label": "Audit criteria and scope",
+          "detail": "The engagement defines the claims to be evaluated.",
+          "conceptIds": [
+            "audit-criteria",
+            "sampling"
+          ],
+          "lane": "scope"
+        },
+        {
+          "id": "n3",
+          "label": "System owner",
+          "detail": "The audited party benefits from a clean result.",
+          "conceptIds": [
+            "audit-evidence",
+            "sampling"
+          ],
+          "lane": "customer"
+        },
+        {
+          "id": "n4",
+          "label": "Bonus arrangement",
+          "detail": "The auditor is rewarded for producing a clean conclusion.",
+          "conceptIds": [
+            "audit-criteria",
+            "follow-up"
+          ],
+          "lane": "customer"
+        },
+        {
+          "id": "n5",
+          "label": "Conflicted auditor",
+          "detail": "The financial incentive threatens objective evidence evaluation.",
+          "conceptIds": [
+            "audit-independence",
+            "audit-evidence"
+          ],
+          "lane": "report"
+        },
+        {
+          "id": "n6",
+          "label": "Independent review and disposition",
+          "detail": "The conflict is removed or mitigated and the work is independently reassessed.",
+          "conceptIds": [
+            "follow-up",
+            "audit"
+          ],
+          "lane": "customer"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n2",
+          "to": "n1",
+          "label": "defines what the opinion must address",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n1",
+          "label": "creates an incentive beneficiary whose conflict can bias",
+          "kind": "dependency"
+        },
+        {
+          "from": "n4",
+          "to": "n1",
+          "label": "ties reward to the conclusion",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n1",
+          "label": "undermines independent judgment",
+          "kind": "evidence"
+        },
+        {
+          "from": "n1",
+          "to": "n6",
+          "label": "is withheld pending conflict disposition",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n6",
+          "label": "requires alternate assurance or independent review",
+          "kind": "flow"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "scope",
+          "label": "Audit scope",
+          "rule": "Named services, controls, criteria, population, and period bound the engagement."
+        },
+        {
+          "id": "report",
+          "label": "Independent evidence and report",
+          "rule": "Auditor evidence supports only the stated opinion and limitations."
+        },
+        {
+          "id": "customer",
+          "label": "Customer governance",
+          "rule": "Complementary controls, management response, and follow-up remain customer responsibilities."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d6-o05-audits-prediction",
+    "prompt": "What makes an audit conclusion credible and what closes a finding?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A third-party audit report transfers accountability to the provider.",
+        "correct": false,
+        "feedback": "Incorrect: The report is evidence with scope and limitations; the organization retains responsibility for its use, controls, and risk decisions.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Assess report scope, criteria, period, exceptions, complementary customer controls",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. The report is evidence with scope and limitations; the organization retains responsibility for its use, controls, and risk decisions.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Treat the provider audit opinion as coverage of the undisclosed subprocessor controls.",
+        "correct": false,
+        "feedback": "Incorrect: the conclusion cannot extend beyond the report’s entities, period, criteria, carve-outs, complementary controls, and evidence lineage. The subprocessor scope gap remains explicit.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "audit",
+      "audit-criteria",
+      "audit-evidence"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d6-o05-audits-transfer",
+    "prompt": "An auditor's bonus depends on a clean result for the system owner being audited.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: An auditor's bonus depends on a clean result for the system owner being audited. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Assess report scope, criteria, period, exceptions, complementary customer controls, and subprocessor coverage. Repair target: Decision recomputed — Disclose and remove or mitigate the conflict; preserve independent review. Undisclosed incentives undermine audit credibility.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: An auditor's bonus depends on a clean result for the system owner being audited. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Assess report scope, criteria, period, exceptions, complementary customer controls, and subprocessor coverage. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Disclose and remove or mitigate the conflict; preserve independent review",
+        "correct": true,
+        "feedback": "Correct. Disclose and remove or mitigate the conflict; preserve independent review. Undisclosed incentives undermine audit credibility.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "audit-evidence"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d6-o05-audits-retry-v2",
+    "prompt": "An audit sample excludes every high-value transaction even though those transactions use a distinct approval path. How should the auditor proceed?",
+    "options": [
+      {
+        "id": "stratify-sample",
+        "label": "Disclose the gap and add risk-based coverage of the high-value approval path before a population conclusion",
+        "correct": true,
+        "feedback": "Correct. A distinct, higher-risk control path requires explicit audit evidence.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "generalize-sample",
+        "label": "Generalize from lower-value transactions because the policy document is the same",
+        "correct": false,
+        "feedback": "A common policy does not prove the distinct high-value workflow operates the same way.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "audit-all",
+        "label": "Reject sampling entirely and inspect every transaction regardless of risk or feasibility",
+        "correct": false,
+        "feedback": "Sampling can be defensible; the defect is omitted material strata, not sampling itself.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "sampling",
+      "audit-evidence",
+      "audit-criteria"
+    ],
+    "hint": "Consider whether the sample represents the control variations that matter to the audit criterion."
+  },
+  "takeaway": "Assess report scope, criteria, period, exceptions, complementary customer controls, and subprocessor coverage.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d6-5",
+    "official-d6-54-60",
+    "sybex-d6-799-807",
+    "aio-d6-1207-1222"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d6-o05-audits-audit-scope-boundary-and-evidence-lineage",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable boundary states: Declared audit scope defines what the report covers Provider audit report; Subprocessor controls creates a stated exclusion or qualification Provider audit report. The model keeps Provider audit report, Declared audit scope, Subprocessor controls, Customer control duties, Independent auditor evidence, Management response and follow-up distinct. Its changed case is “An auditor's bonus depends on a clean result for the system owner being audited.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A third-party audit report is evidence with a stated scope, period, criteria, exceptions, and dependencies. It does not transfer accountability or prove controls that were excluded, including undisclosed subprocessor controls.",
+    "visualReasoningGain": "The provider/subprocessor boundary could make excluded coverage and retained accountability visible simultaneously; the opening does not yet show how the limitation constrains the opinion."
+  },
+  "openingFacts": [
+    {
+      "label": "Provider audit report",
+      "value": "Third-party evidence whose criteria, period, opinion, exceptions, and distribution limits must be understood."
+    },
+    {
+      "label": "Declared audit scope",
+      "value": "Named services, locations, systems, controls, period, and population included in the engagement."
+    },
+    {
+      "label": "Subprocessor controls",
+      "value": "Material downstream controls excluded or qualified by the offered report."
+    },
+    {
+      "label": "Customer control duties",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Independent auditor evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Management response and follow-up",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

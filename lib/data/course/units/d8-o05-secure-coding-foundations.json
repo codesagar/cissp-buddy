@@ -1,0 +1,948 @@
+{
+  "conceptIds": [
+    "secure-coding",
+    "input-validation",
+    "output-encoding",
+    "error-handling",
+    "authentication",
+    "authorization",
+    "api-security",
+    "secrets",
+    "database-data-warehouse-security",
+    "web-application-environment"
+  ],
+  "concepts": [
+    {
+      "decision": "Apply language/architecture-aware standards, threat-informed review, tests, exception governance, and production feedback.",
+      "definition": "Repeatable coding and review practices that prevent or reduce known weakness classes while preserving intended behavior under normal, invalid, and hostile conditions.",
+      "failureExample": "A one-time secure-coding course without review and testing does not control a new authorization defect.",
+      "id": "secure-coding",
+      "label": "Secure Coding",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Validate syntactic and semantic rules as close as practical to receipt; allowlist expected values and treat client validation as UX, not security.",
+      "definition": "Server-side enforcement that untrusted data has permitted type, structure, length, range, encoding, and business meaning before use.",
+      "failureExample": "A client-side-only price check can be bypassed by a crafted request.",
+      "id": "input-validation",
+      "label": "Input Validation",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Encode when emitting data into its target context and use suitable rendering APIs; do not rely on input filters to predict future contexts.",
+      "definition": "Transforming data for the exact output interpreter/context so untrusted content is displayed as data rather than executed as markup, script, URL, or other code.",
+      "failureExample": "HTML encoding text placed inside a JavaScript context can still create executable behavior.",
+      "id": "output-encoding",
+      "label": "Output Encoding",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Return minimal user-facing errors, log protected diagnostic context, and define safe rollback/failure behavior.",
+      "definition": "Safe handling of expected and unexpected failures that preserves availability and diagnosability without exposing internal details or secrets.",
+      "failureExample": "An API stack trace can disclose schema, paths, or tokens that help an attacker.",
+      "id": "error-handling",
+      "label": "Error Handling",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Choose strong, managed authentication appropriate to the actor and protect credential/token lifecycle; authentication alone does not grant object access.",
+      "definition": "Verification of the identity or credential presented by a user, service, or device.",
+      "failureExample": "A valid customer token may still be used to request another customer’s invoice.",
+      "id": "authentication",
+      "label": "Authentication",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Check server-side at each sensitive action/object boundary using least privilege and deny-by-default behavior.",
+      "definition": "Enforcement of whether an authenticated principal may perform a requested action on a specific object or resource in the current context.",
+      "failureExample": "Checking only that a token is valid enables insecure direct object access.",
+      "id": "authorization",
+      "label": "Authorization",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Model API abuse paths and test valid/invalid callers, object IDs, token reuse, rate behavior, and response data.",
+      "definition": "Protection of programmatic interfaces through identity, object/action authorization, input/schema validation, rate/replay controls, data minimization, versioning, safe errors, and observability.",
+      "failureExample": "An authenticated API with no object-level authorization can expose every tenant’s data.",
+      "id": "api-security",
+      "label": "API Security",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Use managed scoped storage/retrieval, rotation, revocation, redaction, and separate environment identities; never hardcode or expose them in errors/logs.",
+      "definition": "Credentials, keys, tokens, connection strings, and sensitive values whose disclosure or misuse grants access or weakens controls.",
+      "failureExample": "A database password embedded in client code can be extracted and used outside the intended application.",
+      "id": "secrets",
+      "label": "Secrets",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-decision-comparison-1"
+    },
+    {
+      "decision": "Combine parameterized data access with object/row authorization, least privilege, auditing and appropriate retention/minimization.",
+      "definition": "Protection of transactional and analytical data, queries, service identities and permitted data use.",
+      "failureExample": "A parameterized query is injection-safe but exposes another customer’s records because authorization was omitted.",
+      "id": "database-data-warehouse-security",
+      "label": "Database Data Warehouse Security",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-database-data-warehouse-security-decision-trace"
+    },
+    {
+      "decision": "Validate inputs server-side, enforce authorization on protected operations, and encode output for the actual output context.",
+      "definition": "The browser, service, session and data-processing contexts through which a web application accepts input and produces output.",
+      "failureExample": "A stored comment becomes script because the dashboard renders it as executable markup.",
+      "id": "web-application-environment",
+      "label": "Web Application Environment",
+      "sourceRefIds": [
+        "miller-d8-705-760",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "sourceVisualId": "d8-o05-secure-coding-foundations-web-application-environment-decision-trace"
+    }
+  ],
+  "domainId": 8,
+  "estimatedMinutes": 40,
+  "id": "d8-o05-secure-coding-foundations",
+  "misconceptions": [
+    {
+      "claim": "A hidden API endpoint is protected because users cannot see it.",
+      "correction": "Discovery, direct requests, alternate clients, and compromised credentials require explicit authentication and authorization."
+    }
+  ],
+  "objectiveIds": [
+    "8.5"
+  ],
+  "outcome": "Choose coding practices that prevent common source, API, authentication, authorization, and error-handling weaknesses.",
+  "prerequisites": [
+    "d5-o04-authorization-mechanisms",
+    "d3-o06-cryptographic-solutions"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Validate inputs against an allowlist and expected type, length, range, and encoding; use context-appropriate output encoding; avoid unsafe interpretation and injection; fail safely; protect error and log content; and make resource and authorization checks explicit. Use standards and peer review to make these rules repeatable.",
+      "id": "source-weaknesses",
+      "keyPoints": [
+        "Validation and output encoding solve different boundary problems.",
+        "Error messages should aid operators without disclosing secrets or internals.",
+        "Authorization must be checked at the server-side object and action boundary."
+      ],
+      "sourceRefIds": [
+        "outline-d8-5",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "title": "Control inputs, outputs, state, and errors"
+    },
+    {
+      "body": "API security includes authentication, authorization, object-level access, replay and rate controls, schema validation, data minimization, versioning, secure defaults, and consistent error behavior. Protect credentials and tokens, define service identity, and test abuse cases rather than only valid requests.",
+      "id": "api-and-identity",
+      "keyPoints": [
+        "An authenticated caller is not automatically authorized for every object or action.",
+        "API contracts need negative, boundary, and abuse-case tests.",
+        "Secrets should be handled through managed lifecycle controls, not source literals."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "miller-d8-705-760"
+      ],
+      "title": "Secure API contracts and identities"
+    },
+    {
+      "body": "For database and data-warehouse access, separate authorization from query construction; use parameterized interfaces, least-privileged service identities, controlled analytics access, audit, retention and data-minimization rules. For web applications, validate untrusted input server-side, encode output for its exact HTML/attribute/URL/JavaScript context, protect session and transport behavior, and test authenticated and unauthenticated abuse paths.",
+      "id": "database-and-web-context",
+      "keyPoints": [
+        "Parameterization prevents data being interpreted as query structure; it does not decide who may access an object.",
+        "Output encoding is context-specific and complements, rather than replaces, validation.",
+        "Database/warehouse and web controls need tests that use realistic roles and data flows."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ],
+      "title": "Secure data access and web contexts explicitly"
+    }
+  ],
+  "sourceHash": "4a8bd081b040d7352a4f9d17b102ee6362e6763203373c6e59936cbf4517fb04",
+  "sourcePath": "knowledge/domains/d8-software-development-security/units/d8-o05-secure-coding-foundations.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d8-5",
+      "locator": {
+        "type": "objective",
+        "value": "8.5 bullets: source weaknesses, APIs, secure coding, software-defined security"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-106-130",
+      "locator": {
+        "type": "printed-page",
+        "value": "65–80, 100–117 (same PDF page numbers), objective 8.5; body headings inspected, corrupted contents page excluded"
+      },
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "supports": [
+        "coding weaknesses and API security"
+      ]
+    },
+    {
+      "id": "sybex-d8-1085-1113",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1085-1113, Chapter 21"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "application weaknesses and attacks"
+      ]
+    },
+    {
+      "id": "miller-d8-705-760",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-760, Chapter 10"
+      },
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "supports": [
+        "secure coding and APIs"
+      ]
+    }
+  ],
+  "summary": "Secure coding prevents source-level weaknesses by validating inputs, encoding outputs, handling errors safely, enforcing authorization, protecting secrets, and using reviewable standards.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "submits authenticated request with object ID",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "crosses server-side validation and authorization",
+        "to": "n3"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "permits retrieval only when owner/action policy matches",
+        "to": "n4"
+      },
+      {
+        "from": "n3",
+        "kind": "flow",
+        "label": "denies safely and records security event",
+        "to": "n5"
+      },
+      {
+        "from": "n3",
+        "kind": "dependency",
+        "label": "defines equivalent paths requiring same policy",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "untrusted input --server-side type/length/business validation--> application authenticated subject plus object/action --server-side authorization--> data request parameters --separate data from query structure--> database stored text --context-specific output encoding--> browser interpreter safe errors/logs --exclude secrets while preserving correlation--> evidence request shape --input validation--> accepted data subject/object/action --authorization distinct from authentication--> access decision parameterized query --prevents data becoming query structure--> database returned data --context encoding and minimization--> client legacy exception --owner/compensating control/expiry/retest--> temporary state",
+    "lanes": [
+      {
+        "id": "client",
+        "label": "Untrusted client context",
+        "rule": "A valid session and supplied invoice ID are inputs, not authorization proof."
+      },
+      {
+        "id": "request",
+        "label": "API request boundary",
+        "rule": "Identifiers are validated and treated as untrusted selection input."
+      },
+      {
+        "id": "enforcement",
+        "label": "Server-side authorization boundary",
+        "rule": "Policy mediates every object action before data retrieval."
+      },
+      {
+        "id": "data",
+        "label": "Protected data store",
+        "rule": "Record ownership and minimum response data remain authoritative."
+      },
+      {
+        "id": "response",
+        "label": "Safe response and evidence",
+        "rule": "Denials reveal no sensitive details and create useful audit evidence."
+      },
+      {
+        "id": "coverage",
+        "label": "Equivalent path coverage",
+        "rule": "Caches, exports, batch, mobile, and other endpoints receive the same test."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Authentication establishes the caller but does not authorize every requested object. Enforce subject-object-action policy on the server for every equivalent endpoint, minimize responses, and record safe denial evidence.",
+      "visualReasoningGain": "The relationship selector traces authentication to object authorization, protected data, safe denial, and equivalent endpoints, but its opening duplicates the richer secure-coding unit instead of providing a distinct simultaneous taxonomy."
+    },
+    "matrix": {
+      "columns": [
+        {
+          "id": "input",
+          "label": "Untrusted input / state"
+        },
+        {
+          "id": "boundary",
+          "label": "Interpreter or policy boundary"
+        },
+        {
+          "id": "control",
+          "label": "Control job"
+        },
+        {
+          "id": "evidence",
+          "label": "Negative evidence"
+        }
+      ],
+      "description": "This language-neutral taxonomy distinguishes identity, object policy, interpreter, output, dependency, and concurrency boundaries. The richer secure-coding walkthrough remains the applied companion.",
+      "notes": [],
+      "rows": [
+        {
+          "cells": {
+            "boundary": "Server policy: subject × object × action × context",
+            "control": "Authorize every equivalent endpoint; minimize response",
+            "evidence": "Cross-customer and cross-role denial tests plus safe audit event",
+            "input": "Caller-controlled invoice ID"
+          },
+          "id": "object",
+          "label": "Object authorization"
+        },
+        {
+          "cells": {
+            "boundary": "Database, shell, template or parser",
+            "control": "Separate data from instructions; validate allowed structure",
+            "evidence": "Injection and malformed-input tests at the real interpreter",
+            "input": "Text and structured parameters"
+          },
+          "id": "query",
+          "label": "Command / query construction"
+        },
+        {
+          "cells": {
+            "boundary": "HTML, URL, JavaScript, log or document context",
+            "control": "Contextual encoding and safe errors",
+            "evidence": "Context-specific rendering and leakage tests",
+            "input": "Stored or reflected content"
+          },
+          "id": "output",
+          "label": "Output interpretation"
+        },
+        {
+          "cells": {
+            "boundary": "Transaction / atomic update",
+            "control": "Protect read-check-write invariant",
+            "evidence": "Race, retry and failure-injection tests",
+            "input": "Concurrent requests and stale reads"
+          },
+          "id": "state",
+          "label": "Shared-state invariant"
+        }
+      ],
+      "title": "Place controls at the boundary that interprets the input"
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "authentication"
+        ],
+        "detail": "Valid signed-in subject; authentication does not grant every invoice object.",
+        "id": "n1",
+        "label": "Authenticated customer",
+        "lane": "client"
+      },
+      {
+        "conceptIds": [
+          "input-validation",
+          "api-security"
+        ],
+        "detail": "Client-controlled object identifier attempting access to another customer’s invoice.",
+        "id": "n2",
+        "label": "Invoice request with changed ID",
+        "lane": "request"
+      },
+      {
+        "conceptIds": [
+          "authorization",
+          "api-security"
+        ],
+        "detail": "Server-side check of subject, invoice owner, action, policy, and context before retrieval.",
+        "id": "n3",
+        "label": "API policy enforcement",
+        "lane": "enforcement"
+      },
+      {
+        "conceptIds": [
+          "database-data-warehouse-security"
+        ],
+        "detail": "Protected database record whose ownership and minimum response fields are authoritative.",
+        "id": "n4",
+        "label": "Invoice object and owner",
+        "lane": "data"
+      },
+      {
+        "conceptIds": [
+          "error-handling",
+          "output-encoding"
+        ],
+        "detail": "Nonrevealing error plus security event without sensitive fields or internal details.",
+        "id": "n5",
+        "label": "Safe denial and audit event",
+        "lane": "response"
+      },
+      {
+        "conceptIds": [
+          "secure-coding",
+          "web-application-environment"
+        ],
+        "detail": "Other API, export, batch, mobile, and cached paths tested for the same object-level policy.",
+        "id": "n6",
+        "label": "Equivalent endpoints and cache",
+        "lane": "coverage"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "authentication",
+        "authorization"
+      ],
+      "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step.",
+      "id": "d8-o05-secure-coding-foundations-prediction-89765f10b0aa",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Incorrect: Discovery, direct requests, alternate clients, and compromised credentials require explicit authentication and authorization.",
+          "id": "misconception",
+          "label": "A hidden API endpoint is protected because users cannot see it.",
+          "repairStateId": "case-observed"
+        },
+        {
+          "correct": false,
+          "feedback": "Incorrect: parameterization addresses the database interpreter boundary. The API still needs object authorization, input rules, context-specific output handling, safe errors, and abuse or resource controls.",
+          "id": "overclaim",
+          "label": "Parameterize the database query and treat the search API as secure.",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Discovery, direct requests, alternate clients, and compromised credentials require explicit authentication and authorization.",
+          "id": "relation",
+          "label": "Enforce server-side object authorization before the invoice query",
+          "repairStateId": "failure-exposed"
+        }
+      ],
+      "prompt": "As untrusted text crosses API, object-authorization, database, and browser-interpreter boundaries, which distinct control answers each question?"
+    },
+    "question": "As untrusted text crosses API, object-authorization, database, and browser-interpreter boundaries, which distinct control answers each question?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "authentication",
+        "authorization"
+      ],
+      "hint": "Identify what changed, who owns the resulting decision, and what evidence would demonstrate the bounded outcome.",
+      "id": "d8-o05-secure-coding-foundations-retry-cf0660401b9d",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "That repeats the key misconception. Discovery, direct requests, alternate clients, and compromised credentials require explicit authentication and authorization.",
+          "id": "repeat-misconception",
+          "label": "Proceed on the assumption that a hidden API endpoint is protected because users cannot see it",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Presence of authentication material does not establish entitlement to the requested object.",
+          "id": "scoped-repair",
+          "label": "Derive the account context from trusted identity and enforce object-level authorization server-side",
+          "repairStateId": "control-enforced"
+        },
+        {
+          "correct": false,
+          "feedback": "The visible signal does not establish Equivalent endpoints and cache. Presence of authentication material does not establish entitlement to the requested object.",
+          "id": "accept-without-evidence",
+          "label": "Accept the visible success signal and defer scope, owner, exception, and evidence checks until later",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A service validates that a token is present but trusts a client-supplied account ID. Which response is best?"
+    },
+    "scenario": "A user can change an invoice ID in a request and retrieve another customer's invoice.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d8-5",
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "activeRowIds": [],
+        "caption": "A user can change an invoice ID in a request and retrieve another customer's invoice.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "authenticated",
+          "n2": "invoice ID changed"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4"
+        ],
+        "activeRowIds": [
+          "object"
+        ],
+        "caption": "Validation and output encoding solve different boundary problems.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "ownership check required",
+          "n4": "belongs to another customer"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n4",
+          "n3"
+        ],
+        "activeRowIds": [
+          "query"
+        ],
+        "caption": "A hidden API endpoint is protected because users cannot see it. Discovery, direct requests, alternate clients, and compromised credentials require explicit authentication and authorization.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n1": "authentication alone insufficient"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          3
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n5"
+        ],
+        "activeRowIds": [
+          "output"
+        ],
+        "caption": "Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches.",
+        "id": "control-enforced",
+        "statuses": {
+          "n3": "deny",
+          "n5": "safe error + anomaly event"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n5",
+          "n6"
+        ],
+        "activeRowIds": [
+          "state"
+        ],
+        "caption": "Choose coding practices that prevent common source, API, authentication, authorization, and error-handling weaknesses. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "equivalent endpoints/caches negative-tested"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches.",
+    "title": "Apply language-neutral secure coding foundations",
+    "transfer": {
+      "conceptIds": [
+        "authorization"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d8-o05-secure-coding-foundations-transfer-ffe0d2dd3910",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Add server-side object authorization and tests for horizontal and vertical privilege escalation. Authentication alone does not authorize access to every object.",
+          "id": "evidence-action",
+          "label": "Add server-side object authorization and tests for horizontal and vertical privilege escalation",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: An API authenticates users but accepts any object ID supplied by the caller. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches. Repair target: Decision recomputed — Add server-side object authorization and tests for horizontal and vertical privilege escalation. Authentication alone does not authorize access to every object.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: An API authenticates users but accepts any object ID supplied by the caller. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "An API authenticates users but accepts any object ID supplied by the caller."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "This introductory boundary model preserves the reviewed authentication-versus-object-authorization decision, safe denial, evidence, and equivalent-path testing. It intentionally omits SQL command/data separation, the explicit context-encoder→browser-interpreter path, and the temporary-exception lifecycle; those mechanisms are implemented in the companion d8-o05-secure-coding model that carries the same reviewed cross-unit treatment.",
+        "treatmentId": "fresh-d8-o05-request-to-data-boundaries-and-exception-lifecycle"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d8-o05-request-to-data-boundaries-and-exception-lifecycle"
+    ],
+    "unitId": "d8-o05-secure-coding-foundations",
+    "variants": [
+      {
+        "changedFact": "An API authenticates users but accepts any object ID supplied by the caller.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "submits an authenticated object request",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "crosses server-side authorization",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "permits retrieval only for authorized owner and action",
+            "to": "n4"
+          },
+          {
+            "from": "n3",
+            "kind": "flow",
+            "label": "denies safely and records attempt",
+            "to": "n5"
+          },
+          {
+            "from": "n3",
+            "kind": "dependency",
+            "label": "requires the same policy on every object path",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "lanes": [
+          {
+            "id": "client",
+            "label": "Untrusted client context",
+            "rule": "A valid session and supplied invoice ID are inputs, not authorization proof."
+          },
+          {
+            "id": "request",
+            "label": "API request boundary",
+            "rule": "Identifiers are validated and treated as untrusted selection input."
+          },
+          {
+            "id": "enforcement",
+            "label": "Server-side authorization boundary",
+            "rule": "Policy mediates every object action before data retrieval."
+          },
+          {
+            "id": "data",
+            "label": "Protected data store",
+            "rule": "Record ownership and minimum response data remain authoritative."
+          },
+          {
+            "id": "response",
+            "label": "Safe response and evidence",
+            "rule": "Denials reveal no sensitive details and create useful audit evidence."
+          },
+          {
+            "id": "coverage",
+            "label": "Equivalent path coverage",
+            "rule": "Caches, exports, batch, mobile, and other endpoints receive the same test."
+          }
+        ],
+        "matrix": {
+          "columns": [
+            {
+              "id": "input",
+              "label": "Untrusted input / state"
+            },
+            {
+              "id": "boundary",
+              "label": "Interpreter or policy boundary"
+            },
+            {
+              "id": "control",
+              "label": "Control job"
+            },
+            {
+              "id": "evidence",
+              "label": "Negative evidence"
+            }
+          ],
+          "description": "This language-neutral taxonomy distinguishes identity, object policy, interpreter, output, dependency, and concurrency boundaries. The richer secure-coding walkthrough remains the applied companion.",
+          "notes": [],
+          "rows": [
+            {
+              "cells": {
+                "boundary": "Server policy: subject × object × action × context",
+                "control": "Authorize every equivalent endpoint; minimize response",
+                "evidence": "Cross-customer and cross-role denial tests plus safe audit event",
+                "input": "Caller-controlled invoice ID"
+              },
+              "id": "object",
+              "label": "Object authorization"
+            },
+            {
+              "cells": {
+                "boundary": "Database, shell, template or parser",
+                "control": "Separate data from instructions; validate allowed structure",
+                "evidence": "Injection and malformed-input tests at the real interpreter",
+                "input": "Text and structured parameters"
+              },
+              "id": "query",
+              "label": "Command / query construction"
+            },
+            {
+              "cells": {
+                "boundary": "HTML, URL, JavaScript, log or document context",
+                "control": "Contextual encoding and safe errors",
+                "evidence": "Context-specific rendering and leakage tests",
+                "input": "Stored or reflected content"
+              },
+              "id": "output",
+              "label": "Output interpretation"
+            },
+            {
+              "cells": {
+                "boundary": "Transaction / atomic update",
+                "control": "Protect read-check-write invariant",
+                "evidence": "Race, retry and failure-injection tests",
+                "input": "Concurrent requests and stale reads"
+              },
+              "id": "state",
+              "label": "Shared-state invariant"
+            }
+          ],
+          "title": "Place controls at the boundary that interprets the input"
+        },
+        "nodes": [
+          {
+            "conceptIds": [
+              "authentication"
+            ],
+            "detail": "The token establishes who called but not which objects the caller may access.",
+            "id": "n1",
+            "label": "Authenticated API customer",
+            "lane": "client"
+          },
+          {
+            "conceptIds": [
+              "api-security"
+            ],
+            "detail": "The request changes an identifier to reference another customer object.",
+            "id": "n2",
+            "label": "Caller-supplied object ID",
+            "lane": "request"
+          },
+          {
+            "conceptIds": [
+              "authorization",
+              "api-security"
+            ],
+            "detail": "The server derives or verifies ownership and allowed action for every object path.",
+            "id": "n3",
+            "label": "Server object-authorization check",
+            "lane": "enforcement"
+          },
+          {
+            "conceptIds": [
+              "database-data-warehouse-security"
+            ],
+            "detail": "The data layer supplies the protected object and ownership context.",
+            "id": "n4",
+            "label": "Invoice object and owner",
+            "lane": "data"
+          },
+          {
+            "conceptIds": [
+              "error-handling",
+              "output-encoding"
+            ],
+            "detail": "A failed object check returns bounded output and records the attempt.",
+            "id": "n5",
+            "label": "Safe deny and audit event",
+            "lane": "response"
+          },
+          {
+            "conceptIds": [
+              "secure-coding",
+              "web-application-environment"
+            ],
+            "detail": "Alternate methods, batch paths, and caches enforce the same object policy.",
+            "id": "n6",
+            "label": "Equivalent endpoints and cache",
+            "lane": "coverage"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n2",
+              "n3"
+            ],
+            "activeRowIds": [
+              "object"
+            ],
+            "caption": "An API authenticates users but accepts any object ID supplied by the caller.",
+            "id": "changed-fact",
+            "statuses": {
+              "n2": "client-supplied account ID",
+              "n3": "token-presence-only check"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              2
+            ],
+            "activeNodeIds": [
+              "n3",
+              "n4"
+            ],
+            "activeRowIds": [
+              "query"
+            ],
+            "caption": "Add server-side object authorization and tests for horizontal and vertical privilege escalation. Authentication alone does not authorize access to every object.",
+            "id": "changed-decision",
+            "statuses": {
+              "n3": "server derives or validates account ownership"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "n3",
+              "n5",
+              "n6"
+            ],
+            "activeRowIds": [
+              "output"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "all object paths regression-tested"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Apply language-neutral secure coding foundations",
+  "workedExamples": [
+    {
+      "reasoning": "Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches.",
+      "situation": "A user can change an invoice ID in a request and retrieve another customer's invoice.",
+      "takeaway": "Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches.",
+      "title": "Object-level API authorization"
+    },
+    {
+      "reasoning": "Server-side validation enforces type, length and business rules; parameterized data access keeps text separate from query structure; the dashboard uses output encoding for its exact display context; object-level authorization limits which comments a user can retrieve; errors avoid echoing secrets. Tests include malformed input, a valid comment containing markup characters, unauthorized object access, and log review.",
+      "situation": "A partner API stores free-form customer comments and a web dashboard renders them to finance users.",
+      "takeaway": "Server-side validation enforces type, length and business rules; parameterized data access keeps text separate from query structure; the dashboard uses output encoding for its exact display context; object-level authorization limits which comments a user can retrieve; errors avoid echoing secrets. Tests include malformed input, a valid comment containing markup characters, unauthorized object access, and log review.",
+      "title": "Comment field across data and web contexts"
+    }
+  ]
+}

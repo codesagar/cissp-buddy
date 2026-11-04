@@ -1,0 +1,601 @@
+{
+  "schemaVersion": 1,
+  "unitId": "cross-identity-trust--request-enforcement",
+  "treatmentIds": [
+    "cross-identity-trust--request-enforcement"
+  ],
+  "title": "A write request from a valid identity",
+  "question": "A valid identity requests a forbidden write across a network boundary. Where is the request stopped, and what decision and enforcement evidence must be recorded?",
+  "scenario": "A payroll analyst has a valid session on the corporate network and attempts to write to the production payroll database. Policy permits the analyst to read reports but forbids production writes. The application gateway is the policy enforcement point and calls a policy decision service before forwarding the request.",
+  "focalRelation": "The network path depends on an authorization decision at the protected action boundary. The decision inputs and the enforcement outcome then provide distinct evidence for monitoring and audit.",
+  "representation": "sequence",
+  "nodes": [
+    {
+      "id": "subject",
+      "label": "Authenticated analyst",
+      "detail": "The session establishes the analyst identity; it does not grant every action reachable over the network.",
+      "conceptIds": [
+        "authorization",
+        "least-privilege"
+      ],
+      "lane": "request"
+    },
+    {
+      "id": "network-boundary",
+      "label": "Segment gateway / PEP",
+      "detail": "The gateway receives the write request, preserves subject, object, action, and context, and must enforce the returned decision.",
+      "conceptIds": [
+        "network-segmentation",
+        "policy-enforcement-point"
+      ],
+      "lane": "enforcement"
+    },
+    {
+      "id": "decision",
+      "label": "Policy decision point",
+      "detail": "The PDP evaluates the analyst role, production object, write action, and relevant context and returns deny.",
+      "conceptIds": [
+        "policy-decision-point",
+        "rbac",
+        "least-privilege"
+      ],
+      "lane": "decision"
+    },
+    {
+      "id": "database",
+      "label": "Production payroll database",
+      "detail": "The forbidden write must not cross the enforcement boundary or reach execution at the protected object.",
+      "conceptIds": [
+        "authorization",
+        "separation-of-duties"
+      ],
+      "lane": "resource"
+    },
+    {
+      "id": "evidence",
+      "label": "Protected log service",
+      "detail": "The log service receives the request context and decision separately from the gateway’s deny outcome, with correlated time and identifiers.",
+      "conceptIds": [
+        "log-architecture",
+        "event-context",
+        "time-synchronization",
+        "log-integrity"
+      ],
+      "lane": "evidence"
+    }
+  ],
+  "edges": [
+    {
+      "from": "subject",
+      "to": "network-boundary",
+      "label": "requests production write with authenticated context",
+      "kind": "flow"
+    },
+    {
+      "from": "network-boundary",
+      "to": "decision",
+      "label": "asks whether this subject may write this object now",
+      "kind": "dependency"
+    },
+    {
+      "from": "decision",
+      "to": "network-boundary",
+      "label": "returns deny; PEP must enforce",
+      "kind": "flow"
+    },
+    {
+      "from": "network-boundary",
+      "to": "database",
+      "label": "deny prevents forwarding and execution",
+      "kind": "blocked"
+    },
+    {
+      "from": "decision",
+      "to": "evidence",
+      "label": "sends inputs, policy, and deny decision to protected logging",
+      "kind": "evidence"
+    },
+    {
+      "from": "network-boundary",
+      "to": "evidence",
+      "label": "sends actual enforcement outcome to protected logging",
+      "kind": "evidence"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "request",
+      "label": "Subject and request",
+      "rule": "Authentication identifies the subject; authorization still evaluates object, action, and context."
+    },
+    {
+      "id": "decision",
+      "label": "Decision",
+      "rule": "The PDP returns a policy result but does not itself stop traffic."
+    },
+    {
+      "id": "enforcement",
+      "label": "Enforcement",
+      "rule": "The PEP must apply the decision at the protected boundary."
+    },
+    {
+      "id": "resource",
+      "label": "Protected resource",
+      "rule": "A denied action must not execute."
+    },
+    {
+      "id": "evidence",
+      "label": "Audit evidence",
+      "rule": "Correlate what was decided with what was actually enforced."
+    }
+  ],
+  "states": [
+    {
+      "id": "request",
+      "title": "Identity and request arrive together",
+      "caption": "A valid session carries identity context, but the write remains a separate authorization question.",
+      "activeNodeIds": [
+        "subject",
+        "network-boundary"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "subject": "authenticated",
+        "network-boundary": "write request received"
+      }
+    },
+    {
+      "id": "evaluate",
+      "title": "The PDP evaluates the protected action",
+      "caption": "The decision binds this subject, production object, write action, policy, and context.",
+      "activeNodeIds": [
+        "network-boundary",
+        "decision"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "enforce",
+      "title": "The PEP stops the request",
+      "caption": "The deny result has effect only when the gateway prevents the write from reaching the database.",
+      "activeNodeIds": [
+        "decision",
+        "network-boundary",
+        "database"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "network-boundary": "denied",
+        "database": "unchanged"
+      }
+    },
+    {
+      "id": "audit",
+      "title": "Decision and outcome remain distinguishable",
+      "caption": "Correlated records show both the deny decision and successful enforcement; a decision record alone cannot prove the database was protected.",
+      "activeNodeIds": [
+        "decision",
+        "network-boundary",
+        "evidence"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "evidence": "decision and enforcement correlated"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "transfer-case",
+      "label": "Correct decision, failed enforcement",
+      "changedFact": "The PDP returns deny, but a gateway misconfiguration forwards the write and the database commits it.",
+      "states": [
+        {
+          "id": "transfer-diverge",
+          "title": "Decision and enforcement diverge",
+          "caption": "The deny record is correct, yet the PEP outcome shows the write crossed the boundary.",
+          "activeNodeIds": [
+            "decision",
+            "network-boundary",
+            "database",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "statuses": {
+            "decision": "deny",
+            "network-boundary": "forwarded incorrectly",
+            "database": "write committed"
+          }
+        },
+        {
+          "id": "transfer-investigate",
+          "title": "Audit evidence exposes the control failure",
+          "caption": "Correlating the decision and resource outcome identifies enforcement, not policy evaluation, as the failed control.",
+          "activeNodeIds": [
+            "network-boundary",
+            "database",
+            "evidence"
+          ],
+          "statuses": {
+            "evidence": "enforcement exception"
+          },
+          "activeEdgeIndexes": [
+            1,
+            3
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "network-boundary",
+          "label": "Misconfigured gateway / PEP",
+          "detail": "The gateway receives deny but incorrectly forwards the prohibited write.",
+          "conceptIds": [
+            "network-segmentation",
+            "policy-enforcement-point"
+          ],
+          "lane": "enforcement"
+        },
+        {
+          "id": "decision",
+          "label": "PDP deny decision",
+          "detail": "The policy service denies the production write for this subject, object, action, and context.",
+          "conceptIds": [
+            "policy-decision-point",
+            "rbac",
+            "least-privilege"
+          ],
+          "lane": "decision"
+        },
+        {
+          "id": "database",
+          "label": "Database commits prohibited write",
+          "detail": "The resource outcome proves enforcement diverged from the policy decision.",
+          "conceptIds": [
+            "authorization",
+            "separation-of-duties"
+          ],
+          "lane": "resource"
+        },
+        {
+          "id": "evidence",
+          "label": "Protected decision and outcome logs",
+          "detail": "Correlated records preserve both deny and committed write for investigation.",
+          "conceptIds": [
+            "log-architecture",
+            "event-context",
+            "time-synchronization",
+            "log-integrity"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "decision",
+          "to": "network-boundary",
+          "label": "returns deny for the production write",
+          "kind": "flow"
+        },
+        {
+          "from": "network-boundary",
+          "to": "database",
+          "label": "misconfigured PEP forwards the denied write",
+          "kind": "flow"
+        },
+        {
+          "from": "decision",
+          "to": "evidence",
+          "label": "sends decision inputs and deny result",
+          "kind": "evidence"
+        },
+        {
+          "from": "network-boundary",
+          "to": "evidence",
+          "label": "sends actual forwarded action and outcome",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "decision",
+          "label": "Decision",
+          "rule": "The PDP returns a policy result but does not itself stop traffic."
+        },
+        {
+          "id": "enforcement",
+          "label": "Enforcement",
+          "rule": "The PEP must apply the decision at the protected boundary."
+        },
+        {
+          "id": "resource",
+          "label": "Protected resource",
+          "rule": "A denied action must not execute."
+        },
+        {
+          "id": "evidence",
+          "label": "Audit evidence",
+          "rule": "Correlate what was decided with what was actually enforced."
+        }
+      ]
+    },
+    {
+      "id": "retry-case",
+      "label": "Enforcement mutates the authorized action",
+      "changedFact": "The PDP permits a report read, but a gateway defect forwards a production write instead.",
+      "states": [
+        {
+          "id": "retry-action-drift",
+          "title": "Decision and forwarded action no longer match",
+          "caption": "A permit for read does not authorize the write created by the enforcement component.",
+          "activeNodeIds": [
+            "decision",
+            "network-boundary",
+            "database",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "statuses": {
+            "decision": "read permitted",
+            "network-boundary": "write forwarded",
+            "database": "write must be stopped"
+          }
+        },
+        {
+          "id": "retry-action-response",
+          "title": "Correlate, contain, and investigate the enforcement defect",
+          "caption": "Use decision and resource outcomes to prove the mismatch, prevent the write, and repair the PEP.",
+          "activeNodeIds": [
+            "network-boundary",
+            "database",
+            "evidence"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            3
+          ],
+          "statuses": {
+            "evidence": "read decision / write outcome mismatch"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "network-boundary",
+          "label": "Gateway mutates read into write",
+          "detail": "A defect changes the decided action before forwarding it.",
+          "conceptIds": [
+            "network-segmentation",
+            "policy-enforcement-point"
+          ],
+          "lane": "enforcement"
+        },
+        {
+          "id": "decision",
+          "label": "PDP permits report read",
+          "detail": "The decision binds a read action, report object, analyst subject, and current context.",
+          "conceptIds": [
+            "policy-decision-point",
+            "rbac",
+            "least-privilege"
+          ],
+          "lane": "decision"
+        },
+        {
+          "id": "database",
+          "label": "Production database write",
+          "detail": "The downstream action differs from the read that policy authorized and must be stopped.",
+          "conceptIds": [
+            "authorization",
+            "separation-of-duties"
+          ],
+          "lane": "resource"
+        },
+        {
+          "id": "evidence",
+          "label": "Protected action-correlation logs",
+          "detail": "The log service correlates the permitted read with the write the gateway actually forwarded.",
+          "conceptIds": [
+            "log-architecture",
+            "event-context",
+            "time-synchronization",
+            "log-integrity"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "decision",
+          "to": "network-boundary",
+          "label": "returns permit for the report read",
+          "kind": "flow"
+        },
+        {
+          "from": "network-boundary",
+          "to": "database",
+          "label": "defect mutates and forwards a production write",
+          "kind": "flow"
+        },
+        {
+          "from": "decision",
+          "to": "evidence",
+          "label": "sends subject, object, read action, and permit",
+          "kind": "evidence"
+        },
+        {
+          "from": "network-boundary",
+          "to": "evidence",
+          "label": "sends the actual forwarded write and outcome",
+          "kind": "evidence"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "decision",
+          "label": "Decision",
+          "rule": "The PDP returns a policy result but does not itself stop traffic."
+        },
+        {
+          "id": "enforcement",
+          "label": "Enforcement",
+          "rule": "The PEP must apply the decision at the protected boundary."
+        },
+        {
+          "id": "resource",
+          "label": "Protected resource",
+          "rule": "A denied action must not execute."
+        },
+        {
+          "id": "evidence",
+          "label": "Audit evidence",
+          "rule": "Correlate what was decided with what was actually enforced."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "request-predict",
+    "prompt": "Where must the forbidden write be stopped?",
+    "options": [
+      {
+        "id": "p-pep",
+        "label": "At the gateway policy enforcement point before database execution",
+        "correct": true,
+        "feedback": "Correct. The PDP decides; the PEP prevents the denied action from reaching the protected resource.",
+        "repairStateId": "enforce"
+      },
+      {
+        "id": "p-pdp",
+        "label": "At the policy service, because generating deny also enforces the deny",
+        "correct": false,
+        "feedback": "The PDP produces a decision. It does not directly block the network request or database action.",
+        "repairStateId": "evaluate"
+      },
+      {
+        "id": "p-login",
+        "label": "At login, because authentication should reject this forbidden action",
+        "correct": false,
+        "feedback": "The analyst’s identity is valid. The forbidden element is the production write action, which requires authorization at its boundary.",
+        "repairStateId": "request"
+      }
+    ],
+    "conceptIds": [
+      "policy-enforcement-point",
+      "policy-decision-point",
+      "network-segmentation"
+    ],
+    "hint": "Separate the component that decides from the component on the request path that can stop execution."
+  },
+  "transfer": {
+    "id": "request-transfer",
+    "prompt": "In the changed case, the PDP denies but the database commits the write. Which control failed?",
+    "options": [
+      {
+        "id": "t-authn",
+        "label": "Identity proofing failed before the request reached policy evaluation",
+        "correct": false,
+        "feedback": "The subject identity can be valid while enforcement of a forbidden action fails.",
+        "repairStateId": "request"
+      },
+      {
+        "id": "t-enforcement",
+        "label": "Gateway enforcement failed after it received the deny decision",
+        "correct": true,
+        "feedback": "Correct. The decision was deny; forwarding and execution show that enforcement failed.",
+        "repairStateId": "transfer-investigate"
+      },
+      {
+        "id": "t-decision",
+        "label": "Policy decision logic failed by returning deny for this request",
+        "correct": false,
+        "feedback": "The PDP returned the required deny. Evidence shows the downstream PEP did not apply it.",
+        "repairStateId": "transfer-diverge"
+      }
+    ],
+    "conceptIds": [
+      "policy-enforcement-point",
+      "log-architecture",
+      "event-context"
+    ],
+    "hint": "Compare the recorded policy result with the action that actually reached the resource."
+  },
+  "retry": {
+    "id": "request-retry",
+    "prompt": "In a third request, the PDP permits a report read, but the gateway rewrites the forwarded action as a production write. Which evidence and response are decisive?",
+    "options": [
+      {
+        "id": "r-pdp-only",
+        "label": "The permit record alone proves the forwarded production write was authorized",
+        "correct": false,
+        "feedback": "The permit was bound to a read action. It cannot authorize a different action created after the decision.",
+        "repairStateId": "retry-action-drift"
+      },
+      {
+        "id": "r-login",
+        "label": "The login record proves any later action by the authenticated analyst is authorized",
+        "correct": false,
+        "feedback": "Authentication identifies the subject; it does not erase the action and object bound to authorization.",
+        "repairStateId": "retry-action-drift"
+      },
+      {
+        "id": "r-actionbind",
+        "label": "Correlate the permitted read with the forwarded write, stop the write, and investigate PEP drift",
+        "correct": true,
+        "feedback": "Correct. The PEP must enforce the exact decided request and record the actual downstream outcome.",
+        "repairStateId": "retry-action-response"
+      }
+    ],
+    "conceptIds": [
+      "authorization",
+      "policy-enforcement-point",
+      "event-context",
+      "log-integrity"
+    ],
+    "hint": "Bind the decision to the subject, object, action, and context that the enforcement point actually forwards."
+  },
+  "takeaway": "Network reachability and valid identity do not grant a protected action. Authorization is decided using the request context, enforced on the path to the resource, and evidenced by correlated decision and outcome records.",
+  "assumptions": [
+    "The gateway is the actual choke point for the database write path.",
+    "The PDP policy correctly denies production writes for the analyst role.",
+    "The case distinguishes a decision record from proof of enforcement."
+  ],
+  "sourceRefIds": [
+    "outline-4.1-segmentation",
+    "official-d4-8-77",
+    "outline-d5-o04",
+    "official-d5-35-41",
+    "outline-d7-o02-logging-architecture",
+    "official-d7-15-30-logging"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "cross-identity-trust--request-enforcement",
+      "disposition": "implemented",
+      "rationale": "The sequence makes network dependence on authorization and authorization evidence for audit separate, observable relations, including a transfer case where correct decision and failed enforcement diverge."
+    }
+  ]
+}

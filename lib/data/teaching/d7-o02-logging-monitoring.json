@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o02-logging-monitoring",
+  "treatmentIds": [],
+  "title": "Design logging and monitoring activities",
+  "question": "Given a service and threat scenario, select useful event fields and telemetry sources, protect and correlate the records, and define an alert or review path that supports response and investigation.",
+  "scenario": "The identity platform reports logins from two distant regions within minutes, but the user is a global administrator using a managed service.",
+  "focalRelation": "Correlate identity, device, VPN, network, and session telemetry before concluding compromise.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Impossible-travel alert",
+      "detail": "Detection signal from two distant-region logins; it triggers triage rather than proving compromise.",
+      "conceptIds": [
+        "security-logging",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Administrator identity",
+      "detail": "Privileged subject and issued token/session whose ownership and use must be established.",
+      "conceptIds": [
+        "telemetry",
+        "alert-triage"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Managed service activity",
+      "detail": "Possible delegated automation that can explain location while still requiring attribution and scope.",
+      "conceptIds": [
+        "telemetry"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "VPN and device telemetry",
+      "detail": "Network route, managed device, MFA, session, and time evidence used to test the alert.",
+      "conceptIds": [
+        "time-synchronization",
+        "telemetry"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Approved change record",
+      "detail": "Authorized maintenance scope, target, owner, and time window; it is corroboration, not blanket suppression.",
+      "conceptIds": [
+        "security-logging"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Triage disposition",
+      "detail": "Escalate and protect the account, or document benign cause with an expiring tuned exception.",
+      "conceptIds": [
+        "alert-triage"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n6",
+      "label": "opens triage; does not decide compromise",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "is correlated to device, VPN, MFA, and session",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "supplies delegated-service explanation to verify",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "constrains approved target and time",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "supports or contradicts the alert hypothesis",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "The identity platform reports logins from two distant regions within minutes, but the user is a global administrator using a managed service.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "high anomaly score",
+        "n2": "global administrator"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A log record should answer who or what acted, what happened, where, when, and with what result.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n3": "managed service possible",
+        "n4": "correlation pending"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "More logs automatically create better detection. Unscoped, unprotected, poorly timed, or unactionable data can increase cost and noise without improving decisions.",
+      "activeNodeIds": [
+        "n1",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n6": "neither accusation nor suppression yet"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Correlate identity, device, VPN, network, and session telemetry before concluding compromise. Check token issuance, delegated service activity, time integrity, and travel or automation context; preserve the relevant records and escalate according to risk. A single anomaly should trigger triage, not an automatic accusation or blind suppression.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n5": "approved window verified",
+        "n6": "commands still checked"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a service and threat scenario, select useful event fields and telemetry sources, protect and correlate the records, and define an alert or review path that supports response and investigation. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "n6": "benign documented with expiry, or escalated"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A cloud provider retains control-plane audit records for only seven days, while the organization has a 90-day investigation need.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A cloud provider retains control-plane audit records for only seven days, while the organization has a 90-day investigation need.",
+          "activeNodeIds": [
+            "n1",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n1": "provider logs retain 7 days",
+            "n6": "90-day investigation need"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Define export, integrity, access, retention, privacy, and failure controls in the service design and contract.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n2",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            3
+          ],
+          "statuses": {
+            "n4": "customer-controlled export required",
+            "n5": "retention owner assigned"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n6": "90-day protected retention verified"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Seven-day provider logs",
+          "detail": "The cloud provider deletes control-plane audit records after seven days.",
+          "conceptIds": [
+            "security-logging",
+            "monitoring"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Ninety-day investigation need",
+          "detail": "The organization requires evidence across a ninety-day window.",
+          "conceptIds": [
+            "telemetry",
+            "alert-triage"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Cloud control-plane events",
+          "detail": "Provider activity must be exported before native retention expires.",
+          "conceptIds": [
+            "telemetry"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Protected customer log store",
+          "detail": "The customer-controlled destination preserves integrity, access, and availability.",
+          "conceptIds": [
+            "time-synchronization",
+            "telemetry"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Retention and privacy control",
+          "detail": "Policy and contract assign export, retention, access, deletion, and privacy duties.",
+          "conceptIds": [
+            "security-logging"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Verified investigation window",
+          "detail": "Testing confirms ninety days of accessible, protected control-plane evidence.",
+          "conceptIds": [
+            "alert-triage"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n6",
+          "label": "creates a retention gap",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "sets export and protection requirements",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "is exported before provider deletion",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "assigns retention ownership",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "proves the required investigation window",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o02-logging-monitoring-prediction",
+    "prompt": "Two distant-region logins appear within minutes for a global administrator using a managed service. What should triage do first?",
+    "options": [
+      {
+        "id": "declare",
+        "label": "Declare compromise from distance alone and disable every related service identity.",
+        "correct": false,
+        "feedback": "Distance is a signal, not a finding. Immediate broad disablement can destroy context and disrupt legitimate delegated service activity.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "correlate",
+        "label": "Correlate identity, token, VPN, device, service, target, and time evidence before disposition.",
+        "correct": true,
+        "feedback": "Correct. The anomaly starts triage; corroborating evidence distinguishes delegated activity from account misuse.",
+        "repairStateId": "control-enforced"
+      },
+      {
+        "id": "suppress",
+        "label": "Suppress the alert because global administrators and managed services often cross regions.",
+        "correct": false,
+        "feedback": "Expected travel or automation must be verified and bounded; blanket suppression creates a false-negative path.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "monitoring",
+      "telemetry",
+      "alert-triage",
+      "time-synchronization"
+    ],
+    "hint": "Ask which independent records can bind the person, token, path, device, and target."
+  },
+  "transfer": {
+    "id": "d7-o02-logging-monitoring-transfer",
+    "prompt": "A cloud provider retains control-plane audit records for only seven days, while the organization has a 90-day investigation need.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A cloud provider retains control-plane audit records for only seven days, while the organization has a 90-day investigation need. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Correlate identity, device, VPN, network, and session telemetry before concluding compromise. Repair target: Decision recomputed — Define export, integrity, access, retention, privacy, and failure controls in the service design and contract.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A cloud provider retains control-plane audit records for only seven days, while the organization has a 90-day investigation need. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Correlate identity, device, VPN, network, and session telemetry before concluding compromise. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Define export, integrity, access, retention, privacy",
+        "correct": true,
+        "feedback": "Correct. Define export, integrity, access, retention, privacy, and failure controls in the service design and contract.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "log-integrity"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o02-logging-monitoring-retry-v2",
+    "prompt": "A privileged-change alert fires, but normalization dropped the target account and the raw source expires tonight. What should the analyst do first?",
+    "options": [
+      {
+        "id": "preserve-enrich",
+        "label": "Preserve the raw event, recover target context, and test the parser before disposition",
+        "correct": true,
+        "feedback": "Correct. Triage needs sufficient event context and preservation before a defensible disposition.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "close-normalized",
+        "label": "Close the alert because the normalized record contains no target account",
+        "correct": false,
+        "feedback": "A missing normalized field may be a parser defect, not evidence that no privileged target existed.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "escalate-breach",
+        "label": "Declare a confirmed breach from the alert alone without recovering the source context",
+        "correct": false,
+        "feedback": "An alert is a detection signal; confirmation requires the missing subject, target, action, and result evidence.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "telemetry",
+      "alert-triage",
+      "security-logging"
+    ],
+    "hint": "Preserve the evidence needed to decide before accepting the normalized event as complete."
+  },
+  "takeaway": "Correlate identity, device, VPN, network, and session telemetry before concluding compromise.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o02",
+    "official-d7-15-30",
+    "sybex-d7-834-850"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "An anomaly should open triage rather than prove compromise or justify suppression. Correlate identity, device, token, VPN, service, target, time, retention, and integrity evidence before disposition.",
+    "visualReasoningGain": "A useful view would align telemetry sources, retained fields, time integrity, corroboration, and disposition; the opening anomaly/admin/triage nouns do not expose missing evidence."
+  },
+  "openingFacts": [
+    {
+      "label": "Impossible-travel alert",
+      "value": "Detection signal from two distant-region logins; it triggers triage rather than proving compromise."
+    },
+    {
+      "label": "Administrator identity",
+      "value": "Privileged subject and issued token/session whose ownership and use must be established."
+    },
+    {
+      "label": "Managed service activity",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "VPN and device telemetry",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Approved change record",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Triage disposition",
+      "value": "Escalate and protect the account, or document benign cause with an expiring tuned exception."
+    }
+  ]
+}

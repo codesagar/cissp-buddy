@@ -1,0 +1,491 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d5-o06-authentication-systems",
+  "treatmentIds": [],
+  "title": "Implement authentication systems",
+  "question": "Given an enterprise authentication requirement, select an appropriate system pattern and explain how its directory, protocol, factor, session, accounting, failure, and revocation controls work together.",
+  "scenario": "A company needs VPN authentication for employees, contractors, and managed devices. Some legacy network equipment supports RADIUS, while administrators require stronger, separately monitored access.",
+  "focalRelation": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Remote employee and managed device",
+      "detail": "Human and device claims presented for a VPN session; each is evaluated under its policy.",
+      "conceptIds": [
+        "authentication-system"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "VPN gateway",
+      "detail": "Session entry point that sends protected authentication requests and enforces the returned network result.",
+      "conceptIds": [
+        "radius",
+        "session-management"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Central directory and identity service",
+      "detail": "Authoritative account, group, status, and revocation source; LDAP transport must be protected.",
+      "conceptIds": [
+        "directory-service",
+        "ldap",
+        "active-directory"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "MFA verifier",
+      "detail": "Independent factor service used where user or administrator consequence requires stronger assurance.",
+      "conceptIds": [
+        "authentication-system",
+        "false-rejection",
+        "false-acceptance"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Network policy service",
+      "detail": "AAA decision service that combines identity, device, group, and access policy for the VPN.",
+      "conceptIds": [
+        "aaa",
+        "radius",
+        "tacacs-plus"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Accounting and revocation monitor",
+      "detail": "Records start/stop/result, detects failures, and terminates sessions after disablement or policy change.",
+      "conceptIds": [
+        "accounting",
+        "session-management"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "presents user, factor, and device context",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n5",
+      "label": "sends protected AAA request",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n3",
+      "label": "checks account, group, and enabled state",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n4",
+      "label": "requests required independent factor result",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n2",
+      "label": "returns scoped network permit or deny",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "records session and consumes revocation signal",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A company needs VPN authentication for employees, contractors, and managed devices. Some legacy network equipment supports RADIUS, while administrators require stronger, separately monitored access.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "employee + managed device",
+        "n2": "VPN request frozen"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "AAA functions are related but should remain conceptually and operationally distinguishable.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n3": "account enabled; group checked",
+        "n5": "policy evaluation"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A central directory automatically provides secure authentication. The directory is one component; protocol protection, authenticator assurance, authorization, session, availability, and monitoring still require design.",
+      "activeNodeIds": [
+        "n2",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        4
+      ],
+      "statuses": {
+        "n5": "legacy capability insufficient for admin path",
+        "n2": "broad permit withheld"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Define device and user policy inputs, separate administrator paths, log authentication and authorization outcomes, rate-limit and monitor failures, and test revocation and session termination. Preserve the legacy protocol only with compensating controls and a retirement plan if its capabilities are insufficient.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "MFA passed",
+        "n5": "employee or admin policy selected"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given an enterprise authentication requirement, select an appropriate system pattern and explain how its directory, protocol, factor, session, accounting, failure, and revocation controls work together. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n2": "scoped session active",
+        "n6": "accounting and revocation watch active"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours.",
+          "activeNodeIds": [
+            "n3",
+            "n6",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n3": "employee disabled",
+            "n6": "active session still present"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n5": "revocation result issued",
+            "n2": "session termination required"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n2": "session terminated",
+            "n6": "offboarding control test passed"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Disabled employee",
+          "detail": "The directory account is disabled during offboarding or incident response.",
+          "conceptIds": [
+            "authentication-system"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Active VPN session",
+          "detail": "The already-issued remote session remains usable for eight hours.",
+          "conceptIds": [
+            "radius",
+            "session-management"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Disabled directory account",
+          "detail": "The authoritative identity service denies new authentication.",
+          "conceptIds": [
+            "directory-service",
+            "ldap",
+            "active-directory"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Reauthentication control",
+          "detail": "A bounded reauthentication event can reevaluate current account state.",
+          "conceptIds": [
+            "authentication-system",
+            "false-rejection",
+            "false-acceptance"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Revocation decision service",
+          "detail": "The AAA service converts disablement into session revocation or reauthentication.",
+          "conceptIds": [
+            "aaa",
+            "radius",
+            "tacacs-plus"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Session and revocation evidence",
+          "detail": "Monitoring verifies active-session termination and captures the control test.",
+          "conceptIds": [
+            "accounting",
+            "session-management"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "still holds an issued session",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n5",
+          "label": "must receive current disablement outcome",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n3",
+          "label": "supplies disabled account state",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n4",
+          "label": "requires fresh authentication when configured",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n2",
+          "label": "orders termination or bounded reauthentication",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "records and verifies session termination",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d5-o06-authentication-systems-prediction",
+    "prompt": "Employees, contractors, and managed devices need VPN access; administrators require a stronger separate path. Which architecture fits?",
+    "options": [
+      {
+        "id": "radius-everything",
+        "label": "Route every user and administrator through the same legacy RADIUS policy because it centralizes login.",
+        "correct": false,
+        "feedback": "Centralization alone does not supply stronger administrator assurance, safe protocol capabilities, or separate monitoring.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "directory-only",
+        "label": "Check only whether the directory account is enabled, then grant the full VPN network.",
+        "correct": false,
+        "feedback": "An enabled account omits device state, factor, role, network scope, session limits, and downstream revocation.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "central-aaa",
+        "label": "Use protected central AAA, policy-based MFA, separate administrator controls, accounting, and revocation tests.",
+        "correct": true,
+        "feedback": "Correct. The gateway enforces a scoped result while identity, factor, session, accounting, and revocation controls remain attributable.",
+        "repairStateId": "control-enforced"
+      }
+    ],
+    "conceptIds": [
+      "authentication-system",
+      "aaa",
+      "radius",
+      "session-management"
+    ],
+    "hint": "Trace the request from gateway to policy decision and back to a bounded session."
+  },
+  "transfer": {
+    "id": "d5-o06-authentication-systems-transfer",
+    "prompt": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Tie session revocation or reauthentication to disablement and test both paths",
+        "correct": true,
+        "feedback": "Correct. Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Repair target: Decision recomputed — Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "active-directory"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d5-o06-authentication-systems-retry-v2",
+    "prompt": "Network authentication succeeds through TACACS+, but command accounting records stopped arriving after a collector change. What should operations conclude?",
+    "options": [
+      {
+        "id": "auth-proves-all",
+        "label": "Treat successful logins as proof that authorization and accounting are functioning",
+        "correct": false,
+        "feedback": "Authentication proves identity handling for the login; it does not prove command authorization or accounting evidence.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "restore-accounting",
+        "label": "Keep access bounded, restore command accounting, and verify correlated records before claiming full AAA coverage",
+        "correct": true,
+        "feedback": "Correct. Successful authentication does not prove that privileged commands are attributable or retained.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "switch-radius",
+        "label": "Replace TACACS+ with RADIUS immediately without diagnosing the collector and retention path",
+        "correct": false,
+        "feedback": "Changing protocols does not by itself repair a broken accounting pipeline and may lose command-level evidence.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "tacacs-plus",
+      "accounting",
+      "aaa"
+    ],
+    "hint": "Authentication, authorization, and accounting provide different evidence."
+  },
+  "takeaway": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d5-o06",
+    "official-d5-50-57",
+    "sybex-d5-690-694"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "A directory is only one part of an authentication system. Protected AAA transport, factors, policy, sessions, accounting, revocation, failure handling, and a separate administrator path must work together.",
+    "visualReasoningGain": "The revealed architecture permits tracing directory, MFA, policy, session, accounting, and revocation interactions; the opening employee/device and gateway boxes add little."
+  },
+  "openingFacts": [
+    {
+      "label": "Remote employee and managed device",
+      "value": "Human and device claims presented for a VPN session; each is evaluated under its policy."
+    },
+    {
+      "label": "VPN gateway",
+      "value": "Session entry point that sends protected authentication requests and enforces the returned network result."
+    },
+    {
+      "label": "Central directory and identity service",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "MFA verifier",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Network policy service",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Accounting and revocation monitor",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

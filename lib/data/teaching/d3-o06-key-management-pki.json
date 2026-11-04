@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o06-key-management-pki",
+  "treatmentIds": [
+    "fresh-d3-o06-key-management-pki-pki-compromise-validation-recovery"
+  ],
+  "title": "pki compromise validation recovery",
+  "question": "After a signing key is compromised, what changes for issuers, inventories, status, relying parties, trust anchors, recovery, and evidence?",
+  "scenario": "Mutual service authentication: Two payment services use certificates to authenticate each other across a network boundary.",
+  "focalRelation": "Enrollment and protected key enable issuance; relying parties validate chain, name/use, time, status, and trust anchor at use; compromise authority triggers scoped revocation/rotation and dependency restoration; HSM, recovery, and inventory are supporting controls.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "detect",
+      "label": "Key compromise detected",
+      "detail": "Evidence identifies the affected key, certificate, services, owners, trust use, and relying-party exposure.",
+      "conceptIds": [
+        "key-management",
+        "key-lifecycle",
+        "certificate",
+        "hardware-security-module"
+      ]
+    },
+    {
+      "id": "decision",
+      "label": "Authorized trust-status decision",
+      "detail": "The accountable certificate and incident authority decides containment, suspension or revocation, notification, and exception scope.",
+      "conceptIds": [
+        "certificate-authority",
+        "revocation",
+        "public-key-infrastructure"
+      ]
+    },
+    {
+      "id": "status",
+      "label": "Status and containment published",
+      "detail": "The authority publishes suspension or revocation status and applies containment and notification to affected relying parties.",
+      "conceptIds": [
+        "revocation",
+        "certificate",
+        "public-key-infrastructure"
+      ]
+    },
+    {
+      "id": "replacement",
+      "label": "Replacement key and certificate",
+      "detail": "A controlled process generates, enrolls, distributes, and protects the replacement key and certificate.",
+      "conceptIds": [
+        "key-rotation",
+        "key-recovery",
+        "hardware-security-module"
+      ]
+    },
+    {
+      "id": "validation",
+      "label": "Relying-party validation",
+      "detail": "The relying party checks trust anchor, identity and use, validity time, policy, chain, and applicable status for the replacement.",
+      "conceptIds": [
+        "trust-anchor",
+        "certificate-validation"
+      ]
+    },
+    {
+      "id": "restored",
+      "label": "Restored service trust",
+      "detail": "Mutual service trust resumes only after both services validate identity, purpose, chain, time, policy, and current status.",
+      "conceptIds": [
+        "key-lifecycle",
+        "certificate-validation"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "detect",
+      "to": "decision",
+      "label": "provides scope and evidence for",
+      "kind": "evidence"
+    },
+    {
+      "from": "decision",
+      "to": "status",
+      "label": "triggers the applicable suspension, revocation, containment, and notice",
+      "kind": "flow"
+    },
+    {
+      "from": "decision",
+      "to": "replacement",
+      "label": "authorizes controlled generation, enrollment, and rotation of",
+      "kind": "flow"
+    },
+    {
+      "from": "status",
+      "to": "validation",
+      "label": "supplies current trust status to",
+      "kind": "evidence"
+    },
+    {
+      "from": "replacement",
+      "to": "validation",
+      "label": "supplies the new chain and intended identity to",
+      "kind": "flow"
+    },
+    {
+      "from": "validation",
+      "to": "restored",
+      "label": "supports service trust only after all checks pass",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Mutual service authentication: Two payment services use certificates to authenticate each other across a network boundary.",
+      "activeNodeIds": [
+        "detect",
+        "decision"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "detect": "Evidence identifies the affected key, certificate, services, owners, trust use, and relying-party exposure.",
+        "decision": "The accountable certificate and incident authority decides containment, suspension or revocation, notification, and exception scope."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Key compromise detected provides scope and evidence for Authorized trust-status decision. Authorized trust-status decision triggers the applicable suspension, revocation, containment, and notice Status and containment published.",
+      "activeNodeIds": [
+        "detect",
+        "decision",
+        "status"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "decision": "The accountable certificate and incident authority decides containment, suspension or revocation, notification, and exception scope.",
+        "detect": "Evidence identifies the affected key, certificate, services, owners, trust use, and relying-party exposure.",
+        "status": "The authority publishes suspension or revocation status and applies containment and notification to affected relying parties."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Replacement key and certificate supplies the new chain and intended identity to Relying-party validation. Relying-party validation supports service trust only after all checks pass Restored service trust.",
+      "activeNodeIds": [
+        "replacement",
+        "validation",
+        "restored"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "restored": "Mutual service trust resumes only after both services validate identity, purpose, chain, time, policy, and current status.",
+        "replacement": "A controlled process generates, enrolls, distributes, and protects the replacement key and certificate.",
+        "validation": "The relying party checks trust anchor, identity and use, validity time, policy, chain, and applicable status for the replacement."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The validation service is unavailable during an urgent transaction window. Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions, log the exception, restore validation, and reconcile afterward.",
+      "activeNodeIds": [
+        "detect",
+        "decision",
+        "status",
+        "replacement",
+        "validation",
+        "restored"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "restored": "Service returns only after dependent inventories, status handling, rollout evidence, telemetry, and bounded exceptions are verified.",
+        "detect": "Evidence identifies the affected key, certificate, services, owners, trust use, and relying-party exposure.",
+        "decision": "The accountable certificate and incident authority decides containment, suspension or revocation, notification, and exception scope.",
+        "status": "The authority publishes suspension or revocation status and applies containment and notification to affected relying parties.",
+        "replacement": "A controlled process generates, enrolls, distributes, and protects the replacement key and certificate.",
+        "validation": "The relying party checks trust anchor, identity and use, validity time, policy, chain, and applicable status for the replacement."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Normal certificate-status evidence cannot be obtained. The transaction has time pressure but still needs bounded trust.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The validation service is unavailable during an urgent transaction window.",
+          "activeNodeIds": [
+            "replacement",
+            "validation",
+            "restored"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "restored": "Normal certificate-status evidence cannot be obtained. The transaction has time pressure but still needs bounded trust.",
+            "replacement": "A controlled process generates, enrolls, distributes, and protects the replacement key and certificate.",
+            "validation": "The relying party checks trust anchor, identity and use, validity time, policy, chain, and applicable status for the replacement."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions, log the exception, restore validation, and reconcile afterward.",
+          "activeNodeIds": [
+            "replacement",
+            "validation",
+            "restored"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "restored": "Service returns only after dependent inventories, status handling, rollout evidence, telemetry, and bounded exceptions are verified.",
+            "replacement": "A controlled process generates, enrolls, distributes, and protects the replacement key and certificate.",
+            "validation": "The relying party checks trust anchor, identity and use, validity time, policy, chain, and applicable status for the replacement."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o06-key-management-pki-prediction-v1",
+    "prompt": "After a signing key is compromised, what changes for issuers, inventories, status, relying parties, trust anchors, recovery, and evidence?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Disable certificate validation permanently so the service remains available during CA outages.",
+        "correct": false,
+        "feedback": "Permanent bypass converts an availability problem into unbounded trust of unauthenticated peers.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Contain, distrust affected claims, replace keys and certificates, then verify relying parties.",
+        "correct": true,
+        "feedback": "Expiration and signature validity are only parts of the relying-party decision; compromised keys and stale or missing status undermine the current trust claim.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "A valid certificate always proves the presenter’s current identity and authorization.",
+        "correct": false,
+        "feedback": "Validation supports a bounded binding; key possession, revocation status, name checks, current authorization, and relying-party behavior still matter.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "certificate",
+      "certificate-authority",
+      "key-recovery",
+      "trust-anchor",
+      "certificate-validation"
+    ],
+    "hint": "Validation depends on identity, certificate status, time, policy, and the transaction’s failure rule."
+  },
+  "transfer": {
+    "id": "d3-o06-key-management-pki-transfer-v1",
+    "prompt": "The validation service is unavailable during an urgent transaction window.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Disable certificate validation permanently so the service remains available during CA outages",
+        "correct": false,
+        "feedback": "Changed fact: Normal certificate-status evidence cannot be obtained. The transaction has time pressure but still needs bounded trust. Why this answer fails: “Disable certificate validation permanently so the service remains available during CA outages” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Enrollment and protected key enable issuance; relying parties validate chain, name/use, time, status, and trust anchor at use; compromise authority triggers scoped revocation/rotation and dependency restoration; HSM, recovery, and inventory are supporting controls. Repair target: Control and evidence consequence — Replacement key and certificate supplies the new chain and intended identity to Relying-party validation. Relying-party validation supports service trust only after all checks pass Restored service trust.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "A valid certificate always proves the presenter’s current identity and authorization",
+        "correct": false,
+        "feedback": "Changed fact: Normal certificate-status evidence cannot be obtained. The transaction has time pressure but still needs bounded trust. Why this answer fails: “A valid certificate always proves the presenter’s current identity and authorization” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Enrollment and protected key enable issuance; relying parties validate chain, name/use, time, status, and trust anchor at use; compromise authority triggers scoped revocation/rotation and dependency restoration; HSM, recovery, and inventory are supporting controls. Repair target: Changed fact, recomputed result — The validation service is unavailable during an urgent transaction window. Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions, log the exception, restore validation, and reconcile afterward.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions",
+        "correct": true,
+        "feedback": "Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions, log the exception, restore validation, and reconcile afterward.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "certificate-validation"
+    ],
+    "hint": "An unavailable status service requires a preapproved bounded fail policy, not an improvised bypass."
+  },
+  "retry": {
+    "id": "d3-o06-key-management-pki-retry-v1",
+    "prompt": "A certificate is unexpired, but the issuer confirms that its private key was compromised and publishes a current revocation status. What must the relying party do?",
+    "options": [
+      {
+        "id": "validate-status",
+        "label": "Reject the compromised credential, obtain the replacement chain, and validate current status before restoring trust",
+        "correct": true,
+        "feedback": "Correct. Compromise response, replacement, status distribution, and relying-party validation must converge before trust is restored.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "expiry-only",
+        "label": "Accept it until the printed expiration time because validity dates outrank status information",
+        "correct": false,
+        "feedback": "Time validity is one check. Current applicable revocation status changes the trust decision before expiration.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "rotate-server",
+        "label": "Rotate the server certificate but let relying parties keep cached status indefinitely",
+        "correct": false,
+        "feedback": "Rotation alone cannot restore relying parties that do not receive or evaluate current trust status.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "certificate",
+      "revocation",
+      "key-rotation",
+      "certificate-validation",
+      "trust-anchor"
+    ],
+    "hint": "Constrain affected transactions and reconcile them after validation returns."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Enrollment and protected key enable issuance; relying parties validate chain, name/use, time, status, and trust anchor at use; compromise authority triggers scoped revocation/rotation and dependency restoration; HSM, recovery, and inventory are supporting controls.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o06-pki-outline",
+    "d3-o06-outline",
+    "d3-o06-pki-textbook",
+    "d3-o06-pki-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o06-key-management-pki-pki-compromise-validation-recovery",
+      "disposition": "equivalent",
+      "rationale": "The state model preserves compromise detection, authorized distrust, inventory scoping, status publication, relying-party enforcement, replacement, and recovery evidence. These relations are integrated into one response progression rather than two linked message sequences."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "After compromise, authorized owners must scope the event, publish status, contain trust, replace keys and certificates, and verify relying parties. A status outage needs a preapproved bounded fail policy rather than permanent validation bypass.",
+    "visualReasoningGain": "Issuer, status, relying-party, and service swimlanes would add ownership and sequencing; the current chain adds order but weaker role separation."
+  }
+}

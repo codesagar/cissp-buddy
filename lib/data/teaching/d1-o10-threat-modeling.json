@@ -1,0 +1,489 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o10-threat-modeling",
+  "treatmentIds": [
+    "fresh-d1-o10-threat-modeling-partner-upload-threat-canvas"
+  ],
+  "title": "partner upload threat canvas",
+  "question": "Where can identity, malicious content, disclosure, denial, or privileged misuse enter a partner-upload design, and which design decision can reduce each path?",
+  "scenario": "Partner document upload: A partner uploads regulated documents through an API to an internal processing service.",
+  "focalRelation": "Actors send data across explicit trust changes to processes and stores; an abuse path attaches to the component, flow, boundary, or privilege it exploits; mitigation and test link back to that path.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "partner-actor",
+      "label": "Partner Actor",
+      "detail": "The external partner submits a regulated document and associated identity through the approved upload interface.",
+      "conceptIds": [
+        "actors"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "gateway",
+      "label": "API gateway",
+      "detail": "The API gateway authenticates the partner, limits request rate and size, and validates the declared request envelope.",
+      "conceptIds": [
+        "trust-boundary",
+        "attack-surface"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "validation-decision",
+      "label": "Validation Decision",
+      "detail": "The validation decision applies content, identity, schema, and action rules before any internal processing.",
+      "conceptIds": [
+        "threat",
+        "mitigation"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "processing-service",
+      "label": "Processing Service",
+      "detail": "The internal service processes only an authorized document under a scoped workload identity.",
+      "conceptIds": [
+        "trust-boundary"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "rejected-or-quarantined-request",
+      "label": "Rejected Or Quarantined Request",
+      "detail": "A failed upload stops before normal processing and moves to a bounded rejection or quarantine path.",
+      "conceptIds": [
+        "abuse-case",
+        "mitigation"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "document-store",
+      "label": "Document Store",
+      "detail": "The protected store accepts only the authorized processed result and records the write.",
+      "conceptIds": [
+        "assets"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "partner-actor",
+      "to": "gateway",
+      "label": "submits regulated document to",
+      "kind": "flow"
+    },
+    {
+      "from": "gateway",
+      "to": "validation-decision",
+      "label": "enforces the scenario's identity and content checks for",
+      "kind": "flow"
+    },
+    {
+      "from": "gateway",
+      "to": "processing-service",
+      "label": "forwards an authorized request across the external-internal trust boundary to",
+      "kind": "flow"
+    },
+    {
+      "from": "validation-decision",
+      "to": "rejected-or-quarantined-request",
+      "label": "routes a request that fails the scenario's checks to",
+      "kind": "flow"
+    },
+    {
+      "from": "processing-service",
+      "to": "document-store",
+      "label": "writes processed result to",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "External actor and input",
+      "rule": "The partner and submitted document begin outside the application trust boundary."
+    },
+    {
+      "id": "control",
+      "label": "Boundary decisions",
+      "rule": "The gateway validates identity, content, and action before processing."
+    },
+    {
+      "id": "protected",
+      "label": "Protected processing and data",
+      "rule": "Only accepted work reaches the service and store; rejected work is quarantined."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Partner document upload: A partner uploads regulated documents through an API to an internal processing service.",
+      "activeNodeIds": [
+        "partner-actor",
+        "gateway"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "partner-actor": "Partner Actor submits regulated document to Gateway.",
+        "gateway": "Validates request and rate."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Partner Actor submits regulated document to API gateway. API gateway enforces the scenario's identity and content checks for Validation Decision.",
+      "activeNodeIds": [
+        "partner-actor",
+        "gateway",
+        "validation-decision"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "gateway": "The API gateway authenticates the partner, limits request rate and size, and validates the declared request envelope.",
+        "partner-actor": "Partner Actor submits regulated document to Gateway.",
+        "validation-decision": "The validation decision applies content, identity, schema, and action rules before any internal processing."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Validation Decision routes a request that fails the scenario's checks to Rejected Or Quarantined Request. Processing Service writes processed result to Document Store.",
+      "activeNodeIds": [
+        "validation-decision",
+        "rejected-or-quarantined-request",
+        "processing-service",
+        "document-store"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "document-store": "The protected store accepts only the authorized processed result and records the write.",
+        "validation-decision": "The validation decision applies content, identity, schema, and action rules before any internal processing.",
+        "rejected-or-quarantined-request": "A failed upload stops before normal processing and moves to a bounded rejection or quarantine path.",
+        "processing-service": "The internal service processes only an authorized document under a scoped workload identity."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "Scanning moves from the organization’s upload service to a supplier, and the supplier now controls signature updates. Redraw the supplier boundary and flows, model malicious content and update compromise at the new control points, and require scoped supplier assurance and tests.",
+      "activeNodeIds": [
+        "partner-actor",
+        "gateway",
+        "validation-decision",
+        "rejected-or-quarantined-request",
+        "processing-service",
+        "document-store"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "document-store": "The protected store accepts only the authorized processed result and records the write.",
+        "partner-actor": "Partner Actor submits regulated document to Gateway.",
+        "gateway": "Validates request and rate.",
+        "validation-decision": "The validation decision applies content, identity, schema, and action rules before any internal processing.",
+        "rejected-or-quarantined-request": "A failed upload stops before normal processing and moves to a bounded rejection or quarantine path.",
+        "processing-service": "The internal service processes only an authorized document under a scoped workload identity."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "supplier-scanning-boundary",
+      "label": "Scanning moves to a supplier",
+      "changedFact": "Scanning moves from the organization’s upload service to a supplier, and the supplier now controls signature updates.",
+      "lanes": [
+        {
+          "id": "external",
+          "label": "External submission",
+          "rule": "Partner content begins outside both the organization and supplier trust boundaries."
+        },
+        {
+          "id": "supplier",
+          "label": "Supplier scanning boundary",
+          "rule": "The supplier operates scanning and signature updates under bounded authority and assurance."
+        },
+        {
+          "id": "internal",
+          "label": "Organization processing boundary",
+          "rule": "The organization validates the supplier result and retains its own accept-or-quarantine decision."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "partner",
+          "label": "Partner document upload",
+          "detail": "The partner submits regulated content that may be malformed or malicious.",
+          "conceptIds": [
+            "actors",
+            "attack-surface"
+          ],
+          "lane": "external"
+        },
+        {
+          "id": "supplier-service",
+          "label": "Supplier scanning service",
+          "detail": "The supplier receives content across a new trust boundary and performs malware inspection.",
+          "conceptIds": [
+            "trust-boundary",
+            "data-flow"
+          ],
+          "lane": "supplier"
+        },
+        {
+          "id": "update-feed",
+          "label": "Supplier signature-update authority",
+          "detail": "The supplier controls scanner signature and engine updates, creating a privileged dependency and compromise path.",
+          "conceptIds": [
+            "threat",
+            "attack-surface"
+          ],
+          "lane": "supplier"
+        },
+        {
+          "id": "scan-result",
+          "label": "Signed scan result",
+          "detail": "The supplier returns a result whose identity, freshness, integrity, and scope require validation.",
+          "conceptIds": [
+            "mitigation",
+            "data-flow"
+          ],
+          "lane": "supplier"
+        },
+        {
+          "id": "internal-gate",
+          "label": "Organization validation gate",
+          "detail": "The organization checks supplier identity, result freshness and integrity, content policy, and failure state before processing.",
+          "conceptIds": [
+            "trust-boundary",
+            "mitigation"
+          ],
+          "lane": "internal"
+        },
+        {
+          "id": "process-or-quarantine",
+          "label": "Process or quarantine decision",
+          "detail": "Accepted content enters scoped processing; failed, stale, or unverifiable results enter quarantine.",
+          "conceptIds": [
+            "abuse-case",
+            "mitigation"
+          ],
+          "lane": "internal"
+        }
+      ],
+      "edges": [
+        {
+          "from": "partner",
+          "to": "supplier-service",
+          "label": "crosses the supplier boundary for scanning at",
+          "kind": "flow"
+        },
+        {
+          "from": "update-feed",
+          "to": "supplier-service",
+          "label": "can change detection behavior at",
+          "kind": "dependency"
+        },
+        {
+          "from": "supplier-service",
+          "to": "scan-result",
+          "label": "produces an attributable inspection result in",
+          "kind": "evidence"
+        },
+        {
+          "from": "scan-result",
+          "to": "internal-gate",
+          "label": "must be independently validated at",
+          "kind": "flow"
+        },
+        {
+          "from": "internal-gate",
+          "to": "process-or-quarantine",
+          "label": "makes the bounded accept-or-quarantine decision at",
+          "kind": "flow"
+        }
+      ],
+      "states": [
+        {
+          "id": "supplier-facts",
+          "title": "The trust boundary and update authority move",
+          "caption": "Partner content now crosses into a supplier service, and the supplier controls the scanner update path.",
+          "activeNodeIds": [
+            "partner",
+            "supplier-service",
+            "update-feed"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "partner": "The partner supplies untrusted regulated content.",
+            "supplier-service": "The scanning function now runs outside the organization boundary.",
+            "update-feed": "Supplier-controlled updates can change scanning behavior and require assurance."
+          }
+        },
+        {
+          "id": "supplier-result",
+          "title": "Retain an internal decision gate",
+          "caption": "Require an attributable, fresh scan result, validate it inside the organization, and quarantine content when the result or supplier control cannot be trusted.",
+          "activeNodeIds": [
+            "supplier-service",
+            "scan-result",
+            "internal-gate",
+            "process-or-quarantine"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3,
+            4
+          ],
+          "statuses": {
+            "supplier-service": "The supplier operates within stated service, update, and evidence obligations.",
+            "scan-result": "The result names scanner identity, signature version, time, content reference, and outcome.",
+            "internal-gate": "The organization validates the supplier evidence instead of inheriting supplier trust.",
+            "process-or-quarantine": "Only content with an accepted result enters scoped processing; other content is quarantined."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o10-threat-modeling-prediction-v1",
+    "prompt": "Where can identity, malicious content, disclosure, denial, or privileged misuse enter a partner-upload design, and which design decision can reduce each path?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Start with a standard threat list and mark every category applicable to be safe.",
+        "correct": false,
+        "feedback": "A list without attachment to this system’s actors, flows, components, boundaries, and privileges cannot explain the failure path.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "A standard threat checklist is sufficient without mapping system flows and boundaries.",
+        "correct": false,
+        "feedback": "A useful threat is attached to this system’s actor, component, flow, boundary, privilege, and consequence.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Attach the threat to a concrete actor, component, flow, boundary, or trust assumption before choosing treatment.",
+        "correct": true,
+        "feedback": "A generic threat list or completed method worksheet does not model how this system can fail.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "threat-modeling",
+      "trust-boundary",
+      "data-flow",
+      "threat",
+      "design-review"
+    ],
+    "hint": "Attach each threat to this upload’s actor, data flow, trust boundary, and consequence."
+  },
+  "transfer": {
+    "id": "d1-o10-threat-modeling-transfer-v1",
+    "prompt": "Scanning moves from the organization’s upload service to a supplier, and the supplier now controls signature updates.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Start with a standard threat list and mark every category applicable to be safe",
+        "correct": false,
+        "feedback": "Changed fact: Scanning moves from the organization’s upload service to a supplier, and the supplier now controls signature updates. Why this answer fails: “Start with a standard threat list and mark every category applicable to be safe” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Actors send data across explicit trust changes to processes and stores; an abuse path attaches to the component, flow, boundary, or privilege it exploits; mitigation and test link back to that path. Repair target: The trust boundary and update authority move — Partner content now crosses into a supplier service, and the supplier controls the scanner update path.",
+        "repairStateId": "supplier-facts"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "A standard threat checklist is sufficient without mapping system flows and boundaries",
+        "correct": false,
+        "feedback": "Changed fact: Scanning moves from the organization’s upload service to a supplier, and the supplier now controls signature updates. Why this answer fails: “A standard threat checklist is sufficient without mapping system flows and boundaries” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Actors send data across explicit trust changes to processes and stores; an abuse path attaches to the component, flow, boundary, or privilege it exploits; mitigation and test link back to that path. Repair target: The trust boundary and update authority move — Partner content now crosses into a supplier service, and the supplier controls the scanner update path.",
+        "repairStateId": "supplier-facts"
+      },
+      {
+        "id": "recompute",
+        "label": "Redraw the supplier boundary and flows, model malicious content and update compromise at the new control points",
+        "correct": true,
+        "feedback": "Redraw the supplier boundary and flows, model malicious content and update compromise at the new control points, and require scoped supplier assurance and tests.",
+        "repairStateId": "supplier-result"
+      }
+    ],
+    "conceptIds": [
+      "trust-boundary",
+      "data-flow"
+    ],
+    "hint": "When scanning moves, redraw who operates the control and who controls its updates."
+  },
+  "retry": {
+    "id": "d1-o10-threat-modeling-retry-v1",
+    "prompt": "A design team lists ransomware, phishing, and SQL injection without showing components or data flows. What should the reviewer ask for first?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Threats must be evaluated against a bounded system, assets, actors, flows, and trust boundaries",
+        "correct": true,
+        "feedback": "Correct. Threats must be evaluated against a bounded system, assets, actors, flows, and trust boundaries.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Restrict threat modeling to software developers and omit business assets, external actors, and operational boundaries.",
+        "correct": false,
+        "feedback": "Business owners, architects, operations, privacy, suppliers, and security contribute assumptions and consequences.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Apply every item from a standard threat list without tying it to this system’s assets, flows, privileges, or consequences.",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Threats must be evaluated against a bounded system, assets, actors, flows, and trust boundaries.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "threat-modeling",
+      "data-flow",
+      "trust-boundary"
+    ],
+    "hint": "Preserve an internal accept-or-quarantine gate even when a supplier produces the scan result."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Actors send data across explicit trust changes to processes and stores; an abuse path attaches to the component, flow, boundary, or privilege it exploits; mitigation and test link back to that path.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o10-outline",
+    "d1-o10-textbook",
+    "d1-o10-sybex",
+    "d1-o10-threat-modeling-depth-source-1"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o10-threat-modeling-partner-upload-threat-canvas",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve the reviewed partner-upload actors, flows, trust boundary, concrete abuse paths, and treatment decisions. Abuse paths are revealed through authored states rather than toggles or a method selector."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Threats must attach to concrete actors, flows, components, boundaries, privileges, or assumptions. Moving scanning to a supplier changes the boundary and gives the supplier update authority that must be modeled.",
+    "visualReasoningGain": "The boundary canvas adds actual control points and rejected paths, especially in the supplier variant; it enables more reasoning than a generic threat checklist."
+  }
+}

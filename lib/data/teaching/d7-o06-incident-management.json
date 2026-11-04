@@ -1,0 +1,518 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o06-incident-management",
+  "treatmentIds": [
+    "fresh-d7-o06-incident-management-guided-incident-loop-inside-governance-frame"
+  ],
+  "title": "Conduct incident management",
+  "question": "How does a validated signal become contained, eradicated, trusted recovery, and corrective learning?",
+  "scenario": "Monitoring shows a service account accessed an unusual data store. Immediate disablement would stop a critical batch process.",
+  "focalRelation": "preparation and authority --govern--> triage triage --validated scope and consequence--> containment containment --limits harm while preserving evidence--> eradication eradication plus trusted restoration evidence --enables--> recovery business/security acceptance --precedes--> return to service lessons --owned corrective action and retest--> readiness",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Unusual service-account access",
+      "detail": "Detection signal involving a critical batch identity and unexpected data store.",
+      "conceptIds": [
+        "detection",
+        "incident-triage"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Incident lead",
+      "detail": "Accountable coordinator for severity, safety, evidence, containment, communications, and decisions.",
+      "conceptIds": [
+        "incident-management",
+        "incident",
+        "response"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Critical batch owner",
+      "detail": "Business and service owner explaining operational impact and approved alternate operation.",
+      "conceptIds": [
+        "incident-communications",
+        "mitigation"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Preserved tokens and logs",
+      "detail": "Identity, session, target, and downstream evidence retained before disruptive action.",
+      "conceptIds": [
+        "incident-evidence",
+        "evidence",
+        "reporting"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Scoped replacement identity",
+      "detail": "New least-purpose credential after containment, rotation, and downstream review.",
+      "conceptIds": [
+        "containment",
+        "eradication",
+        "remediation"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Recovered service",
+      "detail": "Batch restored only after validation, monitoring, owner acceptance, and lessons assignment.",
+      "conceptIds": [
+        "recovery"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "enters evidence-based triage",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "requests impact and continuity decision",
+      "kind": "flow"
+    },
+    {
+      "from": "n1",
+      "to": "n4",
+      "label": "triggers preservation before credential action",
+      "kind": "evidence"
+    },
+    {
+      "from": "n2",
+      "to": "n5",
+      "label": "authorizes revoke/rotate and scoped replacement",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n5",
+      "label": "defines safe continuity need",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "restores batch with constrained identity",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "supports validation and lessons",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "Monitoring shows a service account accessed an unusual data store. Immediate disablement would stop a critical batch process.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "unusual access; scope unknown",
+        "n2": "triage open"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Detection identifies a possible condition; reporting creates the accountable record and response trigger.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n1"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n3": "critical batch impact",
+        "n4": "tokens and logs preserved"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "The fastest technical action is always the best response. Actions must balance harm, evidence preservation, safety, legal authority, and business continuity.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n2": "immediate blind disablement held"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Validate scope and ownership, preserve relevant tokens and logs, coordinate the service owner and incident lead, and choose a containment option that limits access without destroying evidence or causing uncontrolled business failure. Rotate or revoke credentials, inspect downstream use, restore the service with a scoped identity, and record the decision and validation.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5",
+        "n1"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n5": "compromised credential revoked; replacement scoped"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given an incident signal, prioritize safety and business impact, coordinate a defensible response, preserve evidence, choose containment and recovery actions, and capture lessons for control improvement. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        5,
+        6
+      ],
+      "statuses": {
+        "n6": "service validated; decision and lessons recorded"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A ransomware indicator appears on a critical manufacturing workstation during a production run.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A ransomware indicator appears on a critical manufacturing workstation during a production run.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n3"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "n1": "ransomware indicator",
+            "n3": "manufacturing run active"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Activate the incident plan, involve safety and operations, preserve evidence, isolate through the least harmful effective path, and coordinate continuity before restoring a trusted system. Availability and safety constraints change containment and recovery decisions.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4",
+            "n1"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "n2": "safety and operations engaged",
+            "n4": "evidence preserved"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            5
+          ],
+          "statuses": {
+            "n5": "least harmful effective isolation",
+            "n6": "trusted recovery coordinated"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Ransomware indicator",
+          "detail": "A critical manufacturing workstation shows activity consistent with ransomware.",
+          "conceptIds": [
+            "detection",
+            "incident-triage"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Incident lead",
+          "detail": "The lead activates response and coordinates security, safety, and operations.",
+          "conceptIds": [
+            "incident-management",
+            "incident",
+            "response"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Manufacturing and safety owner",
+          "detail": "The owner identifies production and life-safety consequences of isolation.",
+          "conceptIds": [
+            "incident-communications",
+            "mitigation"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Preserved volatile evidence",
+          "detail": "Relevant process, memory, network, and alert evidence is captured when safe.",
+          "conceptIds": [
+            "incident-evidence",
+            "evidence",
+            "reporting"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Least-harmful containment path",
+          "detail": "Isolation stops spread while respecting machinery and safety constraints.",
+          "conceptIds": [
+            "containment",
+            "eradication",
+            "remediation"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Trusted restored workstation",
+          "detail": "A rebuilt or validated system returns only after operational and security acceptance.",
+          "conceptIds": [
+            "recovery"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "activates coordinated incident response",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "requests safety and production constraints",
+          "kind": "flow"
+        },
+        {
+          "from": "n1",
+          "to": "n4",
+          "label": "triggers safe preservation",
+          "kind": "evidence"
+        },
+        {
+          "from": "n2",
+          "to": "n5",
+          "label": "authorizes containment",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "constrains containment method",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "restores validated production",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "supports trusted recovery and lessons",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o06-incident-management-prediction",
+    "prompt": "How does a validated signal become contained, eradicated, trusted recovery, and corrective learning?",
+    "options": [
+      {
+        "id": "relation",
+        "label": "Preserve evidence and choose proportionate containment with the service owner",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Actions must balance harm, evidence preservation, safety, legal authority, and business continuity.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "misconception",
+        "label": "The fastest technical action is always the best response.",
+        "correct": false,
+        "feedback": "Incorrect: Actions must balance harm, evidence preservation, safety, legal authority, and business continuity.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Disable the service account immediately because unusual access proves malicious activity.",
+        "correct": false,
+        "feedback": "Incorrect: the signal starts an incident decision; it does not establish cause. Preserve evidence, assess scope and business impact, choose proportionate containment, and record authority and follow-up.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "incident",
+      "response",
+      "containment"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o06-incident-management-transfer",
+    "prompt": "A ransomware indicator appears on a critical manufacturing workstation during a production run.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A ransomware indicator appears on a critical manufacturing workstation during a production run. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Validate scope and ownership, preserve relevant tokens and logs, coordinate the service owner and incident lead, and choose a containment option that limits access without destroying evidence or causing uncontrolled business failure. Repair target: Decision recomputed — Activate the incident plan, involve safety and operations, preserve evidence, isolate through the least harmful effective path, and coordinate continuity before restoring a trusted system. Availability and safety constraints change containment and recovery decisions.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Activate the incident plan, involve safety and operations, preserve evidence",
+        "correct": true,
+        "feedback": "Correct. Activate the incident plan, involve safety and operations, preserve evidence, isolate through the least harmful effective path, and coordinate continuity before restoring a trusted system. Availability and safety constraints change containment and recovery decisions.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A ransomware indicator appears on a critical manufacturing workstation during a production run. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Validate scope and ownership, preserve relevant tokens and logs, coordinate the service owner and incident lead, and choose a containment option that limits access without destroying evidence or causing uncontrolled business failure. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "incident",
+      "evidence",
+      "incident-evidence"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o06-incident-management-retry-v2",
+    "prompt": "A team begins rebuilding an affected server before containing its stolen administrator session or preserving volatile evidence. What should the incident lead change?",
+    "options": [
+      {
+        "id": "rebuild-fast",
+        "label": "Continue rebuilding because restored availability is the first incident objective",
+        "correct": false,
+        "feedback": "Recovery before trusted containment can recontaminate the system and erase useful evidence.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "collect-everything",
+        "label": "Delay every containment action until all possible evidence from every system is collected",
+        "correct": false,
+        "feedback": "Evidence needs are scoped against harm; urgent containment can proceed with documented preservation choices.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "contain-preserve",
+        "label": "Contain the session, preserve needed evidence, then restore through trusted administration",
+        "correct": true,
+        "feedback": "Correct. Containment and evidence decisions bound safe recovery.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "containment",
+      "incident-evidence",
+      "recovery"
+    ],
+    "hint": "Recovery performed through a compromised control path can reintroduce the incident and destroy evidence."
+  },
+  "takeaway": "Validate scope and ownership, preserve relevant tokens and logs, coordinate the service owner and incident lead, and choose a containment option that limits access without destroying evidence or causing uncontrolled business failure.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o06",
+    "official-d7-42-51",
+    "sybex-d7-803-810",
+    "d7-o06-incident-management-nist-sp-800-61r3-2025"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o06-incident-management-guided-incident-loop-inside-governance-frame",
+      "disposition": "equivalent",
+      "rationale": "The state graph preserves evidence-based triage, accountable incident leadership, business-impact authority, containment, preserved evidence, scoped identity replacement, recovery, and the changed safety-critical ransomware case. It does not render the reviewed incident loop inside a separate governance frame, so it is an equivalent staged mechanism."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Incident action must balance harm reduction, evidence preservation, safety, authority, and continuity. Validate the signal, choose proportionate containment, eradicate the cause, restore a trusted service, and record lessons.",
+    "visualReasoningGain": "A state loop could show validation, containment, evidence, eradication, trusted recovery, and lessons with tradeoffs at each gate; the opening signal/lead pair cannot."
+  },
+  "openingFacts": [
+    {
+      "label": "Unusual service-account access",
+      "value": "Detection signal involving a critical batch identity and unexpected data store."
+    },
+    {
+      "label": "Incident lead",
+      "value": "Accountable coordinator for severity, safety, evidence, containment, communications, and decisions."
+    },
+    {
+      "label": "Critical batch owner",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Preserved tokens and logs",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Scoped replacement identity",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Recovered service",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

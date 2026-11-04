@@ -1,0 +1,524 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d8-o02-ecosystem-controls",
+  "treatmentIds": [
+    "fresh-d8-o02-ecosystem-controls-before-after-compromise-path-map"
+  ],
+  "title": "Secure the software development ecosystem",
+  "question": "How do development ecosystem controls prevent one compromised person, secret, dependency, or runner from becoming an untraceable production release?",
+  "scenario": "A build pulls a popular package whose maintainer account was hijacked.",
+  "focalRelation": "overprivileged CI token --source/build/artifact/production authority--> single compromise path separate identities and environment boundaries --cut--> lateral movement dependency/source provenance --constrains--> accepted input protected artifact plus promotion verification --constrains--> deployment rollback and rotation --contain--> incident",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Hijacked maintainer account",
+      "detail": "Compromised publisher identity capable of releasing a malicious version; popularity is not provenance.",
+      "conceptIds": [
+        "supply-chain",
+        "development-ecosystem"
+      ],
+      "lane": "external"
+    },
+    {
+      "id": "n2",
+      "label": "Pinned dependency",
+      "detail": "Explicit name, version, digest, license, owner, and usage recorded in dependency inventory.",
+      "conceptIds": [
+        "dependency-management"
+      ],
+      "lane": "source"
+    },
+    {
+      "id": "n3",
+      "label": "Integrity and provenance check",
+      "detail": "Verification of trusted publisher, signature/attestation, digest, source, and approved policy.",
+      "conceptIds": [
+        "build-integrity"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "n4",
+      "label": "Isolated build",
+      "detail": "Constrained runner without unnecessary secrets or production reach; untrusted build effects are contained.",
+      "conceptIds": [
+        "ci-cd",
+        "secrets-management"
+      ],
+      "lane": "build"
+    },
+    {
+      "id": "n5",
+      "label": "Release inventory",
+      "detail": "Mapping from dependency and build provenance to artifacts, deployments, customers, and exposed secrets.",
+      "conceptIds": [
+        "development-ecosystem"
+      ],
+      "lane": "evidence"
+    },
+    {
+      "id": "n6",
+      "label": "Rollback artifact and owner",
+      "detail": "Authority to freeze promotion, revoke/rotate secrets, replace artifacts, monitor, and communicate.",
+      "conceptIds": [
+        "supply-chain",
+        "build-integrity"
+      ],
+      "lane": "governance"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "publishes version considered by dependency policy",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "is verified against pin, digest, and provenance",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "permits trusted input or blocks untrusted version",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "records built artifact and dependency lineage",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "identifies affected releases and response scope",
+      "kind": "evidence"
+    },
+    {
+      "from": "n6",
+      "to": "n4",
+      "label": "freezes, rebuilds, or rolls back under authority",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "external",
+      "label": "External publisher boundary",
+      "rule": "Maintainer identity and package popularity do not establish trusted release."
+    },
+    {
+      "id": "source",
+      "label": "Approved dependency input",
+      "rule": "Pinning and inventory name exactly what the build is permitted to consume."
+    },
+    {
+      "id": "control",
+      "label": "Verification boundary",
+      "rule": "Integrity and provenance policy decide whether the dependency can enter the build."
+    },
+    {
+      "id": "build",
+      "label": "Isolated build boundary",
+      "rule": "Runner contains untrusted effects and has no unnecessary production credentials."
+    },
+    {
+      "id": "evidence",
+      "label": "Release lineage",
+      "rule": "Artifact inventory supports impact analysis and targeted response."
+    },
+    {
+      "id": "governance",
+      "label": "Response authority",
+      "rule": "Named owner controls freeze, rebuild, rollback, secret rotation, and communication."
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A build pulls a popular package whose maintainer account was hijacked.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "maintainer hijacked",
+        "n2": "popular package version available"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A compromised build service can undermine otherwise secure source code.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "publisher/digest/provenance check"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A private repository makes source trustworthy. Repository access, review, identity, dependencies, runners, and release provenance all require controls.",
+      "activeNodeIds": [
+        "n1",
+        "n4",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "popularity-based trust rejected"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Use dependency inventory and pinning, provenance and integrity checks, review, isolated builds, monitoring, and rapid rollback. Assess impacted releases and rotate exposed secrets; trust in popularity is not provenance.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "isolated build",
+        "n5": "lineage recorded"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Select layered controls for a development toolchain and explain how they prevent unauthorized change, leakage, and untrusted artifacts. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n6": "affected releases found; rollback/rotation owned"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A CI runner has production credentials to simplify deployment.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A CI runner has production credentials to simplify deployment.",
+          "activeNodeIds": [
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n4": "CI runner holds production credentials"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Reduce privilege, use short-lived scoped credentials and an approval/promotion boundary. A build compromise would otherwise become a production compromise.",
+          "activeNodeIds": [
+            "n3",
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3
+          ],
+          "statuses": {
+            "n4": "source/build/promotion/deploy identities separated"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n6": "credentials rotated; least-privilege path tested"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "External source and dependency inputs",
+          "detail": "Approved source and pinned external inputs enter the build without production authority.",
+          "conceptIds": [
+            "supply-chain",
+            "development-ecosystem"
+          ],
+          "lane": "external"
+        },
+        {
+          "id": "n2",
+          "label": "Pinned build inputs",
+          "detail": "Dependencies and tools are selected by reviewed policy.",
+          "conceptIds": [
+            "dependency-management"
+          ],
+          "lane": "source"
+        },
+        {
+          "id": "n3",
+          "label": "Build integrity gate",
+          "detail": "Provenance and test controls admit only approved inputs.",
+          "conceptIds": [
+            "build-integrity"
+          ],
+          "lane": "control"
+        },
+        {
+          "id": "n4",
+          "label": "CI runner with production secret",
+          "detail": "The build identity can directly alter production if compromised.",
+          "conceptIds": [
+            "ci-cd",
+            "secrets-management"
+          ],
+          "lane": "build"
+        },
+        {
+          "id": "n5",
+          "label": "Promotion and deploy boundary",
+          "detail": "A separate authorized identity receives only an approved artifact.",
+          "conceptIds": [
+            "development-ecosystem"
+          ],
+          "lane": "evidence"
+        },
+        {
+          "id": "n6",
+          "label": "Credential rotation and rollback owner",
+          "detail": "The owner removes the production secret, rotates it, tests the least-privilege path, and can roll back.",
+          "conceptIds": [
+            "supply-chain",
+            "build-integrity"
+          ],
+          "lane": "governance"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "enters controlled build inputs",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "is checked before build execution",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "admits trusted input to isolated build",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "hands artifact to a separate promotion boundary",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "records deploy identity and release scope",
+          "kind": "evidence"
+        },
+        {
+          "from": "n6",
+          "to": "n4",
+          "label": "removes direct production authority from the runner",
+          "kind": "flow"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "external",
+          "label": "External publisher boundary",
+          "rule": "Maintainer identity and package popularity do not establish trusted release."
+        },
+        {
+          "id": "source",
+          "label": "Approved dependency input",
+          "rule": "Pinning and inventory name exactly what the build is permitted to consume."
+        },
+        {
+          "id": "control",
+          "label": "Verification boundary",
+          "rule": "Integrity and provenance policy decide whether the dependency can enter the build."
+        },
+        {
+          "id": "build",
+          "label": "Isolated build boundary",
+          "rule": "Runner contains untrusted effects and has no unnecessary production credentials."
+        },
+        {
+          "id": "evidence",
+          "label": "Release lineage",
+          "rule": "Artifact inventory supports impact analysis and targeted response."
+        },
+        {
+          "id": "governance",
+          "label": "Response authority",
+          "rule": "Named owner controls freeze, rebuild, rollback, secret rotation, and communication."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d8-o02-ecosystem-controls-prediction",
+    "prompt": "How do development ecosystem controls prevent one compromised person, secret, dependency, or runner from becoming an untraceable production release?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A private repository makes source trustworthy.",
+        "correct": false,
+        "feedback": "Incorrect: Repository access, review, identity, dependencies, runners, and release provenance all require controls.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Keep the popular dependency because its familiar package name is enough to trust the update.",
+        "correct": false,
+        "feedback": "Incorrect: a hijacked maintainer account breaks a trust assumption. Verify publisher and artifact provenance, pin and review the exact version, assess behavior and exposure, and retain a rollback or replacement path.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "relation",
+        "label": "Freeze the version and verify publisher, artifact, build, exposure, and rollback evidence",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. Repository access, review, identity, dependencies, runners, and release provenance all require controls.",
+        "repairStateId": "failure-exposed"
+      }
+    ],
+    "conceptIds": [
+      "source-control"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d8-o02-ecosystem-controls-transfer",
+    "prompt": "A CI runner has production credentials to simplify deployment.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Reduce privilege, use short-lived scoped credentials and an approval/promotion boundary",
+        "correct": true,
+        "feedback": "Correct. Reduce privilege, use short-lived scoped credentials and an approval/promotion boundary. A build compromise would otherwise become a production compromise.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "The changed fact is “A CI runner has production credentials to simplify deployment.” Reusing the earlier conclusion skips the changed condition and the model’s publishes version considered by dependency policy relation.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "This bypasses the named decision owner and leaves Rollback owner unverified. Reduce privilege, use short-lived scoped credentials and an approval/promotion boundary. A build compromise would otherwise become a production compromise.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "source-control"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d8-o02-ecosystem-controls-retry-v2",
+    "prompt": "A build pins a dependency to a mutable release tag that the publisher can move. What strengthens the trust decision?",
+    "options": [
+      {
+        "id": "trust-tag",
+        "label": "Trust the tag because it comes from the official publisher namespace",
+        "correct": false,
+        "feedback": "A trusted namespace can still be compromised or retagged; the build needs immutable verified content.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "pin-verify",
+        "label": "Pin an immutable digest, verify provenance, and retain the dependency record",
+        "correct": true,
+        "feedback": "Correct. Immutable identity and provenance make later reproduction and incident tracing possible.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "vendor-copy",
+        "label": "Copy the package into an internal folder without recording origin or digest",
+        "correct": false,
+        "feedback": "Relocation alone does not establish provenance, integrity, or update accountability.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "dependency-management",
+      "build-integrity",
+      "supply-chain"
+    ],
+    "hint": "A readable version label is not necessarily an immutable identity."
+  },
+  "takeaway": "Use dependency inventory and pinning, provenance and integrity checks, review, isolated builds, monitoring, and rapid rollback.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d8-2",
+    "official-d8-36-55",
+    "sybex-d8-1049-1065",
+    "miller-d8-727-760"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d8-o02-ecosystem-controls-before-after-compromise-path-map",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable boundary states: Hijacked maintainer account publishes version considered by dependency policy Pinned dependency; Pinned dependency is verified against pin, digest, and provenance Integrity and provenance check. The model keeps Hijacked maintainer account, Pinned dependency, Integrity and provenance check, Isolated build, Release inventory, Rollback owner distinct. Its changed case is “A CI runner has production credentials to simplify deployment.” and every option returns to a named repair state."
+    }
+  ]
+}

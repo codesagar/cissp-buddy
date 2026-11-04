@@ -1,8 +1,16 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from 'react';
+import {
+  ArrowDown,
+  ArrowLeft,
   ArrowRight,
-  ArrowUpRight,
+  ArrowUp,
   BookOpen,
   ChevronRight,
   ChevronDown,
@@ -15,9 +23,9 @@ import {
   Link2,
   X,
   Move,
-  Layers,
 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
+import { MapInspector } from './map-inspector';
 import { useCurriculum } from '@/lib/content-provider';
 import {
   ancestors,
@@ -25,7 +33,6 @@ import {
   visibleBranch,
   revealPath,
   hiddenRelationships,
-  descendants,
 } from '@/lib/graph-model';
 import type { StudyState } from '@/lib/study-state';
 export function RecursiveMap({
@@ -48,11 +55,12 @@ export function RecursiveMap({
     ),
     [query, setQuery] = useState(''),
     [view, setView] = useState('graph'),
-    [transform, setTransform] = useState({ x: 0, y: 0, scale: 0.75 });
+    [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const viewport = useRef<HTMLDivElement>(null),
     drag = useRef<{ x: number; y: number; tx: number; ty: number } | null>(
       null,
-    );
+    ),
+    pointerFocus = useRef(false);
   const layout = useMemo(() => branchLayout(nodes, root.id), [nodes, root.id]);
   const effectiveExpanded = useMemo(() => {
     const next = revealPath(nodes, selected.id, expanded);
@@ -80,9 +88,10 @@ export function RecursiveMap({
   const fit = (onlyId?: string) => {
     const el = viewport.current;
     if (!el) return;
-    const targets = onlyId
-      ? [layout.get(onlyId)!]
-      : visible.map((n) => layout.get(n.id)!);
+    const targets = (
+      onlyId ? [layout.get(onlyId)] : visible.map((n) => layout.get(n.id))
+    ).filter((point): point is NonNullable<typeof point> => !!point);
+    if (!targets.length) return;
     const xs = targets.map((p) => p.x),
       ys = targets.map((p) => p.y);
     const left = Math.min(...xs) - 110,
@@ -102,19 +111,71 @@ export function RecursiveMap({
       scale,
     });
   };
+  const center = (id: string) => {
+    const el = viewport.current;
+    const point = layout.get(id);
+    if (!el || !point) return;
+    setTransform((current) => ({
+      ...current,
+      x: el.clientWidth * 0.4 - point.x * current.scale,
+      y: el.clientHeight / 2 - point.y * current.scale,
+    }));
+  };
+  const panGraph = (x: number, y: number) => {
+    setTransform((current) => ({
+      ...current,
+      x: current.x + x,
+      y: current.y + y,
+    }));
+  };
+  const handleGraphKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    const step = event.shiftKey ? 100 : 48;
+    if (event.key === 'ArrowLeft') panGraph(step, 0);
+    else if (event.key === 'ArrowRight') panGraph(-step, 0);
+    else if (event.key === 'ArrowUp') panGraph(0, step);
+    else if (event.key === 'ArrowDown') panGraph(0, -step);
+    else if (event.key === '+' || event.key === '=') {
+      setTransform((current) => ({
+        ...current,
+        scale: Math.min(1.75, current.scale + 0.15),
+      }));
+    } else if (event.key === '-') {
+      setTransform((current) => ({
+        ...current,
+        scale: Math.max(0.25, current.scale - 0.15),
+      }));
+    } else return;
+    event.preventDefault();
+  };
   const fitRef = useRef(fit);
+  const centerRef = useRef(center);
   useEffect(() => {
     fitRef.current = fit;
+    centerRef.current = center;
   });
   useEffect(() => {
-    const frame = requestAnimationFrame(() => fitRef.current());
+    const frame = requestAnimationFrame(() => centerRef.current(selected.id));
     return () => cancelAnimationFrame(frame);
-  }, [root.id, view]);
+  }, [root.id, selected.id, view]);
   useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      if (window.matchMedia('(max-width:767px)').matches) setView('outline');
-    });
-    return () => cancelAnimationFrame(frame);
+    const narrow = window.matchMedia('(max-width:767px)');
+    const preferOutline = () => {
+      if (narrow.matches) setView('outline');
+    };
+    preferOutline();
+    narrow.addEventListener('change', preferOutline);
+    return () => narrow.removeEventListener('change', preferOutline);
+  }, []);
+  useEffect(() => {
+    const clearPointerFocus = () => {
+      pointerFocus.current = false;
+    };
+    window.addEventListener('pointerup', clearPointerFocus, true);
+    window.addEventListener('pointercancel', clearPointerFocus, true);
+    return () => {
+      window.removeEventListener('pointerup', clearPointerFocus, true);
+      window.removeEventListener('pointercancel', clearPointerFocus, true);
+    };
   }, []);
   const select = (id: string, open = true) => {
     setExpanded((s) =>
@@ -135,21 +196,49 @@ export function RecursiveMap({
     });
     if (closing && ancestors(nodes, selected.id).includes(id)) go(`map/${id}`);
   };
+  const inverseRelationshipLabel = (label: string) =>
+    ({
+      supports: 'supported by',
+      requires: 'required by',
+      informs: 'informed by',
+      'often confused with': 'often confused with',
+    })[label] || 'connected to';
+  const hierarchyNeighbors = new Set([
+    selected.parentId,
+    ...nodes
+      .filter((node) => node.parentId === selected.id)
+      .map((node) => node.id),
+  ]);
+  const linkedIds = [
+    ...selected.relatedIds,
+    ...nodes
+      .filter((node) => node.relatedIds.includes(selected.id))
+      .map((node) => node.id),
+  ];
   const related = [
-    ...selected.relatedIds.map((id) => ({
-      id,
-      label:
-        edges.find(
-          (e) =>
-            (e.from === selected.id && e.to === id) ||
-            (e.to === selected.id && e.from === id),
-        )?.label || 'Related idea',
-    })),
+    ...linkedIds
+      .filter(
+        (id, index) =>
+          !hierarchyNeighbors.has(id) && linkedIds.indexOf(id) === index,
+      )
+      .map((id) => ({
+        id,
+        label: (() => {
+          const edge = edges.find((e) => e.from === selected.id && e.to === id);
+          if (edge) return edge.label;
+          const incoming = edges.find(
+            (e) => e.to === selected.id && e.from === id,
+          );
+          if (!incoming) return 'Related idea';
+          return inverseRelationshipLabel(incoming.label);
+        })(),
+      })),
     ...edges
       .filter((e) => e.from === selected.id || e.to === selected.id)
       .map((e) => ({
         id: e.from === selected.id ? e.to : e.from,
-        label: e.label,
+        label:
+          e.from === selected.id ? e.label : inverseRelationshipLabel(e.label),
       })),
   ].filter(
     (r, i, rs) =>
@@ -167,106 +256,124 @@ export function RecursiveMap({
   const targetedQuestions = questions.filter((q) =>
     q.metadata.subtopicIds.includes(selected.id),
   );
+  const selectedDomain = domains.find(
+    (domain) => domain.id === selected.domainId,
+  );
+  const parent = selected.parentId
+    ? nodes.find((node) => node.id === selected.parentId)
+    : undefined;
+  const children = nodes
+    .filter((node) => node.parentId === selected.id)
+    .sort((a, b) => a.order - b.order);
+  const selectedLesson = lessons.find(
+    (lesson) => lesson.id === selected.rootConceptId,
+  );
   return (
     <>
-      <div className="page-heading">
+      <header className="map-page-heading">
         <div>
-          <div className="eyebrow">THE LIVING CONCEPT MAP</div>
-          <h1>
-            Go beneath the surface.
-            <br />
-            <em>Follow your curiosity.</em>
-          </h1>
+          <h1>Concept map</h1>
           <p>
-            Open a branch, explore its parts, and discover the ideas underneath.
+            Explore where an idea belongs, what connects to it, and what to
+            learn next.
           </p>
         </div>
-        <div className="map-count">
+        <div
+          className="map-count"
+          aria-label={`${nodes.length} concepts across ${domains.filter((d) => nodes.some((n) => n.domainId === d.id)).length} pilot domains`}
+        >
           <strong>{nodes.length}</strong>
-          <span>
-            connected ideas
-            <br />
-            across{' '}
-            {
-              domains.filter((d) => nodes.some((n) => n.domainId === d.id))
-                .length
-            }{' '}
-            domains
-          </span>
+          <span>concepts in this pilot</span>
         </div>
-      </div>
-      <div className="explorer-shell">
-        <aside className="explorer-library">
-          <span className="eyebrow">YOUR KNOWLEDGE ATLAS</span>
+      </header>
+      <div className="map-navigation">
+        <label className="map-root-picker">
+          <span>Concept area</span>
+          <select
+            aria-label="Choose a domain and core concept"
+            value={root.id}
+            onChange={(event) => select(event.target.value)}
+          >
+            {domains.map((domain) => {
+              const roots = nodes
+                .filter((node) => node.domainId === domain.id && !node.parentId)
+                .sort((a, b) => a.order - b.order);
+              return (
+                <optgroup
+                  key={domain.id}
+                  label={`Domain ${String(domain.id).padStart(2, '0')} · ${domain.name}`}
+                >
+                  {roots.length ? (
+                    roots.map((node) => (
+                      <option key={node.id} value={node.id}>
+                        {node.title}
+                      </option>
+                    ))
+                  ) : (
+                    <option value={`domain-${domain.id}`} disabled>
+                      Not yet included in this release
+                    </option>
+                  )}
+                </optgroup>
+              );
+            })}
+          </select>
+        </label>
+        <div className="map-search-wrap">
+          <label htmlFor="map-concept-search">Search concepts in the Map</label>
           <div className="map-search">
-            <Search size={15} />
+            <Search size={16} aria-hidden="true" />
             <input
-              aria-label="Search all concepts and subtopics"
+              id="map-concept-search"
+              aria-controls={query ? 'map-search-results' : undefined}
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Find any idea…"
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape' && query) {
+                  event.preventDefault();
+                  setQuery('');
+                }
+              }}
+              placeholder="Search concepts"
             />
             {query && (
               <button
-                aria-label="Clear concept search"
+                aria-label="Clear Map concept search"
                 onClick={() => setQuery('')}
               >
-                <X size={13} />
+                <X size={16} />
               </button>
             )}
           </div>
-          {query ? (
-            <div className="graph-search-results">
-              {matches.map((n) => (
-                <button key={n.id} onClick={() => select(n.id)}>
-                  <strong>{n.title}</strong>
+          {query && (
+            <section
+              className="graph-search-results"
+              id="map-search-results"
+              aria-label="Map concept search results"
+              aria-live="polite"
+            >
+              {matches.map((node) => (
+                <button key={node.id} onClick={() => select(node.id)}>
+                  <strong>{node.title}</strong>
                   <small>
-                    {shortTitle(n.rootConceptId)} ·{' '}
-                    {ancestors(nodes, n.id).length - 1} levels deep
+                    {shortTitle(node.rootConceptId)} ·{' '}
+                    {ancestors(nodes, node.id).length - 1} levels deep
                   </small>
                 </button>
               ))}
               {!matches.length && (
-                <p>No matching ideas. Try “factors” or “policy”.</p>
+                <p>
+                  No matching concepts. Try a shorter title or another term.
+                </p>
               )}
-            </div>
-          ) : (
-            domains.map((d) => (
-              <details
-                className="atlas-domain"
-                key={d.id}
-                open={d.id === root.domainId}
-              >
-                <summary>
-                  <span style={{ color: d.color }}>0{d.id}</span>
-                  {d.short}
-                  <small>
-                    {nodes.filter((n) => n.domainId === d.id).length || 'Later'}
-                  </small>
-                </summary>
-                {nodes
-                  .filter((n) => n.domainId === d.id && !n.parentId)
-                  .map((n) => (
-                    <button
-                      className={root.id === n.id ? 'active' : ''}
-                      key={n.id}
-                      onClick={() => select(n.id)}
-                    >
-                      <span>{n.title}</span>
-                      <small>{descendants(nodes, n.id).length}</small>
-                      <ChevronRight size={12} />
-                    </button>
-                  ))}
-                {!nodes.some((n) => n.domainId === d.id) && (
-                  <p>Not yet included in this release.</p>
-                )}
-              </details>
-            ))
+            </section>
           )}
-        </aside>
+        </div>
+      </div>
+      <div className="explorer-shell">
         <div className="explorer-main">
           <div className="explorer-breadcrumb">
-            <span>D0{root.domainId}</span>
+            <span>Domain {String(root.domainId).padStart(2, '0')}</span>
             {ancestors(nodes, selected.id).map((id) => (
               <span key={id}>
                 <ChevronRight size={12} />
@@ -277,16 +384,22 @@ export function RecursiveMap({
           <div className="explorer-toolbar">
             <Tabs value={view} onValueChange={(v) => setView(String(v))}>
               <TabsList className="filter-tabs">
-                <TabsTrigger value="graph">
+                <TabsTrigger
+                  value="graph"
+                  aria-label="Explore concepts as a graph"
+                >
                   <Network size={14} /> Explore
                 </TabsTrigger>
-                <TabsTrigger value="outline">
+                <TabsTrigger
+                  value="outline"
+                  aria-label="Explore concepts as an outline"
+                >
                   <List size={14} /> Outline
                 </TabsTrigger>
               </TabsList>
             </Tabs>
             <span>
-              {visible.length} visible ·{' '}
+              {visible.length} shown ·{' '}
               {nodes.filter((n) => n.rootConceptId === root.id).length} in this
               branch
             </span>
@@ -351,47 +464,11 @@ export function RecursiveMap({
                         <g key={n.id}>
                           <path
                             d={`M${p.x + 100},${p.y} C${p.x + 175},${p.y} ${c.x - 175},${c.y} ${c.x - 110},${c.y}`}
-                            stroke="#b2c7a5"
+                            className="edge-containment"
                             fill="none"
                             strokeWidth="1.5"
                           />
-                          <text
-                            x={c.x - 153}
-                            y={c.y - 9}
-                            fill="#6e8361"
-                            fontSize="10"
-                          >
-                            includes
-                          </text>
                         </g>
-                      );
-                    })}
-                  {visible
-                    .flatMap((n) =>
-                      n.relatedIds
-                        .filter((id) => visibleIds.has(id))
-                        .map((id) => ({ from: n.id, to: id })),
-                    )
-                    .filter(
-                      (e, i, all) =>
-                        all.findIndex(
-                          (x) =>
-                            [x.from, x.to].sort().join('|') ===
-                            [e.from, e.to].sort().join('|'),
-                        ) === i,
-                    )
-                    .map((e, i) => {
-                      const a = layout.get(e.from)!,
-                        b = layout.get(e.to)!;
-                      return (
-                        <path
-                          key={`relation-${i}`}
-                          d={`M${a.x},${a.y + 35} Q${Math.max(a.x, b.x) + 100},${(a.y + b.y) / 2} ${b.x},${b.y + 35}`}
-                          stroke="#b39978"
-                          strokeWidth="1.3"
-                          strokeDasharray="5 5"
-                          fill="none"
-                        />
                       );
                     })}
                 </svg>
@@ -408,34 +485,31 @@ export function RecursiveMap({
                     >
                       <button
                         className="node-select"
+                        onPointerDown={() => {
+                          pointerFocus.current = true;
+                        }}
                         onClick={() => select(n.id)}
+                        onFocus={() => {
+                          if (!pointerFocus.current) centerRef.current(n.id);
+                        }}
+                        onKeyDown={handleGraphKeyDown}
+                        aria-describedby="graph-pan-instructions"
+                        aria-current={selected.id === n.id ? 'true' : undefined}
                         aria-label={`${n.title}. ${children.length ? `${children.length} sub-concepts; select to expand` : 'Leaf concept; read details'}`}
                       >
-                        <span className="node-kind">
-                          {p.depth === 0 ? (
-                            <Layers size={12} />
-                          ) : children.length ? (
-                            <Network size={11} />
-                          ) : (
-                            <BookOpen size={11} />
-                          )}{' '}
-                          {p.depth === 0
-                            ? 'CORE CONCEPT'
-                            : children.length
-                              ? 'SUB-CONCEPT'
-                              : 'FOUNDATION'}
-                        </span>
+                        {selected.id === n.id && (
+                          <span className="node-kind">Selected concept</span>
+                        )}
                         <strong>{n.title}</strong>
-                        <small>
-                          {children.length
-                            ? `${children.length} ideas within`
-                            : 'Read the distinction'}
-                        </small>
+                        {children.length > 0 && (
+                          <small>{children.length} ideas within</small>
+                        )}
                       </button>
                       {children.length > 0 && (
                         <button
                           className="node-toggle"
                           onClick={() => toggle(n.id)}
+                          onFocus={() => centerRef.current(n.id)}
                           aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${n.title}`}
                           aria-expanded={isExpanded}
                         >
@@ -450,6 +524,7 @@ export function RecursiveMap({
                         <button
                           className="hidden-link-count"
                           onClick={() => select(n.id, false)}
+                          onFocus={() => centerRef.current(n.id)}
                         >
                           <Link2 size={10} />
                           {links} related links inside
@@ -460,6 +535,34 @@ export function RecursiveMap({
                 })}
               </div>
               <div className="graph-controls">
+                <button
+                  aria-label="Pan graph left"
+                  onClick={() => panGraph(-48, 0)}
+                  title="Pan graph left"
+                >
+                  <ArrowLeft size={16} />
+                </button>
+                <button
+                  aria-label="Pan graph up"
+                  onClick={() => panGraph(0, 48)}
+                  title="Pan graph up"
+                >
+                  <ArrowUp size={16} />
+                </button>
+                <button
+                  aria-label="Pan graph down"
+                  onClick={() => panGraph(0, -48)}
+                  title="Pan graph down"
+                >
+                  <ArrowDown size={16} />
+                </button>
+                <button
+                  aria-label="Pan graph right"
+                  onClick={() => panGraph(48, 0)}
+                  title="Pan graph right"
+                >
+                  <ArrowRight size={16} />
+                </button>
                 <button
                   aria-label="Zoom out"
                   onClick={() =>
@@ -487,14 +590,11 @@ export function RecursiveMap({
                   <Expand size={17} />
                 </button>
                 <button
-                  onClick={() => fit(selected.id)}
+                  onClick={() => center(selected.id)}
                   className="locate-node"
                 >
                   Find selected
                 </button>
-              </div>
-              <div className="graph-pan-hint">
-                <Move size={13} /> Drag to explore · + opens a branch
               </div>
             </div>
           ) : (
@@ -523,7 +623,10 @@ export function RecursiveMap({
                     ) : (
                       <BookOpen size={14} />
                     )}
-                    <button onClick={() => select(n.id)}>
+                    <button
+                      onClick={() => select(n.id)}
+                      aria-current={selected.id === n.id ? 'true' : undefined}
+                    >
                       <strong>{n.title}</strong>
                       <span>{n.summary}</span>
                     </button>
@@ -532,112 +635,39 @@ export function RecursiveMap({
               })}
             </div>
           )}
+          {view === 'graph' && (
+            <p className="graph-pan-hint" id="graph-pan-instructions">
+              <Move size={13} /> Drag to move the map. Focus a node and use the
+              arrow keys, or choose a pan control. Use +/− to zoom.
+            </p>
+          )}
           <div className="explorer-legend">
             <span>
               <i /> Contains a sub-concept
             </span>
-            <span>
-              <i className="peer" /> Related idea
-            </span>
+            <span>Selected concept links appear in Connected ideas.</span>
             <span>Expanded nodes keep their position.</span>
           </div>
         </div>
+        <MapInspector
+          selected={selected}
+          domain={selectedDomain}
+          parent={parent}
+          childConcepts={children}
+          related={related}
+          hidden={hidden}
+          visibleIds={visibleIds}
+          practiceCount={targetedQuestions.length}
+          lesson={selectedLesson}
+          state={state}
+          shortTitle={shortTitle}
+          select={select}
+          openLesson={() => go(`learn/${selected.rootConceptId}`)}
+          openPractice={() =>
+            go(`practice/topic/${encodeURIComponent(selected.id)}`)
+          }
+        />
       </div>
-      <section className="concept-inspector" aria-live="polite">
-        <div className="inspector-main">
-          <span className="eyebrow">
-            {selected.parentId ? 'BENEATH THE SURFACE' : 'THE CORE IDEA'} ·
-            OBJECTIVE {selected.objective}
-          </span>
-          <h2>{selected.title}</h2>
-          <p className="inspector-summary">{selected.summary}</p>
-          {selected.details.map((d, i) => (
-            <div key={i}>
-              <h3>{d.heading}</h3>
-              <p>{d.body}</p>
-            </div>
-          ))}
-          <div className="button-row">
-            <button
-              className="button"
-              onClick={() => go(`learn/${selected.rootConceptId}`)}
-            >
-              Open learning article <ArrowUpRight size={15} />
-            </button>
-            {targetedQuestions.length > 0 && (
-              <button
-                className="button outline"
-                onClick={() =>
-                  go(`practice/topic/${encodeURIComponent(selected.id)}`)
-                }
-              >
-                Practice this subtopic <ArrowRight size={15} />
-              </button>
-            )}
-          </div>
-          <details className="sources">
-            <summary>Sources for this idea</summary>
-            {selected.sourceUrls.map((url) => (
-              <a key={url} href={url} target="_blank" rel="noreferrer">
-                {new URL(url).hostname} · Reference <ArrowUpRight size={12} />
-              </a>
-            ))}
-          </details>
-        </div>
-        <aside>
-          <span className="eyebrow">LINKED THINKING</span>
-          {related.length ? (
-            related.map((r) => (
-              <button
-                className="inspector-link"
-                key={r.id}
-                onClick={() => select(r.id)}
-              >
-                <small>{r.label}</small>
-                <strong>
-                  {shortTitle(r.id)}
-                  <ArrowUpRight size={13} />
-                </strong>
-              </button>
-            ))
-          ) : (
-            <p className="muted">
-              Explore the parent concept to see how this idea fits.
-            </p>
-          )}
-          {hidden.length > 0 && (
-            <div className="hidden-relations">
-              <span className="eyebrow">CONNECTIONS BELOW THIS BRANCH</span>
-              {hidden.slice(0, 6).map((e, i) => (
-                <button
-                  key={i}
-                  onClick={() => select(visibleIds.has(e.to) ? e.from : e.to)}
-                >
-                  {shortTitle(e.from)}
-                  <ArrowRight size={12} />
-                  {shortTitle(e.to)}
-                </button>
-              ))}
-            </div>
-          )}
-          <div className="node-evidence">
-            <span className="eyebrow">PRACTICE COVERAGE</span>
-            <strong>{targetedQuestions.length} linked scenarios</strong>
-            <p>
-              {targetedQuestions.length
-                ? 'Related activity helps you find practice. It does not prove mastery of every linked idea.'
-                : 'No directly tagged questions yet. This concept has reading coverage only.'}
-            </p>
-            <small>
-              {state.completed.includes(selected.rootConceptId)
-                ? 'Parent lesson completed'
-                : 'Parent lesson available'}{' '}
-              · {lessons.find((l) => l.id === selected.rootConceptId)?.minutes}{' '}
-              min
-            </small>
-          </div>
-        </aside>
-      </section>
     </>
   );
 }

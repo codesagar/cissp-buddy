@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o12-disaster-recovery-exercise-design",
+  "treatmentIds": [
+    "fresh-d7-o12-disaster-recovery-exercise-design-evidence-strength-disruption-selection-map"
+  ],
+  "title": "Design staged disaster recovery exercises",
+  "question": "Given a recovery claim, which test form can produce the needed evidence without exceeding the authorized disruption?",
+  "scenario": "The team wants to prove a payment service's four-hour RTO without interrupting production. The parallel test can restore a copy, but production and recovery share the same identity provider.",
+  "focalRelation": "recovery claim --required evidence--> exercise objective objective plus maturity/safety --select--> read-through/walkthrough/simulation/parallel/full interruption exercise form --creates bounded evidence and production effect--> result stop criteria --limit--> harm excluded dependency --remains explicit--> assurance gap",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Payment-service objective",
+      "detail": "Evidence question: can the service meet four-hour RTO without unsafe production interruption?",
+      "conceptIds": [
+        "test-objective"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Parallel exercise boundary",
+      "detail": "Recovery environment, participants, data, dependencies, and production separation explicitly in scope.",
+      "conceptIds": [
+        "parallel-test",
+        "test-scope",
+        "exercise-safety-boundary"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Synthetic recovery data",
+      "detail": "Approved nonproduction data supporting restoration and workflow checks without exposing live records.",
+      "conceptIds": [
+        "simulation",
+        "exercise-safety-boundary"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Shared identity provider",
+      "detail": "Known common dependency excluded from failure in this parallel exercise.",
+      "conceptIds": [
+        "test-scope"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Business observer",
+      "detail": "Owner who witnesses priority, workflow, timing, communication, and acceptance evidence.",
+      "conceptIds": [
+        "exercise-communication",
+        "tabletop"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Evidence statement",
+      "detail": "Accurate claim that restoration procedure/capacity were tested while identity independence remains unproven.",
+      "conceptIds": [
+        "drp-test"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "selects parallel form and safe scope",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "permits approved recovery-data use",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "creates an explicit evidence limitation in",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "contributes observed business and timing evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "contributes technical scope and results",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "The team wants to prove a payment service's four-hour RTO without interrupting production. The parallel test can restore a copy, but production and recovery share the same identity provider.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "prove four-hour RTO",
+        "n2": "no production interruption allowed"
+      },
+      "activeRowIds": []
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A low-impact exercise can reveal governance and documentation gaps but cannot prove production failover.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "synthetic data",
+        "n5": "business observer assigned"
+      },
+      "activeRowIds": [
+        "tabletop"
+      ]
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A tabletop proves the DR plan will restore systems. It can expose decision, role, communication, and assumption gaps, but it does not prove technical restoration or capacity.",
+      "activeNodeIds": [
+        "n1",
+        "n4",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n4": "shared identity untested",
+        "n6": "end-to-end independence not claimed"
+      },
+      "activeRowIds": [
+        "parallel"
+      ]
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "State that the test proves restoration procedure and some capacity, not independence from identity failure. Define a parallel scope, use synthetic or approved data, coordinate the provider and business observer, record communications and timing, and create a follow-up test for the shared identity dependency.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n2": "parallel scope executed",
+        "n4": "follow-up dependency test created"
+      },
+      "activeRowIds": [
+        "interruption"
+      ]
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a recovery plan and risk boundary, select an exercise form, define objectives and participants, and communicate test status without overstating what the exercise proves. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n6": "evidence strength and limitation stated"
+      },
+      "activeRowIds": [
+        "interruption"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A service owner requests a full-interruption test during the busiest business day because the team is available.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A service owner requests a full-interruption test during the busiest business day because the team is available.",
+          "activeNodeIds": [
+            "n1",
+            "n2"
+          ],
+          "activeEdgeIndexes": [
+            0
+          ],
+          "statuses": {
+            "n2": "busiest day proposed for interruption"
+          },
+          "activeRowIds": [
+            "tabletop"
+          ]
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Reject the timing, select a safer staged or parallel exercise, define an approved full-interruption objective and window, and require business and safety authority. Exercise convenience does not justify uncontrolled business, safety, or customer impact.",
+          "activeNodeIds": [
+            "n2",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n5": "business/safety authority rejects timing"
+          },
+          "activeRowIds": [
+            "parallel"
+          ]
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            4
+          ],
+          "statuses": {
+            "n2": "staged/parallel alternative selected",
+            "n6": "full-interruption objective retained for approved window"
+          },
+          "activeRowIds": [
+            "interruption"
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Critical service objective",
+          "detail": "The exercise must test recovery evidence without exceeding business risk tolerance.",
+          "conceptIds": [
+            "drp-test"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Busy-day interruption proposal",
+          "detail": "The owner proposes a full outage during the highest-impact period.",
+          "conceptIds": [
+            "full-interruption",
+            "exercise-safety-boundary"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Lower-risk evidence method",
+          "detail": "A parallel, simulation, or bounded test can target the same hypothesis safely.",
+          "conceptIds": [
+            "parallel-test",
+            "simulation"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Shared service dependencies",
+          "detail": "Identity, payment, supplier, and customer dependencies define the blast radius.",
+          "conceptIds": [
+            "test-scope"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Business and safety approvers",
+          "detail": "Accountable owners decide timing, safeguards, abort rules, and authority.",
+          "conceptIds": [
+            "exercise-communication",
+            "exercise-safety-boundary"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Exercise evidence statement",
+          "detail": "Results state method limits, observed capability, exclusions, and next test.",
+          "conceptIds": [
+            "drp-test"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "is translated into a safe test boundary",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "is replaced by lower-risk evidence method",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "constrains blast radius and abort rules recorded in",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "approves scope and timing",
+          "kind": "evidence"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "supports a bounded conclusion",
+          "kind": "evidence"
+        }
+      ],
+      "matrix": {
+        "title": "Exercise form determines evidence strength and disruption",
+        "description": "Choose the least hazardous exercise that can answer the stated question, and record which dependencies and outcomes remain untested.",
+        "columns": [
+          {
+            "id": "question",
+            "label": "Question answered"
+          },
+          {
+            "id": "evidence",
+            "label": "Evidence strength"
+          },
+          {
+            "id": "disruption",
+            "label": "Operational disruption"
+          },
+          {
+            "id": "dependency",
+            "label": "Dependency coverage"
+          },
+          {
+            "id": "uncertainty",
+            "label": "Residual uncertainty"
+          }
+        ],
+        "rows": [
+          {
+            "id": "tabletop",
+            "label": "Tabletop",
+            "cells": {
+              "question": "Roles, decisions, communications and gaps",
+              "evidence": "Discussion and artifact review",
+              "disruption": "Very low",
+              "dependency": "Claimed, not executed",
+              "uncertainty": "Timing and technical execution remain unproven"
+            }
+          },
+          {
+            "id": "parallel",
+            "label": "Parallel test",
+            "cells": {
+              "question": "Can recovery run beside production?",
+              "evidence": "Restoration, workflow, some capacity and acceptance observations",
+              "disruption": "Bounded when isolated",
+              "dependency": "Only included dependencies; shared identity is not failed here",
+              "uncertainty": "Production cutover and excluded common modes remain"
+            }
+          },
+          {
+            "id": "interruption",
+            "label": "Full interruption",
+            "cells": {
+              "question": "Can traffic and operation move end to end?",
+              "evidence": "Strongest direct operational evidence",
+              "disruption": "Highest; requires authorization and safety constraints",
+              "dependency": "Potentially broad if deliberately in scope",
+              "uncertainty": "Still bounded to scenario, time, load and participants"
+            }
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "prediction": {
+    "id": "d7-o12-disaster-recovery-exercise-design-prediction",
+    "prompt": "Given a recovery claim, which test form can produce the needed evidence without exceeding the authorized disruption?",
+    "options": [
+      {
+        "id": "relation",
+        "label": "State that the test proves restoration procedure and some capacity",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. It can expose decision, role, communication, and assumption gaps, but it does not prove technical restoration or capacity.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "misconception",
+        "label": "A tabletop proves the DR plan will restore systems.",
+        "correct": false,
+        "feedback": "Incorrect: It can expose decision, role, communication, and assumption gaps, but it does not prove technical restoration or capacity.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Meeting four hours in a parallel restore proves the production RTO even though recovery shares the identity provider.",
+        "correct": false,
+        "feedback": "Incorrect: the exercise did not test the shared identity failure or full production conditions. State the tested scope, dependency gap, timing evidence, residual uncertainty, and next exercise needed.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "parallel-test",
+      "tabletop",
+      "test-scope"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o12-disaster-recovery-exercise-design-transfer",
+    "prompt": "A service owner requests a full-interruption test during the busiest business day because the team is available.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A service owner requests a full-interruption test during the busiest business day because the team is available. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: State that the test proves restoration procedure and some capacity, not independence from identity failure. Repair target: Decision recomputed — Reject the timing, select a safer staged or parallel exercise, define an approved full-interruption objective and window, and require business and safety authority. Exercise convenience does not justify uncontrolled business, safety, or customer impact.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Reject the timing, select a safer staged or parallel exercise",
+        "correct": true,
+        "feedback": "Correct. Reject the timing, select a safer staged or parallel exercise, define an approved full-interruption objective and window, and require business and safety authority. Exercise convenience does not justify uncontrolled business, safety, or customer impact.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A service owner requests a full-interruption test during the busiest business day because the team is available. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: State that the test proves restoration procedure and some capacity, not independence from identity failure. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "full-interruption",
+      "test-scope",
+      "parallel-test"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o12-disaster-recovery-exercise-design-retry-v2",
+    "prompt": "A tabletop resolves a network-loss inject by calling an engineer whose number is not in the plan. What should the exercise record?",
+    "options": [
+      {
+        "id": "mark-pass",
+        "label": "Mark the inject passed because someone eventually reached the right engineer",
+        "correct": false,
+        "feedback": "The outcome depended on information absent from the plan and would not be repeatable by another team.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "ignore-contact",
+        "label": "Ignore contact details because tabletops assess discussion rather than operational readiness",
+        "correct": false,
+        "feedback": "A tabletop can and should expose decision, role, and communication gaps within its stated objective.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "record-gap",
+        "label": "Mark the documented communication path as failed, capture the workaround separately, assign an update, and retest it",
+        "correct": true,
+        "feedback": "Correct. Exercise success depends on the planned capability, not hidden personal knowledge.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "tabletop",
+      "test-objective",
+      "exercise-communication"
+    ],
+    "hint": "Separate the participant’s personal workaround from evidence that the plan works."
+  },
+  "takeaway": "State that the test proves restoration procedure and some capacity, not independence from identity failure.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o12-design",
+    "official-d7-82-84-design",
+    "sybex-d7-899-900",
+    "sybex-d7-899-901"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o12-disaster-recovery-exercise-design-evidence-strength-disruption-selection-map",
+      "disposition": "equivalent",
+      "rationale": "The decision graph preserves objective, exercise boundary, synthetic data, shared dependencies, business observation, evidence limits, blast radius, approval, and abort rules. Evidence strength and operational disruption are encoded together in authored cases rather than exposed as two independently selectable axes, so the mechanism is equivalent."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "An exercise proves only what its form, scope, participants, dependencies, and disruption permit it to test. A tabletop can test decisions and coordination, while technical restoration, capacity, and production failover need stronger evidence.",
+    "visualReasoningGain": "A comparison matrix would expose evidence strength and disruption across tabletop, simulation, parallel, and interruption tests; the current single path withholds that selection logic."
+  },
+  "matrix": {
+    "title": "Exercise form determines evidence strength and disruption",
+    "description": "Choose the least hazardous exercise that can answer the stated question, and record which dependencies and outcomes remain untested.",
+    "columns": [
+      {
+        "id": "question",
+        "label": "Question answered"
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence strength"
+      },
+      {
+        "id": "disruption",
+        "label": "Operational disruption"
+      },
+      {
+        "id": "dependency",
+        "label": "Dependency coverage"
+      },
+      {
+        "id": "uncertainty",
+        "label": "Residual uncertainty"
+      }
+    ],
+    "rows": [
+      {
+        "id": "tabletop",
+        "label": "Tabletop",
+        "cells": {
+          "question": "Roles, decisions, communications and gaps",
+          "evidence": "Discussion and artifact review",
+          "disruption": "Very low",
+          "dependency": "Claimed, not executed",
+          "uncertainty": "Timing and technical execution remain unproven"
+        }
+      },
+      {
+        "id": "parallel",
+        "label": "Parallel test",
+        "cells": {
+          "question": "Can recovery run beside production?",
+          "evidence": "Restoration, workflow, some capacity and acceptance observations",
+          "disruption": "Bounded when isolated",
+          "dependency": "Only included dependencies; shared identity is not failed here",
+          "uncertainty": "Production cutover and excluded common modes remain"
+        }
+      },
+      {
+        "id": "interruption",
+        "label": "Full interruption",
+        "cells": {
+          "question": "Can traffic and operation move end to end?",
+          "evidence": "Strongest direct operational evidence",
+          "disruption": "Highest; requires authorization and safety constraints",
+          "dependency": "Potentially broad if deliberately in scope",
+          "uncertainty": "Still bounded to scenario, time, load and participants"
+        }
+      }
+    ],
+    "notes": []
+  }
+}

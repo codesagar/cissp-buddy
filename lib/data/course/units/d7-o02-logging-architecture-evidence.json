@@ -1,0 +1,852 @@
+{
+  "conceptIds": [
+    "log-architecture",
+    "event-source",
+    "event-context",
+    "time-synchronization",
+    "log-integrity",
+    "log-retention",
+    "log-management",
+    "egress-monitoring",
+    "telemetry"
+  ],
+  "concepts": [
+    {
+      "decision": "decide required evidence path.",
+      "definition": "Architecture: source→transport→normalize→protect→retain/recover",
+      "failureExample": "logging outage invisible.",
+      "id": "log-architecture",
+      "label": "Log Architecture",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide coverage/owner/configuration.",
+      "definition": "Source: system producing event",
+      "failureExample": "cloud control-plane changes absent.",
+      "id": "event-source",
+      "label": "Event Source",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide minimum fields.",
+      "definition": "Context: actor/action/object/result/time/correlation/policy",
+      "failureExample": "log has action but no identity.",
+      "id": "event-context",
+      "label": "Event Context",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide source/monitoring.",
+      "definition": "Time: synchronized clocks/offsets reconstruct order",
+      "failureExample": "false incident timeline.",
+      "id": "time-synchronization",
+      "label": "Time Synchronization",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide storage/admin separation.",
+      "definition": "Integrity: tamper-evident/restricted records",
+      "failureExample": "attacker edits logs.",
+      "id": "log-integrity",
+      "label": "Log Integrity",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide legal/privacy/cost/protection.",
+      "definition": "Retention: required availability period",
+      "failureExample": "evidence expires before inquiry.",
+      "id": "log-retention",
+      "label": "Log Retention",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide owner and failure response.",
+      "definition": "Management: access/index/archive/dispose/recover lifecycle",
+      "failureExample": "searchable logs exposed.",
+      "id": "log-management",
+      "label": "Log Management",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide material outbound use cases.",
+      "definition": "Egress: observe destination/volume/protocol/identity/data movement",
+      "failureExample": "exfiltration bypasses inbound controls.",
+      "id": "egress-monitoring",
+      "label": "Egress Monitoring",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    },
+    {
+      "decision": "decide quality and action owner.",
+      "definition": "Telemetry: operational/security signals",
+      "failureExample": "high-volume unusable fields.",
+      "id": "telemetry",
+      "label": "Telemetry",
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840",
+        "sybex-d7-841-850"
+      ],
+      "sourceVisualId": "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    }
+  ],
+  "domainId": 7,
+  "estimatedMinutes": 35,
+  "id": "d7-o02-logging-architecture-evidence",
+  "misconceptions": [
+    {
+      "claim": "A SIEM automatically makes incomplete source events reliable.",
+      "correction": "Correlation can expose patterns, but it cannot recover missing identity, inaccurate time, altered records, or an unmonitored source."
+    },
+    {
+      "claim": "More retention always improves security.",
+      "correction": "Retention must balance investigative value with privacy, access risk, cost, legal authority, and the ability to protect the records."
+    }
+  ],
+  "objectiveIds": [
+    "7.2"
+  ],
+  "outcome": "Given a service and its risks, select event sources, fields, time controls, retention, integrity protections, and egress visibility that produce actionable evidence.",
+  "prerequisites": [
+    "d7-o02-logging-monitoring",
+    "d7-o01-investigations",
+    "d5-o06-authentication-systems"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Start with an operational or investigative question: who changed a control, which identity accessed a record, what crossed an egress boundary, or which process made a decision. Select sources across identity, endpoint, application, database, network, cloud control plane, and physical systems. Record time, source, subject, object, action, result, correlation identifier, location, and relevant policy or device context. The collection decision balances detection value, performance, privacy, retention cost, and legal constraints. A verbose log with no stable identity, synchronized time, or outcome is not strong evidence.",
+      "id": "event-sources-and-context",
+      "keyPoints": [
+        "Event selection follows risk and use cases, not a blanket collect-everything rule.",
+        "Context fields make events attributable and correlatable across systems.",
+        "Missing time, identity, outcome, or source integrity can make an event misleading."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o02-logging-architecture",
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840"
+      ],
+      "title": "Choose events and context that answer a question"
+    },
+    {
+      "body": "Log management includes transport, normalization, storage, indexing, access control, integrity protection, retention, archival, disposal, and recovery. Synchronize clocks or record reliable offsets so a timeline can be reconstructed. Use append-oriented or otherwise tamper-evident storage, restrict administration, separate operators from investigators where appropriate, and monitor logging failures. Egress monitoring complements inbound detection by looking for unusual destinations, volume, protocol, identity, or data movement. Retention should satisfy investigative, regulatory, contractual, and privacy needs while defining what happens when storage, transport, or a source is unavailable.",
+      "id": "protection-retention-egress",
+      "keyPoints": [
+        "A logging control must detect its own collection, transport, and storage failure.",
+        "Retention is a policy decision tied to use, law, and cost; indefinite retention is not automatically safer.",
+        "Egress signals need identity, asset, baseline, and data context to avoid treating normal synchronization as exfiltration."
+      ],
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-841-850"
+      ],
+      "title": "Protect logs and make retention defensible"
+    }
+  ],
+  "sourceHash": "15b162fcb345180f61970804005df79f4ca36fcafe90386b3017473b742bf96c",
+  "sourcePath": "knowledge/domains/d7-security-operations/units/d7-o02-logging-architecture-evidence.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o02-logging-architecture",
+      "locator": {
+        "type": "objective",
+        "value": "7.2 bullets: log management, egress monitoring, event context"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective scope",
+        "logging and monitoring topics"
+      ]
+    },
+    {
+      "id": "official-d7-15-30-logging",
+      "locator": {
+        "type": "printed-page",
+        "value": "15-30 (PDF pp. 15-30), Domain 7.2 logging and monitoring"
+      },
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "supports": [
+        "logging architecture",
+        "log management",
+        "monitoring and egress considerations"
+      ]
+    },
+    {
+      "id": "sybex-d7-834-840",
+      "locator": {
+        "type": "printed-page",
+        "value": "834-840, Chapter 17 logging and audit trails"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "event records",
+        "log collection",
+        "time and integrity considerations"
+      ]
+    },
+    {
+      "id": "sybex-d7-841-850",
+      "locator": {
+        "type": "printed-page",
+        "value": "841-850, Chapter 17 monitoring and log management"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "log management",
+        "monitoring",
+        "egress and retention considerations"
+      ]
+    }
+  ],
+  "summary": "Logging architecture makes security-relevant activity observable, attributable, time-ordered, protected, and usable without collecting everything indiscriminately.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "idp",
+        "kind": "evidence",
+        "label": "contributes preserved raw time and [09:59:58,10:00:02]",
+        "to": "intervals"
+      },
+      {
+        "from": "db",
+        "kind": "evidence",
+        "label": "applies +4:00 as raw minus signed offset",
+        "to": "correction"
+      },
+      {
+        "from": "correction",
+        "kind": "evidence",
+        "label": "produces DB [10:00:18,10:00:22] with provenance",
+        "to": "intervals"
+      },
+      {
+        "from": "egress",
+        "kind": "evidence",
+        "label": "contributes [10:00:38,10:00:42]",
+        "to": "intervals"
+      },
+      {
+        "from": "intervals",
+        "kind": "evidence",
+        "label": "supports IdP before DB before egress because intervals do not overlap",
+        "to": "conclusion"
+      }
+    ],
+    "focalRelation": "Preserve each raw timestamp; define signed offset as clock minus reference; compute corrected time as raw minus offset; expand corrected values by measured uncertainty; nonoverlapping intervals support only IdP before database before egress, while intent, causality, completeness, and any event with unknown offset remain unresolved.",
+    "learningJob": {
+      "plainExplanation": "Clock correction and uncertainty intervals can support temporal order when corrected ranges do not overlap. That order does not by itself prove causality, intent, or complete collection.",
+      "visualReasoningGain": "Aligned corrected timestamps and uncertainty intervals let the learner compare ranges directly and see why order is supported while causality remains unproven."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "event-source",
+          "event-context",
+          "time-synchronization"
+        ],
+        "detail": "Offset 0; corrected 10:00:00 ±2s gives [09:59:58, 10:00:02]. The raw value remains preserved beside the correction.",
+        "id": "idp",
+        "label": "IdP · raw 10:00:00"
+      },
+      {
+        "conceptIds": [
+          "event-source",
+          "log-architecture",
+          "time-synchronization"
+        ],
+        "detail": "Signed offset +4:00 means the database clock is four minutes ahead of reference; corrected = raw − offset = 10:00:20.",
+        "id": "db",
+        "label": "DB · raw 10:04:20"
+      },
+      {
+        "conceptIds": [
+          "egress-monitoring",
+          "telemetry",
+          "event-context"
+        ],
+        "detail": "Corrected 10:00:40 ±2s gives [10:00:38, 10:00:42], with destination and correlation identifiers retained.",
+        "id": "egress",
+        "label": "Egress · corrected 10:00:40"
+      },
+      {
+        "conceptIds": [
+          "time-synchronization",
+          "log-integrity"
+        ],
+        "detail": "Offset = clock − reference, so corrected time = raw − offset. Store raw time, signed offset, correction provenance, and uncertainty together.",
+        "id": "correction",
+        "label": "Signed correction rule"
+      },
+      {
+        "conceptIds": [
+          "time-synchronization",
+          "event-context"
+        ],
+        "detail": "IdP [09:59:58,10:00:02], DB [10:00:18,10:00:22], and egress [10:00:38,10:00:42] do not overlap.",
+        "id": "intervals",
+        "label": "Bounded UTC intervals"
+      },
+      {
+        "conceptIds": [
+          "log-management",
+          "log-retention",
+          "log-integrity"
+        ],
+        "detail": "The measured intervals support IdP before DB before egress only; they do not prove intent, causality, or collection completeness.",
+        "id": "conclusion",
+        "label": "Qualified temporal conclusion"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "time-synchronization",
+        "event-context",
+        "log-integrity"
+      ],
+      "hint": "Preserve the raw observations, then check the signed-offset definition, provenance, and uncertainty before comparing time.",
+      "id": "d7-o02-logging-architecture-evidence-prediction-82834ac54f2f",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Separated time intervals support temporal order only. They do not prove intent, causality, or completeness.",
+          "id": "exact-causal",
+          "label": "The IdP event caused the database action, which caused egress",
+          "repairStateId": "temporal-only"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The nonoverlapping corrected intervals support that temporal order while leaving intent, causality, and completeness unresolved.",
+          "id": "bounded-order",
+          "label": "IdP [09:59:58,10:00:02] precedes DB [10:00:18,10:00:22], which precedes egress [10:00:38,10:00:42]",
+          "repairStateId": "interval-order"
+        },
+        {
+          "correct": false,
+          "feedback": "The DB raw clock is four minutes ahead. Apply the signed correction before comparing uncertainty intervals.",
+          "id": "raw-order",
+          "label": "Use raw display order because uncertainty is only two seconds",
+          "repairStateId": "signed-correction"
+        }
+      ],
+      "prompt": "After applying the signed correction and ±2-second bounds, what may the investigation claim?"
+    },
+    "question": "What temporal order is supported after applying a signed clock correction and explicit uncertainty intervals?",
+    "representation": "timeline",
+    "retry": {
+      "conceptIds": [
+        "time-synchronization",
+        "log-integrity",
+        "event-context"
+      ],
+      "hint": "Integrity protects records from change; temporal correlation depends on another control.",
+      "id": "d7-o02-logging-architecture-evidence-retry-v2-a0978032209e",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "A hash chain orders records within its chain, not events across unsynchronized sources.",
+          "id": "hash-orders",
+          "label": "Use hash-chain order to claim the authentication event preceded the database action",
+          "repairStateId": "signed-correction"
+        },
+        {
+          "correct": false,
+          "feedback": "Clock drift limits temporal correlation but does not erase all source, action, or integrity evidence.",
+          "id": "discard-both",
+          "label": "Discard both sources because clock drift makes every field unreliable",
+          "repairStateId": "unknown-overlap"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Hash integrity does not supply synchronized time or prove cross-source sequence.",
+          "id": "qualify-order",
+          "label": "Preserve both sources, measure the clock offset, and qualify event-order claims",
+          "repairStateId": "temporal-only"
+        }
+      ],
+      "prompt": "Authentication and database logs have intact hashes, but their clocks differ by eleven minutes. Can the investigation assert event order?"
+    },
+    "scenario": "Three correlated events share stable identifiers. IdP raw time is 10:00:00 with ±2 seconds uncertainty. Database raw time is 10:04:20; its signed clock offset is +4:00, meaning clock minus reference, so corrected time is 10:00:20 with ±2 seconds uncertainty. Egress corrected time is 10:00:40 with ±2 seconds uncertainty.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d7-o02-logging-architecture",
+      "official-d7-15-30-logging",
+      "sybex-d7-834-840",
+      "sybex-d7-841-850"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "idp",
+          "db",
+          "egress"
+        ],
+        "caption": "Keep IdP raw 10:00:00, DB raw 10:04:20, and the egress observation with stable identifiers. Raw display order is not yet corrected event order.",
+        "id": "raw-preserved",
+        "statuses": {
+          "db": "raw 10:04:20 · signed offset +4:00",
+          "egress": "corrected 10:00:40 · ±2s",
+          "idp": "raw 10:00:00 · ±2s"
+        },
+        "title": "Preserve raw observations"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "db",
+          "correction"
+        ],
+        "caption": "Offset is clock minus reference. The DB clock is +4:00 ahead, so corrected DB time is 10:04:20 − 4:00 = 10:00:20.",
+        "id": "signed-correction",
+        "statuses": {
+          "correction": "corrected = raw − offset",
+          "db": "10:04:20 − 00:04:00 = 10:00:20"
+        },
+        "title": "Apply the signed correction"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "idp",
+          "correction",
+          "egress",
+          "intervals"
+        ],
+        "caption": "IdP [09:59:58,10:00:02], DB [10:00:18,10:00:22], and egress [10:00:38,10:00:42] are separated, so their measured temporal order is supported.",
+        "id": "interval-order",
+        "statuses": {
+          "intervals": "IdP interval < DB interval < egress interval"
+        },
+        "title": "Compare uncertainty intervals"
+      },
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "intervals",
+          "conclusion"
+        ],
+        "caption": "The intervals support IdP before DB before egress. They do not establish why the actions occurred, whether one caused another, or whether collection was complete.",
+        "id": "temporal-only",
+        "statuses": {
+          "conclusion": "temporal order supported · intent/causality/completeness unresolved"
+        },
+        "title": "Bound the claim"
+      }
+    ],
+    "takeaway": "Preserve raw time, apply signed corrections as corrected = raw − (clock − reference), retain uncertainty intervals, and claim only the temporal order those intervals support.",
+    "title": "Correlate logs without inventing event order",
+    "transfer": {
+      "conceptIds": [
+        "time-synchronization",
+        "event-context"
+      ],
+      "hint": "Preserve the raw observation and identify which correction evidence is now unavailable before stating any order.",
+      "id": "d7-o02-logging-architecture-evidence-transfer-03550d97b407",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The prior correction is not evidence for this source state. Unknown direction and uncertainty remove exact DB placement.",
+          "id": "assume-four",
+          "label": "Reuse the prior +4:00 correction and assert IdP before DB before egress",
+          "repairStateId": "unknown-offset"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The known IdP and egress intervals remain ordered, while the DB event is unresolved and may overlap either interval.",
+          "id": "partial-order",
+          "label": "Keep IdP before egress, preserve the DB raw time, and withdraw DB precedence until offset evidence exists",
+          "repairStateId": "unknown-limit"
+        },
+        {
+          "correct": false,
+          "feedback": "Unknown DB timing limits cross-source sequence; it does not erase the IdP, egress, identity, action, or integrity evidence.",
+          "id": "discard-all",
+          "label": "Discard every source because one offset is unknown",
+          "repairStateId": "unknown-overlap"
+        }
+      ],
+      "prompt": "The DB raw event remains 10:04:20, but the signed offset and uncertainty cannot be established. What temporal statement survives?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implements the reviewed native offset timeline with raw and corrected timestamps side by side: IdP 10:00:00±2s [09:59:58,10:00:02]; DB raw 10:04:20 with signed +4:00 correction to 10:00:20±2s [10:00:18,10:00:22]; egress 10:00:40±2s [10:00:38,10:00:42]. The measured branch supports only IdP<DB<egress temporal order. The unknown-offset branch withdraws DB precedence while retaining IdP<egress, and both branches reject intent, causality, or completeness claims.",
+        "treatmentId": "fresh-d7-o02-logging-architecture-evidence-coordinated-evidence-pipeline-and-offset-timeline"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d7-o02-logging-architecture-evidence-coordinated-evidence-pipeline-and-offset-timeline"
+    ],
+    "unitId": "d7-o02-logging-architecture-evidence",
+    "variants": [
+      {
+        "changedFact": "The database raw timestamp remains 10:04:20, but its signed offset and uncertainty cannot be established.",
+        "edges": [
+          {
+            "from": "idp",
+            "kind": "evidence",
+            "label": "still establishes the earlier IdP interval",
+            "to": "intervals"
+          },
+          {
+            "from": "db",
+            "kind": "dependency",
+            "label": "lacks a signed measured offset and uncertainty",
+            "to": "correction"
+          },
+          {
+            "from": "correction",
+            "kind": "dependency",
+            "label": "prevents bounded placement of the DB event",
+            "to": "intervals"
+          },
+          {
+            "from": "egress",
+            "kind": "evidence",
+            "label": "still establishes the later egress interval",
+            "to": "intervals"
+          },
+          {
+            "from": "intervals",
+            "kind": "evidence",
+            "label": "supports only IdP before egress; DB precedence is unresolved",
+            "to": "conclusion"
+          }
+        ],
+        "id": "unknown-db-offset",
+        "label": "Unknown database offset",
+        "nodes": [
+          {
+            "conceptIds": [
+              "event-source",
+              "event-context",
+              "time-synchronization"
+            ],
+            "detail": "Offset 0; corrected 10:00:00 ±2s gives [09:59:58, 10:00:02]. The raw value remains preserved beside the correction.",
+            "id": "idp",
+            "label": "IdP · raw 10:00:00"
+          },
+          {
+            "conceptIds": [
+              "event-source",
+              "log-architecture",
+              "time-synchronization"
+            ],
+            "detail": "The database raw time is preserved, but without a signed measured offset no bounded corrected interval can be placed on the shared UTC axis.",
+            "id": "db",
+            "label": "DB · raw 10:04:20 · offset unknown"
+          },
+          {
+            "conceptIds": [
+              "egress-monitoring",
+              "telemetry",
+              "event-context"
+            ],
+            "detail": "Corrected 10:00:40 ±2s gives [10:00:38, 10:00:42], with destination and correlation identifiers retained.",
+            "id": "egress",
+            "label": "Egress · corrected 10:00:40"
+          },
+          {
+            "conceptIds": [
+              "time-synchronization",
+              "log-integrity"
+            ],
+            "detail": "Offset direction, magnitude, provenance, and uncertainty are unknown, so exact database precedence is withdrawn.",
+            "id": "correction",
+            "label": "Missing DB offset evidence"
+          },
+          {
+            "conceptIds": [
+              "time-synchronization",
+              "event-context"
+            ],
+            "detail": "IdP [09:59:58,10:00:02] is before egress [10:00:38,10:00:42]; database placement remains unresolved and may overlap either interval.",
+            "id": "intervals",
+            "label": "Partial temporal order"
+          },
+          {
+            "conceptIds": [
+              "log-management",
+              "log-retention",
+              "log-integrity"
+            ],
+            "detail": "Retain only IdP before egress. Do not claim whether the database event came before, between, or after them until offset evidence exists.",
+            "id": "conclusion",
+            "label": "Withdraw DB precedence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              1
+            ],
+            "activeNodeIds": [
+              "db",
+              "correction"
+            ],
+            "caption": "The DB raw time is preserved, but direction, magnitude, provenance, and uncertainty of its clock offset are unknown.",
+            "id": "unknown-offset",
+            "statuses": {
+              "correction": "no bounded DB correction",
+              "db": "raw 10:04:20 · offset unknown"
+            },
+            "title": "Offset evidence missing"
+          },
+          {
+            "activeEdgeIndexes": [
+              0,
+              2,
+              3
+            ],
+            "activeNodeIds": [
+              "idp",
+              "db",
+              "egress",
+              "intervals",
+              "correction"
+            ],
+            "caption": "The IdP interval remains earlier than the egress interval. The DB event may overlap or fall outside either interval, so its exact precedence is unresolved.",
+            "id": "unknown-overlap",
+            "statuses": {
+              "intervals": "IdP < egress supported · DB placement unresolved"
+            },
+            "title": "Keep only the supported partial order"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "intervals",
+              "conclusion"
+            ],
+            "caption": "Do not assert IdP<DB<egress. Preserve the raw DB record, obtain offset evidence if possible, and state only IdP before egress.",
+            "id": "unknown-limit",
+            "statuses": {
+              "conclusion": "DB precedence withdrawn"
+            },
+            "title": "Withdraw the unsupported claim"
+          }
+        ]
+      },
+      {
+        "changedFact": "A central log store has a valid hash chain, but an administrator who can delete source agents also administers the store.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "triggers protected agent-change evidence",
+            "to": "n5"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "is constrained by separated administration",
+            "to": "n5"
+          },
+          {
+            "from": "n3",
+            "kind": "evidence",
+            "label": "becomes visible when sources disappear",
+            "to": "n5"
+          },
+          {
+            "from": "n4",
+            "kind": "evidence",
+            "label": "supplies independently held records",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "evidence",
+            "label": "supports bounded integrity and completeness claim",
+            "to": "n6"
+          },
+          {
+            "from": "n1",
+            "kind": "evidence",
+            "label": "correlates agent state with stored events",
+            "to": "n6"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "creates the collection gap before hashing",
+            "to": "n3"
+          }
+        ],
+        "id": "shared-admin-integrity",
+        "label": "Shared log administration",
+        "nodes": [
+          {
+            "conceptIds": [
+              "event-source",
+              "event-context"
+            ],
+            "detail": "The same administrator can remove collection agents before events reach the store.",
+            "id": "n1",
+            "label": "Deletable source agents"
+          },
+          {
+            "conceptIds": [
+              "event-source",
+              "log-architecture"
+            ],
+            "detail": "The administrator also controls the destination and its configuration.",
+            "id": "n2",
+            "label": "Central log-store administration"
+          },
+          {
+            "conceptIds": [
+              "event-context",
+              "log-integrity"
+            ],
+            "detail": "A valid hash chain cannot prove that deleted source events were ever collected.",
+            "id": "n3",
+            "label": "Collection-completeness gap"
+          },
+          {
+            "conceptIds": [
+              "telemetry",
+              "log-integrity"
+            ],
+            "detail": "A separately controlled destination retains events beyond the shared administrator.",
+            "id": "n4",
+            "label": "Independent log copy"
+          },
+          {
+            "conceptIds": [
+              "time-synchronization",
+              "log-management"
+            ],
+            "detail": "Alerts, restricted deletion, and separate roles reduce common privileged control.",
+            "id": "n5",
+            "label": "Agent-change alert and duty split"
+          },
+          {
+            "conceptIds": [
+              "log-management",
+              "log-retention",
+              "log-integrity"
+            ],
+            "detail": "Evidence states what integrity proves, what completeness remains assumed, and who owns risk.",
+            "id": "n6",
+            "label": "Documented residual trust"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              5
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n6"
+            ],
+            "caption": "A central log store has a valid hash chain, but an administrator who can delete source agents also administers the store.",
+            "id": "changed-fact",
+            "statuses": {
+              "n1": "source agent deletable by store admin",
+              "n6": "integrity trust gap"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              0,
+              4
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n5",
+              "n6"
+            ],
+            "caption": "Separate duties, restrict deletion, alert on agent changes, retain independent copies, and document the residual trust assumption. Integrity mechanisms do not remove privileged administration risk or prove that collection was complete.",
+            "id": "changed-decision",
+            "statuses": {
+              "n5": "independent copy and agent-change alert required"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "n5",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "duty separation and residual trust documented"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Build logging architecture that preserves useful evidence",
+  "workedExamples": [
+    {
+      "reasoning": "Correlate identity, role change, query, and egress events using stable identifiers and correct for clock offsets before drawing a timeline. Preserve the original records, restrict access, document the offset and collection gap, and avoid claiming intent from an incomplete sequence. Improve time synchronization and alert on privileged changes followed by sensitive egress.",
+      "situation": "A privileged operator exports a customer dataset shortly after changing a database role. The database log has the query, the identity provider has the authentication, and the egress sensor sees an unusual destination, but clocks differ by four minutes.",
+      "takeaway": "Correlate identity, role change, query, and egress events using stable identifiers and correct for clock offsets before drawing a timeline. Preserve the original records, restrict access, document the offset and collection gap, and avoid claiming intent from an incomplete sequence. Improve time synchronization and alert on privileged changes followed by sensitive egress.",
+      "title": "Investigating a privileged data export"
+    }
+  ]
+}

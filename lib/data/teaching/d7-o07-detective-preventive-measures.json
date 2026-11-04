@@ -1,0 +1,463 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o07-detective-preventive-measures",
+  "treatmentIds": [],
+  "title": "Operate detective and preventive measures",
+  "question": "Given a threat and control objective, classify preventive, detective, corrective, and compensating measures, then define how they are operated, monitored, and tested.",
+  "scenario": "A critical server's endpoint agent is disabled to support a vendor tool, and a network sensor is producing noisy alerts.",
+  "focalRelation": "Treat the disabled agent as a control exception, evaluate whether the network sensor compensates for the missing coverage, tune the sensor against meaningful behaviors, and set an owner and expiry for the exception.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Critical server",
+      "detail": "Protected production asset whose threat paths and required outcomes define the control objective.",
+      "conceptIds": [
+        "preventive-control",
+        "detective-control"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Disabled endpoint agent",
+      "detail": "Missing endpoint preventive/detective coverage caused by a vendor compatibility exception.",
+      "conceptIds": [
+        "endpoint-protection",
+        "preventive-control"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Vendor tool exception",
+      "detail": "Named owner, reason, scope, compensating control, expiry, and restoration condition.",
+      "conceptIds": [
+        "compensating-control",
+        "corrective-control"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Network sensor",
+      "detail": "Detective IDS coverage that may observe some network behavior but cannot replace every endpoint function.",
+      "conceptIds": [
+        "ids",
+        "detective-control"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Compensating coverage test",
+      "detail": "Controlled test of the attacks, paths, encryption, local behavior, and response the sensor can or cannot cover.",
+      "conceptIds": [
+        "compensating-control",
+        "security-control-tuning"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Exception owner",
+      "detail": "Risk owner who accepts residual gaps, monitors health, and restores or replaces primary coverage by expiry.",
+      "conceptIds": [
+        "corrective-control",
+        "security-control-tuning"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "creates time-bounded control exception",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "is tested for claimed compensating coverage",
+      "kind": "evidence"
+    },
+    {
+      "from": "n1",
+      "to": "n5",
+      "label": "supplies relevant threat paths and required outcomes",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "reports proven coverage and residual gaps",
+      "kind": "evidence"
+    },
+    {
+      "from": "n6",
+      "to": "n2",
+      "label": "requires restoration or renewed approval by expiry",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A critical server's endpoint agent is disabled to support a vendor tool, and a network sensor is producing noisy alerts.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n4"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "n2": "endpoint agent disabled",
+        "n4": "sensor noisy"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A control type describes its risk-reduction role, not its product category.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        4
+      ],
+      "statuses": {
+        "n3": "exception must have owner and expiry"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "An intrusion prevention system makes detection unnecessary. Prevention can fail, be bypassed, or block legitimate activity; independent detection supports visibility and investigation.",
+      "activeNodeIds": [
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n5": "equivalent protection not assumed"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Treat the disabled agent as a control exception, evaluate whether the network sensor compensates for the missing coverage, tune the sensor against meaningful behaviors, and set an owner and expiry for the exception. Do not claim equivalent protection without testing what the compensating control can actually observe and block.",
+      "activeNodeIds": [
+        "n1",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n5": "observable and unobservable paths documented"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a threat and control objective, classify preventive, detective, corrective, and compensating measures, then define how they are operated, monitored, and tested. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "n6": "residual gap accepted; restoration deadline set"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A firewall blocks a known malicious domain, but no endpoint or DNS telemetry is retained.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A firewall blocks a known malicious domain, but no endpoint or DNS telemetry is retained.",
+          "activeNodeIds": [
+            "n1",
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "n4": "malicious-domain block active; telemetry absent"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Keep the preventive block, add independent detection and retention where risk warrants, and verify the block's scope and bypass paths.",
+          "activeNodeIds": [
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            1
+          ],
+          "statuses": {
+            "n5": "prevention success and missed attempts not observable"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n6": "independent detection/retention added where warranted"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Protected environment",
+          "detail": "Systems remain exposed to malicious-domain attempts and bypass paths.",
+          "conceptIds": [
+            "preventive-control",
+            "detective-control"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Firewall domain block",
+          "detail": "The preventive rule stops the known domain at the network boundary.",
+          "conceptIds": [
+            "preventive-control"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Prevention-only gap",
+          "detail": "Without retained telemetry, defenders cannot see endpoints, DNS attempts, or bypasses.",
+          "conceptIds": [
+            "compensating-control",
+            "corrective-control"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Endpoint and DNS telemetry",
+          "detail": "Independent detective sources observe attempts and outcomes.",
+          "conceptIds": [
+            "ids",
+            "detective-control"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Coverage and bypass test",
+          "detail": "Testing verifies block scope, alternate paths, event content, and retention.",
+          "conceptIds": [
+            "compensating-control",
+            "security-control-tuning"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Control owner",
+          "detail": "The owner accepts residual gaps and restores adequate detection and retention.",
+          "conceptIds": [
+            "corrective-control",
+            "security-control-tuning"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "creates an observable coverage exception",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "is tested for independent detection",
+          "kind": "evidence"
+        },
+        {
+          "from": "n1",
+          "to": "n5",
+          "label": "defines threat paths and outcomes",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "reports proven coverage and gaps",
+          "kind": "evidence"
+        },
+        {
+          "from": "n6",
+          "to": "n2",
+          "label": "requires remediation or accepted exception",
+          "kind": "flow"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o07-detective-preventive-measures-prediction",
+    "prompt": "A vendor exception disables the endpoint agent on a critical server while a noisy network sensor remains. What is defensible?",
+    "options": [
+      {
+        "id": "equivalent",
+        "label": "Declare the network IDS equivalent because it can observe traffic to the server.",
+        "correct": false,
+        "feedback": "The sensor may miss local, encrypted, bypass, or endpoint-only behavior. Observation at one path is not equivalent coverage.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "silence",
+        "label": "Disable the noisy sensor as well until the vendor tool is retired.",
+        "correct": false,
+        "feedback": "Removing both controls expands the gap. Tune against meaningful behavior while retaining detection and a bounded exception.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "test-gap",
+        "label": "Own and expire the exception, test coverage gaps, and restore endpoint protection",
+        "correct": true,
+        "feedback": "Correct. Compensating coverage is a tested claim with residual gaps and a restoration owner.",
+        "repairStateId": "control-enforced"
+      }
+    ],
+    "conceptIds": [
+      "endpoint-protection",
+      "detective-control",
+      "compensating-control",
+      "security-control-tuning"
+    ],
+    "hint": "Compare the exact threat paths each control can prevent, observe, or miss."
+  },
+  "transfer": {
+    "id": "d7-o07-detective-preventive-measures-transfer",
+    "prompt": "A firewall blocks a known malicious domain, but no endpoint or DNS telemetry is retained.",
+    "options": [
+      {
+        "id": "evidence-action",
+        "label": "Keep the preventive block, add independent detection and retention where risk warrants",
+        "correct": true,
+        "feedback": "Correct. Keep the preventive block, add independent detection and retention where risk warrants, and verify the block's scope and bypass paths.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A firewall blocks a known malicious domain, but no endpoint or DNS telemetry is retained. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Treat the disabled agent as a control exception, evaluate whether the network sensor compensates for the missing coverage, tune the sensor against meaningful behaviors, and set an owner and expiry for the exception. Repair target: Decision recomputed — Keep the preventive block, add independent detection and retention where risk warrants, and verify the block's scope and bypass paths.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A firewall blocks a known malicious domain, but no endpoint or DNS telemetry is retained. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Treat the disabled agent as a control exception, evaluate whether the network sensor compensates for the missing coverage, tune the sensor against meaningful behaviors, and set an owner and expiry for the exception. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "preventive-control"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o07-detective-preventive-measures-retry-v2",
+    "prompt": "Endpoint telemetry detects malware execution, but prevention and quarantine are disabled. What does the alert demonstrate?",
+    "options": [
+      {
+        "id": "prevention-proved",
+        "label": "It proves preventive protection worked because the malware was visible",
+        "correct": false,
+        "feedback": "Visibility is detective evidence; the stated malware still executed.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "detection-only",
+        "label": "It demonstrates detection; add or validate prevention, containment, and corrective response according to risk",
+        "correct": true,
+        "feedback": "Correct. Observing execution does not show it was blocked or the endpoint was remediated.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "logging-enough",
+        "label": "Retain the alert and take no response because evidence is the main purpose of endpoint controls",
+        "correct": false,
+        "feedback": "Detection without containment or correction leaves the active condition unresolved.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "detective-control",
+      "preventive-control",
+      "corrective-control"
+    ],
+    "hint": "Identify which control function occurred and which functions remain absent."
+  },
+  "takeaway": "Treat the disabled agent as a control exception, evaluate whether the network sensor compensates for the missing coverage, tune the sensor against meaningful behaviors, and set an owner and expiry for the exception.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o07",
+    "official-d7-52-59",
+    "sybex-d7-810-828"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "Preventive, detective, corrective, and compensating describe control roles rather than product categories. A compensating sensor should be credited only for the coverage it can actually observe and block.",
+    "visualReasoningGain": "A coverage map would reveal which behaviors each preventive or detective control sees and which gaps remain; the opening server/agent/sensor grouping does not."
+  },
+  "openingFacts": [
+    {
+      "label": "Critical server",
+      "value": "Protected production asset whose threat paths and required outcomes define the control objective."
+    },
+    {
+      "label": "Disabled endpoint agent",
+      "value": "Missing endpoint preventive/detective coverage caused by a vendor compatibility exception."
+    },
+    {
+      "label": "Vendor tool exception",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Network sensor",
+      "value": "Detective IDS coverage that may observe some network behavior but cannot replace every endpoint function."
+    },
+    {
+      "label": "Compensating coverage test",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Exception owner",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

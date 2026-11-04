@@ -1,0 +1,695 @@
+{
+  "conceptIds": [
+    "implementation-attack",
+    "side-channel",
+    "timing-attack",
+    "fault-injection",
+    "error-handling",
+    "constant-time",
+    "hardware-security",
+    "physical-security",
+    "secure-coding"
+  ],
+  "concepts": [
+    {
+      "decision": "Model remote, local, co-resident, maintainer, supply-chain, and physical access.",
+      "definition": "Attack against behavior around a computation rather than the mathematical design itself.",
+      "failureExample": "A system selects a sound algorithm but leaks a key in debug output.",
+      "id": "implementation-attack",
+      "label": "Implementation Attack",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Assess measurable signal, attacker access, repeatability, and secret exposure.",
+      "definition": "Leakage via timing, power, electromagnetic signals, cache behavior, or errors.",
+      "failureExample": "A co-resident workload observes cache patterns during key operations.",
+      "id": "side-channel",
+      "label": "Side Channel",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use constant-time comparison or equivalent where timing is observable and sensitive.",
+      "definition": "Inference from data-dependent processing duration.",
+      "failureExample": "An authentication check returns faster on the first mismatched byte.",
+      "id": "timing-attack",
+      "label": "Timing Attack",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use integrity checks, redundancy, protected boot/update, tamper measures, and physical controls as justified.",
+      "definition": "Inducing voltage, clock, memory, input, or environmental faults to alter execution.",
+      "failureExample": "A fault makes a device skip secure-boot verification.",
+      "id": "fault-injection",
+      "label": "Fault Injection",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Normalize external errors, log protected detail, and fail securely.",
+      "definition": "Design of failure responses so errors do not reveal secrets or permit unsafe continuation.",
+      "failureExample": "Different login errors reveal whether an account, password, or token was valid.",
+      "id": "error-handling",
+      "label": "Error Handling",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use for operations and comparisons exposed to an attacker’s timing measurements.",
+      "definition": "Implementation approach that avoids secret-dependent timing where needed.",
+      "failureExample": "A compiler optimization reintroduces secret-dependent branch timing.",
+      "id": "constant-time",
+      "label": "Constant Time",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Choose when extraction resistance, controlled operations, and physical assurance matter.",
+      "definition": "Use of hardware or service boundaries to protect secrets and sensitive operations.",
+      "failureExample": "A hardware-backed key is accessible through an enabled debug interface.",
+      "id": "hardware-security",
+      "label": "Hardware Security",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Apply by facility, device exposure, attacker capability, and consequence.",
+      "definition": "Controls limiting physical observation, tampering, maintenance abuse, and device theft.",
+      "failureExample": "An unattended device exposes test pads and diagnostic ports.",
+      "id": "physical-security",
+      "label": "Physical Security",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    },
+    {
+      "decision": "Use vetted libraries, review, tests, patching, and controlled changes.",
+      "definition": "Engineering practice that avoids unsafe input, state, memory, error, and dependency behavior.",
+      "failureExample": "A parser flaw lets malformed input bypass protocol validation.",
+      "id": "secure-coding",
+      "label": "Secure Coding",
+      "sourceRefIds": [
+        "d3-o07-implementation-sybex",
+        "d3-o07-implementation-textbook"
+      ],
+      "sourceVisualId": "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 46,
+  "id": "d3-o07-implementation-side-channel-attacks",
+  "misconceptions": [
+    {
+      "claim": "Physical controls are irrelevant when cryptography is used.",
+      "correction": "Physical or local access can enable debug, probing, extraction, or fault paths that undermine an otherwise appropriate cryptographic design."
+    }
+  ],
+  "objectiveIds": [
+    "3.7"
+  ],
+  "outcome": "Identify timing, side-channel, and fault-injection exposure and select mitigation categories based on the attacker’s observation and access path.",
+  "prerequisites": [
+    "d3-o06-cryptographic-primitives",
+    "d3-o04-system-security-capabilities",
+    "d8-o05-secure-coding"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Implementation attacks target behavior around a computation rather than defeating the mathematical design directly. A side channel may reveal useful information through timing, power use, electromagnetic emissions, cache effects, error differences, or other measurable behavior. Timing attacks compare response duration or processing path. Fault injection induces or exploits abnormal conditions such as voltage, clock, memory, input, or environmental disturbance to alter execution or extract information. The practical risk depends on the secret, attacker access, repeatability, and measurement quality.",
+      "id": "leakage-paths",
+      "keyPoints": [
+        "Leakage can be remote, local, or physical depending on the design.",
+        "Different error messages and code paths can become observable side channels."
+      ],
+      "sourceRefIds": [
+        "d3-o07-implementation-outline",
+        "d3-o07-implementation-textbook",
+        "d3-o07-implementation-sybex"
+      ],
+      "title": "Recognize behavior that reveals secrets"
+    },
+    {
+      "body": "Use vetted cryptographic implementations and current maintenance processes; avoid data-dependent observable behavior where the threat requires it; use constant-time or equivalent techniques where appropriate; normalize errors; validate inputs; protect secrets in suitable hardware or service boundaries; restrict debug, diagnostic, and physical interfaces; and monitor integrity and configuration. For fault injection, use integrity checks, redundancy or verification where suitable, tamper response, protected boot and update paths, and physical controls proportional to risk. No single defense applies to every platform.",
+      "id": "defense",
+      "keyPoints": [
+        "Defenses must match the execution environment and threat capability.",
+        "Physical security and secure engineering can be cryptographic controls when they protect implementation behavior."
+      ],
+      "sourceRefIds": [
+        "d3-o07-implementation-textbook",
+        "d3-o07-implementation-sybex"
+      ],
+      "title": "Layer implementation and environmental defenses"
+    },
+    {
+      "body": "Define the relevant attacker model before selecting review or testing: remote user, co-resident workload, local maintainer, supply-chain actor, or physical attacker. Review code and configuration, test authorized observable behavior, validate that debug modes and exception paths are disabled or controlled, and assess update and attestation evidence. Treat a patch or compiler change as a potential implementation change; repeat appropriate assurance rather than assuming a mathematical algorithm choice covers the new behavior.",
+      "id": "assurance",
+      "keyPoints": [
+        "A change in runtime, hardware, compiler, or diagnostic configuration can change leakage risk.",
+        "Authorized testing must protect availability and avoid exposing production secrets."
+      ],
+      "sourceRefIds": [
+        "d3-o07-outline",
+        "d3-o07-implementation-textbook",
+        "d3-o07-implementation-sybex"
+      ],
+      "title": "Test leakage claims safely and continuously"
+    }
+  ],
+  "sourceHash": "5356f63ead8056909459e92b229ab5f72648c537dc7f41cc13349b6ec9f8b7e2",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o07-implementation-side-channel-attacks.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o07-implementation-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7: implementation attacks, side-channel, fault injection, timing"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary",
+        "implementation-attack-topics"
+      ]
+    },
+    {
+      "id": "d3-o07-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o07-implementation-textbook",
+      "locator": {
+        "note": "Domain 3 cryptanalytic-attacks range; printed page is the citation anchor.",
+        "pdfPage": "85-95",
+        "printedPage": "85-95",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "implementation-side-channel-fault-timing-attacks",
+        "mitigation-context"
+      ]
+    },
+    {
+      "id": "d3-o07-implementation-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7 and 9, pp. 219-446; attack-specific locator refinement pending"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Secondary locator is broad and must be refined before source-checked status.",
+      "supports": [
+        "implementation-attack-correlation"
+      ]
+    }
+  ],
+  "summary": "A sound cryptographic primitive can fail when implementation behavior exposes time, power, electromagnetic, cache, error, or fault information. Implementation attack analysis locates the leakage source, attacker proximity, measurement capability, privilege boundary, and compensating design and operational controls.",
+  "teaching": {
+    "assumptions": [
+      "The boundary is conceptual and does not assert physical isolation.",
+      "No scale, exploit probability, or attack success is represented.",
+      "Constant-time techniques address relevant timing behavior but do not eliminate every cache, power, error, or fault risk."
+    ],
+    "edges": [
+      {
+        "from": "interface",
+        "kind": "flow",
+        "label": "INPUT: intended request",
+        "to": "computation"
+      },
+      {
+        "from": "computation",
+        "kind": "flow",
+        "label": "OUTPUT: intended result",
+        "to": "interface"
+      },
+      {
+        "from": "computation",
+        "kind": "evidence",
+        "label": "OBSERVE: possible duration/error differences",
+        "to": "timing-errors"
+      },
+      {
+        "from": "computation",
+        "kind": "evidence",
+        "label": "OBSERVE: possible cache effects",
+        "to": "cache"
+      },
+      {
+        "from": "computation",
+        "kind": "evidence",
+        "label": "OBSERVE: possible power/EM effects",
+        "to": "power-em"
+      },
+      {
+        "from": "fault",
+        "kind": "dependency",
+        "label": "DISTURB: possible induced fault",
+        "to": "computation"
+      }
+    ],
+    "focalRelation": "Intended input and output cross the service interface, while timing, errors, cache effects, and power or electromagnetic effects are possible observations; an induced fault travels inward. A possible path is a review target, not proof of leakage or exploitation.",
+    "lanes": [
+      {
+        "id": "intended",
+        "label": "Documented interface",
+        "rule": "Solid INPUT/OUTPUT paths carry intended data only."
+      },
+      {
+        "id": "execution",
+        "label": "Implementation boundary",
+        "rule": "The boundary encloses computation and secret-dependent state; it does not claim physical isolation."
+      },
+      {
+        "id": "observation",
+        "label": "Possible outward observations",
+        "rule": "Dashed OBSERVE paths identify measurable surfaces, not proven secret exfiltration."
+      },
+      {
+        "id": "disturbance",
+        "label": "Possible inward disturbance",
+        "rule": "DISTURB enters execution and remains distinct from observation."
+      }
+    ],
+    "nodes": [
+      {
+        "conceptIds": [
+          "side-channel",
+          "error-handling"
+        ],
+        "detail": "A remote requestor supplies an untrusted signing request and observes the documented response, error, and duration.",
+        "id": "interface",
+        "label": "Remote service interface",
+        "lane": "intended"
+      },
+      {
+        "conceptIds": [
+          "implementation-attack",
+          "secure-coding",
+          "hardware-security"
+        ],
+        "detail": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+        "id": "computation",
+        "label": "Signing computation",
+        "lane": "execution"
+      },
+      {
+        "conceptIds": [
+          "timing-attack",
+          "side-channel",
+          "error-handling"
+        ],
+        "detail": "Remote observers may compare response duration bands and externally distinguishable failures.",
+        "id": "timing-errors",
+        "label": "Timing and error surface",
+        "lane": "observation"
+      },
+      {
+        "conceptIds": [
+          "side-channel",
+          "constant-time"
+        ],
+        "detail": "A co-resident workload may measure cache effects if isolation and scheduling permit observation.",
+        "id": "cache",
+        "label": "Shared cache surface",
+        "lane": "observation"
+      },
+      {
+        "conceptIds": [
+          "side-channel",
+          "hardware-security",
+          "physical-security"
+        ],
+        "detail": "A physically capable observer may measure power or electromagnetic behavior near the device.",
+        "id": "power-em",
+        "label": "Power and EM surface",
+        "lane": "observation"
+      },
+      {
+        "conceptIds": [
+          "fault-injection",
+          "physical-security",
+          "hardware-security"
+        ],
+        "detail": "A technician or other capable actor may inject a disturbance through the maintenance interface and alter computation without following the intended input path.",
+        "id": "fault",
+        "label": "Maintenance-port disturbance",
+        "lane": "disturbance"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "implementation-attack",
+        "side-channel",
+        "timing-attack",
+        "error-handling"
+      ],
+      "hint": "Compare distributions under controlled inputs; one fast sample does not establish leakage.",
+      "id": "d3-o07-side-predict-v1-cb64821822f1",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Remote callers may observe duration and error differences. Physical access is relevant to other surfaces, not a prerequisite for every side channel.",
+          "id": "physical-only",
+          "label": "Dismiss the remote timing signal because side channels are assumed to require local probes or physical contact.",
+          "repairStateId": "remote-observer"
+        },
+        {
+          "correct": false,
+          "feedback": "The observation is tied to implementation behavior. A new algorithm can retain the same externally distinguishable path.",
+          "id": "swap-algorithm",
+          "label": "Replace the cryptographic algorithm immediately without measuring whether implementation behavior depends on secret state.",
+          "repairStateId": "intended-path"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The evidence must connect an authorized observation to sensitive state before the team selects a path-specific control or claims leakage.",
+          "id": "measure-model",
+          "label": "Define the remote observer, measure the behavior, and test sensitive-state dependence",
+          "repairStateId": "remote-observer"
+        }
+      ],
+      "prompt": "The service uses a strong algorithm but exposes distinguishable errors and durations. Which assurance action comes first?"
+    },
+    "question": "What can an attacker observe or disturb without breaking the mathematical algorithm?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "fault-injection",
+        "hardware-security",
+        "physical-security",
+        "secure-coding"
+      ],
+      "hint": "Look for repeatable separation beyond noise before claiming a side channel.",
+      "id": "d3-o07-side-retry-v1-bd3744d6d0a3",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Negative observation tests do not assess an inward disturbance through a physical maintenance interface.",
+          "id": "reuse-negative",
+          "label": "Reuse the negative network tests because all implementation paths share one result",
+          "repairStateId": "disturbance"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The changed fact introduces an inward disturbance path requiring physical, hardware, coding, and result-validation controls.",
+          "id": "fault-review",
+          "label": "Authorize a fault-injection review and harden, monitor, and validate the maintenance path",
+          "repairStateId": "assurance"
+        },
+        {
+          "correct": false,
+          "feedback": "Algorithm approval does not establish safe behavior under induced faults or protect an unattended debug interface.",
+          "id": "strong-primitive",
+          "label": "Accept the port because the approved algorithm detects every induced fault",
+          "repairStateId": "intended-path"
+        }
+      ],
+      "prompt": "Network and cache tests show no sensitive-state dependence, but an unattended debug port can alter clock voltage during signing. Which review is now decisive?"
+    },
+    "scenario": "A hardware-backed signing service uses an approved algorithm. Remote clients see different error codes and response-duration bands for invalid requests. The service also runs on shared hardware, and technicians can reach a maintenance port. The team has no evidence yet that a secret leaked or that any attack succeeded.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o07-implementation-outline",
+      "d3-o07-outline",
+      "d3-o07-implementation-textbook",
+      "d3-o07-implementation-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "interface",
+          "computation"
+        ],
+        "caption": "A request enters, computation runs, and a result leaves. Algorithm approval establishes no claim about observable implementation behavior.",
+        "id": "intended-path",
+        "statuses": {
+          "computation": "The approved algorithm is identified, but the deployed implementation has not yet been assessed against the stated attacker model.",
+          "interface": "A remote requestor supplies an untrusted signing request and observes the documented response, error, and duration."
+        },
+        "title": "Start with the intended interface"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "interface",
+          "computation",
+          "timing-errors"
+        ],
+        "caption": "Different external errors and duration bands are measurable. Test whether they depend on sensitive state before claiming leakage.",
+        "id": "remote-observer",
+        "statuses": {
+          "computation": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+          "interface": "A remote requestor supplies an untrusted signing request and observes the documented response, error, and duration.",
+          "timing-errors": "Response timing and errors are remotely observable, although the evidence does not yet establish exploitable leakage."
+        },
+        "title": "Remote observation surface"
+      },
+      {
+        "activeEdgeIndexes": [
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "computation",
+          "cache",
+          "power-em"
+        ],
+        "caption": "A co-resident workload can make cache behavior relevant; physical proximity can make power or EM behavior relevant. Neither follows from the remote case alone.",
+        "id": "other-observers",
+        "statuses": {
+          "cache": "Cache behavior requires review when an attacker can plausibly run a co-resident workload.",
+          "computation": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+          "power-em": "Power and electromagnetic leakage require review when physical measurement is credible."
+        },
+        "title": "Attacker model changes the surface"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          5
+        ],
+        "activeNodeIds": [
+          "fault",
+          "computation",
+          "interface"
+        ],
+        "caption": "Maintenance access may allow an induced fault. Physical controls, debug-port authorization, safe error handling, and result validation protect a different path from observation.",
+        "id": "disturbance",
+        "statuses": {
+          "computation": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+          "fault": "Maintenance access creates a possible disturbance path, although no successful fault has been demonstrated.",
+          "interface": "A remote requestor supplies an untrusted signing request and observes the documented response, error, and duration."
+        },
+        "title": "Fault injection points inward"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "timing-errors",
+          "cache",
+          "power-em",
+          "fault",
+          "computation"
+        ],
+        "caption": "Normalize relevant errors, evaluate constant-time techniques for the timing path, isolate shared resources, protect maintenance access, and retest the actual build under the stated attacker model.",
+        "id": "assurance",
+        "statuses": {
+          "cache": "The team isolates shared resources and tests the deployed build for cache-dependent leakage.",
+          "computation": "The deployed build requires assurance testing against each credible observation or disturbance path.",
+          "fault": "The team restricts maintenance access, hardens fault responses, and detects abnormal disturbances.",
+          "power-em": "The team evaluates shielding, emissions, power behavior, and the physical attacker model.",
+          "timing-errors": "The team normalizes externally visible errors and measures timing across controlled inputs."
+        },
+        "title": "Controls follow the measured path"
+      }
+    ],
+    "takeaway": "Model the observer and direction of each path. Intended I/O, outward observation, and inward disturbance require different evidence and controls; none alone proves an attack succeeded.",
+    "title": "The algorithm is only one boundary",
+    "transfer": {
+      "conceptIds": [
+        "side-channel",
+        "constant-time",
+        "secure-coding"
+      ],
+      "hint": "Change the secret-dependent operation while holding the measurement method constant.",
+      "id": "d3-o07-side-transfer-v1-6ea47f2ddfdd",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Test the relevant observation path and sensitive-state dependence; a compiler change is a trigger to assess, not proof of exploitation.",
+          "id": "reassess-cache",
+          "label": "Reassess cache behavior and isolation for the new build without presuming a leak",
+          "repairStateId": "assurance"
+        },
+        {
+          "correct": false,
+          "feedback": "A behavior change does not prove useful leakage, attacker capability, or key recovery. Gather build-specific evidence first.",
+          "id": "declare-leak",
+          "label": "Declare the signing key compromised because cache behavior changed",
+          "repairStateId": "other-observers"
+        },
+        {
+          "correct": false,
+          "feedback": "Error normalization addresses one surface. The build and observer changed, so the cache path needs its own assurance.",
+          "id": "errors-settle",
+          "label": "Keep the earlier result because normalized errors close the implementation boundary",
+          "repairStateId": "other-observers"
+        }
+      ],
+      "prompt": "Errors are normalized, but a compiler update changes cache behavior on a shared host where a co-resident workload is in scope. What follows?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "implemented",
+        "rationale": "Implements the accepted computation cutaway with distinct intended, observation, and disturbance grammars plus synchronized attacker-model states.",
+        "treatmentId": "fresh-d3-o07-implementation-side-channel-attacks-computation-leakage-cutaway"
+      },
+      {
+        "disposition": "equivalent",
+        "rationale": "Carries the reviewed prototype’s remote, co-resident, and physical focus cases, compiler-change transfer, non-exploit caveat, and no-iframe semantic model into production data.",
+        "treatmentId": "sidechannel"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o07-implementation-side-channel-attacks-computation-leakage-cutaway",
+      "sidechannel"
+    ],
+    "unitId": "d3-o07-implementation-side-channel-attacks",
+    "variants": [
+      {
+        "changedFact": "The observer has only network access.",
+        "id": "remote",
+        "label": "Remote caller",
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              2
+            ],
+            "activeNodeIds": [
+              "interface",
+              "timing-errors",
+              "computation"
+            ],
+            "caption": "Measure external duration and errors under controlled inputs; cache, power, and physical fault paths are not granted by this attacker model.",
+            "id": "remote-focus",
+            "statuses": {
+              "cache": "A network-only caller has no established co-resident cache-observation path.",
+              "computation": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+              "fault": "A network-only caller has no established physical fault-injection path.",
+              "interface": "A remote requestor supplies an untrusted signing request and observes the documented response, error, and duration.",
+              "power-em": "A network-only caller has no established physical power or electromagnetic observation path.",
+              "timing-errors": "This observation path is in scope for the stated attacker model."
+            },
+            "title": "Remote evidence"
+          }
+        ]
+      },
+      {
+        "changedFact": "A workload controlled by the reviewer shares the host after a compiler update.",
+        "id": "co-resident",
+        "label": "Co-resident workload",
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              3
+            ],
+            "activeNodeIds": [
+              "cache",
+              "computation"
+            ],
+            "caption": "Reassess cache behavior and isolation for the new build; normalized network errors do not settle the shared-resource surface.",
+            "id": "cache-focus",
+            "statuses": {
+              "cache": "Shared-cache observation is in scope, but the evidence does not yet prove leakage.",
+              "computation": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+              "timing-errors": "The previous remote-timing result remains specific to that observation surface."
+            },
+            "title": "Build and observer changed"
+          }
+        ]
+      },
+      {
+        "changedFact": "A technician can reach the device and maintenance interface.",
+        "id": "physical",
+        "label": "Physical maintenance access",
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "power-em",
+              "fault",
+              "computation"
+            ],
+            "caption": "Review power/EM observation and inward fault paths, protect the debug interface, and validate behavior after disturbances.",
+            "id": "physical-focus",
+            "statuses": {
+              "computation": "Approved algorithm executes with secret-dependent state inside the conceptual implementation boundary.",
+              "fault": "Fault injection is in scope because the technician can reach the device and maintenance interface.",
+              "power-em": "Power and electromagnetic observation are in scope for the physical attacker model."
+            },
+            "title": "Physical assurance"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Identify implementation, side-channel, timing, and fault-injection paths",
+  "workedExamples": [
+    {
+      "reasoning": "Reduce external error detail, authorize and disable or physically protect debug interfaces, use vendor-supported secure configuration, monitor privileged maintenance, validate update integrity, and test that invalid requests do not produce a distinguishable secret-related response. Review physical access and incident handling with the key custodian.",
+      "situation": "A signing service exposes detailed errors and supports an unattended debug port for maintenance.",
+      "takeaway": "Hardware backing helps only when diagnostics, maintenance, and physical paths preserve the intended boundary.",
+      "title": "Hardware-backed signing appliance"
+    }
+  ]
+}

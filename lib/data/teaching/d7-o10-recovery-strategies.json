@@ -1,0 +1,507 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o10-recovery-strategies",
+  "treatmentIds": [],
+  "title": "Implement recovery strategies",
+  "question": "Given a service disruption, choose a recovery strategy that matches business impact and recovery objectives, identify dependencies and alternate capabilities, and define how trust and service acceptance will be restored.",
+  "scenario": "A payment service has a 30-minute RTO and near-zero RPO, but its recovery site lacks the same identity, network, and key-management dependencies.",
+  "focalRelation": "The strategy is incomplete until dependencies and trust services are included.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Payment service objective",
+      "detail": "Business-defined 30-minute RTO, near-zero RPO, maximum tolerable disruption, priority, and acceptance owner.",
+      "conceptIds": [
+        "rto",
+        "rpo",
+        "mtd"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Replicated data",
+      "detail": "Candidate recovery state whose currency, integrity, consistency, and independent recovery points must be tested.",
+      "conceptIds": [
+        "backup-recovery",
+        "rpo"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Recovery compute",
+      "detail": "Alternate processing capacity that can start components but cannot supply missing trust services.",
+      "conceptIds": [
+        "alternate-processing",
+        "high-availability"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Identity and key services",
+      "detail": "Required trust dependencies for authentication, authorization, decryption, and secure operation.",
+      "conceptIds": [
+        "trusted-recovery"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Recovery team",
+      "detail": "Staff, supplier, access, communication, and runbook capability needed to execute within objectives.",
+      "conceptIds": [
+        "recovery-strategy"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Business acceptance",
+      "detail": "Decision that the restored service is usable, secure, reconciled, monitored, and fit for prioritized traffic.",
+      "conceptIds": [
+        "trusted-recovery",
+        "recovery-strategy"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "sets maximum acceptable data gap",
+      "kind": "dependency"
+    },
+    {
+      "from": "n1",
+      "to": "n3",
+      "label": "sets service restoration time and capacity need",
+      "kind": "dependency"
+    },
+    {
+      "from": "n4",
+      "to": "n3",
+      "label": "enables trusted application start",
+      "kind": "dependency"
+    },
+    {
+      "from": "n5",
+      "to": "n3",
+      "label": "executes and validates alternate processing",
+      "kind": "dependency"
+    },
+    {
+      "from": "n2",
+      "to": "n6",
+      "label": "supplies reconciled candidate data state",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n6",
+      "label": "supplies tested service capacity",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "supplies validated identity and key trust",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A payment service has a 30-minute RTO and near-zero RPO, but its recovery site lacks the same identity, network, and key-management dependencies.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "RTO 30m; near-zero RPO",
+        "n3": "site compute available"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "RTO concerns how quickly service returns; RPO concerns the acceptable data-loss point; MTD expresses business tolerance.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        2
+      ],
+      "statuses": {
+        "n2": "replication current",
+        "n4": "identity/key path absent"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A replicated production site eliminates disaster-recovery planning. Replication can copy corruption, rely on unavailable dependencies, or fail under regional, provider, identity, or human disruption.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        5
+      ],
+      "statuses": {
+        "n6": "technical availability not accepted"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "The strategy is incomplete until dependencies and trust services are included. Test replication, key access, identity, network paths, staffing, communications, and business acceptance; otherwise a technically available application may not be a usable or safe service.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "trust restored",
+        "n5": "staff/runbook active"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a service disruption, choose a recovery strategy that matches business impact and recovery objectives, identify dependencies and alternate capabilities, and define how trust and service acceptance will be restored. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5,
+        6
+      ],
+      "statuses": {
+        "n6": "security and business acceptance complete"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A cloud region fails while the provider's status page reports the application healthy in a secondary region.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A cloud region fails while the provider's status page reports the application healthy in a secondary region.",
+          "activeNodeIds": [
+            "n3",
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            5,
+            6
+          ],
+          "statuses": {
+            "n3": "provider says secondary healthy",
+            "n4": "customer trust unverified"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Verify identity, data consistency, keys, network paths, monitoring, dependencies, and business acceptance before declaring recovery complete.",
+          "activeNodeIds": [
+            "n2",
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            6
+          ],
+          "statuses": {
+            "n6": "status page alone rejected"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "statuses": {
+            "n6": "identity, data, network, monitoring, and owner acceptance verified"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Payment recovery objectives",
+          "detail": "RTO, RPO, capacity, and trust requirements still govern recovery.",
+          "conceptIds": [
+            "rto",
+            "rpo",
+            "mtd"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Secondary-region data",
+          "detail": "Replicated data must be current, consistent, and recoverable.",
+          "conceptIds": [
+            "backup-recovery",
+            "rpo"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Reported-healthy secondary region",
+          "detail": "The provider status page reports infrastructure health, not customer service acceptance.",
+          "conceptIds": [
+            "alternate-processing",
+            "high-availability"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Identity, keys, and network paths",
+          "detail": "Customer dependencies must work in the alternate region.",
+          "conceptIds": [
+            "trusted-recovery"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Customer recovery team",
+          "detail": "The team validates monitoring, dependencies, workflows, and readiness.",
+          "conceptIds": [
+            "recovery-strategy"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Business service acceptance",
+          "detail": "The owner accepts traffic only after technical, security, data, and workflow checks.",
+          "conceptIds": [
+            "trusted-recovery",
+            "recovery-strategy"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "sets the allowable data gap",
+          "kind": "dependency"
+        },
+        {
+          "from": "n1",
+          "to": "n3",
+          "label": "sets service time and capacity need",
+          "kind": "dependency"
+        },
+        {
+          "from": "n4",
+          "to": "n3",
+          "label": "enables trusted alternate service",
+          "kind": "dependency"
+        },
+        {
+          "from": "n5",
+          "to": "n3",
+          "label": "executes customer validation",
+          "kind": "dependency"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "label": "supplies reconciled data evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n6",
+          "label": "supplies tested capacity evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "supplies identity and key evidence",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o10-recovery-strategies-prediction",
+    "prompt": "The recovery site has compute, but not the production identity, network, and key-management dependencies. Is the payment service recovered?",
+    "options": [
+      {
+        "id": "compute-enough",
+        "label": "Yes; alternate compute meeting the RTO makes the service available.",
+        "correct": false,
+        "feedback": "Compute cannot authenticate users, decrypt data, route trusted traffic, or establish business acceptance by itself.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "not-yet",
+        "label": "No; test data, trust dependencies, capacity, monitoring, and business acceptance",
+        "correct": true,
+        "feedback": "Correct. Component availability is only candidate recovery until required dependencies and acceptance gates pass.",
+        "repairStateId": "control-enforced"
+      },
+      {
+        "id": "backup-enough",
+        "label": "Yes if the replicated data meets the RPO, even without identity or key services.",
+        "correct": false,
+        "feedback": "RPO addresses data loss tolerance. It does not prove trusted operation, capacity, monitoring, or usable service.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "recovery-strategy",
+      "rto",
+      "rpo",
+      "trusted-recovery"
+    ],
+    "hint": "Separate time and data objectives from the dependencies required for trusted use."
+  },
+  "transfer": {
+    "id": "d7-o10-recovery-strategies-transfer",
+    "prompt": "A cloud region fails while the provider's status page reports the application healthy in a secondary region.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A cloud region fails while the provider's status page reports the application healthy in a secondary region. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: The strategy is incomplete until dependencies and trust services are included. Repair target: Decision recomputed — Verify identity, data consistency, keys, network paths, monitoring, dependencies, and business acceptance before declaring recovery complete.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A cloud region fails while the provider's status page reports the application healthy in a secondary region. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: The strategy is incomplete until dependencies and trust services are included. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Verify identity, data consistency, keys, network paths, monitoring, dependencies",
+        "correct": true,
+        "feedback": "Correct. Verify identity, data consistency, keys, network paths, monitoring, dependencies, and business acceptance before declaring recovery complete.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "fault-tolerance"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o10-recovery-strategies-retry-v2",
+    "prompt": "A backup restore meets its data-loss target, but DNS, identity, and key-service dependencies were not exercised. What is proven?",
+    "options": [
+      {
+        "id": "data-only",
+        "label": "The backup meets the data objective; end-to-end service recovery remains unproven",
+        "correct": true,
+        "feedback": "Correct. A good restore does not by itself establish application availability or trusted operation.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "strategy-passes",
+        "label": "The recovery strategy passes because the restored files meet RPO",
+        "correct": false,
+        "feedback": "RPO evidence does not prove DNS, identity, keys, networking, or end-to-end service.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "backup-useless",
+        "label": "The backup has no value because every dependency was not included in the same test",
+        "correct": false,
+        "feedback": "The restore supplies valid evidence for data recovery, while the broader service claim remains limited.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "rpo",
+      "trusted-recovery",
+      "recovery-strategy"
+    ],
+    "hint": "Separate recovered data from the dependencies required to deliver a usable trusted service."
+  },
+  "takeaway": "The strategy is incomplete until dependencies and trust services are included.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o10",
+    "official-d7-66-74",
+    "sybex-d7-875-883"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "RTO describes return time, RPO the acceptable data-loss point, and MTD the business tolerance. A recovery strategy must include trust, people, network, key, capacity, communication, and acceptance dependencies rather than alternate compute alone.",
+    "visualReasoningGain": "A dependency-and-time comparison would show why compute plus data does not satisfy RTO/RPO when identity, keys, network, and acceptance are absent; the opening does not."
+  },
+  "openingFacts": [
+    {
+      "label": "Payment service objective",
+      "value": "Business-defined 30-minute RTO, near-zero RPO, maximum tolerable disruption, priority, and acceptance owner."
+    },
+    {
+      "label": "Replicated data",
+      "value": "Candidate recovery state whose currency, integrity, consistency, and independent recovery points must be tested."
+    },
+    {
+      "label": "Recovery compute",
+      "value": "Alternate processing capacity that can start components but cannot supply missing trust services."
+    },
+    {
+      "label": "Identity and key services",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Recovery team",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Business acceptance",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

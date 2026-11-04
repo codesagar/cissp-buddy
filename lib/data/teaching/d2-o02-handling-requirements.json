@@ -1,0 +1,367 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d2-o02-handling-requirements",
+  "treatmentIds": [
+    "fresh-d2-o02-handling-requirements-supplier-export-path"
+  ],
+  "title": "supplier export path",
+  "question": "What must be true before a sensitive supplier export is created, transferred, used, cached, printed, and confirmed deleted?",
+  "scenario": "Regulated export to a supplier: A supplier needs a limited set of sensitive records for a 14-day support case.",
+  "focalRelation": "Classification and purpose set need-to-know and minimum data; each transition has an approved actor, channel, location, copy rule, retention trigger, evidence, and exception path.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "support-purpose",
+      "label": "Support Purpose",
+      "detail": "The supplier may use the records only to resolve the named 14-day support case.",
+      "conceptIds": [
+        "data-minimization"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "need-to-know",
+      "label": "Need To Know",
+      "detail": "Only supplier personnel assigned to the case may receive the minimum data needed for their task.",
+      "conceptIds": [
+        "need-to-know"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "minimum-export",
+      "label": "Minimum Export",
+      "detail": "The export removes fields and precision that are unnecessary for the support purpose.",
+      "conceptIds": [
+        "data-minimization"
+      ],
+      "lane": "protected"
+    },
+    {
+      "id": "classification-and-marking",
+      "label": "Classification And Marking",
+      "detail": "The organization applies the correct sensitivity label and handling markings before transfer.",
+      "conceptIds": [
+        "marking"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "handling-rule",
+      "label": "Handling Rule",
+      "detail": "The rule governs approved channel, storage, access, retention, return, and verified disposal for the export.",
+      "conceptIds": [
+        "handling-requirements"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "policy-permitted-approved-exception",
+      "label": "Policy Permitted Approved Exception",
+      "detail": "Any variance identifies its owner, exact scope, compensating controls, review date, and end condition.",
+      "conceptIds": [
+        "handling-requirements"
+      ],
+      "lane": "control"
+    }
+  ],
+  "edges": [
+    {
+      "from": "support-purpose",
+      "to": "need-to-know",
+      "label": "under this case, limits the authorized actor and task through",
+      "kind": "dependency"
+    },
+    {
+      "from": "support-purpose",
+      "to": "minimum-export",
+      "label": "under this case's minimization decision, limits fields and precision in",
+      "kind": "dependency"
+    },
+    {
+      "from": "classification-and-marking",
+      "to": "handling-rule",
+      "label": "under organizational policy, communicate the applicable",
+      "kind": "flow"
+    },
+    {
+      "from": "policy-permitted-approved-exception",
+      "to": "handling-rule",
+      "label": "records a scoped, time-bounded variance with owner, compensating controls, and review/end condition from",
+      "kind": "evidence"
+    },
+    {
+      "from": "minimum-export",
+      "to": "handling-rule",
+      "label": "must follow the classification-derived transfer, storage, retention, return, and disposal requirements in",
+      "kind": "dependency"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "Support need and source data",
+      "rule": "Purpose and need-to-know define the candidate data before export."
+    },
+    {
+      "id": "control",
+      "label": "Handling decision",
+      "rule": "Minimization, classification, marking, and any approved exception govern the crossing."
+    },
+    {
+      "id": "protected",
+      "label": "Candidate support export",
+      "rule": "The minimized candidate remains unapproved until classification, marking, and the applicable handling rule are satisfied."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Regulated export to a supplier: A supplier needs a limited set of sensitive records for a 14-day support case.",
+      "activeNodeIds": [
+        "support-purpose",
+        "need-to-know"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "support-purpose": "The support purpose limits both the authorized technician and the records needed for the repair task.",
+        "need-to-know": "Only supplier personnel assigned to the case may receive the minimum data needed for their task."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Support Purpose under this case, limits the authorized actor and task through Need To Know. Support Purpose under this case's minimization decision, limits fields and precision in Minimum Export.",
+      "activeNodeIds": [
+        "support-purpose",
+        "need-to-know",
+        "minimum-export"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "need-to-know": "Only supplier personnel assigned to the case may receive the minimum data needed for their task.",
+        "support-purpose": "The supplier may use the records only to resolve the named 14-day support case.",
+        "minimum-export": "The export removes fields and precision that are unnecessary for the support purpose."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Classification And Marking under organizational policy, communicate the applicable Handling Rule. Policy Permitted Approved Exception records a scoped, time-bounded variance with owner, compensating controls, and review/end condition from Handling Rule.",
+      "activeNodeIds": [
+        "minimum-export",
+        "classification-and-marking",
+        "handling-rule",
+        "policy-permitted-approved-exception"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "handling-rule": "The rule governs approved channel, storage, access, retention, return, and verified disposal for the export.",
+        "classification-and-marking": "The organization applies the correct sensitivity label and handling markings before transfer.",
+        "policy-permitted-approved-exception": "Any variance identifies its owner, exact scope, compensating controls, review date, and end condition.",
+        "minimum-export": "The export removes fields and precision that are unnecessary for the support purpose."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The same dataset is delivered on an encrypted physical drive by courier instead of through the approved portal. Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know, minimization, recipient, retention, and evidence requirements.",
+      "activeNodeIds": [
+        "support-purpose",
+        "need-to-know",
+        "minimum-export",
+        "classification-and-marking",
+        "handling-rule",
+        "policy-permitted-approved-exception"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "handling-rule": "The rule governs approved channel, storage, access, retention, return, and verified disposal for the export.",
+        "support-purpose": "The supplier may use the records only to resolve the named 14-day support case.",
+        "need-to-know": "Only supplier personnel assigned to the case may receive the minimum data needed for their task.",
+        "minimum-export": "The export removes fields and precision that are unnecessary for the support purpose.",
+        "classification-and-marking": "The organization applies the correct sensitivity label and handling markings before transfer.",
+        "policy-permitted-approved-exception": "Any variance identifies its owner, exact scope, compensating controls, review date, and end condition."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The content and approved purpose are unchanged. The medium, transport, custody, and disposal path change.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The same dataset is delivered on an encrypted physical drive by courier instead of through the approved portal.",
+          "activeNodeIds": [
+            "classification-and-marking",
+            "handling-rule",
+            "policy-permitted-approved-exception"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "handling-rule": "The rule governs approved channel, storage, access, retention, return, and verified disposal for the export.",
+            "classification-and-marking": "The organization applies the correct sensitivity label and handling markings before transfer.",
+            "policy-permitted-approved-exception": "Any variance identifies its owner, exact scope, compensating controls, review date, and end condition."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know, minimization, recipient, retention, and evidence requirements.",
+          "activeNodeIds": [
+            "classification-and-marking",
+            "handling-rule",
+            "policy-permitted-approved-exception"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3
+          ],
+          "statuses": {
+            "handling-rule": "The rule governs approved channel, storage, access, retention, return, and verified disposal for the export.",
+            "classification-and-marking": "The organization applies the correct sensitivity label and handling markings before transfer.",
+            "policy-permitted-approved-exception": "Any variance identifies its owner, exact scope, compensating controls, review date, and end condition."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d2-o02-handling-requirements-prediction-v1",
+    "prompt": "What must be true before a sensitive supplier export is created, transferred, used, cached, printed, and confirmed deleted?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Permit any recipient who can open the encrypted file because encryption enforces the handling rule.",
+        "correct": false,
+        "feedback": "Encryption protects a channel or object; it does not establish recipient authorization, minimum use, retention, copying, or disposal.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Authorize the recipient and purpose, minimize data, govern every copy and channel, and verify disposition against the copy ledger.",
+        "correct": true,
+        "feedback": "Encryption and marking help recognition and confidentiality; they do not authorize recipients, reuse, retention, printing, or deletion.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Encryption permits any recipient and copy as long as the file stays unreadable in transit.",
+        "correct": false,
+        "feedback": "Recipient, purpose, minimization, copy, retention, and disposition authority remain separate from channel confidentiality.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "handling-requirements",
+      "data-minimization"
+    ],
+    "hint": "Minimization creates a candidate export; classification and handling still decide whether it may cross."
+  },
+  "transfer": {
+    "id": "d2-o02-handling-requirements-transfer-v1",
+    "prompt": "The same dataset is delivered on an encrypted physical drive by courier instead of through the approved portal.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Permit any recipient who can open the encrypted file because encryption enforces the handling rule",
+        "correct": false,
+        "feedback": "Changed fact: The content and approved purpose are unchanged. The medium, transport, custody, and disposal path change. Why this answer fails: “Permit any recipient who can open the encrypted file because encryption enforces the handling rule” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Classification and purpose set need-to-know and minimum data; each transition has an approved actor, channel, location, copy rule, retention trigger, evidence, and exception path. Repair target: Control and evidence consequence — Classification And Marking under organizational policy, communicate the applicable Handling Rule. Policy Permitted Approved Exception records a scoped, time-bounded variance with owner, compensating controls, and review/end condition from Handling Rule.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Encryption permits any recipient and copy as long as the file stays unreadable in transit",
+        "correct": false,
+        "feedback": "Changed fact: The content and approved purpose are unchanged. The medium, transport, custody, and disposal path change. Why this answer fails: “Encryption permits any recipient and copy as long as the file stays unreadable in transit” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Classification and purpose set need-to-know and minimum data; each transition has an approved actor, channel, location, copy rule, retention trigger, evidence, and exception path. Repair target: Changed fact, recomputed result — The same dataset is delivered on an encrypted physical drive by courier instead of through the approved portal. Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know, minimization, recipient, retention, and evidence requirements.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "recompute",
+        "label": "Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know",
+        "correct": true,
+        "feedback": "Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know, minimization, recipient, retention, and evidence requirements.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "handling-requirements",
+      "need-to-know",
+      "media-protection",
+      "data-minimization"
+    ],
+    "hint": "Changing from a portal to physical media adds custody, transport, return, and sanitization obligations."
+  },
+  "retry": {
+    "id": "d2-o02-handling-requirements-retry-v1",
+    "prompt": "A team wants to upload restricted data to a consumer file-sharing service to meet a deadline. What should the security owner decide?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Use an approved channel or obtain a time-bound exception with compensating controls",
+        "correct": true,
+        "feedback": "Correct. Use an approved channel or obtain a time-bound exception with compensating controls; do not bypass handling rules for convenience.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Encryption alone satisfies handling requirements",
+        "correct": false,
+        "feedback": "Encryption helps confidentiality but does not decide recipients, retention, integrity, printing, logging, or deletion.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Permit any recipient who can open the encrypted file because encryption enforces the handling rule",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Use an approved channel or obtain a time-bound exception with compensating controls; do not bypass handling rules for convenience.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "handling-requirements",
+      "data-minimization"
+    ],
+    "hint": "Retain the same need-to-know and retention rules while adding controls for the new medium."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Classification and purpose set need-to-know and minimum data; each transition has an approved actor, channel, location, copy rule, retention trigger, evidence, and exception path.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "official-d2-14-17",
+    "takeaways-d2-handling",
+    "sybex-d2"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d2-o02-handling-requirements-supplier-export-path",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve purpose, recipient, minimization, transfer, copy, retention, and verified-disposition gates for the 14-day supplier case. The handling record is expressed through state changes rather than a separately interactive day-by-day ledger."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Purpose and need-to-know constrain who may use which minimum data. Every copy and channel then inherits classification-derived transfer, storage, retention, return, and disposal rules unless a bounded exception is approved.",
+    "visualReasoningGain": "A copy-path table adds stage-by-stage custody and evidence; the current selected-edge flow makes learners reconstruct create, transfer, use, cache, print, and disposal."
+  }
+}

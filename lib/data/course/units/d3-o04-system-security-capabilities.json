@@ -1,0 +1,729 @@
+{
+  "conceptIds": [
+    "memory-protection",
+    "process-isolation",
+    "trusted-platform-module",
+    "secure-boot",
+    "encryption",
+    "key-management",
+    "virtualization",
+    "logging",
+    "hardware-root-of-trust",
+    "privileged-account-management"
+  ],
+  "concepts": [
+    {
+      "decision": "Use to prevent one process from reading or changing another’s memory.",
+      "definition": "Hardware and OS enforcement that separates address spaces by privilege or process.",
+      "failureExample": "A memory-corruption flaw gains access to a more-privileged address region.",
+      "id": "memory-protection",
+      "label": "Memory Protection",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Use when independent workloads or privilege levels must not affect each other.",
+      "definition": "Separation that confines a process’s resources and privileges from other processes.",
+      "failureExample": "A plugin can alter the host application’s files and tokens.",
+      "id": "process-isolation",
+      "label": "Process Isolation",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Use when key protection and measured boot evidence are required.",
+      "definition": "Hardware component that can protect keys and measurements for platform trust decisions.",
+      "failureExample": "A device starts altered firmware but reports a normal state without attestation.",
+      "id": "trusted-platform-module",
+      "label": "Trusted Platform Module",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Use when preventing unauthorized firmware or bootloader changes matters.",
+      "definition": "Startup verification that permits approved boot components under a trust policy.",
+      "failureExample": "A modified bootloader loads before endpoint protections start.",
+      "id": "secure-boot",
+      "label": "Secure Boot",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Choose for a defined data state, threat, key custody, and endpoint assumption.",
+      "definition": "Cryptographic protection of selected information states using managed keys.",
+      "failureExample": "A stolen storage device exposes unencrypted records.",
+      "id": "encryption",
+      "label": "Encryption",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Assess custody, separation, recovery, rotation, and access to every key.",
+      "definition": "Lifecycle control for generating, storing, using, rotating, recovering, and destroying keys.",
+      "failureExample": "A backup contains encrypted data and its recovery key in the same exposed location.",
+      "id": "key-management",
+      "label": "Key Management",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Use when workload separation benefits exceed hypervisor and management dependencies.",
+      "definition": "Use of a hypervisor to multiplex isolated workloads on shared hardware.",
+      "failureExample": "One overprivileged console changes multiple guest networks and snapshots.",
+      "id": "virtualization",
+      "label": "Virtualization",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Protect, retain, correlate, and review logs according to the use case.",
+      "definition": "Recorded security-relevant events used for accountability, detection, and investigation.",
+      "failureExample": "An attacker deletes local logs before the incident is noticed.",
+      "id": "logging",
+      "label": "Logging",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Use where software-only trust cannot adequately establish the initial state.",
+      "definition": "Trusted hardware basis for verifying platform identity, measurements, or key protection.",
+      "failureExample": "A remote attestation relies on measurements an attacker can rewrite in software.",
+      "id": "hardware-root-of-trust",
+      "label": "Hardware Root Of Trust",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-1"
+    },
+    {
+      "decision": "Require unique identities, strong authentication, scope, review, and emergency handling.",
+      "definition": "Control of high-authority accounts through attributable, limited, protected administration.",
+      "failureExample": "A shared root account makes a destructive configuration change untraceable.",
+      "id": "privileged-account-management",
+      "label": "Privileged Account Management",
+      "sourceRefIds": [
+        "d3-o04-sybex",
+        "d3-o04-textbook"
+      ],
+      "sourceVisualId": "d3-o04-system-security-capabilities-concept-comparison-2"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 24,
+  "id": "d3-o04-system-security-capabilities",
+  "misconceptions": [
+    {
+      "claim": "A TPM makes a whole system trustworthy.",
+      "correction": "It can anchor specific measurements or keys; trust still depends on configuration, software, administration, and response processes."
+    }
+  ],
+  "objectiveIds": [
+    "3.4"
+  ],
+  "outcome": "Match a platform capability to a protection objective and identify the assumption that must also hold.",
+  "prerequisites": [
+    "control-selection",
+    "secure-design"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Memory and process isolation limit one workload’s ability to read or alter another. A hardware root of trust and secure boot can provide evidence about approved startup state. Encryption protects information in selected states but depends on key management and endpoint handling. Virtualization can isolate workloads but introduces management-plane and hypervisor dependencies. Logging supports detection and accountability when protected and reviewed.",
+      "id": "capabilities",
+      "keyPoints": [
+        "Match the capability to the asset, state, and threat.",
+        "Management planes and key paths are part of the architecture."
+      ],
+      "sourceRefIds": [
+        "d3-o04-outline",
+        "d3-o04-textbook",
+        "d3-o04-sybex"
+      ],
+      "title": "Capabilities protect different layers"
+    },
+    {
+      "body": "A TPM cannot compensate for an untrusted administrator or poor recovery process. Encryption cannot protect data after an authorized endpoint displays it. Isolation can fail through configuration, shared services, vulnerable management interfaces, or side channels. Define attestation, patching, privileged administration, monitoring, backup, and incident response alongside the capability.",
+      "id": "limits",
+      "keyPoints": [
+        "Claims must include scope and residual risk.",
+        "Operational controls preserve the capability’s intended protection."
+      ],
+      "sourceRefIds": [
+        "d3-o04-textbook",
+        "d3-o04-sybex"
+      ],
+      "title": "Design for limits and operation"
+    },
+    {
+      "body": "Memory protection separates process or privilege address spaces; a TPM or other hardware root can protect keys and measurements; encryption and decryption protect selected data states under managed keys; secure boot and attestation can provide startup or configuration evidence; isolation and virtualization separate workloads while adding hypervisor and management-plane dependencies; and logging supports accountability when protected and reviewed. Select a capability by asset, state, threat, privilege boundary, integration path, administrator, update mechanism, and evidence. A capability is not a guarantee: a compromised privileged manager, exported key, weak recovery path, disabled measurement, shared service, or unreviewed configuration can defeat the intended claim. Layer operations, monitoring, access control, and recovery around the platform feature.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o04-outline",
+        "d3-o04-textbook",
+        "d3-o04-sybex"
+      ],
+      "title": "Bound capability claims with configuration and operational assumptions"
+    }
+  ],
+  "sourceHash": "4902b5d9de5085d4560e69be7c2c6c2e7ebb596572319dcf9a7d8da9a73b19a4",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o04-system-security-capabilities.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o04-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.4"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o04-textbook",
+      "locator": {
+        "note": "Printed page is the citation anchor; verify PDF index in a reader.",
+        "pdfPage": "21-25",
+        "printedPage": "21-25",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "information-system-capabilities"
+      ]
+    },
+    {
+      "id": "d3-o04-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, system capabilities, p. 309 onward; precise locator refinement pending"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft.",
+      "supports": [
+        "memory-protection",
+        "trusted-platform-module",
+        "encryption"
+      ]
+    }
+  ],
+  "summary": "Information-system capabilities such as isolation, memory protection, trusted execution roots, encryption, logging, and virtualization support security objectives only when their limits, configuration, and operational dependencies are understood.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "Hypervisor",
+        "kind": "flow",
+        "label": "provides isolation subject to implementation and configuration",
+        "to": "Guest workload boundaries"
+      },
+      {
+        "from": "Privileged management console",
+        "kind": "flow",
+        "label": "can change isolation and virtual networking",
+        "to": "Hypervisor configuration"
+      },
+      {
+        "from": "Hardware root of trust",
+        "kind": "flow",
+        "label": "can anchor specific measurements",
+        "to": "Startup measurement evidence"
+      }
+    ],
+    "focalRelation": "Each capability protects a particular layer or state under configuration and operational assumptions; shared hypervisor, administration, key, update, and logging paths bound the claim.",
+    "lanes": [
+      {
+        "id": "origin",
+        "label": "Privileged control source",
+        "rule": "The management console and configuration authority can change the isolation boundary."
+      },
+      {
+        "id": "control",
+        "label": "Isolation and startup controls",
+        "rule": "Hypervisor and hardware trust controls enforce the stated workload and boot properties."
+      },
+      {
+        "id": "protected",
+        "label": "Protected workloads and evidence",
+        "rule": "Guest boundaries and measurements are the protected result and proof."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "A TPM, hypervisor, encryption control, or recovery mechanism supports a bounded claim, not trust in the whole platform. Shared management or key custody can bypass the intended isolation.",
+      "visualReasoningGain": "A capability-to-claim matrix would show each assumption and bypass path; the current cases add concrete paths but split the comparison across variants."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "virtualization",
+          "process-isolation"
+        ],
+        "detail": "The hypervisor enforces processor, memory, device, and virtual-network separation among guest workloads.",
+        "id": "Hypervisor",
+        "label": "Hypervisor",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "memory-protection",
+          "process-isolation"
+        ],
+        "detail": "Each guest receives an isolated execution and memory boundary whose strength depends on the hypervisor and configuration.",
+        "id": "Guest workload boundaries",
+        "label": "Guest Workload Boundaries",
+        "lane": "protected"
+      },
+      {
+        "conceptIds": [
+          "privileged-account-management"
+        ],
+        "detail": "A privileged console can create, change, inspect, snapshot, or remove guests and therefore needs stronger separate control.",
+        "id": "Privileged management console",
+        "label": "Privileged Management Console",
+        "lane": "origin"
+      },
+      {
+        "conceptIds": [
+          "virtualization"
+        ],
+        "detail": "Versioned settings define isolation, virtual networking, device exposure, logging, updates, and recovery behavior.",
+        "id": "Hypervisor configuration",
+        "label": "Hypervisor Configuration",
+        "lane": "origin"
+      },
+      {
+        "conceptIds": [
+          "hardware-root-of-trust",
+          "trusted-platform-module"
+        ],
+        "detail": "A TPM or equivalent hardware root protects measurement and key functions that anchor specific startup or key-use claims.",
+        "id": "Hardware root of trust",
+        "label": "Hardware Root Of Trust",
+        "lane": "control"
+      },
+      {
+        "conceptIds": [
+          "secure-boot",
+          "hardware-root-of-trust"
+        ],
+        "detail": "Signed measurements show which approved boot components executed; they do not attest every later administrator action.",
+        "id": "Startup measurement evidence",
+        "label": "Startup Measurement Evidence",
+        "lane": "protected"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "process-isolation",
+        "secure-boot",
+        "encryption",
+        "key-management",
+        "hardware-root-of-trust"
+      ],
+      "hint": "Keep hypervisor isolation, privileged management, startup evidence, and key custody as separate claims.",
+      "id": "d3-o04-system-security-capabilities-prediction-v1-534fcf7c50b0",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "A TPM or encryption can anchor specific claims; neither makes the entire platform or every administrator action trustworthy.",
+          "id": "correct",
+          "label": "Bound each capability to its layer and inspect shared management, key, configuration, and response dependencies.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Co-location collapses key separation and lets one compromise defeat both data and recovery protection.",
+          "id": "unit-specific-alternative",
+          "label": "Keep recovery keys beside the administrator workstation and infer that rapid recovery makes shared custody acceptable.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "The TPM supports bounded measurement or key-use claims; software, configuration, identity, management, and response remain separate dependencies.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Treat TPM measurements as proof that software, configuration, privileged administrators, and recovery paths are trustworthy.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Which management or key path can defeat the expected isolation between two workloads despite secure boot, a TPM, or encryption?"
+    },
+    "question": "Which management or key path can defeat the expected isolation between two workloads despite secure boot, a TPM, or encryption?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "secure-boot",
+        "virtualization",
+        "process-isolation",
+        "privileged-account-management",
+        "logging"
+      ],
+      "hint": "The repair must separate key custody and prove a controlled recovery, not merely attest boot state.",
+      "id": "d3-o04-system-security-capabilities-retry-v1-6ffd967f3303",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Startup measurement addresses a specific boot claim; it does not remove later hypervisor management authority.",
+          "id": "boot-proves",
+          "label": "Measured boot proves the running workloads remain isolated from every privileged administrator",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Isolation depends on privileged management, configuration, logging, and response after boot as well as startup evidence.",
+          "id": "manage-path",
+          "label": "Treat the hypervisor management path as a separate high-impact control and evidence boundary",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Storage encryption does not remove hypervisor authority over networking, snapshots, or runtime configuration.",
+          "id": "encrypt-guests",
+          "label": "Encrypt each guest disk and assume the administrator can no longer alter virtual networking",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "Measured boot succeeds, but a broad hypervisor administrator can still alter guest networking and snapshots. Which assurance conclusion is defensible?"
+    },
+    "scenario": "Virtualized payment service: A payment workload runs beside lower-trust services on a shared virtual platform.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o04-outline",
+      "d3-o04-textbook",
+      "d3-o04-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "Hypervisor",
+          "Guest workload boundaries"
+        ],
+        "caption": "Virtualized payment service: A payment workload runs beside lower-trust services on a shared virtual platform.",
+        "id": "case",
+        "statuses": {
+          "Guest workload boundaries": "Each guest receives an isolated execution and memory boundary whose strength depends on the hypervisor and configuration.",
+          "Hypervisor": "The hypervisor enforces processor, memory, device, and virtual-network separation among guest workloads."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "Hypervisor",
+          "Guest workload boundaries",
+          "Privileged management console",
+          "Hypervisor configuration"
+        ],
+        "caption": "Hypervisor provides isolation subject to implementation and configuration Guest Workload Boundaries. Privileged Management Console can change isolation and virtual networking Hypervisor Configuration.",
+        "id": "decision",
+        "statuses": {
+          "Guest workload boundaries": "Each guest receives an isolated execution and memory boundary whose strength depends on the hypervisor and configuration.",
+          "Hypervisor": "The hypervisor enforces processor, memory, device, and virtual-network separation among guest workloads.",
+          "Hypervisor configuration": "Versioned settings define isolation, virtual networking, device exposure, logging, updates, and recovery behavior.",
+          "Privileged management console": "A privileged console can create, change, inspect, snapshot, or remove guests and therefore needs stronger separate control."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Privileged management console",
+          "Hypervisor configuration",
+          "Hardware root of trust",
+          "Startup measurement evidence"
+        ],
+        "caption": "Privileged Management Console can change isolation and virtual networking Hypervisor Configuration. Hardware Root Of Trust can anchor specific measurements Startup Measurement Evidence.",
+        "id": "consequence",
+        "statuses": {
+          "Hardware root of trust": "A TPM or equivalent hardware root protects measurement and key functions that anchor specific startup or key-use claims.",
+          "Hypervisor configuration": "Versioned settings define isolation, virtual networking, device exposure, logging, updates, and recovery behavior.",
+          "Privileged management console": "A privileged console can create, change, inspect, snapshot, or remove guests and therefore needs stronger separate control.",
+          "Startup measurement evidence": "Signed measurements show which approved boot components executed; they do not attest every later administrator action."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Hypervisor",
+          "Guest workload boundaries",
+          "Privileged management console",
+          "Hypervisor configuration",
+          "Hardware root of trust",
+          "Startup measurement evidence"
+        ],
+        "caption": "The encrypted storage recovery keys are kept on the same administrator workstation used to manage the storage. Move keys into separately controlled custody with least privilege, dual control or equivalent approval, audit, backup, rotation, and tested recovery.",
+        "id": "changed-case",
+        "statuses": {
+          "Guest workload boundaries": "Each guest receives an isolated execution and memory boundary whose strength depends on the hypervisor and configuration.",
+          "Hardware root of trust": "A TPM or equivalent hardware root protects measurement and key functions that anchor specific startup or key-use claims.",
+          "Hypervisor": "The hypervisor enforces processor, memory, device, and virtual-network separation among guest workloads.",
+          "Hypervisor configuration": "Versioned settings define isolation, virtual networking, device exposure, logging, updates, and recovery behavior.",
+          "Privileged management console": "A privileged console can create, change, inspect, snapshot, or remove guests and therefore needs stronger separate control.",
+          "Startup measurement evidence": "Signed measurements show which approved boot components executed; they do not attest every later administrator action."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Each capability protects a particular layer or state under configuration and operational assumptions; shared hypervisor, administration, key, update, and logging paths bound the claim.",
+    "title": "platform trust cutaway",
+    "transfer": {
+      "conceptIds": [
+        "encryption",
+        "key-management",
+        "privileged-account-management"
+      ],
+      "hint": "Co-locating recovery keys with the admin workstation creates one compromise path.",
+      "id": "d3-o04-system-security-capabilities-transfer-v1-de468353a8f7",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: The encrypted storage recovery keys are kept on the same administrator workstation used to manage the storage. Why this answer fails: “Keep disk recovery keys on the administrator workstation because rapid recovery outweighs shared compromise exposure.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Each capability protects a particular layer or state under configuration and operational assumptions; shared hypervisor, administration, key, update, and logging paths bound the claim. Repair target: One compromise reaches both controls — The storage administrator workstation holds the recovery keys for the storage it manages, collapsing the intended separation.",
+          "id": "single-signal",
+          "label": "Keep disk recovery keys on the administrator workstation because rapid recovery outweighs shared compromise exposure.",
+          "repairStateId": "key-custody-facts"
+        },
+        {
+          "correct": true,
+          "feedback": "Move keys into separately controlled custody with least privilege, dual control or equivalent approval, audit, backup, rotation, and tested recovery.",
+          "id": "recompute",
+          "label": "Move keys into separately controlled custody with least privilege, dual control or equivalent approval, audit, backup",
+          "repairStateId": "key-custody-result"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The encrypted storage recovery keys are kept on the same administrator workstation used to manage the storage. Why this answer fails: “Treat TPM-backed startup evidence as protection for administrator credentials, recovery secrets, and every later software action.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Each capability protects a particular layer or state under configuration and operational assumptions; shared hypervisor, administration, key, update, and logging paths bound the claim. Repair target: One compromise reaches both controls — The storage administrator workstation holds the recovery keys for the storage it manages, collapsing the intended separation.",
+          "id": "unchanged-rule",
+          "label": "Treat TPM-backed startup evidence as protection for administrator credentials, recovery secrets, and every later software action.",
+          "repairStateId": "key-custody-facts"
+        }
+      ],
+      "prompt": "The encrypted storage recovery keys are kept on the same administrator workstation used to manage the storage."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The boundary states preserve workload, hypervisor, boot, hardware-root, key, logging, and privileged-management dependencies. The relationships are shown as a focused boundary map rather than a spatial platform cutaway.",
+        "treatmentId": "fresh-d3-o04-system-security-capabilities-platform-trust-cutaway"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o04-system-security-capabilities-platform-trust-cutaway"
+    ],
+    "unitId": "d3-o04-system-security-capabilities",
+    "variants": [
+      {
+        "changedFact": "The encrypted storage recovery keys are kept on the same administrator workstation used to manage the storage.",
+        "edges": [
+          {
+            "from": "workstation",
+            "kind": "dependency",
+            "label": "currently exposes management and recovery secrets to one compromise path at",
+            "to": "keys"
+          },
+          {
+            "from": "keys",
+            "kind": "dependency",
+            "label": "can decrypt data protected in",
+            "to": "encrypted-storage"
+          },
+          {
+            "from": "approval",
+            "kind": "flow",
+            "label": "authorizes a scoped key release from",
+            "to": "vault"
+          },
+          {
+            "from": "vault",
+            "kind": "flow",
+            "label": "releases recovery capability separately for",
+            "to": "encrypted-storage"
+          },
+          {
+            "from": "vault",
+            "kind": "evidence",
+            "label": "records and supports controlled recovery in",
+            "to": "recovery-evidence"
+          }
+        ],
+        "id": "recovery-key-custody",
+        "label": "Recovery key shares the admin endpoint",
+        "lanes": [
+          {
+            "id": "admin",
+            "label": "Storage administration",
+            "rule": "The management endpoint may operate storage without becoming the sole custodian of recovery secrets."
+          },
+          {
+            "id": "custody",
+            "label": "Independent key custody",
+            "rule": "Recovery-key access requires separate authorization and accountable approval."
+          },
+          {
+            "id": "protected",
+            "label": "Encrypted data and recovery proof",
+            "rule": "Encryption remains useful only when ciphertext and recovery capability do not share one compromise path."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "privileged-account-management",
+              "encryption"
+            ],
+            "detail": "The endpoint can manage encrypted storage and is exposed to administrator credential and workstation compromise.",
+            "id": "workstation",
+            "label": "Storage administrator workstation",
+            "lane": "admin"
+          },
+          {
+            "conceptIds": [
+              "key-management",
+              "encryption"
+            ],
+            "detail": "The secrets can bypass normal data-access controls and decrypt protected storage during recovery.",
+            "id": "keys",
+            "label": "Storage recovery keys",
+            "lane": "custody"
+          },
+          {
+            "conceptIds": [
+              "encryption",
+              "key-management"
+            ],
+            "detail": "The protected data depends on recovery-key secrecy and controlled use.",
+            "id": "encrypted-storage",
+            "label": "Encrypted storage and backups",
+            "lane": "protected"
+          },
+          {
+            "conceptIds": [
+              "key-management",
+              "hardware-root-of-trust"
+            ],
+            "detail": "The vault restricts key custody independently from routine storage administration.",
+            "id": "vault",
+            "label": "Separately controlled key vault",
+            "lane": "custody"
+          },
+          {
+            "conceptIds": [
+              "key-management",
+              "privileged-account-management"
+            ],
+            "detail": "A second authorized role or equivalent control approves bounded key release for a named recovery.",
+            "id": "approval",
+            "label": "Recovery approval",
+            "lane": "custody"
+          },
+          {
+            "conceptIds": [
+              "key-management",
+              "encryption"
+            ],
+            "detail": "Audit records and a controlled test prove authorized key use, rotation, backup, and successful recovery.",
+            "id": "recovery-evidence",
+            "label": "Tested recovery evidence",
+            "lane": "protected"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1
+            ],
+            "activeNodeIds": [
+              "workstation",
+              "keys",
+              "encrypted-storage"
+            ],
+            "caption": "The storage administrator workstation holds the recovery keys for the storage it manages, collapsing the intended separation.",
+            "id": "key-custody-facts",
+            "statuses": {
+              "encrypted-storage": "Encryption no longer supplies an independent barrier against that compromise path.",
+              "keys": "The same compromise also reaches the recovery keys.",
+              "workstation": "A compromise of the administrator workstation reaches storage management authority."
+            },
+            "title": "One compromise reaches both controls"
+          },
+          {
+            "activeEdgeIndexes": [
+              2,
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "vault",
+              "approval",
+              "encrypted-storage",
+              "recovery-evidence"
+            ],
+            "caption": "Move keys to separately authorized custody, require accountable approval, audit every release, rotate as needed, and test controlled recovery.",
+            "id": "key-custody-result",
+            "statuses": {
+              "approval": "A separate authorized decision bounds each recovery-key release.",
+              "encrypted-storage": "Encrypted storage receives only the approved recovery operation.",
+              "recovery-evidence": "The test proves key backup, release, use, rotation, and recovery under the separated design.",
+              "vault": "Recovery keys are stored outside the routine administrator endpoint."
+            },
+            "title": "Separate custody and prove recovery"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Use platform security capabilities as architectural building blocks",
+  "workedExamples": [
+    {
+      "reasoning": "Use isolation and segmentation, protect the hypervisor and management plane, restrict administrator access, validate startup and patch status, manage keys separately, and monitor cross-boundary events.",
+      "situation": "A payment workload runs beside lower-trust services on a shared virtual platform.",
+      "takeaway": "Isolation is an architecture and operations claim, not simply a deployment label.",
+      "title": "Virtualized payment service"
+    }
+  ]
+}

@@ -1,0 +1,601 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o02-logging-architecture-evidence",
+  "treatmentIds": [
+    "fresh-d7-o02-logging-architecture-evidence-coordinated-evidence-pipeline-and-offset-timeline"
+  ],
+  "title": "Correlate logs without inventing event order",
+  "question": "What temporal order is supported after applying a signed clock correction and explicit uncertainty intervals?",
+  "scenario": "Three correlated events share stable identifiers. IdP raw time is 10:00:00 with ±2 seconds uncertainty. Database raw time is 10:04:20; its signed clock offset is +4:00, meaning clock minus reference, so corrected time is 10:00:20 with ±2 seconds uncertainty. Egress corrected time is 10:00:40 with ±2 seconds uncertainty.",
+  "focalRelation": "Preserve each raw timestamp; define signed offset as clock minus reference; compute corrected time as raw minus offset; expand corrected values by measured uncertainty; nonoverlapping intervals support only IdP before database before egress, while intent, causality, completeness, and any event with unknown offset remain unresolved.",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "idp",
+      "label": "IdP · raw 10:00:00",
+      "detail": "Offset 0; corrected 10:00:00 ±2s gives [09:59:58, 10:00:02]. The raw value remains preserved beside the correction.",
+      "conceptIds": [
+        "event-source",
+        "event-context",
+        "time-synchronization"
+      ]
+    },
+    {
+      "id": "db",
+      "label": "DB · raw 10:04:20",
+      "detail": "Signed offset +4:00 means the database clock is four minutes ahead of reference; corrected = raw − offset = 10:00:20.",
+      "conceptIds": [
+        "event-source",
+        "log-architecture",
+        "time-synchronization"
+      ]
+    },
+    {
+      "id": "egress",
+      "label": "Egress · corrected 10:00:40",
+      "detail": "Corrected 10:00:40 ±2s gives [10:00:38, 10:00:42], with destination and correlation identifiers retained.",
+      "conceptIds": [
+        "egress-monitoring",
+        "telemetry",
+        "event-context"
+      ]
+    },
+    {
+      "id": "correction",
+      "label": "Signed correction rule",
+      "detail": "Offset = clock − reference, so corrected time = raw − offset. Store raw time, signed offset, correction provenance, and uncertainty together.",
+      "conceptIds": [
+        "time-synchronization",
+        "log-integrity"
+      ]
+    },
+    {
+      "id": "intervals",
+      "label": "Bounded UTC intervals",
+      "detail": "IdP [09:59:58,10:00:02], DB [10:00:18,10:00:22], and egress [10:00:38,10:00:42] do not overlap.",
+      "conceptIds": [
+        "time-synchronization",
+        "event-context"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "label": "Qualified temporal conclusion",
+      "detail": "The measured intervals support IdP before DB before egress only; they do not prove intent, causality, or collection completeness.",
+      "conceptIds": [
+        "log-management",
+        "log-retention",
+        "log-integrity"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "idp",
+      "to": "intervals",
+      "label": "contributes preserved raw time and [09:59:58,10:00:02]",
+      "kind": "evidence"
+    },
+    {
+      "from": "db",
+      "to": "correction",
+      "label": "applies +4:00 as raw minus signed offset",
+      "kind": "evidence"
+    },
+    {
+      "from": "correction",
+      "to": "intervals",
+      "label": "produces DB [10:00:18,10:00:22] with provenance",
+      "kind": "evidence"
+    },
+    {
+      "from": "egress",
+      "to": "intervals",
+      "label": "contributes [10:00:38,10:00:42]",
+      "kind": "evidence"
+    },
+    {
+      "from": "intervals",
+      "to": "conclusion",
+      "label": "supports IdP before DB before egress because intervals do not overlap",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "raw-preserved",
+      "title": "Preserve raw observations",
+      "caption": "Keep IdP raw 10:00:00, DB raw 10:04:20, and the egress observation with stable identifiers. Raw display order is not yet corrected event order.",
+      "activeNodeIds": [
+        "idp",
+        "db",
+        "egress"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "idp": "raw 10:00:00 · ±2s",
+        "db": "raw 10:04:20 · signed offset +4:00",
+        "egress": "corrected 10:00:40 · ±2s"
+      }
+    },
+    {
+      "id": "signed-correction",
+      "title": "Apply the signed correction",
+      "caption": "Offset is clock minus reference. The DB clock is +4:00 ahead, so corrected DB time is 10:04:20 − 4:00 = 10:00:20.",
+      "activeNodeIds": [
+        "db",
+        "correction"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "correction": "corrected = raw − offset",
+        "db": "10:04:20 − 00:04:00 = 10:00:20"
+      }
+    },
+    {
+      "id": "interval-order",
+      "title": "Compare uncertainty intervals",
+      "caption": "IdP [09:59:58,10:00:02], DB [10:00:18,10:00:22], and egress [10:00:38,10:00:42] are separated, so their measured temporal order is supported.",
+      "activeNodeIds": [
+        "idp",
+        "correction",
+        "egress",
+        "intervals"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        2,
+        3
+      ],
+      "statuses": {
+        "intervals": "IdP interval < DB interval < egress interval"
+      }
+    },
+    {
+      "id": "temporal-only",
+      "title": "Bound the claim",
+      "caption": "The intervals support IdP before DB before egress. They do not establish why the actions occurred, whether one caused another, or whether collection was complete.",
+      "activeNodeIds": [
+        "intervals",
+        "conclusion"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "conclusion": "temporal order supported · intent/causality/completeness unresolved"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "unknown-db-offset",
+      "label": "Unknown database offset",
+      "changedFact": "The database raw timestamp remains 10:04:20, but its signed offset and uncertainty cannot be established.",
+      "states": [
+        {
+          "id": "unknown-offset",
+          "title": "Offset evidence missing",
+          "caption": "The DB raw time is preserved, but direction, magnitude, provenance, and uncertainty of its clock offset are unknown.",
+          "activeNodeIds": [
+            "db",
+            "correction"
+          ],
+          "activeEdgeIndexes": [
+            1
+          ],
+          "statuses": {
+            "db": "raw 10:04:20 · offset unknown",
+            "correction": "no bounded DB correction"
+          }
+        },
+        {
+          "id": "unknown-overlap",
+          "title": "Keep only the supported partial order",
+          "caption": "The IdP interval remains earlier than the egress interval. The DB event may overlap or fall outside either interval, so its exact precedence is unresolved.",
+          "activeNodeIds": [
+            "idp",
+            "db",
+            "egress",
+            "intervals",
+            "correction"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2,
+            3
+          ],
+          "statuses": {
+            "intervals": "IdP < egress supported · DB placement unresolved"
+          }
+        },
+        {
+          "id": "unknown-limit",
+          "title": "Withdraw the unsupported claim",
+          "caption": "Do not assert IdP<DB<egress. Preserve the raw DB record, obtain offset evidence if possible, and state only IdP before egress.",
+          "activeNodeIds": [
+            "intervals",
+            "conclusion"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "conclusion": "DB precedence withdrawn"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "idp",
+          "label": "IdP · raw 10:00:00",
+          "detail": "Offset 0; corrected 10:00:00 ±2s gives [09:59:58, 10:00:02]. The raw value remains preserved beside the correction.",
+          "conceptIds": [
+            "event-source",
+            "event-context",
+            "time-synchronization"
+          ]
+        },
+        {
+          "id": "db",
+          "label": "DB · raw 10:04:20 · offset unknown",
+          "detail": "The database raw time is preserved, but without a signed measured offset no bounded corrected interval can be placed on the shared UTC axis.",
+          "conceptIds": [
+            "event-source",
+            "log-architecture",
+            "time-synchronization"
+          ]
+        },
+        {
+          "id": "egress",
+          "label": "Egress · corrected 10:00:40",
+          "detail": "Corrected 10:00:40 ±2s gives [10:00:38, 10:00:42], with destination and correlation identifiers retained.",
+          "conceptIds": [
+            "egress-monitoring",
+            "telemetry",
+            "event-context"
+          ]
+        },
+        {
+          "id": "correction",
+          "label": "Missing DB offset evidence",
+          "detail": "Offset direction, magnitude, provenance, and uncertainty are unknown, so exact database precedence is withdrawn.",
+          "conceptIds": [
+            "time-synchronization",
+            "log-integrity"
+          ]
+        },
+        {
+          "id": "intervals",
+          "label": "Partial temporal order",
+          "detail": "IdP [09:59:58,10:00:02] is before egress [10:00:38,10:00:42]; database placement remains unresolved and may overlap either interval.",
+          "conceptIds": [
+            "time-synchronization",
+            "event-context"
+          ]
+        },
+        {
+          "id": "conclusion",
+          "label": "Withdraw DB precedence",
+          "detail": "Retain only IdP before egress. Do not claim whether the database event came before, between, or after them until offset evidence exists.",
+          "conceptIds": [
+            "log-management",
+            "log-retention",
+            "log-integrity"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "idp",
+          "to": "intervals",
+          "label": "still establishes the earlier IdP interval",
+          "kind": "evidence"
+        },
+        {
+          "from": "db",
+          "to": "correction",
+          "label": "lacks a signed measured offset and uncertainty",
+          "kind": "dependency"
+        },
+        {
+          "from": "correction",
+          "to": "intervals",
+          "label": "prevents bounded placement of the DB event",
+          "kind": "dependency"
+        },
+        {
+          "from": "egress",
+          "to": "intervals",
+          "label": "still establishes the later egress interval",
+          "kind": "evidence"
+        },
+        {
+          "from": "intervals",
+          "to": "conclusion",
+          "label": "supports only IdP before egress; DB precedence is unresolved",
+          "kind": "evidence"
+        }
+      ]
+    },
+    {
+      "id": "shared-admin-integrity",
+      "label": "Shared log administration",
+      "changedFact": "A central log store has a valid hash chain, but an administrator who can delete source agents also administers the store.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A central log store has a valid hash chain, but an administrator who can delete source agents also administers the store.",
+          "activeNodeIds": [
+            "n1",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n1": "source agent deletable by store admin",
+            "n6": "integrity trust gap"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Separate duties, restrict deletion, alert on agent changes, retain independent copies, and document the residual trust assumption. Integrity mechanisms do not remove privileged administration risk or prove that collection was complete.",
+          "activeNodeIds": [
+            "n1",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            4
+          ],
+          "statuses": {
+            "n5": "independent copy and agent-change alert required"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n6": "duty separation and residual trust documented"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Deletable source agents",
+          "detail": "The same administrator can remove collection agents before events reach the store.",
+          "conceptIds": [
+            "event-source",
+            "event-context"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Central log-store administration",
+          "detail": "The administrator also controls the destination and its configuration.",
+          "conceptIds": [
+            "event-source",
+            "log-architecture"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Collection-completeness gap",
+          "detail": "A valid hash chain cannot prove that deleted source events were ever collected.",
+          "conceptIds": [
+            "event-context",
+            "log-integrity"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Independent log copy",
+          "detail": "A separately controlled destination retains events beyond the shared administrator.",
+          "conceptIds": [
+            "telemetry",
+            "log-integrity"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Agent-change alert and duty split",
+          "detail": "Alerts, restricted deletion, and separate roles reduce common privileged control.",
+          "conceptIds": [
+            "time-synchronization",
+            "log-management"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Documented residual trust",
+          "detail": "Evidence states what integrity proves, what completeness remains assumed, and who owns risk.",
+          "conceptIds": [
+            "log-management",
+            "log-retention",
+            "log-integrity"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n5",
+          "label": "triggers protected agent-change evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n2",
+          "to": "n5",
+          "label": "is constrained by separated administration",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "becomes visible when sources disappear",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "supplies independently held records",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "supports bounded integrity and completeness claim",
+          "kind": "evidence"
+        },
+        {
+          "from": "n1",
+          "to": "n6",
+          "label": "correlates agent state with stored events",
+          "kind": "evidence"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "creates the collection gap before hashing",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o02-logging-architecture-evidence-prediction",
+    "prompt": "After applying the signed correction and ±2-second bounds, what may the investigation claim?",
+    "options": [
+      {
+        "id": "exact-causal",
+        "label": "The IdP event caused the database action, which caused egress",
+        "correct": false,
+        "feedback": "Separated time intervals support temporal order only. They do not prove intent, causality, or completeness.",
+        "repairStateId": "temporal-only"
+      },
+      {
+        "id": "bounded-order",
+        "label": "IdP [09:59:58,10:00:02] precedes DB [10:00:18,10:00:22], which precedes egress [10:00:38,10:00:42]",
+        "correct": true,
+        "feedback": "Correct. The nonoverlapping corrected intervals support that temporal order while leaving intent, causality, and completeness unresolved.",
+        "repairStateId": "interval-order"
+      },
+      {
+        "id": "raw-order",
+        "label": "Use raw display order because uncertainty is only two seconds",
+        "correct": false,
+        "feedback": "The DB raw clock is four minutes ahead. Apply the signed correction before comparing uncertainty intervals.",
+        "repairStateId": "signed-correction"
+      }
+    ],
+    "conceptIds": [
+      "time-synchronization",
+      "event-context",
+      "log-integrity"
+    ],
+    "hint": "Preserve the raw observations, then check the signed-offset definition, provenance, and uncertainty before comparing time."
+  },
+  "transfer": {
+    "id": "d7-o02-logging-architecture-evidence-transfer",
+    "prompt": "The DB raw event remains 10:04:20, but the signed offset and uncertainty cannot be established. What temporal statement survives?",
+    "options": [
+      {
+        "id": "assume-four",
+        "label": "Reuse the prior +4:00 correction and assert IdP before DB before egress",
+        "correct": false,
+        "feedback": "The prior correction is not evidence for this source state. Unknown direction and uncertainty remove exact DB placement.",
+        "repairStateId": "unknown-offset"
+      },
+      {
+        "id": "partial-order",
+        "label": "Keep IdP before egress, preserve the DB raw time, and withdraw DB precedence until offset evidence exists",
+        "correct": true,
+        "feedback": "Correct. The known IdP and egress intervals remain ordered, while the DB event is unresolved and may overlap either interval.",
+        "repairStateId": "unknown-limit"
+      },
+      {
+        "id": "discard-all",
+        "label": "Discard every source because one offset is unknown",
+        "correct": false,
+        "feedback": "Unknown DB timing limits cross-source sequence; it does not erase the IdP, egress, identity, action, or integrity evidence.",
+        "repairStateId": "unknown-overlap"
+      }
+    ],
+    "conceptIds": [
+      "time-synchronization",
+      "event-context"
+    ],
+    "hint": "Preserve the raw observation and identify which correction evidence is now unavailable before stating any order."
+  },
+  "retry": {
+    "id": "d7-o02-logging-architecture-evidence-retry-v2",
+    "prompt": "Authentication and database logs have intact hashes, but their clocks differ by eleven minutes. Can the investigation assert event order?",
+    "options": [
+      {
+        "id": "hash-orders",
+        "label": "Use hash-chain order to claim the authentication event preceded the database action",
+        "correct": false,
+        "feedback": "A hash chain orders records within its chain, not events across unsynchronized sources.",
+        "repairStateId": "signed-correction"
+      },
+      {
+        "id": "discard-both",
+        "label": "Discard both sources because clock drift makes every field unreliable",
+        "correct": false,
+        "feedback": "Clock drift limits temporal correlation but does not erase all source, action, or integrity evidence.",
+        "repairStateId": "unknown-overlap"
+      },
+      {
+        "id": "qualify-order",
+        "label": "Preserve both sources, measure the clock offset, and qualify event-order claims",
+        "correct": true,
+        "feedback": "Correct. Hash integrity does not supply synchronized time or prove cross-source sequence.",
+        "repairStateId": "temporal-only"
+      }
+    ],
+    "conceptIds": [
+      "time-synchronization",
+      "log-integrity",
+      "event-context"
+    ],
+    "hint": "Integrity protects records from change; temporal correlation depends on another control."
+  },
+  "takeaway": "Preserve raw time, apply signed corrections as corrected = raw − (clock − reference), retain uncertainty intervals, and claim only the temporal order those intervals support.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o02-logging-architecture",
+    "official-d7-15-30-logging",
+    "sybex-d7-834-840",
+    "sybex-d7-841-850"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o02-logging-architecture-evidence-coordinated-evidence-pipeline-and-offset-timeline",
+      "disposition": "implemented",
+      "rationale": "Implements the reviewed native offset timeline with raw and corrected timestamps side by side: IdP 10:00:00±2s [09:59:58,10:00:02]; DB raw 10:04:20 with signed +4:00 correction to 10:00:20±2s [10:00:18,10:00:22]; egress 10:00:40±2s [10:00:38,10:00:42]. The measured branch supports only IdP<DB<egress temporal order. The unknown-offset branch withdraws DB precedence while retaining IdP<egress, and both branches reject intent, causality, or completeness claims."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Clock correction and uncertainty intervals can support temporal order when corrected ranges do not overlap. That order does not by itself prove causality, intent, or complete collection.",
+    "visualReasoningGain": "Aligned corrected timestamps and uncertainty intervals let the learner compare ranges directly and see why order is supported while causality remains unproven."
+  }
+}

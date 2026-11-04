@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o05-architecture-vulnerabilities",
+  "treatmentIds": [
+    "fresh-d3-o05-architecture-vulnerabilities-architecture-boundary-atlas"
+  ],
+  "title": "architecture boundary atlas",
+  "question": "Where does a field-to-cloud analytics system change trust, authority, failure consequence, or operating responsibility?",
+  "scenario": "Containerized field analytics: Edge devices run containers that send operational data to a cloud analytics service.",
+  "focalRelation": "Architecture labels do not identify the decisive path; client, API, service, container, orchestrator, database, cloud control plane, edge/IoT/industrial device, update supplier, and operator create different trust changes.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "Vendor update authority",
+      "label": "Vendor Update Authority",
+      "detail": "The vendor signing and distribution authority can replace code on every enrolled field device.",
+      "conceptIds": [
+        "supply-chain-risk"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Edge software",
+      "label": "Edge Software",
+      "detail": "Containers and host software execute vendor and customer code at the operational edge.",
+      "conceptIds": [
+        "edge-computing"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Edge workload identity",
+      "label": "Edge Workload Identity",
+      "detail": "Each device workload presents an identity whose scope determines which cloud operations it may request.",
+      "conceptIds": [
+        "edge-computing",
+        "api-security"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Cloud API",
+      "label": "Cloud API",
+      "detail": "The API authenticates the device identity and authorizes the exact operation before protected data access.",
+      "conceptIds": [
+        "cloud-shared-responsibility",
+        "api-security"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Data store",
+      "label": "Data Store",
+      "detail": "The service stores operational data behind the API’s identity, action, and tenant boundary.",
+      "conceptIds": [
+        "database-security"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "Vendor update authority",
+      "to": "Edge software",
+      "label": "can change executed code",
+      "kind": "flow"
+    },
+    {
+      "from": "Edge workload identity",
+      "to": "Cloud API",
+      "label": "requests scoped operations",
+      "kind": "flow"
+    },
+    {
+      "from": "Cloud API",
+      "to": "Data store",
+      "label": "uses an authorized service path",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "External change and workload identity",
+      "rule": "Vendor update authority and edge identity can initiate changes or requests."
+    },
+    {
+      "id": "control",
+      "label": "Edge and API enforcement",
+      "rule": "Edge software and cloud API validate code, identity, and authorized operation."
+    },
+    {
+      "id": "protected",
+      "label": "Protected operational data",
+      "rule": "Only scoped API actions reach the data store."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Containerized field analytics: Edge devices run containers that send operational data to a cloud analytics service.",
+      "activeNodeIds": [
+        "Vendor update authority",
+        "Edge software"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Vendor update authority": "The vendor signing and distribution authority can replace code on every enrolled field device.",
+        "Edge software": "Containers and host software execute vendor and customer code at the operational edge."
+      },
+      "activeRowIds": []
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Vendor Update Authority can change executed code Edge Software. Edge Workload Identity requests scoped operations Cloud API.",
+      "activeNodeIds": [
+        "Vendor update authority",
+        "Edge software",
+        "Edge workload identity",
+        "Cloud API"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Edge software": "Containers and host software execute vendor and customer code at the operational edge.",
+        "Vendor update authority": "The vendor signing and distribution authority can replace code on every enrolled field device.",
+        "Edge workload identity": "Each device workload presents an identity whose scope determines which cloud operations it may request.",
+        "Cloud API": "The API authenticates the device identity and authorizes the exact operation before protected data access."
+      },
+      "activeRowIds": [
+        "edge"
+      ]
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Edge Workload Identity requests scoped operations Cloud API. Cloud API uses an authorized service path Data Store.",
+      "activeNodeIds": [
+        "Edge workload identity",
+        "Cloud API",
+        "Data store"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Data store": "The service stores operational data behind the API’s identity, action, and tenant boundary.",
+        "Edge workload identity": "Each device workload presents an identity whose scope determines which cloud operations it may request.",
+        "Cloud API": "The API authenticates the device identity and authorizes the exact operation before protected data access."
+      },
+      "activeRowIds": [
+        "api"
+      ]
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "Every edge image is scanned, but one vendor update authority can replace software on all field devices and the cloud API trusts every device credential equally. The visible update and identity paths remain dominant boundaries even when image scanning improves.",
+      "activeNodeIds": [
+        "Vendor update authority",
+        "Edge software",
+        "Edge workload identity",
+        "Cloud API",
+        "Data store"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "Vendor update authority": "One authority can change software across every field device.",
+        "Edge software": "Containers and host software execute vendor and customer code at the operational edge.",
+        "Edge workload identity": "Broadly trusted credentials create a shared compromise path.",
+        "Cloud API": "API must authorize each device identity and action within scope.",
+        "Data store": "Protected operations remain reachable only through scoped API requests."
+      },
+      "activeRowIds": [
+        "store"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Every edge image is scanned, but one vendor update authority can replace software on all field devices and the cloud API trusts every device credential equally.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "Every edge image is scanned, but one vendor update authority can replace software on all field devices and the cloud API trusts every device credential equally.",
+          "activeNodeIds": [
+            "Edge workload identity",
+            "Cloud API",
+            "Data store"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "Edge workload identity": "Broadly trusted credentials create a shared compromise path.",
+            "Cloud API": "API must authorize each device identity and action within scope.",
+            "Data store": "Protected operations remain reachable only through scoped API requests."
+          },
+          "activeRowIds": [
+            "edge"
+          ]
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "The visible update and identity paths remain dominant boundaries even when image scanning improves.",
+          "activeNodeIds": [
+            "Edge workload identity",
+            "Cloud API",
+            "Data store"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "Edge workload identity": "Broadly trusted credentials create a shared compromise path.",
+            "Cloud API": "API must authorize each device identity and action within scope.",
+            "Data store": "Protected operations remain reachable only through scoped API requests."
+          },
+          "activeRowIds": [
+            "api"
+          ]
+        }
+      ],
+      "matrix": {
+        "title": "Compare architecture claims on the same decision dimensions",
+        "description": "The label edge, cloud, or container does not establish the decisive path. Compare who can change code, where identity is enforced, and which dependency can fail many instances.",
+        "columns": [
+          {
+            "id": "asset",
+            "label": "Protected asset"
+          },
+          {
+            "id": "boundary",
+            "label": "Trust boundary"
+          },
+          {
+            "id": "change",
+            "label": "Privileged change path"
+          },
+          {
+            "id": "common",
+            "label": "Common-mode dependency"
+          },
+          {
+            "id": "evidence",
+            "label": "Evidence needed"
+          }
+        ],
+        "rows": [
+          {
+            "id": "edge",
+            "label": "Field edge device",
+            "cells": {
+              "asset": "Operational device and local data",
+              "boundary": "Physical edge, host and container boundary",
+              "change": "Vendor-signed image and device enrollment",
+              "common": "One vendor update authority can replace all images",
+              "evidence": "Image provenance, device state, rollout and rollback evidence"
+            }
+          },
+          {
+            "id": "api",
+            "label": "Cloud API",
+            "cells": {
+              "asset": "Authorized operations and tenant data",
+              "boundary": "Device identity to API policy boundary",
+              "change": "API policy, credential and deployment administration",
+              "common": "Uniform trust in every device credential",
+              "evidence": "Per-device authorization and denied-path telemetry"
+            }
+          },
+          {
+            "id": "store",
+            "label": "Cloud data store",
+            "cells": {
+              "asset": "Aggregated operational records",
+              "boundary": "API/service identity to data authorization",
+              "change": "Schema, service role, key and backup administration",
+              "common": "Shared service identity or control plane",
+              "evidence": "Object/action authorization, data access and recovery tests"
+            }
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "prediction": {
+    "id": "d3-o05-architecture-vulnerabilities-prediction-v1",
+    "prompt": "Where does a field-to-cloud analytics system change trust, authority, failure consequence, or operating responsibility?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Locate the actual path and consequence before selecting a control for the architecture family.",
+        "correct": true,
+        "feedback": "Cloud, serverless, container, IoT, or database labels are too broad to identify the identity, update, management, data, or safety failure that matters.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Accept the workload because every image passed vulnerability scanning.",
+        "correct": false,
+        "feedback": "Image scanning does not constrain the orchestrator or management plane that can control all workloads.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Serverless removes customer responsibility for identities, code, configuration, data, and events.",
+        "correct": false,
+        "feedback": "The provider operates infrastructure, while customer-controlled identities, functions, dependencies, data, and configuration still create paths.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "architecture-vulnerability",
+      "cloud-shared-responsibility",
+      "serverless",
+      "industrial-control-system"
+    ],
+    "hint": "Locate the vulnerable interface and the privilege or data boundary it can cross."
+  },
+  "transfer": {
+    "id": "d3-o05-architecture-vulnerabilities-transfer-v1",
+    "prompt": "Every edge image is scanned, but one vendor update authority can replace software on all field devices and the cloud API trusts every device credential equally.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Accept the deployment because scanning the current images proves future vendor updates and shared device credentials remain safe.",
+        "correct": false,
+        "feedback": "A scan covers the examined image; it does not constrain future update authority or a credential trusted across all devices.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Treat update authority and shared device trust as common compromise paths; separate duties, narrow credentials, verify updates, and test recovery.",
+        "correct": true,
+        "feedback": "Correct. The visible update and identity paths remain dominant boundaries even when image scanning improves.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Rely on the cloud API alone even though a compromised edge identity can request the same broadly trusted operations.",
+        "correct": false,
+        "feedback": "An API still needs scoped workload identity and authorization; broad device trust can turn an edge compromise into protected-data access.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "architecture-vulnerability",
+      "edge-computing",
+      "api-security",
+      "supply-chain-risk"
+    ],
+    "hint": "A changed component can move the attack surface without changing the protected outcome."
+  },
+  "retry": {
+    "id": "d3-o05-architecture-vulnerabilities-retry-v1",
+    "prompt": "An edge gateway accepts vendor firmware over an authenticated support tunnel but does not verify a signed update before installation. What boundary needs repair?",
+    "options": [
+      {
+        "id": "scan-container",
+        "label": "Scan the gateway container image and leave the firmware installation path unchanged",
+        "correct": false,
+        "feedback": "Container scanning does not repair the device firmware authorization and recovery boundary.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "update-authority",
+        "label": "Establish firmware signing authority, device-side verification, rollback or recovery, and update evidence",
+        "correct": true,
+        "feedback": "Correct. The update path must bind the artifact to an approved authority and preserve safe failure and recovery behavior.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "tunnel-enough",
+        "label": "The authenticated tunnel already proves the firmware is approved for this device",
+        "correct": false,
+        "feedback": "Channel authentication identifies the support path; it does not independently authorize the firmware artifact.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "architecture-vulnerability",
+      "cloud-shared-responsibility",
+      "containerization"
+    ],
+    "hint": "Choose the mitigation that constrains the actual path and leaves testable evidence."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Architecture labels do not identify the decisive path; client, API, service, container, orchestrator, database, cloud control plane, edge/IoT/industrial device, update supplier, and operator create different trust changes.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o05-outline",
+    "d3-o05-textbook",
+    "d3-o05-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o05-architecture-vulnerabilities-architecture-boundary-atlas",
+      "disposition": "equivalent",
+      "rationale": "The boundary states preserve the field-to-cloud update, workload identity, API authorization, data, safety, and recovery paths, including common vendor update authority. The detail is revealed through states rather than linked cards, and microservice and virtualization architectures remain outside this edge-device case."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Architecture labels do not identify the decisive failure path. The analyst must locate the actual identity, update authority, boundary, management path, consequence, and evidence for the selected system.",
+    "visualReasoningGain": "Coordinated architecture comparisons should make those dimensions stable across families; the current single edge-to-cloud map adds only one example and cannot teach the advertised breadth."
+  },
+  "matrix": {
+    "title": "Compare architecture claims on the same decision dimensions",
+    "description": "The label edge, cloud, or container does not establish the decisive path. Compare who can change code, where identity is enforced, and which dependency can fail many instances.",
+    "columns": [
+      {
+        "id": "asset",
+        "label": "Protected asset"
+      },
+      {
+        "id": "boundary",
+        "label": "Trust boundary"
+      },
+      {
+        "id": "change",
+        "label": "Privileged change path"
+      },
+      {
+        "id": "common",
+        "label": "Common-mode dependency"
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence needed"
+      }
+    ],
+    "rows": [
+      {
+        "id": "edge",
+        "label": "Field edge device",
+        "cells": {
+          "asset": "Operational device and local data",
+          "boundary": "Physical edge, host and container boundary",
+          "change": "Vendor-signed image and device enrollment",
+          "common": "One vendor update authority can replace all images",
+          "evidence": "Image provenance, device state, rollout and rollback evidence"
+        }
+      },
+      {
+        "id": "api",
+        "label": "Cloud API",
+        "cells": {
+          "asset": "Authorized operations and tenant data",
+          "boundary": "Device identity to API policy boundary",
+          "change": "API policy, credential and deployment administration",
+          "common": "Uniform trust in every device credential",
+          "evidence": "Per-device authorization and denied-path telemetry"
+        }
+      },
+      {
+        "id": "store",
+        "label": "Cloud data store",
+        "cells": {
+          "asset": "Aggregated operational records",
+          "boundary": "API/service identity to data authorization",
+          "change": "Schema, service role, key and backup administration",
+          "common": "Shared service identity or control plane",
+          "evidence": "Object/action authorization, data access and recovery tests"
+        }
+      }
+    ],
+    "notes": []
+  }
+}

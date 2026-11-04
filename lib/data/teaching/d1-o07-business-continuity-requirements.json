@@ -1,0 +1,391 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o07-business-continuity-requirements",
+  "treatmentIds": [
+    "fresh-d1-o07-business-continuity-requirements-disruption-objectives-dependencies"
+  ],
+  "title": "disruption objectives dependencies",
+  "question": "Can a service meet its RTO yet fail its RPO or MTD/MAD constraint because a dependency or usable-data checkpoint is late?",
+  "scenario": "Emergency claims intake: A claims service can tolerate a short delay but cannot lose submitted emergency cases.",
+  "focalRelation": "RTO measures service-restoration elapsed time forward from disruption; RPO measures recoverable-data age backward from disruption; MTD/MAD bounds tolerable disruption; end-to-end capability also requires named dependencies.",
+  "representation": "quantitative",
+  "nodes": [
+    {
+      "id": "snapshot",
+      "label": "Last usable snapshot · −1 h",
+      "detail": "The newest usable snapshot is one hour older than the disruption, so actual data loss is one hour against a fifteen-minute RPO.",
+      "conceptIds": [
+        "recovery-point-objective",
+        "rpo"
+      ]
+    },
+    {
+      "id": "interruption",
+      "label": "Service interruption · 0 h",
+      "detail": "The disruption starts the elapsed recovery and maximum-tolerable-downtime clocks.",
+      "conceptIds": [
+        "business-continuity",
+        "maximum-tolerable-downtime",
+        "recovery-point-objective",
+        "rpo"
+      ]
+    },
+    {
+      "id": "rpo-limit",
+      "label": "RPO limit · 0.25 h",
+      "detail": "The business accepts at most fifteen minutes of data loss; the one-hour-old snapshot misses this target.",
+      "conceptIds": [
+        "recovery-point-objective",
+        "rpo",
+        "business-impact-analysis"
+      ]
+    },
+    {
+      "id": "technical-restore",
+      "label": "Technical restore · 3 h",
+      "detail": "Core components return at three hours, but this milestone is not yet proof that the claims service is usable.",
+      "conceptIds": [
+        "recovery-time-objective",
+        "rto"
+      ]
+    },
+    {
+      "id": "acceptance",
+      "label": "Usable acceptance · 3.5 h",
+      "detail": "Business testing accepts the end-to-end claims service at 3.5 hours, inside the four-hour RTO and six-hour maximum disruption.",
+      "conceptIds": [
+        "recovery-time-objective",
+        "external-dependency",
+        "recovery-priority"
+      ]
+    },
+    {
+      "id": "limits",
+      "label": "RTO 4 h · MTD 6 h",
+      "detail": "Usable acceptance at 3.5 hours meets the four-hour RTO and remains inside the six-hour harm boundary.",
+      "conceptIds": [
+        "recovery-time-objective",
+        "maximum-tolerable-downtime",
+        "rto",
+        "mtd",
+        "business-impact-analysis"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "snapshot",
+      "to": "interruption",
+      "label": "creates one hour of actual recoverable-data loss at",
+      "kind": "flow"
+    },
+    {
+      "from": "rpo-limit",
+      "to": "snapshot",
+      "label": "allows only fifteen minutes and is missed by",
+      "kind": "evidence"
+    },
+    {
+      "from": "interruption",
+      "to": "technical-restore",
+      "label": "starts the elapsed restoration interval ending at",
+      "kind": "flow"
+    },
+    {
+      "from": "technical-restore",
+      "to": "acceptance",
+      "label": "must pass end-to-end business validation before",
+      "kind": "dependency"
+    },
+    {
+      "from": "acceptance",
+      "to": "limits",
+      "label": "meets the four-hour RTO and six-hour MTD shown in",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Emergency claims intake: A claims service can tolerate a short delay but cannot lose submitted emergency cases.",
+      "activeNodeIds": [
+        "snapshot",
+        "interruption"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "snapshot": "The newest usable snapshot is one hour older than the disruption, so actual data loss is one hour against a fifteen-minute RPO.",
+        "interruption": "The disruption starts the elapsed recovery and maximum-tolerable-downtime clocks."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Last usable snapshot · −1 h creates one hour of actual recoverable-data loss at Service interruption · 0 h. RPO limit · 0.25 h allows only fifteen minutes and is missed by Last usable snapshot · −1 h.",
+      "activeNodeIds": [
+        "snapshot",
+        "interruption",
+        "rpo-limit"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "snapshot": "The newest usable snapshot is one hour older than the disruption, so actual data loss is one hour against a fifteen-minute RPO.",
+        "interruption": "The disruption starts the elapsed recovery and maximum-tolerable-downtime clocks.",
+        "rpo-limit": "The business accepts at most fifteen minutes of data loss; the one-hour-old snapshot misses this target."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Technical restore · 3 h must pass end-to-end business validation before Usable acceptance · 3.5 h. Usable acceptance · 3.5 h meets the four-hour RTO and six-hour MTD shown in RTO 4 h · MTD 6 h.",
+      "activeNodeIds": [
+        "technical-restore",
+        "acceptance",
+        "limits"
+      ],
+      "activeEdgeIndexes": [
+        3,
+        4
+      ],
+      "statuses": {
+        "technical-restore": "Core components return at three hours, but this milestone is not yet proof that the claims service is usable.",
+        "acceptance": "Business validation confirms the end-to-end service is usable at three and a half hours.",
+        "limits": "Usable acceptance at 3.5 hours meets the four-hour RTO and remains inside the six-hour harm boundary."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The recovery point is current, technical restoration completes at six hours, and business acceptance occurs at seven hours. RPO passes, while the four-hour RTO and six-hour MTD are missed.",
+      "activeNodeIds": [
+        "snapshot",
+        "interruption",
+        "rpo-limit",
+        "technical-restore",
+        "acceptance",
+        "limits"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "snapshot": "The current recovery point produces zero data loss and meets the fifteen-minute RPO.",
+        "interruption": "The disruption starts the recovery and tolerable-disruption clocks at zero hours.",
+        "rpo-limit": "The fifteen-minute data-loss limit is satisfied by the current recovery point.",
+        "technical-restore": "Technical components return at six hours, but the claims service is not yet accepted as usable.",
+        "acceptance": "End-to-end business acceptance occurs at seven hours.",
+        "limits": "Seven-hour usable acceptance misses the four-hour RTO and exceeds the six-hour MTD."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Zero loss, late usable service",
+      "changedFact": "The service has zero data loss, technical restoration completes at six hours, and business acceptance occurs at seven hours.",
+      "quantitative": {
+        "kind": "recovery-timeline",
+        "unit": "hours",
+        "lastRecoverableAt": 0,
+        "interruptionAt": 0,
+        "rpoLimit": 0.25,
+        "restoreAt": 6,
+        "rtoLimit": 4,
+        "disruptionLimit": 6,
+        "acceptanceAt": 7,
+        "description": "A current recovery point meets the fifteen-minute RPO, but technical restoration at six hours and usable acceptance at seven hours miss the four-hour RTO; acceptance also exceeds the six-hour maximum tolerable disruption."
+      },
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed recovery measurements",
+          "caption": "Recovery has zero data loss; technical restoration completes at six hours and business acceptance at seven hours.",
+          "activeNodeIds": [
+            "snapshot",
+            "interruption",
+            "technical-restore",
+            "acceptance",
+            "limits"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2,
+            3,
+            4
+          ],
+          "statuses": {
+            "snapshot": "Current recovery point: zero data loss.",
+            "technical-restore": "Technical components restored at 6 h.",
+            "acceptance": "Business acceptance at 7 h.",
+            "limits": "RTO 4 h; MTD 6 h.",
+            "interruption": "The disruption starts the elapsed recovery and maximum-tolerable-downtime clocks."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Objectives evaluated separately",
+          "caption": "RPO passes. RTO fails because usable acceptance is at seven hours, and MTD is exceeded.",
+          "activeNodeIds": [
+            "rpo-limit",
+            "snapshot",
+            "technical-restore",
+            "acceptance",
+            "limits"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            3,
+            4
+          ],
+          "statuses": {
+            "rpo-limit": "RPO met.",
+            "snapshot": "Zero data loss.",
+            "acceptance": "RTO missed at 7 h.",
+            "limits": "Six-hour MTD exceeded.",
+            "technical-restore": "Technical components return at six hours, but this milestone alone does not make the claims service usable."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o07-business-continuity-requirements-prediction-v1",
+    "prompt": "Can a service meet its RTO yet fail its RPO or MTD/MAD constraint because a dependency or usable-data checkpoint is late?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Test data loss, restore time, tolerable disruption, and dependencies separately.",
+        "correct": true,
+        "feedback": "A restored server may meet elapsed-time target while the data is too old or the process remains unusable.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Declare recovery successful from zero data loss without checking elapsed restoration or tolerable disruption.",
+        "correct": false,
+        "feedback": "Zero data loss can meet RPO while service restoration still misses RTO and maximum tolerable disruption.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Treat a zero-loss restore as proof that RPO, RTO, MTD, and dependency targets all passed.",
+        "correct": false,
+        "feedback": "Zero loss addresses RPO; elapsed restoration and tolerable disruption still require separate RTO and MTD/MAD checks.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "recovery-time-objective",
+      "recovery-point-objective",
+      "maximum-tolerable-downtime",
+      "external-dependency",
+      "recovery-priority"
+    ],
+    "hint": "Compare data loss with RPO and usable business acceptance with RTO; restoration alone is not acceptance."
+  },
+  "transfer": {
+    "id": "d1-o07-business-continuity-requirements-transfer-v1",
+    "prompt": "The service is usable seven hours after disruption with zero data loss; its RTO is four hours and MTD/MAD is six hours.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "RPO is met, but RTO is missed and the six-hour maximum tolerable disruption is exceeded",
+        "correct": true,
+        "feedback": "RPO is met, but RTO is missed and the six-hour maximum tolerable disruption is exceeded; zero loss does not rescue the time failures.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Declare full recovery success because zero data loss meets RPO, without checking the seven-hour acceptance time.",
+        "correct": false,
+        "feedback": "Zero data loss can meet RPO while service restoration still misses RTO and maximum tolerable disruption. Recompute the decision from Observed recovery time is 7 hours. Observed data loss is 0 hours. RTO is 4 hours and MTD/MAD is 6 hours.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Treat zero-loss restoration as passing every objective even though usable service arrives after RTO and MTD.",
+        "correct": false,
+        "feedback": "Zero loss addresses RPO; elapsed restoration and tolerable disruption still require separate RTO and MTD/MAD checks. In this case, observed recovery time is 7 hours; observed data loss is 0 hours; rTO is 4 hours and MTD/MAD is 6 hours.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "recovery-time-objective",
+      "recovery-point-objective",
+      "maximum-tolerable-downtime"
+    ],
+    "hint": "Recompute the data-loss and elapsed-time tests separately from the changed timestamps."
+  },
+  "retry": {
+    "id": "d1-o07-business-continuity-requirements-retry-v1",
+    "prompt": "A cloud application has replicas but depends on a single external identity provider. What should the continuity review highlight?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Treat the identity provider as an end-to-end recovery dependency",
+        "correct": true,
+        "feedback": "Correct. Service recovery depends on the end-to-end chain, not only application replicas.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Treat the application replicas and database backup as a complete continuity plan without identity recovery.",
+        "correct": false,
+        "feedback": "Recovery also needs priorities, people, procedures, dependencies, communication, and tested restoration capability.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Declare the service recoverable from replica health alone and leave external identity-provider recovery untested.",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Service recovery depends on the end-to-end chain, not only application replicas.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "external-dependency",
+      "business-impact-analysis"
+    ],
+    "hint": "A current recovery point can pass RPO while late service acceptance still misses RTO and MTD."
+  },
+  "takeaway": "Use the case evidence to apply this relation: RTO measures service-restoration elapsed time forward from disruption; RPO measures recoverable-data age backward from disruption; MTD/MAD bounds tolerable disruption; end-to-end capability also requires named dependencies.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o07-outline",
+    "d1-o07-textbook",
+    "d1-o07-sybex",
+    "d1-o07-business-continuity-requirements-depth-source-1"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o07-business-continuity-requirements-disruption-objectives-dependencies",
+      "disposition": "equivalent",
+      "rationale": "The quantitative timeline preserves the recoverable point, disruption, technical restoration, business acceptance, RPO, RTO, and maximum tolerable disruption on one scale, and the changed case moves those values independently. Dependency restoration is explained through the technical-to-business acceptance relation rather than a separate reviewed dependency strip, so the treatment is equivalent."
+    }
+  ],
+  "quantitative": {
+    "kind": "recovery-timeline",
+    "unit": "hours",
+    "lastRecoverableAt": -1,
+    "interruptionAt": 0,
+    "rpoLimit": 0.25,
+    "restoreAt": 3,
+    "rtoLimit": 4,
+    "disruptionLimit": 6,
+    "acceptanceAt": 3.5,
+    "description": "The one-hour-old snapshot misses the fifteen-minute RPO. Technical restoration at three hours becomes usable after business acceptance at 3.5 hours, meeting the four-hour RTO and staying within the six-hour maximum tolerable disruption."
+  }
+}

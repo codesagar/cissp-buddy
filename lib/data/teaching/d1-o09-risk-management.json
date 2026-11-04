@@ -1,0 +1,364 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d1-o09-risk-management",
+  "treatmentIds": [
+    "fresh-d1-o09-risk-management-risk-evidence-sandbox"
+  ],
+  "title": "risk evidence sandbox",
+  "question": "How do scope, exposure, control coverage, evidence freshness, and business consequence change the defensible residual-risk decision?",
+  "scenario": "Ransomware and dispatch: A transit authority relies on an unsegmented operational network and has uncertain restoration dependencies.",
+  "focalRelation": "Asset/objective plus threat event plus vulnerability/exposure yields a scenario; controls modify likelihood or impact only within evidenced scope; assessment tests the claim, monitoring detects change, and an authorized owner decides residual risk.",
+  "representation": "decision",
+  "nodes": [
+    {
+      "id": "scenario",
+      "label": "Ransomware dispatch scenario",
+      "detail": "Ransomware can traverse the unsegmented operational path and disrupt transit dispatch and public service.",
+      "conceptIds": [
+        "asset",
+        "threat",
+        "vulnerability",
+        "likelihood",
+        "impact"
+      ]
+    },
+    {
+      "id": "controls",
+      "label": "Existing control evidence",
+      "detail": "Segmentation, privileged access, detection, protected recovery, and restoration tests reduce only the failure paths their current evidence covers.",
+      "conceptIds": [
+        "control-types",
+        "control-assessment"
+      ]
+    },
+    {
+      "id": "assessment",
+      "label": "Scoped risk assessment",
+      "detail": "The team estimates likelihood, impact, uncertainty, dependencies, and evidence freshness for this named scenario.",
+      "conceptIds": [
+        "risk-assessment",
+        "security-metrics"
+      ]
+    },
+    {
+      "id": "treatment",
+      "label": "Accountable treatment",
+      "detail": "The authorized owner chooses avoid, mitigate, transfer or share, or accept, and assigns controls, actions, resources, and dates.",
+      "conceptIds": [
+        "risk-treatment",
+        "risk-avoidance",
+        "risk-mitigation",
+        "risk-transfer",
+        "risk-acceptance"
+      ]
+    },
+    {
+      "id": "assurance",
+      "label": "Assurance and monitoring",
+      "detail": "Testing and operating signals show control coverage, drift, exceptions, and changed threat or business conditions.",
+      "conceptIds": [
+        "continuous-monitoring",
+        "control-assessment",
+        "reporting"
+      ]
+    },
+    {
+      "id": "residual",
+      "label": "Residual-risk decision",
+      "detail": "The authorized owner accepts, remediates, escalates, or changes treatment using the remaining evidence-backed scenario risk.",
+      "conceptIds": [
+        "risk-management",
+        "residual-risk"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "scenario",
+      "to": "assessment",
+      "label": "defines the loss path evaluated in",
+      "kind": "flow"
+    },
+    {
+      "from": "controls",
+      "to": "assessment",
+      "label": "changes likelihood or impact only within evidenced scope in",
+      "kind": "evidence"
+    },
+    {
+      "from": "assessment",
+      "to": "treatment",
+      "label": "informs the authorized choice of",
+      "kind": "flow"
+    },
+    {
+      "from": "treatment",
+      "to": "assurance",
+      "label": "creates control claims and review triggers tested by",
+      "kind": "evidence"
+    },
+    {
+      "from": "assurance",
+      "to": "residual",
+      "label": "supplies current coverage, exceptions, and uncertainty to",
+      "kind": "evidence"
+    },
+    {
+      "from": "residual",
+      "to": "assessment",
+      "label": "sets a review trigger for the next",
+      "kind": "dependency"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Ransomware and dispatch: A transit authority relies on an unsegmented operational network and has uncertain restoration dependencies.",
+      "activeNodeIds": [
+        "scenario",
+        "controls"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "scenario": "A credible threat can reach an exposed operational path whose failure would disrupt dispatch and public service.",
+        "controls": "Segmentation, privileged access, detection, protected recovery, and restoration tests modify the defined path only when their scope and operation are evidenced."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Ransomware dispatch scenario defines the loss path evaluated in Scoped risk assessment. Existing control evidence changes likelihood or impact only within evidenced scope in Scoped risk assessment.",
+      "activeNodeIds": [
+        "scenario",
+        "assessment",
+        "controls"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "assessment": "The team estimates likelihood, impact, uncertainty, dependencies, and evidence freshness for this named scenario.",
+        "scenario": "Ransomware can traverse the unsegmented operational path and disrupt transit dispatch and public service.",
+        "controls": "Segmentation, privileged access, detection, protected recovery, and restoration tests reduce only the failure paths their current evidence covers."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Assurance and monitoring supplies current coverage, exceptions, and uncertainty to Residual-risk decision. Residual-risk decision sets a review trigger for the next Scoped risk assessment.",
+      "activeNodeIds": [
+        "assurance",
+        "residual",
+        "assessment"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "assessment": "The team estimates likelihood, impact, uncertainty, dependencies, and evidence freshness for this named scenario.",
+        "assurance": "Testing and operating signals show control coverage, drift, exceptions, and changed threat or business conditions.",
+        "residual": "The authorized owner accepts, remediates, escalates, or changes treatment using the remaining evidence-backed scenario risk."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "A redesign removes the credible threat actor’s opportunity to reach the vulnerable interface, while the vulnerable component remains deployed. Likelihood for the defined scenario decreases; keep the vulnerability and impact visible, verify the new boundary, and monitor for changed exposure.",
+      "activeNodeIds": [
+        "scenario",
+        "assessment",
+        "controls",
+        "assurance",
+        "residual",
+        "treatment"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "assessment": "The compensating control lowers the likelihood for the defined scenario, while impact and residual-risk acceptance still require review.",
+        "scenario": "Ransomware can traverse the unsegmented operational path and disrupt transit dispatch and public service.",
+        "controls": "Segmentation, privileged access, detection, protected recovery, and restoration tests reduce only the failure paths their current evidence covers.",
+        "assurance": "Testing and operating signals show control coverage, drift, exceptions, and changed threat or business conditions.",
+        "residual": "The authorized owner accepts, remediates, escalates, or changes treatment using the remaining evidence-backed scenario risk.",
+        "treatment": "The authorized owner chooses avoid, mitigate, transfer or share, or accept, and assigns controls, actions, resources, and dates."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Opportunity for this threat event is removed. The vulnerability and business impact remain.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "A redesign removes the credible threat actor’s opportunity to reach the vulnerable interface, while the vulnerable component remains deployed.",
+          "activeNodeIds": [
+            "assurance",
+            "residual",
+            "assessment"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "assessment": "The team estimates likelihood, impact, uncertainty, dependencies, and evidence freshness for this named scenario.",
+            "assurance": "Testing and operating signals show control coverage, drift, exceptions, and changed threat or business conditions.",
+            "residual": "The authorized owner accepts, remediates, escalates, or changes treatment using the remaining evidence-backed scenario risk."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Likelihood for the defined scenario decreases; keep the vulnerability and impact visible, verify the new boundary, and monitor for changed exposure.",
+          "activeNodeIds": [
+            "assurance",
+            "residual",
+            "assessment"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "assessment": "The compensating control lowers the likelihood for the defined scenario, while impact and residual-risk acceptance still require review.",
+            "assurance": "Testing and operating signals show control coverage, drift, exceptions, and changed threat or business conditions.",
+            "residual": "The authorized owner accepts, remediates, escalates, or changes treatment using the remaining evidence-backed scenario risk."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d1-o09-risk-management-prediction-v1",
+    "prompt": "How do scope, exposure, control coverage, evidence freshness, and business consequence change the defensible residual-risk decision?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Set residual risk to zero because the control dashboard is green.",
+        "correct": false,
+        "feedback": "A dashboard reports selected evidence; it does not prove complete coverage or eliminate consequence.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Buying one new control eliminates the whole risk scenario.",
+        "correct": false,
+        "feedback": "A control changes only the covered failure path within its evidenced scope; residual likelihood, impact, exceptions, and uncertainty remain.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Evaluate the defined failure path; let its authorized owner decide residual risk.",
+        "correct": true,
+        "feedback": "A purchase, log stream, score, or green dashboard does not establish complete coverage or eliminate operational consequences.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "risk-management",
+      "risk-assessment",
+      "risk-treatment",
+      "risk-acceptance",
+      "risk-transfer"
+    ],
+    "hint": "Keep the scenario, threat, vulnerability, likelihood, and impact as separate claims."
+  },
+  "transfer": {
+    "id": "d1-o09-risk-management-transfer-v1",
+    "prompt": "A redesign removes the credible threat actor’s opportunity to reach the vulnerable interface, while the vulnerable component remains deployed.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Likelihood for the defined scenario decreases",
+        "correct": true,
+        "feedback": "Likelihood for the defined scenario decreases; keep the vulnerability and impact visible, verify the new boundary, and monitor for changed exposure.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Set residual risk to zero because the control dashboard is green",
+        "correct": false,
+        "feedback": "Changed fact: Opportunity for this threat event is removed. The vulnerability and business impact remain. Why this answer fails: “Set residual risk to zero because the control dashboard is green” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Asset/objective plus threat event plus vulnerability/exposure yields a scenario; controls modify likelihood or impact only within evidenced scope; assessment tests the claim, monitoring detects change, and an authorized owner decides residual risk. Repair target: Control and evidence consequence — Assurance and monitoring supplies current coverage, exceptions, and uncertainty to Residual-risk decision. Residual-risk decision sets a review trigger for the next Scoped risk assessment.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Buying one new control eliminates the whole risk scenario",
+        "correct": false,
+        "feedback": "Changed fact: Opportunity for this threat event is removed. The vulnerability and business impact remain. Why this answer fails: “Buying one new control eliminates the whole risk scenario” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Asset/objective plus threat event plus vulnerability/exposure yields a scenario; controls modify likelihood or impact only within evidenced scope; assessment tests the claim, monitoring detects change, and an authorized owner decides residual risk. Repair target: Changed fact, recomputed result — A redesign removes the credible threat actor’s opportunity to reach the vulnerable interface, while the vulnerable component remains deployed. Likelihood for the defined scenario decreases; keep the vulnerability and impact visible, verify the new boundary, and monitor for changed exposure.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "threat",
+      "vulnerability",
+      "likelihood",
+      "impact"
+    ],
+    "hint": "A new boundary may reduce exposure without removing vulnerability or consequence."
+  },
+  "retry": {
+    "id": "d1-o09-risk-management-retry-v1",
+    "prompt": "A leader asks whether cyber insurance means a critical supplier outage risk can be closed. What is the best response?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Insurance can transfer defined financial effects but not necessarily service disruption, legal duties",
+        "correct": true,
+        "feedback": "Correct. Insurance can transfer defined financial effects but not necessarily service disruption, legal duties, or remaining exposure.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "Set residual risk to zero when a purchased policy covers one financial effect but leaves operations and legal duties.",
+        "correct": false,
+        "feedback": "Controls need implementation, assessment, residual-risk evaluation, monitoring, and an owner decision.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Treat the green control dashboard as proof that service disruption, legal duties, and uncovered loss cannot remain.",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Insurance can transfer defined financial effects but not necessarily service disruption, legal duties, or remaining exposure.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "risk-transfer",
+      "residual-risk"
+    ],
+    "hint": "State exactly which risk component changed and what evidence would verify it."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Asset/objective plus threat event plus vulnerability/exposure yields a scenario; controls modify likelihood or impact only within evidenced scope; assessment tests the claim, monitoring detects change, and an authorized owner decides residual risk.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d1-o09-outline",
+    "d1-o09-textbook",
+    "d1-o09-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d1-o09-risk-management-risk-evidence-sandbox",
+      "disposition": "equivalent",
+      "rationale": "The decision states preserve the reviewed causal chain from scenario and control evidence through likelihood, impact, treatment, and authorized residual-risk acceptance. Learners inspect authored changes rather than manipulate numeric panels."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Risk belongs to a defined loss scenario, not a generic dashboard color. Evidence changes likelihood or impact only in scope, and an authorized owner decides treatment and residual risk with a review trigger.",
+    "visualReasoningGain": "A loop can coordinate scenario, evidence, treatment, assurance, decision, and reassessment; isolated selected edges force the learner to rebuild the loop mentally."
+  }
+}

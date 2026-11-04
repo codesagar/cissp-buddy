@@ -1,0 +1,780 @@
+{
+  "conceptIds": [
+    "authentication-system",
+    "aaa",
+    "directory-service",
+    "kerberos",
+    "radius",
+    "tacacs-plus",
+    "ldap",
+    "active-directory",
+    "session-management",
+    "false-acceptance",
+    "false-rejection",
+    "accounting"
+  ],
+  "concepts": [
+    {
+      "decision": "select assurance/availability",
+      "definition": "system establishing claimant",
+      "failureExample": "Authentication System failure example: outage bypass.",
+      "id": "authentication-system",
+      "label": "Authentication System",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "separate decision/evidence",
+      "definition": "authn/authz/accounting",
+      "failureExample": "AAA failure example: no action trace.",
+      "id": "aaa",
+      "label": "AAA",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "protect/replicate/reconcile",
+      "definition": "identity attribute store",
+      "failureExample": "Directory Service failure example: stale group.",
+      "id": "directory-service",
+      "label": "Directory Service",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "protect KDC/time/service accounts",
+      "definition": "ticket-based auth",
+      "failureExample": "Kerberos failure example: ticket abuse.",
+      "id": "kerberos",
+      "label": "Kerberos",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "protect shared/secrets/accounting",
+      "definition": "network access AAA",
+      "failureExample": "weak device admission",
+      "id": "radius",
+      "label": "Radius",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "centralize command/accounting",
+      "definition": "device admin AAA",
+      "failureExample": "unlogged privileged command",
+      "id": "tacacs-plus",
+      "label": "TACACS Plus",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "secure bind/query",
+      "definition": "directory access protocol",
+      "failureExample": "LDAP failure example: anonymous query.",
+      "id": "ldap",
+      "label": "LDAP",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "protect domain authority",
+      "definition": "directory/domain service",
+      "failureExample": "compromised domain admin",
+      "id": "active-directory",
+      "label": "Active Directory",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "Session Management decision: expire/revoke.",
+      "definition": "authenticated session control",
+      "failureExample": "Session Management failure example: hijacked token.",
+      "id": "session-management",
+      "label": "Session Management",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-1"
+    },
+    {
+      "decision": "tighten assurance",
+      "definition": "imposter accepted",
+      "failureExample": "False Acceptance failure example: fraud.",
+      "id": "false-acceptance",
+      "label": "False Acceptance",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-2"
+    },
+    {
+      "decision": "False Rejection decision: tune recovery.",
+      "definition": "legitimate rejected",
+      "failureExample": "availability harm",
+      "id": "false-rejection",
+      "label": "False Rejection",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-2"
+    },
+    {
+      "decision": "Accounting decision: retain/review.",
+      "definition": "action/session evidence",
+      "failureExample": "no investigation trace",
+      "id": "accounting",
+      "label": "Accounting",
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "sourceVisualId": "d5-o06-authentication-systems-decision-comparison-2"
+    }
+  ],
+  "domainId": 5,
+  "estimatedMinutes": 35,
+  "id": "d5-o06-authentication-systems",
+  "misconceptions": [
+    {
+      "claim": "A central directory automatically provides secure authentication.",
+      "correction": "The directory is one component; protocol protection, authenticator assurance, authorization, session, availability, and monitoring still require design."
+    },
+    {
+      "claim": "Every authentication failure should be tuned to eliminate false rejections.",
+      "correction": "Reducing false rejection can increase false acceptance; tune thresholds and recovery against the consequences and operational context."
+    },
+    {
+      "claim": "Logging a login is the same as enforcing access.",
+      "correction": "Accounting provides evidence after or around an event; an authorization and enforcement control still has to permit or deny the operation."
+    }
+  ],
+  "objectiveIds": [
+    "5.6"
+  ],
+  "outcome": "Given an enterprise authentication requirement, select an appropriate system pattern and explain how its directory, protocol, factor, session, accounting, failure, and revocation controls work together.",
+  "prerequisites": [
+    "d5-o02-identification-authentication-strategy",
+    "d5-o04-authorization-mechanisms"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "An authentication system verifies a claimed identity and commonly participates in AAA: authentication establishes identity evidence, authorization supplies or evaluates permissions, and accounting records attempts and activity for accountability. Directory services such as LDAP or Active Directory store and expose identity data; Kerberos supports ticket-based authentication; RADIUS and TACACS+ commonly serve network or remote-access environments. The correct choice depends on trust boundaries, device and service support, protocol protection, availability, integration, and operational ownership.",
+      "id": "system-architecture",
+      "keyPoints": [
+        "AAA functions are related but should remain conceptually and operationally distinguishable.",
+        "A directory is an identity source, not a complete authorization or assurance decision by itself.",
+        "Legacy protocols can remain useful, but their transport, encryption, credential, and management risks must be assessed."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o06",
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "title": "Assemble authentication, authorization, and accounting"
+    },
+    {
+      "body": "Authentication systems must handle false rejection and false acceptance deliberately: rejecting a legitimate claimant harms availability, while accepting an impostor harms confidentiality, integrity, and accountability. Session management tracks and protects requests after authentication, enforces inactivity and lifetime limits, and supports forced termination when anomalies or revocation occur. Accounting should preserve who or what attempted access, what system responded, when it happened, and enough integrity and time context to investigate without exposing unnecessary credential data.",
+      "id": "errors-sessions-and-revocation",
+      "keyPoints": [
+        "The acceptable balance between false acceptance and false rejection depends on consequence and context.",
+        "Sessions and cached credentials can outlive the initial authentication unless explicitly bounded and revoked.",
+        "Logging authentication events supports detection and investigation but does not replace access control."
+      ],
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "title": "Protect failure, session, and accounting paths"
+    },
+    {
+      "body": "An authentication system combines identifier handling, proofing and enrollment, authenticators, credential storage and verification, authentication protocols, secure transport, factor or device binding, session issuance, authorization handoff, accounting, monitoring, recovery, revocation, change, and retirement. Select protocol and system design from user, device, service, network, federation, assurance, privacy, availability, and interoperability requirements; validate messages, peer identity, time, replay resistance, errors, and downgrade behavior. Operate lifecycle controls for registration, issuance, reset, replacement, lost device, compromise, expiry, logging, key or certificate rotation, and decommissioning. Failure modes include a secure factor carried over an insecure channel, account recovery weaker than enrollment, protocol replay, session fixation, unmanaged shared secret, inadequate audit records, and an authentication outage causing unsafe bypass.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o06",
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ],
+      "title": "Implement authentication systems as resilient protocol and lifecycle services"
+    }
+  ],
+  "sourceHash": "3efc545ffd1f32be93a35bb74491327403fd4bf8e552969e396b4f1b143a0c36",
+  "sourcePath": "knowledge/domains/d5-identity-access-management/units/d5-o06-authentication-systems.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o06",
+      "locator": {
+        "type": "objective",
+        "value": "5.6"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "authentication systems"
+      ]
+    },
+    {
+      "id": "official-d5-50-57",
+      "locator": {
+        "type": "printed-page",
+        "value": "50-57 (PDF pp. 50-57)"
+      },
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "supports": [
+        "authentication systems",
+        "RADIUS",
+        "TACACS+",
+        "directories",
+        "AAA",
+        "sessions",
+        "errors"
+      ]
+    },
+    {
+      "id": "sybex-d5-690-694",
+      "locator": {
+        "type": "printed-page",
+        "value": "690-694, Chapter 14"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "authentication systems",
+        "SSO implementation",
+        "internal and internet authentication"
+      ]
+    }
+  ],
+  "summary": "Authentication systems operationalize identity and access decisions through directories, protocols, authenticators, sessions, and accounting. The design must fit the environment while protecting credentials, handling errors, and keeping authentication events attributable.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "presents user, factor, and device context",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "sends protected AAA request",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "checks account, group, and enabled state",
+        "to": "n3"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "requests required independent factor result",
+        "to": "n4"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "returns scoped network permit or deny",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "kind": "evidence",
+        "label": "records session and consumes revocation signal",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it.",
+    "learningJob": {
+      "plainExplanation": "A directory is only one part of an authentication system. Protected AAA transport, factors, policy, sessions, accounting, revocation, failure handling, and a separate administrator path must work together.",
+      "visualReasoningGain": "The revealed architecture permits tracing directory, MFA, policy, session, accounting, and revocation interactions; the opening employee/device and gateway boxes add little."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "authentication-system"
+        ],
+        "detail": "Human and device claims presented for a VPN session; each is evaluated under its policy.",
+        "id": "n1",
+        "label": "Remote employee and managed device"
+      },
+      {
+        "conceptIds": [
+          "radius",
+          "session-management"
+        ],
+        "detail": "Session entry point that sends protected authentication requests and enforces the returned network result.",
+        "id": "n2",
+        "label": "VPN gateway"
+      },
+      {
+        "conceptIds": [
+          "directory-service",
+          "ldap",
+          "active-directory"
+        ],
+        "detail": "Authoritative account, group, status, and revocation source; LDAP transport must be protected.",
+        "id": "n3",
+        "label": "Central directory and identity service"
+      },
+      {
+        "conceptIds": [
+          "authentication-system",
+          "false-rejection",
+          "false-acceptance"
+        ],
+        "detail": "Independent factor service used where user or administrator consequence requires stronger assurance.",
+        "id": "n4",
+        "label": "MFA verifier"
+      },
+      {
+        "conceptIds": [
+          "aaa",
+          "radius",
+          "tacacs-plus"
+        ],
+        "detail": "AAA decision service that combines identity, device, group, and access policy for the VPN.",
+        "id": "n5",
+        "label": "Network policy service"
+      },
+      {
+        "conceptIds": [
+          "accounting",
+          "session-management"
+        ],
+        "detail": "Records start/stop/result, detects failures, and terminates sessions after disablement or policy change.",
+        "id": "n6",
+        "label": "Accounting and revocation monitor"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Remote employee and managed device",
+        "value": "Human and device claims presented for a VPN session; each is evaluated under its policy."
+      },
+      {
+        "label": "VPN gateway",
+        "value": "Session entry point that sends protected authentication requests and enforces the returned network result."
+      },
+      {
+        "label": "Central directory and identity service",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "MFA verifier",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Network policy service",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Accounting and revocation monitor",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "authentication-system",
+        "aaa",
+        "radius",
+        "session-management"
+      ],
+      "hint": "Trace the request from gateway to policy decision and back to a bounded session.",
+      "id": "d5-o06-authentication-systems-prediction-2345a1440334",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Centralization alone does not supply stronger administrator assurance, safe protocol capabilities, or separate monitoring.",
+          "id": "radius-everything",
+          "label": "Route every user and administrator through the same legacy RADIUS policy because it centralizes login.",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "An enabled account omits device state, factor, role, network scope, session limits, and downstream revocation.",
+          "id": "directory-only",
+          "label": "Check only whether the directory account is enabled, then grant the full VPN network.",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The gateway enforces a scoped result while identity, factor, session, accounting, and revocation controls remain attributable.",
+          "id": "central-aaa",
+          "label": "Use protected central AAA, policy-based MFA, separate administrator controls, accounting, and revocation tests.",
+          "repairStateId": "control-enforced"
+        }
+      ],
+      "prompt": "Employees, contractors, and managed devices need VPN access; administrators require a stronger separate path. Which architecture fits?"
+    },
+    "question": "Given an enterprise authentication requirement, select an appropriate system pattern and explain how its directory, protocol, factor, session, accounting, failure, and revocation controls work together.",
+    "representation": "decision",
+    "retry": {
+      "conceptIds": [
+        "tacacs-plus",
+        "accounting",
+        "aaa"
+      ],
+      "hint": "Authentication, authorization, and accounting provide different evidence.",
+      "id": "d5-o06-authentication-systems-retry-v2-39170ba416ed",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Authentication proves identity handling for the login; it does not prove command authorization or accounting evidence.",
+          "id": "auth-proves-all",
+          "label": "Treat successful logins as proof that authorization and accounting are functioning",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Successful authentication does not prove that privileged commands are attributable or retained.",
+          "id": "restore-accounting",
+          "label": "Keep access bounded, restore command accounting, and verify correlated records before claiming full AAA coverage",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "Changing protocols does not by itself repair a broken accounting pipeline and may lose command-level evidence.",
+          "id": "switch-radius",
+          "label": "Replace TACACS+ with RADIUS immediately without diagnosing the collector and retention path",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "Network authentication succeeds through TACACS+, but command accounting records stopped arriving after a collector change. What should operations conclude?"
+    },
+    "scenario": "A company needs VPN authentication for employees, contractors, and managed devices. Some legacy network equipment supports RADIUS, while administrators require stronger, separately monitored access.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d5-o06",
+      "official-d5-50-57",
+      "sybex-d5-690-694"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "caption": "A company needs VPN authentication for employees, contractors, and managed devices. Some legacy network equipment supports RADIUS, while administrators require stronger, separately monitored access.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "employee + managed device",
+          "n2": "VPN request frozen"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n5"
+        ],
+        "caption": "AAA functions are related but should remain conceptually and operationally distinguishable.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "account enabled; group checked",
+          "n5": "policy evaluation"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          4
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n5"
+        ],
+        "caption": "A central directory automatically provides secure authentication. The directory is one component; protocol protection, authenticator assurance, authorization, session, availability, and monitoring still require design.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n2": "broad permit withheld",
+          "n5": "legacy capability insufficient for admin path"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n4",
+          "n5"
+        ],
+        "caption": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Define device and user policy inputs, separate administrator paths, log authentication and authorization outcomes, rate-limit and monitor failures, and test revocation and session termination. Preserve the legacy protocol only with compensating controls and a retirement plan if its capabilities are insufficient.",
+        "id": "control-enforced",
+        "statuses": {
+          "n4": "MFA passed",
+          "n5": "employee or admin policy selected"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n5",
+          "n6"
+        ],
+        "caption": "Given an enterprise authentication requirement, select an appropriate system pattern and explain how its directory, protocol, factor, session, accounting, failure, and revocation controls work together. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n2": "scoped session active",
+          "n6": "accounting and revocation watch active"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it.",
+    "title": "Implement authentication systems",
+    "transfer": {
+      "conceptIds": [
+        "active-directory"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d5-o06-authentication-systems-transfer-fd95e4d22566",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+          "id": "evidence-action",
+          "label": "Tie session revocation or reauthentication to disablement and test both paths",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Repair target: Decision recomputed — Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours."
+    },
+    "treatmentDispositions": [],
+    "treatmentIds": [],
+    "unitId": "d5-o06-authentication-systems",
+    "variants": [
+      {
+        "changedFact": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "still holds an issued session",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "must receive current disablement outcome",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "supplies disabled account state",
+            "to": "n3"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "requires fresh authentication when configured",
+            "to": "n4"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "orders termination or bounded reauthentication",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "kind": "evidence",
+            "label": "records and verifies session termination",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "authentication-system"
+            ],
+            "detail": "The directory account is disabled during offboarding or incident response.",
+            "id": "n1",
+            "label": "Disabled employee"
+          },
+          {
+            "conceptIds": [
+              "radius",
+              "session-management"
+            ],
+            "detail": "The already-issued remote session remains usable for eight hours.",
+            "id": "n2",
+            "label": "Active VPN session"
+          },
+          {
+            "conceptIds": [
+              "directory-service",
+              "ldap",
+              "active-directory"
+            ],
+            "detail": "The authoritative identity service denies new authentication.",
+            "id": "n3",
+            "label": "Disabled directory account"
+          },
+          {
+            "conceptIds": [
+              "authentication-system",
+              "false-rejection",
+              "false-acceptance"
+            ],
+            "detail": "A bounded reauthentication event can reevaluate current account state.",
+            "id": "n4",
+            "label": "Reauthentication control"
+          },
+          {
+            "conceptIds": [
+              "aaa",
+              "radius",
+              "tacacs-plus"
+            ],
+            "detail": "The AAA service converts disablement into session revocation or reauthentication.",
+            "id": "n5",
+            "label": "Revocation decision service"
+          },
+          {
+            "conceptIds": [
+              "accounting",
+              "session-management"
+            ],
+            "detail": "Monitoring verifies active-session termination and captures the control test.",
+            "id": "n6",
+            "label": "Session and revocation evidence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              5
+            ],
+            "activeNodeIds": [
+              "n3",
+              "n6",
+              "n2"
+            ],
+            "caption": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours.",
+            "id": "changed-fact",
+            "statuses": {
+              "n3": "employee disabled",
+              "n6": "active session still present"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n5",
+              "n6"
+            ],
+            "caption": "Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+            "id": "changed-decision",
+            "statuses": {
+              "n2": "session termination required",
+              "n5": "revocation result issued"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              5
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n2": "session terminated",
+              "n6": "offboarding control test passed"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Implement authentication systems",
+  "workedExamples": [
+    {
+      "reasoning": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Define device and user policy inputs, separate administrator paths, log authentication and authorization outcomes, rate-limit and monitor failures, and test revocation and session termination. Preserve the legacy protocol only with compensating controls and a retirement plan if its capabilities are insufficient.",
+      "situation": "A company needs VPN authentication for employees, contractors, and managed devices. Some legacy network equipment supports RADIUS, while administrators require stronger, separately monitored access.",
+      "takeaway": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Define device and user policy inputs, separate administrator paths, log authentication and authorization outcomes, rate-limit and monitor failures, and test revocation and session termination. Preserve the legacy protocol only with compensating controls and a retirement plan if its capabilities are insufficient.",
+      "title": "Remote network access for a mixed workforce"
+    }
+  ]
+}

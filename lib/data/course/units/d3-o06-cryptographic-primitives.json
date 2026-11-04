@@ -1,0 +1,689 @@
+{
+  "conceptIds": [
+    "symmetric-cryptography",
+    "asymmetric-cryptography",
+    "hashing",
+    "message-authentication",
+    "digital-signature",
+    "elliptic-curve-cryptography",
+    "confidentiality",
+    "integrity",
+    "authenticity"
+  ],
+  "concepts": [
+    {
+      "decision": "Use for bulk confidentiality when shared-key creation, storage, rotation, and recovery are controlled.",
+      "definition": "Shared-secret cryptography efficient for protecting bulk data.",
+      "failureExample": "A backup is encrypted but the same exposed system stores the recovery key.",
+      "id": "symmetric-cryptography",
+      "label": "Symmetric Cryptography",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Use when public verification or nonshared keying patterns fit the protocol and performance needs.",
+      "definition": "Public/private-key cryptography used for key exchange, signatures, and scalable trust patterns.",
+      "failureExample": "A public key is accepted without validating the identity bound to it.",
+      "id": "asymmetric-cryptography",
+      "label": "Asymmetric Cryptography",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Use for integrity comparison with an authenticated trusted value or suitable construction.",
+      "definition": "One-way computation producing a fixed-length value for integrity-related use.",
+      "failureExample": "A team hashes a file and assumes the hash makes the file confidential.",
+      "id": "hashing",
+      "label": "Hashing",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Use when peer authenticity and integrity are required in a shared-key context.",
+      "definition": "Verification that a message came from a party holding an agreed secret or key and was not altered.",
+      "failureExample": "An API accepts a bare hash supplied by the untrusted client.",
+      "id": "message-authentication",
+      "label": "Message Authentication",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Use when verifiers need public validation tied to a managed identity and certificate or trust context.",
+      "definition": "Private-key operation and validation context that supports origin and integrity evidence.",
+      "failureExample": "A signature validates mathematically but the signer certificate is expired or wrong for the use.",
+      "id": "digital-signature",
+      "label": "Digital Signature",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Select through approved profile and protocol needs; do not use it as a generic synonym for encryption.",
+      "definition": "Family of asymmetric methods with efficiency and implementation considerations.",
+      "failureExample": "A design states “use ECC” without identifying key exchange, signature, parameters, or validation.",
+      "id": "elliptic-curve-cryptography",
+      "label": "Elliptic Curve Cryptography",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Define the data state, authorized recipients, key authority, and endpoint assumptions.",
+      "definition": "Protection of information against unauthorized disclosure in a stated data state.",
+      "failureExample": "Encrypted transit still exposes data on a compromised authorized endpoint.",
+      "id": "confidentiality",
+      "label": "Confidentiality",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Choose an authenticated mechanism and verification context for the required change path.",
+      "definition": "Assurance that information has not been altered without authorization.",
+      "failureExample": "A stored checksum is changed with the altered file by an attacker.",
+      "id": "integrity",
+      "label": "Integrity",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    },
+    {
+      "decision": "Validate identity binding, trust anchor, freshness, and intended use.",
+      "definition": "Confidence that an asserted identity, origin, or object is genuine in context.",
+      "failureExample": "A service accepts any certificate signed by an unapproved CA.",
+      "id": "authenticity",
+      "label": "Authenticity",
+      "sourceRefIds": [
+        "d3-o06-primitives-sybex",
+        "d3-o06-primitives-textbook"
+      ],
+      "sourceVisualId": "d3-o06-cryptographic-primitives-concept-comparison-1"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 45,
+  "id": "d3-o06-cryptographic-primitives",
+  "misconceptions": [
+    {
+      "claim": "Encrypting a file proves who created it.",
+      "correction": "Encryption primarily addresses confidentiality; origin evidence requires an appropriate authenticated or signature process and protected keys."
+    }
+  ],
+  "objectiveIds": [
+    "3.6"
+  ],
+  "outcome": "Select symmetric, asymmetric, hashing, and signature roles from protection requirements and identify a composition or implementation dependency.",
+  "prerequisites": [
+    "d3-o03-control-selection",
+    "d3-o04-system-security-capabilities"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Confidentiality prevents unauthorized disclosure for a defined data state. Integrity detects unauthorized change in a defined verification context. Authenticity supports confidence in an identity or origin, while nonrepudiation requires a broader evidentiary and process context. Symmetric cryptography efficiently protects bulk data using shared secret material. Asymmetric cryptography supports key exchange and public verification patterns. Hashes produce fixed-length integrity values but do not make data secret. Signatures use private-key operations and a validation context to support origin and integrity evidence.",
+      "id": "properties",
+      "keyPoints": [
+        "A hash alone does not identify who created it.",
+        "Encryption and signing protect different claims and may be combined."
+      ],
+      "sourceRefIds": [
+        "d3-o06-primitives-outline",
+        "d3-o06-primitives-textbook",
+        "d3-o06-primitives-sybex"
+      ],
+      "title": "Map security properties to roles"
+    },
+    {
+      "body": "Choose approved algorithms and parameters through organizational policy and current authoritative guidance, then assess data classification, lifecycle, performance, interoperability, endpoint exposure, and error behavior. Elliptic-curve methods are asymmetric methods with distinct efficiency and implementation considerations; they are not a general synonym for encryption. Use established, correctly configured protocols and libraries rather than assembling primitives casually. Authenticate peers where needed, validate parameters and certificates, manage randomness, and avoid exposing errors that reveal useful attack information.",
+      "id": "selection",
+      "keyPoints": [
+        "Primitive choice, mode or protocol, parameter validation, and implementation all affect the resulting claim.",
+        "Use of unapproved or homemade cryptography creates a governance and assurance problem."
+      ],
+      "sourceRefIds": [
+        "d3-o06-primitives-textbook",
+        "d3-o06-primitives-sybex"
+      ],
+      "title": "Select a complete mechanism, not a buzzword"
+    },
+    {
+      "body": "Cryptography does not solve malicious authorized use, compromised endpoints, uncontrolled key export, weak access control, unsafe backups, or unavailable service. A correct design states which data state and adversary are in scope and layers identity, authorization, monitoring, recovery, and secure operations around the cryptographic mechanism. Review how the mechanism behaves under loss, rotation, downgrade, incompatible peers, and incident response so that security failure does not silently become broad permission or permanent data loss.",
+      "id": "scope-and-limits",
+      "keyPoints": [
+        "The endpoint and key path commonly define the practical protection limit.",
+        "A control claim needs a scope, an owner, and observable evidence."
+      ],
+      "sourceRefIds": [
+        "d3-o06-outline",
+        "d3-o06-primitives-textbook",
+        "d3-o06-primitives-sybex"
+      ],
+      "title": "State the residual limits honestly"
+    }
+  ],
+  "sourceHash": "107f0683b2c2809debcd74a55b0ba5e7ce23674059dbe4dabaf0d54a2649f73d",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o06-cryptographic-primitives.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o06-primitives-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6: cryptographic methods including symmetric, asymmetric, elliptic curves, and quantum"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary",
+        "cryptographic-methods"
+      ]
+    },
+    {
+      "id": "d3-o06-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o06-primitives-textbook",
+      "locator": {
+        "note": "Domain 3 cryptography range; printed page is the citation anchor.",
+        "pdfPage": "45-84",
+        "printedPage": "45-84",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "symmetric-asymmetric-hash-signature-selection",
+        "elliptic-curve-context"
+      ]
+    },
+    {
+      "id": "d3-o06-primitives-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7, Cryptography and PKI, pp. 219-308"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Broad chapter locator requires section-level refinement; this unit remains draft.",
+      "supports": [
+        "cryptographic-primitives",
+        "selection-correlation"
+      ]
+    }
+  ],
+  "summary": "Cryptographic selection starts with the required property, data state, participants, trust model, performance, interoperability, and failure consequence. Symmetric, asymmetric, hashing, message-authentication, and signature mechanisms play different roles and must be composed into a managed protocol.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "Shared secret and approved encryption",
+        "kind": "flow",
+        "label": "support confidentiality for the defined state",
+        "to": "Protected payload"
+      },
+      {
+        "from": "Payload",
+        "kind": "flow",
+        "label": "produces a digest without secrecy",
+        "to": "Hash value"
+      },
+      {
+        "from": "Protected signer authority",
+        "kind": "evidence",
+        "label": "creates integrity and origin evidence",
+        "to": "Signature"
+      }
+    ],
+    "focalRelation": "Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property.",
+    "learningJob": {
+      "plainExplanation": "Encryption, hashes, signatures, and MACs support different claims under different key relationships. A shared MAC can show that a key holder produced a tag but cannot identify which holder approved the change.",
+      "visualReasoningGain": "The small multiples and shared-key counterexample materially add claim comparison and attribution reasoning."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "symmetric-cryptography",
+          "confidentiality"
+        ],
+        "detail": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state.",
+        "id": "Shared secret and approved encryption",
+        "label": "Shared Secret And Approved Encryption"
+      },
+      {
+        "conceptIds": [
+          "confidentiality"
+        ],
+        "detail": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+        "id": "Protected payload",
+        "label": "Protected Payload"
+      },
+      {
+        "conceptIds": [
+          "hashing"
+        ],
+        "detail": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+        "id": "Payload",
+        "label": "Payload"
+      },
+      {
+        "conceptIds": [
+          "hashing",
+          "integrity"
+        ],
+        "detail": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+        "id": "Hash value",
+        "label": "Hash Value"
+      },
+      {
+        "conceptIds": [
+          "digital-signature",
+          "authenticity"
+        ],
+        "detail": "The publisher protects the signing key and restricts who may authorize a release signature.",
+        "id": "Protected signer authority",
+        "label": "Protected Signer Authority"
+      },
+      {
+        "conceptIds": [
+          "digital-signature"
+        ],
+        "detail": "A validated signature binds the package digest to the authorized publisher identity and signing key.",
+        "id": "Signature",
+        "label": "Signature"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "digital-signature",
+        "confidentiality",
+        "integrity"
+      ],
+      "hint": "Ask what the artifact proves: change detection, shared-key possession, confidentiality, or individual origin.",
+      "id": "d3-o06-cryptographic-primitives-prediction-v1-80310a3df333",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "A hash does not hide content or identify an origin; encryption does not prove authorship; a valid signature does not prove safe content.",
+          "id": "correct",
+          "label": "Match the required property to the primitive and key relationship.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Any holder of the shared key can generate the MAC, so it cannot distinguish one holder from another.",
+          "id": "unit-specific-alternative",
+          "label": "Use a shared MAC as proof that one named employee approved the record.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Confidentiality does not by itself establish origin, signer identity, or individual accountability.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Encryption proves who created a protected file.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "What may a recipient infer from each artifact, and which key, validation, endpoint, or protocol dependency limits that inference?"
+    },
+    "question": "What may a recipient infer from each artifact, and which key, validation, endpoint, or protocol dependency limits that inference?",
+    "representation": "comparison",
+    "retry": {
+      "conceptIds": [
+        "hashing",
+        "digital-signature",
+        "authenticity"
+      ],
+      "hint": "Use individually attributable evidence when the decision must name one approver.",
+      "id": "d3-o06-cryptographic-primitives-retry-v1-0adc4fc7895f",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. An attacker can replace both; use an authenticated trust or signature process and validate it before relying on the integrity value.",
+          "id": "evidence-based",
+          "label": "Verify the installer through an authenticated signature or trusted channel",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Encryption primarily addresses confidentiality; origin evidence requires an appropriate authenticated or signature process and protected keys.",
+          "id": "misconception",
+          "label": "Encrypting a file proves who created it",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. An attacker can replace both; use an authenticated trust or signature process and validate it before relying on the integrity value.",
+          "id": "shortcut",
+          "label": "Use a shared MAC as proof that one named employee approved the record",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "A team sends a hash beside a downloaded installer over the same unauthenticated channel. What is missing?"
+    },
+    "scenario": "Signed release archive: A company wants customers to detect altered release packages and verify the approving publisher.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o06-primitives-outline",
+      "d3-o06-outline",
+      "d3-o06-primitives-textbook",
+      "d3-o06-primitives-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "Shared secret and approved encryption",
+          "Protected payload"
+        ],
+        "caption": "Signed release archive: A company wants customers to detect altered release packages and verify the approving publisher.",
+        "id": "case",
+        "statuses": {
+          "Protected payload": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+          "Shared secret and approved encryption": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "Shared secret and approved encryption",
+          "Protected payload",
+          "Payload",
+          "Hash value"
+        ],
+        "caption": "Shared Secret And Approved Encryption support confidentiality for the defined state Protected Payload. Payload produces a digest without secrecy Hash Value.",
+        "id": "decision",
+        "statuses": {
+          "Hash value": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+          "Payload": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+          "Protected payload": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+          "Shared secret and approved encryption": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Payload",
+          "Hash value",
+          "Protected signer authority",
+          "Signature"
+        ],
+        "caption": "Payload produces a digest without secrecy Hash Value. Protected Signer Authority creates integrity and origin evidence Signature.",
+        "id": "consequence",
+        "statuses": {
+          "Hash value": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+          "Payload": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+          "Protected signer authority": "The publisher protects the signing key and restricts who may authorize a release signature.",
+          "Signature": "A validated signature binds the package digest to the authorized publisher identity and signing key."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2
+        ],
+        "activeNodeIds": [
+          "Shared secret and approved encryption",
+          "Protected payload",
+          "Payload",
+          "Hash value",
+          "Protected signer authority",
+          "Signature"
+        ],
+        "caption": "Two administrators share the same MAC key and later dispute which one approved a change. A MAC can show possession of the shared key and integrity, but cannot attribute the act between holders; use individual authenticated signing or another accountable approval record.",
+        "id": "changed-case",
+        "statuses": {
+          "Hash value": "A digest detects change only when the expected value is obtained through an authenticated trust path.",
+          "Payload": "The release package is the data whose integrity and publisher approval must be demonstrated.",
+          "Protected payload": "Ciphertext protects payload contents only while key custody, mode, nonce, endpoint, and lifecycle assumptions hold.",
+          "Protected signer authority": "The publisher protects the signing key and restricts who may authorize a release signature.",
+          "Shared secret and approved encryption": "An approved symmetric algorithm and protected shared secret provide confidentiality for the defined payload state.",
+          "Signature": "A MAC can show integrity and possession of the shared key, but it cannot attribute the act to one key holder when several parties share that key."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property.",
+    "title": "crypto claims small multiples",
+    "transfer": {
+      "conceptIds": [
+        "message-authentication",
+        "integrity",
+        "authenticity"
+      ],
+      "hint": "When two people share a MAC key, either can create the same valid tag.",
+      "id": "d3-o06-cryptographic-primitives-transfer-v1-48512cceedad",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: Two administrators share the same MAC key and later dispute which one approved a change. Why this answer fails: “Use one shared MAC key for all approvers and treat any valid tag as proof of the individual approver.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property. Repair target: Both holders can make the same evidence — Administrators A and B share one MAC key, so either can produce a valid tag for the release change.",
+          "id": "single-signal",
+          "label": "Use one shared MAC key for all approvers and treat any valid tag as proof of the individual approver.",
+          "repairStateId": "mac-facts"
+        },
+        {
+          "correct": true,
+          "feedback": "A MAC can show possession of the shared key and integrity, but cannot attribute the act between holders; use individual authenticated signing or another accountable approval record.",
+          "id": "recompute",
+          "label": "Use individual authenticated signing or another approval record that supports attribution",
+          "repairStateId": "mac-result"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: Two administrators share the same MAC key and later dispute which one approved a change. Why this answer fails: “Use a shared checksum stored beside the record and treat a match as attributable approval evidence.” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Encryption supports confidentiality; hash supports change detection without origin; MAC supports integrity/authenticity among shared-key holders; signature supports signer-key evidence with validation; ECC is a mathematical family used within mechanisms, not a separate security property. Repair target: Both holders can make the same evidence — Administrators A and B share one MAC key, so either can produce a valid tag for the release change.",
+          "id": "unchanged-rule",
+          "label": "Use a shared checksum stored beside the record and treat a match as attributable approval evidence.",
+          "repairStateId": "mac-facts"
+        }
+      ],
+      "prompt": "Two administrators share the same MAC key and later dispute which one approved a change."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The comparison distinguishes shared-key encryption, hashes, signatures, signer authority, payload protection, and the inferences each artifact supports; the changed case shows why a shared-key MAC lacks individual attribution. Asymmetric signing is exercised through its key relationship, while elliptic-curve selection remains canonical reference content rather than a separately assessed property.",
+        "treatmentId": "fresh-d3-o06-cryptographic-primitives-crypto-claims-small-multiples"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o06-cryptographic-primitives-crypto-claims-small-multiples"
+    ],
+    "unitId": "d3-o06-cryptographic-primitives",
+    "variants": [
+      {
+        "changedFact": "Two administrators share the same MAC key and later dispute which one approved a change.",
+        "edges": [
+          {
+            "from": "admin-a",
+            "kind": "dependency",
+            "label": "can use",
+            "to": "shared-key"
+          },
+          {
+            "from": "admin-b",
+            "kind": "dependency",
+            "label": "can also use",
+            "to": "shared-key"
+          },
+          {
+            "from": "shared-key",
+            "kind": "evidence",
+            "label": "authenticates content possession through",
+            "to": "mac"
+          },
+          {
+            "from": "change",
+            "kind": "evidence",
+            "label": "is protected for integrity by",
+            "to": "mac"
+          },
+          {
+            "from": "admin-a",
+            "kind": "evidence",
+            "label": "requires individual attribution through",
+            "to": "approval"
+          },
+          {
+            "from": "admin-b",
+            "kind": "evidence",
+            "label": "requires distinct individual attribution through",
+            "to": "approval"
+          }
+        ],
+        "id": "shared-mac-attribution",
+        "label": "Shared MAC key cannot name an approver",
+        "nodes": [
+          {
+            "conceptIds": [
+              "message-authentication",
+              "authenticity"
+            ],
+            "detail": "Administrator A holds the shared MAC key and can generate a valid tag.",
+            "id": "admin-a",
+            "label": "Administrator A"
+          },
+          {
+            "conceptIds": [
+              "message-authentication",
+              "authenticity"
+            ],
+            "detail": "Administrator B holds the same MAC key and can generate the same kind of valid tag.",
+            "id": "admin-b",
+            "label": "Administrator B"
+          },
+          {
+            "conceptIds": [
+              "message-authentication",
+              "integrity"
+            ],
+            "detail": "One symmetric secret supports integrity and holder authentication but cannot distinguish which holder acted.",
+            "id": "shared-key",
+            "label": "Shared MAC key"
+          },
+          {
+            "conceptIds": [
+              "integrity",
+              "authenticity"
+            ],
+            "detail": "The disputed release content requires integrity protection and an accountable approval decision.",
+            "id": "change",
+            "label": "Release change"
+          },
+          {
+            "conceptIds": [
+              "message-authentication",
+              "integrity"
+            ],
+            "detail": "The tag proves that some holder of the shared key authenticated unchanged content.",
+            "id": "mac",
+            "label": "Valid MAC tag"
+          },
+          {
+            "conceptIds": [
+              "authenticity",
+              "digital-signature"
+            ],
+            "detail": "An individual signing key or separately authenticated approval record attributes the decision to one approver.",
+            "id": "approval",
+            "label": "Individual approval evidence"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "activeNodeIds": [
+              "admin-a",
+              "admin-b",
+              "shared-key",
+              "change",
+              "mac"
+            ],
+            "caption": "Administrators A and B share one MAC key, so either can produce a valid tag for the release change.",
+            "id": "mac-facts",
+            "statuses": {
+              "admin-a": "Administrator A can generate a valid tag.",
+              "admin-b": "Administrator B can generate an indistinguishable valid tag.",
+              "change": "The release content needs both integrity and accountable approval.",
+              "mac": "A valid tag identifies a key holder class, not one holder.",
+              "shared-key": "The secret is shared by both disputed actors."
+            },
+            "title": "Both holders can make the same evidence"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "admin-a",
+              "admin-b",
+              "mac",
+              "approval"
+            ],
+            "caption": "Keep the MAC claim bounded to integrity and shared-key possession; use individual authenticated signing or another accountable approval record to identify the approver.",
+            "id": "mac-result",
+            "statuses": {
+              "admin-a": "Administrator A receives an individually attributable approval path.",
+              "admin-b": "Administrator B receives a distinct attributable approval path.",
+              "approval": "The approval record can distinguish which authorized person approved the release.",
+              "mac": "The shared-key MAC remains valid integrity evidence without individual attribution."
+            },
+            "title": "Use evidence that supports attribution"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Select cryptographic primitives from protection requirements",
+  "workedExamples": [
+    {
+      "reasoning": "Use an approved signing process with protected signer authority, a validation and trust path, integrity verification before installation, revocation or replacement handling, and logging of release approval. Add transport and repository controls; signing does not make an infected build trustworthy if the signing authority was misused.",
+      "situation": "A company wants customers to detect altered release packages and verify the approving publisher.",
+      "takeaway": "The selected primitive supports a specific property only within its key, trust, and release process.",
+      "title": "Signed release archive"
+    }
+  ]
+}

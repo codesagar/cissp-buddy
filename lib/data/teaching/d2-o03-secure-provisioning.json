@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d2-o03-secure-provisioning",
+  "treatmentIds": [
+    "fresh-d2-o03-secure-provisioning-provisioning-entry-drift"
+  ],
+  "title": "provisioning entry drift",
+  "question": "When is a restricted-data cloud workspace allowed to enter service, and what state should follow detected drift or lost ownership?",
+  "scenario": "New analytics workspace: A data science team requests a cloud workspace to process restricted customer data.",
+  "focalRelation": "Request, purpose, owner, classification, inventory, approved baseline, access, secrets, validation, and acceptance are entry gates; drift or change triggers remediation, reauthorization, isolation, reclassification, or retirement.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Owned, classified request",
+      "detail": "The workspace request names its owner, purpose, data classification, dependencies, access model, support period, and expiry.",
+      "conceptIds": [
+        "asset-inventory",
+        "data-lifecycle"
+      ]
+    },
+    {
+      "id": "template",
+      "label": "Approved secure template",
+      "detail": "The platform instantiates managed logging, encryption, access, network, backup, and update defaults from the current baseline.",
+      "conceptIds": [
+        "secure-provisioning",
+        "secure-defaults",
+        "baseline"
+      ]
+    },
+    {
+      "id": "gate",
+      "label": "Validation and authorization gate",
+      "detail": "The activation gate checks ownership, classification, inventory, baseline configuration, access, dependencies, and evidence before operation or reauthorization.",
+      "conceptIds": [
+        "authorization",
+        "asset-inventory",
+        "baseline"
+      ]
+    },
+    {
+      "id": "operating",
+      "label": "Authorized operating state",
+      "detail": "The workspace runs only for its approved purpose, owner, data, support, monitoring, and expiry conditions.",
+      "conceptIds": [
+        "secure-provisioning",
+        "data-lifecycle"
+      ]
+    },
+    {
+      "id": "drift",
+      "label": "Drift or purpose change",
+      "detail": "A changed setting, owner, support status, data class, or purpose moves the workspace out of its accepted state.",
+      "conceptIds": [
+        "configuration-drift"
+      ]
+    },
+    {
+      "id": "resolution",
+      "label": "Remediate, isolate, reauthorize, or retire",
+      "detail": "The accountable owner chooses a governed transition and records closure rather than leaving the asset silently out of baseline.",
+      "conceptIds": [
+        "authorization",
+        "configuration-drift",
+        "data-lifecycle"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "request",
+      "to": "template",
+      "label": "authorizes a bounded build from",
+      "kind": "flow"
+    },
+    {
+      "from": "template",
+      "to": "gate",
+      "label": "creates configuration and inventory evidence checked at",
+      "kind": "evidence"
+    },
+    {
+      "from": "gate",
+      "to": "operating",
+      "label": "permits activation only after the required evidence passes",
+      "kind": "flow"
+    },
+    {
+      "from": "operating",
+      "to": "drift",
+      "label": "is continuously compared with accepted purpose and baseline to detect",
+      "kind": "evidence"
+    },
+    {
+      "from": "drift",
+      "to": "resolution",
+      "label": "requires an accountable transition to",
+      "kind": "flow"
+    },
+    {
+      "from": "resolution",
+      "to": "gate",
+      "label": "returns to validation before renewed operation",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "New analytics workspace: A data science team requests a cloud workspace to process restricted customer data.",
+      "activeNodeIds": [
+        "request",
+        "template"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "request": "The workspace request names its owner, purpose, data classification, dependencies, access model, support period, and expiry.",
+        "template": "The platform instantiates managed logging, encryption, access, network, backup, and update defaults from the current baseline."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Owned, classified request authorizes a bounded build from Approved secure template. Approved secure template creates configuration and inventory evidence checked at Validation and authorization gate.",
+      "activeNodeIds": [
+        "request",
+        "template",
+        "gate"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "template": "The platform instantiates managed logging, encryption, access, network, backup, and update defaults from the current baseline.",
+        "request": "The workspace request names its owner, purpose, data classification, dependencies, access model, support period, and expiry.",
+        "gate": "The activation gate checks ownership, classification, inventory, baseline configuration, access, dependencies, and evidence before operation or reauthorization."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Drift or purpose change requires an accountable transition to Remediate, isolate, reauthorize, or retire. Remediate, isolate, reauthorize, or retire returns to validation before renewed operation Validation and authorization gate.",
+      "activeNodeIds": [
+        "drift",
+        "resolution",
+        "gate"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "gate": "The activation gate checks ownership, classification, inventory, baseline configuration, access, dependencies, and evidence before operation or reauthorization.",
+        "drift": "A changed setting, owner, support status, data class, or purpose moves the workspace out of its accepted state.",
+        "resolution": "The accountable owner chooses a governed transition and records closure rather than leaving the asset silently out of baseline."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "An emergency firewall exception remains after its expiry date and the emergency has ended. Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception, and record verification before returning to accepted operation.",
+      "activeNodeIds": [
+        "request",
+        "template",
+        "gate",
+        "drift",
+        "resolution",
+        "operating"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "gate": "Configuration, inventory, owner, classification, access, dependency, and evidence checks must pass before activation.",
+        "request": "The workspace request names its owner, purpose, data classification, dependencies, access model, support period, and expiry.",
+        "template": "The platform instantiates managed logging, encryption, access, network, backup, and update defaults from the current baseline.",
+        "drift": "A changed setting, owner, support status, data class, or purpose moves the workspace out of its accepted state.",
+        "resolution": "The accountable owner chooses a governed transition and records closure rather than leaving the asset silently out of baseline.",
+        "operating": "The workspace runs only for its approved purpose, owner, data, support, monitoring, and expiry conditions."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The approved exception is expired. The workspace no longer conforms to its accepted baseline.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "An emergency firewall exception remains after its expiry date and the emergency has ended.",
+          "activeNodeIds": [
+            "drift",
+            "resolution",
+            "gate"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "gate": "The activation gate checks ownership, classification, inventory, baseline configuration, access, dependencies, and evidence before operation or reauthorization.",
+            "drift": "A changed setting, owner, support status, data class, or purpose moves the workspace out of its accepted state.",
+            "resolution": "The accountable owner chooses a governed transition and records closure rather than leaving the asset silently out of baseline."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception, and record verification before returning to accepted operation.",
+          "activeNodeIds": [
+            "drift",
+            "resolution",
+            "gate"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "gate": "Configuration, inventory, owner, classification, access, dependency, and evidence checks must pass before activation.",
+            "drift": "A changed setting, owner, support status, data class, or purpose moves the workspace out of its accepted state.",
+            "resolution": "The accountable owner chooses a governed transition and records closure rather than leaving the asset silently out of baseline."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d2-o03-secure-provisioning-prediction-v1",
+    "prompt": "When is a restricted-data cloud workspace allowed to enter service, and what state should follow detected drift or lost ownership?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Leave the workspace active from its original approval even though ownership, baseline, or exception status later changes.",
+        "correct": false,
+        "feedback": "Entry evidence does not authorize continued operation after drift or expired exceptions.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "correct",
+        "label": "Do not activate until the managed-asset and security gates pass; route drift through an accountable state transition.",
+        "correct": true,
+        "feedback": "Automation and successful deployment create resources; they do not establish authorization, inventory, ownership, or continuing conformance.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Treat successful automation as production authorization without inventory, classification, validation, owner, or expiry gates.",
+        "correct": false,
+        "feedback": "Deployment creates resources; ownership, classification, baseline, access, dependencies, validation, and acceptance are separate gates.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "configuration-drift",
+      "asset-inventory",
+      "data-lifecycle"
+    ],
+    "hint": "Provisioning is incomplete until the built state is verified against the approved baseline."
+  },
+  "transfer": {
+    "id": "d2-o03-secure-provisioning-transfer-v1",
+    "prompt": "An emergency firewall exception remains after its expiry date and the emergency has ended.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Leave the workspace active because it passed every gate when first deployed",
+        "correct": false,
+        "feedback": "Changed fact: The approved exception is expired. The workspace no longer conforms to its accepted baseline. Why this answer fails: “Leave the workspace active because it passed every gate when first deployed” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Request, purpose, owner, classification, inventory, approved baseline, access, secrets, validation, and acceptance are entry gates; drift or change triggers remediation, reauthorization, isolation, reclassification, or retirement. Repair target: Control and evidence consequence — Drift or purpose change requires an accountable transition to Remediate, isolate, reauthorize, or retire. Remediate, isolate, reauthorize, or retire returns to validation before renewed operation Validation and authorization gate.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception",
+        "correct": true,
+        "feedback": "Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception, and record verification before returning to accepted operation.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Successful automated deployment means the workspace is authorized for production use",
+        "correct": false,
+        "feedback": "Changed fact: The approved exception is expired. The workspace no longer conforms to its accepted baseline. Why this answer fails: “Successful automated deployment means the workspace is authorized for production use” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Request, purpose, owner, classification, inventory, approved baseline, access, secrets, validation, and acceptance are entry gates; drift or change triggers remediation, reauthorization, isolation, reclassification, or retirement. Repair target: Changed fact, recomputed result — An emergency firewall exception remains after its expiry date and the emergency has ended. Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception, and record verification before returning to accepted operation.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "baseline",
+      "authorization",
+      "configuration-drift"
+    ],
+    "hint": "A discovered rule requires remediation, isolation, or a newly approved bounded exception."
+  },
+  "retry": {
+    "id": "d2-o03-secure-provisioning-retry-v1",
+    "prompt": "An engineer creates an untracked storage bucket for a two-day experiment. What should the security owner decide?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "Cloud resources are the provider's responsibility and need not be inventoried",
+        "correct": false,
+        "feedback": "The provider may operate infrastructure, but the customer remains responsible for its service use, data, identities, and configuration under the shared-responsibility model.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Leave the workspace active because it passed every gate when first deployed",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Require lightweight but real registration, owner, classification, access boundary, and expiry; ephemeral does not mean exempt.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "evidence-based",
+        "label": "Require lightweight but real registration, owner, classification, access boundary, and expiry",
+        "correct": true,
+        "feedback": "Correct. Require lightweight but real registration, owner, classification, access boundary, and expiry; ephemeral does not mean exempt.",
+        "repairStateId": "consequence"
+      }
+    ],
+    "conceptIds": [
+      "baseline",
+      "authorization",
+      "configuration-drift"
+    ],
+    "hint": "Look for evidence that the corrected state was verified before production acceptance."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Request, purpose, owner, classification, inventory, approved baseline, access, secrets, validation, and acceptance are entry gates; drift or change triggers remediation, reauthorization, isolation, reclassification, or retirement.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "official-d2-18-22",
+    "takeaways-d2-provision",
+    "sybex-d2"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d2-o03-secure-provisioning-provisioning-entry-drift",
+      "disposition": "implemented",
+      "rationale": "The state model gates a restricted-data workspace from owned classified request through approved template, validation, authorization, and operation. Drift or lost ownership moves the asset to remediation, isolation, reauthorization, or retirement rather than leaving it silently active."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A resource may enter service only after an owned request, approved baseline, validation, and authorization. Drift or an expired exception moves it to remediation, isolation, reauthorization, or retirement before renewed operation.",
+    "visualReasoningGain": "A state machine adds visible allowed transitions and prevents initial approval from looking permanent; the revealed loop does this better than the skeletal opening."
+  },
+  "openingFacts": [
+    {
+      "label": "Owned, classified request",
+      "value": "The workspace request names its owner, purpose, data classification, dependencies, access model, support period, and expiry."
+    },
+    {
+      "label": "Approved secure template",
+      "value": "The platform instantiates managed logging, encryption, access, network, backup, and update defaults from the current baseline."
+    },
+    {
+      "label": "Validation and authorization gate",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Authorized operating state",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Drift or purpose change",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Remediate, isolate, reauthorize, or retire",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

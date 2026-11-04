@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o01-secure-design-principles",
+  "treatmentIds": [
+    "fresh-d3-o01-secure-design-principles-failure-path-layer-builder"
+  ],
+  "title": "failure path layer builder",
+  "question": "Which independent failure path does each proposed layer constrain, and which design principle explains that choice?",
+  "scenario": "Document-processing platform: A service accepts partner files and uses an administrative processing role.",
+  "focalRelation": "Least privilege, secure defaults, separation, fail behavior, simplicity, privacy, zero trust, and shared responsibility shape distinct boundaries; defense in depth requires independent failure coverage rather than product count.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "Partner upload",
+      "label": "Partner Upload",
+      "detail": "A partner supplies an untrusted document through the external upload path.",
+      "conceptIds": [
+        "threat-modeling"
+      ]
+    },
+    {
+      "id": "Validation boundary",
+      "label": "Validation Boundary",
+      "detail": "The boundary checks format, content, identity, size, and allowed action before processing.",
+      "conceptIds": [
+        "secure-defaults",
+        "fail-securely"
+      ]
+    },
+    {
+      "id": "Processor identity",
+      "label": "Processor Identity",
+      "detail": "The document processor uses a dedicated identity with only the permissions required for its job.",
+      "conceptIds": [
+        "least-privilege"
+      ]
+    },
+    {
+      "id": "Storage operation",
+      "label": "Storage Operation",
+      "detail": "The processor may perform only the specific object writes and reads its task needs.",
+      "conceptIds": [
+        "least-privilege"
+      ]
+    },
+    {
+      "id": "Administrator",
+      "label": "Administrator",
+      "detail": "A separately accountable administrator controls deployment and emergency configuration.",
+      "conceptIds": [
+        "separation-of-duties"
+      ]
+    },
+    {
+      "id": "Deployment configuration",
+      "label": "Deployment Configuration",
+      "detail": "Versioned configuration records validation, identity, storage, fail-secure, logging, and recovery behavior.",
+      "conceptIds": [
+        "secure-design",
+        "defense-in-depth"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Partner upload",
+      "to": "Validation boundary",
+      "label": "crosses before processing",
+      "kind": "flow"
+    },
+    {
+      "from": "Processor identity",
+      "to": "Storage operation",
+      "label": "must have only required permissions",
+      "kind": "dependency"
+    },
+    {
+      "from": "Administrator",
+      "to": "Deployment configuration",
+      "label": "controls under separate authority",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Document-processing platform: A service accepts partner files and uses an administrative processing role.",
+      "activeNodeIds": [
+        "Partner upload",
+        "Validation boundary"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Partner upload": "A partner supplies an untrusted document through the external upload path.",
+        "Validation boundary": "The boundary checks format, content, identity, size, and allowed action before processing."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Partner Upload crosses before processing Validation Boundary. Processor Identity must have only required permissions Storage Operation.",
+      "activeNodeIds": [
+        "Partner upload",
+        "Validation boundary",
+        "Processor identity",
+        "Storage operation"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Validation boundary": "The boundary checks format, content, identity, size, and allowed action before processing.",
+        "Partner upload": "A partner supplies an untrusted document through the external upload path.",
+        "Processor identity": "The document processor uses a dedicated identity with only the permissions required for its job.",
+        "Storage operation": "The processor may perform only the specific object writes and reads its task needs."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Processor Identity must have only required permissions Storage Operation. Administrator controls under separate authority Deployment Configuration.",
+      "activeNodeIds": [
+        "Processor identity",
+        "Storage operation",
+        "Administrator",
+        "Deployment configuration"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Deployment configuration": "Versioned configuration records validation, identity, storage, fail-secure, logging, and recovery behavior.",
+        "Processor identity": "The document processor uses a dedicated identity with only the permissions required for its job.",
+        "Storage operation": "The processor may perform only the specific object writes and reads its task needs.",
+        "Administrator": "A separately accountable administrator controls deployment and emergency configuration."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage. The failed validation boundary requires fail-secure behavior or a separately approved, isolated, auditable emergency path.",
+      "activeNodeIds": [
+        "Partner upload",
+        "Validation boundary",
+        "Processor identity",
+        "Storage operation",
+        "Administrator",
+        "Deployment configuration"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "Partner upload": "Queued partner files have not passed content validation.",
+        "Validation boundary": "Validator unavailable; normal acceptance is blocked.",
+        "Processor identity": "Processor must not gain permission to bypass validation.",
+        "Storage operation": "Production write remains denied; isolated holding is allowed only by emergency procedure.",
+        "Administrator": "Named approver owns any time-bound emergency intake decision.",
+        "Deployment configuration": "Fail-closed behavior, logging, expiry, and later reconciliation remain enforced."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage.",
+          "activeNodeIds": [
+            "Processor identity",
+            "Storage operation",
+            "Administrator",
+            "Deployment configuration"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "Processor identity": "Processor must not gain permission to bypass validation.",
+            "Storage operation": "Production write remains denied; isolated holding is allowed only by emergency procedure.",
+            "Administrator": "Named approver owns any time-bound emergency intake decision.",
+            "Deployment configuration": "Fail-closed behavior, logging, expiry, and later reconciliation remain enforced."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "The failed validation boundary requires fail-secure behavior or a separately approved, isolated, auditable emergency path.",
+          "activeNodeIds": [
+            "Processor identity",
+            "Storage operation",
+            "Administrator",
+            "Deployment configuration"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "Processor identity": "Processor must not gain permission to bypass validation.",
+            "Storage operation": "Production write remains denied; isolated holding is allowed only by emergency procedure.",
+            "Administrator": "Named approver owns any time-bound emergency intake decision.",
+            "Deployment configuration": "Fail-closed behavior, logging, expiry, and later reconciliation remain enforced."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o01-secure-design-principles-prediction-v1",
+    "prompt": "Which independent failure path does each proposed layer constrain, and which design principle explains that choice?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Permit the transaction because availability is more important than authorization during an outage.",
+        "correct": false,
+        "feedback": "Availability priority does not silently erase authorization; any emergency path must be explicitly bounded and accountable.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Defense in depth means stacking several products on the same failure path.",
+        "correct": false,
+        "feedback": "Useful layers constrain different credible paths and have independent owners and operating evidence.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Choose layers that constrain different credible failure paths and assign operating evidence and ownership to each.",
+        "correct": true,
+        "feedback": "Several products or a SASE label do not create least privilege, safe failure, or independent defense by themselves.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "secure-design",
+      "defense-in-depth",
+      "fail-securely",
+      "privacy-by-design"
+    ],
+    "hint": "Trace privilege and trust across each boundary; a convenient shared service may widen both."
+  },
+  "transfer": {
+    "id": "d3-o01-secure-design-principles-transfer-v1",
+    "prompt": "The partner upload validator is unavailable, and the processor proposes accepting every queued file directly into storage.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Fail closed or use a narrow emergency intake path with isolated storage, minimum privilege, approval, logging, and later validation.",
+        "correct": true,
+        "feedback": "Correct. The failed validation boundary requires fail-secure behavior or a separately approved, isolated, auditable emergency path.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Write every queued partner file into production storage because intake availability outweighs failed validation.",
+        "correct": false,
+        "feedback": "Availability does not erase validation and authorization; untrusted files need bounded isolation and accountable handling.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Let the processor bypass validation because its scoped storage permission also proves the uploaded content is safe.",
+        "correct": false,
+        "feedback": "A scoped storage permission does not establish that partner content is safe or authorized for processing.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "secure-design",
+      "least-privilege",
+      "secure-defaults",
+      "fail-securely"
+    ],
+    "hint": "When a dependency changes, recheck least privilege, fail-safe behavior, and complete mediation."
+  },
+  "retry": {
+    "id": "d3-o01-secure-design-principles-retry-v1",
+    "prompt": "The partner-upload service uses the same privileged role to validate untrusted files and administer deployment. Which redesign most directly reduces the combined failure path?",
+    "options": [
+      {
+        "id": "more-logging",
+        "label": "Keep the shared role and add more logs around every privileged action",
+        "correct": false,
+        "feedback": "Logging may improve detection, but the same role can still turn an untrusted-file path into deployment authority.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "separate",
+        "label": "Separate upload validation, processing, and deployment administration into least-privilege roles",
+        "correct": true,
+        "feedback": "Correct. Separation of duties and least privilege prevent one compromised path from controlling validation and deployment.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "trust-partner",
+        "label": "Keep the shared role because authenticated partner files are trusted by default",
+        "correct": false,
+        "feedback": "Partner authentication does not make uploaded content safe or justify deployment privilege.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "separation-of-duties",
+      "least-privilege"
+    ],
+    "hint": "Select the design that keeps one compromise from becoming universal authority."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Least privilege, secure defaults, separation, fail behavior, simplicity, privacy, zero trust, and shared responsibility shape distinct boundaries; defense in depth requires independent failure coverage rather than product count.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o01-outline",
+    "d3-o01-textbook",
+    "d3-o01-sybex",
+    "d3-o01-sase-official",
+    "d3-o01-sase-cisco",
+    "d3-o01-zero-trust-nist"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o01-secure-design-principles-failure-path-layer-builder",
+      "disposition": "equivalent",
+      "rationale": "The comparison states preserve independent failure paths, validation, least privilege, separation of duties, fail-secure behavior, layered controls, named owners, evidence, and residual escape paths. Layers are authored rather than assembled in a builder, and zero-trust, shared-responsibility, and simplicity principles are not separately assessed in this bounded upload case."
+    }
+  ]
+}

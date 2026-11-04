@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o10-information-system-lifecycle",
+  "treatmentIds": [
+    "fresh-d3-o10-information-system-lifecycle-security-trace-through-retirement"
+  ],
+  "title": "security trace through retirement",
+  "question": "Which security decision and evidence artifact must survive when an old portal is replaced, changed, and retired?",
+  "scenario": "Customer portal replacement: A legacy portal is replaced by a cloud service with a migration deadline.",
+  "focalRelation": "Stakeholder need becomes a requirement, architecture decision, implementation, verification, validation, security acceptance, deployment, operating evidence, change feedback, and retirement closure; traceability preserves the security case across handoffs.",
+  "representation": "timeline",
+  "nodes": [
+    {
+      "id": "requirements",
+      "label": "Portal replacement needs",
+      "detail": "Business, security, privacy, resilience, abuse, acceptance, and retirement needs are owned and traceable from the start.",
+      "conceptIds": [
+        "stakeholder-requirements",
+        "requirements-analysis"
+      ]
+    },
+    {
+      "id": "architecture",
+      "label": "Architecture and design decisions",
+      "detail": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the requirements.",
+      "conceptIds": [
+        "architecture-design"
+      ]
+    },
+    {
+      "id": "implementation",
+      "label": "Implementation and integration evidence",
+      "detail": "Code, configuration, components, interfaces, migration, and integration evidence show whether the approved design was realized.",
+      "conceptIds": [
+        "implementation",
+        "integration",
+        "verification-validation"
+      ]
+    },
+    {
+      "id": "acceptance",
+      "label": "Deployment acceptance",
+      "detail": "Named business, security, and operations owners accept residual risk, readiness, support, monitoring, recovery, and rollback.",
+      "conceptIds": [
+        "deployment",
+        "security-acceptance"
+      ]
+    },
+    {
+      "id": "operations",
+      "label": "Operations, maintenance, and change",
+      "detail": "Patching, monitoring, incidents, backups, configuration, support, reassessment, and approved changes preserve the accepted state.",
+      "conceptIds": [
+        "operations-maintenance",
+        "information-system-lifecycle"
+      ]
+    },
+    {
+      "id": "retirement",
+      "label": "Replacement and verified retirement",
+      "detail": "Migration preserves required data and evidence, removes legacy access and dependencies, and closes keys, media, and contracts.",
+      "conceptIds": [
+        "retirement-disposal"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "requirements",
+      "to": "architecture",
+      "label": "are traced into",
+      "kind": "flow"
+    },
+    {
+      "from": "architecture",
+      "to": "implementation",
+      "label": "is realized and verified by",
+      "kind": "evidence"
+    },
+    {
+      "from": "implementation",
+      "to": "acceptance",
+      "label": "supplies scoped readiness evidence to",
+      "kind": "evidence"
+    },
+    {
+      "from": "acceptance",
+      "to": "operations",
+      "label": "assigns continuing owners and conditions for",
+      "kind": "flow"
+    },
+    {
+      "from": "operations",
+      "to": "architecture",
+      "label": "returns material change and failure evidence to",
+      "kind": "evidence"
+    },
+    {
+      "from": "operations",
+      "to": "retirement",
+      "label": "authorizes and verifies the eventual transition to",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Customer portal replacement: A legacy portal is replaced by a cloud service with a migration deadline.",
+      "activeNodeIds": [
+        "requirements"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "requirements": "Business, user, legal, privacy, resilience, abuse, acceptance, and retirement needs are named with accountable owners."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Stakeholder security requirements are traced into Architecture and design decisions. Architecture and design decisions is realized and verified by Implementation and integration evidence.",
+      "activeNodeIds": [
+        "requirements",
+        "architecture",
+        "implementation"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "architecture": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the requirements.",
+        "requirements": "Business, security, privacy, resilience, abuse, acceptance, and retirement needs are owned and traceable from the start.",
+        "implementation": "Code, configuration, components, interfaces, migration, and integration evidence show whether the approved design was realized."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Operations, maintenance, and change returns material change and failure evidence to Architecture and design decisions. Operations, maintenance, and change authorizes and verifies the eventual transition to Replacement and verified retirement.",
+      "activeNodeIds": [
+        "operations",
+        "architecture",
+        "retirement"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "retirement": "Migration preserves required data and evidence, removes legacy access and dependencies, and closes keys, media, and contracts.",
+        "operations": "Patching, monitoring, incidents, backups, configuration, support, reassessment, and approved changes preserve the accepted state.",
+        "architecture": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the requirements."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "A system passes security testing, but no team owns monitoring, patching, backup, incident response, or decommissioning after launch. Do not complete handoff; assign and accept operational ownership, evidence, support, monitoring, recovery, change, and retirement duties before release.",
+      "activeNodeIds": [
+        "requirements",
+        "architecture",
+        "implementation",
+        "operations",
+        "retirement",
+        "acceptance"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "retirement": "Migration preserves needed data and evidence, legacy access and dependencies are removed, and data, keys, media, and contracts reach authorized end states.",
+        "requirements": "Business, security, privacy, resilience, abuse, acceptance, and retirement needs are owned and traceable from the start.",
+        "architecture": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the requirements.",
+        "implementation": "Code, configuration, components, interfaces, migration, and integration evidence show whether the approved design was realized.",
+        "operations": "Patching, monitoring, incidents, backups, configuration, support, reassessment, and approved changes preserve the accepted state.",
+        "acceptance": "Named business, security, and operations owners accept residual risk, readiness, support, monitoring, recovery, and rollback."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "Build and validation evidence exist. Operational accountability and lifecycle duties are unassigned.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "A system passes security testing, but no team owns monitoring, patching, backup, incident response, or decommissioning after launch.",
+          "activeNodeIds": [
+            "operations",
+            "architecture",
+            "retirement"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "retirement": "Migration preserves required data and evidence, removes legacy access and dependencies, and closes keys, media, and contracts.",
+            "operations": "Patching, monitoring, incidents, backups, configuration, support, reassessment, and approved changes preserve the accepted state.",
+            "architecture": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the requirements."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "Do not complete handoff; assign and accept operational ownership, evidence, support, monitoring, recovery, change, and retirement duties before release.",
+          "activeNodeIds": [
+            "operations",
+            "architecture",
+            "retirement"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "retirement": "Migration preserves needed data and evidence, legacy access and dependencies are removed, and data, keys, media, and contracts reach authorized end states.",
+            "operations": "Patching, monitoring, incidents, backups, configuration, support, reassessment, and approved changes preserve the accepted state.",
+            "architecture": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the requirements."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o10-information-system-lifecycle-prediction-v1",
+    "prompt": "Which security decision and evidence artifact must survive when an old portal is replaced, changed, and retired?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Release the system when build testing passes even though no operations owner accepted it.",
+        "correct": false,
+        "feedback": "Build evidence does not establish operational ownership, support, monitoring, recovery, or retirement responsibility.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Passing deployment security tests completes the system’s security work.",
+        "correct": false,
+        "feedback": "Operating ownership, monitoring, patching, recovery, change, evidence, and retirement remain lifecycle obligations.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Trace needs through acceptance, operations, change, and verified retirement.",
+        "correct": true,
+        "feedback": "A deployment test is one evidence event; later change, operation, replacement, and disposal can invalidate the security case.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "information-system-lifecycle",
+      "deployment",
+      "operations-maintenance",
+      "retirement-disposal",
+      "security-acceptance"
+    ],
+    "hint": "A release is not operationally complete until ownership and support duties are accepted."
+  },
+  "transfer": {
+    "id": "d3-o10-information-system-lifecycle-transfer-v1",
+    "prompt": "A system passes security testing, but no team owns monitoring, patching, backup, incident response, or decommissioning after launch.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Release the system when build testing passes even though no operations owner accepted it",
+        "correct": false,
+        "feedback": "Changed fact: Build and validation evidence exist. Operational accountability and lifecycle duties are unassigned. Why this answer fails: “Release the system when build testing passes even though no operations owner accepted it” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Stakeholder need becomes a requirement, architecture decision, implementation, verification, validation, security acceptance, deployment, operating evidence, change feedback, and retirement closure; traceability preserves the security case across handoffs. Repair target: Control and evidence consequence — Operations, maintenance, and change returns material change and failure evidence to Architecture and design decisions. Operations, maintenance, and change authorizes and verifies the eventual transition to Replacement and verified retirement.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "recompute",
+        "label": "Delay handoff until named owners accept monitoring, patching, recovery, change, and retirement duties",
+        "correct": true,
+        "feedback": "Do not complete handoff; assign and accept operational ownership, evidence, support, monitoring, recovery, change, and retirement duties before release.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Passing deployment security tests completes the system’s security work",
+        "correct": false,
+        "feedback": "Changed fact: Build and validation evidence exist. Operational accountability and lifecycle duties are unassigned. Why this answer fails: “Passing deployment security tests completes the system’s security work” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Stakeholder need becomes a requirement, architecture decision, implementation, verification, validation, security acceptance, deployment, operating evidence, change feedback, and retirement closure; traceability preserves the security case across handoffs. Repair target: Changed fact, recomputed result — A system passes security testing, but no team owns monitoring, patching, backup, incident response, or decommissioning after launch. Do not complete handoff; assign and accept operational ownership, evidence, support, monitoring, recovery, change, and retirement duties before release.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "information-system-lifecycle",
+      "retirement-disposal",
+      "security-acceptance"
+    ],
+    "hint": "Handoff changes who monitors, recovers, changes, and eventually retires the system."
+  },
+  "retry": {
+    "id": "d3-o10-information-system-lifecycle-retry-v1",
+    "prompt": "The replacement portal is live, but legacy API keys, customer exports, and monitoring routes remain active. What must the retirement owner require?",
+    "options": [
+      {
+        "id": "delete-host",
+        "label": "Delete only the legacy host and assume connected services and exported data disappear with it",
+        "correct": false,
+        "feedback": "The host is one asset. Keys, routes, services, copies, logs, and contracts have independent end states.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "verified-retire",
+        "label": "Reconcile and revoke legacy access, copies, routes, keys, monitoring, and contracts with closure evidence",
+        "correct": true,
+        "feedback": "Correct. Retirement is a governed lifecycle stage with owned migration, validation, disposition, and dependency removal.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "launch-enough",
+        "label": "Close the project because successful replacement deployment also retires every legacy dependency",
+        "correct": false,
+        "feedback": "Launch does not revoke old identities, reconcile copies, remove routes, preserve evidence, or dispose of keys and data.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "information-system-lifecycle",
+      "retirement-disposal",
+      "security-acceptance",
+      "operations-maintenance"
+    ],
+    "hint": "Keep the gate closed until each operational duty has an owner and evidence."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Stakeholder need becomes a requirement, architecture decision, implementation, verification, validation, security acceptance, deployment, operating evidence, change feedback, and retirement closure; traceability preserves the security case across handoffs.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o10-outline",
+    "d3-o10-textbook",
+    "d3-o10-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o10-information-system-lifecycle-security-trace-through-retirement",
+      "disposition": "implemented",
+      "rationale": "The timeline traces owned portal-replacement needs through architecture decisions, implementation evidence, deployment acceptance, operations and approved change, and verified retirement. The changed case requires the same trace when migration pressure leaves a legacy dependency and access path behind."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Security requirements must trace through design, implementation, acceptance, operation, change, and verified retirement. Passing build tests does not assign monitoring, patching, recovery, incident, or decommissioning ownership.",
+    "visualReasoningGain": "A lifecycle with an artifact and owner at every phase would add traceability; the current revealed map does so, while the opening removes most of it."
+  },
+  "openingFacts": [
+    {
+      "label": "Portal replacement needs",
+      "value": "Business, security, privacy, resilience, abuse, acceptance, and retirement needs are owned and traceable from the start."
+    },
+    {
+      "label": "Architecture and design decisions",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Implementation and integration evidence",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Deployment acceptance",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Operations, maintenance, and change",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Replacement and verified retirement",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

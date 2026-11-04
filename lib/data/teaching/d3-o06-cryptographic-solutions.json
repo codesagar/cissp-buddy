@@ -1,0 +1,506 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o06-cryptographic-solutions",
+  "treatmentIds": [
+    "fresh-d3-o06-cryptographic-solutions-document-protection-dependency-map"
+  ],
+  "title": "document protection dependency map",
+  "question": "Which operation protects secrecy, which supports integrity or approval evidence, and which dependency can invalidate each claim?",
+  "scenario": "Supplier document exchange: Two organizations exchange sensitive documents and need to verify who approved each release.",
+  "focalRelation": "Primitive properties combine in a protocol; certificates bind identity and key within validated scope; keys move through generation, protection, use, rotation, recovery, and destruction; endpoints and operational handling bound the result.",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "Sensitive document",
+      "label": "Sensitive Document",
+      "detail": "The supplier document requires protection while transmitted, stored, copied, recovered, and eventually disposed.",
+      "conceptIds": [
+        "cryptography"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Confidentiality requirement",
+      "label": "Confidentiality Requirement",
+      "detail": "Only authorized recipients may recover the document contents in each protected state.",
+      "conceptIds": [
+        "symmetric-cryptography"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Approval requirement",
+      "label": "Approval Requirement",
+      "detail": "The exchange must identify the approving organization and detect changes after approval.",
+      "conceptIds": [
+        "digital-signature"
+      ],
+      "lane": "origin"
+    },
+    {
+      "id": "Signature validation",
+      "label": "Signature Validation",
+      "detail": "The recipient validates the signature, certificate path, intended identity, status, and signed content.",
+      "conceptIds": [
+        "digital-signature"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Key lifecycle",
+      "label": "Key Lifecycle",
+      "detail": "Generation, custody, distribution, rotation, recovery, revocation, and destruction govern every encryption and signing key.",
+      "conceptIds": [
+        "public-key-infrastructure",
+        "key-management",
+        "key-lifecycle"
+      ],
+      "lane": "control"
+    },
+    {
+      "id": "Encryption and signing use",
+      "label": "Encryption And Signing Use",
+      "detail": "Encryption protects secrecy and signing supports integrity and origin evidence; neither substitutes for the other.",
+      "conceptIds": [
+        "cryptography",
+        "symmetric-cryptography",
+        "digital-signature"
+      ],
+      "lane": "protected"
+    }
+  ],
+  "edges": [
+    {
+      "from": "Sensitive document",
+      "to": "Confidentiality requirement",
+      "label": "drives protection of transport and storage states",
+      "kind": "flow"
+    },
+    {
+      "from": "Approval requirement",
+      "to": "Signature validation",
+      "label": "requires trusted origin and integrity evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "Key lifecycle",
+      "to": "Encryption and signing use",
+      "label": "governs access, rotation and compromise response",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "origin",
+      "label": "Document and protection goals",
+      "rule": "The sensitive document and approval or confidentiality goals define the required claims."
+    },
+    {
+      "id": "control",
+      "label": "Cryptographic operations",
+      "rule": "Encryption, signing, validation, and key lifecycle support distinct claims."
+    },
+    {
+      "id": "protected",
+      "label": "Validated protected result",
+      "rule": "The result is accepted only when confidentiality and approval evidence validate for the intended recipient and lifecycle."
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Supplier document exchange: Two organizations exchange sensitive documents and need to verify who approved each release.",
+      "activeNodeIds": [
+        "Sensitive document",
+        "Confidentiality requirement"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Sensitive document": "The supplier document requires protection while transmitted, stored, copied, recovered, and eventually disposed.",
+        "Confidentiality requirement": "Only authorized recipients may recover the document contents in each protected state."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Sensitive Document drives protection of transport and storage states Confidentiality Requirement. Approval Requirement requires trusted origin and integrity evidence Signature Validation.",
+      "activeNodeIds": [
+        "Sensitive document",
+        "Confidentiality requirement",
+        "Approval requirement",
+        "Signature validation"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "Confidentiality requirement": "Only authorized recipients may recover the document contents in each protected state.",
+        "Sensitive document": "The supplier document requires protection while transmitted, stored, copied, recovered, and eventually disposed.",
+        "Approval requirement": "The exchange must identify the approving organization and detect changes after approval.",
+        "Signature validation": "The recipient validates the signature, certificate path, intended identity, status, and signed content."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Approval Requirement requires trusted origin and integrity evidence Signature Validation. Key Lifecycle governs access, rotation and compromise response Encryption And Signing Use.",
+      "activeNodeIds": [
+        "Approval requirement",
+        "Signature validation",
+        "Key lifecycle",
+        "Encryption and signing use"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "Encryption and signing use": "Encryption protects secrecy and signing supports integrity and origin evidence; neither substitutes for the other.",
+        "Approval requirement": "The exchange must identify the approving organization and detect changes after approval.",
+        "Signature validation": "The recipient validates the signature, certificate path, intended identity, status, and signed content.",
+        "Key lifecycle": "Generation, custody, distribution, rotation, recovery, revocation, and destruction govern every encryption and signing key."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "A disk-encryption deployment exports recovery keys into the same administrator-accessible repository as encrypted backups. Separate key custody and authorization from backup storage, restrict and audit recovery use, protect key backups, rotate as needed, and test controlled recovery.",
+      "activeNodeIds": [
+        "Sensitive document",
+        "Confidentiality requirement",
+        "Approval requirement",
+        "Signature validation",
+        "Key lifecycle",
+        "Encryption and signing use"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2
+      ],
+      "statuses": {
+        "Encryption and signing use": "Encryption protects secrecy and signing supports integrity and origin evidence; neither substitutes for the other.",
+        "Sensitive document": "The supplier document requires protection while transmitted, stored, copied, recovered, and eventually disposed.",
+        "Confidentiality requirement": "Only authorized recipients may recover the document contents in each protected state.",
+        "Approval requirement": "The exchange must identify the approving organization and detect changes after approval.",
+        "Signature validation": "The recipient validates the signature, certificate path, intended identity, status, and signed content.",
+        "Key lifecycle": "Generation, custody, distribution, rotation, recovery, revocation, and destruction govern every encryption and signing key."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "recovery-key-co-custody",
+      "label": "Backup and recovery key share custody",
+      "changedFact": "A disk-encryption deployment exports recovery keys into the same administrator-accessible repository as encrypted backups.",
+      "lanes": [
+        {
+          "id": "storage",
+          "label": "Backup storage custody",
+          "rule": "Encrypted backup custody does not include unrestricted access to its recovery keys."
+        },
+        {
+          "id": "keys",
+          "label": "Recovery-key custody",
+          "rule": "Key storage and authorization remain separately controlled and audited."
+        },
+        {
+          "id": "evidence",
+          "label": "Recovery operation and proof",
+          "rule": "A bounded recovery joins the two only for an authorized, logged, tested operation."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "backup",
+          "label": "Encrypted backup set",
+          "detail": "The backup contains protected data whose confidentiality depends on separate recovery-key custody.",
+          "conceptIds": [
+            "symmetric-cryptography"
+          ],
+          "lane": "storage"
+        },
+        {
+          "id": "shared-repo",
+          "label": "Administrator-accessible repository",
+          "detail": "The current repository contains both encrypted backups and their recovery keys under one administrator path.",
+          "conceptIds": [
+            "key-management",
+            "key-lifecycle"
+          ],
+          "lane": "storage"
+        },
+        {
+          "id": "recovery-key",
+          "label": "Disk recovery key",
+          "detail": "The recovery key can decrypt the backup and therefore requires custody independent from backup storage.",
+          "conceptIds": [
+            "key-management",
+            "symmetric-cryptography"
+          ],
+          "lane": "keys"
+        },
+        {
+          "id": "key-vault",
+          "label": "Separate recovery-key vault",
+          "detail": "The vault restricts key access, protects key backups, and supports rotation and revocation.",
+          "conceptIds": [
+            "key-management",
+            "key-lifecycle"
+          ],
+          "lane": "keys"
+        },
+        {
+          "id": "recovery-approval",
+          "label": "Authorized recovery approval",
+          "detail": "A named approver grants time-bounded key use for a documented recovery purpose.",
+          "conceptIds": [
+            "key-management",
+            "key-lifecycle"
+          ],
+          "lane": "evidence"
+        },
+        {
+          "id": "recovery-audit",
+          "label": "Recovery-use evidence",
+          "detail": "Audit and test records show who released the key, which backup was recovered, and whether access ended.",
+          "conceptIds": [
+            "key-lifecycle"
+          ],
+          "lane": "evidence"
+        }
+      ],
+      "edges": [
+        {
+          "from": "shared-repo",
+          "to": "backup",
+          "label": "gives one administrator path access to",
+          "kind": "dependency"
+        },
+        {
+          "from": "shared-repo",
+          "to": "recovery-key",
+          "label": "also exposes the means to decrypt",
+          "kind": "dependency"
+        },
+        {
+          "from": "recovery-key",
+          "to": "key-vault",
+          "label": "moves into separately controlled custody at",
+          "kind": "flow"
+        },
+        {
+          "from": "recovery-approval",
+          "to": "key-vault",
+          "label": "authorizes bounded release from",
+          "kind": "flow"
+        },
+        {
+          "from": "key-vault",
+          "to": "backup",
+          "label": "supplies a key only for approved recovery of",
+          "kind": "flow"
+        },
+        {
+          "from": "key-vault",
+          "to": "recovery-audit",
+          "label": "records release, use, rotation, and return in",
+          "kind": "evidence"
+        }
+      ],
+      "states": [
+        {
+          "id": "co-custody-facts",
+          "title": "One path defeats both protections",
+          "caption": "The administrator-accessible repository holds the encrypted backups and their recovery keys, so one compromise reaches ciphertext and decryption capability.",
+          "activeNodeIds": [
+            "shared-repo",
+            "backup",
+            "recovery-key"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "shared-repo": "One administrator path reaches both backup data and recovery secrets.",
+            "backup": "The backup is encrypted but shares custody with its decryption key.",
+            "recovery-key": "The recovery key is exposed through the same repository as the ciphertext."
+          }
+        },
+        {
+          "id": "co-custody-result",
+          "title": "Separate custody and bound recovery",
+          "caption": "Move keys to separate custody, require scoped approval, audit each release, protect key backups, rotate as needed, and test recovery.",
+          "activeNodeIds": [
+            "backup",
+            "key-vault",
+            "recovery-approval",
+            "recovery-audit"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4,
+            5
+          ],
+          "statuses": {
+            "backup": "The encrypted backup remains under storage custody separate from key custody.",
+            "key-vault": "The vault protects and rotates recovery keys independently.",
+            "recovery-approval": "A named authority approves a specific recovery operation.",
+            "recovery-audit": "Evidence records key release, recovery result, rotation, and access closure."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o06-cryptographic-solutions-prediction-v1",
+    "prompt": "Which operation protects secrecy, which supports integrity or approval evidence, and which dependency can invalidate each claim?",
+    "options": [
+      {
+        "id": "correct",
+        "label": "Compose mechanisms by property and validate their key, certificate, endpoint, protocol, and lifecycle dependencies.",
+        "correct": true,
+        "feedback": "Encryption, signatures, certificates, and key lifecycle support different claims and can fail independently.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "unit-specific-alternative",
+        "label": "Store the recovery keys with the encrypted export so recipients never lose access.",
+        "correct": false,
+        "feedback": "Bundling ciphertext and recovery keys collapses the protection boundary.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "Using encryption means the document remains secure through every endpoint and lifecycle state.",
+        "correct": false,
+        "feedback": "Keys, endpoints, identity, protocol, copies, recovery, revocation, and retention bound the claim.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "key-lifecycle",
+      "certificate"
+    ],
+    "hint": "Encryption depends on key custody, identity, endpoints, recovery, and lifecycle controls."
+  },
+  "transfer": {
+    "id": "d3-o06-cryptographic-solutions-transfer-v1",
+    "prompt": "A disk-encryption deployment exports recovery keys into the same administrator-accessible repository as encrypted backups.",
+    "options": [
+      {
+        "id": "single-signal",
+        "label": "Store the recovery keys with the encrypted export so recipients never lose access",
+        "correct": false,
+        "feedback": "Changed fact: A disk-encryption deployment exports recovery keys into the same administrator-accessible repository as encrypted backups. Why this answer fails: “Store the recovery keys with the encrypted export so recipients never lose access” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Primitive properties combine in a protocol; certificates bind identity and key within validated scope; keys move through generation, protection, use, rotation, recovery, and destruction; endpoints and operational handling bound the result. Repair target: One path defeats both protections — The administrator-accessible repository holds the encrypted backups and their recovery keys, so one compromise reaches ciphertext and decryption capability.",
+        "repairStateId": "co-custody-facts"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Using encryption means the document remains secure through every endpoint and lifecycle state",
+        "correct": false,
+        "feedback": "Changed fact: A disk-encryption deployment exports recovery keys into the same administrator-accessible repository as encrypted backups. Why this answer fails: “Using encryption means the document remains secure through every endpoint and lifecycle state” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Primitive properties combine in a protocol; certificates bind identity and key within validated scope; keys move through generation, protection, use, rotation, recovery, and destruction; endpoints and operational handling bound the result. Repair target: One path defeats both protections — The administrator-accessible repository holds the encrypted backups and their recovery keys, so one compromise reaches ciphertext and decryption capability.",
+        "repairStateId": "co-custody-facts"
+      },
+      {
+        "id": "recompute",
+        "label": "Separate key custody and authorization from backup storage, restrict and audit recovery use, protect key backups",
+        "correct": true,
+        "feedback": "Separate key custody and authorization from backup storage, restrict and audit recovery use, protect key backups, rotate as needed, and test controlled recovery.",
+        "repairStateId": "co-custody-result"
+      }
+    ],
+    "conceptIds": [
+      "symmetric-cryptography",
+      "key-management",
+      "key-lifecycle"
+    ],
+    "hint": "A repository holding both backups and recovery keys collapses the confidentiality boundary."
+  },
+  "retry": {
+    "id": "d3-o06-cryptographic-solutions-retry-v1",
+    "prompt": "A team encrypts an export, then sends the decryption key beside the ciphertext through the same unauthenticated file-share link. Which dependency fails?",
+    "options": [
+      {
+        "id": "hash-key",
+        "label": "Publish a hash of the key beside both files and treat that as confidential delivery",
+        "correct": false,
+        "feedback": "A hash does not provide key secrecy or authenticate an untrusted delivery path by itself.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "strong-cipher",
+        "label": "None, because a strong symmetric cipher protects the key as well as the ciphertext",
+        "correct": false,
+        "feedback": "The cipher protects data under the key; it does not protect a key exposed beside the ciphertext.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "key-channel",
+        "label": "Key establishment and delivery need a separately authenticated, authorized protection path",
+        "correct": true,
+        "feedback": "Correct. The complete solution includes key custody, delivery, recipient authorization, lifecycle, and recovery, not only encryption.",
+        "repairStateId": "consequence"
+      }
+    ],
+    "conceptIds": [
+      "symmetric-cryptography",
+      "key-management",
+      "key-lifecycle",
+      "cryptography"
+    ],
+    "hint": "Separate storage and key custody, then authorize and audit each recovery use."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Primitive properties combine in a protocol; certificates bind identity and key within validated scope; keys move through generation, protection, use, rotation, recovery, and destruction; endpoints and operational handling bound the result.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o06-outline",
+    "d3-o06-textbook",
+    "d3-o06-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o06-cryptographic-solutions-document-protection-dependency-map",
+      "disposition": "equivalent",
+      "rationale": "The boundary model separates document confidentiality from approval evidence and traces signature validation, encryption and signing use, and key-lifecycle dependencies across the supplier exchange. It preserves the reviewed composition and dependency semantics; hash and elliptic-curve choices remain underlying primitive details rather than separate decisions in this case."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A complete solution combines primitives with endpoints, protocols, validation, key custody, rotation, compromise response, and recovery. Storing recovery keys with encrypted backups collapses the protection boundary.",
+    "visualReasoningGain": "A persistent dependency map can show how one failed custody assumption invalidates the system claim; the current variant provides that value only after switching cases."
+  },
+  "openingFacts": [
+    {
+      "label": "Sensitive Document",
+      "value": "The supplier document requires protection while transmitted, stored, copied, recovered, and eventually disposed."
+    },
+    {
+      "label": "Confidentiality Requirement",
+      "value": "Only authorized recipients may recover the document contents in each protected state."
+    },
+    {
+      "label": "Approval Requirement",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Signature Validation",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Key Lifecycle",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Encryption And Signing Use",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

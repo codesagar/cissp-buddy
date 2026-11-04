@@ -1,0 +1,774 @@
+{
+  "conceptIds": [
+    "trust-zone",
+    "network-segmentation",
+    "micro-segmentation",
+    "traffic-flows",
+    "zero-trust",
+    "vlan",
+    "vpn",
+    "vrf",
+    "air-gap"
+  ],
+  "concepts": [
+    {
+      "decision": "Create a zone when its trust requirement differs; document crossings and exceptions.",
+      "definition": "Grouping with a stated trust/business purpose, assets, identities, permitted flows, owners, and failure consequences.",
+      "failureExample": "An undefined “secure zone” cannot support consistent allow/deny decisions.",
+      "id": "trust-zone",
+      "label": "Trust Zone",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Place enforcement on real crossings and test allowed, denied, and failure behavior.",
+      "definition": "Physical or logical restriction of communication between zones to reduce reachability and blast radius.",
+      "failureExample": "A segmented diagram with an unfiltered routing path leaves lateral movement intact.",
+      "id": "network-segmentation",
+      "label": "Network Segmentation",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Use for high-value or mixed-trust workloads; maintain service identity, policy lifecycle, and telemetry.",
+      "definition": "Workload/identity-level policy that limits east-west communication beyond coarse network zones.",
+      "failureExample": "One compromised pod reaches peer services because the whole subnet is allowed.",
+      "id": "micro-segmentation",
+      "label": "Micro Segmentation",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Inventory before policy; remove stale flows and verify dependency changes.",
+      "definition": "Specified source, destination, service, direction, identity, and path relationships that a zone policy evaluates.",
+      "failureExample": "A forgotten backup path becomes an unmonitored bridge across zones.",
+      "id": "traffic-flows",
+      "label": "Traffic Flows",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Apply explicit verification and least privilege at each requested resource/action while planning availability and telemetry.",
+      "definition": "Design approach that continuously evaluates identity, device/context, and policy rather than assuming network location grants trust.",
+      "failureExample": "A user on a corporate subnet receives broad access because location is treated as sufficient trust.",
+      "id": "zero-trust",
+      "label": "Zero Trust",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Use with inter-VLAN routing/ACL policy, trunk controls, management protection, and monitoring.",
+      "definition": "Layer-2 logical LAN segmentation on switching infrastructure.",
+      "failureExample": "Putting systems in different VLANs without controlling the router between them does not block communication.",
+      "id": "vlan",
+      "label": "Vlan",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Verify authentication, endpoint trust, split/full routing, authorization, logs, and termination boundary.",
+      "definition": "Protected logical tunnel connecting users/sites/networks through defined endpoints and traffic selectors.",
+      "failureExample": "A VPN grants a remote device broad internal reachability despite lacking device posture.",
+      "id": "vpn",
+      "label": "VPN",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Use for tenant/site separation while controlling route leaking, management, and monitoring.",
+      "definition": "Virtual routing/forwarding instances that keep route tables and forwarding domains logically separate.",
+      "failureExample": "An unintended route leak connects two customer/zone routing domains.",
+      "id": "vrf",
+      "label": "Vrf",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    },
+    {
+      "decision": "Use only with controlled transfer, maintenance, media, and verification procedures; validate no hidden bridge exists.",
+      "definition": "Physical/logical separation intended to remove ordinary network paths between environments.",
+      "failureExample": "A dual-homed maintenance laptop silently bridges an “air-gapped” environment.",
+      "id": "air-gap",
+      "label": "Air Gap",
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "sourceVisualId": "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    }
+  ],
+  "domainId": 4,
+  "estimatedMinutes": 40,
+  "id": "d4-o01-network-segmentation-trust-zones",
+  "misconceptions": [
+    {
+      "claim": "A perimeter firewall proves internal trust zones are effective.",
+      "correction": "East-west movement, cloud overlays, wireless, and management paths require internal enforcement and monitoring."
+    },
+    {
+      "claim": "More zones automatically improve security.",
+      "correction": "Unusable complexity creates exceptions and blind spots; zones must correspond to risk and operating ownership."
+    }
+  ],
+  "objectiveIds": [
+    "4.1"
+  ],
+  "outcome": "Design trust zones and segmentation controls for a network scenario, justify the boundary type, and identify bypass and failure evidence.",
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d4-o01-architecture-and-segmentation",
+    "d5-o01-physical-logical-access"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Inventory north-south and east-west flows, data classification, identities, service dependencies, management paths, and failure consequences. Define zones by a meaningful trust or business purpose, then choose physical, logical, or workload-level boundaries. Physical separation or an air gap reduces available paths; VLANs, VPNs, and VRF reduce logical reachability; micro-segmentation applies finer workload and identity policy.",
+      "id": "zone-design",
+      "keyPoints": [
+        "The owner of a zone defines allowed purposes and evidence.",
+        "Segmentation should be based on risk and flow requirements, not topology fashion.",
+        "A boundary is incomplete if alternate routes or management paths bypass it."
+      ],
+      "sourceRefIds": [
+        "outline-4.1-segmentation",
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "title": "Start with flows and trust"
+    },
+    {
+      "body": "Place enforcement where traffic actually crosses, authenticate administrative and service identities, log allowed and denied flows, and test fail-open/fail-closed behavior. Distributed firewalls, routers, IDS/IPS, overlays, and zero-trust policy can complement zones, but each introduces configuration, availability, and observability dependencies. Review rules for stale exceptions and unintended transitive trust.",
+      "id": "enforcement-and-failure",
+      "keyPoints": [
+        "A segmentation design needs an explicit bypass and failure strategy.",
+        "Telemetry should reveal lateral movement and policy drift.",
+        "Zero trust continuously evaluates context; it does not make segmentation unnecessary."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ],
+      "title": "Enforce, observe, and test the boundary"
+    }
+  ],
+  "sourceHash": "691b38ed519df56b9a38160966d14b237a3ec6058ceb858b6b78713696082581",
+  "sourcePath": "knowledge/domains/d4-communication-network-security/units/d4-o01-network-segmentation-trust-zones.json",
+  "sourceRefs": [
+    {
+      "id": "outline-4.1-segmentation",
+      "locator": {
+        "type": "objective",
+        "value": "4.1 bullets: traffic flows; physical/logical/micro-segmentation"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "topic scope"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77), body sections on architecture, segmentation, and SDN"
+      },
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "supports": [
+        "segmentation and trust boundaries"
+      ]
+    },
+    {
+      "id": "sybex-d4-597-645",
+      "locator": {
+        "type": "pdf-page",
+        "value": "597-645, Chapter 11 Secure Network Architecture and Components"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "secure protocols, microsegmentation, components"
+      ]
+    }
+  ],
+  "summary": "Segmentation turns data flows, identities, and trust assumptions into enforceable boundaries that reduce blast radius while preserving required business paths.",
+  "teaching": {
+    "assumptions": [
+      "Arrow direction is request direction; a blocked edge stops before the protected resource.",
+      "The stale backup exception is a hypothetical configuration fact, not a claim about a specific product.",
+      "VLAN, VPN, VRF, micro-segmentation, air gaps, and zero-trust policy create different boundaries and dependencies."
+    ],
+    "edges": [
+      {
+        "from": "research",
+        "kind": "flow",
+        "label": "REQUEST: approved analytics action",
+        "to": "enforcement"
+      },
+      {
+        "from": "enforcement",
+        "kind": "flow",
+        "label": "PERMIT: named protocol and action",
+        "to": "broker"
+      },
+      {
+        "from": "broker",
+        "kind": "flow",
+        "label": "SCOPED: service identity and object",
+        "to": "production"
+      },
+      {
+        "from": "research",
+        "kind": "blocked",
+        "label": "DENY: direct path stops at boundary",
+        "to": "production"
+      },
+      {
+        "from": "management",
+        "kind": "flow",
+        "label": "ADMIN: separately authorized and logged",
+        "to": "production"
+      },
+      {
+        "from": "backup",
+        "kind": "flow",
+        "label": "BYPASS: stale broad rule reaches",
+        "to": "production"
+      },
+      {
+        "from": "enforcement",
+        "kind": "evidence",
+        "label": "contributes its local research-crossing record to",
+        "to": "evidence-accounting"
+      },
+      {
+        "from": "management",
+        "kind": "evidence",
+        "label": "contributes its separate local administrator-session record to",
+        "to": "evidence-accounting"
+      }
+    ],
+    "focalRelation": "Zone names describe purpose. Each crossing must name source, destination, direction, action, policy identity, enforcement point, evidence, and failure behavior; a privileged or alternate route can invalidate an otherwise correct segmentation claim.",
+    "lanes": [
+      {
+        "id": "research",
+        "label": "Research zone",
+        "rule": "Zone membership supplies context but never grants production access."
+      },
+      {
+        "id": "boundary",
+        "label": "Research-to-production crossing",
+        "rule": "Only the explicitly permitted direction, protocol, identity, and action pass."
+      },
+      {
+        "id": "production",
+        "label": "Production zone",
+        "rule": "Production accepts the broker’s scoped request, not arbitrary research traffic."
+      },
+      {
+        "id": "management",
+        "label": "Management zone",
+        "rule": "Every privileged identity and route remains separately authorized and observed; unbrokered paths are gaps."
+      }
+    ],
+    "nodes": [
+      {
+        "conceptIds": [
+          "trust-zone",
+          "network-segmentation",
+          "traffic-flows"
+        ],
+        "detail": "Untrusted research-zone host requesting one documented analytics operation.",
+        "id": "research",
+        "label": "Research workstation",
+        "lane": "research"
+      },
+      {
+        "conceptIds": [
+          "network-segmentation",
+          "micro-segmentation",
+          "zero-trust"
+        ],
+        "detail": "Evaluates source identity, destination, protocol, and approved analytics action; direct production access stops here.",
+        "id": "enforcement",
+        "label": "Research crossing PEP",
+        "lane": "boundary"
+      },
+      {
+        "conceptIds": [
+          "traffic-flows",
+          "zero-trust"
+        ],
+        "detail": "Exposes only the approved operation and uses a scoped service identity toward production.",
+        "id": "broker",
+        "label": "Analytics broker",
+        "lane": "production"
+      },
+      {
+        "conceptIds": [
+          "trust-zone",
+          "traffic-flows"
+        ],
+        "detail": "The production dataset accepts the broker’s scoped service identity and the separately authorized administrator path; it denies direct research access, while the stale backup exception remains an evidenced bypass.",
+        "id": "production",
+        "label": "Production dataset",
+        "lane": "production"
+      },
+      {
+        "conceptIds": [
+          "zero-trust",
+          "vpn",
+          "trust-zone",
+          "vrf",
+          "vlan"
+        ],
+        "detail": "A named administrator receives authenticated, time-limited access through a broker that enforces and records approved administration; management-zone location alone grants no privilege.",
+        "id": "management",
+        "label": "Brokered administrator path",
+        "lane": "management"
+      },
+      {
+        "conceptIds": [
+          "traffic-flows",
+          "network-segmentation"
+        ],
+        "detail": "Shares the management subnet but has a stale rule permitting direct production reachability outside the broker; its path lacks the broker’s flow and policy evidence.",
+        "id": "backup",
+        "label": "Backup appliance",
+        "lane": "management"
+      },
+      {
+        "conceptIds": [
+          "traffic-flows",
+          "network-segmentation",
+          "zero-trust"
+        ],
+        "detail": "Places the research PEP’s local crossing record beside the management broker’s local administrator-session record without treating either policy point as the source or destination of the other record.",
+        "id": "evidence-accounting",
+        "label": "Evidence comparison",
+        "lane": "boundary"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "trust-zone",
+        "network-segmentation",
+        "traffic-flows",
+        "zero-trust"
+      ],
+      "hint": "A zone label supplies context; enforcement decides whether a crossing is authorized.",
+      "id": "d4-o01-zone-predict-v1-17159b4bec02",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. The direct route is an alternate crossing that bypasses the claimed enforcement and logging path.",
+          "id": "claim-incomplete",
+          "label": "The isolation claim is incomplete until the alternate route is removed or equivalently enforced and logged",
+          "repairStateId": "bypass"
+        },
+        {
+          "correct": false,
+          "feedback": "The scoped identity supports one route. It does not govern the backup appliance’s separate direct path.",
+          "id": "approved-route-enough",
+          "label": "The broker’s scoped identity proves the approved route covers every production crossing",
+          "repairStateId": "approved-crossing"
+        },
+        {
+          "correct": false,
+          "feedback": "A subnet label supplies location context, not authority. The direct route still needs an explicit identity, action, enforcement, and evidence decision.",
+          "id": "subnet-trust",
+          "label": "Management-subnet membership makes the direct route an authorized crossing",
+          "repairStateId": "declared-zones"
+        }
+      ],
+      "prompt": "A route test confirms that the backup appliance can reach production without the privileged broker. What conclusion follows?"
+    },
+    "question": "Which crossing actually enforces research-to-production access, and which alternate route breaks the isolation claim?",
+    "representation": "boundary",
+    "retry": {
+      "conceptIds": [
+        "air-gap",
+        "vpn",
+        "network-segmentation",
+        "traffic-flows"
+      ],
+      "hint": "Remove or constrain the bypass and record source, destination, action, duration, and outcome.",
+      "id": "d4-o01-zone-retry-v1-160033ab6d45",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "The permitted media movement is still a crossing. Separation does not govern the media, update provenance, scanning, or evidence.",
+          "id": "absolute",
+          "label": "Call the zone air-gapped and leave update media unapproved, uninspected, bidirectional, and unrecorded.",
+          "repairStateId": "bypass-facts"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The boundary remains useful only when every permitted transfer mechanism has explicit controls and failure behavior.",
+          "id": "media-control",
+          "label": "Treat the media path as a governed crossing with authorization, inspection, direction, and evidence",
+          "repairStateId": "bypass-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "A VPN is a tunnel with defined endpoints and selectors. Removable media has different custody, provenance, scanning, and transfer controls.",
+          "id": "vpn-media",
+          "label": "Treat removable media as equivalent to a VPN without governing custody, contents, direction, destination, or evidence.",
+          "repairStateId": "bypass-decision"
+        }
+      ],
+      "prompt": "The routine route is removed and the teams call the environments air-gapped, but approved removable media still carries updates into production. Which conclusion is accurate?"
+    },
+    "scenario": "A research workstation needs one analytics operation against production. The approved route crosses a policy enforcement point into a broker, which uses a scoped service identity. Administrators use a separate logged management zone. A backup appliance on that management subnet can also reach production directly through a stale broad exception.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-4.1-segmentation",
+      "official-d4-8-77",
+      "sybex-d4-597-645"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          4
+        ],
+        "activeNodeIds": [
+          "research",
+          "production",
+          "management"
+        ],
+        "caption": "Research, production, and management zones state intended trust purposes. No enclosure or subnet label proves enforcement.",
+        "id": "declared-zones",
+        "statuses": {
+          "management": "The administrator path is privileged and requires policy and evidence distinct from the research flow.",
+          "production": "The production dataset remains a protected resource in the production zone.",
+          "research": "The research workstation remains an untrusted workload in the research zone."
+        },
+        "title": "Purpose before proof"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "research",
+          "enforcement",
+          "broker",
+          "production"
+        ],
+        "caption": "The research request reaches the enforcement point, which permits only the named operation to the broker; the broker uses a scoped identity at production.",
+        "id": "approved-crossing",
+        "statuses": {
+          "broker": "The analytics broker uses a service identity scoped to the approved production operation.",
+          "enforcement": "The enforcement point permits only the named analytics action and denies direct research-to-production access.",
+          "production": "The production dataset accepts the broker’s scoped service identity and the separately authorized administrator path; it denies direct research access, while the stale backup exception remains an evidenced bypass.",
+          "research": "Untrusted research-zone host requesting one documented analytics operation."
+        },
+        "title": "The brokered action crosses explicitly"
+      },
+      {
+        "activeEdgeIndexes": [
+          6,
+          7
+        ],
+        "activeNodeIds": [
+          "enforcement",
+          "management",
+          "evidence-accounting"
+        ],
+        "caption": "Permit, deny, and privileged decisions are recorded by the policy points. VLAN, VRF, VPN, or zero-trust labels remain design mechanisms whose operation must be observed.",
+        "id": "evidence",
+        "statuses": {
+          "enforcement": "The enforcement point records both the approved research request and denied direct attempts.",
+          "evidence-accounting": "The comparison keeps the two local records distinct while checking that each crossing produced the evidence its own policy requires.",
+          "management": "The management broker records the authenticated, time-limited administrator session."
+        },
+        "title": "Enforcement leaves evidence"
+      },
+      {
+        "activeEdgeIndexes": [
+          5
+        ],
+        "activeNodeIds": [
+          "backup",
+          "production",
+          "management"
+        ],
+        "caption": "The backup appliance reaches production without the privileged broker. Its trusted subnet label does not authorize the flow; the stale exception must be removed or replaced by explicitly equivalent enforcement.",
+        "id": "bypass",
+        "statuses": {
+          "backup": "The backup appliance uses an unauthorized alternate crossing with no broker decision evidence.",
+          "management": "The stale backup rule bypasses the brokered administrator path.",
+          "production": "The production dataset accepts the broker’s scoped service identity and the separately authorized administrator path; it denies direct research access, while the stale backup exception remains an evidenced bypass."
+        },
+        "title": "The alternate route breaks the claim"
+      }
+    ],
+    "takeaway": "A zone is a declared purpose, not proof. Validate every normal, denied, privileged, and alternate crossing at its actual enforcement point and through its evidence.",
+    "title": "A zone claim is only as strong as every crossing",
+    "transfer": {
+      "conceptIds": [
+        "network-segmentation",
+        "traffic-flows",
+        "vlan",
+        "vrf",
+        "zero-trust"
+      ],
+      "hint": "The backup appliance’s stale rule is an actual path that bypasses the broker.",
+      "id": "d4-o01-zone-transfer-v1-bfad58e0b9b6",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Renaming changes documentation, not reachability, authorization, enforcement, or evidence.",
+          "id": "rename-zone",
+          "label": "Rename the subnet trusted-backup so the exception matches its intended purpose",
+          "repairStateId": "bypass-facts"
+        },
+        {
+          "correct": false,
+          "feedback": "A subnet label is not authorization. The appliance identity, destinations, actions, and evidence still require an enforcement decision.",
+          "id": "trust-subnet",
+          "label": "Keep the route because management-subnet membership proves administrative authority",
+          "repairStateId": "bypass-decision"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. The bypass becomes explicit, gets bounded policy, and can be tested against the original isolation claim.",
+          "id": "model-restrict",
+          "label": "Model the route as a crossing, restrict it, and enforce the broker or an equivalent logged control",
+          "repairStateId": "bypass-evidence"
+        }
+      ],
+      "prompt": "The backup appliance sits in the named management subnet but bypasses the broker. What should the architect do?"
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The boundary states preserve permitted, denied, brokered-management, evidenced, bypass, and removable-media crossings. Learners step among authored crossing cases rather than selecting arbitrary crossing modes.",
+        "treatmentId": "fresh-d4-o01-network-segmentation-trust-zones-crossing-enforcement-map"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d4-o01-network-segmentation-trust-zones-crossing-enforcement-map"
+    ],
+    "unitId": "d4-o01-network-segmentation-trust-zones",
+    "variants": [
+      {
+        "changedFact": "The backup appliance sits in the named management subnet but bypasses the broker through a stale broad rule.",
+        "edges": [
+          {
+            "from": "subnet",
+            "kind": "dependency",
+            "label": "locates but does not authorize",
+            "to": "backup"
+          },
+          {
+            "from": "backup",
+            "kind": "flow",
+            "label": "uses an unbrokered exception through",
+            "to": "stale-rule"
+          },
+          {
+            "from": "stale-rule",
+            "kind": "flow",
+            "label": "reaches production without the required decision at",
+            "to": "production"
+          },
+          {
+            "from": "backup",
+            "kind": "flow",
+            "label": "must instead request a scoped operation through",
+            "to": "broker"
+          },
+          {
+            "from": "broker",
+            "kind": "flow",
+            "label": "permits only the approved backup action at",
+            "to": "production"
+          },
+          {
+            "from": "broker",
+            "kind": "evidence",
+            "label": "records the bounded crossing decision in",
+            "to": "evidence"
+          }
+        ],
+        "id": "backup-bypass",
+        "label": "Management-subnet bypass",
+        "lanes": [
+          {
+            "id": "management",
+            "label": "Management subnet",
+            "rule": "Subnet membership supplies route context and never grants administrative authority."
+          },
+          {
+            "id": "crossing",
+            "label": "Production crossing",
+            "rule": "Every source, destination, action, protocol, and duration requires an explicit enforcement decision."
+          },
+          {
+            "id": "production",
+            "label": "Production zone",
+            "rule": "Only brokered or equivalently constrained and logged operations may reach production."
+          }
+        ],
+        "nodes": [
+          {
+            "conceptIds": [
+              "trust-zone",
+              "network-segmentation"
+            ],
+            "detail": "The appliance shares the management subnet but has no blanket authority over production.",
+            "id": "backup",
+            "label": "Backup appliance",
+            "lane": "management"
+          },
+          {
+            "conceptIds": [
+              "vlan",
+              "vrf",
+              "trust-zone"
+            ],
+            "detail": "The network location provides routing context, not authorization for every production action.",
+            "id": "subnet",
+            "label": "Management-subnet membership",
+            "lane": "management"
+          },
+          {
+            "conceptIds": [
+              "traffic-flows",
+              "network-segmentation"
+            ],
+            "detail": "An old exception permits direct backup-appliance reachability to production outside the broker.",
+            "id": "stale-rule",
+            "label": "Stale broad firewall rule",
+            "lane": "crossing"
+          },
+          {
+            "conceptIds": [
+              "zero-trust",
+              "network-segmentation"
+            ],
+            "detail": "A named enforcement point restricts appliance identity, destination, protocol, action, and duration.",
+            "id": "broker",
+            "label": "Broker or equivalent PEP",
+            "lane": "crossing"
+          },
+          {
+            "conceptIds": [
+              "trust-zone",
+              "traffic-flows"
+            ],
+            "detail": "The dataset must accept only the authorized backup operation through an evidenced control.",
+            "id": "production",
+            "label": "Production dataset",
+            "lane": "production"
+          },
+          {
+            "conceptIds": [
+              "traffic-flows",
+              "zero-trust"
+            ],
+            "detail": "Logs prove which appliance action was permitted, denied, expired, and reviewed.",
+            "id": "evidence",
+            "label": "Crossing decision evidence",
+            "lane": "production"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              0,
+              1,
+              2
+            ],
+            "activeNodeIds": [
+              "backup",
+              "subnet",
+              "stale-rule",
+              "production"
+            ],
+            "caption": "The appliance is in the management subnet, but a stale broad rule gives it a direct production path outside the broker.",
+            "id": "bypass-facts",
+            "statuses": {
+              "backup": "The backup appliance has a direct route that exceeds its documented operation.",
+              "production": "Production is reachable without a scoped broker decision.",
+              "stale-rule": "The stale broad rule creates an actual unbrokered path.",
+              "subnet": "Management-subnet membership supplies location, not authority."
+            },
+            "title": "The subnet label hides a crossing"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "backup",
+              "broker",
+              "production"
+            ],
+            "caption": "Remove the stale exception and route the named backup operation through the broker or an equivalent policy enforcement point.",
+            "id": "bypass-decision",
+            "statuses": {
+              "backup": "The appliance requests only the approved backup operation.",
+              "broker": "The enforcement point checks appliance identity, destination, action, protocol, and duration.",
+              "production": "Production accepts only the scoped and authorized operation."
+            },
+            "title": "Replace the broad route with enforcement"
+          },
+          {
+            "activeEdgeIndexes": [
+              4,
+              5
+            ],
+            "activeNodeIds": [
+              "broker",
+              "production",
+              "evidence"
+            ],
+            "caption": "Crossing evidence must show permits, denials, expiry, and review; changing the subnet name would prove none of these.",
+            "id": "bypass-evidence",
+            "statuses": {
+              "broker": "The enforcement point records each production crossing decision.",
+              "evidence": "The record supports testing of source, destination, action, duration, and outcome.",
+              "production": "The dataset is no longer reachable through the stale broad rule."
+            },
+            "title": "Verify the crossing"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Design network segmentation and trust zones",
+  "workedExamples": [
+    {
+      "reasoning": "Create separate research, production, and management zones; permit only documented brokered flows; use identity-aware controls and time-limited administration; monitor east-west traffic; test the design under compromised research-host and control-plane failure scenarios.",
+      "situation": "A research network needs limited access to production analytics, while administrators require separate management access.",
+      "takeaway": "Create separate research, production, and management zones; permit only documented brokered flows; use identity-aware controls and time-limited administration; monitor east-west traffic; test the design under compromised research-host and control-plane failure scenarios.",
+      "title": "Research and production zones"
+    }
+  ]
+}

@@ -1,0 +1,478 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d5-o02-identification-authentication-strategy",
+  "treatmentIds": [
+    "fresh-d5-o02-identification-authentication-strategy-learner-controlled-assurance-lifecycle"
+  ],
+  "title": "Design an identification and authentication strategy",
+  "question": "How is an asserted identity proofed, authenticated, session-bound, and accountable?",
+  "scenario": "A privileged engineer loses a hardware key while traveling and asks the help desk to reset the account using an emailed code.",
+  "focalRelation": "claimed identity --proofing and registration--> identity record identity record --authenticator binding--> authentication evidence recovery --replacement binding with no weaker assurance shortcut--> authentication authenticated session --still requires--> local authorization",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Privileged engineer",
+      "detail": "Registered human identity whose role is known; possession of the lost key is no longer reliable evidence.",
+      "conceptIds": [
+        "identity",
+        "identifier"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Registration record",
+      "detail": "Authoritative proofing, registration, and accountable ownership evidence established before authenticator recovery.",
+      "conceptIds": [
+        "identity-proofing",
+        "registration",
+        "accountability"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Lost hardware key",
+      "detail": "Compromised authenticator binding that must be revoked rather than weakened through mailbox-only recovery.",
+      "conceptIds": [
+        "authentication-factors",
+        "multi-factor-authentication"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Recovery authority",
+      "detail": "Separately authorized process that verifies proportionate recovery evidence and approves replacement binding.",
+      "conceptIds": [
+        "identity-proofing",
+        "authentication"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Replacement authenticator",
+      "detail": "New factor bound only after the old key is revoked and the recovery event is recorded.",
+      "conceptIds": [
+        "authentication-factors",
+        "multi-factor-authentication"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Fresh privileged session",
+      "detail": "High-impact session created through fresh authentication, bounded session controls, and later authorization.",
+      "conceptIds": [
+        "session-management",
+        "authentication",
+        "authorization"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "matches claimant to registered identity and role",
+      "kind": "evidence"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "loss report triggers separately verified recovery",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "supplies authoritative recovery evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "revokes lost key and authorizes new binding",
+      "kind": "flow"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "performs fresh MFA before privileged action",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A privileged engineer loses a hardware key while traveling and asks the help desk to reset the account using an emailed code.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "reported lost; cannot be trusted"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "An identifier is a reference, not evidence of control.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        2
+      ],
+      "statuses": {
+        "n2": "registered evidence available",
+        "n4": "recovery check pending"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A username is proof of identity. It is an identifier presented by a claimant; registration and authentication supply the relevant evidence.",
+      "activeNodeIds": [
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "emailed code insufficient",
+        "n4": "weaker bypass denied"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "The engineer's identity and role may be known, but the lost authenticator does not justify a weaker recovery path. Require a separately verified recovery process proportionate to privileged impact, revoke the lost authenticator, bind a replacement, record the event, and require fresh authentication before high-impact actions. A help-desk identity check must not silently become a new authenticator with lower assurance.",
+      "activeNodeIds": [
+        "n2",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n3": "revoked",
+        "n5": "replacement binding approved"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a human or service access need, choose an identity source, proofing and registration approach, authenticator factors, session controls, and accountability evidence that fit the risk. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4
+      ],
+      "statuses": {
+        "n6": "fresh MFA complete; privileged authorization still separate"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A contractor receives a service account with no named owner because the application cannot support human login.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A contractor receives a service account with no named owner because the application cannot support human login.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            2
+          ],
+          "statuses": {
+            "n1": "nonhuman service identity",
+            "n2": "named owner absent"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Create a nonhuman identity with accountable owner, purpose, scope, credential location, rotation, monitoring, and retirement conditions. Automation still creates security-relevant subjects and must remain attributable.",
+          "activeNodeIds": [
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n4": "owner, purpose, scope, rotation required",
+            "n5": "credential binding held"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n5": "managed credential issued",
+            "n6": "monitoring and retirement conditions recorded"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Contractor integration",
+          "detail": "The application requires a nonhuman identity because it cannot accept an individual login.",
+          "conceptIds": [
+            "identity"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Missing accountable owner",
+          "detail": "No person or team is recorded as accountable for the service identity.",
+          "conceptIds": [
+            "accountability",
+            "registration"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Long-lived service credential",
+          "detail": "The credential operates outside an interactive human authentication flow.",
+          "conceptIds": [
+            "authentication-factors"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Identity governance owner",
+          "detail": "Governance must establish owner, purpose, scope, rotation, monitoring, and retirement.",
+          "conceptIds": [
+            "identity-proofing",
+            "authentication"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Managed service identity",
+          "detail": "The issued nonhuman identity has bounded purpose and controlled credential storage.",
+          "conceptIds": [
+            "authentication-factors"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Attributed service activity",
+          "detail": "Monitoring connects service actions to an accountable owner and lifecycle.",
+          "conceptIds": [
+            "session-management",
+            "authentication",
+            "authorization"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "must be registered to an accountable owner",
+          "kind": "evidence"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "unowned credential triggers governance review",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "supplies authoritative ownership and purpose",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "authorizes bounded identity and credential binding",
+          "kind": "flow"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "operates under monitoring and retirement conditions",
+          "kind": "flow"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d5-o02-identification-authentication-strategy-prediction",
+    "prompt": "How is an asserted identity proofed, authenticated, session-bound, and accountable?",
+    "options": [
+      {
+        "id": "misconception",
+        "label": "A username alone proves identity and authorizes emailed-code recovery.",
+        "correct": false,
+        "feedback": "Incorrect: It is an identifier presented by a claimant; registration and authentication supply the relevant evidence.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "relation",
+        "label": "Use the approved privileged recovery path and revoke the lost key",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. It is an identifier presented by a claimant; registration and authentication supply the relevant evidence.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Reset the lost hardware key after the emailed code because mailbox access proves the engineer’s identity.",
+        "correct": false,
+        "feedback": "Incorrect: mailbox access alone is weak recovery evidence for a privileged account. Reapply the approved proofing, recovery authorization, authenticator replacement, revocation, and event-review controls.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "identity",
+      "identifier",
+      "registration"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d5-o02-identification-authentication-strategy-transfer",
+    "prompt": "A contractor receives a service account with no named owner because the application cannot support human login.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A contractor receives a service account with no named owner because the application cannot support human login. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: The engineer's identity and role may be known, but the lost authenticator does not justify a weaker recovery path. Repair target: Decision recomputed — Create a nonhuman identity with accountable owner, purpose, scope, credential location, rotation, monitoring, and retirement conditions. Automation still creates security-relevant subjects and must remain attributable.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A contractor receives a service account with no named owner because the application cannot support human login. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: The engineer's identity and role may be known, but the lost authenticator does not justify a weaker recovery path. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Create a nonhuman identity with accountable owner, purpose, scope, credential location, rotation",
+        "correct": true,
+        "feedback": "Correct. Create a nonhuman identity with accountable owner, purpose, scope, credential location, rotation, monitoring, and retirement conditions. Automation still creates security-relevant subjects and must remain attributable.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "identity"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d5-o02-identification-authentication-strategy-retry-v2",
+    "prompt": "A caller who knows an employee’s public details asks the help desk to reset MFA onto a new phone. What should control the reset?",
+    "options": [
+      {
+        "id": "authoritative-recovery",
+        "label": "Use the approved recovery proofing path, verify against authoritative records, and notify the enrolled channel",
+        "correct": true,
+        "feedback": "Correct. Recovery is a fresh identity-proofing event and must not rely on easily obtained knowledge alone.",
+        "repairStateId": "evidence-accepted"
+      },
+      {
+        "id": "knowledge-enough",
+        "label": "Reset MFA after the caller answers biographical questions that match public and HR data",
+        "correct": false,
+        "feedback": "Knowledge of public or breached facts is weak proof and can transfer control to an impostor.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "manager-email",
+        "label": "Accept an unsigned manager email as sufficient proof because the request is urgent",
+        "correct": false,
+        "feedback": "Urgency and an unauthenticated message do not establish the caller’s identity or the manager’s authority.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "identity-proofing",
+      "authentication-factors",
+      "multi-factor-authentication"
+    ],
+    "hint": "Ask whether the evidence proves control of the enrolled identity rather than familiarity with the person."
+  },
+  "takeaway": "The engineer's identity and role may be known, but the lost authenticator does not justify a weaker recovery path.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d5-o02",
+    "official-d5-17-31",
+    "sybex-d5-641-663",
+    "d5-o02-identification-authentication-strategy-nist-sp-800-63-4-2025"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d5-o02-identification-authentication-strategy-learner-controlled-assurance-lifecycle",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable state states: Privileged engineer matches claimant to registered identity and role Registration record; Lost hardware key loss report triggers separately verified recovery Recovery authority. The model keeps Privileged engineer, Registration record, Lost hardware key, Recovery authority, Replacement authenticator, Fresh privileged session distinct. Its changed case is “A contractor receives a service account with no named owner because the application cannot support human login.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "An identifier names a claimant but does not prove identity or control of an authenticator. Privileged recovery must independently verify the claimant, revoke the lost key, bind a replacement, and require fresh authentication.",
+    "visualReasoningGain": "The revealed chain supports tracing proofing, authenticator loss, recovery authority, replacement binding, and fresh session; the opening cannot show those distinct assurance steps."
+  },
+  "openingFacts": [
+    {
+      "label": "Privileged engineer",
+      "value": "Registered human identity whose role is known; possession of the lost key is no longer reliable evidence."
+    },
+    {
+      "label": "Registration record",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Lost hardware key",
+      "value": "Compromised authenticator binding that must be revoked rather than weakened through mailbox-only recovery."
+    },
+    {
+      "label": "Recovery authority",
+      "value": "Separately authorized process that verifies proportionate recovery evidence and approves replacement binding."
+    },
+    {
+      "label": "Replacement authenticator",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Fresh privileged session",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

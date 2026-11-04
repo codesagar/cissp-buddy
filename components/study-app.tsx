@@ -385,33 +385,35 @@ export default function Home() {
                   : section.charAt(0).toUpperCase() + section.slice(1)}
             </span>
           </div>
-          <form
-            className="global-search"
-            onSubmit={(e) => {
-              e.preventDefault();
-              go('learn');
-            }}
-          >
-            <Search size={15} />
-            <input
-              aria-label="Search concepts"
-              placeholder="Find a concept…"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                if (section !== 'learn') go('learn');
+          {section !== 'map' && (
+            <form
+              className="global-search"
+              onSubmit={(e) => {
+                e.preventDefault();
+                go('learn');
               }}
-            />
-            {search && (
-              <button
-                aria-label="Clear search"
-                type="button"
-                onClick={() => setSearch('')}
-              >
-                <X size={14} />
-              </button>
-            )}
-          </form>
+            >
+              <Search size={15} />
+              <input
+                aria-label="Search concepts"
+                placeholder="Find a concept…"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  if (section !== 'learn') go('learn');
+                }}
+              />
+              {search && (
+                <button
+                  aria-label="Clear search"
+                  type="button"
+                  onClick={() => setSearch('')}
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </form>
+          )}
           <span className="pilot-tag">FOCUSED PILOT</span>
         </header>
         <div
@@ -581,6 +583,11 @@ function SideNav({
         </button>
       </SidebarContent>
       <SidebarFooter>
+        {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
+        <a href="/" className="sidebar-map-link">
+          <BookOpen size={15} /> Open the complete 90-unit course{' '}
+          <ArrowUpRight size={14} />
+        </a>
         <button className="local-note" onClick={() => navigate('backup')}>
           <ShieldCheck size={18} />
           <span>

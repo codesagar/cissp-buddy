@@ -1,0 +1,657 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d8-o05-secure-coding-memory-concurrency",
+  "treatmentIds": [
+    "fresh-d8-o05-secure-coding-memory-concurrency-interleaving-simulator",
+    "fresh-d8-o05-secure-coding-memory-concurrency-policy-rollout"
+  ],
+  "title": "Control memory, concurrency, dependency, and platform-specific failures",
+  "question": "Which implementation failure violates the security invariant—memory safety, concurrency, resource limit, dependency behavior, or programmable policy—and what layered evidence detects it?",
+  "scenario": "Two concurrent requests read the same remaining quota before either writes the decrement.",
+  "focalRelation": "two authorized requests --concurrent read of shared state--> stale decisions atomic transaction/idempotency --preserves nonnegative and at-most-once invariants--> commit resource limit --bounds retries/queues, not authorization correctness--> availability",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Quota: one remaining",
+      "detail": "Authoritative shared resource count with invariant quota ≥ 0.",
+      "conceptIds": [
+        "concurrency",
+        "resource-exhaustion"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Request A read",
+      "detail": "Authorized request A observes remaining=1 before attempting its decrement.",
+      "conceptIds": [
+        "race-condition"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Request B read",
+      "detail": "Different authorized request B observes the same stale remaining=1.",
+      "conceptIds": [
+        "race-condition",
+        "concurrency"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Atomic transaction",
+      "detail": "Single serialization boundary checks authorization/idempotency and commits at most one decrement.",
+      "conceptIds": [
+        "concurrency",
+        "race-condition"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Stored quota result",
+      "detail": "Committed state: one winner, remaining=0; loser receives no allocation and state never becomes −1.",
+      "conceptIds": [
+        "race-condition",
+        "resource-exhaustion"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Idempotent retry record",
+      "detail": "Request identifier preserves the original result so retries cannot consume another unit.",
+      "conceptIds": [
+        "concurrency"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "supplies candidate state to request A",
+      "kind": "flow"
+    },
+    {
+      "from": "n1",
+      "to": "n3",
+      "label": "supplies same candidate state to request B",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n4",
+      "label": "submits authorized decrement with request ID A",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "submits authorized decrement with request ID B",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "commits one serializable result",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "stores request-to-result binding atomically",
+      "kind": "evidence"
+    },
+    {
+      "from": "n6",
+      "to": "n5",
+      "label": "replays original outcome without new decrement",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "Two concurrent requests read the same remaining quota before either writes the decrement.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "remaining=1",
+        "n2": "reads 1",
+        "n3": "reads 1"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A race can bypass a check even when each individual operation appears valid.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "both requests reach serialization point"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A managed runtime eliminates all denial-of-service risk. Allocation, parsing, concurrency, algorithmic complexity, queues, and dependencies can still exhaust resources.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n5",
+        "n1"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n5": "two independent writes would violate quota≥0"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Use atomic or transactional enforcement, define timeout and retry behavior, test concurrency and failure, monitor abuse, and ensure authorization remains independent of quota state.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n4": "A commits; B conflicts/rechecks",
+        "n5": "remaining=0; one allocation"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Identify implementation-specific failure modes and select prevention, detection, and containment practices. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        5,
+        6
+      ],
+      "statuses": {
+        "n6": "retry returns stored outcome",
+        "n5": "no duplicate consumption"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "One inventory unit remains. Two different customers submit distinct authorized reservation requests, each with a different request identifier; both workers read quantity 1 before either commits.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "One inventory unit remains. Two different customers submit distinct authorized reservation requests, each with a different request identifier; both workers read quantity 1 before either commits.",
+          "activeNodeIds": [
+            "n1",
+            "n2",
+            "n3"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1
+          ],
+          "statuses": {
+            "n1": "one inventory unit",
+            "n2": "customer A request",
+            "n3": "customer B request"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Idempotency does not help because the requests are distinct. Enforce the shared quantity invariant with an atomic compare-and-reserve or serializable transaction: one reservation commits 1→0 and the other rechecks 0 and is rejected.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3
+          ],
+          "statuses": {
+            "n4": "distinct IDs; atomic check/decrement"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5,
+            6
+          ],
+          "statuses": {
+            "n5": "one winner; no oversell",
+            "n6": "each retry stable"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "One inventory unit",
+          "detail": "The shared quantity begins at one.",
+          "conceptIds": [
+            "concurrency",
+            "resource-exhaustion"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Customer A reservation",
+          "detail": "Request A has its own authorized customer and idempotency identifier.",
+          "conceptIds": [
+            "race-condition",
+            "concurrency"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Customer B reservation",
+          "detail": "Distinct request B reads the same quantity before A commits.",
+          "conceptIds": [
+            "race-condition",
+            "concurrency"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Atomic compare-and-reserve",
+          "detail": "One serializable transaction rechecks and decrements the shared quantity.",
+          "conceptIds": [
+            "concurrency",
+            "race-condition"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Committed inventory result",
+          "detail": "Exactly one reservation commits 1→0; the other observes zero and fails.",
+          "conceptIds": [
+            "race-condition",
+            "resource-exhaustion"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Per-request retry record",
+          "detail": "Retries replay each request result but do not merge two distinct requests.",
+          "conceptIds": [
+            "concurrency"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "supplies the candidate value to A",
+          "kind": "flow"
+        },
+        {
+          "from": "n1",
+          "to": "n3",
+          "label": "supplies the same candidate value to B",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "submits distinct request A",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "submits distinct request B",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "commits one winner and one rejection",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "records each request outcome atomically",
+          "kind": "evidence"
+        },
+        {
+          "from": "n6",
+          "to": "n5",
+          "label": "replays without another decrement",
+          "kind": "flow"
+        }
+      ]
+    },
+    {
+      "id": "policy-rollout",
+      "label": "Guarded policy-agent rollout",
+      "changedFact": "A new signed policy changes deny behavior across thousands of hosts; a bad rollout could lock out response teams.",
+      "states": [
+        {
+          "id": "policy-candidate",
+          "title": "Bind policy to reviewed artifact",
+          "caption": "Version 43 is signed, linked to review and tests, and retains immutable version 42 for rollback.",
+          "activeNodeIds": [
+            "n4",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            5
+          ],
+          "statuses": {
+            "n4": "policy v43 candidate",
+            "n6": "v42 rollback retained"
+          }
+        },
+        {
+          "id": "policy-canary",
+          "title": "Expose a bounded canary",
+          "caption": "One percent of hosts receives v43; decision counts, error rate, and protected response access are watched against predeclared thresholds.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n5": "1% canary; health checks active",
+            "n6": "rollback authority named"
+          }
+        },
+        {
+          "id": "policy-stop",
+          "title": "Stop on changed deny behavior",
+          "caption": "Unexpected denies cross the threshold, so expansion stops and v42 is restored before a broader lockout.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            6
+          ],
+          "statuses": {
+            "n5": "rollout halted",
+            "n6": "v42 restored; evidence preserved"
+          }
+        },
+        {
+          "id": "policy-revise",
+          "title": "Revise and retest",
+          "caption": "The owner corrects the rule, repeats focused tests and canary checks, and records the accepted version and residual risk.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n4": "revised artifact reviewed",
+            "n5": "new canary required"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Reviewed signed policy v43",
+          "detail": "The candidate policy is signed and linked to review and focused tests.",
+          "conceptIds": [
+            "software-defined-security"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "One-percent host canary",
+          "detail": "A bounded cohort receives the new deny behavior first.",
+          "conceptIds": [
+            "software-defined-security"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Protected response access",
+          "detail": "Health checks verify response teams keep required access.",
+          "conceptIds": []
+        },
+        {
+          "id": "n4",
+          "label": "Policy promotion gate",
+          "detail": "The gate verifies artifact identity, signature, review, and rollout authority.",
+          "conceptIds": [
+            "software-defined-security",
+            "dependency-risk"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Deny and error telemetry",
+          "detail": "Decision counts, failures, and protected-access checks are compared with stop thresholds.",
+          "conceptIds": []
+        },
+        {
+          "id": "n6",
+          "label": "Immutable policy v42 rollback",
+          "detail": "The prior approved policy and named authority allow rapid restoration.",
+          "conceptIds": []
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "enters a bounded canary",
+          "kind": "flow"
+        },
+        {
+          "from": "n1",
+          "to": "n3",
+          "label": "is observed by protected-access checks",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "label": "supplies candidate to the promotion gate",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "supplies access outcome to the gate",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "expands only below stop thresholds",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "preserves rollback evidence and authority",
+          "kind": "evidence"
+        },
+        {
+          "from": "n6",
+          "to": "n5",
+          "label": "restores prior behavior after threshold breach",
+          "kind": "flow"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d8-o05-secure-coding-memory-concurrency-prediction",
+    "prompt": "Two individually authorized $60 requests read the same $100 balance before either commits. Can both authorization checks pass while the business invariant is violated?",
+    "options": [
+      {
+        "id": "yes",
+        "label": "Yes; stale reads can authorize $120 against $100 unless the debit is atomic",
+        "correct": true,
+        "feedback": "Correct. The failure is the interleaving around shared state, not missing request authorization.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "no",
+        "label": "No; successful authorization guarantees the shared balance remains valid.",
+        "correct": false,
+        "feedback": "Authorization permits each request but does not serialize their shared-state checks or commits.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "runtime",
+        "label": "No; a managed runtime prevents this logical concurrency failure.",
+        "correct": false,
+        "feedback": "Managed memory does not make the balance check and update atomic or preserve the business invariant.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "concurrency"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d8-o05-secure-coding-memory-concurrency-transfer",
+    "prompt": "One inventory unit remains. Two different customers submit distinct authorized reservation requests, each with a different request identifier; both workers read quantity 1 before either commits.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: One inventory unit remains. Two different customers submit distinct authorized reservation requests, each with a different request identifier; both workers read quantity 1 before either commits. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Use atomic or transactional enforcement, define timeout and retry behavior, test concurrency and failure, monitor abuse, and ensure authorization remains independent of quota state. Repair target: Decision recomputed — Idempotency does not help because the requests are distinct. Enforce the shared quantity invariant with an atomic compare-and-reserve or serializable transaction: one reservation commits 1→0 and the other rechecks 0 and is rejected.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Idempotency does not help because the requests are distinct",
+        "correct": true,
+        "feedback": "Correct. Idempotency does not help because the requests are distinct. Enforce the shared quantity invariant with an atomic compare-and-reserve or serializable transaction: one reservation commits 1→0 and the other rechecks 0 and is rejected.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: One inventory unit remains. Two different customers submit distinct authorized reservation requests, each with a different request identifier; both workers read quantity 1 before either commits. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Use atomic or transactional enforcement, define timeout and retry behavior, test concurrency and failure, monitor abuse, and ensure authorization remains independent of quota state. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "concurrency",
+      "race-condition"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d8-o05-secure-coding-memory-concurrency-retry",
+    "prompt": "A policy agent update changes deny behavior across thousands of hosts without a canary or rollback. Which response is best?",
+    "options": [
+      {
+        "id": "repeat-misconception",
+        "label": "Proceed on the assumption that a managed runtime eliminates all denial-of-service risk",
+        "correct": false,
+        "feedback": "That repeats the key misconception. Allocation, parsing, concurrency, algorithmic complexity, queues, and dependencies can still exhaust resources.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "accept-without-evidence",
+        "label": "Accept the visible success signal and defer scope, owner, exception, and evidence checks until later",
+        "correct": false,
+        "feedback": "The visible signal does not establish Idempotent retry record. Centralized programmable enforcement creates high blast radius and common-mode failure.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "scoped-repair",
+        "label": "Require signed reviewed policy artifacts, staged rollout, health checks, immutable previous versions",
+        "correct": true,
+        "feedback": "Correct. Centralized programmable enforcement creates high blast radius and common-mode failure.",
+        "repairStateId": "control-enforced"
+      }
+    ],
+    "conceptIds": [
+      "software-defined-security",
+      "dependency-risk"
+    ],
+    "hint": "Identify what changed, who owns the resulting decision, and what evidence would demonstrate the bounded outcome."
+  },
+  "takeaway": "Use atomic or transactional enforcement, define timeout and retry behavior, test concurrency and failure, monitor abuse, and ensure authorization remains independent of quota state.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d8-5",
+    "official-d8-106-130",
+    "sybex-d8-1085-1113",
+    "miller-d8-705-760"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d8-o05-secure-coding-memory-concurrency-interleaving-simulator",
+      "disposition": "equivalent",
+      "rationale": "The state model preserves the reviewed lost-update invariant: two authorized requests read the same remaining quantity, non-atomic writes oversell, and an atomic conditional transaction plus idempotency yields one commit and one safe retry. It uses a fixed quota-one authored interleaving rather than the reviewed manipulable balance-100/A60/B60 simulator and controls, so it is equivalent."
+    },
+    {
+      "treatmentId": "fresh-d8-o05-secure-coding-memory-concurrency-policy-rollout",
+      "disposition": "implemented",
+      "rationale": "Implements the separate reviewed control-plane rollout as a four-state variant: signed reviewed policy artifact, 1% canary with predeclared deny/error/response-access thresholds, automatic expansion stop, immutable rollback, and revised retest. It is not counted as equivalent to the quota interleaving."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Two requests can each pass an individual check and still violate a shared quota or inventory invariant. Atomic or transactional enforcement must protect the read-check-write sequence, with concurrency and failure tests.",
+    "visualReasoningGain": "The interleaving walkthrough places both stale reads and commits around one shared invariant, making a race visible that sequential prose tends to hide."
+  }
+}

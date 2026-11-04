@@ -1,0 +1,538 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o07-preventive-detective-control-operations",
+  "treatmentIds": [
+    "fresh-d7-o07-preventive-detective-control-operations-boundary-path-map"
+  ],
+  "title": "Operate preventive and detective control families",
+  "question": "Where should each boundary control operate and how does it fail safely?",
+  "scenario": "A public application uses a WAF, network firewall, endpoint anti-malware, and a third-party managed detection service. An emergency rule blocks a partner API because its traffic resembles automated abuse.",
+  "focalRelation": "traffic/content/identity/code path --crosses named boundary--> control firewall/WAF/IPS/endpoint control --observes only its reachable fields--> decision allow/deny/quarantine --bounded action at actual enforcement point--> path alternate route or encrypted content --creates--> bypass/visibility limit",
+  "representation": "boundary",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Partner API traffic",
+      "detail": "Authenticated partner requests mixed with an automated-abuse pattern.",
+      "conceptIds": [],
+      "lane": "outside"
+    },
+    {
+      "id": "n2",
+      "label": "Network firewall",
+      "detail": "Network boundary enforcing address, protocol, and connection rules; it cannot decide object-level application authorization.",
+      "conceptIds": [
+        "firewall",
+        "next-generation-firewall"
+      ],
+      "lane": "network"
+    },
+    {
+      "id": "n3",
+      "label": "Web application firewall",
+      "detail": "Application-edge control inspecting HTTP patterns and applying the bounded emergency abuse rule.",
+      "conceptIds": [
+        "web-application-firewall"
+      ],
+      "lane": "application"
+    },
+    {
+      "id": "n4",
+      "label": "Managed detection service",
+      "detail": "Third-party service correlating WAF, firewall, identity, and application evidence under customer-owned escalation rules.",
+      "conceptIds": [
+        "third-party-security-service",
+        "ids"
+      ],
+      "lane": "detection"
+    },
+    {
+      "id": "n5",
+      "label": "Response authority",
+      "detail": "Named customer role that approves rule scope, exception, expiry, rollback, and escalation.",
+      "conceptIds": [],
+      "lane": "governance"
+    },
+    {
+      "id": "n6",
+      "label": "Protected application",
+      "detail": "Production workload whose code, authorization, anti-malware, and service behavior remain independently controlled.",
+      "conceptIds": [],
+      "lane": "workload"
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "crosses network address and protocol policy",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "forwards permitted HTTP path for application inspection",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n6",
+      "label": "blocks abuse pattern or passes bounded request",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "emits matched request and rule evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n4",
+      "to": "n5",
+      "label": "escalates correlated evidence under contract",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n3",
+      "label": "approves narrow exception, expiry, or rollback",
+      "kind": "flow"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "outside",
+      "label": "External request source",
+      "rule": "Partner identity does not bypass network or application policy."
+    },
+    {
+      "id": "network",
+      "label": "Network enforcement boundary",
+      "rule": "Firewall controls network paths and cannot substitute for application authorization."
+    },
+    {
+      "id": "application",
+      "label": "Application-edge enforcement",
+      "rule": "WAF applies the bounded HTTP abuse rule and records the match."
+    },
+    {
+      "id": "detection",
+      "label": "Detection service",
+      "rule": "Provider correlates evidence; the customer retains risk and response ownership."
+    },
+    {
+      "id": "governance",
+      "label": "Response authority",
+      "rule": "Named owner controls exception, expiry, rollback, and escalation."
+    },
+    {
+      "id": "workload",
+      "label": "Protected workload",
+      "rule": "Application code, authorization, data, and endpoint controls remain independently necessary."
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A public application uses a WAF, network firewall, endpoint anti-malware, and a third-party managed detection service. An emergency rule blocks a partner API because its traffic resembles automated abuse.",
+      "activeNodeIds": [
+        "n1",
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1
+      ],
+      "statuses": {
+        "n1": "partner traffic + abuse resemblance",
+        "n3": "emergency rule active"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "A control is effective only where the relevant path crosses it.",
+      "activeNodeIds": [
+        "n2",
+        "n3",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2
+      ],
+      "statuses": {
+        "n2": "network path allowed",
+        "n3": "HTTP pattern evaluated",
+        "n6": "application remains protected"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "A next-generation firewall replaces application security. It may add application context, but secure code, identity, authorization, and data controls remain necessary.",
+      "activeNodeIds": [
+        "n2",
+        "n6",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n2": "NGFW cannot replace application security",
+        "n6": "object authorization still required"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Keep the block bounded to the attack pattern and verify partner identity, source range, and business impact. Record the rule owner and expiry, monitor bypass paths, and coordinate the managed service's evidence and escalation. Validate the application at the WAF and code layers; a network firewall alone cannot express all application abuse.",
+      "activeNodeIds": [
+        "n1",
+        "n3",
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "statuses": {
+        "n3": "rule narrowed to attack pattern",
+        "n5": "owner + expiry set"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a threat and control boundary, select and operate an appropriate firewall, IDPS, allow or deny rule, service, sandbox, honeypot, or anti-malware measure with ownership and failure handling. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "n4": "bypass paths monitored",
+        "n6": "partner service verified"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "An IPS blocks a high-volume backup transfer every night, causing missed recovery points.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "An IPS blocks a high-volume backup transfer every night, causing missed recovery points.",
+          "activeNodeIds": [
+            "n1",
+            "n3",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            2
+          ],
+          "statuses": {
+            "n1": "high-volume approved backup",
+            "n3": "IPS block causes missed RPO"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Validate the transfer identity and destination, create a narrow authenticated exception or alternate path, monitor it, and retain the threat-detection coverage. A preventive control can create a business continuity failure when its context and exception design are incomplete.",
+          "activeNodeIds": [
+            "n4",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            4
+          ],
+          "statuses": {
+            "n4": "identity/destination evidence reviewed",
+            "n5": "broad disablement rejected"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n1",
+            "n3",
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            2,
+            3,
+            5
+          ],
+          "statuses": {
+            "n3": "narrow authenticated exception",
+            "n4": "threat coverage retained",
+            "n5": "expiry + rollback owned"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Approved nightly backup transfer",
+          "detail": "A high-volume authenticated job carries recovery data to its approved destination.",
+          "conceptIds": [],
+          "lane": "outside"
+        },
+        {
+          "id": "n2",
+          "label": "Network policy boundary",
+          "detail": "Firewall policy admits the named source, destination, service, and time.",
+          "conceptIds": [
+            "firewall",
+            "next-generation-firewall"
+          ],
+          "lane": "network"
+        },
+        {
+          "id": "n3",
+          "label": "IPS rule causing block",
+          "detail": "A prevention rule misclassifies the backup and creates missed recovery points.",
+          "conceptIds": [
+            "ids"
+          ],
+          "lane": "application"
+        },
+        {
+          "id": "n4",
+          "label": "Detection and job evidence",
+          "detail": "Logs prove job identity, destination, block reason, and retained threat coverage.",
+          "conceptIds": [
+            "third-party-security-service",
+            "ids"
+          ],
+          "lane": "detection"
+        },
+        {
+          "id": "n5",
+          "label": "Exception authority",
+          "detail": "The owner approves a narrow expiring exception or alternate path and rollback.",
+          "conceptIds": [],
+          "lane": "governance"
+        },
+        {
+          "id": "n6",
+          "label": "Recovery repository",
+          "detail": "The destination receives complete backup data within the required window.",
+          "conceptIds": [],
+          "lane": "workload"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "crosses a bounded network policy",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "reaches the inspected transfer path",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n6",
+          "label": "blocks or passes the backup stream",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "emits rule and transfer evidence",
+          "kind": "evidence"
+        },
+        {
+          "from": "n4",
+          "to": "n5",
+          "label": "supports the accountable exception decision",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n3",
+          "label": "installs narrow exception, expiry, or rollback",
+          "kind": "flow"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "outside",
+          "label": "External request source",
+          "rule": "Partner identity does not bypass network or application policy."
+        },
+        {
+          "id": "network",
+          "label": "Network enforcement boundary",
+          "rule": "Firewall controls network paths and cannot substitute for application authorization."
+        },
+        {
+          "id": "application",
+          "label": "Application-edge enforcement",
+          "rule": "WAF applies the bounded HTTP abuse rule and records the match."
+        },
+        {
+          "id": "detection",
+          "label": "Detection service",
+          "rule": "Provider correlates evidence; the customer retains risk and response ownership."
+        },
+        {
+          "id": "governance",
+          "label": "Response authority",
+          "rule": "Named owner controls exception, expiry, rollback, and escalation."
+        },
+        {
+          "id": "workload",
+          "label": "Protected workload",
+          "rule": "Application code, authorization, data, and endpoint controls remain independently necessary."
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o07-preventive-detective-control-operations-prediction",
+    "prompt": "Where should each boundary control operate and how does it fail safely?",
+    "options": [
+      {
+        "id": "relation",
+        "label": "Verify the partner path, then narrow or roll back the emergency block",
+        "correct": true,
+        "feedback": "Correct for this scenario: this answer uses the displayed relation and preserves its scope. It may add application context, but secure code, identity, authorization, and data controls remain necessary.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "misconception",
+        "label": "A next-generation firewall replaces application security.",
+        "correct": false,
+        "feedback": "Incorrect: It may add application context, but secure code, identity, authorization, and data controls remain necessary.",
+        "repairStateId": "case-observed"
+      },
+      {
+        "id": "overclaim",
+        "label": "Keep the emergency WAF block because stopping suspicious traffic proves the control worked.",
+        "correct": false,
+        "feedback": "Incorrect: the same rule disrupted an approved partner path. Correlate preventive and detective evidence, assess business impact, apply bounded exception or rollback authority, and validate the revised rule.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "next-generation-firewall",
+      "firewall",
+      "web-application-firewall"
+    ],
+    "hint": "Name the controlling relationship and the point where its result must be enforced; do not rely on a label or successful prior step."
+  },
+  "transfer": {
+    "id": "d7-o07-preventive-detective-control-operations-transfer",
+    "prompt": "An IPS blocks a high-volume backup transfer every night, causing missed recovery points.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: An IPS blocks a high-volume backup transfer every night, causing missed recovery points. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Keep the block bounded to the attack pattern and verify partner identity, source range, and business impact. Repair target: Decision recomputed — Validate the transfer identity and destination, create a narrow authenticated exception or alternate path, monitor it, and retain the threat-detection coverage. A preventive control can create a business continuity failure when its context and exception design are incomplete.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Validate the transfer identity and destination, create a narrow authenticated exception or alternate path",
+        "correct": true,
+        "feedback": "Correct. Validate the transfer identity and destination, create a narrow authenticated exception or alternate path, monitor it, and retain the threat-detection coverage. A preventive control can create a business continuity failure when its context and exception design are incomplete.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: An IPS blocks a high-volume backup transfer every night, causing missed recovery points. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Keep the block bounded to the attack pattern and verify partner identity, source range, and business impact. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "ips"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o07-preventive-detective-control-operations-retry-v2",
+    "prompt": "A WAF virtual patch blocks one exploit pattern, but the vulnerable backend remains reachable through an unmonitored internal route. What is required?",
+    "options": [
+      {
+        "id": "waf-closes",
+        "label": "Mark the vulnerability closed because the public exploit pattern is blocked",
+        "correct": false,
+        "feedback": "The backend remains vulnerable and another reachable path bypasses the WAF.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "open-internal",
+        "label": "Leave the internal route unmonitored because internal traffic is already trusted",
+        "correct": false,
+        "feedback": "Network location does not establish trustworthy identity, intent, or exploit absence.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "close-bypass",
+        "label": "Keep the WAF rule, close the bypass path, and verify backend remediation",
+        "correct": true,
+        "feedback": "Correct. The virtual patch does not remove the vulnerability or protect a bypass path.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "web-application-firewall",
+      "firewall",
+      "ids"
+    ],
+    "hint": "A compensating control covers only the paths and patterns it can actually enforce."
+  },
+  "takeaway": "Keep the block bounded to the attack pattern and verify partner identity, source range, and business impact.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o07-controls",
+    "official-d7-52-59-controls",
+    "sybex-d7-810-818",
+    "sybex-d7-819-828"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d7-o07-preventive-detective-control-operations-boundary-path-map",
+      "disposition": "implemented",
+      "rationale": "Implemented in 5 stable boundary states: Partner API traffic crosses network address and protocol policy Network firewall; Network firewall forwards permitted HTTP path for application inspection Web application firewall. The model keeps Partner API traffic, Network firewall, Web application firewall, Managed detection service, Response authority, Protected application distinct. Its changed case is “An IPS blocks a high-volume backup transfer every night, causing missed recovery points.” and every option returns to a named repair state."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "A control works only on paths that cross its enforcement or observation boundary. Firewalls, WAFs, endpoint controls, and managed detection have different scopes, failure modes, owners, and rollback needs.",
+    "visualReasoningGain": "The boundary-path layout shows which traffic crosses the firewall, WAF, endpoint, and managed service, enabling comparison of scope and failure consequences."
+  }
+}

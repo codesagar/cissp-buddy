@@ -1,0 +1,520 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d3-o05-embedded-edge-industrial",
+  "treatmentIds": [
+    "fresh-d3-o05-embedded-edge-industrial-industrial-hpc-authority-cases"
+  ],
+  "title": "industrial hpc authority cases",
+  "question": "Which command, update, scheduler, or shared-storage authority could affect more than the intended device or workload?",
+  "scenario": "Remote water-treatment telemetry: Field sensors report to an edge gateway that can receive vendor firmware updates and is reachable by support staff.",
+  "focalRelation": "Constrained devices and industrial systems prioritize safety, process integrity, availability, controlled update, segmentation, inventory, and trusted recovery; HPC concentrates authorization and availability in scheduler, fabric, storage, and administration paths.",
+  "representation": "comparison",
+  "nodes": [
+    {
+      "id": "Protected signing or approval authority",
+      "label": "Firmware release authority",
+      "detail": "A protected release authority approves and signs firmware intended for the field gateway.",
+      "conceptIds": [
+        "secure-update",
+        "embedded-security",
+        "industrial-control-systems"
+      ]
+    },
+    {
+      "id": "Firmware update",
+      "label": "Firmware Update",
+      "detail": "The update package carries authenticated origin, integrity, version, device target, and recovery information.",
+      "conceptIds": [
+        "secure-update"
+      ]
+    },
+    {
+      "id": "Device update validator",
+      "label": "Device Update Validator",
+      "detail": "The gateway verifies signature, target, version, and integrity before installation.",
+      "conceptIds": [
+        "secure-update",
+        "embedded-security"
+      ]
+    },
+    {
+      "id": "Remote support path",
+      "label": "Remote Support Path",
+      "detail": "Named support staff use an approved, time-bounded, monitored channel rather than a shared permanent credential.",
+      "conceptIds": [
+        "segmentation",
+        "industrial-control-systems",
+        "iot-security",
+        "edge-computing"
+      ]
+    },
+    {
+      "id": "Control-system zone",
+      "label": "Control System Zone",
+      "detail": "The operational zone admits only explicitly authorized maintenance actions and records their effect.",
+      "conceptIds": [
+        "industrial-control-systems",
+        "safety",
+        "availability"
+      ]
+    },
+    {
+      "id": "Field gateway",
+      "label": "Field telemetry gateway",
+      "detail": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone.",
+      "conceptIds": [
+        "embedded-security",
+        "iot-security",
+        "edge-computing",
+        "asset-inventory",
+        "availability",
+        "safety"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Protected signing or approval authority",
+      "to": "Firmware update",
+      "label": "authorizes or signs the approved change",
+      "kind": "flow"
+    },
+    {
+      "from": "Device update validator",
+      "to": "Firmware update",
+      "label": "verifies authenticity and integrity before installation",
+      "kind": "flow"
+    },
+    {
+      "from": "Remote support path",
+      "to": "Control-system zone",
+      "label": "requires approved constrained access",
+      "kind": "dependency"
+    },
+    {
+      "from": "Firmware update",
+      "to": "Field gateway",
+      "label": "may install only after target and version checks",
+      "kind": "flow"
+    },
+    {
+      "from": "Field gateway",
+      "to": "Control-system zone",
+      "label": "mediates bounded telemetry and control traffic",
+      "kind": "flow"
+    }
+  ],
+  "states": [
+    {
+      "id": "case",
+      "title": "Case facts",
+      "caption": "Remote water-treatment telemetry: Field sensors report to an edge gateway that can receive vendor firmware updates and is reachable by support staff.",
+      "activeNodeIds": [
+        "Field gateway"
+      ],
+      "activeEdgeIndexes": [],
+      "statuses": {
+        "Field gateway": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone."
+      }
+    },
+    {
+      "id": "decision",
+      "title": "The controlling relation",
+      "caption": "Protected Signing Or Approval Authority authorizes or signs the approved change Firmware Update. Device Update Validator verifies authenticity and integrity before installation Firmware Update.",
+      "activeNodeIds": [
+        "Protected signing or approval authority",
+        "Firmware update",
+        "Device update validator",
+        "Field gateway"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        3
+      ],
+      "statuses": {
+        "Firmware update": "The update package carries authenticated origin, integrity, version, device target, and recovery information.",
+        "Protected signing or approval authority": "A protected release authority approves and signs firmware intended for the field gateway.",
+        "Device update validator": "The gateway verifies signature, target, version, and integrity before installation.",
+        "Field gateway": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone."
+      }
+    },
+    {
+      "id": "consequence",
+      "title": "Control and evidence consequence",
+      "caption": "Device Update Validator verifies authenticity and integrity before installation Firmware Update. Remote Support Path requires approved constrained access Control System Zone.",
+      "activeNodeIds": [
+        "Device update validator",
+        "Firmware update",
+        "Field gateway",
+        "Remote support path",
+        "Control-system zone"
+      ],
+      "activeEdgeIndexes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "Control-system zone": "The operational zone admits only explicitly authorized maintenance actions and records their effect.",
+        "Device update validator": "The gateway verifies signature, target, version, and integrity before installation.",
+        "Firmware update": "The update package carries authenticated origin, integrity, version, device target, and recovery information.",
+        "Remote support path": "Named support staff use an approved, time-bounded, monitored channel rather than a shared permanent credential.",
+        "Field gateway": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone."
+      }
+    },
+    {
+      "id": "changed-case",
+      "title": "Changed fact, recomputed result",
+      "caption": "The field gateway verifies firmware signatures, but its remote support path uses a shared permanent credential that reaches the control-system zone. The update chain and remote-support chain are independent controls with separate identities and evidence.",
+      "activeNodeIds": [
+        "Protected signing or approval authority",
+        "Firmware update",
+        "Device update validator",
+        "Field gateway",
+        "Remote support path",
+        "Control-system zone"
+      ],
+      "activeEdgeIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "statuses": {
+        "Protected signing or approval authority": "A protected release authority approves and signs firmware intended for the field gateway.",
+        "Firmware update": "Only authenticated, integrity-checked firmware may install.",
+        "Device update validator": "Signature verification still governs installation.",
+        "Remote support path": "Shared permanent access fails named identity, expiry, and accountability requirements.",
+        "Control-system zone": "The operational zone admits only explicitly authorized maintenance actions and records their effect.",
+        "Field gateway": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone."
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "reviewed-transfer-variant",
+      "label": "Reviewed changed case",
+      "changedFact": "The field gateway verifies firmware signatures, but its remote support path uses a shared permanent credential that reaches the control-system zone.",
+      "states": [
+        {
+          "id": "variant-facts",
+          "title": "Changed case facts",
+          "caption": "The field gateway verifies firmware signatures, but its remote support path uses a shared permanent credential that reaches the control-system zone.",
+          "activeNodeIds": [
+            "Device update validator",
+            "Firmware update",
+            "Field gateway",
+            "Remote support path",
+            "Control-system zone"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "Device update validator": "Signature verification still governs installation.",
+            "Firmware update": "Only authenticated, integrity-checked firmware may install.",
+            "Remote support path": "Shared permanent access fails named identity, expiry, and accountability requirements.",
+            "Control-system zone": "The operational zone admits only explicitly authorized maintenance actions and records their effect.",
+            "Field gateway": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone."
+          }
+        },
+        {
+          "id": "variant-result",
+          "title": "Recomputed consequence",
+          "caption": "The update chain and remote-support chain are independent controls with separate identities and evidence.",
+          "activeNodeIds": [
+            "Device update validator",
+            "Firmware update",
+            "Field gateway",
+            "Remote support path",
+            "Control-system zone"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "statuses": {
+            "Device update validator": "Signature verification still governs installation.",
+            "Firmware update": "Only authenticated, integrity-checked firmware may install.",
+            "Remote support path": "Shared permanent access fails named identity, expiry, and accountability requirements.",
+            "Control-system zone": "The operational zone admits only explicitly authorized maintenance actions and records their effect.",
+            "Field gateway": "The inventoried gateway receives sensor data, runs approved firmware, and mediates a safety-relevant path into the control-system zone."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hpc-authority-paths",
+      "label": "HPC scheduler and shared storage",
+      "changedFact": "The review moves from a field gateway to a research cluster where one scheduler and one administration plane can affect many workloads and shared datasets.",
+      "nodes": [
+        {
+          "id": "research-job",
+          "label": "Research job request",
+          "detail": "A researcher submits a job with a named project, requested resources, approved software, and data-access purpose.",
+          "conceptIds": [
+            "hpc",
+            "hpc-security"
+          ]
+        },
+        {
+          "id": "scheduler",
+          "label": "Cluster scheduler authority",
+          "detail": "The scheduler decides where and under which workload identity the job runs, so its policy and administrator roles can affect many tenants.",
+          "conceptIds": [
+            "scheduler-authority",
+            "hpc-security",
+            "hpc"
+          ]
+        },
+        {
+          "id": "compute",
+          "label": "Allocated compute nodes",
+          "detail": "The job receives bounded compute resources whose isolation, image, and accelerator access must match the approved request.",
+          "conceptIds": [
+            "hpc",
+            "hpc-security",
+            "availability"
+          ]
+        },
+        {
+          "id": "storage",
+          "label": "Shared project storage",
+          "detail": "Shared storage enforces project identity, dataset authorization, quota, provenance, and retention independently of scheduler placement.",
+          "conceptIds": [
+            "shared-storage",
+            "hpc-security",
+            "asset-inventory"
+          ]
+        },
+        {
+          "id": "admin",
+          "label": "Cluster administration and recovery plane",
+          "detail": "Privileged operators can change scheduler policy, storage access, images, and recovery state, creating a common authority path that requires separation, logging, and tested restoration.",
+          "conceptIds": [
+            "hpc-security",
+            "hpc",
+            "availability"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "research-job",
+          "to": "scheduler",
+          "label": "requests bounded placement and resources",
+          "kind": "flow"
+        },
+        {
+          "from": "scheduler",
+          "to": "compute",
+          "label": "assigns an approved workload identity and allocation",
+          "kind": "flow"
+        },
+        {
+          "from": "scheduler",
+          "to": "storage",
+          "label": "does not replace independent dataset authorization at",
+          "kind": "dependency"
+        },
+        {
+          "from": "admin",
+          "to": "scheduler",
+          "label": "can change queue policy and placement authority",
+          "kind": "dependency"
+        },
+        {
+          "from": "admin",
+          "to": "storage",
+          "label": "can change access and recovery state",
+          "kind": "dependency"
+        }
+      ],
+      "states": [
+        {
+          "id": "hpc-request",
+          "title": "Job request before authority",
+          "caption": "The research request names purpose, software, resources, and project data without assuming that job submission grants cluster-wide authority.",
+          "activeNodeIds": [
+            "research-job"
+          ],
+          "activeEdgeIndexes": [],
+          "statuses": {
+            "research-job": "The researcher requests a bounded job for one named project and dataset."
+          }
+        },
+        {
+          "id": "hpc-scheduler",
+          "title": "Scheduler authority is broad",
+          "caption": "The scheduler places the job and assigns its workload identity, but storage must still authorize the dataset separately.",
+          "activeNodeIds": [
+            "research-job",
+            "scheduler",
+            "compute",
+            "storage"
+          ],
+          "activeEdgeIndexes": [
+            0,
+            1,
+            2
+          ],
+          "statuses": {
+            "research-job": "The job carries a named project, software profile, and resource request.",
+            "scheduler": "Scheduler policy decides placement and workload identity across many cluster users.",
+            "compute": "The allocation limits compute, image, accelerator, and runtime access for this job.",
+            "storage": "Project storage checks dataset authorization independently of scheduler placement."
+          }
+        },
+        {
+          "id": "hpc-admin",
+          "title": "Common privileged path",
+          "caption": "The administration and recovery plane can change both scheduler behavior and shared-storage access, so separation, monitoring, and tested recovery must cover that common path.",
+          "activeNodeIds": [
+            "scheduler",
+            "storage",
+            "admin"
+          ],
+          "activeEdgeIndexes": [
+            3,
+            4
+          ],
+          "statuses": {
+            "scheduler": "Queue policy and placement changes require controlled privileged authority.",
+            "storage": "Access and recovery changes require their own authorization and evidence.",
+            "admin": "The common administration plane requires separated duties, logged changes, and tested restoration."
+          }
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d3-o05-embedded-edge-industrial-prediction-v1",
+    "prompt": "Which command, update, scheduler, or shared-storage authority could affect more than the intended device or workload?",
+    "options": [
+      {
+        "id": "unit-specific-alternative",
+        "label": "Install the enterprise endpoint agent on every controller because uniform tooling simplifies operations.",
+        "correct": false,
+        "feedback": "Embedded and control-system constraints can make an enterprise agent unsafe or unsupported; controls must fit the operational boundary.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unit-specific-primary-misconception",
+        "label": "One-time isolation makes an unpatchable controller permanently acceptable.",
+        "correct": false,
+        "feedback": "Isolation has bypass, maintenance, identity, monitoring, and change assumptions that require continuing evidence.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "correct",
+        "label": "Protect the highest-consequence authority path with controls suited to its constraints.",
+        "correct": true,
+        "feedback": "Enterprise patching assumptions, one-time isolation, or performance focus can miss unsafe commands, update compromise, scheduler power, and shared data paths.",
+        "repairStateId": "decision"
+      }
+    ],
+    "conceptIds": [
+      "industrial-control-systems",
+      "secure-update",
+      "scheduler-authority",
+      "shared-storage"
+    ],
+    "hint": "Account for safety, availability, constrained update paths, and physical exposure together."
+  },
+  "transfer": {
+    "id": "d3-o05-embedded-edge-industrial-transfer-v1",
+    "prompt": "The field gateway verifies firmware signatures, but its remote support path uses a shared permanent credential that reaches the control-system zone.",
+    "options": [
+      {
+        "id": "recompute",
+        "label": "Keep update validation, but replace shared support access with named, time-bound identities, constrained reach, monitoring, and revocation.",
+        "correct": true,
+        "feedback": "Correct. The update chain and remote-support chain are independent controls with separate identities and evidence.",
+        "repairStateId": "changed-case"
+      },
+      {
+        "id": "single-signal",
+        "label": "Accept permanent shared support access because valid firmware signatures also prove administrator identity and session purpose.",
+        "correct": false,
+        "feedback": "Firmware authenticity does not authenticate or constrain a remote support session.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "unchanged-rule",
+        "label": "Disable firmware verification and rely on the broad support account to recover every failed or malicious update.",
+        "correct": false,
+        "feedback": "A broad repair path does not replace update authenticity and creates an additional compromise route.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "embedded-security",
+      "industrial-control-systems",
+      "secure-update",
+      "segmentation"
+    ],
+    "hint": "The HPC variant changes scheduling and shared-storage dependencies, not just device names."
+  },
+  "retry": {
+    "id": "d3-o05-embedded-edge-industrial-retry-v1",
+    "prompt": "A vendor asks for permanent direct remote access to an industrial controller to speed support. What is the defensible alternative?",
+    "options": [
+      {
+        "id": "evidence-based",
+        "label": "Use a controlled, approved, monitored, time-bounded support path with accountable operator authorization",
+        "correct": true,
+        "feedback": "Correct. Use a controlled, approved, monitored, time-bounded support path with accountable operator authorization and segmentation rather than a standing unrestricted connection.",
+        "repairStateId": "consequence"
+      },
+      {
+        "id": "misconception",
+        "label": "A device that cannot be patched is automatically acceptable if it is isolated once",
+        "correct": false,
+        "feedback": "Isolation can be a compensating control, but it must be maintained with asset inventory, controlled access, monitoring, recovery, lifecycle ownership, and reassessment of exposed interfaces.",
+        "repairStateId": "decision"
+      },
+      {
+        "id": "shortcut",
+        "label": "Install the enterprise endpoint agent on every controller because uniform tooling simplifies operations",
+        "correct": false,
+        "feedback": "That shortcut ignores the decisive changed fact. Use a controlled, approved, monitored, time-bounded support path with accountable operator authorization and segmentation rather than a standing unrestricted connection.",
+        "repairStateId": "changed-case"
+      }
+    ],
+    "conceptIds": [
+      "industrial-control-systems",
+      "segmentation"
+    ],
+    "hint": "Pick controls that fit the platform’s real update, isolation, and recovery limits."
+  },
+  "takeaway": "Use the case evidence to apply this relation: Constrained devices and industrial systems prioritize safety, process integrity, availability, controlled update, segmentation, inventory, and trusted recovery; HPC concentrates authorization and availability in scheduler, fabric, storage, and administration paths.",
+  "assumptions": [
+    "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+    "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+    "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+    "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+  ],
+  "sourceRefIds": [
+    "d3-o05-constrained-outline",
+    "d3-o05-outline",
+    "d3-o05-constrained-textbook",
+    "d3-o05-constrained-sybex"
+  ],
+  "treatmentDispositions": [
+    {
+      "treatmentId": "fresh-d3-o05-embedded-edge-industrial-industrial-hpc-authority-cases",
+      "disposition": "implemented",
+      "rationale": "The comparison provides separate industrial and HPC authority graphs. The industrial case traces firmware release, validation, gateway, support, and safety-zone paths; the HPC variant traces scheduler placement, independent shared-storage authorization, and the common administration and recovery plane."
+    }
+  ],
+  "learningJob": {
+    "plainExplanation": "Firmware validation and remote support are independent authority paths. Controls must fit safety, availability, patchability, physical-access, and operational constraints rather than copying an enterprise endpoint pattern.",
+    "visualReasoningGain": "Paired update and support chains add useful independence; a constraints comparison is still needed to distinguish embedded, industrial, edge, IoT, and HPC cases."
+  }
+}

@@ -1,0 +1,740 @@
+{
+  "conceptIds": [
+    "change-management",
+    "change-request",
+    "change-impact-assessment",
+    "change-advisory-board",
+    "normal-change",
+    "emergency-change",
+    "rollback",
+    "change-validation",
+    "version-control",
+    "change-record",
+    "post-implementation-review"
+  ],
+  "concepts": [
+    {
+      "decision": "decide governance path.",
+      "definition": "Change management: authorize/schedule/communicate/review change",
+      "failureExample": "unrecorded production change.",
+      "id": "change-management",
+      "label": "Change Management",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide completeness.",
+      "definition": "Request: reason/scope/risk/test/owner record",
+      "failureExample": "hidden dependency.",
+      "id": "change-request",
+      "label": "Change Request",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide approval/window.",
+      "definition": "Impact assessment: service/security/dependency effect",
+      "failureExample": "outage consequence missed.",
+      "id": "change-impact-assessment",
+      "label": "Change Impact Assessment",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide stakeholders/evidence.",
+      "definition": "CAB: informed change review authority",
+      "failureExample": "rubber-stamp approval.",
+      "id": "change-advisory-board",
+      "label": "Change Advisory Board",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide test/communication.",
+      "definition": "Normal change: planned standard workflow",
+      "failureExample": "untested routine change.",
+      "id": "normal-change",
+      "label": "Normal Change",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide criteria/bounded scope.",
+      "definition": "Emergency change: accelerated authorized response",
+      "failureExample": "recurring emergency bypass.",
+      "id": "emergency-change",
+      "label": "Emergency Change",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide trigger/owner/test.",
+      "definition": "Rollback: restore known state",
+      "failureExample": "no recoverable prior state.",
+      "id": "rollback",
+      "label": "Rollback",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide acceptance.",
+      "definition": "Validation: confirm intended/secure service result",
+      "failureExample": "deploy success called validation.",
+      "id": "change-validation",
+      "label": "Change Validation",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide reproducibility.",
+      "definition": "Version control: trace approved artifact/config",
+      "failureExample": "unknown production revision.",
+      "id": "version-control",
+      "label": "Version Control",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-1"
+    },
+    {
+      "decision": "decide audit evidence.",
+      "definition": "Record: facts/approvals/result/exception",
+      "failureExample": "cannot explain variance.",
+      "id": "change-record",
+      "label": "Change Record",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-2"
+    },
+    {
+      "decision": "decide corrective improvement.",
+      "definition": "PIR: review outcome/process",
+      "failureExample": "repeat emergency pattern.",
+      "id": "post-implementation-review",
+      "label": "Post Implementation Review",
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "sourceVisualId": "d7-o09-change-management-decision-comparison-2"
+    }
+  ],
+  "domainId": 7,
+  "estimatedMinutes": 30,
+  "id": "d7-o09-change-management",
+  "misconceptions": [
+    {
+      "claim": "A change advisory board must approve every technical detail.",
+      "correction": "The authority needs sufficient risk, impact, test, rollback, and ownership information; technical implementers remain responsible for detailed execution."
+    },
+    {
+      "claim": "A successful change needs no rollback plan.",
+      "correction": "Success is uncertain until validated, and rollback or recovery planning limits harm if assumptions fail."
+    }
+  ],
+  "objectiveIds": [
+    "7.9"
+  ],
+  "outcome": "Given a proposed or emergency change, identify impact, approvals, testing, implementation, communication, rollback, monitoring, and closure evidence appropriate to the risk.",
+  "prerequisites": [
+    "d7-o03-configuration-management",
+    "d6-o02-control-testing"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "A normal change request begins with an impact and risk assessment: reason, scope, assets, dependencies, security impact, test evidence, approver, implementation window, communication, rollback, validation, and closure. The review body or change authority should have enough context to make a decision, while the implementer retains clear operational instructions. Versioning and configuration records connect the proposed state to the state actually deployed.",
+      "id": "normal-change",
+      "keyPoints": [
+        "Change approval is a risk decision supported by technical and business evidence.",
+        "Rollback should be defined before implementation, not invented after failure.",
+        "Post-change validation checks security, availability, functionality, monitoring, and documentation."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o09",
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "title": "Assess and govern normal changes end to end"
+    },
+    {
+      "body": "Emergency changes may bypass normal timing or approval sequence when delay creates greater risk, but they still need authorized criteria, an accountable decision maker, a bounded scope, communication, evidence, and retrospective review. After implementation, reconcile configuration and version records, test the result, remove temporary access or rules, and conduct a post-implementation review that improves the normal change process rather than allowing recurring emergencies to become the norm.",
+      "id": "emergency-and-learning",
+      "keyPoints": [
+        "Emergency is a defined risk condition, not a shortcut for poor planning.",
+        "A temporary emergency control needs an expiry and owner.",
+        "Retrospective review detects recurring causes and improves normal change capacity."
+      ],
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ],
+      "title": "Handle emergency change and review it"
+    }
+  ],
+  "sourceHash": "e4df362db1151951b0d7057e5e45b807476660363371823ca59cd67a3973b87b",
+  "sourcePath": "knowledge/domains/d7-security-operations/units/d7-o09-change-management.json",
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o09",
+      "locator": {
+        "type": "objective",
+        "value": "7.9"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective boundary",
+        "change management"
+      ]
+    },
+    {
+      "id": "official-d7-63-65",
+      "locator": {
+        "type": "printed-page",
+        "value": "63-65 (PDF pp. 63-65)"
+      },
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "supports": [
+        "change management process",
+        "documentation",
+        "implementation"
+      ]
+    },
+    {
+      "id": "sybex-d7-785-788",
+      "locator": {
+        "type": "printed-page",
+        "value": "785-788, Chapter 16"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "supports": [
+        "change management",
+        "versioning",
+        "configuration documentation"
+      ]
+    }
+  ],
+  "summary": "Change management coordinates the business, security, technical, communication, rollback, and validation decisions that keep necessary changes from becoming unmanaged risk.",
+  "teaching": {
+    "assumptions": [
+      "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+      "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+      "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "requests bounded emergency authority",
+        "to": "n2"
+      },
+      {
+        "from": "n1",
+        "kind": "flow",
+        "label": "receives impact and peer/compensating review",
+        "to": "n3"
+      },
+      {
+        "from": "n2",
+        "kind": "flow",
+        "label": "authorizes named implementation",
+        "to": "n4"
+      },
+      {
+        "from": "n4",
+        "kind": "flow",
+        "label": "hands changed rule to monitored validation",
+        "to": "n5"
+      },
+      {
+        "from": "n5",
+        "kind": "flow",
+        "label": "accepts, rolls back, or records exception",
+        "to": "n6"
+      },
+      {
+        "from": "n3",
+        "kind": "evidence",
+        "label": "completes retrospective and baseline decision",
+        "to": "n6"
+      }
+    ],
+    "focalRelation": "Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback.",
+    "learningJob": {
+      "plainExplanation": "Emergency criteria may shorten approval and testing, but they do not remove authority, scope, monitoring, rollback, evidence, or retrospective review. Repeated emergencies indicate a process, capacity, inventory, or architecture problem that needs correction.",
+      "visualReasoningGain": "A gated sequence could keep authority, test, implementation, monitoring, rollback, and closure evidence together; the opening emergency-change and authority boxes hide those obligations."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "emergency-change",
+          "change-request"
+        ],
+        "detail": "Scoped rule proposed to restore service during an incident.",
+        "id": "n1",
+        "label": "Emergency firewall change"
+      },
+      {
+        "conceptIds": [
+          "emergency-change",
+          "change-management"
+        ],
+        "detail": "Role permitted to invoke the emergency path and accept immediate operational risk.",
+        "id": "n2",
+        "label": "Incident authority"
+      },
+      {
+        "conceptIds": [
+          "change-advisory-board",
+          "change-impact-assessment"
+        ],
+        "detail": "Independent review before action when possible, or monitored retrospective review when normal separation cannot occur.",
+        "id": "n3",
+        "label": "Peer or compensating review"
+      },
+      {
+        "conceptIds": [
+          "version-control",
+          "change-record"
+        ],
+        "detail": "Named operator applying version-controlled rule with least privilege.",
+        "id": "n4",
+        "label": "Implementation owner"
+      },
+      {
+        "conceptIds": [
+          "rollback",
+          "change-validation"
+        ],
+        "detail": "Predeclared success/failure signal, observation period, and executable reversal.",
+        "id": "n5",
+        "label": "Monitoring and rollback"
+      },
+      {
+        "conceptIds": [
+          "normal-change",
+          "post-implementation-review"
+        ],
+        "detail": "Accepted actual state linked to the change record, validation, and post-implementation review.",
+        "id": "n6",
+        "label": "Updated baseline"
+      }
+    ],
+    "openingFacts": [
+      {
+        "label": "Emergency firewall change",
+        "value": "Scoped rule proposed to restore service during an incident."
+      },
+      {
+        "label": "Incident authority",
+        "value": "Role permitted to invoke the emergency path and accept immediate operational risk."
+      },
+      {
+        "label": "Peer or compensating review",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Implementation owner",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Monitoring and rollback",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      },
+      {
+        "label": "Updated baseline",
+        "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "emergency-change",
+        "change-record",
+        "rollback",
+        "post-implementation-review"
+      ],
+      "hint": "Identify which normal controls change timing and which evidence still must exist.",
+      "id": "d7-o09-change-management-prediction-f69cfea656f8",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "A successful outcome would still lack bounded authority, impact review, version evidence, rollback criteria, and accountability.",
+          "id": "direct-edit",
+          "label": "Let the available administrator edit production and document it only if the service returns.",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": false,
+          "feedback": "A governed emergency path exists to handle urgent impact; refusing it can extend harm without adding useful assurance.",
+          "id": "normal-only",
+          "label": "Wait for the next scheduled CAB even if the defined emergency criteria are met.",
+          "repairStateId": "constraint-applied"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Emergency handling shortens timing while retaining authority, evidence, validation, and rollback.",
+          "id": "emergency-path",
+          "label": "Use named emergency authority, scoped implementation, monitoring, rollback, a change record, and retrospective review.",
+          "repairStateId": "control-enforced"
+        }
+      ],
+      "prompt": "An emergency firewall rule can restore service during an incident. Which path preserves control?"
+    },
+    "question": "Given a proposed or emergency change, identify impact, approvals, testing, implementation, communication, rollback, monitoring, and closure evidence appropriate to the risk.",
+    "representation": "state",
+    "retry": {
+      "conceptIds": [
+        "rollback",
+        "change-validation",
+        "post-implementation-review"
+      ],
+      "hint": "Successful deployment is one observation; closure also depends on failure recovery and representative validation.",
+      "id": "d7-o09-change-management-retry-v2-a05ed9b2569a",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Early success does not prove peak behavior or a usable rollback path.",
+          "id": "close-success",
+          "label": "Close it because no immediate deployment error appeared",
+          "repairStateId": "failure-exposed"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Closure requires evidence for operation and recovery under the approved conditions.",
+          "id": "extend-validate",
+          "label": "Keep it open; test rollback and representative load before post-change closure",
+          "repairStateId": "evidence-accepted"
+        },
+        {
+          "correct": false,
+          "feedback": "Incomplete evidence calls for bounded validation, not automatic reversal without a trigger.",
+          "id": "rollback-now",
+          "label": "Roll back a healthy change immediately solely because the validation window was incomplete",
+          "repairStateId": "constraint-applied"
+        }
+      ],
+      "prompt": "A production change succeeds, but the team never tests rollback and the monitoring window ends before the peak workload. Can the change close?"
+    },
+    "scenario": "Operations adds a temporary firewall block during an incident but does not create a change record because the team is busy.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "outline-d7-o09",
+      "official-d7-63-65",
+      "sybex-d7-785-788"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [
+          0
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n2"
+        ],
+        "caption": "Operations adds a temporary firewall block during an incident but does not create a change record because the team is busy.",
+        "id": "case-observed",
+        "statuses": {
+          "n1": "service-restoring rule proposed",
+          "n2": "emergency criteria checked"
+        },
+        "title": "Case facts fixed"
+      },
+      {
+        "activeEdgeIndexes": [
+          1
+        ],
+        "activeNodeIds": [
+          "n1",
+          "n3"
+        ],
+        "caption": "Change approval is a risk decision supported by technical and business evidence.",
+        "id": "constraint-applied",
+        "statuses": {
+          "n3": "impact and conflict review"
+        },
+        "title": "Controlling condition identified"
+      },
+      {
+        "activeEdgeIndexes": [
+          2
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n4"
+        ],
+        "caption": "A change advisory board must approve every technical detail. The authority needs sufficient risk, impact, test, rollback, and ownership information; technical implementers remain responsible for detailed execution.",
+        "id": "failure-exposed",
+        "statuses": {
+          "n4": "undocumented direct change rejected"
+        },
+        "title": "Tempting shortcut rejected"
+      },
+      {
+        "activeEdgeIndexes": [
+          1,
+          2,
+          3
+        ],
+        "activeNodeIds": [
+          "n2",
+          "n3",
+          "n4",
+          "n5",
+          "n1"
+        ],
+        "caption": "Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback. Validate that the rule contains the threat without unacceptable business impact, monitor it, and remove or formalize it after the incident. Update the baseline and lessons learned.",
+        "id": "control-enforced",
+        "statuses": {
+          "n4": "scoped version applied",
+          "n5": "success and rollback signals watched"
+        },
+        "title": "Bounded action applied"
+      },
+      {
+        "activeEdgeIndexes": [
+          4,
+          5
+        ],
+        "activeNodeIds": [
+          "n3",
+          "n5",
+          "n6"
+        ],
+        "caption": "Given a proposed or emergency change, identify impact, approvals, testing, implementation, communication, rollback, monitoring, and closure evidence appropriate to the risk. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+        "id": "evidence-accepted",
+        "statuses": {
+          "n6": "accepted baseline or rollback; review complete"
+        },
+        "title": "Outcome accepted with limits"
+      }
+    ],
+    "takeaway": "Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback.",
+    "title": "Participate in change management",
+    "transfer": {
+      "conceptIds": [
+        "normal-change",
+        "emergency-change"
+      ],
+      "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted.",
+      "id": "d7-o09-change-management-transfer-698670382472",
+      "options": [
+        {
+          "correct": true,
+          "feedback": "Correct. Treat the pattern as a process and capacity problem, formalize the change path, and improve testing, inventory, patching, or architecture.",
+          "id": "evidence-action",
+          "label": "Treat the pattern as a process and capacity problem, formalize the change path, and improve testing",
+          "repairStateId": "changed-evidence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A recurring emergency patch is applied six times without root-cause improvement. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback. Repair target: Decision recomputed — Treat the pattern as a process and capacity problem, formalize the change path, and improve testing, inventory, patching, or architecture.",
+          "id": "surface-signal",
+          "label": "Reuse the original conclusion because the overall control family is unchanged",
+          "repairStateId": "changed-decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: A recurring emergency patch is applied six times without root-cause improvement. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "id": "unbounded-action",
+          "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+          "repairStateId": "changed-evidence"
+        }
+      ],
+      "prompt": "A recurring emergency patch is applied six times without root-cause improvement."
+    },
+    "treatmentDispositions": [],
+    "treatmentIds": [],
+    "unitId": "d7-o09-change-management",
+    "variants": [
+      {
+        "changedFact": "A recurring emergency patch is applied six times without root-cause improvement.",
+        "edges": [
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "triggers governance escalation",
+            "to": "n2"
+          },
+          {
+            "from": "n1",
+            "kind": "flow",
+            "label": "enters root-cause review",
+            "to": "n3"
+          },
+          {
+            "from": "n2",
+            "kind": "flow",
+            "label": "authorizes durable corrective work",
+            "to": "n4"
+          },
+          {
+            "from": "n4",
+            "kind": "flow",
+            "label": "hands the fix to monitored validation",
+            "to": "n5"
+          },
+          {
+            "from": "n5",
+            "kind": "flow",
+            "label": "accepts or rolls back the durable fix",
+            "to": "n6"
+          },
+          {
+            "from": "n3",
+            "kind": "evidence",
+            "label": "records lessons and baseline change",
+            "to": "n6"
+          }
+        ],
+        "id": "changed-case",
+        "label": "Changed case",
+        "nodes": [
+          {
+            "conceptIds": [
+              "emergency-change",
+              "change-request"
+            ],
+            "detail": "The same urgent correction has been applied six times.",
+            "id": "n1",
+            "label": "Six repeated emergency patches"
+          },
+          {
+            "conceptIds": [
+              "emergency-change",
+              "change-management"
+            ],
+            "detail": "The owner recognizes recurrence as a process and capacity problem.",
+            "id": "n2",
+            "label": "Service and change authority"
+          },
+          {
+            "conceptIds": [
+              "change-advisory-board",
+              "change-impact-assessment"
+            ],
+            "detail": "Review examines inventory, testing, patching, architecture, and ownership.",
+            "id": "n3",
+            "label": "Root-cause review"
+          },
+          {
+            "conceptIds": [
+              "version-control",
+              "change-record"
+            ],
+            "detail": "A named owner builds a durable correction through the standard path.",
+            "id": "n4",
+            "label": "Normal change owner"
+          },
+          {
+            "conceptIds": [
+              "rollback",
+              "change-validation"
+            ],
+            "detail": "The durable fix is validated and observed against success criteria.",
+            "id": "n5",
+            "label": "Test, rollout, and rollback"
+          },
+          {
+            "conceptIds": [
+              "normal-change",
+              "post-implementation-review"
+            ],
+            "detail": "The accepted fix updates the baseline and removes the recurring emergency.",
+            "id": "n6",
+            "label": "Improved baseline"
+          }
+        ],
+        "states": [
+          {
+            "activeEdgeIndexes": [
+              4
+            ],
+            "activeNodeIds": [
+              "n1",
+              "n6",
+              "n5"
+            ],
+            "caption": "A recurring emergency patch is applied six times without root-cause improvement.",
+            "id": "changed-fact",
+            "statuses": {
+              "n1": "same emergency patch repeated six times",
+              "n6": "baseline never improved"
+            },
+            "title": "Changed case fact isolated"
+          },
+          {
+            "activeEdgeIndexes": [
+              1,
+              5
+            ],
+            "activeNodeIds": [
+              "n2",
+              "n3",
+              "n6",
+              "n1"
+            ],
+            "caption": "Treat the pattern as a process and capacity problem, formalize the change path, and improve testing, inventory, patching, or architecture.",
+            "id": "changed-decision",
+            "statuses": {
+              "n3": "recurrence reviewed as process defect"
+            },
+            "title": "Decision recomputed"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "n4",
+              "n5",
+              "n6"
+            ],
+            "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+            "id": "changed-evidence",
+            "statuses": {
+              "n6": "normal path, test capacity, inventory, and ownership improved"
+            },
+            "title": "Changed outcome verified"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Participate in change management",
+  "workedExamples": [
+    {
+      "reasoning": "Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback. Validate that the rule contains the threat without unacceptable business impact, monitor it, and remove or formalize it after the incident. Update the baseline and lessons learned.",
+      "situation": "Operations adds a temporary firewall block during an incident but does not create a change record because the team is busy.",
+      "takeaway": "Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback. Validate that the rule contains the threat without unacceptable business impact, monitor it, and remove or formalize it after the incident. Update the baseline and lessons learned.",
+      "title": "Emergency containment rule"
+    }
+  ]
+}

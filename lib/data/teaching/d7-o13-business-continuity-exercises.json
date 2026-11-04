@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "unitId": "d7-o13-business-continuity-exercises",
+  "treatmentIds": [],
+  "title": "Participate in business continuity planning and exercises",
+  "question": "Given a business disruption, identify critical functions and dependencies, select continuity workarounds or recovery priorities, exercise the plan, and capture improvements that protect the mission rather than only the technology.",
+  "scenario": "A critical outsourced transaction service becomes unavailable while the internal application and data remain healthy.",
+  "focalRelation": "Activate continuity procedures, confirm business priority and customer commitments, use an approved manual or alternate provider workaround, communicate accurately, protect data and approvals, and track the supplier dependency.",
+  "representation": "state",
+  "nodes": [
+    {
+      "id": "n1",
+      "label": "Outsourced service outage",
+      "detail": "External transaction dependency fails while internal application and data remain healthy.",
+      "conceptIds": [
+        "external-dependency",
+        "business-continuity"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Critical business function",
+      "detail": "Mission outcome, customer commitment, tolerable delay, volume, and minimum control requirements.",
+      "conceptIds": [
+        "critical-function",
+        "business-impact-analysis"
+      ]
+    },
+    {
+      "id": "n3",
+      "label": "Continuity authority",
+      "detail": "Role setting continuity priority, approving workaround, communications, risk, and return criteria.",
+      "conceptIds": [
+        "continuity-planning",
+        "continuity-priority"
+      ]
+    },
+    {
+      "id": "n4",
+      "label": "Approved manual workaround",
+      "detail": "Bounded alternate process with authentication, approvals, data handling, reconciliation, capacity, and expiry.",
+      "conceptIds": [
+        "manual-workaround"
+      ]
+    },
+    {
+      "id": "n5",
+      "label": "Supplier escalation",
+      "detail": "Contract contacts, incident status, recovery estimate, alternate provider/data exchange, and accountability.",
+      "conceptIds": [
+        "external-dependency",
+        "continuity-communications"
+      ]
+    },
+    {
+      "id": "n6",
+      "label": "Return criteria",
+      "detail": "Evidence that normal service is stable, backlog reconciled, data correct, temporary access removed, and owners accept return.",
+      "conceptIds": [
+        "continuity-evidence",
+        "continuity-remediation",
+        "continuity-exercise",
+        "exercise-scope"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "n1",
+      "to": "n2",
+      "label": "interrupts normal delivery of critical function",
+      "kind": "flow"
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "label": "sets continuity priority and decision need",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n4",
+      "label": "authorizes bounded workaround",
+      "kind": "flow"
+    },
+    {
+      "from": "n3",
+      "to": "n5",
+      "label": "activates supplier escalation and communication",
+      "kind": "flow"
+    },
+    {
+      "from": "n4",
+      "to": "n6",
+      "label": "supplies reconciliation and control evidence",
+      "kind": "evidence"
+    },
+    {
+      "from": "n5",
+      "to": "n6",
+      "label": "supplies provider recovery evidence",
+      "kind": "evidence"
+    }
+  ],
+  "states": [
+    {
+      "id": "case-observed",
+      "title": "Case facts fixed",
+      "caption": "A critical outsourced transaction service becomes unavailable while the internal application and data remain healthy.",
+      "activeNodeIds": [
+        "n1",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n1": "provider unavailable",
+        "n2": "critical transactions at risk"
+      }
+    },
+    {
+      "id": "constraint-applied",
+      "title": "Controlling condition identified",
+      "caption": "Business owners define mission priority and impact; technical teams help make the requirement executable.",
+      "activeNodeIds": [
+        "n2",
+        "n3"
+      ],
+      "activeEdgeIndexes": [
+        1
+      ],
+      "statuses": {
+        "n3": "priority and customer commitments confirmed"
+      }
+    },
+    {
+      "id": "failure-exposed",
+      "title": "Tempting shortcut rejected",
+      "caption": "Continuity is the IT department's recovery plan. Business owners, people, facilities, suppliers, communications, security, and technology all contribute to continuity.",
+      "activeNodeIds": [
+        "n1",
+        "n4",
+        "n2"
+      ],
+      "activeEdgeIndexes": [
+        0
+      ],
+      "statuses": {
+        "n4": "ad hoc workaround rejected"
+      }
+    },
+    {
+      "id": "control-enforced",
+      "title": "Bounded action applied",
+      "caption": "Activate continuity procedures, confirm business priority and customer commitments, use an approved manual or alternate provider workaround, communicate accurately, protect data and approvals, and track the supplier dependency. The exercise should test contract contacts, identity, data exchange, staffing, and return criteria.",
+      "activeNodeIds": [
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "activeEdgeIndexes": [
+        2,
+        3
+      ],
+      "statuses": {
+        "n4": "approved protected process active",
+        "n5": "supplier escalated"
+      }
+    },
+    {
+      "id": "evidence-accepted",
+      "title": "Outcome accepted with limits",
+      "caption": "Given a business disruption, identify critical functions and dependencies, select continuity workarounds or recovery priorities, exercise the plan, and capture improvements that protect the mission rather than only the technology. The case record retains the scope, owner, exceptions, and evidence used for this conclusion.",
+      "activeNodeIds": [
+        "n4",
+        "n5",
+        "n6"
+      ],
+      "activeEdgeIndexes": [
+        4,
+        5
+      ],
+      "statuses": {
+        "n6": "backlog/data reconciled; return accepted"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "changed-case",
+      "label": "Changed case",
+      "changedFact": "A payroll service is down and the continuity plan says 'contact the vendor' but names no alternate process or decision owner.",
+      "states": [
+        {
+          "id": "changed-fact",
+          "title": "Changed case fact isolated",
+          "caption": "A payroll service is down and the continuity plan says 'contact the vendor' but names no alternate process or decision owner.",
+          "activeNodeIds": [
+            "n1",
+            "n3",
+            "n5"
+          ],
+          "activeEdgeIndexes": [
+            3
+          ],
+          "statuses": {
+            "n1": "payroll down",
+            "n3": "plan says only contact vendor"
+          }
+        },
+        {
+          "id": "changed-decision",
+          "title": "Decision recomputed",
+          "caption": "Escalate the continuity gap, identify business priority and tolerable delay, define a controlled workaround, and update and exercise the plan.",
+          "activeNodeIds": [
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "activeEdgeIndexes": [
+            1,
+            2
+          ],
+          "statuses": {
+            "n2": "tolerable delay identified",
+            "n4": "controlled workaround designed"
+          }
+        },
+        {
+          "id": "changed-evidence",
+          "title": "Changed outcome verified",
+          "caption": "The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+          "activeNodeIds": [
+            "n4",
+            "n5",
+            "n6"
+          ],
+          "activeEdgeIndexes": [
+            4,
+            5
+          ],
+          "statuses": {
+            "n6": "owner, communication, and return criteria tested"
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n1",
+          "label": "Payroll service outage",
+          "detail": "The outsourced payroll platform is unavailable during a processing deadline.",
+          "conceptIds": [
+            "business-continuity",
+            "external-dependency"
+          ]
+        },
+        {
+          "id": "n2",
+          "label": "Payroll business function",
+          "detail": "Employees must still receive accurate, authorized payment.",
+          "conceptIds": [
+            "business-impact-analysis",
+            "critical-function"
+          ]
+        },
+        {
+          "id": "n3",
+          "label": "Missing decision owner",
+          "detail": "The plan says only “contact the vendor” and assigns no authority.",
+          "conceptIds": [
+            "continuity-planning",
+            "continuity-priority"
+          ]
+        },
+        {
+          "id": "n4",
+          "label": "Alternate payroll process",
+          "detail": "A tested manual or alternate mechanism preserves critical payroll outcomes.",
+          "conceptIds": [
+            "manual-workaround"
+          ]
+        },
+        {
+          "id": "n5",
+          "label": "Vendor escalation path",
+          "detail": "Named supplier contacts, time thresholds, and fallback commitments support response.",
+          "conceptIds": [
+            "external-dependency",
+            "continuity-communications"
+          ]
+        },
+        {
+          "id": "n6",
+          "label": "Return and reconciliation criteria",
+          "detail": "The owner decides transition, reconciliation, communications, and normal-service return.",
+          "conceptIds": [
+            "business-continuity"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "n1",
+          "to": "n2",
+          "label": "impacts the critical function",
+          "kind": "flow"
+        },
+        {
+          "from": "n2",
+          "to": "n3",
+          "label": "requires accountable continuity decision",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n4",
+          "label": "authorizes alternate process",
+          "kind": "flow"
+        },
+        {
+          "from": "n3",
+          "to": "n5",
+          "label": "activates named supplier escalation",
+          "kind": "flow"
+        },
+        {
+          "from": "n4",
+          "to": "n6",
+          "label": "supplies recoverable business outcome",
+          "kind": "evidence"
+        },
+        {
+          "from": "n5",
+          "to": "n6",
+          "label": "supplies vendor recovery evidence",
+          "kind": "evidence"
+        }
+      ]
+    }
+  ],
+  "prediction": {
+    "id": "d7-o13-business-continuity-exercises-prediction",
+    "prompt": "An outsourced transaction service fails while the internal application and data remain healthy. What should continuity leadership do?",
+    "options": [
+      {
+        "id": "continuity",
+        "label": "Prioritize service, use a protected workaround, escalate, communicate, and define return",
+        "correct": true,
+        "feedback": "Correct. Continuity preserves the critical function and its controls while the external dependency is restored.",
+        "repairStateId": "control-enforced"
+      },
+      {
+        "id": "no-bcp",
+        "label": "Keep normal operations because internal technology is healthy and wait for the provider.",
+        "correct": false,
+        "feedback": "The business function is interrupted even though internal systems work. External dependency failure is a continuity event.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "manual-anyway",
+        "label": "Let staff improvise manual transactions without normal approvals until the provider returns.",
+        "correct": false,
+        "feedback": "An uncontrolled workaround can create fraud, privacy, integrity, and reconciliation failures. It needs bounded authority and evidence.",
+        "repairStateId": "constraint-applied"
+      }
+    ],
+    "conceptIds": [
+      "business-continuity",
+      "critical-function",
+      "manual-workaround",
+      "external-dependency"
+    ],
+    "hint": "Begin with the critical function and minimum controlled outcome, not the health of one technology stack."
+  },
+  "transfer": {
+    "id": "d7-o13-business-continuity-exercises-transfer",
+    "prompt": "A payroll service is down and the continuity plan says 'contact the vendor' but names no alternate process or decision owner.",
+    "options": [
+      {
+        "id": "surface-signal",
+        "label": "Reuse the original conclusion because the overall control family is unchanged",
+        "correct": false,
+        "feedback": "Changed fact: A payroll service is down and the continuity plan says 'contact the vendor' but names no alternate process or decision owner. Why this answer fails: “Reuse the original conclusion because the overall control family is unchanged” does not account for that changed condition. Corrected consequence: Activate continuity procedures, confirm business priority and customer commitments, use an approved manual or alternate provider workaround, communicate accurately, protect data and approvals, and track the supplier dependency. Repair target: Decision recomputed — Escalate the continuity gap, identify business priority and tolerable delay, define a controlled workaround, and update and exercise the plan.",
+        "repairStateId": "changed-decision"
+      },
+      {
+        "id": "evidence-action",
+        "label": "Escalate the continuity gap, identify business priority and tolerable delay",
+        "correct": true,
+        "feedback": "Correct. Escalate the continuity gap, identify business priority and tolerable delay, define a controlled workaround, and update and exercise the plan.",
+        "repairStateId": "changed-evidence"
+      },
+      {
+        "id": "unbounded-action",
+        "label": "Bypass the normal owner and apply a permanent broad restriction immediately",
+        "correct": false,
+        "feedback": "Changed fact: A payroll service is down and the continuity plan says 'contact the vendor' but names no alternate process or decision owner. Why this answer fails: “Bypass the normal owner and apply a permanent broad restriction immediately” does not account for that changed condition. Corrected consequence: Activate continuity procedures, confirm business priority and customer commitments, use an approved manual or alternate provider workaround, communicate accurately, protect data and approvals, and track the supplier dependency. Repair target: Changed outcome verified — The decision remains provisional until the changed dependency, enforcement result, and accountable evidence are verified.",
+        "repairStateId": "changed-evidence"
+      }
+    ],
+    "conceptIds": [
+      "business-continuity",
+      "continuity-priority",
+      "continuity-evidence"
+    ],
+    "hint": "Trace the changed fact to the exact decision boundary, then identify the evidence needed before the outcome can be accepted."
+  },
+  "retry": {
+    "id": "d7-o13-business-continuity-exercises-retry-v2",
+    "prompt": "A manual workaround serves priority customers but stores regulated data in an untracked spreadsheet. Can it be accepted?",
+    "options": [
+      {
+        "id": "accept-availability",
+        "label": "Accept it because serving priority customers is the only continuity objective",
+        "correct": false,
+        "feedback": "Availability is central, but the workaround creates data and reconciliation risks that need explicit control.",
+        "repairStateId": "failure-exposed"
+      },
+      {
+        "id": "ban-manual",
+        "label": "Reject every manual workaround because only automated recovery can be secure",
+        "correct": false,
+        "feedback": "Manual procedures can be appropriate when their risks and evidence are governed.",
+        "repairStateId": "constraint-applied"
+      },
+      {
+        "id": "govern-workaround",
+        "label": "Protect the spreadsheet and assign reconciliation, deletion, and end-to-end testing",
+        "correct": true,
+        "feedback": "Correct. Continuity does not suspend data ownership, access, accuracy, retention, or return-to-normal duties.",
+        "repairStateId": "evidence-accepted"
+      }
+    ],
+    "conceptIds": [
+      "manual-workaround",
+      "continuity-evidence",
+      "critical-function"
+    ],
+    "hint": "A workaround must preserve the critical function and its essential control obligations."
+  },
+  "takeaway": "Activate continuity procedures, confirm business priority and customer commitments, use an approved manual or alternate provider workaround, communicate accurately, protect data and approvals, and track the supplier dependency.",
+  "assumptions": [
+    "The scenario is a bounded application of the canonical unit, not a universal threshold, legal conclusion, or vendor prescription.",
+    "Directed edges carry only their printed relation; proximity and shared color do not imply ownership, authorization, or chronology.",
+    "Acceptance applies only to the stated scope and retained evidence; unknown or excluded conditions remain explicit."
+  ],
+  "sourceRefIds": [
+    "outline-d7-o13",
+    "official-d7-85-87",
+    "sybex-d7-881-883"
+  ],
+  "treatmentDispositions": [],
+  "learningJob": {
+    "plainExplanation": "Continuity protects critical business functions even when internal technology remains healthy. Owners need protected workarounds, supplier escalation, staffing, communications, approvals, and return criteria.",
+    "visualReasoningGain": "A mission-dependency map could connect the failed supplier to people, workaround, approvals, communications, and return criteria; the opening outage/function pair does not."
+  },
+  "openingFacts": [
+    {
+      "label": "Outsourced service outage",
+      "value": "External transaction dependency fails while internal application and data remain healthy."
+    },
+    {
+      "label": "Critical business function",
+      "value": "Mission outcome, customer commitment, tolerable delay, volume, and minimum control requirements."
+    },
+    {
+      "label": "Continuity authority",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Approved manual workaround",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Supplier escalation",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    },
+    {
+      "label": "Return criteria",
+      "value": "Relevant actor, boundary, evidence source, or alternative; its outcome remains unresolved at prediction time."
+    }
+  ]
+}

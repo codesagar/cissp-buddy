@@ -1,0 +1,614 @@
+{
+  "conceptIds": [
+    "security-requirements",
+    "control-selection",
+    "control-baseline",
+    "preventive-control",
+    "detective-control",
+    "corrective-control",
+    "compensating-control",
+    "assurance",
+    "residual-risk"
+  ],
+  "concepts": [
+    {
+      "decision": "Start with a protected asset and measurable need, not a preferred product.",
+      "definition": "Testable statements of the protection property, asset, constraints, and owner.",
+      "failureExample": "“Make it secure” gives no property, threat, or acceptance condition.",
+      "id": "security-requirements",
+      "label": "Security Requirements",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Compare options by coverage, dependencies, operation, evidence, and residual risk.",
+      "definition": "Choosing safeguards that address a stated threat path within constraints.",
+      "failureExample": "A team buys an endpoint tool for an API authorization failure.",
+      "id": "control-selection",
+      "label": "Control Selection",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Use as a starting floor; tailor with documented risk and compensating measures.",
+      "definition": "Minimum set of safeguards expected for a system class or risk level.",
+      "failureExample": "A high-impact system adopts a generic workstation baseline unchanged.",
+      "id": "control-baseline",
+      "label": "Control Baseline",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Use where blocking is feasible and the false-denial cost is acceptable.",
+      "definition": "Control intended to stop an unwanted event before it succeeds.",
+      "failureExample": "MFA blocks use of a stolen password before a session begins.",
+      "id": "preventive-control",
+      "label": "Preventive Control",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Use when prevention cannot be complete and timely visibility changes outcome.",
+      "definition": "Control that reveals an event or condition for investigation or response.",
+      "failureExample": "Protected audit logs reveal abnormal privileged access after it occurs.",
+      "id": "detective-control",
+      "label": "Detective Control",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Use where repair, reconfiguration, or cleanup reduces consequence.",
+      "definition": "Control that restores an acceptable condition after an event or defect.",
+      "failureExample": "A tested rebuild removes malware from a compromised endpoint.",
+      "id": "corrective-control",
+      "label": "Corrective Control",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Approve only with reason, scope, evidence, owner, and review date.",
+      "definition": "Alternative safeguard that achieves comparable risk reduction when the preferred control cannot be used.",
+      "failureExample": "A legacy device cannot run an agent, so isolation and monitored jump access are used.",
+      "id": "compensating-control",
+      "label": "Compensating Control",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Require tests, monitoring, and records tied to the control objective.",
+      "definition": "Evidence-based confidence that a control is designed and operating as intended.",
+      "failureExample": "A control exists in a diagram but fails after configuration drift.",
+      "id": "assurance",
+      "label": "Assurance",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    },
+    {
+      "decision": "Escalate when remaining exposure exceeds the authorized risk tolerance.",
+      "definition": "Risk remaining after selected controls and accepted constraints.",
+      "failureExample": "A service remains internet-exposed after mitigations but no owner accepts the risk.",
+      "id": "residual-risk",
+      "label": "Residual Risk",
+      "sourceRefIds": [
+        "d3-o03-sybex",
+        "d3-o03-textbook"
+      ],
+      "sourceVisualId": "d3-o03-control-selection-concept-comparison-1"
+    }
+  ],
+  "domainId": 3,
+  "estimatedMinutes": 24,
+  "id": "d3-o03-control-selection",
+  "misconceptions": [
+    {
+      "claim": "A control is selected once and then remains suitable forever.",
+      "correction": "Changes in threat, architecture, operation, and requirements require reassessment."
+    }
+  ],
+  "objectiveIds": [
+    "3.3"
+  ],
+  "outcome": "Trace a security requirement to a proportionate control set, evidence, owner, and residual-risk decision.",
+  "prerequisites": [
+    "risk-management",
+    "security-requirements",
+    "secure-design"
+  ],
+  "releaseId": "cissp-course-2026-09-94377842923795be",
+  "sections": [
+    {
+      "body": "Translate a business need into confidentiality, integrity, availability, privacy, safety, or accountability requirements; identify threats, architecture constraints, and risk tolerance; then select preventive, detective, corrective, recovery, or compensating controls. Consider control dependencies and avoid a single point of failure. A requirement should also state an owner, measurable expectation, and acceptable exception process.",
+      "id": "derive",
+      "keyPoints": [
+        "Controls are treatments for defined risk and requirements.",
+        "A compensating control must address the relevant failure, not merely exist nearby."
+      ],
+      "sourceRefIds": [
+        "d3-o03-outline",
+        "d3-o03-textbook",
+        "d3-o03-sybex"
+      ],
+      "title": "Derive controls from a requirement"
+    },
+    {
+      "body": "Document why a control was selected, how it is configured, what assumptions it relies on, and what evidence demonstrates effective operation. Test behavior under expected failures and changes, monitor drift, and reassess residual risk. This connects Domain 1 governance and risk decisions with Domain 6 assessment and Domain 7 operational evidence.",
+      "id": "assure",
+      "keyPoints": [
+        "A designed control and an operating control are separate claims.",
+        "Requirements change as assets, threats, laws, and business processes change."
+      ],
+      "sourceRefIds": [
+        "d3-o03-textbook",
+        "d3-o03-sybex"
+      ],
+      "title": "Validate design and operation"
+    },
+    {
+      "body": "Translate a system requirement into a protected asset or service, property, threat or failure, constraint, owner, control objective, implementation option, evidence, and residual risk. Combine administrative, technical, and physical controls as needed; choose preventive, detective, corrective, deterrent, compensating, or recovery roles based on the path rather than product category. Consider feasibility, interoperability, performance, human operation, lifecycle cost, privacy, supplier dependency, and failure behavior. Assess control design and operation through tests and monitoring, and document exceptions with accountable risk acceptance. Failure modes include copying a framework baseline without tailoring, selecting a control that an operator cannot sustain, or measuring deployment instead of the intended reduction in risk.",
+      "id": "outline-topic-depth",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o03-outline",
+        "d3-o03-textbook",
+        "d3-o03-sybex"
+      ],
+      "title": "Select controls from requirements, threat paths, and operating evidence"
+    }
+  ],
+  "sourceHash": "3f84425a1a749507e0cf45eb87a921dcca42b481e00b3d9e19d64fc25184a4e4",
+  "sourcePath": "knowledge/domains/d3-security-architecture-engineering/units/d3-o03-control-selection.json",
+  "sourceRefs": [
+    {
+      "id": "d3-o03-outline",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.3"
+      },
+      "sourceId": "isc2-cissp-outline-2024",
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o03-textbook",
+      "locator": {
+        "note": "Printed page is the citation anchor; verify PDF index in a reader.",
+        "pdfPage": "17-20",
+        "printedPage": "17-20",
+        "type": "printed-page-and-pdf-fallback"
+      },
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "supports": [
+        "security-requirements-control-selection"
+      ]
+    },
+    {
+      "id": "d3-o03-sybex",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, control and capability selection, p. 309 onward; precise locator refinement pending"
+      },
+      "sourceId": "sybex-osg-9e-2021",
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft.",
+      "supports": [
+        "control-selection",
+        "security-requirements"
+      ]
+    }
+  ],
+  "summary": "Control selection begins with business and security requirements, threat and failure analysis, constraints, and assurance evidence. A named product or framework is not a requirement.",
+  "teaching": {
+    "assumptions": [
+      "Only entities and claims anchored in the canonical unit or explicitly labeled hypothetical scenario are used.",
+      "A highlighted path means the learner is inspecting that path; it does not assert the event occurred.",
+      "The current source is authoritative for facts; this treatment reorganizes presentation without changing canonical content.",
+      "The lesson teaches one bounded decision and does not claim to exhaust every jurisdiction, vendor implementation, architecture, attack, or exception."
+    ],
+    "edges": [
+      {
+        "from": "Business requirement",
+        "kind": "flow",
+        "label": "defines the protected outcome",
+        "to": "Control objective"
+      },
+      {
+        "from": "Control objective",
+        "kind": "dependency",
+        "label": "constrains selection and tailoring",
+        "to": "Selected controls"
+      },
+      {
+        "from": "Selected controls",
+        "kind": "flow",
+        "label": "must be assigned, configured, and operated as",
+        "to": "Control operation"
+      },
+      {
+        "from": "Control operation",
+        "kind": "evidence",
+        "label": "must demonstrate the intended behavior",
+        "to": "Test evidence"
+      },
+      {
+        "from": "Test evidence",
+        "kind": "flow",
+        "label": "supports reassessment",
+        "to": "Residual-risk decision"
+      }
+    ],
+    "focalRelation": "Requirement and threat path select preventive, detective, corrective, recovery, deterrent, or compensating roles; design evidence and operating evidence are separate; assurance and owner decision close the claim.",
+    "lanes": [
+      {
+        "id": "subject",
+        "label": "Requirement and objective",
+        "rule": "Business requirement and control objective remain the named decision subjects."
+      },
+      {
+        "id": "constraint",
+        "label": "Selected controls",
+        "rule": "Preventive, detective, corrective, and compensating controls address the objective in stated scope."
+      },
+      {
+        "id": "evidence",
+        "label": "Operation, test, and result",
+        "rule": "Operating and test evidence support the residual-risk decision."
+      }
+    ],
+    "learningJob": {
+      "plainExplanation": "Controls should follow the stated requirement and interrupt its credible failure path. Operating and test evidence support the residual-risk decision; control strength is irrelevant when the mechanism addresses another property.",
+      "visualReasoningGain": "A traceability ledger can align requirement, failure path, control, owner, evidence, and residual decision; the current linear map only partially adds this."
+    },
+    "nodes": [
+      {
+        "conceptIds": [
+          "security-requirements"
+        ],
+        "detail": "The business requirement names the asset, security outcome, scope, consequence, owner, and acceptance condition.",
+        "id": "Business requirement",
+        "label": "Business Requirement",
+        "lane": "subject"
+      },
+      {
+        "conceptIds": [
+          "control-selection",
+          "control-baseline",
+          "preventive-control",
+          "detective-control",
+          "corrective-control",
+          "compensating-control"
+        ],
+        "detail": "The objective states the behavior needed to meet the requirement without assuming a particular product.",
+        "id": "Control objective",
+        "label": "Control Objective",
+        "lane": "subject"
+      },
+      {
+        "conceptIds": [
+          "control-selection",
+          "control-baseline"
+        ],
+        "detail": "Preventive, detective, corrective, and compensating controls are chosen for the stated threat and operating constraints.",
+        "id": "Selected controls",
+        "label": "Selected Controls",
+        "lane": "constraint"
+      },
+      {
+        "conceptIds": [
+          "preventive-control",
+          "detective-control",
+          "corrective-control",
+          "compensating-control"
+        ],
+        "detail": "Named owners operate the selected controls across the systems and periods included in scope.",
+        "id": "Control operation",
+        "label": "Control Operation",
+        "lane": "evidence"
+      },
+      {
+        "conceptIds": [
+          "assurance"
+        ],
+        "detail": "Design review, configuration inspection, observation, and testing demonstrate whether the control objective is met.",
+        "id": "Test evidence",
+        "label": "Test Evidence",
+        "lane": "evidence"
+      },
+      {
+        "conceptIds": [
+          "residual-risk"
+        ],
+        "detail": "The authorized owner uses current evidence, gaps, and dependencies to accept, treat, or escalate remaining risk.",
+        "id": "Residual-risk decision",
+        "label": "Residual Risk Decision",
+        "lane": "evidence"
+      }
+    ],
+    "prediction": {
+      "conceptIds": [
+        "security-requirements",
+        "control-selection",
+        "control-baseline",
+        "preventive-control",
+        "detective-control"
+      ],
+      "hint": "Select controls for the named failure path and required outcome, not for a nearby security property.",
+      "id": "d3-o03-control-selection-prediction-v1-795075035ea1",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Control strength is irrelevant when its mechanism does not interrupt the stated failure path.",
+          "id": "unit-specific-alternative",
+          "label": "Add encryption because it is a strong technical control for most security failures.",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": true,
+          "feedback": "A copied baseline or purchased product is an input; it does not demonstrate suitability, operation, or acceptable residual risk.",
+          "id": "correct",
+          "label": "Trace the requirement to controls that address its failure path and to scoped evidence that they operate.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed scope, dependencies, threats, or evidence require the requirement-to-control mapping to be reassessed.",
+          "id": "unit-specific-primary-misconception",
+          "label": "Once selected, a control remains suitable when the architecture and threat path change.",
+          "repairStateId": "decision"
+        }
+      ],
+      "prompt": "What evidence would show that an emergency-administration requirement is satisfied during design and actual operation?"
+    },
+    "question": "What evidence would show that an emergency-administration requirement is satisfied during design and actual operation?",
+    "representation": "ledger",
+    "retry": {
+      "conceptIds": [
+        "control-selection",
+        "security-requirements"
+      ],
+      "hint": "Connect the selected control to operating evidence that proves the dependency can meet the objective.",
+      "id": "d3-o03-control-selection-retry-v1-d9a54298bc85",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changes in threat, architecture, operation, and requirements require reassessment.",
+          "id": "misconception",
+          "label": "Keep the original encryption control after the requirement changes from confidentiality to service availability and recovery.",
+          "repairStateId": "decision"
+        },
+        {
+          "correct": false,
+          "feedback": "That shortcut ignores the decisive changed fact. Encryption may protect confidentiality but does not directly address availability or recovery requirements.",
+          "id": "shortcut",
+          "label": "Add stronger encryption because it is a familiar technical control, without mapping it to the stated availability failure.",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Correct. Encryption may protect confidentiality but does not directly address availability or recovery requirements.",
+          "id": "evidence-based",
+          "label": "Encryption may protect confidentiality but does not directly address availability or recovery requirements",
+          "repairStateId": "consequence"
+        }
+      ],
+      "prompt": "A team proposes encryption for a service outage requirement. What should the reviewer ask?"
+    },
+    "scenario": "Privileged database maintenance: A team needs emergency database administration without standing broad access.",
+    "schemaVersion": 1,
+    "sourceRefIds": [
+      "d3-o03-outline",
+      "d3-o03-textbook",
+      "d3-o03-sybex"
+    ],
+    "states": [
+      {
+        "activeEdgeIndexes": [],
+        "activeNodeIds": [
+          "Business requirement",
+          "Control objective"
+        ],
+        "caption": "Privileged database maintenance: A team needs emergency database administration without standing broad access.",
+        "id": "case",
+        "statuses": {
+          "Business requirement": "The business requirement names the asset, security outcome, scope, consequence, owner, and acceptance condition.",
+          "Control objective": "The business availability requirement defines the protected outcome for the control objective."
+        },
+        "title": "Case facts"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1
+        ],
+        "activeNodeIds": [
+          "Business requirement",
+          "Control objective",
+          "Selected controls"
+        ],
+        "caption": "Business Requirement defines the protected outcome Control Objective. Control Objective constrains selection and tailoring Selected Controls.",
+        "id": "decision",
+        "statuses": {
+          "Business requirement": "The business requirement names the asset, security outcome, scope, consequence, owner, and acceptance condition.",
+          "Control objective": "The objective states the behavior needed to meet the requirement without assuming a particular product.",
+          "Selected controls": "Preventive, detective, corrective, and compensating controls are chosen for the stated threat and operating constraints."
+        },
+        "title": "The controlling relation"
+      },
+      {
+        "activeEdgeIndexes": [
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "Selected controls",
+          "Control operation",
+          "Test evidence",
+          "Residual-risk decision"
+        ],
+        "caption": "Control Operation must demonstrate the intended behavior Test Evidence. Test Evidence supports reassessment Residual Risk Decision.",
+        "id": "consequence",
+        "statuses": {
+          "Control operation": "Named owners operate the selected controls across the systems and periods included in scope.",
+          "Residual-risk decision": "The authorized owner uses current evidence, gaps, and dependencies to accept, treat, or escalate remaining risk.",
+          "Selected controls": "Preventive, detective, corrective, and compensating controls are chosen for the stated threat and operating constraints.",
+          "Test evidence": "Design review, configuration inspection, observation, and testing demonstrate whether the control objective is met."
+        },
+        "title": "Control and evidence consequence"
+      },
+      {
+        "activeEdgeIndexes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "activeNodeIds": [
+          "Business requirement",
+          "Control objective",
+          "Selected controls",
+          "Control operation",
+          "Test evidence",
+          "Residual-risk decision"
+        ],
+        "caption": "A service outage is caused by a single upstream dependency, while all stored and transmitted data remain encrypted. Select redundancy, alternate service, capacity, monitoring, and recovery measures for the dependency; more encryption does not address this outage path.",
+        "id": "changed-case",
+        "statuses": {
+          "Business requirement": "The business requirement names the asset, security outcome, scope, consequence, owner, and acceptance condition.",
+          "Control objective": "The objective states the behavior needed to meet the requirement without assuming a particular product.",
+          "Control operation": "Named owners operate the selected controls across the systems and periods included in scope.",
+          "Residual-risk decision": "The dependency requires a coordinated set of redundancy, alternate-service, capacity, monitoring, and recovery controls.",
+          "Selected controls": "Preventive, detective, corrective, and compensating controls are chosen for the stated threat and operating constraints.",
+          "Test evidence": "Design review, configuration inspection, observation, and testing demonstrate whether the control objective is met."
+        },
+        "title": "Changed fact, recomputed result"
+      }
+    ],
+    "takeaway": "Use the case evidence to apply this relation: Requirement and threat path select preventive, detective, corrective, recovery, deterrent, or compensating roles; design evidence and operating evidence are separate; assurance and owner decision close the claim.",
+    "title": "requirement control evidence trace",
+    "transfer": {
+      "conceptIds": [
+        "preventive-control",
+        "detective-control",
+        "corrective-control"
+      ],
+      "hint": "An unavailable dependency calls for resilience and recovery measures rather than more encryption.",
+      "id": "d3-o03-control-selection-transfer-v1-4ac7869a308b",
+      "options": [
+        {
+          "correct": false,
+          "feedback": "Changed fact: The failure is loss of availability. Confidentiality controls continue to work. Why this answer fails: “Add encryption because it is a strong technical control for most security failures” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Requirement and threat path select preventive, detective, corrective, recovery, deterrent, or compensating roles; design evidence and operating evidence are separate; assurance and owner decision close the claim. Repair target: Control and evidence consequence — Control Operation must demonstrate the intended behavior Test Evidence. Test Evidence supports reassessment Residual Risk Decision.",
+          "id": "single-signal",
+          "label": "Add encryption because it is a strong technical control for most security failures",
+          "repairStateId": "consequence"
+        },
+        {
+          "correct": false,
+          "feedback": "Changed fact: The failure is loss of availability. Confidentiality controls continue to work. Why this answer fails: “Once selected, a control remains suitable when the architecture and threat path change” does not account for that changed condition. Corrected consequence: Use the case evidence to apply this relation: Requirement and threat path select preventive, detective, corrective, recovery, deterrent, or compensating roles; design evidence and operating evidence are separate; assurance and owner decision close the claim. Repair target: Changed fact, recomputed result — A service outage is caused by a single upstream dependency, while all stored and transmitted data remain encrypted. Select redundancy, alternate service, capacity, monitoring, and recovery measures for the dependency; more encryption does not address this outage path.",
+          "id": "unchanged-rule",
+          "label": "Once selected, a control remains suitable when the architecture and threat path change",
+          "repairStateId": "changed-case"
+        },
+        {
+          "correct": true,
+          "feedback": "Select redundancy, alternate service, capacity, monitoring, and recovery measures for the dependency; more encryption does not address this outage path.",
+          "id": "recompute",
+          "label": "Select redundancy, alternate service, capacity, monitoring, and recovery measures for the dependency",
+          "repairStateId": "changed-case"
+        }
+      ],
+      "prompt": "A service outage is caused by a single upstream dependency, while all stored and transmitted data remain encrypted."
+    },
+    "treatmentDispositions": [
+      {
+        "disposition": "equivalent",
+        "rationale": "The ledger traces a business requirement to a control objective, selected controls, operating evidence, test evidence, and an authorized residual-risk decision. It preserves the reviewed design-evidence versus operating-evidence distinction in one emergency-administration case rather than the prior static reference and retrieval cards.",
+        "treatmentId": "fresh-d3-o03-control-selection-requirement-control-evidence-trace"
+      }
+    ],
+    "treatmentIds": [
+      "fresh-d3-o03-control-selection-requirement-control-evidence-trace"
+    ],
+    "unitId": "d3-o03-control-selection",
+    "variants": [
+      {
+        "changedFact": "The failure is loss of availability. Confidentiality controls continue to work.",
+        "id": "reviewed-transfer-variant",
+        "label": "Reviewed changed case",
+        "states": [
+          {
+            "activeEdgeIndexes": [],
+            "activeNodeIds": [
+              "Control operation",
+              "Test evidence",
+              "Residual-risk decision"
+            ],
+            "caption": "A service outage is caused by a single upstream dependency, while all stored and transmitted data remain encrypted.",
+            "id": "variant-facts",
+            "statuses": {
+              "Control operation": "Named owners operate the selected controls across the systems and periods included in scope.",
+              "Residual-risk decision": "The authorized owner uses current evidence, gaps, and dependencies to accept, treat, or escalate remaining risk.",
+              "Test evidence": "Design review, configuration inspection, observation, and testing demonstrate whether the control objective is met."
+            },
+            "title": "Changed case facts"
+          },
+          {
+            "activeEdgeIndexes": [
+              3,
+              4
+            ],
+            "activeNodeIds": [
+              "Control operation",
+              "Test evidence",
+              "Residual-risk decision"
+            ],
+            "caption": "Select redundancy, alternate service, capacity, monitoring, and recovery measures for the dependency; more encryption does not address this outage path.",
+            "id": "variant-result",
+            "statuses": {
+              "Control operation": "Named owners operate the selected controls across the systems and periods included in scope.",
+              "Residual-risk decision": "The dependency requires a coordinated set of redundancy, alternate-service, capacity, monitoring, and recovery controls.",
+              "Test evidence": "Design review, configuration inspection, observation, and testing demonstrate whether the control objective is met."
+            },
+            "title": "Recomputed consequence"
+          }
+        ]
+      }
+    ]
+  },
+  "title": "Select controls from security requirements",
+  "workedExamples": [
+    {
+      "reasoning": "Derive a time-bounded administrative requirement, combine approval, strong authentication, just-in-time authorization, session logging, review, and recovery procedures, then test the emergency path.",
+      "situation": "A team needs emergency database administration without standing broad access.",
+      "takeaway": "No single tool satisfies the entire privileged-access requirement.",
+      "title": "Privileged database maintenance"
+    }
+  ]
+}
