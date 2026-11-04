@@ -245,18 +245,18 @@ export function useLearningDataset<T>({
       setHasInitialCopy(adoptionSource.current !== null || guestAvailable);
       if (!owner) {
         if (!active()) return;
-        blocked.current = !!guestIssue;
+        blocked.current = true;
         setView({
           key,
           state: guest.current || empty(),
-          ready: true,
+          ready: false,
           issue: guestIssue,
           initialized: true,
           needsInitialization: false,
           incompleteImport: false,
           recovery: false,
         });
-        setStatus('local');
+        setStatus('loading');
         return;
       }
       let cached: { state: T; dirty: boolean } | null = null;
@@ -270,15 +270,29 @@ export function useLearningDataset<T>({
             'The account recovery copy on this device is unreadable and preserved. Export its untouched record before explicitly replacing it.';
         }
       }
+      let attemptedEmptyInitialization = false;
       try {
-        const { loadDataset } = await import('./cloud-store');
-        const loaded = await loadDataset(
+        const { loadDataset, adoptDataset } = await import('./cloud-store');
+        let loaded = await loadDataset(
           account.runtime!.db,
           account.user!.uid,
           dataset,
           validate,
         );
         if (!active()) return;
+        // Only create a new account dataset when there is no existing work to
+        // reconcile. The transaction refuses to overwrite concurrent creation.
+        if (!loaded && !guestAvailable && !guestIssue && !cached && !unreadableCache.current) {
+          attemptedEmptyInitialization = true;
+          loaded = await adoptDataset(
+            account.runtime!.db,
+            account.user!.uid,
+            dataset,
+            validate(empty()),
+            validate,
+          );
+          if (!active()) return;
+        }
         cloud.current = loaded;
         base.current = loaded;
         lastSaveAt.current = Date.now();
@@ -301,6 +315,10 @@ export function useLearningDataset<T>({
           setStatus('error');
           return;
         }
+        if (!loaded && cached) {
+          adoptionSource.current = cached.state;
+          setHasInitialCopy(true);
+        }
         blocked.current = false;
         setView({
           key,
@@ -316,6 +334,31 @@ export function useLearningDataset<T>({
         if (loaded) persistCache(loaded, false);
       } catch (error) {
         if (!active()) return;
+        if (attemptedEmptyInitialization) {
+          try {
+            const { loadDataset } = await import('./cloud-store');
+            const winner = await loadDataset(
+              account.runtime!.db,
+              account.user!.uid,
+              dataset,
+              validate,
+            );
+            if (!active()) return;
+            if (winner) {
+              cloud.current = winner;
+              base.current = winner;
+              lastSaveAt.current = Date.now();
+              blocked.current = false;
+              setView({ key, state: winner, ready: true, issue: '', initialized: true, needsInitialization: false, incompleteImport: false, recovery: false });
+              setStatus('saved');
+              persistCache(winner, false);
+              return;
+            }
+          } catch {
+            // Keep the original initialization error below; reload is only a
+            // recovery attempt and must never mask the cause of failure.
+          }
+        }
         const incomplete =
           error instanceof Error && error.name === 'IncompleteImportError';
         if (cached) {
@@ -457,18 +500,6 @@ export function useLearningDataset<T>({
   useEffect(() => {
     if (!validForKey || !view.ready || blocked.current) return;
     if (!owner) {
-      if (account.phase !== 'guest') return;
-      try {
-        localStorage.setItem(legacyKey, JSON.stringify(view.state));
-      } catch {
-        blocked.current = true;
-        updateIssue(
-          'This browser could not save the latest changes. Export a backup before leaving.',
-        );
-        queueMicrotask(() => {
-          if (currentKey.current === key) setStatus('error');
-        });
-      }
       return;
     }
     if (
@@ -664,9 +695,9 @@ export function useLearningDataset<T>({
           'A local backup cannot replace existing account progress. Sign out to restore a guest backup, then explicitly copy into an uninitialized account dataset.',
         );
       const validated = validate(next);
-      blocked.current = false;
-      setView((old) => ({ ...old, state: validated, issue: '', ready: true }));
-      setStatus('local');
+      blocked.current = true;
+      setView((old) => ({ ...old, state: validated, issue: '', ready: false }));
+      setStatus('loading');
     },
     [owner, account.phase, validate],
   );

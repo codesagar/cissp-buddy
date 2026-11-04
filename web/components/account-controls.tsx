@@ -39,7 +39,7 @@ export type AccountControlsProps = {
   onCopyAccountId?: () => void;
 };
 const labels: Record<AccountSaveStatus, string> = {
-  local: 'Saved in this browser',
+  local: 'Sign in to save your learning',
   loading: 'Restoring account progress…',
   saving: 'Saving to your account…',
   saved: 'Saved to your account',
@@ -80,6 +80,7 @@ export function AccountControls({
         : 'Save your learning';
   const needsAttention =
     attention ||
+    phase === 'guest' ||
     checking ||
     !!issue ||
     phase === 'unauthorized' ||
@@ -103,7 +104,7 @@ export function AccountControls({
           </span>
         </span>
         <span className="account-save-status">
-          {phase === 'owner' ? labels[status] : 'Saved in this browser'}
+          {phase === 'owner' ? labels[status] : 'Sign in to save your learning'}
         </span>
       </span>
     ) : (
@@ -118,7 +119,7 @@ export function AccountControls({
           <output>Restoring your identity and saved progress…</output>
         )}
         {phase === 'guest' && (
-          <span className="account-save-status">Learning in this browser</span>
+          <span className="account-save-status">Sign in to save your learning</span>
         )}
         {phase === 'owner' && (
           <output className="account-save-status">{labels[status]}</output>
@@ -130,7 +131,7 @@ export function AccountControls({
         )}
         {!needsAttention && (
           <span className="account-disclosure-label">
-            {phase === 'guest' ? 'Sign-in & backups' : 'Account options'}
+            Account options
           </span>
         )}
       </h2>
@@ -147,8 +148,8 @@ export function AccountControls({
           {phase === 'guest' && (
             <p>
               {configured
-                ? 'Study locally, or sign in to restore your learning across devices.'
-                : 'Cloud saving is not configured yet. You can keep learning and export a local backup.'}
+                ? 'Sign in with Google to save and resume your learning across devices.'
+                : 'Google sign-in is currently unavailable. Please try again later.'}
             </p>
           )}
           {phase === 'unauthorized' && (
@@ -281,7 +282,7 @@ export function AccountControls({
           <summary
             aria-label={
               toolbar
-                ? `${phase === 'owner' ? identity || 'Account' : 'Account'}: ${signingIn ? 'Signing in…; ' : ''}${phase === 'owner' ? labels[status] : 'Saved in this browser'}`
+                ? `${phase === 'owner' ? identity || 'Account' : 'Account'}: ${signingIn ? 'Signing in…; ' : ''}${phase === 'owner' ? labels[status] : 'Sign in to save your learning'}`
                 : undefined
             }
           >

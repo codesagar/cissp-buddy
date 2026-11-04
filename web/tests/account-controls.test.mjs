@@ -19,7 +19,7 @@ const render = (props) =>
   );
 test('unconfigured study does not advertise available cloud sign-in or claim account persistence', () => {
   const html = render({ configured: false });
-  assert.match(html, /Cloud saving is not configured/);
+  assert.match(html, /Google sign-in is currently unavailable/);
   assert.doesNotMatch(html, /Sign in with Google|Saved to your account/);
 });
 test('an unresolved save blocks sign-out and retains an export recovery action', () => {
@@ -96,15 +96,13 @@ test('everyday account identity and save status remain visible in a native compa
   assert.match(html, /<\/summary>.*Export current progress.*Personal-device/s);
 });
 
-test('guest sign-in remains available through a native disclosure and backup context opens it', () => {
-  const compact = render();
-  assert.match(compact, /<details class="account-options">/);
-  assert.match(compact, /Sign-in &amp; backups/);
-  assert.match(compact, /<\/summary>.*Remember me.*Sign in with Google/s);
-  assert.match(
-    render({ expanded: true }),
-    /<details class="account-options" open="">/,
-  );
+test('guest sign-in is immediately visible without offering local saving', () => {
+  for (const variant of ['panel', 'toolbar']) {
+    const html = render({ variant });
+    assert.doesNotMatch(html, /<details|<summary|Study locally|Saved in this browser/);
+    assert.match(html, /Sign in with Google/);
+    assert.match(html, /save and resume your learning across devices/);
+  }
 });
 
 test('offline and error states expose recovery without a collapsed disclosure', () => {
@@ -161,12 +159,7 @@ test('healthy toolbar exposes identity/save once and operations inside disclosur
     html,
     /<\/summary>.*Device recovery copies.*Sign out.*Export current progress/s,
   );
-  const guest = render({ variant: 'toolbar' });
-  assert.doesNotMatch(
-    guest,
-    /Save your learning|Learning in this browser|Sign-in &amp; backups/,
-  );
-  assert.match(guest, /<\/summary>.*Remember me.*Sign in with Google/s);
+
 });
 
 test('toolbar attention/restoration show full panel while settings can stay expanded', () => {
@@ -184,7 +177,7 @@ test('toolbar attention/restoration show full panel while settings can stay expa
     );
   }
   assert.match(
-    render({ expanded: true }),
+    render({ phase: 'owner', expanded: true }),
     /<details class="account-options" open="">/,
   );
 });
@@ -203,9 +196,5 @@ test('mobile toolbar surfaces pending work without adding another status badge',
     /aria-label="owner@example.test: Saving to your account…"/,
   );
   const signingIn = render({ variant: 'toolbar', signingIn: true });
-  assert.match(
-    signingIn,
-    /class="account-toolbar-title-mobile">Signing in…<\/span>/,
-  );
   assert.match(signingIn, /disabled="" aria-busy="true">Signing in…/);
 });

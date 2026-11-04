@@ -154,6 +154,7 @@ export default function Home() {
     validate,
     checkpoint: route,
   });
+  const account = useAccount();
   const { state, setState, ready, issue: storageIssue } = learning;
   const saveAllowed = !storageIssue;
   const mainRef = useRef<HTMLDivElement>(null);
@@ -421,7 +422,7 @@ export default function Home() {
           )}
           {!ready && (
             <output className="content-unavailable">
-              Opening your learning record…
+              {account.phase === 'guest' ? 'Sign in with Google above to save and resume your learning.' : 'Opening your learning record…'}
             </output>
           )}
           {ready && section === 'today' && (
@@ -462,7 +463,27 @@ export default function Home() {
               ready={ready}
             />
           )}{' '}
-          {ready && section === 'backup' && (
+          {!ready && section === 'backup' && account.phase !== 'guest' && (
+            <section className="content-unavailable">
+              <h2>Account progress is not loaded</h2>
+              <p>Sign in with the authorized Google account and retry before exporting current progress. You can export the untouched browser record for recovery.</p>
+              <button className="text-link" onClick={() => {
+                try {
+                  const raw = localStorage.getItem(STORAGE_KEY);
+                  const blob = new Blob([JSON.stringify({ pilot: raw }, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'cissp-pilot-stored-recovery.json';
+                  link.click();
+                  setTimeout(() => URL.revokeObjectURL(url), 1000);
+                } catch {
+                  setPracticeIssue('The browser blocked access to the untouched recovery record.');
+                }
+              }}>Export untouched browser record</button>
+            </section>
+          )}
+          {(ready || account.phase === 'guest') && section === 'backup' && (
             <Backup
               state={state}
               onRestore={learning.replaceLocal}

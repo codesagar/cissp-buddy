@@ -8,7 +8,7 @@ web
 
 ## Record Scope and Decision Precedence
 
-This record describes the single-owner learning MVP, including optional Firebase continuity. The personal-cloud execution record separates automated checks, sampled browser acceptance, and verified live deployment. Historical pilot proposals and delivery reports remain evidence of earlier stages, not current release acceptance.
+This record describes the single-owner learning MVP, including Google sign-in and Firebase continuity. The personal-cloud execution record separates automated checks, sampled browser acceptance, and verified live deployment. Historical pilot proposals and delivery reports remain evidence of earlier stages, not current release acceptance.
 
 - `planning/refined-proposal.md` establishes the product purpose, core workflows, and pilot boundaries.
 - `planning/design-v3/learning-design-decisions.md` records the September 6 learning-model decisions. These supersede earlier proposals for a separate assessment at every concept node and remain requirements for future implementation.
@@ -19,7 +19,7 @@ This record describes the single-owner learning MVP, including optional Firebase
 
 CISSP learners who need to understand security concepts, connect related ideas, apply distinctions in scenarios, and revisit weaknesses. The product supports individual study in short, resumable sessions.
 
-This is a single-owner application. Guest progress stays in the current browser and origin. Optional Google sign-in and Firestore continuity are restricted to one approved Firebase UID by database rules. Export/import remains the bridge for guest records and recovery. Public multi-user access, roles, and administrative features are deferred. Firebase Spark with no linked billing account is the operating constraint.
+This is a single-owner application. Google sign-in is required for saved learning. Firestore access is restricted to one approved Firebase UID by database rules. Existing browser records and backups remain available for recovery. Public multi-user access, roles, and administrative features are deferred. Firebase Spark with no linked billing account is the operating constraint.
 
 ## Product Purpose
 
@@ -87,7 +87,7 @@ Historical planning documents named in this record remain in the original produc
 3. Separate activity from assessment evidence and repeated exposure from unseen-scenario performance.
 4. Preserve learner orientation, saved work, and access to explanations across navigation and review.
 5. Expand through coherent, validated learning units without implying coverage or effectiveness beyond the evidence.
-6. Keep maintenance simple for a beginner: understandable React/TypeScript, ordinary functions, static deployment, and minimal dependencies. Use local persistence, optional owner-only managed continuity, and ordinary last-write-wins behavior. Do not add speculative abstractions, conflict resolution, event sourcing, queues, microservices, a state-management framework, or an adaptive-learning engine without a concrete authorized product need.
+6. Keep maintenance simple for a beginner: understandable React/TypeScript, ordinary functions, static deployment, and minimal dependencies. Use owner-only managed continuity, scoped recovery copies, and ordinary last-write-wins behavior. Do not add speculative abstractions, conflict resolution, event sourcing, queues, microservices, a state-management framework, or an adaptive-learning engine without a concrete authorized product need.
 
 7. Keep the interface focused on the current learning task: one primary action, concise navigation, quiet system typography and minimal repeated framing. Disclose optional history, playback and supporting detail. Keep actual case facts, readable explanations, feedback, saving problems and recovery actions prominent.
 

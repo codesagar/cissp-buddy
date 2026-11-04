@@ -374,6 +374,25 @@ run(
 );
 
 run(
+  'concurrent empty-account initialization converges without replacing the winning record',
+  async () => {
+    const source = emptyLearnerState();
+    const results = await Promise.allSettled([
+      adoptDataset(db, ownerUid, 'course', source, validateLearnerState),
+      adoptDataset(db, ownerUid, 'course', source, validateLearnerState),
+    ]);
+    assert.equal(results.filter((result) => result.status === 'fulfilled').length, 1);
+    assert.equal(results.filter((result) => result.status === 'rejected').length, 1);
+    const rejected = results.find((result) => result.status === 'rejected');
+    assert.match(rejected.reason.message, /already initialized/i);
+    assert.deepEqual(
+      await loadDataset(db, ownerUid, 'course', validateLearnerState),
+      source,
+    );
+  },
+);
+
+run(
   'interrupted multi-batch adoption stays non-ready and resumes only its exact original source',
   async () => {
     const source = history(320, { blockedFinal: true });

@@ -48,13 +48,7 @@ GitHub Pages receives only `web/dist/`. The publication checkout has `.github/wo
 
 Root hosting uses `/`; a project site uses `/<repository>/`. Build with Vite's `--base=/<repository>/` for that path. Assets, content, favicons, and course↔pilot links use `import.meta.env.BASE_URL`. Both `/<repository>/#/today` and `/<repository>/pilot/#/practice` are supported.
 
-Progress belongs to the current browser and origin. The main course retains `cissp-buddy:course:v1`; the pilot retains `cissp-buddy:v1`. A different address cannot automatically read your old progress. Before moving:
-
-1. Open **Settings & backups** at the old address and export a combined backup.
-2. Open that page at the new address and select the exported file.
-3. Inspect the validation result and explicitly replace the local records.
-
-Existing pilot backups also remain supported. Invalid imports and unreadable records are preserved until validated replacement. Export untouched records for recovery when offered. Storage failures are visible; export your in-memory work before leaving if saving fails. Two localStorage keys cannot provide guaranteed atomic replacement during abrupt interruption or a persistent rollback failure.
+Google sign-in is required to save and resume learning. Only the configured owner can access the account history. Existing browser records and backups remain available for explicit recovery; they are not automatically overwritten. A different browser origin cannot read older browser records, so export them at their original address when needed. Invalid records are preserved and pending saves remain visible. Remember-me uses a scoped browser recovery copy for interrupted saves.
 
 ## Evidence and content
 
@@ -68,7 +62,7 @@ Authoring inputs and maintenance instructions are in [the content system](docs/c
 
 An already loaded lesson can remain usable through a brief connection loss. Full offline reload support is not promised. Failed content loads offer retry without altering learner data.
 
-Optional owner-only Firebase continuity is included. Public multi-user access, roles, and administration remain deferred. The personal-cloud execution record distinguishes local acceptance from the latest verified deployment. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
+Owner-only Firebase continuity is included. Public multi-user access, roles, and administration remain deferred. The personal-cloud execution record distinguishes local acceptance from the latest verified deployment. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
 
 AI review, automated rendering/model checks, and sampled browser interaction do not establish educational effectiveness, human-expert endorsement, official ISC2 training, or comprehensive accessibility certification. Human learner and subject-expert review remain outstanding.
 
@@ -90,7 +84,7 @@ Restart the local dev server after this command so its staged public configurati
 npx firebase deploy --config outputs/firebase-setup/firebase.production.json --only firestore:rules,firestore:indexes --project cissp-buddy
 ```
 
-Complete owner setup and browser acceptance before publishing the website branch. On the live address, export existing browser progress first, sign in, and explicitly choose to copy browser progress. Do not initialize an empty cloud account from a fresh local preview if the live browser contains the history you want to adopt. Course and pilot adoption are separate. Importing a backup does not replace an initialized cloud account.
+Complete owner setup and browser acceptance before publishing the website branch. On the live address, sign in; if older browser progress exists, export it and follow the recovery choice before initializing the account. Do not initialize an empty cloud account from a fresh local preview if the live browser contains the history you want to adopt. Course and pilot adoption are separate. Importing a backup does not replace an initialized cloud account.
 
 Only the approved UID can access learning documents. Another Google account can authenticate but cannot read or write this owner's history. Shared-device mode uses session authentication and memory-only learning state. Remember-me mode uses persistent authentication and a UID-scoped local recovery copy; those copies remain after sign-out, so use it only on a personal device. Pending/failed saves remain visible and exportable. Damaged recovery records are retained until explicit validated replacement. Pilot timers checkpoint about every 15 seconds.
 
