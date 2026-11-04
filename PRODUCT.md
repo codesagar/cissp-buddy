@@ -19,7 +19,7 @@ This record describes the single-owner learning MVP, including Google sign-in an
 
 CISSP learners who need to understand security concepts, connect related ideas, apply distinctions in scenarios, and revisit weaknesses. The product supports individual study in short, resumable sessions.
 
-This is a single-owner application. Google sign-in is required for saved learning. Firestore access is restricted to one approved Firebase UID by database rules. Existing browser records and backups remain available for recovery. Public multi-user access, roles, and administrative features are deferred. Firebase Spark with no linked billing account is the operating constraint.
+This is a single-owner application. Google sign-in is required for saved learning. Firestore access is restricted to one approved Firebase UID by database rules. The current deployment starts with fresh account datasets; legacy browser records are not migrated. Public multi-user access, roles, and administrative features are deferred. Firebase Spark with no linked billing account is the operating constraint.
 
 ## Product Purpose
 
@@ -34,7 +34,7 @@ The product combines visual explanations, a connected curriculum map, scenario p
 ## Operating Context
 
 - The main course connects Today, Curriculum, Practice & review, Connections, and Saved progress & preferences through hash navigation. The original ten-lesson experience remains a separate static `/pilot/` entry.
-- React, TypeScript, and plain Vite produce static files for GitHub Pages. There is no custom application server or server API. Optional Firebase Authentication and Firestore provide managed identity and private learning persistence; curriculum stays static. The build needs sibling `knowledge/` authoring inputs; reference PDFs in `resources/` are excluded.
+- React, TypeScript, and plain Vite produce static files for GitHub Pages. There is no custom application server or server API. Firebase Authentication and Firestore provide required managed identity and private learning persistence; curriculum stays static. The build needs sibling `knowledge/` authoring inputs; reference PDFs in `resources/` are excluded.
 - Keep the established visual teaching system and components. Desktop and mobile use the same learning model. Short resumable sessions are a product intention, not a measured learning outcome.
 - A loaded lesson can remain usable during a brief connection loss. Full offline reload support is not promised. Content failures must leave learner data untouched and offer retry/recovery.
 
@@ -48,17 +48,17 @@ The product combines visual explanations, a connected curriculum map, scenario p
 - Today and Practice derive a latest-response summary for current named unit checks, preserving compatible older-release IDs and earlier attempts. Incorrect, assisted, uncertain, and unanswered responses remain distinct. Unit review scheduling governs repair actions, so a completed changed retry is respected even while an earlier response remains in history. Connection evidence stays separate from unit-check denominators.
 - Keep unit visits, correct unassisted answers to named checks, assisted answers, uncertainty, repeated exposure, review needs, unanswered checks, and concepts without directly scoped checks distinct. Do not infer mastery, exam readiness, or unseen-scenario performance.
 - Preserve mistake/assistance scheduling and changed-case retry behavior. Mistakes, guesses, and assisted answers remain due; successful reviews use the existing bounded schedule. These intervals are transparent product rules, not validated mastery criteria.
-- Preserve `cissp-buddy:course:v1`, `cissp-buddy:v1`, existing pilot backups, and combined backups. Retain question snapshots, semantic IDs, assistance/uncertainty flags, notes, dates, saved stages/steps/variants/exploration, and unfinished pilot quizzes.
-- Invalid stored data remains available for untouched-record export until an explicitly selected valid replacement. Storage failures must be visible; in-memory work can be exported when persistent storage is unavailable.
+- Retain question snapshots, semantic IDs, assistance/uncertainty flags, notes, dates, saved stages/steps/variants/exploration, and unfinished pilot quizzes in Firebase. New deployments start with fresh account datasets; legacy browser progress is not migrated.
+- Firebase save failures must be visible and retryable. No user-facing local guest, backup, export/import, or migration workflow is provided.
 - Shared teaching content is deterministic generated JSON, packaged as a small manifest and release-specific lazy unit/case files. The pilot curriculum loads only on its own page. Published question semantics and release identities are immutable.
 
-### Optional owner continuity
+### Google and Firebase learning
 
 - Google sign-in identifies the owner. Only the configured UID can read/write its private Firestore paths; all other users and unknown collections are denied. An empty owner UID allows account setup without reading or uploading learning records.
-- Initial upload requires explicit adoption of browser progress. Guest keys stay untouched. Main course and pilot are adopted separately; populated cloud data is not silently replaced by an imported backup.
+- A new account initializes empty Firebase datasets automatically. Existing Firebase records are loaded and are never silently replaced.
 - Hydrate and validate complete cloud records before enabling edits. Keep submitted answer snapshots separate from mutable positions, review dates, and notes. Do not call a denied or offline read an empty account.
-- Shared-device mode keeps account learning in memory and uses session authentication. Remember-me mode keeps scoped local recovery copies; signing out clears rendered account data and SDK memory but retains those personal-device copies. This is not secure erasure.
-- Unconfirmed saves remain visible and exportable. Interrupted initial adoption resumes only from the same validated source. A different initial source requires recovery rather than silent merging. Full offline reload and automatic conflict resolution are not promised. Pilot timer checkpoints can lag by up to 15 seconds.
+- Google sign-in uses persistent browser authentication. Learning progress is stored in Firebase; unconfirmed changes remain in memory until saved.
+- Unconfirmed saves remain visible and retryable while the page stays open. Full offline reload and automatic conflict resolution are not promised. Pilot timer checkpoints can lag by up to 15 seconds.
 
 ### Deferred scope and evidence limits
 

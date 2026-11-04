@@ -40,9 +40,7 @@ export function getFirebaseConfiguration(): Promise<FirebaseConfiguration | null
 }
 
 /** The SDK is downloaded only when cloud config is enabled; curriculum stays static. */
-export async function getFirebaseRuntime(
-  remember: boolean,
-): Promise<FirebaseRuntime | null> {
+export async function getFirebaseRuntime(): Promise<FirebaseRuntime | null> {
   if (!runtime) {
     runtime = (async () => {
       const config = await getFirebaseConfiguration();
@@ -85,11 +83,10 @@ export async function getFirebaseRuntime(
       const {
         setPersistence,
         browserLocalPersistence,
-        browserSessionPersistence,
       } = await import('firebase/auth');
       await setPersistence(
         result.auth,
-        remember ? browserLocalPersistence : browserSessionPersistence,
+        browserLocalPersistence,
       );
     });
   await persistence;

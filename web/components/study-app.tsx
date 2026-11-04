@@ -24,8 +24,6 @@ import {
   Clock3,
   Leaf,
   Search,
-  Download,
-  Upload,
   Check,
   ChevronRight,
   RotateCcw,
@@ -62,16 +60,6 @@ import {
 } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from '@/components/ui/alert-dialog';
 import { ConceptVisual } from '@/components/concept-visual';
 import { useCurriculum } from '@/lib/content-provider';
 import { RecursiveMap } from '@/components/recursive-map';
@@ -82,7 +70,6 @@ import {
 } from '@/components/learning-blocks';
 import type { Lesson } from '@/lib/curriculum';
 import {
-  STORAGE_KEY,
   DAY,
   emptyState,
   validateBackup,
@@ -149,14 +136,12 @@ export default function Home() {
   );
   const learning = useLearningDataset({
     dataset: 'pilot',
-    legacyKey: STORAGE_KEY,
     empty: emptyState,
     validate,
     checkpoint: route,
   });
   const account = useAccount();
   const { state, setState, ready, issue: storageIssue } = learning;
-  const saveAllowed = !storageIssue;
   const mainRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef(state);
   useEffect(() => {
@@ -243,7 +228,7 @@ export default function Home() {
     register({
       name: 'read_study_progress',
       description:
-        'Read browser-local lesson coverage and practice counts. Does not estimate exam readiness.',
+        'Read saved lesson coverage and practice counts. Does not estimate exam readiness.',
       inputSchema: {
         type: 'object',
         properties: {},
@@ -345,7 +330,6 @@ export default function Home() {
         section={section}
         go={go}
         state={state}
-        isAccount={learning.isAccount}
       />
       <SidebarInset>
         <a
@@ -415,7 +399,7 @@ export default function Home() {
               <span>
                 {storageIssue}{' '}
                 <button className="text-link" onClick={() => go('backup')}>
-                  Manage backup
+                  Account status
                 </button>
               </span>
             </div>
@@ -463,43 +447,18 @@ export default function Home() {
               ready={ready}
             />
           )}{' '}
-          {!ready && section === 'backup' && account.phase !== 'guest' && (
+          {section === 'backup' && (
             <section className="content-unavailable">
-              <h2>Account progress is not loaded</h2>
-              <p>Sign in with the authorized Google account and retry before exporting current progress. You can export the untouched browser record for recovery.</p>
-              <button className="text-link" onClick={() => {
-                try {
-                  const raw = localStorage.getItem(STORAGE_KEY);
-                  const blob = new Blob([JSON.stringify({ pilot: raw }, null, 2)], { type: 'application/json' });
-                  const url = URL.createObjectURL(blob);
-                  const link = document.createElement('a');
-                  link.href = url;
-                  link.download = 'cissp-pilot-stored-recovery.json';
-                  link.click();
-                  setTimeout(() => URL.revokeObjectURL(url), 1000);
-                } catch {
-                  setPracticeIssue('The browser blocked access to the untouched recovery record.');
-                }
-              }}>Export untouched browser record</button>
+              <h1>Settings</h1>
+              <p>Appearance settings are available in the main course.</p>
+              <a href={appUrl('#/backup')}>Open settings</a>
             </section>
-          )}
-          {(ready || account.phase === 'guest') && section === 'backup' && (
-            <Backup
-              state={state}
-              onRestore={learning.replaceLocal}
-              saveAllowed={saveAllowed}
-            />
           )}
           <footer className="workspace-footer">
             <span>
               <Leaf size={13} /> A little wiser, every day.
             </span>
-            <button onClick={() => go('backup')}>
-              <ShieldCheck size={13} />{' '}
-              {learning.isAccount
-                ? 'Account progress · Backup'
-                : 'Saved in this browser · Backup'}
-            </button>
+            <a href={appUrl('#/backup')}>Settings</a>
           </footer>
         </div>
       </SidebarInset>
@@ -510,12 +469,10 @@ function SideNav({
   section,
   go,
   state,
-  isAccount,
 }: {
   section: string;
   go: Go;
   state: StudyState;
-  isAccount: boolean;
 }) {
   const { lessons } = useCurriculum();
   const now = useClock();
@@ -604,14 +561,7 @@ function SideNav({
         </a>
         <button className="local-note" onClick={() => navigate('backup')}>
           <ShieldCheck size={18} />
-          <span>
-            Your space to learn
-            <small>
-              {isAccount
-                ? 'Private progress belongs to your account'
-                : 'Progress stays in this browser'}
-            </small>
-          </span>
+          <span>Settings</span>
         </button>
       </SidebarFooter>
     </Sidebar>
@@ -2091,233 +2041,5 @@ function ReviewPanel({
         </button>
       </div>
     </div>
-  );
-}
-function Backup({
-  state,
-  onRestore,
-  saveAllowed,
-}: {
-  state: StudyState;
-  onRestore: (s: StudyState) => void;
-  saveAllowed: boolean;
-}) {
-  const account = useAccount();
-  const { lessons, questions } = useCurriculum();
-  const conceptIds = useMemo(() => lessons.map((l) => l.id), [lessons]);
-  const [pending, setPending] = useState<StudyState | null>(null),
-    [message, setMessage] = useState('');
-  const input = useRef<HTMLInputElement>(null);
-  const importSelection = useRef(0);
-  function exportBackup() {
-    const blob = new Blob(
-        [
-          JSON.stringify(
-            { app: 'CISSP Buddy', exportedAt: new Date().toISOString(), state },
-            null,
-            2,
-          ),
-        ],
-        { type: 'application/json' },
-      ),
-      url = URL.createObjectURL(blob),
-      a = document.createElement('a');
-    a.href = url;
-    a.download = `cissp-buddy-backup-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setMessage('Backup exported. Keep the file somewhere safe.');
-  }
-  async function importBackup(file: File | undefined) {
-    const selection = ++importSelection.current;
-    if (!file) return;
-    setPending(null);
-    try {
-      if (file.size > 10000000)
-        throw new Error(
-          'This file is too large. Choose a CISSP Buddy JSON backup under 10 MB.',
-        );
-      const candidate = validateBackup(
-        JSON.parse(await file.text()),
-        conceptIds,
-        questions,
-      );
-      if (selection !== importSelection.current) return;
-      setPending(candidate);
-      setMessage('');
-    } catch (e) {
-      if (selection !== importSelection.current) return;
-      setMessage(
-        e instanceof Error
-          ? e.message
-          : 'This backup could not be read. Your progress is unchanged.',
-      );
-    }
-    if (input.current) input.current.value = '';
-  }
-  return (
-    <>
-      <PageHeading
-        eyebrow="YOUR LEARNING, IN YOUR HANDS"
-        title={
-          <>
-            Keep your progress.
-            <br />
-            <em>Take it with you.</em>
-          </>
-        }
-        description={
-          account.phase === 'owner'
-            ? 'Export your signed-in account’s current pilot progress.'
-            : 'Your lessons, practice history, and takeaways are stored in this browser.'
-        }
-      />
-      <section className="backup-card">
-        <ShieldCheck size={32} />
-        <h2>
-          {saveAllowed
-            ? account.phase === 'owner'
-              ? 'Your account progress'
-              : 'Saved on this device'
-            : 'Saving needs attention'}
-        </h2>
-        <p>
-          {account.phase === 'owner'
-            ? 'Your validated pilot record is saved to your account when the save status confirms it. Local backup replacement is available after signing out; it never replaces an existing account history.'
-            : 'Guest progress stays in this browser. Export a backup to keep a copy or move it to another address.'}
-        </p>
-        <div className="backup-counts">
-          <span>
-            <strong>{state.completed.length}</strong> completed lessons
-          </span>
-          <span>
-            <strong>{state.attempts.length}</strong> answers
-          </span>
-          <span>
-            <strong>{state.notes.length}</strong> personal takeaways
-          </span>
-        </div>
-        <div className="button-row">
-          <button className="button" onClick={exportBackup}>
-            <Download size={16} /> Export backup
-          </button>
-          <button
-            className="button outline"
-            onClick={() => input.current?.click()}
-          >
-            <Upload size={16} /> Import backup
-          </button>
-          <button
-            className="button outline"
-            onClick={() => {
-              try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                const url = URL.createObjectURL(
-                  new Blob([JSON.stringify({ raw }, null, 2)], {
-                    type: 'application/json',
-                  }),
-                );
-                const anchor = document.createElement('a');
-                anchor.href = url;
-                anchor.download = 'cissp-pilot-stored-recovery.json';
-                anchor.click();
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-                setMessage(
-                  'Untouched stored record exported for recovery. This is a recovery copy, not a validated progress backup.',
-                );
-              } catch {
-                setMessage(
-                  'The browser blocked access to stored records. Export backup to preserve current in-memory work.',
-                );
-              }
-            }}
-          >
-            Export untouched stored record
-          </button>
-          <input
-            ref={input}
-            type="file"
-            accept="application/json,.json"
-            className="sr-only"
-            aria-label="Import progress backup"
-            onChange={(e) => void importBackup(e.target.files?.[0])}
-          />
-        </div>
-        {message && <output className="backup-message">{message}</output>}
-      </section>
-      <section className="coverage-note">
-        <span className="eyebrow">ABOUT THIS PILOT</span>
-        <h2>A focused foundation.</h2>
-        <p>
-          10 original lessons and 30 instructional scenarios explore identity
-          and access, with connections to risk and asset classification. This is
-          selected coverage of three domains, not a complete CISSP course or a
-          readiness assessment.
-        </p>
-        <p>
-          Explanations were AI source-checked against the references shown in
-          each lesson. They have not been independently expert-reviewed. Use
-          them alongside authoritative study material.
-        </p>
-        <a
-          href="https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline"
-          target="_blank"
-          rel="noreferrer"
-          className="text-link"
-        >
-          Official CISSP exam outline <ExternalLink size={14} />
-        </a>
-      </section>
-      {pending && account.phase !== 'guest' && (
-        <p className="notice">
-          This valid local backup cannot replace existing account history. Sign
-          out to restore it to guest learning, then explicitly copy it into an
-          uninitialized account dataset.
-        </p>
-      )}
-      <AlertDialog
-        open={!!pending && account.phase === 'guest'}
-        onOpenChange={(open) => {
-          if (!open) setPending(null);
-        }}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              Replace progress with this backup?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              This backup contains {pending?.completed.length} completed
-              lessons, {pending?.attempts.length} answers, and{' '}
-              {pending?.notes.length} takeaways. It replaces the progress in
-              this browser. Export your current progress first if you want to
-              keep both copies.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Keep current progress</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                if (pending) {
-                  try {
-                    onRestore(pending);
-                    setPending(null);
-                    setMessage(
-                      'Backup restored. Your learning history is ready.',
-                    );
-                  } catch {
-                    setMessage(
-                      'This browser could not write the backup. Current progress is unchanged; keep this page open and export it before trying again.',
-                    );
-                  }
-                }
-              }}
-            >
-              Restore backup
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
   );
 }

@@ -48,13 +48,13 @@ GitHub Pages receives only `web/dist/`. The publication checkout has `.github/wo
 
 Root hosting uses `/`; a project site uses `/<repository>/`. Build with Vite's `--base=/<repository>/` for that path. Assets, content, favicons, and course↔pilot links use `import.meta.env.BASE_URL`. Both `/<repository>/#/today` and `/<repository>/pilot/#/practice` are supported.
 
-Google sign-in is required to save and resume learning. Only the configured owner can access the account history. Existing browser records and backups remain available for explicit recovery; they are not automatically overwritten. A different browser origin cannot read older browser records, so export them at their original address when needed. Invalid records are preserved and pending saves remain visible. Remember-me uses a scoped browser recovery copy for interrupted saves.
+Google sign-in is required for all saved learning. Firebase is the only progress store. New deployments start with fresh account datasets; legacy browser records are not migrated. Settings contain appearance and learning preferences. Save failures remain visible and retryable.
 
 ## Evidence and content
 
 Understand → Predict → Transfer → Review connects each explanation with named assessments and exact repair feedback. Notes, stages, figure steps/variants, lab inputs, review dates, uncertainty, assistance, and unfinished pilot quizzes are retained. Today offers resume, due reviews, and an unanswered curriculum recommendation with a reason. Prerequisite visits indicate exposure, not mastery.
 
-Today links to an optional learning summary after answers are saved. Practice leads with due reviews and discloses the latest named unit-check evidence and optional domain choices. A later mistake or assisted response does not inherit an older success. Completed changed retries retain their scheduled review date. The review queue follows due dates, and domains with no unanswered predictions link to saved evidence. Routine sign-in/account actions are in the header’s **Account** control; expanded identity and save details remain available there. Errors, setup, and recovery stay prominent. Settings and backup tools are under **Settings & backups**.
+Today links to an optional learning summary after answers are saved. Practice leads with due reviews and discloses the latest named unit-check evidence and optional domain choices. A later mistake or assisted response does not inherit an older success. Completed changed retries retain their scheduled review date. The review queue follows due dates, and domains with no unanswered predictions link to saved evidence. Routine sign-in/account actions are in the header’s **Account** control; expanded identity and save details remain available there. Errors and save status stay visible. Settings contain appearance and learning preferences.
 
 The course explains 698 concepts across 892 unit/concept occurrences. Its 303 checks directly assess 448 distinct concepts. Visits, assisted answers, correct unassisted responses, repeated exposure, review needs, unanswered assessed material, and concepts without directly scoped checks remain distinct. No mastery or exam-readiness score is inferred.
 
@@ -62,13 +62,13 @@ Authoring inputs and maintenance instructions are in [the content system](docs/c
 
 An already loaded lesson can remain usable through a brief connection loss. Full offline reload support is not promised. Failed content loads offer retry without altering learner data.
 
-Owner-only Firebase continuity is included. Public multi-user access, roles, and administration remain deferred. The personal-cloud execution record distinguishes local acceptance from the latest verified deployment. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
+Owner-only Firebase learning is required. Public multi-user access, roles, and administration remain deferred. The personal-cloud execution record distinguishes local acceptance from the latest verified deployment. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
 
 AI review, automated rendering/model checks, and sampled browser interaction do not establish educational effectiveness, human-expert endorsement, official ISC2 training, or comprehensive accessibility certification. Human learner and subject-expert review remain outstanding.
 
 ## Owner-only Firebase setup
 
-The static curriculum still works without Firebase. The application uses Firebase Google Authentication and Firestore Standard on Spark, with no billing account, custom server, Cloud Functions, or Analytics SDK. Public SDK configuration lives in `public/firebase-config.json`; it contains no administrative credential. Keep service-account keys and personal backups out of source.
+The static curriculum is public; saving learning requires Firebase Google Authentication and Firestore Standard on Spark, with no billing account, custom server, Cloud Functions, or Analytics SDK. Public SDK configuration lives in `public/firebase-config.json`; it contains no administrative credential. Keep service-account keys out of source.
 
 For project `cissp-buddy`, enable Google sign-in, authorize `localhost` and `codesagar.github.io`, and create the default Firestore database in Production mode (`us-central1`). Do not enable billing. In the local preview, sign in only to obtain the displayed account ID while `ownerUid` is empty: setup mode cannot read or upload learning history.
 
@@ -84,9 +84,7 @@ Restart the local dev server after this command so its staged public configurati
 npx firebase deploy --config outputs/firebase-setup/firebase.production.json --only firestore:rules,firestore:indexes --project cissp-buddy
 ```
 
-Complete owner setup and browser acceptance before publishing the website branch. On the live address, sign in; if older browser progress exists, export it and follow the recovery choice before initializing the account. Do not initialize an empty cloud account from a fresh local preview if the live browser contains the history you want to adopt. Course and pilot adoption are separate. Importing a backup does not replace an initialized cloud account.
-
-Only the approved UID can access learning documents. Another Google account can authenticate but cannot read or write this owner's history. Shared-device mode uses session authentication and memory-only learning state. Remember-me mode uses persistent authentication and a UID-scoped local recovery copy; those copies remain after sign-out, so use it only on a personal device. Pending/failed saves remain visible and exportable. Damaged recovery records are retained until explicit validated replacement. Pilot timers checkpoint about every 15 seconds.
+Only the approved UID can access learning documents. Another Google account can authenticate but cannot read or write this owner's history. Firebase is the only learning-progress store; no local guest, backup export/import, or migration workflow is provided. Pending saves remain visible and retryable. Pilot timers checkpoint about every 15 seconds.
 
 Cloud tests use synthetic records and a `demo-` project; they require Java 21 and download the official Firebase emulators:
 
