@@ -29,7 +29,14 @@ npm run qa:final
 
 `qa:final` is the current static-release verification workflow. It writes new receipts under ignored `web/outputs/` and protects historical audit reports. It does not need D1, Wrangler, a local database, reference PDFs, or a manually prepared `/tmp` environment. Earlier delivery reports describe the application and evidence as they existed then.
 
-To inspect production files, serve `dist/` with an ordinary static server. Do not use an API or SPA fallback that could conceal missing JSON or the pilot entry. The retained static-server script and final release receipt document the verified preview command and port.
+To inspect production files, serve `dist/` with an ordinary static server. Do not use an API or SPA fallback that could conceal missing JSON or the pilot entry. Use the retained server:
+
+```sh
+npm run build
+npm start -- --port=4173
+```
+
+Open **http://127.0.0.1:4173/#/today** or **http://127.0.0.1:4173/pilot/#/practice**. For a project-path preview, build with `npm run build -- --base=/my-repository/`, then run `npm start -- --base=/my-repository/ --port=4174`.
 
 ## Hosting and progress
 
