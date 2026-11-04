@@ -38,9 +38,9 @@ const errorText = (error: unknown) =>
     : 'Account access is unavailable. Your browser progress is untouched.';
 function remembered() {
   try {
-    return localStorage.getItem(REMEMBER_KEY) === 'true';
+    return localStorage.getItem(REMEMBER_KEY) !== 'false';
   } catch {
-    return false;
+    return true;
   }
 }
 export function AccountProvider({ children }: { children: ReactNode }) {
@@ -141,7 +141,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
       await signInWithPopup(next.auth, provider);
     } catch (error) {
       setIssue(
-        `${errorText(error)} You can keep learning locally. Retry sign-in when ready.`,
+        `${errorText(error)} Retry sign-in when ready.`,
       );
     } finally {
       signingIn.current = false;
@@ -220,7 +220,6 @@ export function LearnerAccountPanel<T>({
 }) {
   const account = useAccount();
   const [copyStatus, setCopyStatus] = useState('');
-  if (!account.configured && !account.issue && variant === 'panel') return null;
   const needsAttention =
     !!account.issue ||
     !!learning.issue ||
@@ -315,7 +314,7 @@ export function LearnerAccountPanel<T>({
         onSignIn={() => void account.signIn()}
         onSignOut={() => void account.signOut()}
         onRetry={account.issue ? account.retryAccount : learning.retry}
-        onExport={learning.exportCurrent}
+        onExport={account.phase === 'owner' ? learning.exportCurrent : undefined}
         onCopyAccountId={
           account.user
             ? () => {

@@ -100,6 +100,7 @@ function useLearner() {
 }
 export default function CourseApp() {
   const learning = useLearner();
+  const account = useAccount();
   const { state, setState, ready, issue, restore, protectStoredRecords } =
     learning;
   const [manifest, setManifest] = useState<CourseManifest | null>(null);
@@ -300,10 +301,27 @@ export default function CourseApp() {
                 Try again
               </button>
             </div>
+          ) : page === 'backup' && account.phase === 'guest' ? (
+            <Backup state={state} setState={setState} restore={restore} protectStoredRecords={protectStoredRecords} />
+          ) : page === 'backup' && !ready ? (
+            <section className="course-empty">
+              <h1>Account progress is not loaded</h1>
+              <p>Sign in with the authorized Google account and retry before exporting current progress. You can export untouched browser records for recovery.</p>
+              <button className="course-secondary" onClick={() => {
+                try {
+                  download('cissp-stored-recovery.json', {
+                    course: localStorage.getItem(COURSE_STORAGE_KEY),
+                    pilot: localStorage.getItem('cissp-buddy:v1'),
+                  });
+                } catch {
+                  setError('The browser blocked access to untouched recovery records.');
+                }
+              }}>Export untouched browser records</button>
+            </section>
           ) : !manifest || !ready ? (
             <output className="course-empty">
-              <h1>Opening your learning space…</h1>
-              <p>Bringing in the course outline and your saved place.</p>
+              <h1>{account.phase === 'guest' ? 'Sign in to learn' : 'Opening your learning space…'}</h1>
+              <p>{account.phase === 'guest' ? 'Use Google sign-in above to save and resume your learning.' : 'Bringing in the course outline and your saved place.'}</p>
             </output>
           ) : page === 'unit' ? (
             <UnitView
@@ -1804,7 +1822,7 @@ function Backup({
                   if (pending.course) restore(pending.course);
                   setPending(null);
                   setMessage(
-                    'Backup restored. Your saved position and attempts are available.',
+                    'Backup restored for recovery. Sign in to copy it into an empty account.',
                   );
                 } catch (error) {
                   if (account.phase === 'guest')

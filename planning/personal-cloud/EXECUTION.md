@@ -120,3 +120,13 @@ Minimal UI release receipt (November 4, 2026):
 - Live: https://codesagar.github.io/cissp-buddy/#/today . Native Chrome Incognito confirmed the task-first Today with actual unit title, one Start action and compact account control; Practice showed the correct empty-review state and optional domain disclosure. Pilot practice loaded with its session control. Live HTML, all three entry/preload scripts and both stylesheets returned200; pilot returned200. Live smoke submitted no answers and signed into no real account. All consequential learning/recovery QA used synthetic data at an isolated local origin.
 - Tag: `cissp-buddy-minimal-ui-2026-11-04`. Temporary5194/5195static servers and demo emulators stopped; normal dev preview retained. Original working repositories and ancestry remain preserved.
 - Limits: actual browser sampling supplements exhaustive automated content inventory; no exhaustive visual/a11y certification or human-expert educational validation is claimed. Owner real-device continuity remains deferred.
+
+
+## Google-first learning — in progress
+
+| Task | Owner | Status | Evidence / unresolved issue |
+|---|---|---|---|
+| Require Google sign-in for learning | Main + Luna UI | Implemented | Guest writes gated; prior records retained for explicit recovery |
+| Safe initialization and recovery | Luna persistence + main | In review | 20 emulator tests pass including concurrent initialization and interrupted import; backup adoption review pending |
+| Browser and integrated QA | Main | In progress | Demo owner initialized, opened lesson and reloaded; physical device continuity deferred |
+| Release | Main | Pending | Independent review and Pages validation required |
