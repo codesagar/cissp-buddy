@@ -330,6 +330,7 @@ test('compact panel avoids duplicating action rows; full panel explains scope an
         manifest,
         now,
         compact,
+        showActions: !compact,
       }),
     );
   const full = render();
@@ -339,10 +340,7 @@ test('compact panel avoids duplicating action rows; full panel explains scope an
   assert.match(full, /Outcome or explanation revealed/);
   assert.match(full, /Incorrect, assisted or uncertain/);
   assert.match(full, /<p class="learning-evidence-check">Prediction<\/p>/);
-  assert.match(
-    full,
-    /<details class="learning-evidence-check"><summary>Which check\?<\/summary><code>prediction-1<\/code><\/details>/,
-  );
+  assert.equal((full.match(/<details/g) || []).length, 1);
   assert.doesNotMatch(full, /Named check:/);
   assert.match(
     full,
@@ -351,9 +349,9 @@ test('compact panel avoids duplicating action rows; full panel explains scope an
   assert.match(full, /Connection cases may assess some separately/);
   assert.match(full, /do not establish mastery or exam readiness/);
   const compact = render(true);
-  assert.match(compact, /Inspect evidence &amp; review/);
+  assert.match(compact, /Learning summary: 1 \/ 9 unit checks answered/);
   assert.doesNotMatch(compact, /learning-evidence-actions|Which check/);
-  assert.match(compact, /connection cases are separate/);
+  assert.doesNotMatch(compact, /<dl|<details|mastery/);
 });
 
 test('all-current and no-check states do not invent a further assessment or crash on a valid large timestamp', () => {
@@ -374,7 +372,40 @@ test('all-current and no-check states do not invent a further assessment or cras
   assert.match(noCheckHtml, /No directly scoped unit checks are available/);
   state = answer(undefined, { correct: false, at: Number.MAX_SAFE_INTEGER });
   const html = renderToStaticMarkup(
-    React.createElement(CourseLearningEvidence, { state, manifest, now }),
+    React.createElement(CourseLearningEvidence, {
+      state,
+      manifest,
+      now,
+      showActions: true,
+    }),
   );
   assert.match(html, /Date unavailable/);
+});
+
+test('ordinary summary has one disclosure, exact counts and no duplicate actions', () => {
+  const state = answer(undefined, { correct: false });
+  const html = renderToStaticMarkup(
+    React.createElement(CourseLearningEvidence, { state, manifest, now }),
+  );
+  assert.match(
+    html,
+    /<details class="course-learning-evidence"><summary>Learning summary<\/summary>/,
+  );
+  assert.equal((html.match(/<details/g) || []).length, 1);
+  assert.match(html, /Incorrect, assisted or uncertain<\/dt><dd>1 \/ 9 checks/);
+  assert.match(html, /Unanswered<\/dt><dd>8 \/ 9 checks/);
+  assert.doesNotMatch(html, /learning-evidence-actions|href="#\/unit/);
+  assert.match(html, /Earlier attempts remain in each unit’s review/);
+});
+
+test('compact summary is absent without attempts', () => {
+  const html = renderToStaticMarkup(
+    React.createElement(CourseLearningEvidence, {
+      state: emptyLearnerState(),
+      manifest,
+      now,
+      compact: true,
+    }),
+  );
+  assert.equal(html, '');
 });

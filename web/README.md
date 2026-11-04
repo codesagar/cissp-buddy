@@ -50,7 +50,7 @@ Root hosting uses `/`; a project site uses `/<repository>/`. Build with Vite's `
 
 Progress belongs to the current browser and origin. The main course retains `cissp-buddy:course:v1`; the pilot retains `cissp-buddy:v1`. A different address cannot automatically read your old progress. Before moving:
 
-1. Open **Saved progress & preferences** at the old address and export a combined backup.
+1. Open **Settings & backups** at the old address and export a combined backup.
 2. Open that page at the new address and select the exported file.
 3. Inspect the validation result and explicitly replace the local records.
 
@@ -60,7 +60,7 @@ Existing pilot backups also remain supported. Invalid imports and unreadable rec
 
 Understand → Predict → Transfer → Review connects each explanation with named assessments and exact repair feedback. Notes, stages, figure steps/variants, lab inputs, review dates, uncertainty, assistance, and unfinished pilot quizzes are retained. Today offers resume, due reviews, and an unanswered curriculum recommendation with a reason. Prerequisite visits indicate exposure, not mastery.
 
-Today has a compact latest-evidence summary; Practice explains the latest named unit-check responses and offers up to three reasoned actions. A later mistake or assisted response does not inherit an older success. Completed changed retries retain their scheduled review date. The review queue follows due dates, and domains with no unanswered predictions link to saved evidence. Routine sign-in/account actions are under **Sign-in & backups** or **Account options**; identity and save status remain visible, while errors, setup, and recovery stay expanded.
+Today has a compact latest-evidence summary; Practice explains the latest named unit-check responses and offers up to three reasoned actions. A later mistake or assisted response does not inherit an older success. Completed changed retries retain their scheduled review date. The review queue follows due dates, and domains with no unanswered predictions link to saved evidence. Routine sign-in/account actions are in the header’s **Account** control; expanded identity and save details remain available there. Errors, setup, and recovery stay prominent. Settings and backup tools are under **Settings & backups**.
 
 The course explains 698 concepts across 892 unit/concept occurrences. Its 303 checks directly assess 448 distinct concepts. Visits, assisted answers, correct unassisted responses, repeated exposure, review needs, unanswered assessed material, and concepts without directly scoped checks remain distinct. No mastery or exam-readiness score is inferred.
 
@@ -107,3 +107,5 @@ The normal test command skips emulator tests; `test:cloud` is a separate require
 The owner-only cloud release is live at the course/pilot links above. Release commit `b875753`, [successful Pages run](https://github.com/codesagar/cissp-buddy/actions/runs/41884413046). The [execution record](../planning/personal-cloud/EXECUTION.md) records real authorization, synthetic browser/recovery checks, clean-checkout validation, and limits. QA did not upload or replace the owner’s learning history.
 
 Latest learning refinement: application commit `65519a6`, [successful Pages run](https://github.com/codesagar/cissp-buddy/actions/runs/41892469239). Today/Practice now show latest-response evidence and reasoned actions, normal account controls are compact, and review ordering/exhausted-domain guidance are corrected. Verification includes 105 normal tests plus 19 cloud tests and isolated browser sampling. Real-device continuity remains owner-deferred.
+
+The minimal UI refinement removes repeated onboarding prose, domain grids and healthy-status cards from the study workspace. Today leads with one start/resume action. Practice uses one review queue; learning history and optional domain choices use disclosures. Lessons retain case facts and feedback while deferring inactive playback controls until the checkpoint is resolved. The source curriculum and progress formats are unchanged.
