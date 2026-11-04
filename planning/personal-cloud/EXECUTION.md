@@ -87,7 +87,7 @@ Refinement release receipt (November 4, 2026):
 - Production curriculum and learner data formats did not change. Runtime dependencies and lockfile did not change. Real-device continuity is explicitly deferred by the owner, not treated as a blocker.
 - Release tag: `cissp-buddy-learning-refinement-2026-11-04`. Source/default branch remains `codex/static-pages`. Temporary demo emulators/static QA server were stopped after acceptance; the normal dev preview remains available.
 
-## Minimal UI refinement — accepted; publication pending
+## Minimal UI refinement — shipped
 
 Baseline:d029cad; branch:codex/minimal-ui. User explicitly requests a modern, minimal, space-efficient interface. Three independent source audits agree on repeated framing, duplicate healthy-save surfaces, oversized editorial hierarchy, overlapping Practice actions, and stacked teaching controls. Main observed the live Today page confirming these repetitions.
 
@@ -100,7 +100,7 @@ Product decisions: task-first Today with one primary start/resume action; no rep
 | Practice, evidence and account presentation | ui_hierarchy_audit | Accepted | No duplicate action lists or healthy-save indicator; keyboard access and error/recovery states preserved |
 | Shared visual styling | ui_space_audit | Accepted | Restrained system typography; compact chrome; flat surfaces; no page overflow at400px; dark/focus intact |
 | Integration, independent review and browser acceptance | Main + fresh reviewers | Passed | Stable full gates plus actual isolated desktop/mobile interactions; no learner data changed |
-| Release and publication receipt | Main | Pending | Validated static artifact and live Pages smoke; real-device continuity remains deferred |
+| Release and publication receipt | Main | Deployed and verified | Feature CI41901237546 and Pages41901619827 passed; native live Today/Practice/pilot smoke passed; real-device continuity remains deferred |
 
 Independent UI reviews: source/SSR review found a premature cross-case takeaway on Today, unreachable mobile navigation through forward keyboard order, retained small teaching-prose overrides, and a wrapped-cancellation error race in the new Today loader. All were fixed and independently rechecked. Cross-case resume always uses neutral scenario text; both async callbacks guard canceled signals. Reviewer ran 43 focused checks; effect-race behavior is source-reviewed, not claimed as an executed React-effect test.
 
@@ -110,3 +110,13 @@ Main baseline screenshots confirmed oversized repeated framing. Native390x844 ch
 Minimal UI acceptance (November 4, 2026): main independently exercised the built static output on isolated port5195 with synthetic demo Auth/Firestore only. Native Chrome sampling covered Start, curriculum search (ethics returns one unit), lesson reveal, wrong prediction and repair, correct transfer, review, notes including clearing/reload, explicit guest-copy adoption, pending/offline save and reconnect, cross-case neutral resume, dark appearance, reduced motion, mobile menu/account keyboard focus,390x844 and1440x900 layouts, and actual200% zoom reflow. Reviews now uses the intended system typography; teaching facts remain readable. The healthy mobile header is60px; recovery expands when required. No production learner progress was changed. Screenshot receipts remain in native tool output, outside publication artifacts.
 
 Final stable qa:final passed all ten gates:121 normal tests plus19 cloud tests run separately, typecheck, lint, deterministic generation, all-model renderer, source-bound coverage, and strict static inventory/HTTP checks at root and project subpath. Both outputs contain90units,11connections,303checks and448directly assessed concepts; curriculum identity remains unchanged. Fresh utility and correctness reviewers rechecked their findings; none remains blocking/high. The wrapped-cancellation guard is source reviewed; no executed React-effect race test is claimed. Browser sampling is not exhaustive visual/accessibility certification, human educational review, or a real-device continuity check. Real-device continuity remains owner-deferred. No dependency, lockfile, learner schema, Firebase rule or generated JSON changes.
+
+
+Minimal UI release receipt (November 4, 2026):
+
+- Reviewed implementation: `6c1fec289194e62d363822a8d69aa1b20df195a7`; ordinary release merge: `0d7de4964b10523d64c45cea4c3e2b35d83816b9`.
+- Feature validation: https://github.com/codesagar/cissp-buddy/actions/runs/41901237546 — passed; deployment correctly skipped.
+- Release validation and Pages deployment: https://github.com/codesagar/cissp-buddy/actions/runs/41901619827 — passed with fresh npmci,121 normal tests and19 cloud tests, all ten final gates, production build and exact publication-output verification.
+- Live: https://codesagar.github.io/cissp-buddy/#/today . Native Chrome Incognito confirmed the task-first Today with actual unit title, one Start action and compact account control; Practice showed the correct empty-review state and optional domain disclosure. Pilot practice loaded with its session control. Live HTML, all three entry/preload scripts and both stylesheets returned200; pilot returned200. Live smoke submitted no answers and signed into no real account. All consequential learning/recovery QA used synthetic data at an isolated local origin.
+- Tag: `cissp-buddy-minimal-ui-2026-11-04`. Temporary5194/5195static servers and demo emulators stopped; normal dev preview retained. Original working repositories and ancestry remain preserved.
+- Limits: actual browser sampling supplements exhaustive automated content inventory; no exhaustive visual/a11y certification or human-expert educational validation is claimed. Owner real-device continuity remains deferred.
