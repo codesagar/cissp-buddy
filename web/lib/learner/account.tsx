@@ -232,6 +232,57 @@ export function LearnerAccountPanel<T>({
             : account.phase
         }
         configured={account.configured}
+        expanded={
+          typeof window !== 'undefined' &&
+          /^#\/backup(?:\/|$)/.test(window.location.hash)
+        }
+        attention={
+          learning.needsInitialization ||
+          learning.hasLocalRecovery ||
+          learning.cacheNeedsReplacement
+        }
+        detailsContent={
+          <>
+            {account.phase === 'owner' && account.remember && (
+              <p className="account-device-notice">
+                Personal-device recovery copies remain in this browser after
+                sign-out. Sign-out removes your account session and active view;
+                it does not securely erase those copies. Export unconfirmed work
+                before clearing browser site data.
+              </p>
+            )}
+            {copyStatus && (
+              <output className="account-copy-status">{copyStatus}</output>
+            )}
+            {account.phase === 'owner' && learning.pending && (
+              <div className="account-leave-actions">
+                <p>
+                  If you need to leave before account saving finishes, export
+                  the current record and keep the download. Account storage may
+                  still be incomplete.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    learning.exportCurrent();
+                    void account.signOut(true);
+                  }}
+                >
+                  Export backup and sign out
+                </button>
+              </div>
+            )}
+            {account.phase === 'owner' &&
+              learning.ready &&
+              learning.hasGuestData && (
+                <div className="account-guest-copy">
+                  <button type="button" onClick={learning.exportGuest}>
+                    Export separate browser guest progress
+                  </button>
+                </div>
+              )}
+          </>
+        }
         identity={account.user?.email || account.user?.displayName || undefined}
         accountId={account.user?.uid}
         remember={account.remember}
@@ -262,35 +313,6 @@ export function LearnerAccountPanel<T>({
             : undefined
         }
       />
-      {account.phase === 'owner' && account.remember && (
-        <p className="account-device-notice">
-          Personal-device recovery copies remain in this browser after sign-out.
-          Sign-out removes your account session and active view; it does not
-          securely erase those copies. Export unconfirmed work before clearing
-          browser site data.
-        </p>
-      )}
-      {copyStatus && (
-        <output className="account-copy-status">{copyStatus}</output>
-      )}
-      {account.phase === 'owner' && learning.pending && (
-        <div className="account-controls">
-          <p>
-            If you need to leave before account saving finishes, export the
-            current record and keep the download. Account storage may still be
-            incomplete.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              learning.exportCurrent();
-              void account.signOut(true);
-            }}
-          >
-            Export backup and sign out
-          </button>
-        </div>
-      )}
       {account.phase === 'owner' && learning.cacheNeedsReplacement && (
         <section className="account-controls">
           <h2>Preserved device recovery copy</h2>
@@ -375,13 +397,6 @@ export function LearnerAccountPanel<T>({
             </button>
           )}
         </section>
-      )}
-      {account.phase === 'owner' && learning.ready && learning.hasGuestData && (
-        <div className="account-guest-copy">
-          <button type="button" onClick={learning.exportGuest}>
-            Export separate browser guest progress
-          </button>
-        </div>
       )}
     </>
   );
