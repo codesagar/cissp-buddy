@@ -82,7 +82,7 @@ From `web/`, render rules for that owner:
 npm run firebase:owner -- --uid=YOUR_FIREBASE_UID
 ```
 
-This updates the public owner UID and renders reviewed rules into ignored `outputs/firebase-setup/firestore.owner.rules`. It does not deploy. The committed root rule template intentionally denies everyone. Publish the rendered rules in Firebase Console → Firestore Database → Rules, or, with the owner's authenticated Firebase CLI, deploy only rules/indexes using the generated configuration:
+Restart the local dev server after this command so its staged public configuration refreshes. This updates the public owner UID and renders reviewed rules into ignored `outputs/firebase-setup/firestore.owner.rules`. It does not deploy. The committed root rule template intentionally denies everyone. Publish the rendered rules in Firebase Console → Firestore Database → Rules, or, with the owner's authenticated Firebase CLI, deploy only rules/indexes using the generated configuration:
 
 ```sh
 npx firebase deploy --config outputs/firebase-setup/firebase.production.json --only firestore:rules,firestore:indexes --project cissp-buddy
@@ -101,3 +101,5 @@ npm audit --omit=dev
 ```
 
 The normal test command skips emulator tests; `test:cloud` is a separate required CI gate. Production runtime dependency audit currently has zero findings. Remaining moderate findings are in Firebase CLI development tooling and are tracked in `planning/personal-cloud/EXECUTION.md`; do not apply forced major-version audit fixes. Browser sign-in, emulator interaction, and real deployed synchronization are separate acceptance steps from these automated checks.
+
+The owner-only cloud release is live at the course/pilot links above. Release commit `b875753`, [successful Pages run](https://github.com/codesagar/cissp-buddy/actions/runs/41884413046). The [execution record](../planning/personal-cloud/EXECUTION.md) records real authorization, synthetic browser/recovery checks, clean-checkout validation, and limits. QA did not upload or replace the owner’s learning history.

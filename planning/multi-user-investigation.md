@@ -4,7 +4,7 @@ Date: November 4, 2026. Status: research/proposal only. No application code, dep
 
 ## Provider selection update
 
-The owner requested a fresh Supabase/Firebase comparison before proceeding. Provider-specific development and setup are on hold pending that choice. The earlier Firebase proposal below is retained as research, not a selected implementation. See [the current comparison](personal-cloud/provider-comparison.md). Provider-neutral record/UI groundwork continues; the live app is unchanged.
+Decision resolved: the owner selected Firebase. Owner-only Google Authentication and Firestore continuity have since been implemented and released. The investigation below remains historical proposal evidence; current behavior and acceptance are recorded in [the execution record](personal-cloud/EXECUTION.md) and web/README.md. See [the provider comparison](personal-cloud/provider-comparison.md) for the original tradeoffs.
 
 ## Confirmed MVP constraints — owner decision
 
