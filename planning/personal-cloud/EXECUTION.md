@@ -10,7 +10,7 @@ Constraints: one owner learner; Google sign-in; Firebase Spark with no billing l
 | Account UI/course/pilot integration | UI worker | Implemented; browser acceptance pending | Shared/session versus remembered device; explicit adoption; no cloud calls in setup mode; corrupt recovery preservation; sign-in duplicate guard |
 | Owner-only rules and isolated test runner | Rules worker | Implemented; independent review resolved | Parent independently reran19 emulator rules/store tests:19pass; all913 options across303 checks; otherUID/anonymous denied; default template deny-all |
 | SDK/build/publication integration | Main | Implemented | Firebase13.2.0; CLI15.34.2; Java21; SDK lazy-loaded; no Analytics; PR/push cloud gate; personal-cloud deployment excluded; static public config validation |
-| Owner setup | Owner + main | Partly complete | Projectcissp-buddy; Google enabled; localhost/codesagar.github.io verified; Standard(default) us-central1 Production database; Spark no-cost confirmed. Remaining: first Google sign-in UID, owner rules publication |
+| Owner setup | Owner + main | Partly complete | Projectcissp-buddy; Google enabled; localhost/codesagar.github.io verified; Standard(default) us-central1 Production database; Spark no-cost confirmed. Owner sign-in verified; UID configured and rendered rules independently checked. Remaining: owner rules publication |
 | Independent security/recovery review | Fresh reviewer | Findings fixed and rechecked | Corrupt UIDcache overwrite and pilot note resurrection fixed;22pure tests independently passed; PR trigger gap fixed; publication inventory122files with0prohibited artifacts; final reviewer9targeted tests+root static verifier passed |
 | Integrated static/model/content gates | Main | Complete automated gate | Final qa:final passed10stages after UI/config changes: generation,types,lint,tests,744renderstates,coverage,root/subpathbuilds+strictHTTP; final receipt web/outputs/static-qa/validation.json |
 | Native browser account/recovery acceptance | Main | Pending | Setup page visually observed; native AX sign-in activation did not produce popup/status. Owner sign-in still required. Automated/emulator success is not browser acceptance |
@@ -18,7 +18,7 @@ Constraints: one owner learner; Google sign-in; Firebase Spark with no billing l
 
 ## Current safety boundaries
 
-Real public SDK configuration has enabled:true, ownerUid:empty, emulators:false. Empty owner UID permits Authentication setup only, not cloud learning reads/writes. Unauthenticated real Firestore request returned403. No production learning record was created/modified during QA. Root firestore.rules intentionally denies everyone until rendered for the owner; rendering is offline and does not deploy. Owner must complete normal Google account/consent steps. The setup preview is http://localhost:5177/#/backup.
+Real public SDK configuration has enabled:true, ownerUid:oJhawRwICcZYOHqRBGqUz4Ljo9G2, emulators:false. First owner Google sign-in was verified. Previously empty owner UID permitted Authentication setup only, without learning reads/writes. Owner-specific rules are rendered locally and await publication; no learning upload was performed. Unauthenticated real Firestore request returned403. No production learning record was created/modified during QA. Root firestore.rules intentionally denies everyone until rendered for the owner; rendering is offline and does not deploy. Owner must complete normal Google account/consent steps. The setup preview is http://localhost:5177/#/backup.
 
 Existing browser history belongs to its origin. Export live progress before adopting it. Main/pilot adoption are explicit and separate. Never select Start fresh on a new local origin as a substitute for carrying existing live history. Populated cloud account replacement is deliberately unsupported in this MVP.
 
@@ -28,7 +28,7 @@ Current npm audit --omit=dev:0findings. Full audit:16moderate,0high/critical; re
 
 ## Acceptance limits
 
-No claim of educational effectiveness or human expert review. Exhaustive automated content/model inventory is separate from sampled browser interaction. Real Google sign-in, production owner rule publication, deployed cloud restore, reboot/relogin, and account UX browser QA remain unaccepted. Historical static delivery reports are unchanged. All completed implementation stays on codex/personal-cloud until these gates close.
+No claim of educational effectiveness or human expert review. Exhaustive automated content/model inventory is separate from sampled browser interaction. Real Google sign-in and exact owner rendering are verified. Production owner rule publication, deployed cloud restore, reboot/relogin, and account UX browser QA remain unaccepted. Historical static delivery reports are unchanged. All completed implementation stays on codex/personal-cloud until these gates close.
 
 Final normal test receipt tail (cloud emulator cases run separately):
 
@@ -61,3 +61,5 @@ npm notice run cissp-buddy@0.1.0 test
 npm notice run node --experimental-strip-types --test tests/*.test.mjs
 
 ```
+
+Owner rendering independent review: exact template substitution only; SHA256 bf5a8bd5138bca1ccfe2486b5a5e910a862f39a66422885f02bac3c92d7d44b4. No rule deployment performed. Console publication requested from owner.
