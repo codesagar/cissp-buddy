@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o05-retention-disposal-gates",
+  "unitId": "d2-o05-retention-disposal",
+  "type": "flowchart",
+  "title": "Two gates before media leaves custody",
+  "teachingQuestion": "What must be true before retained information or its media can leave organizational custody?",
+  "focalInsight": "A due date is not disposal authority, and completed sanitization is not automatically an acceptable outcome.",
+  "caption": "The first gate checks preservation duties. The second validates sanitization evidence. Separate records, replicas and backups must remain within the authorized scope.",
+  "nodes": [
+    {
+      "id": "due",
+      "label": "Disposition becomes due",
+      "conceptIds": [
+        "retention"
+      ],
+      "detail": "A documented retention rule identifies the trigger and authorized scope."
+    },
+    {
+      "id": "hold",
+      "label": "Preservation duty?",
+      "conceptIds": [
+        "legal-hold"
+      ],
+      "detail": "Check whether a scoped legal hold or other preservation obligation still blocks disposition."
+    },
+    {
+      "id": "preserve",
+      "label": "Preserve and restrict",
+      "conceptIds": [
+        "legal-hold",
+        "retention"
+      ],
+      "detail": "Retain the affected scope with appropriate access protection until the responsible authority releases the duty."
+    },
+    {
+      "id": "sanitize",
+      "label": "Authorize and sanitize",
+      "conceptIds": [
+        "disposal",
+        "media-sanitization",
+        "data-remanence"
+      ],
+      "detail": "Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data."
+    },
+    {
+      "id": "accept",
+      "label": "Outcome acceptable?",
+      "conceptIds": [
+        "media-sanitization"
+      ],
+      "detail": "Verify completion, then validate that the technique and evidence make the result acceptable."
+    },
+    {
+      "id": "release",
+      "label": "Record / release media",
+      "conceptIds": [
+        "disposal"
+      ],
+      "detail": "Document validation and disposition before the authorized transfer or reuse of media."
+    },
+    {
+      "id": "rework",
+      "label": "Retain custody; rework",
+      "conceptIds": [
+        "data-remanence",
+        "media-sanitization"
+      ],
+      "detail": "A failed or unsuitable process leaves residual-data risk. Retain custody and repeat or escalate the method."
+    }
+  ],
+  "relationships": [
+    {
+      "id": "edge-1",
+      "from": "due",
+      "to": "hold",
+      "label": "check obligations"
+    },
+    {
+      "id": "edge-2",
+      "from": "hold",
+      "to": "preserve",
+      "label": "yes"
+    },
+    {
+      "id": "edge-3",
+      "from": "hold",
+      "to": "sanitize",
+      "label": "no"
+    },
+    {
+      "id": "edge-4",
+      "from": "sanitize",
+      "to": "accept",
+      "label": "verify, then validate"
+    },
+    {
+      "id": "edge-5",
+      "from": "accept",
+      "to": "release",
+      "label": "yes"
+    },
+    {
+      "id": "edge-6",
+      "from": "accept",
+      "to": "rework",
+      "label": "no"
+    },
+    {
+      "id": "edge-7",
+      "from": "rework",
+      "to": "sanitize",
+      "label": "repeat or escalate"
+    }
+  ],
+  "altSummary": "A seven-step decision flow: preservation duties block ordinary disposition; a failed sanitization outcome loops back for rework while custody is retained.",
+  "textFallback": "Disposition becomes due: A documented retention rule identifies the trigger and authorized scope.\nPreservation duty?: Check whether a scoped legal hold or other preservation obligation still blocks disposition.\nPreserve and restrict: Retain the affected scope with appropriate access protection until the responsible authority releases the duty.\nAuthorize and sanitize: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.\nOutcome acceptable?: Verify completion, then validate that the technique and evidence make the result acceptable.\nRecord / release media: Document validation and disposition before the authorized transfer or reuse of media.\nRetain custody; rework: A failed or unsuitable process leaves residual-data risk. Retain custody and repeat or escalate the method.\nA preservation duty blocks ordinary disposition. Without that blocker, authorize an appropriate sanitization method, verify completion and validate acceptability. Record an acceptable result before release; otherwise retain custody and rework. A held item is reassessed only after the responsible authority releases the preservation duty.",
+  "sourceRefIds": [
+    "official-d2-32-36",
+    "d2-o05-nist-sanitization-r2"
+  ],
+  "conceptIds": [
+    "retention",
+    "legal-hold",
+    "disposal",
+    "media-sanitization",
+    "data-remanence"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What must be true before retained information or its media can leave organizational custody?",
+    "misconception": "The retention date or a successful erase command alone authorizes release of media.",
+    "form": "flowchart",
+    "formRationale": "Two ordered gates and an explicit failed-outcome branch are easier to trace than a list of disposal terms.",
+    "focalInsight": "Preservation authority and validated sanitization are separate prerequisites for release.",
+    "conceptIds": [
+      "retention",
+      "legal-hold",
+      "disposal",
+      "media-sanitization",
+      "data-remanence"
+    ],
+    "relationships": [
+      {
+        "id": "edge-1",
+        "from": "due",
+        "to": "hold",
+        "label": "check obligations"
+      },
+      {
+        "id": "edge-2",
+        "from": "hold",
+        "to": "preserve",
+        "label": "yes"
+      },
+      {
+        "id": "edge-3",
+        "from": "hold",
+        "to": "sanitize",
+        "label": "no"
+      },
+      {
+        "id": "edge-4",
+        "from": "sanitize",
+        "to": "accept",
+        "label": "verify, then validate"
+      },
+      {
+        "id": "edge-5",
+        "from": "accept",
+        "to": "release",
+        "label": "yes"
+      },
+      {
+        "id": "edge-6",
+        "from": "accept",
+        "to": "rework",
+        "label": "no"
+      },
+      {
+        "id": "edge-7",
+        "from": "rework",
+        "to": "sanitize",
+        "label": "repeat or escalate"
+      }
+    ],
+    "intentionalOmissions": "Vendor-specific erase commands, legal advice, method tables, and the separate decision to migrate unsupported services are outside this flow.",
+    "retrievalPrompt": "An encrypted SSD reaches its return date while relevant records are on legal hold. After authorized preservation and hold release, the erase tool reports an error. Which gate blocks release at each point?",
+    "textFallback": "Disposition becomes due: A documented retention rule identifies the trigger and authorized scope.\nPreservation duty?: Check whether a scoped legal hold or other preservation obligation still blocks disposition.\nPreserve and restrict: Retain the affected scope with appropriate access protection until the responsible authority releases the duty.\nAuthorize and sanitize: Choose a method suitable for medium, sensitivity, copies, key custody, and intended reuse; ordinary deletion may leave recoverable residual data.\nOutcome acceptable?: Verify completion, then validate that the technique and evidence make the result acceptable.\nRecord / release media: Document validation and disposition before the authorized transfer or reuse of media.\nRetain custody; rework: A failed or unsuitable process leaves residual-data risk. Retain custody and repeat or escalate the method.\nA preservation duty blocks ordinary disposition. Without that blocker, authorize an appropriate sanitization method, verify completion and validate acceptability. Record an acceptable result before release; otherwise retain custody and rework. A held item is reassessed only after the responsible authority releases the preservation duty.",
+    "sourceRefIds": [
+      "official-d2-32-36",
+      "d2-o05-nist-sanitization-r2"
+    ],
+    "mapNodeId": "d2-o05-retention-disposal"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "root",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

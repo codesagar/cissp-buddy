@@ -1,0 +1,274 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o09-change-management",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.9"
+  ],
+  "title": "Participate in change management",
+  "summary": "Change management coordinates the business, security, technical, communication, rollback, and validation decisions that keep necessary changes from becoming unmanaged risk.",
+  "outcome": "Given a proposed or emergency change, identify impact, approvals, testing, implementation, communication, rollback, monitoring, and closure evidence appropriate to the risk.",
+  "conceptIds": [
+    "change-management",
+    "change-request",
+    "change-impact-assessment",
+    "change-advisory-board",
+    "normal-change",
+    "emergency-change",
+    "rollback",
+    "change-validation",
+    "version-control",
+    "change-record",
+    "post-implementation-review"
+  ],
+  "prerequisites": [
+    "d7-o03-configuration-management",
+    "d6-o02-control-testing"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "A change is complete only when the intended secure state is implemented, observed, accepted, and recoverable.",
+  "sections": [
+    {
+      "id": "normal-change",
+      "title": "Assess and govern normal changes end to end",
+      "body": "A normal change request begins with an impact and risk assessment: reason, scope, assets, dependencies, security impact, test evidence, approver, implementation window, communication, rollback, validation, and closure. The review body or change authority should have enough context to make a decision, while the implementer retains clear operational instructions. Versioning and configuration records connect the proposed state to the state actually deployed.",
+      "keyPoints": [
+        "Change approval is a risk decision supported by technical and business evidence.",
+        "Rollback should be defined before implementation, not invented after failure.",
+        "Post-change validation checks security, availability, functionality, monitoring, and documentation."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o09",
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ]
+    },
+    {
+      "id": "emergency-and-learning",
+      "title": "Handle emergency change and review it",
+      "body": "Emergency changes may bypass normal timing or approval sequence when delay creates greater risk, but they still need authorized criteria, an accountable decision maker, a bounded scope, communication, evidence, and retrospective review. After implementation, reconcile configuration and version records, test the result, remove temporary access or rules, and conduct a post-implementation review that improves the normal change process rather than allowing recurring emergencies to become the norm.",
+      "keyPoints": [
+        "Emergency is a defined risk condition, not a shortcut for poor planning.",
+        "A temporary emergency control needs an expiry and owner.",
+        "Retrospective review detects recurring causes and improves normal change capacity."
+      ],
+      "sourceRefIds": [
+        "official-d7-63-65",
+        "sybex-d7-785-788"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Emergency containment rule",
+      "situation": "Operations adds a temporary firewall block during an incident but does not create a change record because the team is busy.",
+      "reasoning": "Record the decision as soon as practical with reason, scope, authorizer, timestamp, affected systems, and rollback. Validate that the rule contains the threat without unacceptable business impact, monitor it, and remove or formalize it after the incident. Update the baseline and lessons learned."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "change approval",
+        "change validation"
+      ],
+      "difference": "Approval authorizes a planned risk and method; validation confirms the implemented state meets security and business requirements."
+    },
+    {
+      "between": [
+        "emergency change",
+        "unapproved change"
+      ],
+      "difference": "An emergency change uses an authorized exception process; an unapproved change lacks authority and evidence even if the outcome is beneficial."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A change advisory board must approve every technical detail.",
+      "correction": "The authority needs sufficient risk, impact, test, rollback, and ownership information; technical implementers remain responsible for detailed execution."
+    },
+    {
+      "misconception": "A successful change needs no rollback plan.",
+      "correction": "Success is uncertain until validated, and rollback or recovery planning limits harm if assumptions fail."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should a change record answer before implementation?",
+      "answer": "Why, what, where, impact, dependencies, test evidence, approver, timing, communication, rollback, and validation."
+    },
+    {
+      "prompt": "What makes an emergency change legitimate?",
+      "answer": "An authorized emergency criterion, accountable decision, bounded scope, evidence, communication, and retrospective review."
+    },
+    {
+      "prompt": "Why update the baseline after a change?",
+      "answer": "The approved reference must match the intended operational state or explicitly document the remaining exception."
+    },
+    {
+      "prompt": "What should a post-implementation review ask?",
+      "answer": "Whether the intended secure state was achieved, what failed or deviated, whether rollback or cleanup occurred, and which recurring cause needs remediation."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A recurring emergency patch is applied six times without root-cause improvement.",
+      "decision": "Treat the pattern as a process and capacity problem, formalize the change path, and improve testing, inventory, patching, or architecture.",
+      "why": "Repeated emergency work is a signal that normal change governance is not addressing the risk."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study change records, approval, testing, implementation, rollback, validation, emergency change, versioning, and retrospectives.",
+    "connect": "Connect D7.9 to configuration, patching, incident response, and D6 testing.",
+    "apply": "Draft a normal and emergency change record for the same firewall or application update.",
+    "revisit": "List the evidence you would seek after a change appears successful but monitoring is incomplete."
+  },
+  "visualIds": [
+    "d7-o09-change-control-loop",
+    "d7-o09-change-management-decision-comparison-1",
+    "d7-o09-change-management-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o09",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.9"
+      },
+      "supports": [
+        "objective boundary",
+        "change management"
+      ]
+    },
+    {
+      "id": "official-d7-63-65",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "63-65 (PDF pp. 63-65)"
+      },
+      "supports": [
+        "change management process",
+        "documentation",
+        "implementation"
+      ]
+    },
+    {
+      "id": "sybex-d7-785-788",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "785-788, Chapter 16"
+      },
+      "supports": [
+        "change management",
+        "versioning",
+        "configuration documentation"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o09-change-management-visual-contract",
+    "unitId": "d7-o09-change-management",
+    "teachingQuestion": "What evidence authorizes, validates, rolls back, and learns from this change?",
+    "misconception": "Emergency change means no authority/evidence/review.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Rows separate decision input from proof of closure.",
+    "conceptIds": [
+      "change-management",
+      "change-request",
+      "change-impact-assessment",
+      "change-advisory-board",
+      "normal-change",
+      "emergency-change",
+      "rollback",
+      "change-validation",
+      "version-control",
+      "change-record",
+      "post-implementation-review"
+    ],
+    "relationships": [
+      {
+        "from": "request",
+        "to": "approve",
+        "label": "provides decision evidence"
+      },
+      {
+        "from": "approve",
+        "to": "implement",
+        "label": "authorizes"
+      },
+      {
+        "from": "implement",
+        "to": "validate",
+        "label": "changes state"
+      },
+      {
+        "from": "validate",
+        "to": "close",
+        "label": "confirms outcome"
+      },
+      {
+        "from": "validate",
+        "to": "implement",
+        "label": "rolls back if needed"
+      },
+      {
+        "from": "close",
+        "to": "request",
+        "label": "improves future change"
+      }
+    ],
+    "intentionalOmissions": "No fixed patch SLA or CAB form.",
+    "retrievalPrompt": "Identify owner, decisive fact, evidence, and closure/rollback outcome.",
+    "textFallback": "change management: Change management: authorize/schedule/communicate/review change. Decision: decide governance path.. Failure/example: unrecorded production change.\nchange request: Request: reason/scope/risk/test/owner record. Decision: decide completeness.. Failure/example: hidden dependency.\nchange impact assessment: Impact assessment: service/security/dependency effect. Decision: decide approval/window.. Failure/example: outage consequence missed.\nchange advisory board: CAB: informed change review authority. Decision: decide stakeholders/evidence.. Failure/example: rubber-stamp approval.\nnormal change: Normal change: planned standard workflow. Decision: decide test/communication.. Failure/example: untested routine change.\nemergency change: Emergency change: accelerated authorized response. Decision: decide criteria/bounded scope.. Failure/example: recurring emergency bypass.\nrollback: Rollback: restore known state. Decision: decide trigger/owner/test.. Failure/example: no recoverable prior state.\nchange validation: Validation: confirm intended/secure service result. Decision: decide acceptance.. Failure/example: deploy success called validation.\nversion control: Version control: trace approved artifact/config. Decision: decide reproducibility.. Failure/example: unknown production revision.",
+    "sourceRefIds": [
+      "official-d7-63-65",
+      "sybex-d7-785-788"
+    ],
+    "mapNodeId": "d7-o09-change-management",
+    "visualIds": [
+      "d7-o09-change-control-loop",
+      "d7-o09-change-management-decision-comparison-1",
+      "d7-o09-change-management-decision-comparison-2"
+    ]
+  }
+}

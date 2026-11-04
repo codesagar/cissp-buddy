@@ -1,0 +1,258 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o02-logging-monitoring",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.2"
+  ],
+  "title": "Design logging and monitoring activities",
+  "summary": "Logging creates records of security-relevant events; monitoring interprets telemetry to detect deviations and guide action. Useful operations define what to collect, protect, correlate, retain, alert on, and review according to risk and purpose.",
+  "outcome": "Given a service and threat scenario, select useful event fields and telemetry sources, protect and correlate the records, and define an alert or review path that supports response and investigation.",
+  "conceptIds": [
+    "security-logging",
+    "monitoring",
+    "telemetry",
+    "log-integrity",
+    "time-synchronization",
+    "alert-triage",
+    "egress-monitoring"
+  ],
+  "prerequisites": [
+    "d7-o01-investigations",
+    "d5-o06-authentication-systems",
+    "d4-o01-architecture-and-segmentation"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Collect evidence that can change a decision, protect it from tampering, and design triage so analysts can act before signal becomes noise.",
+  "sections": [
+    {
+      "id": "telemetry-design",
+      "title": "Collect evidence with a purpose",
+      "body": "A logging strategy begins with risks and decisions: which events reveal authentication abuse, policy violations, data access, configuration drift, malware, or service failure? Sources can include identity, endpoints, applications, databases, cloud control planes, network devices, physical systems, and security tools. Normalize time and fields, record actor, action, object, result, source, and correlation identifiers, and set retention from investigation, legal, privacy, and operational needs rather than collecting everything indefinitely.",
+      "keyPoints": [
+        "A log record should answer who or what acted, what happened, where, when, and with what result.",
+        "Time synchronization and correlation identifiers make distributed events explainable.",
+        "Collection must be proportionate to risk and protected as sensitive operational data."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o02",
+        "official-d7-15-30",
+        "sybex-d7-834-850"
+      ]
+    },
+    {
+      "id": "monitoring-and-response",
+      "title": "Turn telemetry into action",
+      "body": "Monitoring evaluates telemetry against baselines, rules, threat intelligence, behavioral indicators, and service expectations. Alerts need severity, ownership, enrichment, suppression or deduplication, escalation, and a response playbook; otherwise volume overwhelms the team. Protect logs with access control, integrity mechanisms, resilient storage, and independent monitoring, and include egress monitoring when outbound transfer is a material risk.",
+      "keyPoints": [
+        "Logging is record creation; monitoring is analysis and decision support.",
+        "An alert should have a clear owner, action, threshold, and escalation path.",
+        "Log access and retention are themselves security and privacy decisions."
+      ],
+      "sourceRefIds": [
+        "official-d7-15-30",
+        "sybex-d7-834-850"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Impossible-travel alert",
+      "situation": "The identity platform reports logins from two distant regions within minutes, but the user is a global administrator using a managed service.",
+      "reasoning": "Correlate identity, device, VPN, network, and session telemetry before concluding compromise. Check token issuance, delegated service activity, time integrity, and travel or automation context; preserve the relevant records and escalate according to risk. A single anomaly should trigger triage, not an automatic accusation or blind suppression."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "logging",
+        "monitoring"
+      ],
+      "difference": "Logging creates and preserves event records; monitoring interprets events and conditions to identify action or escalation."
+    },
+    {
+      "between": [
+        "alert",
+        "incident"
+      ],
+      "difference": "An alert is a signal requiring triage; an incident is a validated event or condition requiring the organization's response process."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "More logs automatically create better detection.",
+      "correction": "Unscoped, unprotected, poorly timed, or unactionable data can increase cost and noise without improving decisions."
+    },
+    {
+      "misconception": "A SIEM or monitoring platform makes logs trustworthy.",
+      "correction": "Trust depends on source configuration, time integrity, access control, transport, storage, retention, and independent review."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What fields make a distributed security event easier to investigate?",
+      "answer": "Actor or source, action, object, result, time, location or system, and correlation identifiers are useful starting fields."
+    },
+    {
+      "prompt": "What is the difference between an alert and an incident?",
+      "answer": "An alert is a signal for triage; an incident is a validated harmful or policy-relevant event handled through response."
+    },
+    {
+      "prompt": "Why protect logs from the systems that generate them?",
+      "answer": "An attacker or compromised administrator may alter local records, so independent integrity and access controls preserve evidentiary value."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A cloud provider retains control-plane audit records for only seven days, while the organization has a 90-day investigation need.",
+      "decision": "Define export, integrity, access, retention, privacy, and failure controls in the service design and contract.",
+      "why": "The organization remains accountable for evidence and must manage provider retention limits."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study telemetry sources, event fields, time integrity, log protection, monitoring, alert triage, log management, and egress monitoring.",
+    "connect": "Connect D7.2 to D5 accounting, D4 network telemetry, D6 evidence, and D7.6 incident response.",
+    "apply": "Create a small logging matrix for authentication, data access, configuration change, and outbound transfer.",
+    "revisit": "Take one alert and state which additional source, field, or baseline would make it actionable."
+  },
+  "visualIds": [
+    "d7-o02-logging-pipeline",
+    "d7-o02-logging-monitoring-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o02",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.2"
+      },
+      "supports": [
+        "objective boundary",
+        "logging and monitoring"
+      ]
+    },
+    {
+      "id": "official-d7-15-30",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "15-30 (PDF pp. 15-30)"
+      },
+      "supports": [
+        "log management",
+        "monitoring",
+        "analysis",
+        "alerting"
+      ]
+    },
+    {
+      "id": "sybex-d7-834-850",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "834-850, Chapter 17"
+      },
+      "supports": [
+        "logging techniques",
+        "monitoring",
+        "log management",
+        "SOAR and threat feeds"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o02-logging-monitoring-visual-contract",
+    "unitId": "d7-o02-logging-monitoring",
+    "teachingQuestion": "How does telemetry become an owned actionable alert?",
+    "misconception": "More logs or a SIEM automatically improves detection.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "security-logging",
+      "monitoring",
+      "telemetry",
+      "log-integrity",
+      "time-synchronization",
+      "alert-triage",
+      "egress-monitoring"
+    ],
+    "relationships": [
+      {
+        "from": "sources",
+        "to": "collect",
+        "label": "emit events"
+      },
+      {
+        "from": "collect",
+        "to": "protect",
+        "label": "preserves context"
+      },
+      {
+        "from": "protect",
+        "to": "analyze",
+        "label": "supplies trusted data"
+      },
+      {
+        "from": "analyze",
+        "to": "triage",
+        "label": "creates signal"
+      },
+      {
+        "from": "triage",
+        "to": "analyze",
+        "label": "improves tuning"
+      }
+    ],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "security logging: Logging: preserve events for later evidence. Decision: decide source/context/retention.. Failure/example: no record of privileged action.\nmonitoring: Monitoring: interpret signals for action. Decision: decide baseline/rule/owner.. Failure/example: alert queue unowned.\ntelemetry: Telemetry: normalized security/operational data. Decision: decide quality/coverage.. Failure/example: incompatible fields prevent correlation.\nlog integrity: Integrity: protect source/transport/storage. Decision: decide tamper response.. Failure/example: compromised admin erases trail.\ntime synchronization: Time: comparable timestamps. Decision: decide clock health.. Failure/example: correlation order wrong.\nalert triage: Triage: validate/enrich/priority/route alert. Decision: decide confidence and impact.. Failure/example: true attack suppressed.\negress monitoring: Egress: detect unusual outbound movement. Decision: decide destinations/thresholds.. Failure/example: data theft unseen.",
+    "sourceRefIds": [
+      "official-d7-15-30",
+      "sybex-d7-834-850"
+    ],
+    "mapNodeId": "d7-o02-logging-monitoring",
+    "visualIds": [
+      "d7-o02-logging-monitoring-decision-comparison-1",
+      "d7-o02-logging-pipeline"
+    ]
+  }
+}

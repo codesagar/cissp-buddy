@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o02-development-environment-access",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.2"
+  ],
+  "title": "Protect development environments and identities",
+  "summary": "Developer workstations, IDEs, repositories, libraries, secrets, and collaboration services form a privileged ecosystem whose identities and boundaries must be protected.",
+  "outcome": "Apply access, isolation, inventory, and secret controls to the development environment.",
+  "conceptIds": [
+    "programming-languages",
+    "libraries",
+    "ide",
+    "source-control",
+    "secrets-management",
+    "repository-security",
+    "developer-identity"
+  ],
+  "prerequisites": [
+    "d1-o11-supply-chain-risk",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "The development environment is a production-adjacent privileged system, not an informal workstation fleet.",
+  "sections": [
+    {
+      "id": "people-tools-boundaries",
+      "title": "Control people, languages, libraries, and IDEs",
+      "body": "Select supported languages and libraries with maintained versions, secure defaults, inventory, license and vulnerability review, and clear ownership. Harden IDEs and developer endpoints, require strong identity and least privilege, separate personal and organizational credentials, and protect repository branches and reviews.",
+      "keyPoints": [
+        "Language and library choice changes vulnerability and maintenance exposure.",
+        "IDE plugins and local tooling can read source and secrets.",
+        "Repository permissions and review protect source integrity but do not prove build integrity."
+      ],
+      "sourceRefIds": [
+        "outline-d8-2",
+        "official-d8-36-55",
+        "miller-d8-727-760"
+      ]
+    },
+    {
+      "id": "secrets-and-runtime",
+      "title": "Keep secrets and runtime assumptions bounded",
+      "body": "Store secrets in managed systems, scope and rotate them, prevent leakage in code and logs, and use separate credentials per environment. Document runtime versions, configuration, dependencies, and service identity so deployment behavior is reproducible and drift is detectable.",
+      "keyPoints": [
+        "A secret in source control remains exposed even after deletion from the latest commit.",
+        "Runtime and configuration drift can invalidate test assumptions.",
+        "Short-lived, scoped credentials reduce blast radius."
+      ],
+      "sourceRefIds": [
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Leaked cloud token in an IDE project",
+      "situation": "A plugin writes a cloud token into a local configuration file that is committed to a repository.",
+      "reasoning": "Revoke and rotate the token, inspect use, remove copies and logs, add secret scanning and pre-commit controls, restrict IDE/plugin permissions, and issue scoped runtime credentials from a managed store."
+    },
+    {
+      "title": "Reproducible release without exposing a secret",
+      "situation": "A service must be rebuilt after a production incident.",
+      "reasoning": "The release manifest records source revision, approved runtime/library versions, build configuration, environment-specific configuration references, service identity, and secret-manager path/version—not secret values. The deployment identity can read only the production reference, and the build cannot read production secrets."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "library vulnerability",
+        "application vulnerability"
+      ],
+      "difference": "A library vulnerability is in a reused component; an application vulnerability arises from how code or configuration uses components. Both require inventory and testing."
+    },
+    {
+      "between": [
+        "runtime",
+        "development environment"
+      ],
+      "difference": "Runtime is where the application executes; the development environment produces and configures it, with different identities and controls."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Deleting a secret from the current branch removes exposure.",
+      "correction": "History, forks, caches, logs, and build artifacts may retain it; revoke and rotate first, then clean and monitor."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Why inventory IDE plugins and libraries?",
+      "answer": "They expand code, data, execution, and supply-chain trust boundaries and may have privileged access."
+    },
+    {
+      "prompt": "What is the first response to exposed credentials?",
+      "answer": "Revoke or rotate them, assess use, then remediate storage and pipeline controls."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "Developers share one privileged repository token because individual access is inconvenient.",
+      "decision": "Replace it with individual MFA-backed roles and scoped automation identities with reviewable ownership.",
+      "why": "Shared privilege destroys attribution and increases blast radius."
+    },
+    {
+      "scenario": "A developer needs to diagnose a production outage and asks to use their everyday developer credential and local .env secret.",
+      "decision": "Use an approved, time-bounded, audited support identity with the minimum production scope; retrieve secrets through the managed system and record only the secret reference/version in the incident or release record.",
+      "why": "Convenience access and plaintext secret reuse defeat separation, least privilege, rotation, and accountable investigation."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Map languages, libraries, IDEs, identities, secrets, and runtime boundaries.",
+    "connect": "Connect D1 supply-chain risk, D5 IAM, D2 data protection, and D7 endpoint operations.",
+    "apply": "Audit a sample workstation-to-repository path.",
+    "revisit": "List where a secret can persist after commit."
+  },
+  "visualIds": [
+    "d8-o02-development-environment-access-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-2",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.2 bullets: languages, libraries, toolsets, IDE, runtime, CI/CD, CM, repositories, testing"
+      },
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-36-55",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "36–49 (same PDF page numbers), objective 8.2; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "development ecosystem controls"
+      ]
+    },
+    {
+      "id": "sybex-d8-1049-1065",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1049-1065, Chapter 20"
+      },
+      "supports": [
+        "toolchain, libraries, secrets"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "supports": [
+        "ecosystem and environment controls"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o02-development-environment-access-visual-contract",
+    "unitId": "d8-o02-development-environment-access",
+    "teachingQuestion": "How can a developer build and support software with reproducible environments while keeping identities, repositories, and secrets appropriately separated?",
+    "misconception": "A capable developer account should work everywhere, and recording a secret in configuration improves reproducibility.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Supported tools/libraries, hardened IDE, organization identity, repository protection, managed secrets, and reproducible configuration.",
+    "conceptIds": [
+      "programming-languages",
+      "libraries",
+      "ide",
+      "source-control",
+      "secrets-management",
+      "repository-security",
+      "developer-identity"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe an IDE, language, secret product, token lifetime, or branch naming convention.",
+    "retrievalPrompt": "A developer must troubleshoot production. Which identity, secret-access path, and audit/expiry evidence are appropriate?",
+    "textFallback": "programming languages: Languages and supported versions chosen for maintainability, secure features, tool support, and known lifecycle ownership.. Decision: Select maintained language/runtime versions with security support and an accountable upgrade plan.. Failure/example: A team can write careful code yet inherit risk from an unsupported runtime with no security fixes.\nlibraries: Reusable code components and frameworks included in an application to supply functions or security-relevant behavior.. Decision: Choose maintained, reviewed libraries with known provenance, licensing, version constraints, and vulnerability response ownership.. Failure/example: Copying an unvetted package or stale library can import an exploitable dependency into every build.\nide: An integrated development environment and its extensions, settings, credentials, and plugins used to create and maintain code.. Decision: Harden and manage IDEs/extensions, keep them updated, and prevent privileged credentials or unreviewed plugins from widening the workstation attack surface.. Failure/example: A malicious IDE extension can read source and developer tokens before code ever reaches the repository.\nsource control: A system that records controlled versions, branches, changes, authorship, and merge history for source and related artifacts.. Decision: Require authenticated changes, protected critical branches, review/approval rules, and traceable links from change to revision.. Failure/example: Direct unreviewed pushes to the release branch can introduce a backdoor with no accountable review.\nsecrets management: Controlled storage, retrieval, rotation, revocation, and audit of credentials, keys, tokens, and other sensitive values.. Decision: Keep secrets out of code/logs, use scoped identities to retrieve them, rotate on exposure or lifecycle events, and record references rather than values.. Failure/example: A production token in a repository can be cloned, cached, and reused long after the code change is removed.\nrepository security: Protection of source/artifact repositories through access control, branch protection, review, integrity, availability, and audit.. Decision: Apply least privilege, review rules, protected release paths, backup/availability, and alerting for sensitive changes.. Failure/example: A repository administrator’s unmonitored account can alter both source history and release configuration.\ndeveloper identity: An attributable, managed identity used by a developer or automation to access development resources with defined privileges.. Decision: Use strong authentication, least privilege, separate personal/organizational and environment identities, and timely revocation.. Failure/example: Shared developer accounts erase accountability and make compromise containment uncertain.",
+    "sourceRefIds": [
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760"
+    ],
+    "mapNodeId": "d8-o02-development-environment-access",
+    "visualIds": [
+      "d8-o02-development-environment-access-decision-comparison-1"
+    ]
+  }
+}

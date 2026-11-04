@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o05-resource-protection",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.5"
+  ],
+  "title": "Apply resource protection in operations",
+  "summary": "Operational resource protection covers media, equipment, cloud services, and supporting facilities throughout use, transport, storage, reuse, and disposal. Controls should follow classification, ownership, exposure, and recovery needs.",
+  "outcome": "Given a resource and lifecycle event, select protection, custody, handling, cloud-responsibility, and disposal controls that preserve confidentiality, integrity, availability, and recoverability.",
+  "conceptIds": [
+    "media-management",
+    "media-protection",
+    "data-remanence",
+    "data-at-rest",
+    "data-in-transit",
+    "cloud-shared-responsibility",
+    "managed-service-risk",
+    "resource-custody",
+    "sanitization",
+    "destruction-evidence"
+  ],
+  "prerequisites": [
+    "d2-o02-handling-requirements",
+    "d2-o04-data-lifecycle",
+    "d5-o01-physical-logical-access"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Protect the resource and its copies across the complete operational lifecycle, including the parts a cloud or managed provider operates on the organization's behalf.",
+  "sections": [
+    {
+      "id": "media-and-custody",
+      "title": "Control media, data state, and operational custody",
+      "body": "Media management includes identifying, labeling, authorizing, transporting, storing, sanitizing, reusing, and destroying physical or electronic media. Match safeguards to classification and whether data is at rest on a carrier, in transit across a channel, or represented in a temporary or replicated state. Control custody during movement and account for backups, replicas, temporary files, and remanence. A disposal certificate is useful only when the process actually addressed the media type and evidence is tied to the correct asset.",
+      "keyPoints": [
+        "Media includes removable devices, tapes, disks, printouts, mobile devices, and cloud or virtual representations.",
+        "Custody, access, encryption, sanitization, and destruction decisions depend on classification and lifecycle stage.",
+        "Data at rest needs storage and key controls; data in transit needs channel, endpoint, and transfer controls."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o05",
+        "official-d7-40-41",
+        "sybex-d7-776-782"
+      ]
+    },
+    {
+      "id": "cloud-responsibility",
+      "title": "Apply shared responsibility deliberately",
+      "body": "Cloud and managed services divide operational duties among provider and customer, but the boundary varies by service model and contract. Clarify who protects the platform, configuration, identities, data, keys, backups, logs, media disposal, incident evidence, and encryption for data at rest and in transit. Verify provider controls and service commitments, and retain enough customer-side capability to detect misuse, recover data, and end the relationship safely.",
+      "keyPoints": [
+        "Shared responsibility is a control allocation, not a transfer of accountability.",
+        "Elasticity and provider abstraction can obscure where data and copies exist.",
+        "Contracts and technical tests should verify the provider's claimed controls and encryption or key-management behavior."
+      ],
+      "sourceRefIds": [
+        "official-d7-40-41",
+        "sybex-d7-776-782"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Retiring encrypted backup media",
+      "situation": "A provider is returning encrypted backup drives at contract end and offers a generic destruction letter without listing serial numbers or destruction method.",
+      "reasoning": "Match the evidence to the media and data classification. Confirm chain of custody, key status, serials, sanitization or destruction method, provider responsibilities, retained copies, and verification. If the generic letter cannot prove the required outcome, use a controlled destruction or compensating process before closing the contract."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "media protection",
+        "data protection"
+      ],
+      "difference": "Media protection governs the physical or logical carrier and its custody; data protection governs the information regardless of where or how it is carried."
+    },
+    {
+      "between": [
+        "data at rest",
+        "data in transit"
+      ],
+      "difference": "Data at rest is stored on a medium or service and needs storage, access, and key controls; data in transit is moving between endpoints and needs protected channels and endpoint validation."
+    },
+    {
+      "between": [
+        "provider responsibility",
+        "customer accountability"
+      ],
+      "difference": "A provider may operate controls, but the customer remains accountable for requirements, configuration, data, access, and assurance assigned to it."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Encryption makes media disposal unnecessary.",
+      "correction": "Keys can leak, algorithms or configuration can fail, and metadata or residual copies may remain; disposal and custody still require control."
+    },
+    {
+      "misconception": "Cloud data has no media lifecycle because the provider manages hardware.",
+      "correction": "Provider-managed media, replicas, snapshots, backups, and deletion evidence remain part of the customer's risk and contract."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What lifecycle activities belong in media management?",
+      "answer": "Identification, labeling, authorization, transport, storage, custody, sanitization, reuse, destruction, and evidence."
+    },
+    {
+      "prompt": "What changes between protecting data at rest and in transit?",
+      "answer": "At-rest protection emphasizes storage access, encryption, keys, copies, and remanence; in-transit protection emphasizes channel, endpoint, transfer, and interception controls."
+    },
+    {
+      "prompt": "Why is shared responsibility not a transfer of accountability?",
+      "answer": "The provider operates assigned controls, but the customer remains responsible for its requirements, data, configurations, access, and assurance."
+    },
+    {
+      "prompt": "What makes disposal evidence useful?",
+      "answer": "It identifies the asset, method, date, custodian, scope, and verification necessary to show that the intended data and media outcome occurred."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A SaaS provider cannot confirm where tenant backups are stored or when deleted records leave all replicas.",
+      "decision": "Treat this as a material lifecycle and recovery gap; require evidence, contract controls, or a different design before placing sensitive data there.",
+      "why": "Unknown copies undermine retention, destruction, privacy, and incident response decisions."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study media lifecycle, remanence, custody, sanitization, cloud service models, and shared responsibility.",
+    "connect": "Connect D7.5 to D2 classification and data lifecycle, D3 facilities, and D1 supplier risk.",
+    "apply": "Create a resource-protection checklist for a laptop, backup set, and cloud tenant at retirement.",
+    "revisit": "Name which provider evidence and customer controls would be needed to prove secure deletion."
+  },
+  "visualIds": [
+    "d7-o05-resource-protection-decision-comparison-1",
+    "d7-o05-resource-protection-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o05",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.5"
+      },
+      "supports": [
+        "objective boundary",
+        "resource protection"
+      ]
+    },
+    {
+      "id": "official-d7-40-41",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "40-41 (PDF pp. 40-41)"
+      },
+      "supports": [
+        "media management",
+        "resource protection",
+        "cloud responsibility"
+      ]
+    },
+    {
+      "id": "sybex-d7-776-782",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "776-782, Chapter 16"
+      },
+      "supports": [
+        "media management",
+        "cloud shared responsibility",
+        "scalability and elasticity"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o05-resource-protection-visual-contract",
+    "unitId": "d7-o05-resource-protection",
+    "teachingQuestion": "How is data/media protected, moved, retained, and exited across provider boundaries?",
+    "misconception": "Encryption removes disposal needs or provider hardware ends customer lifecycle.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "media-management",
+      "media-protection",
+      "data-remanence",
+      "data-at-rest",
+      "data-in-transit",
+      "cloud-shared-responsibility",
+      "managed-service-risk",
+      "resource-custody",
+      "sanitization",
+      "destruction-evidence"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "media management: Media management: identify/label/store/move/reuse/destroy carrier. Decision: decide custody.. Failure/example: untracked backup tape.\nmedia protection: Media protection: carrier safeguards. Decision: decide physical/logical controls.. Failure/example: exposed removable drive.\ndata remanence: Remanence: residual data in copies/slack/snapshots. Decision: decide sanitization verification.. Failure/example: deleted VM snapshot recoverable.\ndata at rest: At rest: stored data. Decision: decide storage/access/key/backup controls.. Failure/example: public object store.\ndata in transit: In transit: moving data. Decision: decide channel/endpoint validation.. Failure/example: encrypted link to wrong endpoint.\ncloud shared responsibility: Shared responsibility: allocate provider/customer duties. Decision: decide contract/configuration evidence.. Failure/example: provider capability assumed enabled.\nmanaged service risk: Managed-service risk: dependency/access/exit exposure. Decision: decide oversight/contingency.. Failure/example: provider admin retains access.\nresource custody: Custody: accountable possession/transfer. Decision: decide inventory/chain evidence.. Failure/example: media handoff unrecorded.\nsanitization: Sanitization: medium-appropriate removal. Decision: decide reuse/destroy method.. Failure/example: deletion used for SSD return.",
+    "sourceRefIds": [
+      "official-d7-40-41",
+      "sybex-d7-776-782"
+    ],
+    "mapNodeId": "d7-o05-resource-protection",
+    "visualIds": [
+      "d7-o05-resource-protection-decision-comparison-1",
+      "d7-o05-resource-protection-decision-comparison-2"
+    ]
+  }
+}

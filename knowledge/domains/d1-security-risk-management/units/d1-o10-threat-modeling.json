@@ -1,0 +1,324 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d1-o10-threat-modeling",
+  "domainId": 1,
+  "objectiveIds": [
+    "1.10"
+  ],
+  "title": "Use threat modeling to improve a design before it fails",
+  "summary": "Threat modeling systematically examines a system’s assets, actors, trust boundaries, data flows, threats, mitigations, and residual risks so design decisions are made early and revisited when the system changes.",
+  "outcome": "Define a bounded threat-modeling exercise and prioritize a threat for treatment using system context rather than a generic threat list.",
+  "conceptIds": [
+    "threat-modeling",
+    "assets",
+    "actors",
+    "trust-boundary",
+    "data-flow",
+    "attack-surface",
+    "threat",
+    "mitigation",
+    "abuse-case",
+    "design-review",
+    "octave",
+    "stride",
+    "threat-modeling-methods",
+    "risk-prioritization"
+  ],
+  "prerequisites": [
+    "risk-management",
+    "security-requirements"
+  ],
+  "estimatedMinutes": 26,
+  "managerMindset": "Threat modeling is a design conversation that finds security decisions early. It is not a one-time diagram or a hunt for every imaginable attacker.",
+  "sections": [
+    {
+      "id": "model-the-system",
+      "title": "Model the system and its assumptions",
+      "body": "Begin with scope, business objective, assets, actors, data flows, components, interfaces, trust boundaries, and assumptions. A data-flow representation helps the team see where data changes hands, where identities are asserted, and where an attacker or mistake can cross a boundary. Include operational and supplier dependencies when they materially affect the design.",
+      "keyPoints": [
+        "A boundary is meaningful when authority, trust, or control changes.",
+        "Scope prevents the exercise from becoming an unprioritized inventory."
+      ],
+      "sourceRefIds": [
+        "d1-o10-outline",
+        "d1-o10-textbook",
+        "d1-o10-sybex"
+      ]
+    },
+    {
+      "id": "prioritize-and-repeat",
+      "title": "Turn findings into design decisions",
+      "body": "Identify plausible threats and abuse cases, evaluate likelihood and impact in context, choose mitigations, record residual risk and owners, then revisit after material design, dependency, or threat changes. The method may vary, but the output must be actionable: a decision, requirement, control, test, or accepted risk with evidence. A generic list of attack names without system context is not a usable threat model.",
+      "keyPoints": [
+        "Threat modeling informs requirements, architecture, tests, and backlog decisions.",
+        "Revisit when the design or assumptions change."
+      ],
+      "sourceRefIds": [
+        "d1-o10-textbook",
+        "d1-o10-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Use threat modeling as a repeatable design and change decision",
+      "body": "Threat modeling defines the business objective, assets, actors, data flows, components, interfaces, trust boundaries, assumptions, abuse cases, threats, mitigations, residual risk, owner, and validation evidence. Choose a methodology appropriate to the system and team, but do not mistake a named method for the result; the output must change a design, requirement, test, or operational control. Repeat when architecture, data, exposure, dependencies, or attacker assumptions change. Failure modes include modelling a diagram without data flows, omitting privileged or supplier paths, treating every issue equally, and closing a finding without a verified treatment or accountable risk decision.",
+      "keyPoints": [
+        "Name the accountable owner, decision criterion, and evidence for each applicable outline topic.",
+        "Record the failure consequence and escalation or review trigger rather than assuming a policy label proves operation."
+      ],
+      "sourceRefIds": [
+        "d1-o10-outline",
+        "d1-o10-textbook",
+        "d1-o10-sybex"
+      ]
+    },
+    {
+      "id": "method-selection-stride-risk-privacy",
+      "title": "Choose a threat-model method for the decision the team needs to make",
+      "body": "Use a data-flow or workflow representation to bound the target, assets, actors, processes, interfaces, and trust boundaries before classifying threats. STRIDE is a software-oriented threat classification: spoofing, tampering, repudiation, information disclosure, denial of service, and elevation of privilege. DREAD is a prioritization lens using damage, reproducibility, exploitability, affected users, and discoverability; it should support judgment, not manufacture false numerical certainty. ATASM structures architecture, threats, attack surfaces, and mitigations. PASTA is a process for attack simulation and threat analysis. OCTAVE/OCTAVE-S supports organization-wide IT risk views; LINDDUN focuses on privacy threat elicitation. A method is useful when it produces a bounded, accountable design or risk decision; no named method replaces validation, remediation, or a risk-acceptance decision.",
+      "keyPoints": [
+        "Use STRIDE to systematically classify application threats after mapping the system.",
+        "Use privacy, organizational-risk, attack-simulation, or prioritization methods according to the question, then turn findings into owned controls/tests/decisions."
+      ],
+      "sourceRefIds": [
+        "d1-o10-textbook",
+        "d1-o10-threat-modeling-depth-source-1"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Partner document upload",
+      "situation": "A partner uploads regulated documents through an API to an internal processing service.",
+      "reasoning": "Map partner, gateway, processing service, storage, and admin paths; mark trust boundaries; consider forged identity, malicious file, disclosure, and availability abuse; assign mitigations and tests to owners.",
+      "takeaway": "The useful result is a prioritized design change, not the diagram itself."
+    },
+    {
+      "title": "Health-record sharing API",
+      "situation": "A team adds an API that lets clinics share patient records with a new analytics service.",
+      "reasoning": "Draw the data flow and trust boundaries, use STRIDE to classify spoofing through privilege-elevation paths, use LINDDUN to examine privacy threats, select mitigations and tests, and document residual risk with accountable owners. Use DREAD only as a transparent prioritization aid rather than an automatic decision engine.",
+      "takeaway": "Method selection follows the decision: security classification, privacy, organizational risk, attack simulation, or transparent prioritization."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Threat model",
+      "b": "Vulnerability scan",
+      "difference": "A threat model reasons about system design and abuse paths; a scan identifies known technical weaknesses in deployed or inspectable components."
+    },
+    {
+      "a": "STRIDE",
+      "b": "LINDDUN",
+      "difference": "STRIDE classifies common software security threat types; LINDDUN elicits privacy threats in software architectures. They can inform the same design but answer different questions."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Threat modeling is only for software developers.",
+      "correction": "Business owners, architects, operations, privacy, suppliers, and security contribute assumptions and consequences."
+    },
+    {
+      "claim": "Completing a STRIDE worksheet proves a design is secure.",
+      "correction": "STRIDE identifies categories to examine. The team still needs architecture evidence, selected controls, tests, implementation, residual-risk ownership, and review after design changes."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What makes a trust boundary important?",
+      "answer": "Crossing it changes authority, trust, control, or the assumptions applied to data or requests."
+    },
+    {
+      "prompt": "When should a threat model be revisited?",
+      "answer": "After material changes to design, data flow, dependencies, deployment, or threat assumptions."
+    },
+    {
+      "prompt": "When is LINDDUN more directly useful than STRIDE?",
+      "answer": "When the decision centers on eliciting and mitigating privacy threats in a software architecture; STRIDE remains useful for software security threat classification."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A design team lists ransomware, phishing, and SQL injection without showing components or data flows. What should the reviewer ask for first?",
+      "decisiveDetail": "Threats must be evaluated against a bounded system, assets, actors, flows, and trust boundaries.",
+      "testedConceptIds": [
+        "threat-modeling",
+        "data-flow",
+        "trust-boundary"
+      ]
+    },
+    {
+      "prompt": "A program office wants to rank enterprise risks, while an API team needs to find authentication and authorization threats. Which method focus fits each?",
+      "decisiveDetail": "Use an organizational-risk approach such as OCTAVE/OCTAVE-S for the broad enterprise view and a data-flow plus STRIDE analysis for the API; record how each result changes decisions and controls.",
+      "testedConceptIds": [
+        "octave",
+        "stride",
+        "threat-modeling-methods",
+        "risk-prioritization"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Draw a five-node data flow for a service you know.",
+    "connect": "Connect threat findings to risk treatment and Domain 3 secure design.",
+    "apply": "Identify one trust boundary and one abuse case in the drawing.",
+    "revisit": "In three days, contrast a threat model with a vulnerability scan."
+  },
+  "visualIds": [
+    "d1-o10-threat-modeling-boundary-review",
+    "d1-o10-threat-modeling-concept-comparison-1",
+    "d1-o10-threat-modeling-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d1-o10-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 1.10"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d1-o10-textbook",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "79-80",
+        "pdfPage": "79-80",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "threat-modeling-methods"
+      ]
+    },
+    {
+      "id": "d1-o10-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 1, Threat Modeling, pp. 26-30"
+      },
+      "supports": [
+        "threat-identification",
+        "attack-diagramming",
+        "prioritization"
+      ]
+    },
+    {
+      "id": "d1-o10-threat-modeling-depth-source-1",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "section",
+        "value": "Printed/PDF pp. 79-80, “Understand and Apply Threat Modeling Concepts and Methodologies (1.10)”"
+      },
+      "supports": [
+        "Inspected p. 79 for data-flow abstraction and STRIDE; p. 80 for ATASM, DREAD, PASTA, OCTAVE/OCTAVE-S, LINDDUN and the limit that threat modeling identifies problems but does not itself fix them."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d1-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d1-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d1-o10-threat-modeling-visual-contract",
+    "unitId": "d1-o10-threat-modeling",
+    "teachingQuestion": "Which model elements and method expose the plausible abuse path, and what decision must result?",
+    "misconception": "A named methodology or a generic attack list is a complete threat model.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows expose distinctions, decision criteria, and misuse consequences.",
+    "focalInsight": "Bound the system with assets, actors, flows, and trust boundaries; choose methods for the question; own treatment.",
+    "conceptIds": [
+      "threat-modeling",
+      "assets",
+      "actors",
+      "trust-boundary",
+      "data-flow",
+      "attack-surface",
+      "threat",
+      "mitigation",
+      "abuse-case",
+      "design-review",
+      "octave",
+      "stride",
+      "threat-modeling-methods",
+      "risk-prioritization"
+    ],
+    "relationships": [
+      {
+        "from": "partner",
+        "to": "gateway",
+        "label": "submits data"
+      },
+      {
+        "from": "gateway",
+        "to": "boundary",
+        "label": "crosses"
+      },
+      {
+        "from": "boundary",
+        "to": "processor",
+        "label": "authorized request"
+      },
+      {
+        "from": "processor",
+        "to": "store",
+        "label": "writes result"
+      },
+      {
+        "from": "admin",
+        "to": "gateway",
+        "label": "manages policy"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Map a boundary and choose STRIDE, LINDDUN, OCTAVE, or another method with a reason.",
+    "textFallback": "Threat modeling systematically examines a system’s assets, actors, trust boundaries, data flows, threats, mitigations, and residual risks so design decisions are made early and revisited when the system changes.\nMap partner, gateway, processing service, storage, and admin paths; mark trust boundaries; consider forged identity, malicious file, disclosure, and availability abuse; assign mitigations and tests to owners.",
+    "sourceRefIds": [
+      "d1-o10-textbook",
+      "d1-o10-sybex",
+      "d1-o10-threat-modeling-depth-source-1"
+    ],
+    "mapNodeId": "d1-o10-threat-modeling",
+    "visualIds": [
+      "d1-o10-threat-modeling-boundary-review",
+      "d1-o10-threat-modeling-concept-comparison-1",
+      "d1-o10-threat-modeling-concept-comparison-2"
+    ]
+  }
+}

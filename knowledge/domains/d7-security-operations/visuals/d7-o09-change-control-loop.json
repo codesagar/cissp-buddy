@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o09-change-control-loop",
+  "unitId": "d7-o09-change-management",
+  "type": "loop",
+  "teachingQuestion": "How does change management connect authorization to a verified secure state?",
+  "focalInsight": "Approval is only one point in the loop; implementation, rollback, validation, and baseline update close the control cycle.",
+  "title": "Change-control loop",
+  "caption": "A controlled change moves from request through evidence-backed closure.",
+  "nodes": [
+    { "id": "request", "label": "Request and assess", "detail": "Reason, scope, impact, dependencies" },
+    { "id": "approve", "label": "Approve", "detail": "Authority, test, rollback, timing" },
+    { "id": "implement", "label": "Implement", "detail": "Controlled execution and communication" },
+    { "id": "validate", "label": "Validate", "detail": "Security, service, monitoring, acceptance" },
+    { "id": "close", "label": "Close and baseline", "detail": "Evidence, documentation, lessons" }
+  ],
+  "relationships": [
+    { "from": "request", "to": "approve", "label": "provides decision evidence" },
+    { "from": "approve", "to": "implement", "label": "authorizes" },
+    { "from": "implement", "to": "validate", "label": "changes state" },
+    { "from": "validate", "to": "close", "label": "confirms outcome" },
+    { "from": "validate", "to": "implement", "label": "rolls back if needed" },
+    { "from": "close", "to": "request", "label": "improves future change" }
+  ],
+  "altSummary": "A change request is assessed and approved, implemented, validated, and closed with an updated baseline; failed validation triggers rollback or another controlled change.",
+  "textFallback": "Assess scope, impact, dependencies, testing, rollback, and communication before approval. Implement under controlled access, validate security and service outcomes, roll back when criteria fail, then update the baseline, documentation, and lessons.",
+  "sourceRefIds": ["outline-d7-o09", "official-d7-63-65", "sybex-d7-785-788"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

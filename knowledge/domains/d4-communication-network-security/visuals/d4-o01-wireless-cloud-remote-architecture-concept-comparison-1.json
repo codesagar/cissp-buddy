@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1",
+  "unitId": "d4-o01-wireless-cloud-remote-architecture",
+  "type": "table",
+  "title": "Assess wireless, cloud, and remote network architecture: concept decisions 1",
+  "teachingQuestion": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+  "focalInsight": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Wireless Networks",
+      "conceptIds": [
+        "wireless-networks"
+      ],
+      "definition": "Networks using RF or other nonwired media with association, radio, physical-range, and interference considerations.",
+      "detail": "Networks using RF or other nonwired media with association, radio, physical-range, and interference considerations.",
+      "decision": "Select identity/admission, encryption, segmentation, management, rogue detection, and availability controls for the radio environment.",
+      "failureExample": "An attacker associates from outside a facility because radio range and rogue monitoring were ignored.",
+      "retrievalAnswer": "Wireless design must cover association, radio exposure, and segmentation.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Wifi",
+      "conceptIds": [
+        "wifi"
+      ],
+      "definition": "IEEE 802.11 wireless LAN technology using access points and association/security mechanisms.",
+      "detail": "IEEE 802.11 wireless LAN technology using access points and association/security mechanisms.",
+      "decision": "Use strong enterprise admission where needed, separate guest/IoT/enterprise traffic, secure AP management, and monitor rogue associations.",
+      "failureExample": "Guest Wi-Fi shares routes with payroll systems through a flat wireless VLAN.",
+      "retrievalAnswer": "Wi-Fi security includes client admission and path separation.",
+      "tier": "B"
+    },
+    {
+      "id": "row-3",
+      "label": "Bluetooth",
+      "conceptIds": [
+        "bluetooth"
+      ],
+      "definition": "Short-range wireless technology for peripheral/device communication with pairing and proximity risks.",
+      "detail": "Short-range wireless technology for peripheral/device communication with pairing and proximity risks.",
+      "decision": "Allow only needed profiles/devices, manage pairing, update firmware, and consider discovery/range exposure.",
+      "failureExample": "An unmanaged paired device receives data after the authorized user leaves.",
+      "retrievalAnswer": "Bluetooth risk centers on pairing, device identity, and proximity.",
+      "tier": "C"
+    },
+    {
+      "id": "row-4",
+      "label": "Zigbee",
+      "conceptIds": [
+        "zigbee"
+      ],
+      "definition": "Low-power mesh wireless technology common in IoT, with coordinator/mesh and device-lifecycle dependencies.",
+      "detail": "Low-power mesh wireless technology common in IoT, with coordinator/mesh and device-lifecycle dependencies.",
+      "decision": "Segment IoT, manage commissioning/keys/firmware, and monitor gateway/control points.",
+      "failureExample": "A compromised sensor joins a flat enterprise path through an unprotected gateway.",
+      "retrievalAnswer": "Zigbee needs IoT admission and gateway segmentation.",
+      "tier": "C"
+    },
+    {
+      "id": "row-5",
+      "label": "Cellular 4g 5g",
+      "conceptIds": [
+        "cellular-4g-5g"
+      ],
+      "definition": "Provider-operated mobile access networks with SIM/device identity, radio coverage, carrier, and roaming dependencies.",
+      "detail": "Provider-operated mobile access networks with SIM/device identity, radio coverage, carrier, and roaming dependencies.",
+      "decision": "Assess carrier trust, device identity, private/public path, data exposure, coverage/fallback, and management.",
+      "failureExample": "Loss of carrier service disables a remote safety function with no fallback.",
+      "retrievalAnswer": "Cellular availability and provider dependency are design inputs.",
+      "tier": "B"
+    },
+    {
+      "id": "row-6",
+      "label": "Satellite",
+      "conceptIds": [
+        "satellite"
+      ],
+      "definition": "Long-distance radio communication via satellite with coverage, provider, latency, weather, and ground-station dependencies.",
+      "detail": "Long-distance radio communication via satellite with coverage, provider, latency, weather, and ground-station dependencies.",
+      "decision": "Use when geographic reach justifies latency/cost; plan encryption endpoints, provider trust, availability, and alternate paths.",
+      "failureExample": "A latency-sensitive control service fails because satellite delay/jitter was not modeled.",
+      "retrievalAnswer": "Satellite expands reach but changes latency and dependency assumptions.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "Remote Connectivity",
+      "conceptIds": [
+        "remote-connectivity"
+      ],
+      "definition": "Controlled connectivity for offsite users/devices/services to organization resources.",
+      "detail": "Controlled connectivity for offsite users/devices/services to organization resources.",
+      "decision": "Broker identity, MFA, device posture, least privilege, time bounds, logging, revocation, and approved paths.",
+      "failureExample": "A remote VPN user inherits broad internal routing after authentication.",
+      "retrievalAnswer": "Remote connectivity must constrain session identity, device, scope, and time.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Edge Network",
+      "conceptIds": [
+        "edge-network"
+      ],
+      "definition": "Compute/enforcement close to users/devices that can reduce latency but distributes trust and management.",
+      "detail": "Compute/enforcement close to users/devices that can reduce latency but distributes trust and management.",
+      "decision": "Define edge identity, configuration, data path, update/rollback, telemetry, and physical/provider ownership.",
+      "failureExample": "An unpatched edge node enforces stale policy close to many clients.",
+      "retrievalAnswer": "Edge shifts control closer; it also distributes management risk.",
+      "tier": "B"
+    },
+    {
+      "id": "row-9",
+      "label": "Cdn",
+      "conceptIds": [
+        "cdn"
+      ],
+      "definition": "Origin-and-edge distribution service that caches/delivers content through provider-operated edge nodes.",
+      "detail": "Origin-and-edge distribution service that caches/delivers content through provider-operated edge nodes.",
+      "decision": "Define origin trust, cache rules, TLS termination, invalidation, logging, data sensitivity, and provider failure behavior.",
+      "failureExample": "Sensitive personalized content is cached or logged at an edge contrary to policy.",
+      "retrievalAnswer": "CDN design starts with what may be cached and where TLS terminates.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "wireless-networks",
+    "wifi",
+    "bluetooth",
+    "zigbee",
+    "cellular-4g-5g",
+    "satellite",
+    "remote-connectivity",
+    "edge-network",
+    "cdn"
+  ],
+  "altSummary": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+  "textFallback": "wireless networks: Networks using RF or other nonwired media with association, radio, physical-range, and interference considerations. Decide: Select identity/admission, encryption, segmentation, management, rogue detection, and availability controls for the radio environment. Example/failure: An attacker associates from outside a facility because radio range and rogue monitoring were ignored. Retrieve: Wireless design must cover association, radio exposure, and segmentation.\nwifi: IEEE 802.11 wireless LAN technology using access points and association/security mechanisms. Decide: Use strong enterprise admission where needed, separate guest/IoT/enterprise traffic, secure AP management, and monitor rogue associations. Example/failure: Guest Wi-Fi shares routes with payroll systems through a flat wireless VLAN. Retrieve: Wi-Fi security includes client admission and path separation.\nbluetooth: Short-range wireless technology for peripheral/device communication with pairing and proximity risks. Decide: Allow only needed profiles/devices, manage pairing, update firmware, and consider discovery/range exposure. Example/failure: An unmanaged paired device receives data after the authorized user leaves. Retrieve: Bluetooth risk centers on pairing, device identity, and proximity.\nzigbee: Low-power mesh wireless technology common in IoT, with coordinator/mesh and device-lifecycle dependencies. Decide: Segment IoT, manage commissioning/keys/firmware, and monitor gateway/control points. Example/failure: A compromised sensor joins a flat enterprise path through an unprotected gateway. Retrieve: Zigbee needs IoT admission and gateway segmentation.\ncellular 4g 5g: Provider-operated mobile access networks with SIM/device identity, radio coverage, carrier, and roaming dependencies. Decide: Assess carrier trust, device identity, private/public path, data exposure, coverage/fallback, and management. Example/failure: Loss of carrier service disables a remote safety function with no fallback. Retrieve: Cellular availability and provider dependency are design inputs.\nsatellite: Long-distance radio communication via satellite with coverage, provider, latency, weather, and ground-station dependencies. Decide: Use when geographic reach justifies latency/cost; plan encryption endpoints, provider trust, availability, and alternate paths. Example/failure: A latency-sensitive control service fails because satellite delay/jitter was not modeled. Retrieve: Satellite expands reach but changes latency and dependency assumptions.\nremote connectivity: Controlled connectivity for offsite users/devices/services to organization resources. Decide: Broker identity, MFA, device posture, least privilege, time bounds, logging, revocation, and approved paths. Example/failure: A remote VPN user inherits broad internal routing after authentication. Retrieve: Remote connectivity must constrain session identity, device, scope, and time.\nedge network: Compute/enforcement close to users/devices that can reduce latency but distributes trust and management. Decide: Define edge identity, configuration, data path, update/rollback, telemetry, and physical/provider ownership. Example/failure: An unpatched edge node enforces stale policy close to many clients. Retrieve: Edge shifts control closer; it also distributes management risk.\ncdn: Origin-and-edge distribution service that caches/delivers content through provider-operated edge nodes. Decide: Define origin trust, cache rules, TLS termination, invalidation, logging, data sensitivity, and provider failure behavior. Example/failure: Sensitive personalized content is cached or logged at an edge contrary to policy. Retrieve: CDN design starts with what may be cached and where TLS terminates.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-603-621",
+    "sybex-d4-657-707"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+    "misconception": "A cloud VPC, VPN, or wireless encryption setting automatically defines a safe enterprise boundary.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+    "conceptIds": [
+      "wireless-networks",
+      "wifi",
+      "bluetooth",
+      "zigbee",
+      "cellular-4g-5g",
+      "satellite",
+      "remote-connectivity",
+      "edge-network",
+      "cdn"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+    "textFallback": "wireless networks: Networks using RF or other nonwired media with association, radio, physical-range, and interference considerations. Decide: Select identity/admission, encryption, segmentation, management, rogue detection, and availability controls for the radio environment. Example/failure: An attacker associates from outside a facility because radio range and rogue monitoring were ignored. Retrieve: Wireless design must cover association, radio exposure, and segmentation.\nwifi: IEEE 802.11 wireless LAN technology using access points and association/security mechanisms. Decide: Use strong enterprise admission where needed, separate guest/IoT/enterprise traffic, secure AP management, and monitor rogue associations. Example/failure: Guest Wi-Fi shares routes with payroll systems through a flat wireless VLAN. Retrieve: Wi-Fi security includes client admission and path separation.\nbluetooth: Short-range wireless technology for peripheral/device communication with pairing and proximity risks. Decide: Allow only needed profiles/devices, manage pairing, update firmware, and consider discovery/range exposure. Example/failure: An unmanaged paired device receives data after the authorized user leaves. Retrieve: Bluetooth risk centers on pairing, device identity, and proximity.\nzigbee: Low-power mesh wireless technology common in IoT, with coordinator/mesh and device-lifecycle dependencies. Decide: Segment IoT, manage commissioning/keys/firmware, and monitor gateway/control points. Example/failure: A compromised sensor joins a flat enterprise path through an unprotected gateway. Retrieve: Zigbee needs IoT admission and gateway segmentation.\ncellular 4g 5g: Provider-operated mobile access networks with SIM/device identity, radio coverage, carrier, and roaming dependencies. Decide: Assess carrier trust, device identity, private/public path, data exposure, coverage/fallback, and management. Example/failure: Loss of carrier service disables a remote safety function with no fallback. Retrieve: Cellular availability and provider dependency are design inputs.\nsatellite: Long-distance radio communication via satellite with coverage, provider, latency, weather, and ground-station dependencies. Decide: Use when geographic reach justifies latency/cost; plan encryption endpoints, provider trust, availability, and alternate paths. Example/failure: A latency-sensitive control service fails because satellite delay/jitter was not modeled. Retrieve: Satellite expands reach but changes latency and dependency assumptions.\nremote connectivity: Controlled connectivity for offsite users/devices/services to organization resources. Decide: Broker identity, MFA, device posture, least privilege, time bounds, logging, revocation, and approved paths. Example/failure: A remote VPN user inherits broad internal routing after authentication. Retrieve: Remote connectivity must constrain session identity, device, scope, and time.\nedge network: Compute/enforcement close to users/devices that can reduce latency but distributes trust and management. Decide: Define edge identity, configuration, data path, update/rollback, telemetry, and physical/provider ownership. Example/failure: An unpatched edge node enforces stale policy close to many clients. Retrieve: Edge shifts control closer; it also distributes management risk.\ncdn: Origin-and-edge distribution service that caches/delivers content through provider-operated edge nodes. Decide: Define origin trust, cache rules, TLS termination, invalidation, logging, data sensitivity, and provider failure behavior. Example/failure: Sensitive personalized content is cached or logged at an edge contrary to policy. Retrieve: CDN design starts with what may be cached and where TLS terminates.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-603-621",
+      "sybex-d4-657-707"
+    ],
+    "mapNodeId": "d4-o01-wireless-cloud-remote-architecture"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

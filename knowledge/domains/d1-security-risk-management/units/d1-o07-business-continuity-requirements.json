@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d1-o07-business-continuity-requirements",
+  "domainId": 1,
+  "objectiveIds": [
+    "1.7"
+  ],
+  "title": "Set business continuity requirements from business impact",
+  "summary": "Business continuity requirements protect prioritized business outcomes. A business impact analysis identifies consequences, recovery priorities, dependencies, owners, and acceptable disruption before teams select recovery solutions.",
+  "outcome": "Use a business impact statement to prioritize a process and identify the continuity requirement and dependency evidence needed.",
+  "conceptIds": [
+    "business-continuity",
+    "business-impact-analysis",
+    "recovery-time-objective",
+    "recovery-point-objective",
+    "maximum-tolerable-downtime",
+    "external-dependency",
+    "recovery-priority",
+    "mtd",
+    "rto",
+    "rpo"
+  ],
+  "prerequisites": [
+    "risk-management",
+    "security-governance"
+  ],
+  "estimatedMinutes": 26,
+  "managerMindset": "Continuity is a business decision supported by technology. Ask what outcome must be restored, how quickly, with how much data loss, and which internal or external dependencies make that possible.",
+  "sections": [
+    {
+      "id": "bia",
+      "title": "Start with business impact analysis",
+      "body": "A BIA identifies critical processes, consequences of disruption over time, dependencies, resource needs, recovery priorities, and accountable owners. It does not begin by choosing a backup product. The output gives leadership a basis for recovery time, recovery point, manual-workaround, and communication requirements that can be tested and funded.",
+      "keyPoints": [
+        "Prioritize processes by impact and time, not by application popularity.",
+        "Recovery objectives require business-owner agreement."
+      ],
+      "sourceRefIds": [
+        "d1-o07-outline",
+        "d1-o07-textbook",
+        "d1-o07-sybex"
+      ]
+    },
+    {
+      "id": "dependencies",
+      "title": "Include the whole service chain",
+      "body": "A service may depend on people, facilities, identity providers, network carriers, cloud regions, suppliers, data feeds, utilities, and contractual support. External dependencies need explicit assumptions, service expectations, alternates, and communications. A recovery plan that restores a server but not its identity service, upstream data, or authorized operator has not restored the business process.",
+      "keyPoints": [
+        "Dependencies make recovery requirements realistic.",
+        "Test assumptions with the parties who own the dependency."
+      ],
+      "sourceRefIds": [
+        "d1-o07-textbook",
+        "d1-o07-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Turn BIA and dependencies into recoverable business requirements",
+      "body": "A business impact analysis identifies process outcomes, consequence over time, priority, accountable owner, resource needs, acceptable interruption, acceptable data loss, and required workarounds before selecting a recovery solution. External dependencies include suppliers, identity, telecommunications, utilities, cloud services, data feeds, facilities, and contractual support; each needs an assumption, service expectation, alternate or workaround, communication path, and test. The key decision is whether the whole business capability—not merely one server—can meet its agreed recovery objective. A replica or backup is insufficient when people, authorization, upstream data, or supplier commitments are unavailable.",
+      "keyPoints": [
+        "Name the accountable owner, decision criterion, and evidence for each applicable outline topic.",
+        "Record the failure consequence and escalation or review trigger rather than assuming a policy label proves operation."
+      ],
+      "sourceRefIds": [
+        "d1-o07-outline",
+        "d1-o07-textbook",
+        "d1-o07-sybex"
+      ]
+    },
+    {
+      "id": "mtd-mad-sets-the-outer-continuity-boundary",
+      "title": "Use MTD/MAD as the harm boundary that constrains RTO",
+      "body": "Maximum tolerable downtime (MTD), also called maximum allowable downtime (MAD), is the point after which a disruption causes unacceptable or significant harm to the organization. Recovery time objective (RTO) is the planned time to restore the critical functional capability to an acceptable temporary state; it must be shorter than the applicable MTD/MAD so the organization has time margin rather than aiming to recover after intolerable harm. Recovery point objective (RPO) is a separate data-loss tolerance measured in time. Set all three from BIA consequences, critical-path dependencies, contractual/regulatory obligations, and accountable business-owner decisions, then test whether the end-to-end recovery actually meets them.",
+      "keyPoints": [
+        "MTD/MAD establishes the maximum disruption window; RTO is a planned recovery target inside it.",
+        "RPO constrains data loss, so a service can meet an RTO while still violating its RPO."
+      ],
+      "sourceRefIds": [
+        "d1-o07-textbook",
+        "d1-o07-business-continuity-requirements-depth-source-1"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Emergency claims intake",
+      "situation": "A claims service can tolerate a short delay but cannot lose submitted emergency cases.",
+      "reasoning": "The BIA distinguishes service restoration time from acceptable data loss, identifies call-center and identity-provider dependencies, and defines a manual intake workaround with ownership.",
+      "takeaway": "RTO and RPO are separate business tolerances, not a generic “high availability” label."
+    },
+    {
+      "title": "Payments interruption boundary",
+      "situation": "A payment process becomes contractually and financially harmful after six hours of outage, while five minutes of transaction loss is acceptable.",
+      "reasoning": "Set MTD/MAD at six hours from business impact, select and test an RTO with margin below six hours, set RPO at five minutes, and include identity, payment network, people, data, and communications dependencies in the exercise.",
+      "takeaway": "RTO and RPO answer different tolerances, and both must fit inside the business harm boundary."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Business continuity",
+      "b": "Disaster recovery",
+      "difference": "Continuity sustains prioritized business outcomes; disaster recovery restores technology and is one contributor to continuity."
+    },
+    {
+      "a": "MTD/MAD",
+      "b": "RTO",
+      "difference": "MTD/MAD is the latest tolerable point before unacceptable harm; RTO is the planned time to restore critical capability. The RTO must be shorter than MTD/MAD."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A backup alone is a continuity plan.",
+      "correction": "Recovery also needs priorities, people, procedures, dependencies, communication, and tested restoration capability."
+    },
+    {
+      "claim": "An RTO equal to MTD/MAD is acceptable because recovery finishes at the deadline.",
+      "correction": "RTO should be shorter than MTD/MAD; equal timing leaves no margin for recovery uncertainty and defeats the purpose of the harm boundary."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does a BIA establish before selecting a recovery solution?",
+      "answer": "Impact over time, priorities, dependencies, resource needs, owners, and recovery requirements."
+    },
+    {
+      "prompt": "How do RTO and RPO differ?",
+      "answer": "RTO is acceptable time to restore a service; RPO is acceptable data loss measured by recovery point."
+    },
+    {
+      "prompt": "How do MTD/MAD, RTO, and RPO relate?",
+      "answer": "MTD/MAD is the maximum tolerable outage before unacceptable harm, RTO is the recovery-time target inside that limit, and RPO is the acceptable data-loss interval. They must be set from business impact and tested together."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A cloud application has replicas but depends on a single external identity provider. What should the continuity review highlight?",
+      "decisiveDetail": "Service recovery depends on the end-to-end chain, not only application replicas.",
+      "testedConceptIds": [
+        "external-dependency",
+        "business-impact-analysis"
+      ]
+    },
+    {
+      "prompt": "A recovery test restores servers in four hours but loses twelve hours of orders; MTD is eight hours, RTO is six hours, and RPO is one hour. What failed?",
+      "decisiveDetail": "The time objective is met but the data-loss objective is not. Recovery acceptance requires both the RTO and RPO, plus end-to-end business capability evidence.",
+      "testedConceptIds": [
+        "mtd",
+        "rto",
+        "rpo",
+        "business-impact-analysis"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Describe one process in terms of consequence, RTO, RPO, owner, and dependencies.",
+    "connect": "Connect BIA outputs to risk treatment and Domain 7 recovery operations.",
+    "apply": "Find the unaddressed dependency in a proposed recovery design.",
+    "revisit": "In three days, contrast business continuity and disaster recovery."
+  },
+  "visualIds": [
+    "d1-o07-business-continuity-requirements-bia-to-recovery",
+    "d1-o07-business-continuity-requirements-concept-comparison-1",
+    "d1-o07-business-continuity-requirements-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d1-o07-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 1.7"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d1-o07-textbook",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "52-57",
+        "pdfPage": "52-57",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "business-impact-analysis",
+        "external-dependencies"
+      ]
+    },
+    {
+      "id": "d1-o07-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 3, Business Continuity Planning, pp. 113 onward; precise locator refinement pending"
+      },
+      "supports": [
+        "continuity-planning",
+        "business-impact-analysis"
+      ],
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; this unit remains draft until page-level content review."
+    },
+    {
+      "id": "d1-o07-business-continuity-requirements-depth-source-1",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "section",
+        "value": "Printed/PDF pp. 52-57, “Identify, Analyze, Assess, Prioritize, and Implement Business Continuity Requirements (1.7)”; especially pp. 55 and 57"
+      },
+      "supports": [
+        "Inspected p. 55 for RTO/RPO and planning targets, and p. 57 for MAD/MTD: it is the point after which significant organizational harm occurs and RTO must be shorter than it."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d1-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d1-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d1-o07-business-continuity-requirements-visual-contract",
+    "unitId": "d1-o07-business-continuity-requirements",
+    "teachingQuestion": "What business harm boundary, recovery time, data-loss tolerance, and dependency evidence define this capability?",
+    "misconception": "A backup or an application replica alone proves business continuity.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows expose distinctions, decision criteria, and misuse consequences.",
+    "focalInsight": "BIA establishes priorities; MTD/MAD constrains RTO, RPO constrains loss, and dependencies determine recoverability.",
+    "conceptIds": [
+      "business-continuity",
+      "business-impact-analysis",
+      "recovery-time-objective",
+      "recovery-point-objective",
+      "maximum-tolerable-downtime",
+      "external-dependency",
+      "recovery-priority",
+      "mtd",
+      "rto",
+      "rpo"
+    ],
+    "relationships": [
+      {
+        "from": "process",
+        "to": "impact",
+        "label": "is analyzed by"
+      },
+      {
+        "from": "process",
+        "to": "dependencies",
+        "label": "requires"
+      },
+      {
+        "from": "dependencies",
+        "to": "impact",
+        "label": "constrains"
+      },
+      {
+        "from": "impact",
+        "to": "objectives",
+        "label": "sets"
+      },
+      {
+        "from": "objectives",
+        "to": "solution",
+        "label": "defines"
+      },
+      {
+        "from": "dependencies",
+        "to": "solution",
+        "label": "shapes"
+      },
+      {
+        "from": "solution",
+        "to": "test",
+        "label": "is exercised by"
+      },
+      {
+        "from": "test",
+        "to": "impact",
+        "label": "refines assumptions"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a disruption, state MTD/MAD, RTO, RPO, priority, and the missing dependency.",
+    "textFallback": "Business continuity requirements protect prioritized business outcomes. A business impact analysis identifies consequences, recovery priorities, dependencies, owners, and acceptable disruption before teams select recovery solutions.\nThe BIA distinguishes service restoration time from acceptable data loss, identifies call-center and identity-provider dependencies, and defines a manual intake workaround with ownership.",
+    "sourceRefIds": [
+      "d1-o07-textbook",
+      "d1-o07-sybex",
+      "d1-o07-business-continuity-requirements-depth-source-1"
+    ],
+    "mapNodeId": "d1-o07-business-continuity-requirements",
+    "visualIds": [
+      "d1-o07-business-continuity-requirements-bia-to-recovery",
+      "d1-o07-business-continuity-requirements-concept-comparison-1",
+      "d1-o07-business-continuity-requirements-concept-comparison-2"
+    ]
+  }
+}

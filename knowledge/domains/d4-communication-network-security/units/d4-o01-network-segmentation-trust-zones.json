@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-network-segmentation-trust-zones",
+  "domainId": 4,
+  "objectiveIds": [
+    "4.1"
+  ],
+  "title": "Design network segmentation and trust zones",
+  "summary": "Segmentation turns data flows, identities, and trust assumptions into enforceable boundaries that reduce blast radius while preserving required business paths.",
+  "outcome": "Design trust zones and segmentation controls for a network scenario, justify the boundary type, and identify bypass and failure evidence.",
+  "conceptIds": [
+    "trust-zone",
+    "network-segmentation",
+    "micro-segmentation",
+    "traffic-flows",
+    "zero-trust",
+    "vlan",
+    "vpn",
+    "vrf",
+    "air-gap"
+  ],
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d4-o01-architecture-and-segmentation",
+    "d5-o01-physical-logical-access"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "A zone is a policy boundary with an owner and enforcement point, not merely a differently named subnet.",
+  "sections": [
+    {
+      "id": "zone-design",
+      "title": "Start with flows and trust",
+      "body": "Inventory north-south and east-west flows, data classification, identities, service dependencies, management paths, and failure consequences. Define zones by a meaningful trust or business purpose, then choose physical, logical, or workload-level boundaries. Physical separation or an air gap reduces available paths; VLANs, VPNs, and VRF reduce logical reachability; micro-segmentation applies finer workload and identity policy.",
+      "keyPoints": [
+        "The owner of a zone defines allowed purposes and evidence.",
+        "Segmentation should be based on risk and flow requirements, not topology fashion.",
+        "A boundary is incomplete if alternate routes or management paths bypass it."
+      ],
+      "sourceRefIds": [
+        "outline-4.1-segmentation",
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ]
+    },
+    {
+      "id": "enforcement-and-failure",
+      "title": "Enforce, observe, and test the boundary",
+      "body": "Place enforcement where traffic actually crosses, authenticate administrative and service identities, log allowed and denied flows, and test fail-open/fail-closed behavior. Distributed firewalls, routers, IDS/IPS, overlays, and zero-trust policy can complement zones, but each introduces configuration, availability, and observability dependencies. Review rules for stale exceptions and unintended transitive trust.",
+      "keyPoints": [
+        "A segmentation design needs an explicit bypass and failure strategy.",
+        "Telemetry should reveal lateral movement and policy drift.",
+        "Zero trust continuously evaluates context; it does not make segmentation unnecessary."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Research and production zones",
+      "situation": "A research network needs limited access to production analytics, while administrators require separate management access.",
+      "reasoning": "Create separate research, production, and management zones; permit only documented brokered flows; use identity-aware controls and time-limited administration; monitor east-west traffic; test the design under compromised research-host and control-plane failure scenarios."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "VLAN",
+        "micro-segmentation"
+      ],
+      "difference": "A VLAN separates a logical broadcast domain; micro-segmentation applies finer workload or identity policy, often dynamically."
+    },
+    {
+      "between": [
+        "air gap",
+        "logical segmentation"
+      ],
+      "difference": "An air gap seeks no connected path; logical segmentation permits connectivity but constrains it through policy and enforcement."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A perimeter firewall proves internal trust zones are effective.",
+      "correction": "East-west movement, cloud overlays, wireless, and management paths require internal enforcement and monitoring."
+    },
+    {
+      "misconception": "More zones automatically improve security.",
+      "correction": "Unusable complexity creates exceptions and blind spots; zones must correspond to risk and operating ownership."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What inputs drive zone design?",
+      "answer": "Data value, flows, identities, dependencies, trust assumptions, business purpose, and failure impact."
+    },
+    {
+      "prompt": "What should a segmentation test include?",
+      "answer": "Allowed/denied paths, alternate routes, management bypasses, logging, and fail-open/fail-closed behavior."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A cloud security group blocks a database from the web tier, but an admin subnet can reach both without logging.",
+      "decision": "Treat the admin path as a separate high-risk trust boundary and enforce, authenticate, log, and review it.",
+      "why": "An unobserved management route can defeat the intended segmentation."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study physical, logical, micro-segmentation, traffic direction, and trust zones.",
+    "connect": "Connect D3 secure design, D5 access, and D7 monitoring.",
+    "apply": "Draw zones and allowed flows for a three-tier service.",
+    "revisit": "Look for bypass routes and shared dependencies."
+  },
+  "visualIds": [
+    "d4-o01-segmentation-layers",
+    "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-4.1-segmentation",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "4.1 bullets: traffic flows; physical/logical/micro-segmentation"
+      },
+      "supports": [
+        "topic scope"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77), body sections on architecture, segmentation, and SDN"
+      },
+      "supports": [
+        "segmentation and trust boundaries"
+      ]
+    },
+    {
+      "id": "sybex-d4-597-645",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "597-645, Chapter 11 Secure Network Architecture and Components"
+      },
+      "supports": [
+        "secure protocols, microsegmentation, components"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d4-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d4-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d4-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d4-o01-network-segmentation-trust-zones-visual-contract",
+    "unitId": "d4-o01-network-segmentation-trust-zones",
+    "teachingQuestion": "Where should this flow cross a trust boundary, what policy permits it, and how will a bypass or failure be detected?",
+    "misconception": "Segmentation is accomplished merely by naming a VLAN or installing a firewall.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "A zone is a defined trust purpose plus enforced, observable crossings; VLANs and tunnels are mechanisms, not the purpose itself.",
+    "conceptIds": [
+      "trust-zone",
+      "network-segmentation",
+      "micro-segmentation",
+      "traffic-flows",
+      "zero-trust",
+      "vlan",
+      "vpn",
+      "vrf",
+      "air-gap"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Where should this flow cross a trust boundary, what policy permits it, and how will a bypass or failure be detected?",
+    "textFallback": "Segmentation turns data flows, identities, and trust assumptions into enforceable boundaries that reduce blast radius while preserving required business paths.\nCreate separate research, production, and management zones; permit only documented brokered flows; use identity-aware controls and time-limited administration; monitor east-west traffic; test the design under compromised research-host and control-plane failure scenarios.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-597-645"
+    ],
+    "mapNodeId": "d4-o01-network-segmentation-trust-zones",
+    "visualIds": [
+      "d4-o01-network-segmentation-trust-zones-concept-comparison-1"
+    ]
+  }
+}

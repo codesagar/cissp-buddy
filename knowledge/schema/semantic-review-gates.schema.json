@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "bindingRule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "memoryReview": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mapSha256": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contentSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "adversarialChecked": {
+            "type": "boolean"
+          },
+          "visualChecked": {
+            "type": "boolean"
+          },
+          "memoryChecked": {
+            "type": "boolean"
+          },
+          "conflictsAdjudicated": {
+            "type": "boolean"
+          },
+          "reviewerId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reports": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "visualIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "unitId",
+          "contentSha256",
+          "adversarialChecked",
+          "visualChecked",
+          "memoryChecked",
+          "conflictsAdjudicated",
+          "reviewerId",
+          "reports",
+          "visualIds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "visuals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "visualId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unitId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "semanticSourceSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "status": {
+            "enum": [
+              "reviewed",
+              "pending"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "report": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "reviewerId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "semanticSourceSha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "report",
+                "reviewerId",
+                "semanticSourceSha256"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "visualId",
+          "unitId",
+          "semanticSourceSha256",
+          "status",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "bindingRule",
+    "memoryReview",
+    "mapSha256",
+    "units",
+    "visuals"
+  ],
+  "additionalProperties": false
+}

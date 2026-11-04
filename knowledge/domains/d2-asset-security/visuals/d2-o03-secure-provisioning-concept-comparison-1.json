@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o03-secure-provisioning-concept-comparison-1",
+  "unitId": "d2-o03-secure-provisioning",
+  "type": "table",
+  "title": "Provision resources securely: concept decisions 1",
+  "teachingQuestion": "What must be approved, baselined, registered, and accepted before this resource enters service?",
+  "focalInsight": "Provisioning joins accountable purpose, safe defaults, baseline, inventory, authorization, and lifecycle planning.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Secure Provisioning",
+      "conceptIds": [
+        "secure-provisioning"
+      ],
+      "definition": "Controlled transition of a resource into service with owned purpose and approved safeguards.",
+      "detail": "Controlled transition of a resource into service with owned purpose and approved safeguards.",
+      "decision": "Require request, owner, purpose, classification, environment, dependencies, approval, acceptance evidence.",
+      "failureExample": "A production SaaS tenant appears without inventory or owner.",
+      "retrievalAnswer": "Provisioning is controlled entry, not mere creation.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Secure Defaults",
+      "conceptIds": [
+        "secure-defaults"
+      ],
+      "definition": "Initial settings that reduce exposure before local customization.",
+      "detail": "Initial settings that reduce exposure before local customization.",
+      "decision": "Use hardened approved images, least privilege, secure protocols, secrets handling, and disabled unnecessary features.",
+      "failureExample": "A new database is internet reachable with default credentials.",
+      "retrievalAnswer": "Defaults must be safe before exceptions.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Baseline",
+      "conceptIds": [
+        "baseline"
+      ],
+      "definition": "Approved reference configuration used for build, assessment, and drift detection.",
+      "detail": "Approved reference configuration used for build, assessment, and drift detection.",
+      "decision": "Define version, parameters, owner, exception, measurement, and change path.",
+      "failureExample": "A host passes build but no reference exists to detect later change.",
+      "retrievalAnswer": "Baseline makes compliance and drift observable.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Authorization",
+      "conceptIds": [
+        "authorization"
+      ],
+      "definition": "Approved decision to activate resource, access, or change within defined scope.",
+      "detail": "Approved decision to activate resource, access, or change within defined scope.",
+      "decision": "Confirm authority, business purpose, risk, dependencies, and evidence before activation.",
+      "failureExample": "Engineer enables production access because deployment succeeded.",
+      "retrievalAnswer": "Technical ability is not authorization.",
+      "tier": "B"
+    },
+    {
+      "id": "row-5",
+      "label": "Configuration Drift",
+      "conceptIds": [
+        "configuration-drift"
+      ],
+      "definition": "Difference between actual configuration and approved baseline.",
+      "detail": "Difference between actual configuration and approved baseline.",
+      "decision": "Monitor change, owner, exception, and remediation trigger.",
+      "failureExample": "A firewall rule remains after emergency work and creates exposure.",
+      "retrievalAnswer": "Drift requires reconciliation or risk decision.",
+      "tier": "B"
+    },
+    {
+      "id": "row-6",
+      "label": "Asset Inventory",
+      "conceptIds": [
+        "asset-inventory"
+      ],
+      "definition": "Lifecycle record linking resource to owner, location, purpose, configuration, support, and retirement.",
+      "detail": "Lifecycle record linking resource to owner, location, purpose, configuration, support, and retirement.",
+      "decision": "Register before production and reconcile with discovery.",
+      "failureExample": "Unmanaged VM is not assessed or patched.",
+      "retrievalAnswer": "Inventory is a provisioning gate and lifecycle control.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "Data Lifecycle",
+      "conceptIds": [
+        "data-lifecycle"
+      ],
+      "definition": "Managed states from collection through use, storage, archive, and destruction.",
+      "detail": "Managed states from collection through use, storage, archive, and destruction.",
+      "decision": "Plan data purpose, copies, retention, protections, and end state before activation.",
+      "failureExample": "New service creates backups with no retention/disposal plan.",
+      "retrievalAnswer": "Provisioning must include lifecycle intent.",
+      "tier": "C"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "secure-provisioning",
+    "secure-defaults",
+    "baseline",
+    "authorization",
+    "configuration-drift",
+    "asset-inventory",
+    "data-lifecycle"
+  ],
+  "altSummary": "Provisioning joins accountable purpose, safe defaults, baseline, inventory, authorization, and lifecycle planning.",
+  "textFallback": "secure provisioning: Controlled transition of a resource into service with owned purpose and approved safeguards. Decide: Require request, owner, purpose, classification, environment, dependencies, approval, acceptance evidence. Example/failure: A production SaaS tenant appears without inventory or owner. Retrieve: Provisioning is controlled entry, not mere creation.\nsecure defaults: Initial settings that reduce exposure before local customization. Decide: Use hardened approved images, least privilege, secure protocols, secrets handling, and disabled unnecessary features. Example/failure: A new database is internet reachable with default credentials. Retrieve: Defaults must be safe before exceptions.\nbaseline: Approved reference configuration used for build, assessment, and drift detection. Decide: Define version, parameters, owner, exception, measurement, and change path. Example/failure: A host passes build but no reference exists to detect later change. Retrieve: Baseline makes compliance and drift observable.\nauthorization: Approved decision to activate resource, access, or change within defined scope. Decide: Confirm authority, business purpose, risk, dependencies, and evidence before activation. Example/failure: Engineer enables production access because deployment succeeded. Retrieve: Technical ability is not authorization.\nconfiguration drift: Difference between actual configuration and approved baseline. Decide: Monitor change, owner, exception, and remediation trigger. Example/failure: A firewall rule remains after emergency work and creates exposure. Retrieve: Drift requires reconciliation or risk decision.\nasset inventory: Lifecycle record linking resource to owner, location, purpose, configuration, support, and retirement. Decide: Register before production and reconcile with discovery. Example/failure: Unmanaged VM is not assessed or patched. Retrieve: Inventory is a provisioning gate and lifecycle control.\ndata lifecycle: Managed states from collection through use, storage, archive, and destruction. Decide: Plan data purpose, copies, retention, protections, and end state before activation. Example/failure: New service creates backups with no retention/disposal plan. Retrieve: Provisioning must include lifecycle intent.",
+  "sourceRefIds": [
+    "official-d2-18-22",
+    "takeaways-d2-provision",
+    "sybex-d2"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What must be approved, baselined, registered, and accepted before this resource enters service?",
+    "misconception": "Automation or a successful deployment makes a resource authorized and secure.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Provisioning joins accountable purpose, safe defaults, baseline, inventory, authorization, and lifecycle planning.",
+    "conceptIds": [
+      "secure-provisioning",
+      "secure-defaults",
+      "baseline",
+      "authorization",
+      "configuration-drift",
+      "asset-inventory",
+      "data-lifecycle"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Name the owner, purpose, classification, baseline, access approval, acceptance evidence, and drift trigger.",
+    "textFallback": "secure provisioning: Controlled transition of a resource into service with owned purpose and approved safeguards. Decide: Require request, owner, purpose, classification, environment, dependencies, approval, acceptance evidence. Example/failure: A production SaaS tenant appears without inventory or owner. Retrieve: Provisioning is controlled entry, not mere creation.\nsecure defaults: Initial settings that reduce exposure before local customization. Decide: Use hardened approved images, least privilege, secure protocols, secrets handling, and disabled unnecessary features. Example/failure: A new database is internet reachable with default credentials. Retrieve: Defaults must be safe before exceptions.\nbaseline: Approved reference configuration used for build, assessment, and drift detection. Decide: Define version, parameters, owner, exception, measurement, and change path. Example/failure: A host passes build but no reference exists to detect later change. Retrieve: Baseline makes compliance and drift observable.\nauthorization: Approved decision to activate resource, access, or change within defined scope. Decide: Confirm authority, business purpose, risk, dependencies, and evidence before activation. Example/failure: Engineer enables production access because deployment succeeded. Retrieve: Technical ability is not authorization.\nconfiguration drift: Difference between actual configuration and approved baseline. Decide: Monitor change, owner, exception, and remediation trigger. Example/failure: A firewall rule remains after emergency work and creates exposure. Retrieve: Drift requires reconciliation or risk decision.\nasset inventory: Lifecycle record linking resource to owner, location, purpose, configuration, support, and retirement. Decide: Register before production and reconcile with discovery. Example/failure: Unmanaged VM is not assessed or patched. Retrieve: Inventory is a provisioning gate and lifecycle control.\ndata lifecycle: Managed states from collection through use, storage, archive, and destruction. Decide: Plan data purpose, copies, retention, protections, and end state before activation. Example/failure: New service creates backups with no retention/disposal plan. Retrieve: Provisioning must include lifecycle intent.",
+    "sourceRefIds": [
+      "official-d2-18-22",
+      "takeaways-d2-provision",
+      "sybex-d2"
+    ],
+    "mapNodeId": "d2-o03-secure-provisioning"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d6-o04-analysis-reporting",
+  "domainId": 6,
+  "objectiveIds": [
+    "6.4"
+  ],
+  "title": "Analyze output and generate useful reports",
+  "summary": "Analysis converts observations into validated findings, risk context, priorities, and decisions; reporting makes limitations and actions clear to each audience.",
+  "outcome": "Turn test output into a defensible finding and report that states evidence, impact, likelihood, scope, limitations, and remediation ownership.",
+  "conceptIds": [
+    "finding",
+    "risk-rating",
+    "root-cause",
+    "executive-summary",
+    "remediation",
+    "reporting",
+    "exception-handling"
+  ],
+  "prerequisites": [
+    "d6-o02-control-testing",
+    "d6-o03-process-data"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "A report is a decision aid, not a dump of tool output.",
+  "sections": [
+    {
+      "id": "validate-and-prioritize",
+      "title": "Analyze before concluding",
+      "body": "Validate observations, remove duplicates, distinguish false positives from accepted risk, identify root cause and affected population, and rate likelihood and impact in context. Reconcile technical severity with business criticality, exploitability, compensating controls, and exposure. Preserve the evidence trail from finding to requirement and owner.",
+      "keyPoints": [
+        "Tool severity is an input, not the final business risk rating.",
+        "Root cause helps prevent recurrence.",
+        "Uncertainty and limitations belong in the conclusion."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "sybex-d6-829-835"
+      ]
+    },
+    {
+      "id": "audience-and-actions",
+      "title": "Report for action",
+      "body": "Technical reports need reproducible evidence and remediation detail; executive summaries need risk, business impact, trends, decisions, and accountable owners. State scope, method, dates, criteria, exceptions, residual risk, and due dates. Avoid absolute claims when sampling or coverage is limited.",
+      "keyPoints": [
+        "Every material finding needs an owner and next action.",
+        "Different audiences need different detail, not contradictory conclusions.",
+        "Remediation status should be updated and retested."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "aio-d6-1223-1250"
+      ]
+    },
+    {
+      "id": "remediation-exception-disclosure",
+      "title": "Turn findings into accountable remediation and ethical disclosure",
+      "body": "Remediation should identify root cause, owner, priority, due date, compensating control, validation method, and residual risk. Exception handling should document affected scope, rationale, appropriate approval, residual risk, and a planned review consistent with organizational governance. Ethical disclosure protects affected parties and evidence through authorized coordination, confidentiality, and agreed notification and legal channels.",
+      "keyPoints": [
+        "Closure requires retest or sufficient evidence, not a ticket status.",
+        "Exceptions should remain visible and be reconsidered according to the organization’s approved governance.",
+        "Disclosure balances harm reduction, legal duty, affected-party notice, and evidence preservation."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "sybex-d6-829-835",
+        "aio-d6-1223-1250"
+      ]
+    },
+    {
+      "id": "time-bound-exception-decision",
+      "title": "Treat an exception as a controlled risk decision, not a closed finding",
+      "body": "When remediation cannot meet the needed time frame, document the affected asset and control objective, evidence and severity context, accountable risk owner, business justification, compensating controls, residual risk, approval authority, and a planned review or reconsideration condition consistent with organizational governance. Report decision-makers the material risk, alternatives, owner, and deadline; give implementers reproducible technical evidence and the required corrective action.",
+      "keyPoints": [
+        "An exception is a documented, authorized residual-risk decision that must be revisited under organizational governance.",
+        "Closure requires evidence that the remediation or compensating control works in the affected environment."
+      ],
+      "sourceRefIds": [
+        "official-d6-50-53",
+        "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Critical exposed service",
+      "situation": "A scanner reports a critical service, but compensating controls limit reachable paths.",
+      "reasoning": "Confirm the finding, map exposure and business asset, document compensating controls, rate residual risk, assign remediation, and describe limitations. Do not hide the finding or copy the scanner score directly into the executive summary."
+    },
+    {
+      "title": "Unsupported gateway finding",
+      "situation": "A public gateway has a critical weakness, but a vendor replacement requires six weeks.",
+      "reasoning": "Validate the finding and exposure, assign a risk owner, define a short exception with an end date, constrain access and monitoring as compensating controls, obtain appropriate approval, schedule the replacement, then retest the gateway and document closure. Do not report an unqualified ‘accepted risk’ as if the technical weakness vanished.",
+      "takeaway": "A deadline, owner, safeguards, and verification separate managed residual risk from ignored remediation."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "finding",
+        "risk acceptance"
+      ],
+      "difference": "A finding states evidence of a condition; risk acceptance is an accountable management decision about residual risk."
+    },
+    {
+      "a": "Time-bounded exception",
+      "b": "Finding closure",
+      "difference": "An exception records an authorized residual-risk decision and compensating controls subject to organizational review; closure requires evidence that the finding is remediated or otherwise meets the accepted control objective."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "The longest report is the most useful.",
+      "correction": "Reports should be complete, traceable, audience-appropriate, and action-oriented."
+    },
+    {
+      "claim": "A manager’s acceptance statement closes a technical finding indefinitely.",
+      "correction": "A defensible exception identifies the risk owner, scope, rationale, compensating controls, residual risk, appropriate approval, and a planned governance review or reconsideration condition."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What context changes a technical severity rating?",
+      "answer": "Business criticality, exposure, exploitability, compensating controls, likelihood, and impact."
+    },
+    {
+      "prompt": "What must an executive summary preserve?",
+      "answer": "Scope, material risk, business impact, trend, decision needed, owner, and limitations."
+    },
+    {
+      "prompt": "What turns a remediation exception into a controlled residual-risk decision?",
+      "answer": "Defined scope and evidence, accountable owner and authority, rationale and residual risk, compensating controls, and a review or reconsideration condition consistent with organizational governance."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A report says 'no issues found' because sampled systems passed.",
+      "decision": "Rewrite to state sample, scope, criteria, and residual uncertainty.",
+      "why": "A sample result cannot support a universal claim."
+    },
+    {
+      "prompt": "A report calls a critical cloud misconfiguration ‘accepted’ but lists no owner or end date. What is missing?",
+      "decisiveDetail": "The accountable risk decision, affected scope, rationale, compensating controls, residual-risk statement, expiry, monitoring, and retest/closure criterion; therefore it is not a managed exception.",
+      "testedConceptIds": [
+        "exception-handling",
+        "remediation",
+        "reporting"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study finding validation, risk context, report audiences, and remediation.",
+    "connect": "Connect reporting to D1 governance and D7 remediation.",
+    "apply": "Rewrite a raw scan output as an executive decision brief.",
+    "revisit": "Check every report for unsupported absolutes."
+  },
+  "visualIds": [
+    "d6-evidence-report-loop",
+    "d6-o04-analysis-reporting-decision-comparison-1",
+    "d6-o04-analysis-reporting-exception-handling-decision-trace"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d6-4",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "6.4"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d6-50-53",
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "50-53 (PDF pp. 50-53)"
+      },
+      "supports": [
+        "analysis and reporting"
+      ]
+    },
+    {
+      "id": "sybex-d6-829-835",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "829-835, Chapter 15"
+      },
+      "supports": [
+        "reporting"
+      ]
+    },
+    {
+      "id": "aio-d6-1223-1250",
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1223-1250, Chapter 19"
+      },
+      "supports": [
+        "reporting and management review"
+      ]
+    },
+    {
+      "id": "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024",
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "locator": {
+        "type": "section",
+        "value": "printed/PDF pp. 50-53, Analyze Test Output and Generate Report (6.4)"
+      },
+      "supports": [
+        "Inspected pages 50-53 discuss continual improvement, remediation, exceptions, ethical disclosure, and reporting; the patch supplies original operational decision details."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d6.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d6-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d6-o04-analysis-reporting-visual-contract",
+    "unitId": "d6-o04-analysis-reporting",
+    "teachingQuestion": "How does evidence become a defensible prioritized finding and accountable action?",
+    "misconception": "Severity score alone explains business decision.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Evidence supports finding; context/risk explains priority; owner remediates or accepts exception; retest closes.",
+    "conceptIds": [
+      "finding",
+      "risk-rating",
+      "root-cause",
+      "executive-summary",
+      "remediation",
+      "reporting",
+      "exception-handling"
+    ],
+    "relationships": [
+      {
+        "from": "collect",
+        "to": "validate",
+        "label": "traceable input"
+      },
+      {
+        "from": "validate",
+        "to": "report",
+        "label": "supported finding"
+      },
+      {
+        "from": "report",
+        "to": "remediate",
+        "label": "owner and action"
+      },
+      {
+        "from": "remediate",
+        "to": "retest",
+        "label": "verification"
+      },
+      {
+        "from": "retest",
+        "to": "collect",
+        "label": "continuous evidence"
+      }
+    ],
+    "intentionalOmissions": "No fixed scoring model.",
+    "retrievalPrompt": "Critical CVE has no reachable path: what changes in report?",
+    "textFallback": "Finding: evidence-backed condition. Decision: state scope/impact Failure/example: speculation\nRisk Rating: contextual priority. Decision: consider exploit/consequence Failure/example: CVSS alone\nRoot Cause: The underlying condition or combination of conditions that produced the observed failure.. Decision: Distinguish the immediate symptom from the process, design or control weakness; test whether the corrective action addresses recurrence. Failure/example: A vulnerable package is patched once while the unmanaged dependency process keeps reintroducing it.\nExecutive Summary: decision-oriented report. Decision: state risk/owner/options Failure/example: technical dump\nRemediation: corrective action. Decision: assign due/evidence Failure/example: no verification\nReporting: audience communication. Decision: tailor evidence/decision Failure/example: oversharing",
+    "sourceRefIds": [
+      "official-d6-50-53",
+      "sybex-d6-829-835",
+      "aio-d6-1223-1250",
+      "d6-o04-analysis-reporting-isc2-official-textbook-d6-7e-2024"
+    ],
+    "mapNodeId": "d6-o04-analysis-reporting",
+    "visualIds": [
+      "d6-evidence-report-loop",
+      "d6-o04-analysis-reporting-decision-comparison-1",
+      "d6-o04-analysis-reporting-exception-handling-decision-trace"
+    ]
+  }
+}

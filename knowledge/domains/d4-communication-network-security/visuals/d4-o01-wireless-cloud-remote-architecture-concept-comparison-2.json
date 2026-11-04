@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2",
+  "unitId": "d4-o01-wireless-cloud-remote-architecture",
+  "type": "table",
+  "title": "Assess wireless, cloud, and remote network architecture: concept decisions 2",
+  "teachingQuestion": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+  "focalInsight": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "ingress egress control",
+      "conceptIds": [
+        "ingress-egress-control"
+      ],
+      "definition": "Policy and enforcement governing traffic entering or leaving a cloud/network boundary.",
+      "detail": "Policy and enforcement governing traffic entering or leaving a cloud/network boundary.",
+      "decision": "Define permitted sources/destinations, route, inspection, identity, logs, and fail behavior for inbound and outbound flows.",
+      "failureExample": "Private workloads have unrestricted internet egress despite no intended external dependency.",
+      "retrievalAnswer": "Private addressing does not itself control egress.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Sdn",
+      "conceptIds": [
+        "sdn"
+      ],
+      "definition": "Programmable separation of network control and forwarding, often with centralized policy/controller functions.",
+      "detail": "Programmable separation of network control and forwarding, often with centralized policy/controller functions.",
+      "decision": "Protect controller/API identities, policy validation, high availability, audit, staged rollout, and rollback.",
+      "failureExample": "A controller misconfiguration pushes an allow rule across all sites.",
+      "retrievalAnswer": "SDN control plane is a privileged system needing change controls.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Shared Responsibility",
+      "conceptIds": [
+        "shared-responsibility"
+      ],
+      "definition": "Allocation of provider and customer security/operation duties for a cloud or managed network service.",
+      "detail": "Allocation of provider and customer security/operation duties for a cloud or managed network service.",
+      "decision": "Write each boundary’s configuration, identity, logging, patching, incident, and evidence owner before deployment.",
+      "failureExample": "Both parties assume the other protects an exposed route table.",
+      "retrievalAnswer": "Shared responsibility requires named control owners, not a generic provider trust.",
+      "tier": "B"
+    },
+    {
+      "id": "row-4",
+      "label": "brokered access path",
+      "conceptIds": [
+        "brokered-access-path"
+      ],
+      "definition": "An intermediary-controlled route that mediates remote session identity, destination, scope, and evidence.",
+      "detail": "An intermediary-controlled route that mediates remote session identity, destination, scope, and evidence.",
+      "decision": "Prefer a broker/jump path when direct broad network reach would exceed the task need.",
+      "failureExample": "A direct VPN makes every internal subnet reachable to a contractor.",
+      "retrievalAnswer": "Brokered access narrows remote reach to an approved destination/path.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Vpc",
+      "conceptIds": [
+        "vpc"
+      ],
+      "definition": "Cloud routing/security construct owned jointly by customer configuration and provider infrastructure.",
+      "detail": "Cloud routing/security construct owned jointly by customer configuration and provider infrastructure.",
+      "decision": "Test effective routes and policy after each infrastructure-as-code or provider change.",
+      "failureExample": "A default route change bypasses an inspection VPC endpoint.",
+      "retrievalAnswer": "In cloud, effective route is the enforcement reality.",
+      "tier": "B"
+    },
+    {
+      "id": "row-6",
+      "label": "tenant boundary",
+      "conceptIds": [
+        "tenant-boundary"
+      ],
+      "definition": "Separation that prevents one customer/tenant identity, route, cache entry, or policy from affecting another.",
+      "detail": "Separation that prevents one customer/tenant identity, route, cache entry, or policy from affecting another.",
+      "decision": "Bind cache keys, authorization, routing, and logs to tenant context where data is tenant-specific.",
+      "failureExample": "A shared cache omits tenant context and returns another tenant’s content.",
+      "retrievalAnswer": "Tenant context must reach every shared enforcement/cache decision.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "rogue access point detection",
+      "conceptIds": [
+        "rogue-access-point-detection"
+      ],
+      "definition": "Detection and response for unauthorized or impersonating wireless access infrastructure.",
+      "detail": "Detection and response for unauthorized or impersonating wireless access infrastructure.",
+      "decision": "Monitor authorized AP inventory/association patterns and investigate impersonation or unapproved radios.",
+      "failureExample": "A rogue AP uses a trusted SSID to collect credentials.",
+      "retrievalAnswer": "Encryption does not replace rogue AP detection.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "ingress-egress-control",
+    "sdn",
+    "shared-responsibility",
+    "brokered-access-path",
+    "vpc",
+    "tenant-boundary",
+    "rogue-access-point-detection"
+  ],
+  "altSummary": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+  "textFallback": "ingress egress control: Policy and enforcement governing traffic entering or leaving a cloud/network boundary. Decide: Define permitted sources/destinations, route, inspection, identity, logs, and fail behavior for inbound and outbound flows. Example/failure: Private workloads have unrestricted internet egress despite no intended external dependency. Retrieve: Private addressing does not itself control egress.\nsdn: Programmable separation of network control and forwarding, often with centralized policy/controller functions. Decide: Protect controller/API identities, policy validation, high availability, audit, staged rollout, and rollback. Example/failure: A controller misconfiguration pushes an allow rule across all sites. Retrieve: SDN control plane is a privileged system needing change controls.\nshared responsibility: Allocation of provider and customer security/operation duties for a cloud or managed network service. Decide: Write each boundary’s configuration, identity, logging, patching, incident, and evidence owner before deployment. Example/failure: Both parties assume the other protects an exposed route table. Retrieve: Shared responsibility requires named control owners, not a generic provider trust.\nbrokered access path: An intermediary-controlled route that mediates remote session identity, destination, scope, and evidence. Decide: Prefer a broker/jump path when direct broad network reach would exceed the task need. Example/failure: A direct VPN makes every internal subnet reachable to a contractor. Retrieve: Brokered access narrows remote reach to an approved destination/path.\nvpc: Cloud routing/security construct owned jointly by customer configuration and provider infrastructure. Decide: Test effective routes and policy after each infrastructure-as-code or provider change. Example/failure: A default route change bypasses an inspection VPC endpoint. Retrieve: In cloud, effective route is the enforcement reality.\ntenant boundary: Separation that prevents one customer/tenant identity, route, cache entry, or policy from affecting another. Decide: Bind cache keys, authorization, routing, and logs to tenant context where data is tenant-specific. Example/failure: A shared cache omits tenant context and returns another tenant’s content. Retrieve: Tenant context must reach every shared enforcement/cache decision.\nrogue access point detection: Detection and response for unauthorized or impersonating wireless access infrastructure. Decide: Monitor authorized AP inventory/association patterns and investigate impersonation or unapproved radios. Example/failure: A rogue AP uses a trusted SSID to collect credentials. Retrieve: Encryption does not replace rogue AP detection.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-603-621",
+    "sybex-d4-657-707"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+    "misconception": "A cloud VPC, VPN, or wireless encryption setting automatically defines a safe enterprise boundary.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+    "conceptIds": [
+      "ingress-egress-control",
+      "sdn",
+      "shared-responsibility",
+      "brokered-access-path",
+      "vpc",
+      "tenant-boundary",
+      "rogue-access-point-detection"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+    "textFallback": "ingress egress control: Policy and enforcement governing traffic entering or leaving a cloud/network boundary. Decide: Define permitted sources/destinations, route, inspection, identity, logs, and fail behavior for inbound and outbound flows. Example/failure: Private workloads have unrestricted internet egress despite no intended external dependency. Retrieve: Private addressing does not itself control egress.\nsdn: Programmable separation of network control and forwarding, often with centralized policy/controller functions. Decide: Protect controller/API identities, policy validation, high availability, audit, staged rollout, and rollback. Example/failure: A controller misconfiguration pushes an allow rule across all sites. Retrieve: SDN control plane is a privileged system needing change controls.\nshared responsibility: Allocation of provider and customer security/operation duties for a cloud or managed network service. Decide: Write each boundary’s configuration, identity, logging, patching, incident, and evidence owner before deployment. Example/failure: Both parties assume the other protects an exposed route table. Retrieve: Shared responsibility requires named control owners, not a generic provider trust.\nbrokered access path: An intermediary-controlled route that mediates remote session identity, destination, scope, and evidence. Decide: Prefer a broker/jump path when direct broad network reach would exceed the task need. Example/failure: A direct VPN makes every internal subnet reachable to a contractor. Retrieve: Brokered access narrows remote reach to an approved destination/path.\nvpc: Cloud routing/security construct owned jointly by customer configuration and provider infrastructure. Decide: Test effective routes and policy after each infrastructure-as-code or provider change. Example/failure: A default route change bypasses an inspection VPC endpoint. Retrieve: In cloud, effective route is the enforcement reality.\ntenant boundary: Separation that prevents one customer/tenant identity, route, cache entry, or policy from affecting another. Decide: Bind cache keys, authorization, routing, and logs to tenant context where data is tenant-specific. Example/failure: A shared cache omits tenant context and returns another tenant’s content. Retrieve: Tenant context must reach every shared enforcement/cache decision.\nrogue access point detection: Detection and response for unauthorized or impersonating wireless access infrastructure. Decide: Monitor authorized AP inventory/association patterns and investigate impersonation or unapproved radios. Example/failure: A rogue AP uses a trusted SSID to collect credentials. Retrieve: Encryption does not replace rogue AP detection.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-603-621",
+      "sybex-d4-657-707"
+    ],
+    "mapNodeId": "d4-o01-wireless-cloud-remote-architecture"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-architecture-vulnerabilities-concept-comparison-1",
+  "unitId": "d3-o05-architecture-vulnerabilities",
+  "type": "table",
+  "title": "Assess vulnerabilities across modern architecture families: concept decisions 1",
+  "teachingQuestion": "Which architecture boundary creates the dominant risk, and which mitigation direction fits it?",
+  "focalInsight": "The important risk is often the authority, dependency, or data path between components.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Architecture Vulnerability",
+      "conceptIds": [
+        "architecture-vulnerability"
+      ],
+      "definition": "Weakness arising from a system’s components, boundaries, dependencies, or operating pattern.",
+      "detail": "Weakness arising from a system’s components, boundaries, dependencies, or operating pattern.",
+      "decision": "Find the dominant trust boundary and credible consequence before choosing a mitigation.",
+      "failureExample": "A design scans components but ignores the shared admin path connecting them.",
+      "retrievalAnswer": "Architecture risk lives in the path between components as well as inside them.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Cloud Shared Responsibility",
+      "conceptIds": [
+        "cloud-shared-responsibility"
+      ],
+      "definition": "Allocation of cloud security tasks across provider and customer layers.",
+      "detail": "Allocation of cloud security tasks across provider and customer layers.",
+      "decision": "Map data, identity, configuration, logs, recovery, and contracts to owners.",
+      "failureExample": "A cloud account is exposed because the provider service existed but customer IAM was broad.",
+      "retrievalAnswer": "Shared responsibility needs a layer-by-layer owner.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Microservices",
+      "conceptIds": [
+        "microservices"
+      ],
+      "definition": "Small independently deployed services that communicate over multiple interfaces.",
+      "detail": "Small independently deployed services that communicate over multiple interfaces.",
+      "decision": "Assess each service identity, call, data flow, and authorization point.",
+      "failureExample": "An internal service trusts any caller on the cluster network.",
+      "retrievalAnswer": "More services create more trust boundaries, not automatic security.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Containerization",
+      "conceptIds": [
+        "containerization"
+      ],
+      "definition": "Packaging workloads with dependencies into deployable images and runtimes.",
+      "detail": "Packaging workloads with dependencies into deployable images and runtimes.",
+      "decision": "Assess image source, registry, runtime, host, secrets, and orchestrator controls.",
+      "failureExample": "A privileged container image from an untrusted registry reaches production.",
+      "retrievalAnswer": "A container is not a complete security boundary by itself.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Serverless",
+      "conceptIds": [
+        "serverless"
+      ],
+      "definition": "Provider-managed execution triggered by events or requests without customer server management.",
+      "detail": "Provider-managed execution triggered by events or requests without customer server management.",
+      "decision": "Assess event source, function identity, permissions, package, retries, and observability.",
+      "failureExample": "An internal event invokes a function that performs an unapproved financial action.",
+      "retrievalAnswer": "Validate and authorize the event and resulting action.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Iot",
+      "conceptIds": [
+        "iot"
+      ],
+      "definition": "Network-connected devices that sense, act, or collect data in constrained environments.",
+      "detail": "Network-connected devices that sense, act, or collect data in constrained environments.",
+      "decision": "Assess firmware support, physical access, interfaces, update path, and consequence.",
+      "failureExample": "A field sensor retains a default credential and cannot receive a safe update.",
+      "retrievalAnswer": "IoT security begins with inventory and lifecycle reality.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Industrial Control System",
+      "conceptIds": [
+        "industrial-control-system"
+      ],
+      "definition": "System that monitors or controls physical industrial processes.",
+      "detail": "System that monitors or controls physical industrial processes.",
+      "decision": "Prioritize safety, process consequence, segmentation, and approved change methods.",
+      "failureExample": "An aggressive scan disrupts a controller that drives a physical process.",
+      "retrievalAnswer": "ICS controls must respect safety and operational constraints.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Edge Computing",
+      "conceptIds": [
+        "edge-computing"
+      ],
+      "definition": "Processing near data sources rather than only in a central environment.",
+      "detail": "Processing near data sources rather than only in a central environment.",
+      "decision": "Assess intermittent links, remote physical exposure, local data, and remote recovery.",
+      "failureExample": "A remote edge node stores sensitive data after losing central connectivity.",
+      "retrievalAnswer": "Edge moves trust and recovery problems closer to the source.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Virtualization",
+      "conceptIds": [
+        "virtualization"
+      ],
+      "definition": "Shared-hardware workload isolation through a hypervisor and virtual infrastructure.",
+      "detail": "Shared-hardware workload isolation through a hypervisor and virtual infrastructure.",
+      "decision": "Treat host, management API, templates, and virtual networking as high-impact paths.",
+      "failureExample": "A compromised hypervisor crosses expected guest boundaries.",
+      "retrievalAnswer": "Guest separation does not protect against host authority.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "architecture-vulnerability",
+    "cloud-shared-responsibility",
+    "microservices",
+    "containerization",
+    "serverless",
+    "iot",
+    "industrial-control-system",
+    "edge-computing",
+    "virtualization"
+  ],
+  "altSummary": "The important risk is often the authority, dependency, or data path between components.",
+  "textFallback": "architecture vulnerability: Weakness arising from a system’s components, boundaries, dependencies, or operating pattern. Decide: Find the dominant trust boundary and credible consequence before choosing a mitigation. Example/failure: A design scans components but ignores the shared admin path connecting them. Retrieve: Architecture risk lives in the path between components as well as inside them.\ncloud shared responsibility: Allocation of cloud security tasks across provider and customer layers. Decide: Map data, identity, configuration, logs, recovery, and contracts to owners. Example/failure: A cloud account is exposed because the provider service existed but customer IAM was broad. Retrieve: Shared responsibility needs a layer-by-layer owner.\nmicroservices: Small independently deployed services that communicate over multiple interfaces. Decide: Assess each service identity, call, data flow, and authorization point. Example/failure: An internal service trusts any caller on the cluster network. Retrieve: More services create more trust boundaries, not automatic security.\ncontainerization: Packaging workloads with dependencies into deployable images and runtimes. Decide: Assess image source, registry, runtime, host, secrets, and orchestrator controls. Example/failure: A privileged container image from an untrusted registry reaches production. Retrieve: A container is not a complete security boundary by itself.\nserverless: Provider-managed execution triggered by events or requests without customer server management. Decide: Assess event source, function identity, permissions, package, retries, and observability. Example/failure: An internal event invokes a function that performs an unapproved financial action. Retrieve: Validate and authorize the event and resulting action.\niot: Network-connected devices that sense, act, or collect data in constrained environments. Decide: Assess firmware support, physical access, interfaces, update path, and consequence. Example/failure: A field sensor retains a default credential and cannot receive a safe update. Retrieve: IoT security begins with inventory and lifecycle reality.\nindustrial control system: System that monitors or controls physical industrial processes. Decide: Prioritize safety, process consequence, segmentation, and approved change methods. Example/failure: An aggressive scan disrupts a controller that drives a physical process. Retrieve: ICS controls must respect safety and operational constraints.\nedge computing: Processing near data sources rather than only in a central environment. Decide: Assess intermittent links, remote physical exposure, local data, and remote recovery. Example/failure: A remote edge node stores sensitive data after losing central connectivity. Retrieve: Edge moves trust and recovery problems closer to the source.\nvirtualization: Shared-hardware workload isolation through a hypervisor and virtual infrastructure. Decide: Treat host, management API, templates, and virtual networking as high-impact paths. Example/failure: A compromised hypervisor crosses expected guest boundaries. Retrieve: Guest separation does not protect against host authority.",
+  "sourceRefIds": [
+    "d3-o05-textbook",
+    "d3-o05-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which architecture boundary creates the dominant risk, and which mitigation direction fits it?",
+    "misconception": "A technology label identifies the relevant security control.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "The important risk is often the authority, dependency, or data path between components.",
+    "conceptIds": [
+      "architecture-vulnerability",
+      "cloud-shared-responsibility",
+      "microservices",
+      "containerization",
+      "serverless",
+      "iot",
+      "industrial-control-system",
+      "edge-computing",
+      "virtualization"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Name the boundary, failure consequence, and a mitigation that fits the operating constraint.",
+    "textFallback": "architecture vulnerability: Weakness arising from a system’s components, boundaries, dependencies, or operating pattern. Decide: Find the dominant trust boundary and credible consequence before choosing a mitigation. Example/failure: A design scans components but ignores the shared admin path connecting them. Retrieve: Architecture risk lives in the path between components as well as inside them.\ncloud shared responsibility: Allocation of cloud security tasks across provider and customer layers. Decide: Map data, identity, configuration, logs, recovery, and contracts to owners. Example/failure: A cloud account is exposed because the provider service existed but customer IAM was broad. Retrieve: Shared responsibility needs a layer-by-layer owner.\nmicroservices: Small independently deployed services that communicate over multiple interfaces. Decide: Assess each service identity, call, data flow, and authorization point. Example/failure: An internal service trusts any caller on the cluster network. Retrieve: More services create more trust boundaries, not automatic security.\ncontainerization: Packaging workloads with dependencies into deployable images and runtimes. Decide: Assess image source, registry, runtime, host, secrets, and orchestrator controls. Example/failure: A privileged container image from an untrusted registry reaches production. Retrieve: A container is not a complete security boundary by itself.\nserverless: Provider-managed execution triggered by events or requests without customer server management. Decide: Assess event source, function identity, permissions, package, retries, and observability. Example/failure: An internal event invokes a function that performs an unapproved financial action. Retrieve: Validate and authorize the event and resulting action.\niot: Network-connected devices that sense, act, or collect data in constrained environments. Decide: Assess firmware support, physical access, interfaces, update path, and consequence. Example/failure: A field sensor retains a default credential and cannot receive a safe update. Retrieve: IoT security begins with inventory and lifecycle reality.\nindustrial control system: System that monitors or controls physical industrial processes. Decide: Prioritize safety, process consequence, segmentation, and approved change methods. Example/failure: An aggressive scan disrupts a controller that drives a physical process. Retrieve: ICS controls must respect safety and operational constraints.\nedge computing: Processing near data sources rather than only in a central environment. Decide: Assess intermittent links, remote physical exposure, local data, and remote recovery. Example/failure: A remote edge node stores sensitive data after losing central connectivity. Retrieve: Edge moves trust and recovery problems closer to the source.\nvirtualization: Shared-hardware workload isolation through a hypervisor and virtual infrastructure. Decide: Treat host, management API, templates, and virtual networking as high-impact paths. Example/failure: A compromised hypervisor crosses expected guest boundaries. Retrieve: Guest separation does not protect against host authority.",
+    "sourceRefIds": [
+      "d3-o05-textbook",
+      "d3-o05-sybex"
+    ],
+    "mapNodeId": "d3-o05-architecture-vulnerabilities"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

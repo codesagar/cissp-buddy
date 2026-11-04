@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d1-o11-supply-chain-risk",
+  "domainId": 1,
+  "objectiveIds": [
+    "1.11"
+  ],
+  "title": "Manage supply chain risk throughout acquisition and operation",
+  "summary": "Supply chain risk management evaluates and treats risks introduced by suppliers, products, services, components, delivery paths, and dependencies before acquisition and throughout the relationship.",
+  "outcome": "Recommend proportionate supplier or product assurance actions for a stated supply-chain risk.",
+  "conceptIds": [
+    "supply-chain-risk-management",
+    "supplier-risk",
+    "product-tampering",
+    "counterfeit",
+    "malicious-implant",
+    "third-party-assessment",
+    "security-requirements",
+    "service-level-agreement",
+    "software-bill-of-materials",
+    "continuous-monitoring",
+    "puf",
+    "silicon-root-of-trust",
+    "firmware-integrity",
+    "supply-chain-assurance"
+  ],
+  "prerequisites": [
+    "risk-management",
+    "security-governance"
+  ],
+  "estimatedMinutes": 26,
+  "managerMindset": "Procurement is a security decision point. Ask what the organization is depending on, how that dependency can fail or be compromised, what evidence is credible, and how assurance continues after purchase.",
+  "sections": [
+    {
+      "id": "risk-sources",
+      "title": "Map the dependency and failure paths",
+      "body": "Supply chain risk can arise from a provider’s practices, a product’s origin or integrity, counterfeit or tampered components, malicious implants, vulnerable software dependencies, concentration, support failure, or a subcontractor. Scope the dependency, criticality, access, data, update path, provenance, and replacement options. Avoid assuming that a well-known brand eliminates these risks.",
+      "keyPoints": [
+        "Supplier risk includes products, services, delivery, updates, and subcontractors.",
+        "Criticality and access determine the depth of assurance needed."
+      ],
+      "sourceRefIds": [
+        "d1-o11-outline",
+        "d1-o11-textbook",
+        "d1-o11-sybex"
+      ]
+    },
+    {
+      "id": "assure-and-monitor",
+      "title": "Set and verify enforceable assurance",
+      "body": "Use proportionate due diligence, minimum security requirements, contractual service levels, product or component provenance evidence, assessments, monitoring, incident notification, vulnerability and patch commitments, and exit or contingency planning. An SBOM can improve visibility into software composition, but it does not alone prove that components are safe or supported. Reassess when services, ownership, threats, or criticality change.",
+      "keyPoints": [
+        "Evidence must support an ongoing assurance decision, not only selection-day paperwork.",
+        "Contractual requirements need monitoring, remediation, and escalation paths."
+      ],
+      "sourceRefIds": [
+        "d1-o11-textbook",
+        "d1-o11-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Assess supply-chain acquisition risks and enforce mitigations",
+      "body": "Acquired products and services can introduce tampering, counterfeits, malicious implants, vulnerable components, opaque suppliers, unsupported dependencies, or compromised delivery paths. Map the dependency, criticality, origin, update and support path, access, data, and failure consequence. Use proportionate third-party assessment and monitoring, minimum security and service-level requirements, provenance and integrity evidence, software bills of materials, and hardware assurance mechanisms such as silicon root of trust or physically unclonable functions where justified. The failure is buying an assurance label without checking scope, supplier change, component provenance, contractual remedy, or ongoing evidence.",
+      "keyPoints": [
+        "Name the accountable owner, decision criterion, and evidence for each applicable outline topic.",
+        "Record the failure consequence and escalation or review trigger rather than assuming a policy label proves operation."
+      ],
+      "sourceRefIds": [
+        "d1-o11-outline",
+        "d1-o11-textbook",
+        "d1-o11-sybex"
+      ]
+    },
+    {
+      "id": "hardware-assurance-silicon-root-and-puf-boundaries",
+      "title": "Use hardware roots and PUFs as scoped assurance mechanisms",
+      "body": "A silicon root of trust is a hardware/firmware trust foundation used to establish an initial basis for verifying code, configuration, keys, or device state. Its assurance depends on the actual implementation, provisioning, update path, interfaces, and the protection of the root’s authority; “silicon” is not a blanket proof that every later component is trusted. A physically unclonable function (PUF) derives device-specific responses from manufacturing microstructure variation rather than storing an ordinary fixed key in the same way. A PUF needs enrollment/helper-data, reliability, interface, and lifecycle design; implementation weaknesses and side-channel attacks can undermine its assurance. Use either mechanism when its threat model, supply-chain evidence, and operational recovery process justify it.",
+      "keyPoints": [
+        "A root of trust establishes a starting verification boundary; it does not automatically validate downstream software or administration.",
+        "PUF uniqueness is an implementation property that still needs reliability, side-channel, provisioning, and lifecycle evaluation."
+      ],
+      "sourceRefIds": [
+        "d1-o11-textbook",
+        "d1-o11-supply-chain-risk-depth-source-1"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Network appliance acquisition",
+      "situation": "A utility plans to deploy a remotely managed network appliance in operational sites.",
+      "reasoning": "Assess supplier and update-path trust, device provenance, remote-access controls, support commitments, component visibility, incident notice, monitoring, and replacement options. Match assurance depth to operational impact.",
+      "takeaway": "SCRM evaluates the entire dependency lifecycle, not only the purchase price."
+    },
+    {
+      "title": "Field-controller procurement",
+      "situation": "A utility procures remote controllers that must verify approved firmware and resist simple device cloning.",
+      "reasoning": "Require evidence for the boot/firmware verification chain, root provisioning and update authority, device identity/enrollment, PUF reliability/helper-data protection if used, side-channel evaluation, revocation, replacement, and recovery. Assess the supplier’s implementation and operations rather than accepting a hardware-assurance label.",
+      "takeaway": "Hardware assurance is a verifiable lifecycle and implementation claim, not a procurement adjective."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Supplier assessment",
+      "b": "Continuous monitoring",
+      "difference": "Assessment evaluates a point-in-time condition; monitoring detects material changes or ongoing performance after engagement."
+    },
+    {
+      "a": "Silicon root of trust",
+      "b": "Physically unclonable function (PUF)",
+      "difference": "A silicon root of trust is a hardware/firmware trust foundation used to establish verification; a PUF derives device-specific responses from physical microstructure variation. Either can contribute to assurance, but they are different mechanisms with different lifecycle and attack considerations."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "An SBOM guarantees software security.",
+      "correction": "It supports component visibility; vulnerability relevance, exploitability, patching, provenance, and operational controls still require evaluation."
+    },
+    {
+      "claim": "A PUF makes a device uncloneable and therefore eliminates key-management and side-channel risk.",
+      "correction": "PUF implementations have varying strength and can be vulnerable to side-channel and other implementation attacks; enrollment, helper data, interfaces, lifecycle, recovery, and threat-model controls still matter."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What determines the depth of supplier assurance?",
+      "answer": "Criticality, access, data, dependency concentration, threat exposure, and the consequences if the supplier or product fails."
+    },
+    {
+      "prompt": "Why is an SLA insufficient by itself?",
+      "answer": "Requirements need evidence, monitoring, remediation, escalation, and contingency action to be operational."
+    },
+    {
+      "prompt": "What must be evaluated before accepting a silicon-root-of-trust or PUF claim?",
+      "answer": "The actual verification or device-identity purpose, implementation, provisioning/enrollment, interfaces, update and recovery path, protection of authority/helper data, reliability, side-channel exposure, supplier evidence, revocation, and replacement process."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A supplier passes an initial questionnaire but later outsources a critical support function. What should the customer do?",
+      "decisiveDetail": "A material dependency change requires reassessment and ongoing monitoring, not reliance on the original questionnaire.",
+      "testedConceptIds": [
+        "continuous-monitoring",
+        "supplier-risk",
+        "third-party-assessment"
+      ]
+    },
+    {
+      "prompt": "A supplier claims its PUF-based device identity removes the need to protect firmware update signing keys. What is wrong?",
+      "decisiveDetail": "A PUF-based identity does not establish which firmware is authorized; protect the verification/signing authority, update path, enrollment and recovery lifecycle, and evaluate implementation/side-channel exposure.",
+      "testedConceptIds": [
+        "puf",
+        "silicon-root-of-trust",
+        "firmware-integrity",
+        "supply-chain-assurance"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "List a product’s supplier, component, update, support, and exit dependencies.",
+    "connect": "Connect SCRM to legal contracts, governance, risk treatment, and Domain 8 acquired software.",
+    "apply": "Draft three assurance questions that vary by product criticality.",
+    "revisit": "In three days, explain what an SBOM does and does not establish."
+  },
+  "visualIds": [
+    "d1-o11-supply-chain-risk-assurance-lifecycle",
+    "d1-o11-supply-chain-risk-concept-comparison-1",
+    "d1-o11-supply-chain-risk-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d1-o11-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 1.11"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d1-o11-textbook",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "81-85",
+        "pdfPage": "81-85",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "supply-chain-risks",
+        "supply-chain-mitigations"
+      ]
+    },
+    {
+      "id": "d1-o11-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 1, Supply Chain Risk Management, p. 31 onward; precise locator refinement pending"
+      },
+      "supports": [
+        "supply-chain-risk-management",
+        "third-party-assessment"
+      ],
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; this unit remains draft until page-level content review."
+    },
+    {
+      "id": "d1-o11-supply-chain-risk-depth-source-1",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "section",
+        "value": "Printed/PDF p. 84, “Apply Supply Chain Risk Management (1.11)”: Silicon Root of Trust and Physically Unclonable Function"
+      },
+      "supports": [
+        "Inspected p. 84: a silicon root of trust is a firmware/hardware trust foundation; a PUF uses manufacturing microstructure variation to derive a device-specific response/key material, but implementations have varying strength and can be attacked through side channels."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d1-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d1-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d1-o11-supply-chain-risk-visual-contract",
+    "unitId": "d1-o11-supply-chain-risk",
+    "teachingQuestion": "What assurance evidence is proportionate for this supplier, component, update path, or hardware trust claim?",
+    "misconception": "A known vendor, SBOM, PUF, or silicon label by itself establishes trustworthy supply.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows expose distinctions, decision criteria, and misuse consequences.",
+    "focalInsight": "Assurance combines provenance, scoped assessment, enforceable terms, lifecycle monitoring, technical verification, and exit.",
+    "conceptIds": [
+      "supply-chain-risk-management",
+      "supplier-risk",
+      "product-tampering",
+      "counterfeit",
+      "malicious-implant",
+      "third-party-assessment",
+      "security-requirements",
+      "service-level-agreement",
+      "software-bill-of-materials",
+      "continuous-monitoring",
+      "puf",
+      "silicon-root-of-trust",
+      "firmware-integrity",
+      "supply-chain-assurance"
+    ],
+    "relationships": [
+      {
+        "from": "need",
+        "to": "assess",
+        "label": "sets depth"
+      },
+      {
+        "from": "assess",
+        "to": "contract",
+        "label": "informs"
+      },
+      {
+        "from": "contract",
+        "to": "operate",
+        "label": "governs"
+      },
+      {
+        "from": "operate",
+        "to": "monitor",
+        "label": "produces evidence"
+      },
+      {
+        "from": "monitor",
+        "to": "assess",
+        "label": "triggers reassessment"
+      },
+      {
+        "from": "monitor",
+        "to": "exit",
+        "label": "may require"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a component claim, state required source, verification, lifecycle, monitoring, and response evidence.",
+    "textFallback": "Supply chain risk management evaluates and treats risks introduced by suppliers, products, services, components, delivery paths, and dependencies before acquisition and throughout the relationship.\nAssess supplier and update-path trust, device provenance, remote-access controls, support commitments, component visibility, incident notice, monitoring, and replacement options. Match assurance depth to operational impact.",
+    "sourceRefIds": [
+      "d1-o11-textbook",
+      "d1-o11-sybex",
+      "d1-o11-supply-chain-risk-depth-source-1"
+    ],
+    "mapNodeId": "d1-o11-supply-chain-risk",
+    "visualIds": [
+      "d1-o11-supply-chain-risk-assurance-lifecycle",
+      "d1-o11-supply-chain-risk-concept-comparison-1",
+      "d1-o11-supply-chain-risk-concept-comparison-2"
+    ]
+  }
+}

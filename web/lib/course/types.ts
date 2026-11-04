@@ -193,7 +193,12 @@ export type UnitSummary = Pick<
   | 'outcome'
   | 'conceptIds'
   | 'estimatedMinutes'
-> & { teachingReady: boolean; conceptLabels?: string[] };
+> & {
+  teachingReady: boolean;
+  conceptLabels?: string[];
+  prerequisites?: string[];
+  checks?: { id: string; conceptIds: string[] }[];
+};
 export type CourseManifest = {
   releaseId: string;
   sourceHash: string;

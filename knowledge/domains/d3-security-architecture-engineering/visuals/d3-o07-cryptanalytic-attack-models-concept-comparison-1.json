@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-cryptanalytic-attack-models-concept-comparison-1",
+  "unitId": "d3-o07-cryptanalytic-attack-models",
+  "type": "table",
+  "title": "Distinguish cryptanalytic attack models and assumptions: concept decisions 1",
+  "teachingQuestion": "What attacker capability defines this cryptanalytic model, and what mitigation category addresses it?",
+  "focalInsight": "The attack assumption determines whether key strength, protocol validation, error behavior, or rate controls matter.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Cryptanalysis",
+      "conceptIds": [
+        "cryptanalysis"
+      ],
+      "definition": "Analysis of cryptographic designs or implementations to find exploitable weaknesses.",
+      "detail": "Analysis of cryptographic designs or implementations to find exploitable weaknesses.",
+      "decision": "Classify the attacker capability and target before selecting a mitigation.",
+      "failureExample": "A response calls every credential attack “breaking encryption.”",
+      "retrievalAnswer": "Cryptanalysis concerns the relevant mechanism and attack assumption.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Brute Force",
+      "conceptIds": [
+        "brute-force"
+      ],
+      "definition": "Repeated attempts to guess keys, passwords, or secrets.",
+      "detail": "Repeated attempts to guess keys, passwords, or secrets.",
+      "decision": "Use adequate key strength and constrain online guesses with rate controls and monitoring.",
+      "failureExample": "Unlimited login attempts make a weak password practical to guess.",
+      "retrievalAnswer": "Brute force succeeds when search feasibility and response controls permit it.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Ciphertext Only Attack",
+      "conceptIds": [
+        "ciphertext-only-attack"
+      ],
+      "definition": "Attack with ciphertext samples but no confirmed corresponding plaintext.",
+      "detail": "Attack with ciphertext samples but no confirmed corresponding plaintext.",
+      "decision": "Use modern approved designs and avoid predictable weak historical patterns.",
+      "failureExample": "A team relies on obscurity because attackers “only see encrypted data.”",
+      "retrievalAnswer": "Ciphertext alone can still be material under a weak scheme.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Known Plaintext Attack",
+      "conceptIds": [
+        "known-plaintext-attack"
+      ],
+      "definition": "Attack where the adversary knows some plaintext-ciphertext pairs.",
+      "detail": "Attack where the adversary knows some plaintext-ciphertext pairs.",
+      "decision": "Avoid schemes or configurations whose security fails under known content.",
+      "failureExample": "Standard file headers give an attacker predictable plaintext pairs.",
+      "retrievalAnswer": "Known plaintext is an attacker capability, not proof of a broken modern cipher.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Frequency Analysis",
+      "conceptIds": [
+        "frequency-analysis"
+      ],
+      "definition": "Use of predictable symbol or pattern distributions to attack weak or historical ciphers.",
+      "detail": "Use of predictable symbol or pattern distributions to attack weak or historical ciphers.",
+      "decision": "Avoid classical or pattern-leaking designs for modern protection.",
+      "failureExample": "A simple substitution scheme preserves letter frequency in sensitive messages.",
+      "retrievalAnswer": "Patterns can reveal content without recovering every key.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Chosen Ciphertext Attack",
+      "conceptIds": [
+        "chosen-ciphertext-attack"
+      ],
+      "definition": "Attack where selected ciphertexts are submitted to a decryption-related behavior and outputs reveal information.",
+      "detail": "Attack where selected ciphertexts are submitted to a decryption-related behavior and outputs reveal information.",
+      "decision": "Use authenticated modern protocols, strict state/input validation, and nonrevealing errors.",
+      "failureExample": "A service reveals different messages for padding or decryption failures.",
+      "retrievalAnswer": "Distinct decryption errors can become an oracle.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Key Space",
+      "conceptIds": [
+        "key-space"
+      ],
+      "definition": "Set of possible key values that determines search difficulty with other attack factors.",
+      "detail": "Set of possible key values that determines search difficulty with other attack factors.",
+      "decision": "Select approved key sizes and protect against implementation or online-guess shortcuts.",
+      "failureExample": "A nominally strong algorithm uses a small or reused secret.",
+      "retrievalAnswer": "Effective strength depends on actual key generation and use.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Protocol Validation",
+      "conceptIds": [
+        "protocol-validation"
+      ],
+      "definition": "Checking message, parameter, identity, state, and error conditions in a cryptographic protocol.",
+      "detail": "Checking message, parameter, identity, state, and error conditions in a cryptographic protocol.",
+      "decision": "Validate before acting and reject malformed, replayed, downgraded, or inconsistent states.",
+      "failureExample": "A protocol accepts an unauthenticated downgrade to an older mode.",
+      "retrievalAnswer": "Crypto needs state and input validation around it.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Rate Limiting",
+      "conceptIds": [
+        "rate-limiting"
+      ],
+      "definition": "Constraint on repeated attempts to reduce online guessing and abuse.",
+      "detail": "Constraint on repeated attempts to reduce online guessing and abuse.",
+      "decision": "Tune by account, source, service, availability, and monitoring requirements.",
+      "failureExample": "An attacker makes thousands of password guesses because the endpoint never slows or alerts.",
+      "retrievalAnswer": "Rate limits make online brute force harder; they do not repair weak keys.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "cryptanalysis",
+    "brute-force",
+    "ciphertext-only-attack",
+    "known-plaintext-attack",
+    "frequency-analysis",
+    "chosen-ciphertext-attack",
+    "key-space",
+    "protocol-validation",
+    "rate-limiting"
+  ],
+  "altSummary": "The attack assumption determines whether key strength, protocol validation, error behavior, or rate controls matter.",
+  "textFallback": "cryptanalysis: Analysis of cryptographic designs or implementations to find exploitable weaknesses. Decide: Classify the attacker capability and target before selecting a mitigation. Example/failure: A response calls every credential attack “breaking encryption.” Retrieve: Cryptanalysis concerns the relevant mechanism and attack assumption.\nbrute force: Repeated attempts to guess keys, passwords, or secrets. Decide: Use adequate key strength and constrain online guesses with rate controls and monitoring. Example/failure: Unlimited login attempts make a weak password practical to guess. Retrieve: Brute force succeeds when search feasibility and response controls permit it.\nciphertext only attack: Attack with ciphertext samples but no confirmed corresponding plaintext. Decide: Use modern approved designs and avoid predictable weak historical patterns. Example/failure: A team relies on obscurity because attackers “only see encrypted data.” Retrieve: Ciphertext alone can still be material under a weak scheme.\nknown plaintext attack: Attack where the adversary knows some plaintext-ciphertext pairs. Decide: Avoid schemes or configurations whose security fails under known content. Example/failure: Standard file headers give an attacker predictable plaintext pairs. Retrieve: Known plaintext is an attacker capability, not proof of a broken modern cipher.\nfrequency analysis: Use of predictable symbol or pattern distributions to attack weak or historical ciphers. Decide: Avoid classical or pattern-leaking designs for modern protection. Example/failure: A simple substitution scheme preserves letter frequency in sensitive messages. Retrieve: Patterns can reveal content without recovering every key.\nchosen ciphertext attack: Attack where selected ciphertexts are submitted to a decryption-related behavior and outputs reveal information. Decide: Use authenticated modern protocols, strict state/input validation, and nonrevealing errors. Example/failure: A service reveals different messages for padding or decryption failures. Retrieve: Distinct decryption errors can become an oracle.\nkey space: Set of possible key values that determines search difficulty with other attack factors. Decide: Select approved key sizes and protect against implementation or online-guess shortcuts. Example/failure: A nominally strong algorithm uses a small or reused secret. Retrieve: Effective strength depends on actual key generation and use.\nprotocol validation: Checking message, parameter, identity, state, and error conditions in a cryptographic protocol. Decide: Validate before acting and reject malformed, replayed, downgraded, or inconsistent states. Example/failure: A protocol accepts an unauthenticated downgrade to an older mode. Retrieve: Crypto needs state and input validation around it.\nrate limiting: Constraint on repeated attempts to reduce online guessing and abuse. Decide: Tune by account, source, service, availability, and monitoring requirements. Example/failure: An attacker makes thousands of password guesses because the endpoint never slows or alerts. Retrieve: Rate limits make online brute force harder; they do not repair weak keys.",
+  "sourceRefIds": [
+    "d3-o07-models-textbook",
+    "d3-o07-models-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What attacker capability defines this cryptanalytic model, and what mitigation category addresses it?",
+    "misconception": "Encryption alone prevents replay, guesses, downgrade, and decryption-oracle behavior.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "The attack assumption determines whether key strength, protocol validation, error behavior, or rate controls matter.",
+    "conceptIds": [
+      "cryptanalysis",
+      "brute-force",
+      "ciphertext-only-attack",
+      "known-plaintext-attack",
+      "frequency-analysis",
+      "chosen-ciphertext-attack",
+      "key-space",
+      "protocol-validation",
+      "rate-limiting"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Classify the attacker knowledge or influence, then name the matching control.",
+    "textFallback": "cryptanalysis: Analysis of cryptographic designs or implementations to find exploitable weaknesses. Decide: Classify the attacker capability and target before selecting a mitigation. Example/failure: A response calls every credential attack “breaking encryption.” Retrieve: Cryptanalysis concerns the relevant mechanism and attack assumption.\nbrute force: Repeated attempts to guess keys, passwords, or secrets. Decide: Use adequate key strength and constrain online guesses with rate controls and monitoring. Example/failure: Unlimited login attempts make a weak password practical to guess. Retrieve: Brute force succeeds when search feasibility and response controls permit it.\nciphertext only attack: Attack with ciphertext samples but no confirmed corresponding plaintext. Decide: Use modern approved designs and avoid predictable weak historical patterns. Example/failure: A team relies on obscurity because attackers “only see encrypted data.” Retrieve: Ciphertext alone can still be material under a weak scheme.\nknown plaintext attack: Attack where the adversary knows some plaintext-ciphertext pairs. Decide: Avoid schemes or configurations whose security fails under known content. Example/failure: Standard file headers give an attacker predictable plaintext pairs. Retrieve: Known plaintext is an attacker capability, not proof of a broken modern cipher.\nfrequency analysis: Use of predictable symbol or pattern distributions to attack weak or historical ciphers. Decide: Avoid classical or pattern-leaking designs for modern protection. Example/failure: A simple substitution scheme preserves letter frequency in sensitive messages. Retrieve: Patterns can reveal content without recovering every key.\nchosen ciphertext attack: Attack where selected ciphertexts are submitted to a decryption-related behavior and outputs reveal information. Decide: Use authenticated modern protocols, strict state/input validation, and nonrevealing errors. Example/failure: A service reveals different messages for padding or decryption failures. Retrieve: Distinct decryption errors can become an oracle.\nkey space: Set of possible key values that determines search difficulty with other attack factors. Decide: Select approved key sizes and protect against implementation or online-guess shortcuts. Example/failure: A nominally strong algorithm uses a small or reused secret. Retrieve: Effective strength depends on actual key generation and use.\nprotocol validation: Checking message, parameter, identity, state, and error conditions in a cryptographic protocol. Decide: Validate before acting and reject malformed, replayed, downgraded, or inconsistent states. Example/failure: A protocol accepts an unauthenticated downgrade to an older mode. Retrieve: Crypto needs state and input validation around it.\nrate limiting: Constraint on repeated attempts to reduce online guessing and abuse. Decide: Tune by account, source, service, availability, and monitoring requirements. Example/failure: An attacker makes thousands of password guesses because the endpoint never slows or alerts. Retrieve: Rate limits make online brute force harder; they do not repair weak keys.",
+    "sourceRefIds": [
+      "d3-o07-models-textbook",
+      "d3-o07-models-sybex"
+    ],
+    "mapNodeId": "d3-o07-cryptanalytic-attack-models"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o05-secure-coding-memory-concurrency",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.5"
+  ],
+  "title": "Control memory, concurrency, dependency, and platform-specific failures",
+  "summary": "Secure coding also requires recognizing memory-safety, race, resource, dependency, and software-defined enforcement failures that vary by language and runtime.",
+  "outcome": "Identify implementation-specific failure modes and select prevention, detection, and containment practices.",
+  "conceptIds": [
+    "memory-safety",
+    "buffer-overflow",
+    "race-condition",
+    "concurrency",
+    "resource-exhaustion",
+    "dependency-risk",
+    "software-defined-security"
+  ],
+  "prerequisites": [
+    "d8-o02-build-release-supply-chain",
+    "d3-o05-platform-data-architecture"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Language and platform features change the failure modes, but secure defaults, bounded resources, review, testing, and layered runtime controls remain necessary.",
+  "sections": [
+    {
+      "id": "memory-and-concurrency",
+      "title": "Prevent unsafe state and resource behavior",
+      "body": "Memory-unsafe operations can enable corruption or code execution; concurrency errors can violate invariants; unbounded resources can create denial of service. Prefer memory-safe constructs where suitable, bounds checks, ownership and lifetime discipline, synchronization, timeouts, quotas, cancellation, and targeted tests. Treat compiler and runtime protections as layers, not guarantees of correct authorization.",
+      "keyPoints": [
+        "A race can bypass a check even when each individual operation appears valid.",
+        "Resource limits are security controls as well as reliability controls.",
+        "Language safety reduces classes of bugs but does not prevent logic or authorization flaws."
+      ],
+      "sourceRefIds": [
+        "outline-d8-5",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ]
+    },
+    {
+      "id": "software-defined-security",
+      "title": "Use code-driven enforcement with guardrails",
+      "body": "Software-defined security moves policy and enforcement into programmable services, agents, infrastructure, and configuration. Protect the control plane, validate policy changes, separate duties, test failure behavior, log decisions, pin dependencies, and provide safe rollback. Dependency updates and platform changes can silently alter enforcement.",
+      "keyPoints": [
+        "Programmable control can scale both protection and misconfiguration.",
+        "Policy code requires review, testing, provenance, and runtime observability.",
+        "Containment and rollback matter when a shared enforcement service fails."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "miller-d8-705-760"
+      ]
+    },
+    {
+      "id": "objective-coverage-bridge",
+      "title": "Connect memory and policy failures to database and web environments",
+      "body": "Memory, concurrency, resource, dependency, and programmable-policy failures can affect database/data-warehouse integrity and web/API behavior. Review data access invariants, authorization and audit paths, web request/output contexts, and failure behavior in the affected deployment; do not treat a language/runtime mitigation as proof that a higher-level access or data control is correct.",
+      "keyPoints": [
+        "A memory-safe runtime does not prove transaction authorization or data isolation.",
+        "A policy engine needs protected control-plane identity, tested semantics, logging, and rollback."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Race in quota enforcement",
+      "situation": "Two concurrent requests read the same remaining quota before either writes the decrement.",
+      "reasoning": "Use atomic or transactional enforcement, define timeout and retry behavior, test concurrency and failure, monitor abuse, and ensure authorization remains independent of quota state."
+    },
+    {
+      "title": "Concurrent transfer invariant",
+      "situation": "Two requests attempt to spend the last available credit at the same time.",
+      "reasoning": "The invariant is that available credit never becomes negative and each request is applied at most once. The design uses transaction/concurrency control and idempotency identifiers; resource controls bound retries; tests force interleavings and duplicate delivery; logs correlate decision and request identity. A mere lock-performance benchmark does not prove the invariant."
+    },
+    {
+      "title": "Software-defined policy rollout",
+      "situation": "A central policy service changes network access for a payment workload.",
+      "reasoning": "The control plane uses separate policy authoring and approval roles, validates policy syntax and intended targets in staging, deploys in a controlled rollout, records who approved and what decision was enforced, defines deny-safe behavior if policy retrieval fails, and keeps a tested rollback version. The release is accepted only after expected and denied flows are observed."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "memory-safe language",
+        "secure application"
+      ],
+      "difference": "Memory safety reduces memory-corruption classes; it does not guarantee safe authorization, privacy, dependency, configuration, or business logic."
+    },
+    {
+      "between": [
+        "race condition",
+        "deadlock"
+      ],
+      "difference": "A race produces order-dependent incorrect behavior; a deadlock blocks progress through cyclic waiting. They need different diagnosis and mitigation."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A managed runtime eliminates all denial-of-service risk.",
+      "correction": "Allocation, parsing, concurrency, algorithmic complexity, queues, and dependencies can still exhaust resources."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Name three controls for concurrency risk.",
+      "answer": "Atomicity/transactions, correct synchronization, invariant-based tests, timeouts, idempotency, and bounded retries are examples."
+    },
+    {
+      "prompt": "What must guard software-defined enforcement?",
+      "answer": "Protected control-plane identity, reviewed policy changes, provenance, tests, logs, failure behavior, and rollback."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A policy agent update changes deny behavior across thousands of hosts without a canary or rollback.",
+      "decision": "Require signed reviewed policy artifacts, staged rollout, health checks, immutable previous versions, and emergency containment.",
+      "why": "Centralized programmable enforcement creates high blast radius and common-mode failure."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review memory, concurrency, resource, dependency, and software-defined controls.",
+    "connect": "Connect D3 platform architecture, D6 testing, D7 operations, and D1 change/supply-chain risk.",
+    "apply": "Threat-model a policy agent and one concurrent API operation.",
+    "revisit": "Contrast memory safety with application security."
+  },
+  "visualIds": [
+    "d8-o05-secure-coding-memory-concurrency-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-5",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.5 bullets: source weaknesses, APIs, secure coding, software-defined security"
+      },
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-106-130",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "65–80, 100–117 (same PDF page numbers), objective 8.5; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "coding weaknesses and software-defined controls"
+      ]
+    },
+    {
+      "id": "sybex-d8-1085-1113",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1085-1113, Chapter 21"
+      },
+      "supports": [
+        "implementation weaknesses and attacks"
+      ]
+    },
+    {
+      "id": "miller-d8-705-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-760, Chapter 10"
+      },
+      "supports": [
+        "secure coding and platform controls"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o05-secure-coding-memory-concurrency-visual-contract",
+    "unitId": "d8-o05-secure-coding-memory-concurrency",
+    "teachingQuestion": "Which implementation failure violates the security invariant—memory safety, concurrency, resource limit, dependency behavior, or programmable policy—and what layered evidence detects it?",
+    "misconception": "A compiler/runtime mitigation or central policy engine guarantees correct authorization, integrity, and availability.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Memory safety/buffer bounds, race/concurrency invariants, resource exhaustion, dependency change, software-defined control-plane security.",
+    "conceptIds": [
+      "memory-safety",
+      "buffer-overflow",
+      "race-condition",
+      "concurrency",
+      "resource-exhaustion",
+      "dependency-risk",
+      "software-defined-security"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe a language, locking primitive, quota value, policy engine, or make toolchain mitigations absolute guarantees.",
+    "retrievalPrompt": "Two transfers race for the same balance after a policy change. State the invariant, enforcement, test evidence, and safe rollback/failure behavior.",
+    "textFallback": "memory safety: The property that software accesses memory only within valid bounds, lifetime, type, and ownership rules.. Decision: Prefer safe constructs/languages where suitable and enforce bounds/lifetime discipline; test unsafe interfaces and treat mitigations as layers.. Failure/example: Use-after-free or out-of-bounds access can corrupt data or transfer control to attacker-influenced code.\nbuffer overflow: Writing more data than a fixed buffer can hold, corrupting adjacent memory and potentially altering behavior or control flow.. Decision: Validate/bound input and use safe APIs/structures/compiler/runtime protections; test edge and oversized input at every interface.. Failure/example: A 17th byte written into a 16-byte buffer can overwrite adjacent state.\nrace condition: A defect where correctness or security outcome depends on uncontrolled timing/interleaving of concurrent operations.. Decision: Define the invariant, use synchronization/atomicity/idempotency as appropriate, and test forced interleavings and duplicate requests.. Failure/example: Two withdrawals both see available funds before either update, violating the balance invariant.\nconcurrency: Execution of multiple tasks whose shared state, ordering, visibility, cancellation, and failures must be controlled.. Decision: Choose coordination that preserves required integrity/authorization semantics and bound retries/timeouts.. Failure/example: Parallel requests can bypass a single-use token rule if check and consume are not atomic.\nresource exhaustion: Loss of availability when requests, memory, CPU, files, connections, retries, or queues consume finite resources without adequate bounds.. Decision: Apply quotas, timeouts, cancellation, backpressure, size/rate limits, and resilient failure handling based on service need.. Failure/example: Unbounded file upload processing can exhaust workers and deny legitimate users service.\ndependency risk: Risk introduced when a library, runtime, platform, or policy dependency changes, is vulnerable, unsupported, malicious, or behaves unexpectedly.. Decision: Inventory/pin/review dependencies, assess update impact, test changes, and retain rollback/response ownership.. Failure/example: A library update can change authorization defaults even if application source did not change.\nsoftware defined security: Security capabilities whose policy, enforcement, configuration, or control plane is programmable and distributed across software-managed infrastructure/services.. Decision: Protect policy authorship/approval, validate changes, separate duties, stage/monitor rollout, log decisions, define safe failure, and retain rollback.. Failure/example: A compromised policy service can rapidly grant broad access across every connected workload.",
+    "sourceRefIds": [
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "mapNodeId": "d8-o05-secure-coding-memory-concurrency",
+    "visualIds": [
+      "d8-o05-secure-coding-memory-concurrency-decision-comparison-1"
+    ]
+  }
+}

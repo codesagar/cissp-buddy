@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o03-effectiveness-decision-comparison-1",
+  "unitId": "d8-o03-effectiveness",
+  "type": "table",
+  "title": "Assess software-security effectiveness: decision comparison 1",
+  "teachingQuestion": "What evidence is sufficient to judge whether a software security control prevents, detects, responds to, or recovers from the threat it claims to address?",
+  "focalInsight": "Software assessment, application-security testing, meaningful metrics, runtime monitoring, vulnerability management, and security logging.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Software Assessment",
+      "conceptIds": [
+        "software-assessment"
+      ],
+      "definition": "A structured evaluation of whether software security requirements, controls, evidence, and residual risks are adequate for the stated claim.",
+      "decision": "Match methods to the claim and report scope, assumptions, coverage, limitations, findings, owner, and retest plan.",
+      "failureExample": "A checklist that never tests the privileged export path cannot establish that authorization is effective.",
+      "detail": "A structured evaluation of whether software security requirements, controls, evidence, and residual risks are adequate for the stated claim."
+    },
+    {
+      "id": "row-2",
+      "label": "Appsec Testing",
+      "conceptIds": [
+        "appsec-testing"
+      ],
+      "definition": "Testing of application security behavior through appropriate methods such as review, SAST, DAST, IAST, dependency checks, fuzzing, abuse cases, interface tests, and configuration tests.",
+      "decision": "Select methods from threat and lifecycle stage; use realistic roles/data and state what paths or configurations were not covered.",
+      "failureExample": "An unauthenticated scan cannot prove privileged-role access control is enforced.",
+      "detail": "Testing of application security behavior through appropriate methods such as review, SAST, DAST, IAST, dependency checks, fuzzing, abuse cases, interface tests, and configuration tests."
+    },
+    {
+      "id": "row-3",
+      "label": "Security Metrics",
+      "conceptIds": [
+        "security-metrics"
+      ],
+      "definition": "Quantitative measures used to understand security control performance, trends, coverage, exposure, timeliness, or outcomes.",
+      "decision": "Choose metrics tied to a decision and pair volume/speed with severity, exposure, exceptions, outcome evidence, and potential gaming.",
+      "failureExample": "A high closure percentage can hide indefinitely accepted internet-facing critical vulnerabilities.",
+      "detail": "Quantitative measures used to understand security control performance, trends, coverage, exposure, timeliness, or outcomes."
+    },
+    {
+      "id": "row-4",
+      "label": "Runtime Monitoring",
+      "conceptIds": [
+        "runtime-monitoring"
+      ],
+      "definition": "Ongoing observation of deployed software behavior, configuration, performance, security events, and anomalies.",
+      "decision": "Monitor signals that relate to stated threats and response decisions; tune ownership, escalation, coverage, and feedback into engineering.",
+      "failureExample": "A control may pass pre-release tests but fail in production due to a changed identity or configuration.",
+      "detail": "Ongoing observation of deployed software behavior, configuration, performance, security events, and anomalies."
+    },
+    {
+      "id": "row-5",
+      "label": "Vulnerability Management",
+      "conceptIds": [
+        "vulnerability-management"
+      ],
+      "definition": "The lifecycle of identifying, validating, prioritizing, assigning, remediating or accepting, verifying, and tracking vulnerability risk.",
+      "decision": "Prioritize with exploitability, exposure, impact, dependencies, compensating controls, and owner; retest remediation and review exceptions.",
+      "failureExample": "Closing a ticket after applying a patch without verifying the running version leaves exposure unknown.",
+      "detail": "The lifecycle of identifying, validating, prioritizing, assigning, remediating or accepting, verifying, and tracking vulnerability risk."
+    },
+    {
+      "id": "row-6",
+      "label": "Logging",
+      "conceptIds": [
+        "logging"
+      ],
+      "definition": "Generation, protection, retention, and analysis of security-relevant records that support detection, investigation, accountability, and response.",
+      "decision": "Log sufficient actor/action/target/time/outcome/correlation context without secrets; protect integrity and verify alerts/queries lead to action.",
+      "failureExample": "Verbose logs that include tokens create a new disclosure risk while still failing to identify who authorized an export.",
+      "detail": "Generation, protection, retention, and analysis of security-relevant records that support detection, investigation, accountability, and response."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "software-assessment",
+    "appsec-testing",
+    "security-metrics",
+    "runtime-monitoring",
+    "vulnerability-management",
+    "logging"
+  ],
+  "altSummary": "Software assessment, application-security testing, meaningful metrics, runtime monitoring, vulnerability management, and security logging.",
+  "textFallback": "software assessment: A structured evaluation of whether software security requirements, controls, evidence, and residual risks are adequate for the stated claim.. Decision: Match methods to the claim and report scope, assumptions, coverage, limitations, findings, owner, and retest plan.. Failure/example: A checklist that never tests the privileged export path cannot establish that authorization is effective.\nappsec testing: Testing of application security behavior through appropriate methods such as review, SAST, DAST, IAST, dependency checks, fuzzing, abuse cases, interface tests, and configuration tests.. Decision: Select methods from threat and lifecycle stage; use realistic roles/data and state what paths or configurations were not covered.. Failure/example: An unauthenticated scan cannot prove privileged-role access control is enforced.\nsecurity metrics: Quantitative measures used to understand security control performance, trends, coverage, exposure, timeliness, or outcomes.. Decision: Choose metrics tied to a decision and pair volume/speed with severity, exposure, exceptions, outcome evidence, and potential gaming.. Failure/example: A high closure percentage can hide indefinitely accepted internet-facing critical vulnerabilities.\nruntime monitoring: Ongoing observation of deployed software behavior, configuration, performance, security events, and anomalies.. Decision: Monitor signals that relate to stated threats and response decisions; tune ownership, escalation, coverage, and feedback into engineering.. Failure/example: A control may pass pre-release tests but fail in production due to a changed identity or configuration.\nvulnerability management: The lifecycle of identifying, validating, prioritizing, assigning, remediating or accepting, verifying, and tracking vulnerability risk.. Decision: Prioritize with exploitability, exposure, impact, dependencies, compensating controls, and owner; retest remediation and review exceptions.. Failure/example: Closing a ticket after applying a patch without verifying the running version leaves exposure unknown.\nlogging: Generation, protection, retention, and analysis of security-relevant records that support detection, investigation, accountability, and response.. Decision: Log sufficient actor/action/target/time/outcome/correlation context without secrets; protect integrity and verify alerts/queries lead to action.. Failure/example: Verbose logs that include tokens create a new disclosure risk while still failing to identify who authorized an export.",
+  "sourceRefIds": [
+    "official-d8-56-90",
+    "sybex-d8-1069-1113",
+    "miller-d8-727-760"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What evidence is sufficient to judge whether a software security control prevents, detects, responds to, or recovers from the threat it claims to address?",
+    "misconception": "A low defect count, passed scanner, or large volume of logs proves the product is secure.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Software assessment, application-security testing, meaningful metrics, runtime monitoring, vulnerability management, and security logging.",
+    "conceptIds": [
+      "software-assessment",
+      "appsec-testing",
+      "security-metrics",
+      "runtime-monitoring",
+      "vulnerability-management",
+      "logging"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not set universal severity scoring, SLA targets, retention periods, or scanner thresholds.",
+    "retrievalPrompt": "A report says “all critical findings closed.” What additional evidence is needed before concluding the exposed authorization control is effective?",
+    "textFallback": "software assessment: A structured evaluation of whether software security requirements, controls, evidence, and residual risks are adequate for the stated claim.. Decision: Match methods to the claim and report scope, assumptions, coverage, limitations, findings, owner, and retest plan.. Failure/example: A checklist that never tests the privileged export path cannot establish that authorization is effective.\nappsec testing: Testing of application security behavior through appropriate methods such as review, SAST, DAST, IAST, dependency checks, fuzzing, abuse cases, interface tests, and configuration tests.. Decision: Select methods from threat and lifecycle stage; use realistic roles/data and state what paths or configurations were not covered.. Failure/example: An unauthenticated scan cannot prove privileged-role access control is enforced.\nsecurity metrics: Quantitative measures used to understand security control performance, trends, coverage, exposure, timeliness, or outcomes.. Decision: Choose metrics tied to a decision and pair volume/speed with severity, exposure, exceptions, outcome evidence, and potential gaming.. Failure/example: A high closure percentage can hide indefinitely accepted internet-facing critical vulnerabilities.\nruntime monitoring: Ongoing observation of deployed software behavior, configuration, performance, security events, and anomalies.. Decision: Monitor signals that relate to stated threats and response decisions; tune ownership, escalation, coverage, and feedback into engineering.. Failure/example: A control may pass pre-release tests but fail in production due to a changed identity or configuration.\nvulnerability management: The lifecycle of identifying, validating, prioritizing, assigning, remediating or accepting, verifying, and tracking vulnerability risk.. Decision: Prioritize with exploitability, exposure, impact, dependencies, compensating controls, and owner; retest remediation and review exceptions.. Failure/example: Closing a ticket after applying a patch without verifying the running version leaves exposure unknown.\nlogging: Generation, protection, retention, and analysis of security-relevant records that support detection, investigation, accountability, and response.. Decision: Log sufficient actor/action/target/time/outcome/correlation context without secrets; protect integrity and verify alerts/queries lead to action.. Failure/example: Verbose logs that include tokens create a new disclosure risk while still failing to identify who authorized an export.",
+    "sourceRefIds": [
+      "official-d8-56-90",
+      "sybex-d8-1069-1113",
+      "miller-d8-727-760"
+    ],
+    "mapNodeId": "d8-o03-effectiveness"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

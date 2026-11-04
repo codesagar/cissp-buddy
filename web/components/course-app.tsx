@@ -30,6 +30,8 @@ import type {
 import {
   COURSE_STORAGE_KEY,
   courseEvidence,
+  currentCourseEvidence,
+  recommendCourseUnit,
   dueUnits,
   emptyDraft,
   emptyLearnerState,
@@ -49,6 +51,13 @@ import type {
 } from '@/lib/course/learner-state';
 import { CourseFigure } from './course-figure';
 import { CourseLab, hasLab } from './course-labs';
+import {
+  appUrl,
+  loadManifest,
+  loadUnit,
+  loadConnection,
+  loadConnectionsIndex,
+} from '@/lib/course/static-loader';
 import './course.css';
 
 type Setter = Dispatch<SetStateAction<LearnerState>>;
@@ -108,6 +117,7 @@ function useLearner() {
       try {
         setState(validateLearnerState(JSON.parse(event.newValue)));
       } catch {
+        canSave.current = false;
         setIssue(
           'Another tab saved unreadable progress. Your current work is retained; export a backup before leaving.',
         );
@@ -129,15 +139,20 @@ function useLearner() {
     }
   }, [ready, state]);
   const restore = (next: LearnerState) => {
-    localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(next));
+    // The validated replacement was already written by writeProgressBackup.
     canSave.current = true;
     setIssue('');
     setState(next);
   };
-  return { state, setState, ready, issue, restore };
+  const protectStoredRecords = (message: string) => {
+    canSave.current = false;
+    setIssue(message);
+  };
+  return { state, setState, ready, issue, restore, protectStoredRecords };
 }
 export default function CourseApp() {
-  const { state, setState, ready, issue, restore } = useLearner();
+  const { state, setState, ready, issue, restore, protectStoredRecords } =
+    useLearner();
   const [manifest, setManifest] = useState<CourseManifest | null>(null);
   const [error, setError] = useState('');
   const [route, setRoute] = useState('today');
@@ -162,11 +177,7 @@ export default function CourseApp() {
   }, []);
   useEffect(() => {
     const controller = new AbortController();
-    fetch('/api/course', { signal: controller.signal, cache: 'no-store' })
-      .then((r) => {
-        if (!r.ok) throw Error('Course unavailable');
-        return r.json() as Promise<CourseManifest>;
-      })
+    loadManifest(controller.signal)
       .then(setManifest)
       .catch((e) => {
         if (e.name !== 'AbortError')
@@ -285,7 +296,7 @@ export default function CourseApp() {
             Saved progress & preferences
           </a>
           {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
-          <a href="/pilot">
+          <a href={appUrl('pilot/')}>
             Earlier lessons & saved pilot practice <ArrowRight size={16} />
           </a>
           <small>Progress stays in this browser.</small>
@@ -358,7 +369,12 @@ export default function CourseApp() {
           ) : page === 'practice' ? (
             <Practice manifest={manifest} state={state} now={now} />
           ) : page === 'backup' ? (
-            <Backup state={state} setState={setState} restore={restore} />
+            <Backup
+              state={state}
+              setState={setState}
+              restore={restore}
+              protectStoredRecords={protectStoredRecords}
+            />
           ) : page === 'connections' ? (
             <Connections manifest={manifest} state={state} />
           ) : (
@@ -392,7 +408,8 @@ function Today({
     }),
     due = dueUnits(state, now);
   const resumedUnit = manifest.units.find((u) => u.id === state.lastUnitId);
-  const next = resumedUnit || manifest.units[0];
+  const recommendation = recommendCourseUnit(state, manifest);
+  const next = resumedUnit || recommendation?.unit || manifest.units[0];
   return (
     <>
       <div className="course-page-heading">
@@ -409,8 +426,8 @@ function Today({
       <div className="today-feature">
         <div>
           <span className="course-meta">
-            {resumedUnit ? 'Continue your learning' : 'Begin with domain 1'} ·{' '}
-            {next.estimatedMinutes} minutes, at your pace
+            {resumedUnit ? 'Continue your learning' : 'Your next learning unit'}{' '}
+            · {next.estimatedMinutes} minutes, at your pace
           </span>
           <h2>{next.title}</h2>
           <p>{next.outcome}</p>
@@ -443,6 +460,18 @@ function Today({
             Resume your cross-domain case <ArrowRight size={16} />
           </a>
         </p>
+      )}
+      {recommendation && resumedUnit && (
+        <section className="course-notice">
+          <h2>Next unanswered material</h2>
+          <p>{recommendation.reason}</p>
+          <a href={unitLink(recommendation.unit.id)}>
+            {recommendation.unit.title} <ArrowRight size={16} />
+          </a>
+        </section>
+      )}
+      {!resumedUnit && recommendation && (
+        <p className="course-notice">{recommendation.reason}</p>
       )}
       <div className="today-return">
         <div>
@@ -728,19 +757,10 @@ function UnitView({
       return;
     }
     const controller = new AbortController();
-    fetch(
-      `/api/course/${isConnection ? 'connections' : 'units'}/${encodeURIComponent(id)}?release=${encodeURIComponent(manifest.releaseId)}`,
-      { signal: controller.signal },
+    (isConnection
+      ? loadConnection(manifest, id, controller.signal)
+      : loadUnit(manifest, id, controller.signal)
     )
-      .then((r) => {
-        if (!r.ok)
-          throw Error(
-            r.status === 404
-              ? 'That unit or content release is unavailable.'
-              : 'The lesson could not load.',
-          );
-        return r.json() as Promise<CourseUnit | ConnectionDetail>;
-      })
       .then((payload: CourseUnit | ConnectionDetail) => {
         let u: CourseUnit;
         if ('model' in payload) {
@@ -779,11 +799,10 @@ function UnitView({
           );
       });
     return () => controller.abort();
-  }, [id, manifest.releaseId, manifest.sourceHash, reload, isConnection]);
+  }, [id, manifest, reload, isConnection]);
   useEffect(() => {
-    if (manifest.units.some((u) => u.id === id) || connection)
-      update({ stage });
-  }, [stage, update, manifest.units, id, connection]);
+    if (unit?.id === id && !error) update({ stage });
+  }, [stage, update, id, unit, error]);
   useEffect(() => {
     if (
       !requestedConcept ||
@@ -1394,7 +1413,10 @@ function Assessment({
   const position = state.units[unit.id] || newPosition(0);
   const draft = position.checks[check.id] || emptyDraft();
   const attempt = state.attempts.find((a) => a.id === draft.submittedAttemptId);
-  const chosen = check.options.find((o) => o.id === draft.selected);
+  const displayedCheck = attempt?.snapshot || check;
+  const chosen = displayedCheck.options.find(
+    (o) => o.id === (attempt?.selected || draft.selected),
+  );
   function setDraft(patch: Partial<AnswerDraft>) {
     setState((s) => {
       const pos = s.units[unit.id] || newPosition(Date.now());
@@ -1427,7 +1449,7 @@ function Assessment({
               : 'A different retry'}{' '}
           · no time limit
         </span>
-        <h2 id={`check-${check.id}`}>{check.prompt}</h2>
+        <h2 id={`check-${check.id}`}>{displayedCheck.prompt}</h2>
         {kind === 'prediction' && (
           <p className="assessment-context">{unit.teaching?.scenario}</p>
         )}
@@ -1441,16 +1463,16 @@ function Assessment({
       </div>
       <fieldset disabled={!!attempt}>
         <legend className="sr-only">Choose your answer</legend>
-        {check.options.map((o, i) => (
+        {displayedCheck.options.map((o, i) => (
           <label
             key={o.id}
-            className={`assessment-option ${draft.selected === o.id ? 'is-selected' : ''}`}
+            className={`assessment-option ${(attempt?.selected || draft.selected) === o.id ? 'is-selected' : ''}`}
           >
             <input
               type="radio"
               name={check.id}
               value={o.id}
-              checked={draft.selected === o.id}
+              checked={(attempt?.selected || draft.selected) === o.id}
               onChange={() => setDraft({ selected: o.id })}
             />
             <span className="option-letter" aria-hidden="true">
@@ -1511,6 +1533,12 @@ function Assessment({
               : 'Revisit the controlling relationship.'}
           </h3>
           <p>{chosen?.feedback}</p>
+          {attempt.releaseId !== unit.releaseId && (
+            <p>
+              This saved answer retains its original question and feedback from{' '}
+              {attempt.releaseId}.
+            </p>
+          )}
           {attempt.outcomeViewed && (
             <p>
               Assisted: outcome or explanation viewed before this answer. This
@@ -1698,7 +1726,8 @@ function Practice({
   now: number;
 }) {
   const due = dueUnits(state, now),
-    evidence = courseEvidence(state);
+    evidence = courseEvidence(state),
+    current = currentCourseEvidence(state, manifest);
   const queue = [
     ...manifest.units.filter((u) => due.includes(u.id)),
     ...due
@@ -1789,7 +1818,18 @@ function Practice({
           questions.
         </p>
         <p>
-          These are practice counts, not an exam-readiness or mastery score.
+          {current.independent} named current unit checks have a correct
+          unassisted answer; {current.assisted} unit-check responses used
+          assistance or uncertainty flags; {current.repeated} repeated
+          unit-check responses remain in history.
+        </p>
+        <p>
+          {current.unanswered} current unit checks are unanswered.{' '}
+          {current.noDirectCheck} explained concepts have no directly scoped
+          unit check (connection cases may assess some separately). These are
+          unit-check counts; connection evidence remains in the distinct totals
+          and each case’s review. They are not an exam-readiness or mastery
+          score.
         </p>
       </div>
     </>
@@ -1799,33 +1839,40 @@ function Backup({
   state,
   setState,
   restore,
+  protectStoredRecords,
 }: {
   state: LearnerState;
   setState: Setter;
   restore: (s: LearnerState) => void;
+  protectStoredRecords: (message: string) => void;
 }) {
   const [message, setMessage] = useState(''),
     [pending, setPending] = useState<{
       course?: LearnerState;
       pilot?: unknown;
     } | null>(null);
+  const importSelection = useRef(0);
   async function parse(file: File) {
+    const selection = ++importSelection.current;
     setMessage('');
     setPending(null);
     try {
       if (file.size > 20_000_000)
         throw Error('This file is too large for a progress backup.');
       const raw = JSON.parse(await file.text());
+      let candidate: { course?: LearnerState; pilot?: unknown };
       if (raw.format === 'cissp-buddy-combined-v1') {
         const course = validateLearnerState(raw.course);
         let pilot: unknown;
         if (raw.pilot !== null && raw.pilot !== undefined)
           pilot = await validatePilot(raw.pilot);
-        setPending({ course, pilot });
+        candidate = { course, pilot };
       } else if (raw.units && raw.preferences)
-        setPending({ course: validateLearnerState(raw) });
-      else setPending({ pilot: await validatePilot(raw) });
+        candidate = { course: validateLearnerState(raw) };
+      else candidate = { pilot: await validatePilot(raw) };
+      if (selection === importSelection.current) setPending(candidate);
     } catch (e) {
+      if (selection !== importSelection.current) return;
       setMessage(
         e instanceof Error
           ? e.message
@@ -1846,17 +1893,26 @@ function Backup({
       questions,
     );
   }
-  function exportAll() {
+  async function exportAll() {
     let pilot: unknown = null;
-    const raw = localStorage.getItem('cissp-buddy:v1');
+    let raw: string | null;
+    try {
+      raw = localStorage.getItem('cissp-buddy:v1');
+    } catch {
+      download('cissp-course-progress.json', state);
+      setMessage(
+        'Current course work exported. The browser blocked access to the earlier pilot record; it could not be included.',
+      );
+      return;
+    }
     if (raw) {
       try {
-        pilot = JSON.parse(raw);
+        pilot = await validatePilot(JSON.parse(raw));
       } catch {
         setMessage(
-          'The earlier pilot record is unreadable. Export its untouched stored copy before replacing it.',
+          'The earlier pilot record is damaged. Current course work was exported separately. Use Export untouched stored records to preserve the pilot record before replacing it.',
         );
-        download('cissp-pilot-stored-recovery.json', { raw });
+        download('cissp-course-progress.json', state);
         return;
       }
     }
@@ -1873,14 +1929,23 @@ function Backup({
         <h1>Your learning, safely carried forward.</h1>
         <p>
           Progress is local to this browser and address. Export a backup to move
-          it or keep a copy. Earlier pilot attempts retain their original
+          it or keep a copy. A new address or browser cannot automatically read
+          the old address’s storage. Export all progress at the old address,
+          open this page at the new address, choose that file, then explicitly
+          replace progress. Earlier pilot attempts retain their original
           question identities.
         </p>
       </div>
       <section className="settings-section">
         <h2>Backup & restore</h2>
+        <p>
+          Keep the exported file until you verify the restored work. A browser
+          interruption during replacement can leave only part of a combined
+          backup written; export both current progress and untouched stored
+          records before recovery.
+        </p>
         <div className="backup-actions">
-          <button className="course-primary" onClick={exportAll}>
+          <button className="course-primary" onClick={() => void exportAll()}>
             <Download size={18} />
             Export all progress
           </button>
@@ -1897,12 +1962,18 @@ function Backup({
             />
           </label>
           <button
-            onClick={() =>
-              download('cissp-stored-recovery.json', {
-                course: localStorage.getItem(COURSE_STORAGE_KEY),
-                pilot: localStorage.getItem('cissp-buddy:v1'),
-              })
-            }
+            onClick={() => {
+              try {
+                download('cissp-stored-recovery.json', {
+                  course: localStorage.getItem(COURSE_STORAGE_KEY),
+                  pilot: localStorage.getItem('cissp-buddy:v1'),
+                });
+              } catch {
+                setMessage(
+                  'This browser is blocking access to stored records. Export all progress to keep your current in-memory course work.',
+                );
+              }
+            }}
           >
             Export untouched stored records
           </button>
@@ -1928,9 +1999,15 @@ function Backup({
                   setMessage(
                     'Backup restored. Your saved position and attempts are available.',
                   );
-                } catch {
+                } catch (error) {
+                  protectStoredRecords(
+                    'Backup replacement could not finish. Saving is paused to preserve stored records. Export current progress and untouched records, then restore a validated backup.',
+                  );
                   setMessage(
-                    'The browser could not write this backup. Export your current progress and free storage before trying again.',
+                    error instanceof Error &&
+                      error.message.startsWith('Restore was interrupted')
+                      ? error.message
+                      : 'The browser could not write this backup. Your active work remains available. Export it and free storage before trying again.',
                   );
                 }
               }}
@@ -1942,7 +2019,7 @@ function Backup({
         )}
         <p>
           {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
-          <a href="/pilot/#/backup">
+          <a href={appUrl('pilot/#/backup')}>
             Open earlier pilot progress and backups
             <ArrowRight size={16} />
           </a>
@@ -2042,20 +2119,13 @@ function Connections({
   const [reload, setReload] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
-    fetch(
-      `/api/course/connections?release=${encodeURIComponent(manifest.releaseId)}`,
-      { signal: controller.signal },
-    )
-      .then((r) => {
-        if (!r.ok) throw Error('The linked cases could not load.');
-        return r.json() as Promise<ConnectionIndex>;
-      })
+    loadConnectionsIndex(manifest, controller.signal)
       .then(setIndex)
       .catch((e) => {
         if (e.name !== 'AbortError') setError(e.message);
       });
     return () => controller.abort();
-  }, [manifest.releaseId, reload]);
+  }, [manifest, reload]);
   return (
     <>
       <div className="course-page-heading">

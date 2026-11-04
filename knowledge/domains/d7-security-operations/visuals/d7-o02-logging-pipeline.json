@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o02-logging-pipeline",
+  "unitId": "d7-o02-logging-monitoring",
+  "type": "data-flow",
+  "teachingQuestion": "How does raw telemetry become trustworthy operational action?",
+  "focalInsight": "Collection without normalization, protection, correlation, retention, and triage produces noise rather than usable evidence.",
+  "title": "Logging to action",
+  "caption": "Security telemetry gains value through context, integrity, and ownership.",
+  "nodes": [
+    { "id": "sources", "label": "Event sources", "detail": "Identity, endpoint, app, network, cloud, physical" },
+    { "id": "collect", "label": "Collect and normalize", "detail": "Fields, time, correlation, transport" },
+    { "id": "protect", "label": "Protect and retain", "detail": "Access, integrity, resilience, retention" },
+    { "id": "analyze", "label": "Correlate and monitor", "detail": "Baseline, rules, intelligence, behavior" },
+    { "id": "triage", "label": "Triage and respond", "detail": "Owner, severity, escalation, playbook" }
+  ],
+  "relationships": [
+    { "from": "sources", "to": "collect", "label": "emit events" },
+    { "from": "collect", "to": "protect", "label": "preserves context" },
+    { "from": "protect", "to": "analyze", "label": "supplies trusted data" },
+    { "from": "analyze", "to": "triage", "label": "creates signal" },
+    { "from": "triage", "to": "analyze", "label": "improves tuning" }
+  ],
+  "altSummary": "Events from many sources are collected and normalized, protected and retained, correlated and monitored, then triaged into response actions.",
+  "textFallback": "Collect security-relevant events with actor, action, object, result, source, time, and correlation fields. Protect and retain them, correlate them against context and baselines, and route actionable signals to an owner with a response playbook.",
+  "sourceRefIds": ["outline-d7-o02", "official-d7-15-30", "sybex-d7-834-850"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

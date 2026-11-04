@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o04-system-security-capabilities-concept-comparison-1",
+  "unitId": "d3-o04-system-security-capabilities",
+  "type": "table",
+  "title": "Use platform security capabilities as architectural building blocks: concept decisions 1",
+  "teachingQuestion": "Which platform capability protects this layer, and what assumption must still hold?",
+  "focalInsight": "Capabilities protect bounded layers and rely on keys, configuration, administration, and operation.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Memory Protection",
+      "conceptIds": [
+        "memory-protection"
+      ],
+      "definition": "Hardware and OS enforcement that separates address spaces by privilege or process.",
+      "detail": "Hardware and OS enforcement that separates address spaces by privilege or process.",
+      "decision": "Use to prevent one process from reading or changing another’s memory.",
+      "failureExample": "A memory-corruption flaw gains access to a more-privileged address region.",
+      "retrievalAnswer": "Memory protection limits direct access across address spaces.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Process Isolation",
+      "conceptIds": [
+        "process-isolation"
+      ],
+      "definition": "Separation that confines a process’s resources and privileges from other processes.",
+      "detail": "Separation that confines a process’s resources and privileges from other processes.",
+      "decision": "Use when independent workloads or privilege levels must not affect each other.",
+      "failureExample": "A plugin can alter the host application’s files and tokens.",
+      "retrievalAnswer": "Isolation reduces a compromised process’s reach.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Trusted Platform Module",
+      "conceptIds": [
+        "trusted-platform-module"
+      ],
+      "definition": "Hardware component that can protect keys and measurements for platform trust decisions.",
+      "detail": "Hardware component that can protect keys and measurements for platform trust decisions.",
+      "decision": "Use when key protection and measured boot evidence are required.",
+      "failureExample": "A device starts altered firmware but reports a normal state without attestation.",
+      "retrievalAnswer": "A TPM supports measurements and keys; it does not replace administration.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Secure Boot",
+      "conceptIds": [
+        "secure-boot"
+      ],
+      "definition": "Startup verification that permits approved boot components under a trust policy.",
+      "detail": "Startup verification that permits approved boot components under a trust policy.",
+      "decision": "Use when preventing unauthorized firmware or bootloader changes matters.",
+      "failureExample": "A modified bootloader loads before endpoint protections start.",
+      "retrievalAnswer": "Secure boot establishes a controlled startup chain.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Encryption",
+      "conceptIds": [
+        "encryption"
+      ],
+      "definition": "Cryptographic protection of selected information states using managed keys.",
+      "detail": "Cryptographic protection of selected information states using managed keys.",
+      "decision": "Choose for a defined data state, threat, key custody, and endpoint assumption.",
+      "failureExample": "A stolen storage device exposes unencrypted records.",
+      "retrievalAnswer": "Encryption’s protection depends on keys and the access path.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Key Management",
+      "conceptIds": [
+        "key-management"
+      ],
+      "definition": "Lifecycle control for generating, storing, using, rotating, recovering, and destroying keys.",
+      "detail": "Lifecycle control for generating, storing, using, rotating, recovering, and destroying keys.",
+      "decision": "Assess custody, separation, recovery, rotation, and access to every key.",
+      "failureExample": "A backup contains encrypted data and its recovery key in the same exposed location.",
+      "retrievalAnswer": "A strong algorithm cannot compensate for exposed key authority.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Virtualization",
+      "conceptIds": [
+        "virtualization"
+      ],
+      "definition": "Use of a hypervisor to multiplex isolated workloads on shared hardware.",
+      "detail": "Use of a hypervisor to multiplex isolated workloads on shared hardware.",
+      "decision": "Use when workload separation benefits exceed hypervisor and management dependencies.",
+      "failureExample": "One overprivileged console changes multiple guest networks and snapshots.",
+      "retrievalAnswer": "Virtualization shifts high impact to the host and management plane.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Logging",
+      "conceptIds": [
+        "logging"
+      ],
+      "definition": "Recorded security-relevant events used for accountability, detection, and investigation.",
+      "detail": "Recorded security-relevant events used for accountability, detection, and investigation.",
+      "decision": "Protect, retain, correlate, and review logs according to the use case.",
+      "failureExample": "An attacker deletes local logs before the incident is noticed.",
+      "retrievalAnswer": "Logs must be protected and acted on to provide assurance.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Hardware Root Of Trust",
+      "conceptIds": [
+        "hardware-root-of-trust"
+      ],
+      "definition": "Trusted hardware basis for verifying platform identity, measurements, or key protection.",
+      "detail": "Trusted hardware basis for verifying platform identity, measurements, or key protection.",
+      "decision": "Use where software-only trust cannot adequately establish the initial state.",
+      "failureExample": "A remote attestation relies on measurements an attacker can rewrite in software.",
+      "retrievalAnswer": "Anchor the trust claim in a component outside the compromised layer.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "memory-protection",
+    "process-isolation",
+    "trusted-platform-module",
+    "secure-boot",
+    "encryption",
+    "key-management",
+    "virtualization",
+    "logging",
+    "hardware-root-of-trust"
+  ],
+  "altSummary": "Capabilities protect bounded layers and rely on keys, configuration, administration, and operation.",
+  "textFallback": "memory protection: Hardware and OS enforcement that separates address spaces by privilege or process. Decide: Use to prevent one process from reading or changing another’s memory. Example/failure: A memory-corruption flaw gains access to a more-privileged address region. Retrieve: Memory protection limits direct access across address spaces.\nprocess isolation: Separation that confines a process’s resources and privileges from other processes. Decide: Use when independent workloads or privilege levels must not affect each other. Example/failure: A plugin can alter the host application’s files and tokens. Retrieve: Isolation reduces a compromised process’s reach.\ntrusted platform module: Hardware component that can protect keys and measurements for platform trust decisions. Decide: Use when key protection and measured boot evidence are required. Example/failure: A device starts altered firmware but reports a normal state without attestation. Retrieve: A TPM supports measurements and keys; it does not replace administration.\nsecure boot: Startup verification that permits approved boot components under a trust policy. Decide: Use when preventing unauthorized firmware or bootloader changes matters. Example/failure: A modified bootloader loads before endpoint protections start. Retrieve: Secure boot establishes a controlled startup chain.\nencryption: Cryptographic protection of selected information states using managed keys. Decide: Choose for a defined data state, threat, key custody, and endpoint assumption. Example/failure: A stolen storage device exposes unencrypted records. Retrieve: Encryption’s protection depends on keys and the access path.\nkey management: Lifecycle control for generating, storing, using, rotating, recovering, and destroying keys. Decide: Assess custody, separation, recovery, rotation, and access to every key. Example/failure: A backup contains encrypted data and its recovery key in the same exposed location. Retrieve: A strong algorithm cannot compensate for exposed key authority.\nvirtualization: Use of a hypervisor to multiplex isolated workloads on shared hardware. Decide: Use when workload separation benefits exceed hypervisor and management dependencies. Example/failure: One overprivileged console changes multiple guest networks and snapshots. Retrieve: Virtualization shifts high impact to the host and management plane.\nlogging: Recorded security-relevant events used for accountability, detection, and investigation. Decide: Protect, retain, correlate, and review logs according to the use case. Example/failure: An attacker deletes local logs before the incident is noticed. Retrieve: Logs must be protected and acted on to provide assurance.\nhardware root of trust: Trusted hardware basis for verifying platform identity, measurements, or key protection. Decide: Use where software-only trust cannot adequately establish the initial state. Example/failure: A remote attestation relies on measurements an attacker can rewrite in software. Retrieve: Anchor the trust claim in a component outside the compromised layer.",
+  "sourceRefIds": [
+    "d3-o04-textbook",
+    "d3-o04-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which platform capability protects this layer, and what assumption must still hold?",
+    "misconception": "A TPM, encryption, or VM eliminates all remaining risk.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Capabilities protect bounded layers and rely on keys, configuration, administration, and operation.",
+    "conceptIds": [
+      "memory-protection",
+      "process-isolation",
+      "trusted-platform-module",
+      "secure-boot",
+      "encryption",
+      "key-management",
+      "virtualization",
+      "logging",
+      "hardware-root-of-trust"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Map the incident to a capability, its boundary, and its required supporting control.",
+    "textFallback": "memory protection: Hardware and OS enforcement that separates address spaces by privilege or process. Decide: Use to prevent one process from reading or changing another’s memory. Example/failure: A memory-corruption flaw gains access to a more-privileged address region. Retrieve: Memory protection limits direct access across address spaces.\nprocess isolation: Separation that confines a process’s resources and privileges from other processes. Decide: Use when independent workloads or privilege levels must not affect each other. Example/failure: A plugin can alter the host application’s files and tokens. Retrieve: Isolation reduces a compromised process’s reach.\ntrusted platform module: Hardware component that can protect keys and measurements for platform trust decisions. Decide: Use when key protection and measured boot evidence are required. Example/failure: A device starts altered firmware but reports a normal state without attestation. Retrieve: A TPM supports measurements and keys; it does not replace administration.\nsecure boot: Startup verification that permits approved boot components under a trust policy. Decide: Use when preventing unauthorized firmware or bootloader changes matters. Example/failure: A modified bootloader loads before endpoint protections start. Retrieve: Secure boot establishes a controlled startup chain.\nencryption: Cryptographic protection of selected information states using managed keys. Decide: Choose for a defined data state, threat, key custody, and endpoint assumption. Example/failure: A stolen storage device exposes unencrypted records. Retrieve: Encryption’s protection depends on keys and the access path.\nkey management: Lifecycle control for generating, storing, using, rotating, recovering, and destroying keys. Decide: Assess custody, separation, recovery, rotation, and access to every key. Example/failure: A backup contains encrypted data and its recovery key in the same exposed location. Retrieve: A strong algorithm cannot compensate for exposed key authority.\nvirtualization: Use of a hypervisor to multiplex isolated workloads on shared hardware. Decide: Use when workload separation benefits exceed hypervisor and management dependencies. Example/failure: One overprivileged console changes multiple guest networks and snapshots. Retrieve: Virtualization shifts high impact to the host and management plane.\nlogging: Recorded security-relevant events used for accountability, detection, and investigation. Decide: Protect, retain, correlate, and review logs according to the use case. Example/failure: An attacker deletes local logs before the incident is noticed. Retrieve: Logs must be protected and acted on to provide assurance.\nhardware root of trust: Trusted hardware basis for verifying platform identity, measurements, or key protection. Decide: Use where software-only trust cannot adequately establish the initial state. Example/failure: A remote attestation relies on measurements an attacker can rewrite in software. Retrieve: Anchor the trust claim in a component outside the compromised layer.",
+    "sourceRefIds": [
+      "d3-o04-textbook",
+      "d3-o04-sybex"
+    ],
+    "mapNodeId": "d3-o04-system-security-capabilities"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

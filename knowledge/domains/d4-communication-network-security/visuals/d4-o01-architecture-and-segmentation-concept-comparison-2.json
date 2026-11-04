@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-architecture-and-segmentation-concept-comparison-2",
+  "unitId": "d4-o01-architecture-and-segmentation",
+  "type": "table",
+  "title": "Design secure network architectures and segmentation: concept decisions 2",
+  "teachingQuestion": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+  "focalInsight": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "physical logical boundary",
+      "conceptIds": [
+        "physical-logical-boundary"
+      ],
+      "definition": "Explicit physical or logical separation point whose crossing must be controlled and observed.",
+      "detail": "Explicit physical or logical separation point whose crossing must be controlled and observed.",
+      "decision": "Choose physical, VLAN/VRF/VPN, or workload policy boundary from the required reduction in available paths and operational constraints.",
+      "failureExample": "A cable-sharing “separate” path bypasses the assumed physical boundary.",
+      "retrievalAnswer": "Boundary choice reduces paths; it must still have crossing policy and evidence.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Ipsec",
+      "conceptIds": [
+        "ipsec"
+      ],
+      "definition": "Suite that protects selected IP traffic between IPsec endpoints using security associations, key management, and cryptography.",
+      "detail": "Suite that protects selected IP traffic between IPsec endpoints using security associations, key management, and cryptography.",
+      "decision": "Use when network-layer protection fits endpoints and routing; verify peer identity, selectors, key lifecycle, NAT/intermediary behavior, and logs.",
+      "failureExample": "A tunnel to a gateway protects only to that gateway, not an unprotected onward path.",
+      "retrievalAnswer": "IPsec protects selected IP traffic between defined endpoints.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Ssh",
+      "conceptIds": [
+        "ssh"
+      ],
+      "definition": "Secure administrative/session protocol providing authenticated, encrypted remote command or transfer channels.",
+      "detail": "Secure administrative/session protocol providing authenticated, encrypted remote command or transfer channels.",
+      "decision": "Use managed host/user authentication, least privilege, approved jump path, logging, and host-key verification.",
+      "failureExample": "Accepting an unknown host key can route administration to an attacker.",
+      "retrievalAnswer": "SSH is for a secure admin session; verify host and user identities.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "TLS",
+      "conceptIds": [
+        "tls"
+      ],
+      "definition": "Protocol protecting an application session between TLS endpoints through authenticated key establishment and record protection.",
+      "detail": "Protocol protecting an application session between TLS endpoints through authenticated key establishment and record protection.",
+      "decision": "Validate endpoint identity/certificates, select current configuration, locate termination, and protect the onward application path.",
+      "failureExample": "TLS terminated at a load balancer does not protect plaintext traffic from that balancer to a backend.",
+      "retrievalAnswer": "State both TLS endpoints before claiming what traffic is protected.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Ipv4",
+      "conceptIds": [
+        "ipv4"
+      ],
+      "definition": "Network-layer addressing and forwarding protocol with local broadcast capability and constrained address space.",
+      "detail": "Network-layer addressing and forwarding protocol with local broadcast capability and constrained address space.",
+      "decision": "Account for address scope, broadcast domains, translation, filtering, and monitoring when permitting IPv4 paths.",
+      "failureExample": "An overly broad IPv4 broadcast domain exposes services to unnecessary discovery traffic.",
+      "retrievalAnswer": "IPv4 broadcast is local-domain reachability, not a single-host flow.",
+      "tier": "B"
+    },
+    {
+      "id": "row-6",
+      "label": "Ipv6",
+      "conceptIds": [
+        "ipv6"
+      ],
+      "definition": "Network-layer addressing and forwarding protocol with large address space and distinct discovery/multicast behavior.",
+      "detail": "Network-layer addressing and forwarding protocol with large address space and distinct discovery/multicast behavior.",
+      "decision": "Design dual-stack policy, address assignment, filtering, monitoring, and management for IPv6 rather than assuming IPv4 controls apply.",
+      "failureExample": "An IPv4-only firewall rule leaves an IPv6 path uninspected.",
+      "retrievalAnswer": "Dual stack means two policy/visibility paths to verify.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "Performance Metrics",
+      "conceptIds": [
+        "performance-metrics"
+      ],
+      "definition": "Measures such as bandwidth, throughput, latency, jitter, and signal-to-noise that describe network capacity and service behavior.",
+      "detail": "Measures such as bandwidth, throughput, latency, jitter, and signal-to-noise that describe network capacity and service behavior.",
+      "decision": "Evaluate metrics against service needs and security-control overhead/failure modes.",
+      "failureExample": "Low bandwidth use can coexist with high latency that breaks voice or security timeouts.",
+      "retrievalAnswer": "Jitter matters for time-sensitive media; throughput is delivered work rate.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Converged Protocols",
+      "conceptIds": [
+        "converged-protocols"
+      ],
+      "definition": "Protocols/services that place storage, voice, compute, or other functions on shared network infrastructure.",
+      "detail": "Protocols/services that place storage, voice, compute, or other functions on shared network infrastructure.",
+      "decision": "Assess shared trust, capacity, availability, segmentation, and management dependencies before convergence.",
+      "failureExample": "A single fabric outage or policy change can disrupt both voice and storage.",
+      "retrievalAnswer": "Convergence trades dedicated separation for shared failure/trust dependencies.",
+      "tier": "B"
+    },
+    {
+      "id": "row-9",
+      "label": "Authorization",
+      "conceptIds": [
+        "authorization"
+      ],
+      "definition": "Decision that an authenticated principal may perform a particular network, management, or service action.",
+      "detail": "Decision that an authenticated principal may perform a particular network, management, or service action.",
+      "decision": "Enforce at the relevant endpoint/control plane, not merely at initial network admission.",
+      "failureExample": "A device admitted to a network can still be unauthorized to administer a router.",
+      "retrievalAnswer": "Authentication identifies; authorization decides the permitted action.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "physical-logical-boundary",
+    "ipsec",
+    "ssh",
+    "tls",
+    "ipv4",
+    "ipv6",
+    "performance-metrics",
+    "converged-protocols",
+    "authorization"
+  ],
+  "altSummary": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+  "textFallback": "physical logical boundary: Explicit physical or logical separation point whose crossing must be controlled and observed. Decide: Choose physical, VLAN/VRF/VPN, or workload policy boundary from the required reduction in available paths and operational constraints. Example/failure: A cable-sharing “separate” path bypasses the assumed physical boundary. Retrieve: Boundary choice reduces paths; it must still have crossing policy and evidence.\nipsec: Suite that protects selected IP traffic between IPsec endpoints using security associations, key management, and cryptography. Decide: Use when network-layer protection fits endpoints and routing; verify peer identity, selectors, key lifecycle, NAT/intermediary behavior, and logs. Example/failure: A tunnel to a gateway protects only to that gateway, not an unprotected onward path. Retrieve: IPsec protects selected IP traffic between defined endpoints.\nssh: Secure administrative/session protocol providing authenticated, encrypted remote command or transfer channels. Decide: Use managed host/user authentication, least privilege, approved jump path, logging, and host-key verification. Example/failure: Accepting an unknown host key can route administration to an attacker. Retrieve: SSH is for a secure admin session; verify host and user identities.\ntls: Protocol protecting an application session between TLS endpoints through authenticated key establishment and record protection. Decide: Validate endpoint identity/certificates, select current configuration, locate termination, and protect the onward application path. Example/failure: TLS terminated at a load balancer does not protect plaintext traffic from that balancer to a backend. Retrieve: State both TLS endpoints before claiming what traffic is protected.\nipv4: Network-layer addressing and forwarding protocol with local broadcast capability and constrained address space. Decide: Account for address scope, broadcast domains, translation, filtering, and monitoring when permitting IPv4 paths. Example/failure: An overly broad IPv4 broadcast domain exposes services to unnecessary discovery traffic. Retrieve: IPv4 broadcast is local-domain reachability, not a single-host flow.\nipv6: Network-layer addressing and forwarding protocol with large address space and distinct discovery/multicast behavior. Decide: Design dual-stack policy, address assignment, filtering, monitoring, and management for IPv6 rather than assuming IPv4 controls apply. Example/failure: An IPv4-only firewall rule leaves an IPv6 path uninspected. Retrieve: Dual stack means two policy/visibility paths to verify.\nperformance metrics: Measures such as bandwidth, throughput, latency, jitter, and signal-to-noise that describe network capacity and service behavior. Decide: Evaluate metrics against service needs and security-control overhead/failure modes. Example/failure: Low bandwidth use can coexist with high latency that breaks voice or security timeouts. Retrieve: Jitter matters for time-sensitive media; throughput is delivered work rate.\nconverged protocols: Protocols/services that place storage, voice, compute, or other functions on shared network infrastructure. Decide: Assess shared trust, capacity, availability, segmentation, and management dependencies before convergence. Example/failure: A single fabric outage or policy change can disrupt both voice and storage. Retrieve: Convergence trades dedicated separation for shared failure/trust dependencies.\nauthorization: Decision that an authenticated principal may perform a particular network, management, or service action. Decide: Enforce at the relevant endpoint/control plane, not merely at initial network admission. Example/failure: A device admitted to a network can still be unauthorized to administer a router. Retrieve: Authentication identifies; authorization decides the permitted action.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-571-620",
+    "sybex-d4-597-645",
+    "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+    "misconception": "A VLAN, tunnel, or encrypted protocol automatically creates a secure trust boundary.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+    "conceptIds": [
+      "physical-logical-boundary",
+      "ipsec",
+      "ssh",
+      "tls",
+      "ipv4",
+      "ipv6",
+      "performance-metrics",
+      "converged-protocols",
+      "authorization"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+    "textFallback": "physical logical boundary: Explicit physical or logical separation point whose crossing must be controlled and observed. Decide: Choose physical, VLAN/VRF/VPN, or workload policy boundary from the required reduction in available paths and operational constraints. Example/failure: A cable-sharing “separate” path bypasses the assumed physical boundary. Retrieve: Boundary choice reduces paths; it must still have crossing policy and evidence.\nipsec: Suite that protects selected IP traffic between IPsec endpoints using security associations, key management, and cryptography. Decide: Use when network-layer protection fits endpoints and routing; verify peer identity, selectors, key lifecycle, NAT/intermediary behavior, and logs. Example/failure: A tunnel to a gateway protects only to that gateway, not an unprotected onward path. Retrieve: IPsec protects selected IP traffic between defined endpoints.\nssh: Secure administrative/session protocol providing authenticated, encrypted remote command or transfer channels. Decide: Use managed host/user authentication, least privilege, approved jump path, logging, and host-key verification. Example/failure: Accepting an unknown host key can route administration to an attacker. Retrieve: SSH is for a secure admin session; verify host and user identities.\ntls: Protocol protecting an application session between TLS endpoints through authenticated key establishment and record protection. Decide: Validate endpoint identity/certificates, select current configuration, locate termination, and protect the onward application path. Example/failure: TLS terminated at a load balancer does not protect plaintext traffic from that balancer to a backend. Retrieve: State both TLS endpoints before claiming what traffic is protected.\nipv4: Network-layer addressing and forwarding protocol with local broadcast capability and constrained address space. Decide: Account for address scope, broadcast domains, translation, filtering, and monitoring when permitting IPv4 paths. Example/failure: An overly broad IPv4 broadcast domain exposes services to unnecessary discovery traffic. Retrieve: IPv4 broadcast is local-domain reachability, not a single-host flow.\nipv6: Network-layer addressing and forwarding protocol with large address space and distinct discovery/multicast behavior. Decide: Design dual-stack policy, address assignment, filtering, monitoring, and management for IPv6 rather than assuming IPv4 controls apply. Example/failure: An IPv4-only firewall rule leaves an IPv6 path uninspected. Retrieve: Dual stack means two policy/visibility paths to verify.\nperformance metrics: Measures such as bandwidth, throughput, latency, jitter, and signal-to-noise that describe network capacity and service behavior. Decide: Evaluate metrics against service needs and security-control overhead/failure modes. Example/failure: Low bandwidth use can coexist with high latency that breaks voice or security timeouts. Retrieve: Jitter matters for time-sensitive media; throughput is delivered work rate.\nconverged protocols: Protocols/services that place storage, voice, compute, or other functions on shared network infrastructure. Decide: Assess shared trust, capacity, availability, segmentation, and management dependencies before convergence. Example/failure: A single fabric outage or policy change can disrupt both voice and storage. Retrieve: Convergence trades dedicated separation for shared failure/trust dependencies.\nauthorization: Decision that an authenticated principal may perform a particular network, management, or service action. Decide: Enforce at the relevant endpoint/control plane, not merely at initial network admission. Example/failure: A device admitted to a network can still be unauthorized to administer a router. Retrieve: Authentication identifies; authorization decides the permitted action.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-571-620",
+      "sybex-d4-597-645",
+      "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+    ],
+    "mapNodeId": "d4-o01-architecture-and-segmentation"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

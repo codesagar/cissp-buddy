@@ -6,9 +6,11 @@ import type {
   RecoveryTimelineData,
   TeachingCheck,
   TeachingModel,
-} from './types';
+} from './types.ts';
 
-type TeachingScope = Pick<CourseUnit, 'id' | 'conceptIds' | 'sourceRefs'>;
+type TeachingScope = Pick<CourseUnit, 'id' | 'conceptIds'> & {
+  sourceRefs: { id: string }[];
+};
 
 const fail = (message: string): never => {
   throw new Error(`Course validation: ${message}`);
@@ -86,7 +88,7 @@ const validateCheck = (
       fail(`${model.unitId}/${label} references undeclared ${conceptId}`);
 };
 
-const validateTeaching = (
+export const validateTeaching = (
   model: TeachingModel,
   unit: TeachingScope,
   enforceSemanticInvariants = false,
@@ -395,6 +397,22 @@ export function validateCourseRelease(
       unit.outcome !== summary.outcome ||
       unit.estimatedMinutes !== summary.estimatedMinutes ||
       summary.teachingReady !== Boolean(unit.teaching) ||
+      (summary.prerequisites !== undefined &&
+        JSON.stringify(summary.prerequisites) !==
+          JSON.stringify(unit.prerequisites)) ||
+      (summary.checks !== undefined &&
+        JSON.stringify(
+          summary.checks.map(({ id, conceptIds }) => [id, conceptIds]),
+        ) !==
+          JSON.stringify(
+            unit.teaching
+              ? [
+                  unit.teaching.prediction,
+                  unit.teaching.transfer,
+                  unit.teaching.retry,
+                ].map(({ id, conceptIds }) => [id, conceptIds])
+              : [],
+          )) ||
       JSON.stringify(unit.objectiveIds) !==
         JSON.stringify(summary.objectiveIds) ||
       JSON.stringify(unit.conceptIds) !== JSON.stringify(summary.conceptIds) ||

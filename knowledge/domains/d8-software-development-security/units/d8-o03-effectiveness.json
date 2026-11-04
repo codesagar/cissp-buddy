@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o03-effectiveness",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.3"
+  ],
+  "title": "Assess software-security effectiveness",
+  "summary": "Software security is evidenced by requirements, design and code review, testing, runtime telemetry, vulnerability response, and outcomes over time.",
+  "outcome": "Build an evidence plan that evaluates whether software controls reduce risk through development and operation.",
+  "conceptIds": [
+    "software-assessment",
+    "appsec-testing",
+    "security-metrics",
+    "runtime-monitoring",
+    "vulnerability-management",
+    "logging"
+  ],
+  "prerequisites": [
+    "d6-o02-control-testing",
+    "d7-o02-logging-monitoring"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Security effectiveness is demonstrated by converging evidence, not a single scan or certification.",
+  "sections": [
+    {
+      "id": "evidence",
+      "title": "Use layered evidence",
+      "body": "Assess requirements traceability, threat-model coverage, design and code review, SAST/DAST/IAST where suitable, dependency and container checks, abuse-case and interface tests, deployment configuration, logs, vulnerability age, incident outcomes, and remediation retests. Match each method to a claim and state coverage and limitations.",
+      "keyPoints": [
+        "Testing evidence should connect to requirements and threats.",
+        "Runtime evidence validates assumptions made before deployment.",
+        "Metrics need context, trends, and defined response thresholds."
+      ],
+      "sourceRefIds": [
+        "official-d8-56-90",
+        "sybex-d8-1069-1113"
+      ]
+    },
+    {
+      "id": "improve",
+      "title": "Measure and improve",
+      "body": "Combine findings with exploitability, business impact, exposure, exceptions, and control operation. Feed results into backlog, change, patch, incident, and architecture decisions. Logging should support detection and investigation without leaking secrets; effectiveness includes response speed and learning, not only defect counts.",
+      "keyPoints": [
+        "A low defect count can reflect weak testing or telemetry.",
+        "Risk-based prioritization prevents tool volume from driving every decision.",
+        "Retest and trend after remediation."
+      ],
+      "sourceRefIds": [
+        "official-d8-56-90",
+        "miller-d8-727-760"
+      ]
+    },
+    {
+      "id": "change-audit-and-risk-mitigation",
+      "title": "Audit changes and connect evidence to risk reduction",
+      "body": "Audit and logging of changes should connect an authorized request, identity, code/configuration revision, reviewer, test evidence, deployment target, time, and rollback or emergency path. Assess effectiveness by comparing the control claim and threat to observed prevention, detection, response, and recovery evidence. Analyze likelihood, impact, exploitability, exposure, dependencies, and compensating controls; select mitigation, transfer, avoidance, acceptance, or redesign with an accountable owner and retest plan.",
+      "keyPoints": [
+        "A log is evidence only when complete, protected, time-correlated, and reviewed for the stated claim.",
+        "Risk analysis explains why a finding matters and which mitigation changes residual risk.",
+        "Trend and outcome evidence are stronger than raw scan or backlog counts."
+      ],
+      "sourceRefIds": [
+        "outline-d8-3",
+        "official-d8-56-90",
+        "sybex-d8-1069-1113",
+        "miller-d8-727-760"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Secure API release",
+      "situation": "An API passes SAST but has authorization failures in integration testing.",
+      "reasoning": "Treat static output as one evidence stream; use threat-informed authorization tests, logs, code review, runtime monitoring, remediation, and retest. The relevant conclusion is control effectiveness for defined flows, not 'secure code' in the abstract."
+    },
+    {
+      "title": "Privileged export effectiveness claim",
+      "situation": "The system claims that only finance approvers can export customer payment reports and that suspicious exports are detected.",
+      "reasoning": "Assessment traces the requirement and authorization design, reviews code/configuration, runs authenticated negative-role and abuse-case tests, verifies logs contain actor, decision, target, time, and correlation without sensitive data, checks alert/response records, and retests after remediation. The report states coverage limits: no test result proves every future role/configuration combination."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "security testing",
+        "security effectiveness"
+      ],
+      "difference": "Testing produces evidence about selected conditions; effectiveness evaluates whether the overall control set reduces risk in context and over time."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A passed scan proves an application is secure.",
+      "correction": "Scans have coverage and false-negative limits; use layered evidence and operational feedback."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What makes software evidence useful?",
+      "answer": "It is mapped to a claim, requirement, threat, population, method, and limitation."
+    },
+    {
+      "prompt": "Why include runtime logs?",
+      "answer": "They test whether deployed assumptions hold and support detection and response."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A team reduces security backlog count by closing findings as risk accepted without review.",
+      "decision": "Require accountable acceptance, rationale, expiry, and trend reporting.",
+      "why": "A lower count is not improvement if residual risk is hidden."
+    },
+    {
+      "scenario": "A dashboard shows 95% of vulnerabilities closed within SLA, but several internet-facing critical findings are accepted indefinitely and no fixes were retested.",
+      "decision": "Do not call the program effective from closure speed alone. Segment by severity/exposure/exploitability and exception age, inspect compensating controls, require accountable risk decisions, and verify remediation through retest and runtime evidence.",
+      "why": "A favorable aggregate metric can hide the risk that the control is meant to reduce."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review software testing, metrics, logging, and remediation evidence.",
+    "connect": "Connect D6 testing, D7 operations, and D1 risk acceptance.",
+    "apply": "Create an evidence matrix for an API release.",
+    "revisit": "Identify what a chosen test cannot prove."
+  },
+  "visualIds": [
+    "d8-software-risk-evidence",
+    "d8-o03-effectiveness-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-3",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.3"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-56-90",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "50–58 (same PDF page numbers), objective 8.3; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "software assessment and effectiveness"
+      ],
+      "sourceNotes": "D8 contents page is corrupted."
+    },
+    {
+      "id": "sybex-d8-1069-1113",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1069-1113, Chapter 21"
+      },
+      "supports": [
+        "application testing and controls"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "supports": [
+        "software assessment"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o03-effectiveness-visual-contract",
+    "unitId": "d8-o03-effectiveness",
+    "teachingQuestion": "What evidence is sufficient to judge whether a software security control prevents, detects, responds to, or recovers from the threat it claims to address?",
+    "misconception": "A low defect count, passed scanner, or large volume of logs proves the product is secure.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Software assessment, application-security testing, meaningful metrics, runtime monitoring, vulnerability management, and security logging.",
+    "conceptIds": [
+      "software-assessment",
+      "appsec-testing",
+      "security-metrics",
+      "runtime-monitoring",
+      "vulnerability-management",
+      "logging"
+    ],
+    "relationships": [
+      {
+        "from": "design",
+        "to": "decision",
+        "label": "expected controls"
+      },
+      {
+        "from": "code",
+        "to": "decision",
+        "label": "implementation evidence"
+      },
+      {
+        "from": "test",
+        "to": "decision",
+        "label": "observed behavior"
+      },
+      {
+        "from": "runtime",
+        "to": "decision",
+        "label": "operational reality"
+      },
+      {
+        "from": "decision",
+        "to": "feedback",
+        "label": "owner and action"
+      },
+      {
+        "from": "feedback",
+        "to": "design",
+        "label": "learn and improve"
+      }
+    ],
+    "intentionalOmissions": "Do not set universal severity scoring, SLA targets, retention periods, or scanner thresholds.",
+    "retrievalPrompt": "A report says “all critical findings closed.” What additional evidence is needed before concluding the exposed authorization control is effective?",
+    "textFallback": "software assessment: A structured evaluation of whether software security requirements, controls, evidence, and residual risks are adequate for the stated claim.. Decision: Match methods to the claim and report scope, assumptions, coverage, limitations, findings, owner, and retest plan.. Failure/example: A checklist that never tests the privileged export path cannot establish that authorization is effective.\nappsec testing: Testing of application security behavior through appropriate methods such as review, SAST, DAST, IAST, dependency checks, fuzzing, abuse cases, interface tests, and configuration tests.. Decision: Select methods from threat and lifecycle stage; use realistic roles/data and state what paths or configurations were not covered.. Failure/example: An unauthenticated scan cannot prove privileged-role access control is enforced.\nsecurity metrics: Quantitative measures used to understand security control performance, trends, coverage, exposure, timeliness, or outcomes.. Decision: Choose metrics tied to a decision and pair volume/speed with severity, exposure, exceptions, outcome evidence, and potential gaming.. Failure/example: A high closure percentage can hide indefinitely accepted internet-facing critical vulnerabilities.\nruntime monitoring: Ongoing observation of deployed software behavior, configuration, performance, security events, and anomalies.. Decision: Monitor signals that relate to stated threats and response decisions; tune ownership, escalation, coverage, and feedback into engineering.. Failure/example: A control may pass pre-release tests but fail in production due to a changed identity or configuration.\nvulnerability management: The lifecycle of identifying, validating, prioritizing, assigning, remediating or accepting, verifying, and tracking vulnerability risk.. Decision: Prioritize with exploitability, exposure, impact, dependencies, compensating controls, and owner; retest remediation and review exceptions.. Failure/example: Closing a ticket after applying a patch without verifying the running version leaves exposure unknown.\nlogging: Generation, protection, retention, and analysis of security-relevant records that support detection, investigation, accountability, and response.. Decision: Log sufficient actor/action/target/time/outcome/correlation context without secrets; protect integrity and verify alerts/queries lead to action.. Failure/example: Verbose logs that include tokens create a new disclosure risk while still failing to identify who authorized an export.",
+    "sourceRefIds": [
+      "official-d8-56-90",
+      "sybex-d8-1069-1113",
+      "miller-d8-727-760"
+    ],
+    "mapNodeId": "d8-o03-effectiveness",
+    "visualIds": [
+      "d8-o03-effectiveness-decision-comparison-1",
+      "d8-software-risk-evidence"
+    ]
+  }
+}

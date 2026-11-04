@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cissp-buddy.local/schema/coverage-map.schema.json",
+  "title": "CISSP Buddy official-topic coverage map",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "domainId",
+    "objectives",
+    "review"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "domainId": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "status": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "sourceQualityNote": {
+      "type": "string"
+    },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "objectiveId",
+          "objectiveRecordId",
+          "topics"
+        ],
+        "properties": {
+          "objectiveId": {
+            "type": "string",
+            "pattern": "^[1-8]\\.[0-9]{1,2}$"
+          },
+          "objectiveRecordId": {
+            "type": "string",
+            "pattern": "^d[1-8]-o[0-9]{2}$"
+          },
+          "unitId": {
+            "type": "string"
+          },
+          "overviewUnitId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "topics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "officialTopic",
+                "sourceRefIds"
+              ],
+              "properties": {
+                "officialTopic": {
+                  "type": "string",
+                  "minLength": 3
+                },
+                "status": {
+                  "type": "string"
+                },
+                "classification": {
+                  "type": "string"
+                },
+                "unitId": {
+                  "type": "string"
+                },
+                "sectionId": {
+                  "type": "string"
+                },
+                "sectionIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "sourceRefIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "note": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "supportingUnitIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "anyOf": [
+                {
+                  "required": [
+                    "status"
+                  ]
+                },
+                {
+                  "required": [
+                    "classification"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "unresolvedIssues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ]
+    }
+  }
+}

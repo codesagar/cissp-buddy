@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o02-logging-architecture-evidence-decision-comparison-1",
+  "unitId": "d7-o02-logging-architecture-evidence",
+  "type": "table",
+  "title": "Build logging architecture that preserves useful evidence: decision comparison 1",
+  "teachingQuestion": "Which telemetry is evidence strong enough to reconstruct this action?",
+  "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Log Architecture",
+      "conceptIds": [
+        "log-architecture"
+      ],
+      "definition": "Architecture: source→transport→normalize→protect→retain/recover",
+      "decision": "decide required evidence path.",
+      "failureExample": "logging outage invisible.",
+      "detail": "Architecture: source→transport→normalize→protect→retain/recover"
+    },
+    {
+      "id": "row-2",
+      "label": "Event Source",
+      "conceptIds": [
+        "event-source"
+      ],
+      "definition": "Source: system producing event",
+      "decision": "decide coverage/owner/configuration.",
+      "failureExample": "cloud control-plane changes absent.",
+      "detail": "Source: system producing event"
+    },
+    {
+      "id": "row-3",
+      "label": "Event Context",
+      "conceptIds": [
+        "event-context"
+      ],
+      "definition": "Context: actor/action/object/result/time/correlation/policy",
+      "decision": "decide minimum fields.",
+      "failureExample": "log has action but no identity.",
+      "detail": "Context: actor/action/object/result/time/correlation/policy"
+    },
+    {
+      "id": "row-4",
+      "label": "Time Synchronization",
+      "conceptIds": [
+        "time-synchronization"
+      ],
+      "definition": "Time: synchronized clocks/offsets reconstruct order",
+      "decision": "decide source/monitoring.",
+      "failureExample": "false incident timeline.",
+      "detail": "Time: synchronized clocks/offsets reconstruct order"
+    },
+    {
+      "id": "row-5",
+      "label": "Log Integrity",
+      "conceptIds": [
+        "log-integrity"
+      ],
+      "definition": "Integrity: tamper-evident/restricted records",
+      "decision": "decide storage/admin separation.",
+      "failureExample": "attacker edits logs.",
+      "detail": "Integrity: tamper-evident/restricted records"
+    },
+    {
+      "id": "row-6",
+      "label": "Log Retention",
+      "conceptIds": [
+        "log-retention"
+      ],
+      "definition": "Retention: required availability period",
+      "decision": "decide legal/privacy/cost/protection.",
+      "failureExample": "evidence expires before inquiry.",
+      "detail": "Retention: required availability period"
+    },
+    {
+      "id": "row-7",
+      "label": "Log Management",
+      "conceptIds": [
+        "log-management"
+      ],
+      "definition": "Management: access/index/archive/dispose/recover lifecycle",
+      "decision": "decide owner and failure response.",
+      "failureExample": "searchable logs exposed.",
+      "detail": "Management: access/index/archive/dispose/recover lifecycle"
+    },
+    {
+      "id": "row-8",
+      "label": "Egress Monitoring",
+      "conceptIds": [
+        "egress-monitoring"
+      ],
+      "definition": "Egress: observe destination/volume/protocol/identity/data movement",
+      "decision": "decide material outbound use cases.",
+      "failureExample": "exfiltration bypasses inbound controls.",
+      "detail": "Egress: observe destination/volume/protocol/identity/data movement"
+    },
+    {
+      "id": "row-9",
+      "label": "Telemetry",
+      "conceptIds": [
+        "telemetry"
+      ],
+      "definition": "Telemetry: operational/security signals",
+      "decision": "decide quality and action owner.",
+      "failureExample": "high-volume unusable fields.",
+      "detail": "Telemetry: operational/security signals"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "log-architecture",
+    "event-source",
+    "event-context",
+    "time-synchronization",
+    "log-integrity",
+    "log-retention",
+    "log-management",
+    "egress-monitoring",
+    "telemetry"
+  ],
+  "altSummary": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+  "textFallback": "log architecture: Architecture: source→transport→normalize→protect→retain/recover. Decision: decide required evidence path.. Failure/example: logging outage invisible.\nevent source: Source: system producing event. Decision: decide coverage/owner/configuration.. Failure/example: cloud control-plane changes absent.\nevent context: Context: actor/action/object/result/time/correlation/policy. Decision: decide minimum fields.. Failure/example: log has action but no identity.\ntime synchronization: Time: synchronized clocks/offsets reconstruct order. Decision: decide source/monitoring.. Failure/example: false incident timeline.\nlog integrity: Integrity: tamper-evident/restricted records. Decision: decide storage/admin separation.. Failure/example: attacker edits logs.\nlog retention: Retention: required availability period. Decision: decide legal/privacy/cost/protection.. Failure/example: evidence expires before inquiry.\nlog management: Management: access/index/archive/dispose/recover lifecycle. Decision: decide owner and failure response.. Failure/example: searchable logs exposed.\negress monitoring: Egress: observe destination/volume/protocol/identity/data movement. Decision: decide material outbound use cases.. Failure/example: exfiltration bypasses inbound controls.\ntelemetry: Telemetry: operational/security signals. Decision: decide quality and action owner.. Failure/example: high-volume unusable fields.",
+  "sourceRefIds": [
+    "official-d7-15-30-logging",
+    "sybex-d7-834-840",
+    "sybex-d7-841-850"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which telemetry is evidence strong enough to reconstruct this action?",
+    "misconception": "A SIEM can repair missing identity, inaccurate time, or altered source events.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "log-architecture",
+      "event-source",
+      "event-context",
+      "time-synchronization",
+      "log-integrity",
+      "log-retention",
+      "log-management",
+      "egress-monitoring",
+      "telemetry"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "log architecture: Architecture: source→transport→normalize→protect→retain/recover. Decision: decide required evidence path.. Failure/example: logging outage invisible.\nevent source: Source: system producing event. Decision: decide coverage/owner/configuration.. Failure/example: cloud control-plane changes absent.\nevent context: Context: actor/action/object/result/time/correlation/policy. Decision: decide minimum fields.. Failure/example: log has action but no identity.\ntime synchronization: Time: synchronized clocks/offsets reconstruct order. Decision: decide source/monitoring.. Failure/example: false incident timeline.\nlog integrity: Integrity: tamper-evident/restricted records. Decision: decide storage/admin separation.. Failure/example: attacker edits logs.\nlog retention: Retention: required availability period. Decision: decide legal/privacy/cost/protection.. Failure/example: evidence expires before inquiry.\nlog management: Management: access/index/archive/dispose/recover lifecycle. Decision: decide owner and failure response.. Failure/example: searchable logs exposed.\negress monitoring: Egress: observe destination/volume/protocol/identity/data movement. Decision: decide material outbound use cases.. Failure/example: exfiltration bypasses inbound controls.\ntelemetry: Telemetry: operational/security signals. Decision: decide quality and action owner.. Failure/example: high-volume unusable fields.",
+    "sourceRefIds": [
+      "official-d7-15-30-logging",
+      "sybex-d7-834-840",
+      "sybex-d7-841-850"
+    ],
+    "mapNodeId": "d7-o02-logging-architecture-evidence"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

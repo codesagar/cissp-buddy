@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o06-cryptographic-solutions-concept-comparison-1",
+  "unitId": "d3-o06-cryptographic-solutions",
+  "type": "table",
+  "title": "Select cryptographic solutions as complete systems: concept decisions 1",
+  "teachingQuestion": "What complete cryptographic solution fits this requirement, and which key or protocol dependency could defeat it?",
+  "focalInsight": "A usable solution joins mechanism, identity, key lifecycle, protocol validation, recovery, and operations.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Cryptography",
+      "conceptIds": [
+        "cryptography"
+      ],
+      "definition": "Use of cryptographic mechanisms within a complete system of keys, protocols, trust, and operations.",
+      "detail": "Use of cryptographic mechanisms within a complete system of keys, protocols, trust, and operations.",
+      "decision": "Specify data state, adversary, mechanism, keys, endpoint behavior, recovery, and monitoring.",
+      "failureExample": "Encryption is deployed while access control and key export remain uncontrolled.",
+      "retrievalAnswer": "Cryptography is a bounded control within a system.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Symmetric Cryptography",
+      "conceptIds": [
+        "symmetric-cryptography"
+      ],
+      "definition": "Shared-key method suited to efficient bulk data protection.",
+      "detail": "Shared-key method suited to efficient bulk data protection.",
+      "decision": "Use when secure shared-key handling can be provided.",
+      "failureExample": "A high-volume dataset uses public-key encryption alone without a workable performance or key plan.",
+      "retrievalAnswer": "Use symmetric protection for bulk data with managed keys.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Asymmetric Cryptography",
+      "conceptIds": [
+        "asymmetric-cryptography"
+      ],
+      "definition": "Public/private-key method for exchange, signatures, and trust distribution.",
+      "detail": "Public/private-key method for exchange, signatures, and trust distribution.",
+      "decision": "Use when public verification or scalable keying is required.",
+      "failureExample": "A system trusts a public key whose owner was never authenticated.",
+      "retrievalAnswer": "Asymmetric methods need authenticated identity binding.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Hash",
+      "conceptIds": [
+        "hash"
+      ],
+      "definition": "Fixed-length digest used for integrity-related verification.",
+      "detail": "Fixed-length digest used for integrity-related verification.",
+      "decision": "Use with a trusted expected value or authenticated construction.",
+      "failureExample": "A plaintext hash is described as encryption.",
+      "retrievalAnswer": "Hashing does not provide secrecy.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Digital Signature",
+      "conceptIds": [
+        "digital-signature"
+      ],
+      "definition": "Evidence mechanism for origin and integrity under a private key and validation context.",
+      "detail": "Evidence mechanism for origin and integrity under a private key and validation context.",
+      "decision": "Use when third parties need to validate a signed object.",
+      "failureExample": "A code signature is accepted without checking certificate validity or revocation status.",
+      "retrievalAnswer": "Signature verification includes the certificate and policy context.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Public Key Infrastructure",
+      "conceptIds": [
+        "public-key-infrastructure"
+      ],
+      "definition": "Operational system for identity-to-public-key binding, issuance, validation, and revocation.",
+      "detail": "Operational system for identity-to-public-key binding, issuance, validation, and revocation.",
+      "decision": "Use when managed certificate trust is required across parties or services.",
+      "failureExample": "A certificate is trusted solely because it contains a signature.",
+      "retrievalAnswer": "PKI trust depends on enrollment, CA protection, validation, and status.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Key Management",
+      "conceptIds": [
+        "key-management"
+      ],
+      "definition": "Controls for key creation, custody, access, use, rotation, recovery, and destruction.",
+      "detail": "Controls for key creation, custody, access, use, rotation, recovery, and destruction.",
+      "decision": "Design it alongside any cryptographic mechanism before relying on the mechanism.",
+      "failureExample": "A service owner can export all production private keys without approval.",
+      "retrievalAnswer": "Key authority must be scoped, protected, and accountable.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Key Lifecycle",
+      "conceptIds": [
+        "key-lifecycle"
+      ],
+      "definition": "Lifecycle transitions for keys from generation to destruction or archival.",
+      "detail": "Lifecycle transitions for keys from generation to destruction or archival.",
+      "decision": "Define authority, evidence, and compromise handling for each transition.",
+      "failureExample": "A certificate expires but its dependent service and owners are unknown.",
+      "retrievalAnswer": "Lifecycle inventory connects keys to systems and owners.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Certificate",
+      "conceptIds": [
+        "certificate"
+      ],
+      "definition": "Signed assertion binding an identity or service to a public key and associated constraints.",
+      "detail": "Signed assertion binding an identity or service to a public key and associated constraints.",
+      "decision": "Validate issuer, trust anchor, identity/name, validity, intended use, and status.",
+      "failureExample": "A name-mismatched certificate is accepted because the chain is cryptographically valid.",
+      "retrievalAnswer": "Certificate validity is more than chain signature.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "cryptography",
+    "symmetric-cryptography",
+    "asymmetric-cryptography",
+    "hash",
+    "digital-signature",
+    "public-key-infrastructure",
+    "key-management",
+    "key-lifecycle",
+    "certificate"
+  ],
+  "altSummary": "A usable solution joins mechanism, identity, key lifecycle, protocol validation, recovery, and operations.",
+  "textFallback": "cryptography: Use of cryptographic mechanisms within a complete system of keys, protocols, trust, and operations. Decide: Specify data state, adversary, mechanism, keys, endpoint behavior, recovery, and monitoring. Example/failure: Encryption is deployed while access control and key export remain uncontrolled. Retrieve: Cryptography is a bounded control within a system.\nsymmetric cryptography: Shared-key method suited to efficient bulk data protection. Decide: Use when secure shared-key handling can be provided. Example/failure: A high-volume dataset uses public-key encryption alone without a workable performance or key plan. Retrieve: Use symmetric protection for bulk data with managed keys.\nasymmetric cryptography: Public/private-key method for exchange, signatures, and trust distribution. Decide: Use when public verification or scalable keying is required. Example/failure: A system trusts a public key whose owner was never authenticated. Retrieve: Asymmetric methods need authenticated identity binding.\nhash: Fixed-length digest used for integrity-related verification. Decide: Use with a trusted expected value or authenticated construction. Example/failure: A plaintext hash is described as encryption. Retrieve: Hashing does not provide secrecy.\ndigital signature: Evidence mechanism for origin and integrity under a private key and validation context. Decide: Use when third parties need to validate a signed object. Example/failure: A code signature is accepted without checking certificate validity or revocation status. Retrieve: Signature verification includes the certificate and policy context.\npublic key infrastructure: Operational system for identity-to-public-key binding, issuance, validation, and revocation. Decide: Use when managed certificate trust is required across parties or services. Example/failure: A certificate is trusted solely because it contains a signature. Retrieve: PKI trust depends on enrollment, CA protection, validation, and status.\nkey management: Controls for key creation, custody, access, use, rotation, recovery, and destruction. Decide: Design it alongside any cryptographic mechanism before relying on the mechanism. Example/failure: A service owner can export all production private keys without approval. Retrieve: Key authority must be scoped, protected, and accountable.\nkey lifecycle: Lifecycle transitions for keys from generation to destruction or archival. Decide: Define authority, evidence, and compromise handling for each transition. Example/failure: A certificate expires but its dependent service and owners are unknown. Retrieve: Lifecycle inventory connects keys to systems and owners.\ncertificate: Signed assertion binding an identity or service to a public key and associated constraints. Decide: Validate issuer, trust anchor, identity/name, validity, intended use, and status. Example/failure: A name-mismatched certificate is accepted because the chain is cryptographically valid. Retrieve: Certificate validity is more than chain signature.",
+  "sourceRefIds": [
+    "d3-o06-textbook",
+    "d3-o06-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What complete cryptographic solution fits this requirement, and which key or protocol dependency could defeat it?",
+    "misconception": "Selecting a strong algorithm completes the security design.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "A usable solution joins mechanism, identity, key lifecycle, protocol validation, recovery, and operations.",
+    "conceptIds": [
+      "cryptography",
+      "symmetric-cryptography",
+      "asymmetric-cryptography",
+      "hash",
+      "digital-signature",
+      "public-key-infrastructure",
+      "key-management",
+      "key-lifecycle",
+      "certificate"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "State the data state, crypto role, trust dependency, and recovery risk for the proposed solution.",
+    "textFallback": "cryptography: Use of cryptographic mechanisms within a complete system of keys, protocols, trust, and operations. Decide: Specify data state, adversary, mechanism, keys, endpoint behavior, recovery, and monitoring. Example/failure: Encryption is deployed while access control and key export remain uncontrolled. Retrieve: Cryptography is a bounded control within a system.\nsymmetric cryptography: Shared-key method suited to efficient bulk data protection. Decide: Use when secure shared-key handling can be provided. Example/failure: A high-volume dataset uses public-key encryption alone without a workable performance or key plan. Retrieve: Use symmetric protection for bulk data with managed keys.\nasymmetric cryptography: Public/private-key method for exchange, signatures, and trust distribution. Decide: Use when public verification or scalable keying is required. Example/failure: A system trusts a public key whose owner was never authenticated. Retrieve: Asymmetric methods need authenticated identity binding.\nhash: Fixed-length digest used for integrity-related verification. Decide: Use with a trusted expected value or authenticated construction. Example/failure: A plaintext hash is described as encryption. Retrieve: Hashing does not provide secrecy.\ndigital signature: Evidence mechanism for origin and integrity under a private key and validation context. Decide: Use when third parties need to validate a signed object. Example/failure: A code signature is accepted without checking certificate validity or revocation status. Retrieve: Signature verification includes the certificate and policy context.\npublic key infrastructure: Operational system for identity-to-public-key binding, issuance, validation, and revocation. Decide: Use when managed certificate trust is required across parties or services. Example/failure: A certificate is trusted solely because it contains a signature. Retrieve: PKI trust depends on enrollment, CA protection, validation, and status.\nkey management: Controls for key creation, custody, access, use, rotation, recovery, and destruction. Decide: Design it alongside any cryptographic mechanism before relying on the mechanism. Example/failure: A service owner can export all production private keys without approval. Retrieve: Key authority must be scoped, protected, and accountable.\nkey lifecycle: Lifecycle transitions for keys from generation to destruction or archival. Decide: Define authority, evidence, and compromise handling for each transition. Example/failure: A certificate expires but its dependent service and owners are unknown. Retrieve: Lifecycle inventory connects keys to systems and owners.\ncertificate: Signed assertion binding an identity or service to a public key and associated constraints. Decide: Validate issuer, trust anchor, identity/name, validity, intended use, and status. Example/failure: A name-mismatched certificate is accepted because the chain is cryptographically valid. Retrieve: Certificate validity is more than chain signature.",
+    "sourceRefIds": [
+      "d3-o06-textbook",
+      "d3-o06-sybex"
+    ],
+    "mapNodeId": "d3-o06-cryptographic-solutions"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

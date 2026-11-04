@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o05-secure-coding-decision-comparison-1",
+  "unitId": "d8-o05-secure-coding",
+  "type": "table",
+  "title": "Apply secure coding guidelines and standards: decision comparison 1",
+  "teachingQuestion": "When an API/web request reaches data, which secure-coding control answers each distinct question: valid data, authorized actor/object, safe query, safe output, safe failure, and verifiable behavior?",
+  "focalInsight": "Secure coding standards, validation/encoding/injection, API authentication/authorization, secrets/error handling, database/data warehouse, web context, reviewed exceptions.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Secure Coding",
+      "conceptIds": [
+        "secure-coding"
+      ],
+      "definition": "Language- and architecture-aware practices and standards that make safe implementation, review, testing, exceptions, and learning repeatable.",
+      "decision": "Apply rules to the actual data flow/threat model; document risk-owned exceptions with compensating controls, expiry, and retest.",
+      "failureExample": "A developer bypassing a rule for one deadline can create a durable cross-tenant access flaw.",
+      "detail": "Language- and architecture-aware practices and standards that make safe implementation, review, testing, exceptions, and learning repeatable."
+    },
+    {
+      "id": "row-2",
+      "label": "Input Validation",
+      "conceptIds": [
+        "input-validation"
+      ],
+      "definition": "Server-side checking that received data conforms to expected syntax, type, length, range, encoding, and business semantics.",
+      "decision": "Allowlist expected values and validate both syntactic and contextual/semantic rules before processing or storage.",
+      "failureExample": "A request with a numeric amount can still be invalid if it exceeds an authorized transfer limit.",
+      "detail": "Server-side checking that received data conforms to expected syntax, type, length, range, encoding, and business semantics."
+    },
+    {
+      "id": "row-3",
+      "label": "Output Encoding",
+      "conceptIds": [
+        "output-encoding"
+      ],
+      "definition": "Context-aware transformation of untrusted data before it is emitted to an interpreter such as HTML, attribute, URL, JavaScript, or template.",
+      "decision": "Use correct context encoding at the output sink and safe rendering APIs; preserve raw data only where needed for later safe use.",
+      "failureExample": "Rendering stored notes without encoding can execute attacker-supplied markup for an administrator.",
+      "detail": "Context-aware transformation of untrusted data before it is emitted to an interpreter such as HTML, attribute, URL, JavaScript, or template."
+    },
+    {
+      "id": "row-4",
+      "label": "Injection",
+      "conceptIds": [
+        "injection"
+      ],
+      "definition": "A weakness where untrusted input is interpreted as command/query/template/code structure instead of treated solely as data.",
+      "decision": "Use parameterized/bound interfaces and safe APIs, validate input, minimize interpreter use, and test malicious syntax in affected contexts.",
+      "failureExample": "String-concatenating an invoice ID into a query lets data alter query logic.",
+      "detail": "A weakness where untrusted input is interpreted as command/query/template/code structure instead of treated solely as data."
+    },
+    {
+      "id": "row-5",
+      "label": "API Security",
+      "conceptIds": [
+        "api-security"
+      ],
+      "definition": "Controls that keep programmatic interfaces safe across caller identity, object/action authority, data validation, replay/rate limits, response exposure, error behavior, and logging.",
+      "decision": "Model/test abuse cases for each endpoint and protect sensitive operations with server-side checks and observability.",
+      "failureExample": "An API that authenticates a caller but returns any requested invoice ID permits cross-tenant disclosure.",
+      "detail": "Controls that keep programmatic interfaces safe across caller identity, object/action authority, data validation, replay/rate limits, response exposure, error behavior, and logging."
+    },
+    {
+      "id": "row-6",
+      "label": "Authentication",
+      "conceptIds": [
+        "authentication"
+      ],
+      "definition": "Proof that a user, device, or service presents valid identity credentials.",
+      "decision": "Protect credential/token issuance, validation, expiration, revocation, and storage; require stronger assurance for higher-risk use.",
+      "failureExample": "A stolen valid session can satisfy authentication while the attacker is still unauthorized for a particular object.",
+      "detail": "Proof that a user, device, or service presents valid identity credentials."
+    },
+    {
+      "id": "row-7",
+      "label": "Authorization",
+      "conceptIds": [
+        "authorization"
+      ],
+      "definition": "Server-side decision whether the authenticated principal may take the requested action on this resource in this context.",
+      "decision": "Enforce at every protected object/action boundary using least privilege and deny by default; test negative/cross-tenant cases.",
+      "failureExample": "Only checking role “customer” allows a customer to retrieve another customer’s invoice.",
+      "detail": "Server-side decision whether the authenticated principal may take the requested action on this resource in this context."
+    },
+    {
+      "id": "row-8",
+      "label": "Secrets",
+      "conceptIds": [
+        "secrets"
+      ],
+      "definition": "Sensitive access material such as keys, passwords, tokens, and connection strings that must be protected throughout creation, use, rotation, and revocation.",
+      "decision": "Use managed environment-scoped retrieval, short/appropriate scope, redaction, rotation, and incident response instead of code/config hardcoding.",
+      "failureExample": "A secret committed to a repository may remain in history and build caches after removal.",
+      "detail": "Sensitive access material such as keys, passwords, tokens, and connection strings that must be protected throughout creation, use, rotation, and revocation."
+    },
+    {
+      "id": "row-9",
+      "label": "Error Handling",
+      "conceptIds": [
+        "error-handling"
+      ],
+      "definition": "Controlled failure behavior that protects users and system state while providing authorized diagnostics without leaking internals or credentials.",
+      "decision": "Fail closed/safely where appropriate, return generic responses to callers, protect detailed logs, and test dependency/exception paths.",
+      "failureExample": "A database exception returned to a browser reveals schema details useful for attack.",
+      "detail": "Controlled failure behavior that protects users and system state while providing authorized diagnostics without leaking internals or credentials."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "secure-coding",
+    "input-validation",
+    "output-encoding",
+    "injection",
+    "api-security",
+    "authentication",
+    "authorization",
+    "secrets",
+    "error-handling"
+  ],
+  "altSummary": "Secure coding standards, validation/encoding/injection, API authentication/authorization, secrets/error handling, database/data warehouse, web context, reviewed exceptions.",
+  "textFallback": "secure coding: Language- and architecture-aware practices and standards that make safe implementation, review, testing, exceptions, and learning repeatable.. Decision: Apply rules to the actual data flow/threat model; document risk-owned exceptions with compensating controls, expiry, and retest.. Failure/example: A developer bypassing a rule for one deadline can create a durable cross-tenant access flaw.\ninput validation: Server-side checking that received data conforms to expected syntax, type, length, range, encoding, and business semantics.. Decision: Allowlist expected values and validate both syntactic and contextual/semantic rules before processing or storage.. Failure/example: A request with a numeric amount can still be invalid if it exceeds an authorized transfer limit.\noutput encoding: Context-aware transformation of untrusted data before it is emitted to an interpreter such as HTML, attribute, URL, JavaScript, or template.. Decision: Use correct context encoding at the output sink and safe rendering APIs; preserve raw data only where needed for later safe use.. Failure/example: Rendering stored notes without encoding can execute attacker-supplied markup for an administrator.\ninjection: A weakness where untrusted input is interpreted as command/query/template/code structure instead of treated solely as data.. Decision: Use parameterized/bound interfaces and safe APIs, validate input, minimize interpreter use, and test malicious syntax in affected contexts.. Failure/example: String-concatenating an invoice ID into a query lets data alter query logic.\napi security: Controls that keep programmatic interfaces safe across caller identity, object/action authority, data validation, replay/rate limits, response exposure, error behavior, and logging.. Decision: Model/test abuse cases for each endpoint and protect sensitive operations with server-side checks and observability.. Failure/example: An API that authenticates a caller but returns any requested invoice ID permits cross-tenant disclosure.\nauthentication: Proof that a user, device, or service presents valid identity credentials.. Decision: Protect credential/token issuance, validation, expiration, revocation, and storage; require stronger assurance for higher-risk use.. Failure/example: A stolen valid session can satisfy authentication while the attacker is still unauthorized for a particular object.\nauthorization: Server-side decision whether the authenticated principal may take the requested action on this resource in this context.. Decision: Enforce at every protected object/action boundary using least privilege and deny by default; test negative/cross-tenant cases.. Failure/example: Only checking role “customer” allows a customer to retrieve another customer’s invoice.\nsecrets: Sensitive access material such as keys, passwords, tokens, and connection strings that must be protected throughout creation, use, rotation, and revocation.. Decision: Use managed environment-scoped retrieval, short/appropriate scope, redaction, rotation, and incident response instead of code/config hardcoding.. Failure/example: A secret committed to a repository may remain in history and build caches after removal.\nerror handling: Controlled failure behavior that protects users and system state while providing authorized diagnostics without leaking internals or credentials.. Decision: Fail closed/safely where appropriate, return generic responses to callers, protect detailed logs, and test dependency/exception paths.. Failure/example: A database exception returned to a browser reveals schema details useful for attack.",
+  "sourceRefIds": [
+    "official-d8-106-130",
+    "sybex-d8-1085-1113",
+    "miller-d8-705-760"
+  ],
+  "learningContract": {
+    "teachingQuestion": "When an API/web request reaches data, which secure-coding control answers each distinct question: valid data, authorized actor/object, safe query, safe output, safe failure, and verifiable behavior?",
+    "misconception": "Authentication or a parameterized query alone secures a data-returning API, and one generic input filter makes all outputs safe.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Secure coding standards, validation/encoding/injection, API authentication/authorization, secrets/error handling, database/data warehouse, web context, reviewed exceptions.",
+    "conceptIds": [
+      "secure-coding",
+      "input-validation",
+      "output-encoding",
+      "injection",
+      "api-security",
+      "authentication",
+      "authorization",
+      "secrets",
+      "error-handling"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe one language, ORM, query syntax, browser framework, crypto algorithm, or universal exception duration.",
+    "retrievalPrompt": "A valid user asks for another tenant’s invoice and its notes contain markup. Which controls deny access and render data safely, and what evidence tests them?",
+    "textFallback": "secure coding: Language- and architecture-aware practices and standards that make safe implementation, review, testing, exceptions, and learning repeatable.. Decision: Apply rules to the actual data flow/threat model; document risk-owned exceptions with compensating controls, expiry, and retest.. Failure/example: A developer bypassing a rule for one deadline can create a durable cross-tenant access flaw.\ninput validation: Server-side checking that received data conforms to expected syntax, type, length, range, encoding, and business semantics.. Decision: Allowlist expected values and validate both syntactic and contextual/semantic rules before processing or storage.. Failure/example: A request with a numeric amount can still be invalid if it exceeds an authorized transfer limit.\noutput encoding: Context-aware transformation of untrusted data before it is emitted to an interpreter such as HTML, attribute, URL, JavaScript, or template.. Decision: Use correct context encoding at the output sink and safe rendering APIs; preserve raw data only where needed for later safe use.. Failure/example: Rendering stored notes without encoding can execute attacker-supplied markup for an administrator.\ninjection: A weakness where untrusted input is interpreted as command/query/template/code structure instead of treated solely as data.. Decision: Use parameterized/bound interfaces and safe APIs, validate input, minimize interpreter use, and test malicious syntax in affected contexts.. Failure/example: String-concatenating an invoice ID into a query lets data alter query logic.\napi security: Controls that keep programmatic interfaces safe across caller identity, object/action authority, data validation, replay/rate limits, response exposure, error behavior, and logging.. Decision: Model/test abuse cases for each endpoint and protect sensitive operations with server-side checks and observability.. Failure/example: An API that authenticates a caller but returns any requested invoice ID permits cross-tenant disclosure.\nauthentication: Proof that a user, device, or service presents valid identity credentials.. Decision: Protect credential/token issuance, validation, expiration, revocation, and storage; require stronger assurance for higher-risk use.. Failure/example: A stolen valid session can satisfy authentication while the attacker is still unauthorized for a particular object.\nauthorization: Server-side decision whether the authenticated principal may take the requested action on this resource in this context.. Decision: Enforce at every protected object/action boundary using least privilege and deny by default; test negative/cross-tenant cases.. Failure/example: Only checking role “customer” allows a customer to retrieve another customer’s invoice.\nsecrets: Sensitive access material such as keys, passwords, tokens, and connection strings that must be protected throughout creation, use, rotation, and revocation.. Decision: Use managed environment-scoped retrieval, short/appropriate scope, redaction, rotation, and incident response instead of code/config hardcoding.. Failure/example: A secret committed to a repository may remain in history and build caches after removal.\nerror handling: Controlled failure behavior that protects users and system state while providing authorized diagnostics without leaking internals or credentials.. Decision: Fail closed/safely where appropriate, return generic responses to callers, protect detailed logs, and test dependency/exception paths.. Failure/example: A database exception returned to a browser reveals schema details useful for attack.",
+    "sourceRefIds": [
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "mapNodeId": "d8-o05-secure-coding"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

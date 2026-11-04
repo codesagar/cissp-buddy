@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-architecture-vulnerabilities",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.5"
+  ],
+  "title": "Assess vulnerabilities across modern architecture families",
+  "summary": "Client, server, database, cloud, distributed, IoT, container, serverless, embedded, edge, and industrial systems expose different trust boundaries, management planes, update paths, and failure modes. Assess the architecture rather than applying one generic checklist.",
+  "outcome": "Identify the dominant architectural trust boundary or failure path in a modern system and recommend a proportionate mitigation direction.",
+  "conceptIds": [
+    "architecture-vulnerability",
+    "cloud-shared-responsibility",
+    "microservices",
+    "containerization",
+    "serverless",
+    "iot",
+    "industrial-control-system",
+    "edge-computing",
+    "virtualization",
+    "database-security",
+    "api-security",
+    "supply-chain-risk"
+  ],
+  "prerequisites": [
+    "secure-design",
+    "threat-modeling",
+    "control-selection"
+  ],
+  "estimatedMinutes": 38,
+  "managerMindset": "Modern labels do not remove classic security concerns. Find the data, identities, privilege paths, interfaces, update mechanisms, dependencies, and recovery assumptions that change with the architecture.",
+  "sections": [
+    {
+      "id": "families",
+      "title": "Architecture changes the attack and failure surface",
+      "body": "Cloud and serverless designs move responsibilities across provider and customer boundaries. Microservices and APIs multiply service identities, interfaces, and policy points. Containers and virtualization add images, orchestration, runtime, and management planes. IoT, embedded, edge, and industrial systems add physical exposure, constrained patching, safety, legacy protocols, and remote-support dependencies. Databases remain sensitive concentration points for data and privilege.",
+      "keyPoints": [
+        "Assess each layer and interface, not only the application code.",
+        "Availability and safety consequences can dominate in industrial and edge contexts."
+      ],
+      "sourceRefIds": [
+        "d3-o05-outline",
+        "d3-o05-textbook",
+        "d3-o05-sybex"
+      ]
+    },
+    {
+      "id": "mitigate",
+      "title": "Use context-specific mitigations",
+      "body": "Segment trust zones, minimize identities and privileges, authenticate and authorize APIs, protect secrets, verify images and updates, harden management planes, log critical actions, plan safe patching, and test recovery. In a distributed design, also address consistency, latency, dependency failure, and observability. A mitigation is credible only if it suits the architecture’s operational constraints and has an owner.",
+      "keyPoints": [
+        "Management and orchestration paths often have greater blast radius than one workload.",
+        "Shared responsibility must be converted into named control ownership."
+      ],
+      "sourceRefIds": [
+        "d3-o05-textbook",
+        "d3-o05-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Containerized field analytics",
+      "situation": "Edge devices run containers that send operational data to a cloud analytics service.",
+      "reasoning": "Model device, update, container registry, orchestration, cloud API, data store, and support paths; protect signed updates and secrets; segment operations; restrict remote administration; define offline behavior and safe recovery.",
+      "takeaway": "The risk is in the end-to-end dependency chain, not the word “container.”"
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Container isolation",
+      "b": "Virtual-machine isolation",
+      "difference": "Both can separate workloads, but they use different sharing and management assumptions; neither removes the need to secure host and orchestration control paths."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Serverless eliminates infrastructure security responsibility.",
+      "correction": "The provider operates infrastructure, while the customer still owns identities, code, data, configuration, event sources, and monitoring."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should be examined in every architecture family?",
+      "answer": "Assets, identities, trust boundaries, interfaces, management paths, update paths, dependencies, failure modes, and recovery assumptions."
+    },
+    {
+      "prompt": "Why are APIs security-critical?",
+      "answer": "They expose a policy-enforced boundary for data and actions and often connect many services or parties."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A cloud team protects application code but grants broad orchestration-console access to all engineers. What is the dominant concern?",
+      "decisiveDetail": "The management plane can control many workloads and therefore has high blast radius.",
+      "testedConceptIds": [
+        "management-plane",
+        "least-privilege",
+        "cloud-shared-responsibility"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Choose one modern architecture and list five trust boundaries.",
+    "connect": "Connect D1 supplier risk, D4 channels, D5 IAM, D7 operations, and D8 SDLC to the same design.",
+    "apply": "Explain the management-plane risk in a container or cloud scenario.",
+    "revisit": "In three days, contrast provider operations with customer responsibilities."
+  },
+  "visualIds": [
+    "d3-o05-architecture-vulnerabilities-boundary-map",
+    "d3-o05-architecture-vulnerabilities-concept-comparison-1",
+    "d3-o05-architecture-vulnerabilities-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o05-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o05-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "26-44",
+        "pdfPage": "26-44",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "architecture-vulnerabilities"
+      ]
+    },
+    {
+      "id": "d3-o05-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 9, Security Vulnerabilities, Threats, and Countermeasures, pp. 353-446"
+      },
+      "supports": [
+        "architecture-vulnerabilities",
+        "client-server-database-cloud-systems"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o05-architecture-vulnerabilities-visual-contract",
+    "unitId": "d3-o05-architecture-vulnerabilities",
+    "teachingQuestion": "Which architecture boundary creates the dominant risk, and which mitigation direction fits it?",
+    "misconception": "A technology label identifies the relevant security control.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "The important risk is often the authority, dependency, or data path between components.",
+    "conceptIds": [
+      "architecture-vulnerability",
+      "cloud-shared-responsibility",
+      "microservices",
+      "containerization",
+      "serverless",
+      "iot",
+      "industrial-control-system",
+      "edge-computing",
+      "virtualization",
+      "database-security",
+      "api-security",
+      "supply-chain-risk"
+    ],
+    "relationships": [
+      {
+        "from": "client",
+        "to": "api",
+        "label": "crosses external boundary"
+      },
+      {
+        "from": "api",
+        "to": "service",
+        "label": "invokes"
+      },
+      {
+        "from": "service",
+        "to": "data",
+        "label": "uses scoped identity for"
+      },
+      {
+        "from": "control",
+        "to": "service",
+        "label": "can change"
+      },
+      {
+        "from": "supply",
+        "to": "service",
+        "label": "updates"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Name the boundary, failure consequence, and a mitigation that fits the operating constraint.",
+    "textFallback": "Client, server, database, cloud, distributed, IoT, container, serverless, embedded, edge, and industrial systems expose different trust boundaries, management planes, update paths, and failure modes. Assess the architecture rather than applying one generic checklist.\nModel device, update, container registry, orchestration, cloud API, data store, and support paths; protect signed updates and secrets; segment operations; restrict remote administration; define offline behavior and safe recovery.",
+    "sourceRefIds": [
+      "d3-o05-textbook",
+      "d3-o05-sybex"
+    ],
+    "mapNodeId": "d3-o05-architecture-vulnerabilities",
+    "visualIds": [
+      "d3-o05-architecture-vulnerabilities-boundary-map",
+      "d3-o05-architecture-vulnerabilities-concept-comparison-1",
+      "d3-o05-architecture-vulnerabilities-concept-comparison-2"
+    ]
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o03-secure-communication-channels-concept-comparison-1",
+  "unitId": "d4-o03-secure-communication-channels",
+  "type": "table",
+  "title": "Implement secure communication channels: concept decisions 1",
+  "teachingQuestion": "For a voice, video, remote-admin, provider, or transport channel, what identity, endpoint, scope, media/data governance, evidence, and revocation decision makes it securely usable?",
+  "focalInsight": "A channel is secure only across its full lifecycle: authorized setup, protected/observed use, and revocation/evidence at completion.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Secure Channel",
+      "conceptIds": [
+        "secure-channel"
+      ],
+      "definition": "Communication path with defined endpoints, identity, protection, authorization, monitoring, failure behavior, and lifecycle governance.",
+      "detail": "Communication path with defined endpoints, identity, protection, authorization, monitoring, failure behavior, and lifecycle governance.",
+      "decision": "Select channel controls from data/media, threat, endpoint trust, duration, and operational need.",
+      "failureExample": "An encrypted channel to an unmanaged endpoint exposes data after decryption.",
+      "retrievalAnswer": "A secure channel includes endpoint trust and lifecycle, not just encryption.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Remote Access",
+      "conceptIds": [
+        "remote-access"
+      ],
+      "definition": "Privileged or user remote connection to internal resources through an approved, authenticated, scoped path.",
+      "detail": "Privileged or user remote connection to internal resources through an approved, authenticated, scoped path.",
+      "decision": "Require MFA, managed endpoint/jump/broker, least privilege, session evidence, time bounds, and revocation.",
+      "failureExample": "A vendor keeps permanent remote administrator access after maintenance ends.",
+      "retrievalAnswer": "Remote admin access needs scope, time limit, evidence, and revocation.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Voice Video Security",
+      "conceptIds": [
+        "voice-video-security"
+      ],
+      "definition": "Protection of live media, chat/files, recordings, transcripts, rooms/devices, and collaboration identity/authorization.",
+      "detail": "Protection of live media, chat/files, recordings, transcripts, rooms/devices, and collaboration identity/authorization.",
+      "decision": "Govern participant admission, encryption endpoints, recording/screen-share authority, retention, client updates, and moderation.",
+      "failureExample": "A meeting is encrypted but an unauthorized participant records sensitive screens.",
+      "retrievalAnswer": "Voice/video security includes participant and recording governance.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Third Party Connectivity",
+      "conceptIds": [
+        "third-party-connectivity"
+      ],
+      "definition": "Network or support access involving an external carrier, supplier, hardware vendor, or partner.",
+      "detail": "Network or support access involving an external carrier, supplier, hardware vendor, or partner.",
+      "decision": "Define boundary, identity, least privilege, route/data protection, logs, notification, support window, contract, and exit.",
+      "failureExample": "A provider support tunnel remains active with shared credentials and no logs.",
+      "retrievalAnswer": "Third-party connectivity needs contractual and technical lifecycle controls.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "VPN",
+      "conceptIds": [
+        "vpn"
+      ],
+      "definition": "Tunnel that protects selected traffic between defined endpoints across an untrusted/intermediate network.",
+      "detail": "Tunnel that protects selected traffic between defined endpoints across an untrusted/intermediate network.",
+      "decision": "Choose endpoint identity, selectors/split routing, device posture, logging, key lifecycle, and termination/authorization boundary.",
+      "failureExample": "A VPN user can route to every subnet because selectors and authorization are broad.",
+      "retrievalAnswer": "VPN protects a path; policy defines reachable resources.",
+      "tier": "B"
+    },
+    {
+      "id": "row-6",
+      "label": "TLS",
+      "conceptIds": [
+        "tls"
+      ],
+      "definition": "Application-session protection between authenticated TLS endpoints.",
+      "detail": "Application-session protection between authenticated TLS endpoints.",
+      "decision": "Validate certificate/hostname, locate termination, manage versions/keys, and protect upstream/downstream paths.",
+      "failureExample": "TLS ends at a proxy and traffic to an internal service is unprotected.",
+      "retrievalAnswer": "TLS claim requires named endpoints and onward-path review.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "Ssh",
+      "conceptIds": [
+        "ssh"
+      ],
+      "definition": "Secure remote administrative/session transport with host and user authentication.",
+      "detail": "Secure remote administrative/session transport with host and user authentication.",
+      "decision": "Use approved jump paths, host-key verification, least privilege, logging, session control, and credential/key lifecycle.",
+      "failureExample": "An administrator accepts a changed host key and sends commands to an impostor.",
+      "retrievalAnswer": "SSH requires host identity verification as well as user login.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Backhaul",
+      "conceptIds": [
+        "backhaul"
+      ],
+      "definition": "Transport connecting access/edge sites to core/provider services, often with carrier, capacity, route, and latency dependencies.",
+      "detail": "Transport connecting access/edge sites to core/provider services, often with carrier, capacity, route, and latency dependencies.",
+      "decision": "Assess encryption endpoint, provider boundary, resiliency, monitoring, jurisdiction, and fallback.",
+      "failureExample": "A single carrier backhaul outage isolates remote sites despite local redundancy.",
+      "retrievalAnswer": "Backhaul is a service path with provider and availability dependencies.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "secure-channel",
+    "remote-access",
+    "voice-video-security",
+    "third-party-connectivity",
+    "vpn",
+    "tls",
+    "ssh",
+    "backhaul"
+  ],
+  "altSummary": "A channel is secure only across its full lifecycle: authorized setup, protected/observed use, and revocation/evidence at completion.",
+  "textFallback": "secure channel: Communication path with defined endpoints, identity, protection, authorization, monitoring, failure behavior, and lifecycle governance. Decide: Select channel controls from data/media, threat, endpoint trust, duration, and operational need. Example/failure: An encrypted channel to an unmanaged endpoint exposes data after decryption. Retrieve: A secure channel includes endpoint trust and lifecycle, not just encryption.\nremote access: Privileged or user remote connection to internal resources through an approved, authenticated, scoped path. Decide: Require MFA, managed endpoint/jump/broker, least privilege, session evidence, time bounds, and revocation. Example/failure: A vendor keeps permanent remote administrator access after maintenance ends. Retrieve: Remote admin access needs scope, time limit, evidence, and revocation.\nvoice video security: Protection of live media, chat/files, recordings, transcripts, rooms/devices, and collaboration identity/authorization. Decide: Govern participant admission, encryption endpoints, recording/screen-share authority, retention, client updates, and moderation. Example/failure: A meeting is encrypted but an unauthorized participant records sensitive screens. Retrieve: Voice/video security includes participant and recording governance.\nthird party connectivity: Network or support access involving an external carrier, supplier, hardware vendor, or partner. Decide: Define boundary, identity, least privilege, route/data protection, logs, notification, support window, contract, and exit. Example/failure: A provider support tunnel remains active with shared credentials and no logs. Retrieve: Third-party connectivity needs contractual and technical lifecycle controls.\nvpn: Tunnel that protects selected traffic between defined endpoints across an untrusted/intermediate network. Decide: Choose endpoint identity, selectors/split routing, device posture, logging, key lifecycle, and termination/authorization boundary. Example/failure: A VPN user can route to every subnet because selectors and authorization are broad. Retrieve: VPN protects a path; policy defines reachable resources.\ntls: Application-session protection between authenticated TLS endpoints. Decide: Validate certificate/hostname, locate termination, manage versions/keys, and protect upstream/downstream paths. Example/failure: TLS ends at a proxy and traffic to an internal service is unprotected. Retrieve: TLS claim requires named endpoints and onward-path review.\nssh: Secure remote administrative/session transport with host and user authentication. Decide: Use approved jump paths, host-key verification, least privilege, logging, session control, and credential/key lifecycle. Example/failure: An administrator accepts a changed host key and sends commands to an impostor. Retrieve: SSH requires host identity verification as well as user login.\nbackhaul: Transport connecting access/edge sites to core/provider services, often with carrier, capacity, route, and latency dependencies. Decide: Assess encryption endpoint, provider boundary, resiliency, monitoring, jurisdiction, and fallback. Example/failure: A single carrier backhaul outage isolates remote sites despite local redundancy. Retrieve: Backhaul is a service path with provider and availability dependencies.",
+  "sourceRefIds": [
+    "official-d4-85-98",
+    "sybex-d4-657-678",
+    "sybex-d4-657-707",
+    "aio-d4-990-1020"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For a voice, video, remote-admin, provider, or transport channel, what identity, endpoint, scope, media/data governance, evidence, and revocation decision makes it securely usable?",
+    "misconception": "Encrypting a call or tunneling a session makes all participants, recordings, administration, and onward paths trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "A channel is secure only across its full lifecycle: authorized setup, protected/observed use, and revocation/evidence at completion.",
+    "conceptIds": [
+      "secure-channel",
+      "remote-access",
+      "voice-video-security",
+      "third-party-connectivity",
+      "vpn",
+      "tls",
+      "ssh",
+      "backhaul"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For a voice, video, remote-admin, provider, or transport channel, what identity, endpoint, scope, media/data governance, evidence, and revocation decision makes it securely usable?",
+    "textFallback": "secure channel: Communication path with defined endpoints, identity, protection, authorization, monitoring, failure behavior, and lifecycle governance. Decide: Select channel controls from data/media, threat, endpoint trust, duration, and operational need. Example/failure: An encrypted channel to an unmanaged endpoint exposes data after decryption. Retrieve: A secure channel includes endpoint trust and lifecycle, not just encryption.\nremote access: Privileged or user remote connection to internal resources through an approved, authenticated, scoped path. Decide: Require MFA, managed endpoint/jump/broker, least privilege, session evidence, time bounds, and revocation. Example/failure: A vendor keeps permanent remote administrator access after maintenance ends. Retrieve: Remote admin access needs scope, time limit, evidence, and revocation.\nvoice video security: Protection of live media, chat/files, recordings, transcripts, rooms/devices, and collaboration identity/authorization. Decide: Govern participant admission, encryption endpoints, recording/screen-share authority, retention, client updates, and moderation. Example/failure: A meeting is encrypted but an unauthorized participant records sensitive screens. Retrieve: Voice/video security includes participant and recording governance.\nthird party connectivity: Network or support access involving an external carrier, supplier, hardware vendor, or partner. Decide: Define boundary, identity, least privilege, route/data protection, logs, notification, support window, contract, and exit. Example/failure: A provider support tunnel remains active with shared credentials and no logs. Retrieve: Third-party connectivity needs contractual and technical lifecycle controls.\nvpn: Tunnel that protects selected traffic between defined endpoints across an untrusted/intermediate network. Decide: Choose endpoint identity, selectors/split routing, device posture, logging, key lifecycle, and termination/authorization boundary. Example/failure: A VPN user can route to every subnet because selectors and authorization are broad. Retrieve: VPN protects a path; policy defines reachable resources.\ntls: Application-session protection between authenticated TLS endpoints. Decide: Validate certificate/hostname, locate termination, manage versions/keys, and protect upstream/downstream paths. Example/failure: TLS ends at a proxy and traffic to an internal service is unprotected. Retrieve: TLS claim requires named endpoints and onward-path review.\nssh: Secure remote administrative/session transport with host and user authentication. Decide: Use approved jump paths, host-key verification, least privilege, logging, session control, and credential/key lifecycle. Example/failure: An administrator accepts a changed host key and sends commands to an impostor. Retrieve: SSH requires host identity verification as well as user login.\nbackhaul: Transport connecting access/edge sites to core/provider services, often with carrier, capacity, route, and latency dependencies. Decide: Assess encryption endpoint, provider boundary, resiliency, monitoring, jurisdiction, and fallback. Example/failure: A single carrier backhaul outage isolates remote sites despite local redundancy. Retrieve: Backhaul is a service path with provider and availability dependencies.",
+    "sourceRefIds": [
+      "official-d4-85-98",
+      "sybex-d4-657-678",
+      "sybex-d4-657-707",
+      "aio-d4-990-1020"
+    ],
+    "mapNodeId": "d4-o03-secure-communication-channels"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

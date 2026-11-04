@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d6-o02-control-testing",
+  "domainId": 6,
+  "objectiveIds": [
+    "6.2"
+  ],
+  "title": "Conduct security control testing",
+  "summary": "Control testing selects procedures that reveal whether an administrative, technical, or physical control is designed, implemented, and operating as intended.",
+  "outcome": "Select and execute suitable control-test methods, preserve evidence, and interpret a result without confusing presence with effectiveness.",
+  "conceptIds": [
+    "control-testing",
+    "vulnerability-testing",
+    "penetration-testing",
+    "code-review",
+    "misuse-case",
+    "sampling"
+  ],
+  "prerequisites": [
+    "d6-o01-strategy"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Test the control claim and its operating reality, not merely the existence of a policy or tool.",
+  "sections": [
+    {
+      "id": "methods",
+      "title": "Match method to control claim",
+      "body": "Methods include inquiry, observation, inspection, technical scanning, configuration review, vulnerability assessment, penetration testing, code review, misuse-case testing, interface testing, synthetic transactions, and review of logs or samples. The method must fit the control and threat: a scan can identify exposure, while a controlled exploit tests exploitability and response but carries more risk.",
+      "keyPoints": [
+        "No single method proves every control property.",
+        "Rules of engagement protect production and preserve evidence integrity.",
+        "Sampling and test coverage should be stated, not implied."
+      ],
+      "sourceRefIds": [
+        "official-d6-21-38",
+        "sybex-d6-807-822"
+      ]
+    },
+    {
+      "id": "evidence-and-safety",
+      "title": "Execute safely and preserve evidence",
+      "body": "Record the procedure, population, timestamps, tools, configurations, observations, exceptions, chain of custody where relevant, and tester identity. Protect sensitive findings and avoid changing the environment unnecessarily. Retest remediation using a procedure that can distinguish fixed, mitigated, accepted, and not-reproducible conditions.",
+      "keyPoints": [
+        "Evidence must be sufficient, reliable, relevant, and traceable to the scope.",
+        "A finding's severity depends on context and likelihood, not only tool output.",
+        "Retesting is a separate evidence event."
+      ],
+      "sourceRefIds": [
+        "official-d6-21-38",
+        "aio-d6-1174-1207"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "MFA control test",
+      "situation": "The organization claims all privileged access requires MFA.",
+      "reasoning": "Sample privileged identities and authentication paths, inspect configuration, observe a controlled login, review exceptions and logs, and test service accounts separately. Document population and limitations; checking a dashboard screenshot alone is insufficient."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "vulnerability assessment",
+        "penetration test"
+      ],
+      "difference": "A vulnerability assessment identifies and prioritizes potential weaknesses; penetration testing attempts controlled exploitation to demonstrate impact and paths."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A clean automated scan proves the control works.",
+      "correction": "Tools have coverage and configuration limits; validate the control's design, operation, exceptions, and relevant attack paths."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What drives method selection?",
+      "answer": "The control claim, threat, environment, risk, safety constraints, and evidence needed."
+    },
+    {
+      "prompt": "What should retesting classify?",
+      "answer": "Fixed, mitigated, accepted, unresolved, or not reproducible with supporting evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A code scanner reports no injection findings, but the test excludes generated SQL and production configuration.",
+      "decision": "Report the coverage limitation and test excluded paths with suitable methods.",
+      "why": "Tool output cannot support an unbounded conclusion."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review control-test methods and evidence handling.",
+    "connect": "Connect testing to D7 logs/configuration and D8 secure-code testing.",
+    "apply": "Design a layered MFA or backup-restore test.",
+    "revisit": "Explain what each method cannot prove."
+  },
+  "visualIds": [
+    "d6-o02-control-testing-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d6-2",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "6.2"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d6-21-38",
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "21-38 (PDF pp. 21-38)"
+      },
+      "supports": [
+        "control testing"
+      ]
+    },
+    {
+      "id": "sybex-d6-807-822",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "807-822, Chapter 15"
+      },
+      "supports": [
+        "testing methods"
+      ]
+    },
+    {
+      "id": "aio-d6-1174-1207",
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1174-1207, Chapter 18"
+      },
+      "supports": [
+        "technical testing and audits"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d6.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d6-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d6-o02-control-testing-visual-contract",
+    "unitId": "d6-o02-control-testing",
+    "teachingQuestion": "Which test safely produces evidence for the control/failure claim?",
+    "misconception": "Penetration test is always the strongest or safest test.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Select technique from claim, attack path, safety, scope, and evidence.",
+    "conceptIds": [
+      "control-testing",
+      "vulnerability-testing",
+      "penetration-testing",
+      "code-review",
+      "misuse-case",
+      "sampling"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No permission to test production.",
+    "retrievalPrompt": "Need prove API rejects unauthorized object access: which test/evidence?",
+    "textFallback": "control testing: test control objective. Decision: define expected behavior. Failure/example: deployment only\nvulnerability testing: discover known weakness. Decision: validate exposure safely. Failure/example: scanner result treated exploit\npenetration testing: authorized adversary simulation. Decision: set rules/stop conditions. Failure/example: unbounded production attack\ncode review: inspect implementation. Decision: trace security path. Failure/example: review misses runtime config\nmisuse case: abuse scenario test. Decision: derive negative path. Failure/example: happy path only\nsampling: subset evidence. Decision: choose representative/valid sample. Failure/example: biased sample",
+    "sourceRefIds": [
+      "official-d6-21-38",
+      "sybex-d6-807-822",
+      "aio-d6-1174-1207"
+    ],
+    "mapNodeId": "d6-o02-control-testing",
+    "visualIds": [
+      "d6-o02-control-testing-decision-comparison-1"
+    ]
+  }
+}

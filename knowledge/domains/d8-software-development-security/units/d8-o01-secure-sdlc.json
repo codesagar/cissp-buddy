@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o01-secure-sdlc",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.1"
+  ],
+  "title": "Integrate security into the SDLC",
+  "summary": "Secure SDLC practices make security requirements, threat analysis, design review, testing, deployment, operations, and retirement explicit throughout development.",
+  "outcome": "Place security activities and decision gates across an SDLC and explain how methodology affects timing, ownership, and evidence.",
+  "conceptIds": [
+    "sdlc",
+    "security-requirements",
+    "threat-modeling",
+    "waterfall",
+    "agile",
+    "devops",
+    "devsecops",
+    "shift-left"
+  ],
+  "prerequisites": [
+    "d1-o10-threat-modeling",
+    "d3-o01-secure-design-principles"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Security is a product requirement and lifecycle responsibility, not a final gate owned solely by a security team.",
+  "sections": [
+    {
+      "id": "lifecycle",
+      "title": "Build security into each phase",
+      "body": "Requirements should express security, privacy, resilience, and compliance needs; design should model threats, trust boundaries, and controls; implementation should use secure standards and review; testing should challenge abuse cases and controls; deployment should preserve configuration and provenance; operations should monitor, patch, respond, and learn; retirement should revoke access and dispose of data and secrets.",
+      "keyPoints": [
+        "Earlier discovery usually lowers the cost and disruption of correction.",
+        "Security ownership follows the product and system lifecycle.",
+        "Trace requirements to design, code, tests, and operational evidence."
+      ],
+      "sourceRefIds": [
+        "outline-d8",
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ]
+    },
+    {
+      "id": "methodologies",
+      "title": "Adapt to delivery method",
+      "body": "Waterfall emphasizes phase gates and formal baselines; iterative and agile methods deliver smaller increments; DevOps integrates development and operations; DevSecOps adds security collaboration and automation. No method makes security automatic: define acceptance criteria, threat-model changes, protect pipelines, and keep feedback fast enough to influence delivery.",
+      "keyPoints": [
+        "Security activities can be continuous even when governance gates remain formal.",
+        "Automation supports consistency but does not replace judgment.",
+        "Speed-to-market pressure must be balanced with risk and evidence."
+      ],
+      "sourceRefIds": [
+        "official-d8-9-35",
+        "miller-d8-705-727"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Agile payment feature",
+      "situation": "A sprint adds a payment API and changes authorization logic.",
+      "reasoning": "Refine security requirements, threat-model the changed flow, review authorization and secrets handling, run automated and targeted abuse tests, verify telemetry, and retain evidence before release. A single annual penetration test would arrive too late."
+    },
+    {
+      "title": "Retire a partner integration without leaving access behind",
+      "situation": "A company replaces an API used by a partner and plans to decommission the legacy endpoint.",
+      "reasoning": "The team inventories clients, data, service identities, encryption keys, queues, logs, support obligations, and evidence retention. Acceptance criteria require client migration confirmation, revoked credentials and keys, disabled routes, retained records per approved requirements, monitoring for residual use, and an owner for exceptions. Retirement is accepted only after residual access and data handling are verified."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "DevOps",
+        "DevSecOps"
+      ],
+      "difference": "DevOps integrates development and operations; DevSecOps makes security responsibilities, controls, and feedback explicit within that flow."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Shift-left means security is finished before deployment.",
+      "correction": "Early prevention is valuable, but runtime monitoring, patching, incident response, and retirement remain necessary."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Name four SDLC security touchpoints.",
+      "answer": "Requirements, threat-informed design, secure implementation, testing, deployment, operations, and retirement are valid."
+    },
+    {
+      "prompt": "What does a secure acceptance criterion do?",
+      "answer": "It makes a security expectation testable and traceable to release evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A team says an approved agile framework removes the need for threat modeling.",
+      "decision": "Add lightweight threat modeling and abuse-case acceptance to the increment workflow.",
+      "why": "Methodology does not eliminate changing threats or design decisions."
+    },
+    {
+      "scenario": "Production logs show token replay attempts against a new partner integration after release.",
+      "decision": "Feed the incident into the next requirement/threat-model review: define replay resistance and audit requirements, select nonce/signature controls, add replay tests, deploy through change control, and monitor rejection events.",
+      "why": "Operational evidence tests assumptions and must alter future lifecycle work when the risk changes."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study SDLC phases and methodology differences.",
+    "connect": "Connect D1 threat/supply-chain risk, D3 architecture, D6 testing, and D7 operations.",
+    "apply": "Map controls and evidence for one feature from requirement to retirement.",
+    "revisit": "Find the security activity missing from a chosen delivery method."
+  },
+  "visualIds": [
+    "d8-secure-sdlc-loop",
+    "d8-o01-secure-sdlc-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.1"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-9-35",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "9–34 (same PDF page numbers), objective 8.1; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "secure SDLC and methodologies"
+      ],
+      "sourceNotes": "D8 contents page is corrupted; body headings are used."
+    },
+    {
+      "id": "sybex-d8-1017-1049",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1049, Chapter 20"
+      },
+      "supports": [
+        "SDLC and development controls"
+      ]
+    },
+    {
+      "id": "miller-d8-705-727",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-727, Chapter 10"
+      },
+      "supports": [
+        "SDLC methodologies"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o01-secure-sdlc-visual-contract",
+    "unitId": "d8-o01-secure-sdlc",
+    "teachingQuestion": "How does a secure SDLC turn security from an end-stage review into evidence and feedback at every lifecycle stage, including retirement?",
+    "misconception": "Security is a testing phase after coding, or deployment ends security responsibility.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Security requirements, threat model, secure design, secure implementation/testing, deployment provenance, operations, retirement, and feedback.",
+    "conceptIds": [
+      "sdlc",
+      "security-requirements",
+      "threat-modeling",
+      "waterfall",
+      "agile",
+      "devops",
+      "devsecops",
+      "shift-left"
+    ],
+    "relationships": [
+      {
+        "from": "requirements",
+        "to": "design",
+        "label": "security criteria"
+      },
+      {
+        "from": "design",
+        "to": "build",
+        "label": "patterns and boundaries"
+      },
+      {
+        "from": "build",
+        "to": "test",
+        "label": "evidence"
+      },
+      {
+        "from": "test",
+        "to": "operate",
+        "label": "release decision"
+      },
+      {
+        "from": "operate",
+        "to": "retire",
+        "label": "lifecycle end"
+      },
+      {
+        "from": "operate",
+        "to": "requirements",
+        "label": "incidents and learning"
+      }
+    ],
+    "intentionalOmissions": "Do not mandate a specific framework, programming language, automated tool, or retention period.",
+    "retrievalPrompt": "A released partner API shows token replay attempts. Which lifecycle artifacts must change before the next release?",
+    "textFallback": "sdlc: The software development life cycle: coordinated phases from initiation and requirements through design, build, test, deployment, operation, and retirement.. Decision: Put security decisions and evidence in each applicable phase and feed operational results into subsequent work.. Failure/example: A project that ends controls at deployment leaves patching, monitoring, revocation, and disposal unmanaged.\nsecurity requirements: Testable security outcomes that constrain the product before design and implementation.. Decision: Define requirements from asset value, threat, compliance, privacy, resilience, and owner needs, then trace them to evidence.. Failure/example: A vague “secure API” requirement gives testers no criterion for access or audit behavior.\nthreat modeling: Attacker-oriented analysis of system boundaries, assets, entry points, abuse cases, and control assumptions.. Decision: Use it at design and revisit it after material changes or operational evidence changes assumptions.. Failure/example: An added partner integration can create replay/spoofing paths that the original model never assessed.\nwaterfall: A phased SDLC with formal baselines and milestone approvals before proceeding.. Decision: Integrate security at initiation, requirements, design, test, and release gates; manage authorized rework when requirements change.. Failure/example: A final-only security review may uncover an architectural flaw after the baseline is costly to change.\nagile: Iterative lifecycle delivery in small, collaborative increments that can incorporate frequent feedback.. Decision: Include security stories, acceptance criteria, threat-model updates, and tests in each increment.. Failure/example: Deferring security stories to a final sprint recreates a late hardening phase.\ndevops: An approach that connects development and operations for rapid, reliable delivery and feedback.. Decision: Use operational telemetry and ownership to inform delivery decisions, while keeping security evidence and release accountability.. Failure/example: Fast automation without monitored rollback can spread a faulty configuration rapidly.\ndevsecops: Integration of security practices, people, and suitable automation into development and operations workflows.. Decision: Use early automated checks where reliable, with accountable human review for risk, architecture, exceptions, and incident learning.. Failure/example: A pipeline can pass static checks while the deployed authorization configuration is wrong.\nshift left: Moving security analysis, requirements, design review, and defect discovery earlier in the lifecycle where change is cheaper and more influential.. Decision: Apply it to discover issues before implementation while retaining runtime monitoring and feedback; it does not mean “only early security.”. Failure/example: Treating shift-left as a substitute for production monitoring misses deployed configuration and abuse behavior.",
+    "sourceRefIds": [
+      "official-d8-9-35",
+      "sybex-d8-1017-1049",
+      "miller-d8-705-727"
+    ],
+    "mapNodeId": "d8-o01-secure-sdlc",
+    "visualIds": [
+      "d8-o01-secure-sdlc-decision-comparison-1",
+      "d8-secure-sdlc-loop"
+    ]
+  }
+}

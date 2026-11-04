@@ -1,0 +1,348 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o06-incident-management",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.6"
+  ],
+  "title": "Conduct incident management",
+  "summary": "Incident management coordinates detection, analysis, containment, eradication, recovery, communication, and lessons learned so the organization limits harm while preserving evidence and restoring trustworthy service.",
+  "outcome": "Given an incident signal, prioritize safety and business impact, coordinate a defensible response, preserve evidence, choose containment and recovery actions, and capture lessons for control improvement.",
+  "conceptIds": [
+    "incident",
+    "incident-triage",
+    "detection",
+    "response",
+    "mitigation",
+    "containment",
+    "eradication",
+    "recovery",
+    "reporting",
+    "remediation",
+    "incident-communications",
+    "lessons-learned",
+    "incident-evidence",
+    "incident-management",
+    "evidence"
+  ],
+  "prerequisites": [
+    "d7-o01-investigations",
+    "d7-o02-logging-monitoring",
+    "d1-o09-risk-management"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Contain the harm and preserve the facts, but make every action proportional, coordinated, reversible where possible, and followed by learning.",
+  "sections": [
+    {
+      "id": "triage-and-containment",
+      "title": "Detect, report, respond, and mitigate deliberately",
+      "body": "Incident management begins with detection and reporting: validate the signal, classify the incident, record who reported it and when, assess safety and business impact, assign roles, and decide what must be mitigated immediately. Mitigation may include containment, isolation, credential revocation, traffic blocking, preservation, or a temporary workaround; each option affects evidence and availability. Use playbooks with authority, escalation, communications, legal and privacy triggers, and criteria for moving from response and containment to eradication and recovery.",
+      "keyPoints": [
+        "Detection identifies a possible condition; reporting creates the accountable record and response trigger.",
+        "Triage prioritizes impact, scope, confidence, safety, and time sensitivity.",
+        "Containment and mitigation are risk decisions, not automatic technical commands; preserve evidence and record decisions, timestamps, actors, and outcomes."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o06",
+        "official-d7-42-51",
+        "sybex-d7-803-810"
+      ]
+    },
+    {
+      "id": "recovery-and-learning",
+      "title": "Eradicate, recover, remediate, and learn",
+      "body": "Eradication removes persistence or root cause as far as the evidence supports, and recovery restores services from a known trustworthy state with heightened monitoring. Reporting and communications should be accurate, authorized, timely, and adapted to executives, users, regulators, customers, providers, and responders. Remediation converts the cause or control gap into a corrective action with owner, due date, and validation. After stabilization, conduct a blameless lessons-learned review that identifies control, process, training, architecture, and evidence improvements rather than merely producing a narrative.",
+      "keyPoints": [
+        "Recovery is not complete until service integrity, security monitoring, and business acceptance are restored.",
+        "Remediation changes the risk condition; recovery alone may only restore service.",
+        "Communications should avoid speculation and preserve legal and privacy obligations; lessons need owners and validation."
+      ],
+      "sourceRefIds": [
+        "official-d7-42-51",
+        "sybex-d7-803-810"
+      ]
+    },
+    {
+      "id": "incident-response-as-risk-management",
+      "title": "Run incident response as a governed capability across the risk lifecycle",
+      "body": "NIST SP 800-61r3, finalized in 2025, frames incident response as part of cybersecurity risk management aligned to CSF 2.0 rather than only a linear handling checklist. Define authority, communications, legal/privacy and evidence constraints, supplier contacts, tooling, playbooks, recovery dependencies, and exercises before an event. During an event, verify and classify the signal, preserve appropriate evidence, choose containment that balances harm and service impact, eradicate the cause and persistence, restore with validation, and feed decisions, metrics, root causes, and control changes back into governance. A rushed action that destroys evidence, isolates a safety-critical system without coordination, or restores a compromised image can make the incident worse.",
+      "keyPoints": [
+        "Preparation, detection, response, and recovery depend on governance, asset knowledge, communications, and repeatable evidence.",
+        "Containment and recovery choices need risk, business, safety, legal, and operational context."
+      ],
+      "sourceRefIds": [
+        "official-d7-42-51",
+        "d7-o06-incident-management-nist-sp-800-61r3-2025"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Compromised service account",
+      "situation": "Monitoring shows a service account accessed an unusual data store. Immediate disablement would stop a critical batch process.",
+      "reasoning": "Validate scope and ownership, preserve relevant tokens and logs, coordinate the service owner and incident lead, and choose a containment option that limits access without destroying evidence or causing uncontrolled business failure. Rotate or revoke credentials, inspect downstream use, restore the service with a scoped identity, and record the decision and validation."
+    },
+    {
+      "title": "Ransomware alert on a revenue service",
+      "situation": "Endpoint telemetry identifies encryption activity on a service that supports time-sensitive customer transactions.",
+      "reasoning": "Validate the alert and scope, preserve relevant volatile and log evidence, activate the approved incident authority and business contacts, contain with an evaluated service-impact decision, investigate persistence and affected identities, recover from known-good validated data, then record lessons and control changes.",
+      "takeaway": "The fastest technical action is not automatically the safest incident decision."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "event",
+        "alert",
+        "incident"
+      ],
+      "difference": "An event is an observable occurrence; an alert is a signal needing triage; an incident is a validated harmful or policy-relevant condition requiring response."
+    },
+    {
+      "between": [
+        "mitigation",
+        "remediation"
+      ],
+      "difference": "Mitigation reduces immediate harm or exposure during response; remediation changes the underlying control or condition so recurrence risk is reduced and verified."
+    },
+    {
+      "between": [
+        "containment",
+        "eradication",
+        "recovery"
+      ],
+      "difference": "Containment limits spread or harm, eradication removes persistence or cause, and recovery restores trustworthy operations."
+    },
+    {
+      "a": "Containment",
+      "b": "Eradication",
+      "difference": "Containment limits ongoing harm and spread; eradication removes the cause and persistence. Neither proves recovery until restored services and data are validated."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "The fastest technical action is always the best response.",
+      "correction": "Actions must balance harm, evidence preservation, safety, legal authority, and business continuity."
+    },
+    {
+      "misconception": "Closing the ticket after service restoration completes incident management.",
+      "correction": "Root cause, evidence, communication, lessons, corrective actions, and validation remain necessary."
+    },
+    {
+      "claim": "Incident response begins only after an alert and ends when a system is online.",
+      "correction": "Prepared authority, evidence, communication, dependencies, detection, recovery validation, and lessons-driven control improvement are all incident-response capabilities."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What factors should guide incident triage?",
+      "answer": "Confidence, scope, business and safety impact, affected assets, time sensitivity, legal triggers, and available containment options."
+    },
+    {
+      "prompt": "What should be recorded when an incident is reported?",
+      "answer": "Reporter, time, signal or facts, authority, classification, initial scope, decisions, and the response owner."
+    },
+    {
+      "prompt": "How do mitigation and remediation differ?",
+      "answer": "Mitigation reduces immediate harm during response; remediation changes and verifies the underlying risk condition."
+    },
+    {
+      "prompt": "What should be recorded during response?",
+      "answer": "Decisions, authority, timestamps, actors, evidence handling, containment and recovery actions, communications, and outcomes."
+    },
+    {
+      "prompt": "What makes lessons learned operationally valuable?",
+      "answer": "A specific control, process, architecture, training, or plan change with an owner, due date, and validation."
+    },
+    {
+      "prompt": "What must be decided before isolating a suspected compromised production system?",
+      "answer": "Alert confidence and scope, evidence needs, authorized decision maker, safety/business-service impact, alternate containment, communication duties, and recovery readiness."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A ransomware indicator appears on a critical manufacturing workstation during a production run.",
+      "decision": "Activate the incident plan, involve safety and operations, preserve evidence, isolate through the least harmful effective path, and coordinate continuity before restoring a trusted system.",
+      "why": "Availability and safety constraints change containment and recovery decisions."
+    },
+    {
+      "prompt": "A responder wants to rebuild a host immediately, but counsel requests preservation and the service owns regulated records. What governs the choice?",
+      "decisiveDetail": "The approved incident authority, legal/evidence requirements, validated scope, service/safety impact, containment alternatives, chain-of-custody needs, and recovery plan; rebuilding may be delayed or performed from a preserved image.",
+      "testedConceptIds": [
+        "incident-management",
+        "evidence",
+        "containment",
+        "recovery"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study incident definition, triage, roles, containment, eradication, recovery, communications, and lessons learned.",
+    "connect": "Connect D7.6 to D7.1 evidence, D7.2 telemetry, D1 continuity, D5 revocation, and D6 corrective assessment.",
+    "apply": "Build a response timeline for a compromised identity or endpoint.",
+    "revisit": "Explain which actions would be different if the same incident affected safety-critical operations."
+  },
+  "visualIds": [
+    "d7-o06-incident-lifecycle",
+    "d7-o06-incident-management-decision-comparison-1",
+    "d7-o06-incident-management-decision-comparison-2",
+    "d7-o06-incident-management-incident-management-decision-trace"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o06",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.6"
+      },
+      "supports": [
+        "objective boundary",
+        "incident management"
+      ]
+    },
+    {
+      "id": "official-d7-42-51",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "42-51 (PDF pp. 42-51)"
+      },
+      "supports": [
+        "incident process",
+        "response roles",
+        "containment",
+        "recovery"
+      ]
+    },
+    {
+      "id": "sybex-d7-803-810",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "803-810, Chapter 17"
+      },
+      "supports": [
+        "incident definition",
+        "incident management steps",
+        "preventive and detective measures"
+      ]
+    },
+    {
+      "id": "d7-o06-incident-management-nist-sp-800-61r3-2025",
+      "sourceId": "nist-sp-800-61r3-2025",
+      "locator": {
+        "type": "section",
+        "value": "NIST SP 800-61r3, final, April 2025"
+      },
+      "supports": [
+        "NIST SP 800-61r3 is a CSF 2.0 Community Profile that recommends incorporating incident-response considerations throughout cybersecurity risk-management activities. It supersedes SP 800-61r2; it should not be reduced to a standalone linear incident checklist."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o06-incident-management-visual-contract",
+    "unitId": "d7-o06-incident-management",
+    "teachingQuestion": "How does a validated signal become contained, eradicated, trusted recovery, and corrective learning?",
+    "misconception": "Eradication means deleting a file, or recovery means returning service before trust is established.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Each row distinguishes purpose, selection, failure, and response.",
+    "conceptIds": [
+      "incident",
+      "incident-triage",
+      "detection",
+      "response",
+      "mitigation",
+      "containment",
+      "eradication",
+      "recovery",
+      "reporting",
+      "remediation",
+      "incident-communications",
+      "lessons-learned",
+      "incident-evidence",
+      "incident-management",
+      "evidence"
+    ],
+    "relationships": [
+      {
+        "from": "triage",
+        "to": "contain",
+        "label": "prioritizes action"
+      },
+      {
+        "from": "contain",
+        "to": "eradicate",
+        "label": "stabilizes scope"
+      },
+      {
+        "from": "eradicate",
+        "to": "recover",
+        "label": "removes persistence"
+      },
+      {
+        "from": "recover",
+        "to": "learn",
+        "label": "reveals gaps"
+      },
+      {
+        "from": "learn",
+        "to": "triage",
+        "label": "improves readiness"
+      }
+    ],
+    "intentionalOmissions": "No vendor-specific configuration or auto-response authority.",
+    "retrievalPrompt": "For the scenario, choose control/threshold/owner and state failure evidence.",
+    "textFallback": "incident: Incident: validated harmful condition. Decision: decide classification/authority.. Failure/example: alert ignored.\nincident triage: Triage: validate/contextualize signal. Decision: decide severity/escalation.. Failure/example: false closure.\ndetection: Detection: signal/report input. Decision: decide preservation/response.. Failure/example: no owner.\nresponse: Response: coordinated action. Decision: decide playbook/communications.. Failure/example: unauthorized action.\nmitigation: Mitigation: reduce immediate harm. Decision: decide proportional workaround.. Failure/example: availability worsens.\ncontainment: Containment: limit spread. Decision: decide isolate/revoke/block.. Failure/example: attacker laterally moves.\neradication: Eradication: remove persistence/root cause. Decision: decide evidence sufficiency.. Failure/example: malware returns.\nrecovery: Recovery: restore trusted operation. Decision: decide validation/monitoring.. Failure/example: infected backup restored.\nreporting: Reporting: authorized audience facts. Decision: decide timing/recipients.. Failure/example: inaccurate disclosure.",
+    "sourceRefIds": [
+      "official-d7-42-51",
+      "sybex-d7-803-810",
+      "d7-o06-incident-management-nist-sp-800-61r3-2025"
+    ],
+    "mapNodeId": "d7-o06-incident-management",
+    "visualIds": [
+      "d7-o06-incident-lifecycle",
+      "d7-o06-incident-management-decision-comparison-1",
+      "d7-o06-incident-management-decision-comparison-2",
+      "d7-o06-incident-management-incident-management-decision-trace"
+    ]
+  }
+}

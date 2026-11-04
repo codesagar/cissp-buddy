@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-segmentation-layers",
+  "unitId": "d4-o01-architecture-and-segmentation",
+  "type": "table",
+  "teachingQuestion": "How do architecture layers and segmentation choices constrain network blast radius?",
+  "focalInsight": "Physical, logical and workload controls can complement one another; no named boundary proves isolation without an enforced traffic policy and evidence.",
+  "title": "Choose and test the network boundary",
+  "caption": "These are complementary choices and assurance functions, not a mandatory five-layer implementation sequence.",
+  "nodes": [
+    {
+      "id": "physical",
+      "label": "Physical separation",
+      "definition": "Separate media, paths or facilities can restrict connectivity; an air gap is a particular design, not a synonym for out-of-band management.",
+      "decision": "Inventory all paths, including management, removable media and maintenance; verify intended disconnection.",
+      "failureExample": "An air-gapped system receives a maintenance laptop that bridges networks.",
+      "conceptIds": [
+        "network-segmentation"
+      ],
+      "detail": "Separate media, paths or facilities can restrict connectivity; an air gap is a particular design, not a synonym for out-of-band management."
+    },
+    {
+      "id": "logical",
+      "label": "Logical boundaries",
+      "definition": "VLANs, VRFs and VPNs create different logical separation or protected-path functions; configuration and interconnection determine reachability.",
+      "decision": "Define source, destination, service and enforcement point; test allowed and denied crossings.",
+      "failureExample": "Separate VLANs communicate unrestricted through an inter-VLAN router.",
+      "conceptIds": [
+        "network-segmentation"
+      ],
+      "detail": "VLANs, VRFs and VPNs create different logical separation or protected-path functions; configuration and interconnection determine reachability."
+    },
+    {
+      "id": "micro",
+      "label": "Workload policy",
+      "definition": "Micro-segmentation applies granular policy between workloads or groups using distributed or other suitable enforcement.",
+      "decision": "Map east-west dependencies and permitted services; test bypass, failure and policy-update behavior.",
+      "failureExample": "A distributed firewall allows every workload to reach the database management port.",
+      "conceptIds": [
+        "micro-segmentation",
+        "traffic-flows"
+      ],
+      "detail": "Micro-segmentation applies granular policy between workloads or groups using distributed or other suitable enforcement."
+    },
+    {
+      "id": "identity",
+      "label": "Identity and policy planes",
+      "definition": "Authenticated identity and context can inform authorization, while management/control planes distribute and administer policy.",
+      "decision": "Protect privileged plane access and verify policy inputs and enforcement freshness.",
+      "failureExample": "A compromised management account changes otherwise sound segmentation rules.",
+      "conceptIds": [
+        "network-planes"
+      ],
+      "detail": "Authenticated identity and context can inform authorization, while management/control planes distribute and administer policy."
+    },
+    {
+      "id": "observe",
+      "label": "Operation evidence",
+      "definition": "Flow, capacity, fault and policy telemetry reveal whether the intended boundary operates under real conditions.",
+      "decision": "Correlate allowed and denied traffic with policy and monitor bypass or drift.",
+      "failureExample": "A firewall dashboard appears healthy while an alternate route bypasses inspection.",
+      "conceptIds": [
+        "network-observability"
+      ],
+      "detail": "Flow, capacity, fault and policy telemetry reveal whether the intended boundary operates under real conditions."
+    }
+  ],
+  "relationships": [],
+  "altSummary": "Physical, logical and workload controls can complement one another; no named boundary proves isolation without an enforced traffic policy and evidence.",
+  "textFallback": "Physical separation: Separate media, paths or facilities can restrict connectivity; an air gap is a particular design, not a synonym for out-of-band management. Decision/test: Inventory all paths, including management, removable media and maintenance; verify intended disconnection. Failure: An air-gapped system receives a maintenance laptop that bridges networks.\nLogical boundaries: VLANs, VRFs and VPNs create different logical separation or protected-path functions; configuration and interconnection determine reachability. Decision/test: Define source, destination, service and enforcement point; test allowed and denied crossings. Failure: Separate VLANs communicate unrestricted through an inter-VLAN router.\nWorkload policy: Micro-segmentation applies granular policy between workloads or groups using distributed or other suitable enforcement. Decision/test: Map east-west dependencies and permitted services; test bypass, failure and policy-update behavior. Failure: A distributed firewall allows every workload to reach the database management port.\nIdentity and policy planes: Authenticated identity and context can inform authorization, while management/control planes distribute and administer policy. Decision/test: Protect privileged plane access and verify policy inputs and enforcement freshness. Failure: A compromised management account changes otherwise sound segmentation rules.\nOperation evidence: Flow, capacity, fault and policy telemetry reveal whether the intended boundary operates under real conditions. Decision/test: Correlate allowed and denied traffic with policy and monitor bypass or drift. Failure: A firewall dashboard appears healthy while an alternate route bypasses inspection.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-597-645"
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "Codex",
+        "date": "2026-09-17"
+      }
+    ],
+    "lastReviewedAt": "2026-09-17"
+  },
+  "conceptIds": [
+    "network-segmentation",
+    "micro-segmentation",
+    "traffic-flows",
+    "network-planes",
+    "network-observability"
+  ]
+}

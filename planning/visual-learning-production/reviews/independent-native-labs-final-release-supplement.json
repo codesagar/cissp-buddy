@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "reviewId": "independent-native-labs-final-release-supplement-2026-09-19",
+  "reviewedAt": "2026-09-19T01:20:32-05:00",
+  "reviewerTask": "/root/author_d1_d4",
+  "verdict": "accepted",
+  "status": "accepted",
+  "scope": {
+    "unitIds": [
+      "d3-o07-implementation-side-channel-attacks",
+      "d5-o04-authorization-mechanisms",
+      "d6-o02-control-testing",
+      "d6-o03-process-data",
+      "d7-o02-logging-architecture-evidence"
+    ],
+    "reviewType": "final-release binding plus bounded five-lab UI smoke; no source edits"
+  },
+  "releaseBinding": {
+    "immutableReleaseId": "cissp-course-2026-09-0605853d09809a70",
+    "sourceHash": "0605853d09809a706deb6ededf707f8d84f5ec3eb31b232aa3ab2300c6dbeb14",
+    "browserPreview": "http://localhost:3109",
+    "buildBinding": "planning/visual-learning-production/qa/cissp-course-2026-09-0605853d09809a70-preview-build-binding-final.json",
+    "buildBindingSha256": "1cb4e363a8eca25d8fb1b9cb6c5814489964f8d72f95b73ee29b168deed5c12a",
+    "distAggregate": "96482bb040ff2ba0eb4b71ce72560e95afa442496e020838e22f38caabbdecf2"
+  },
+  "sourceHashComparison": {
+    "priorReview": "planning/visual-learning-production/reviews/independent-evidence-labs.json",
+    "priorReviewSha256": "cf549626002da2fc96ab011ba75156ff3031eb3e9bbd14d0bbfd6ee0952cfb50",
+    "priorExactHashesUnchanged": true,
+    "files": [
+      {
+        "path": "web/components/course-evidence-labs.tsx",
+        "sha256": "f0e8572367d00d6c23925891c87bba2c0ebb960809c0370fdfe7c108c75ce2a8",
+        "matchesPriorReview": true,
+        "matchesStableBuildBinding": true
+      },
+      {
+        "path": "web/lib/course/evidence-models.ts",
+        "sha256": "c4304699dd3e5c1084815ddd662ed1e02bdf48b576140329cfe002736cb0f033",
+        "matchesPriorReview": true,
+        "matchesStableBuildBinding": true
+      },
+      {
+        "path": "web/tests/course-evidence-models.test.mjs",
+        "sha256": "aa9f02b2a9f7687898f025883bca579eaada4b50ada41d0df843f206af548c67",
+        "matchesPriorReview": true,
+        "matchesStableBuildBinding": null,
+        "bindingNote": "Tests are review evidence and are not packaged in the production build binding."
+      },
+      {
+        "path": "web/components/course-labs.tsx",
+        "sha256": "fcfeb65f0bf8801b3a1c557f02e88724b8952d0681803363c16538271662e652",
+        "matchesPriorReview": null,
+        "matchesStableBuildBinding": true,
+        "bindingNote": "Contains the authorization, denominator, and side-channel native labs."
+      },
+      {
+        "path": "web/lib/course/lab-models.ts",
+        "sha256": "d8492628664752535c410e4e8f40e9d83f32a55f593a6a1b4de18e17923095ea",
+        "matchesPriorReview": null,
+        "matchesStableBuildBinding": true,
+        "bindingNote": "Pure models for the authorization and denominator labs."
+      }
+    ]
+  },
+  "carriedForwardAcceptance": {
+    "fromReviewId": "independent-evidence-labs-2026-09-19",
+    "reason": "The three exact reviewed source hashes are unchanged, and both production source files match the stable final build binding. The prior source review, desktop/mobile acceptance, and exhaustive numerical result therefore remain applicable.",
+    "tests": {
+      "command": "cd web && node --test --experimental-strip-types tests/course-evidence-models.test.mjs",
+      "priorAcceptedResult": "4 passed, 0 failed",
+      "boundedExhaustiveGrid": "1,201 signed offsets × 121 uncertainty values = 145,321 legal numeric pairs",
+      "status": "carried forward unchanged; the test source hash is exact"
+    }
+  },
+  "newActualUiObservations": [
+    {
+      "unitId": "d5-o04-authorization-mechanisms",
+      "route": "http://localhost:3109/#/unit/d5-o04-authorization-mechanisms",
+      "action": "Opened Explore inputs, kept assignment supported, changed current device compliance to Evidence unknown / missing.",
+      "observed": "The PDP result remained Deny; the API PEP enforced the denial, Record R7 was marked not reached, and the explanation stated that a required fact was unknown and the request stopped before the record.",
+      "result": "accepted"
+    },
+    {
+      "unitId": "d6-o03-process-data",
+      "route": "http://localhost:3109/#/unit/d6-o03-process-data",
+      "action": "Opened Explore inputs, selected All 120 assets in the census, and cleared The 120-asset census is complete.",
+      "observed": "The UI retained 98/120 as a verified minimum while reporting the possible whole-fleet patch rate as Not established because the inventory denominator was incomplete.",
+      "result": "accepted"
+    },
+    {
+      "unitId": "d3-o07-implementation-side-channel-attacks",
+      "route": "http://localhost:3109/#/unit/d3-o07-implementation-side-channel-attacks",
+      "action": "Opened Explore inputs and selected Physical access.",
+      "observed": "The diagram kept outward OBSERVE paths separate from the inward DISTURB path. The focused explanation distinguished Power/EM measurement from induced disturbance and explicitly said observation and fault injection are different actions and that possible paths do not prove exfiltration.",
+      "result": "accepted"
+    },
+    {
+      "unitId": "d6-o02-control-testing",
+      "route": "http://localhost:3109/#/unit/d6-o02-control-testing",
+      "action": "Opened Explore inputs; recorded the 24 IDs for seed 12345, changed to 54321, returned to 12345, then entered invalid seed 4294967296.",
+      "observed": {
+        "seed12345ReproducedExactly": true,
+        "differentSeedChangedSelection": true,
+        "selectedCount": 24,
+        "strata": "8 cloud / 8 server / 8 database",
+        "invalidInput": "Use a whole-number seed from 0 to 4,294,967,295."
+      },
+      "result": "accepted"
+    },
+    {
+      "unitId": "d7-o02-logging-architecture-evidence",
+      "route": "http://localhost:3109/#/unit/d7-o02-logging-architecture-evidence",
+      "action": "Opened Explore inputs; changed database offset evidence to Offset unknown, then re-enabled measured offset and entered 601 seconds.",
+      "observed": "Unknown offset rendered the database interval and position unresolved, retained only IdP-before-egress precedence, and withdrew database ordering. The out-of-range number produced the signed whole-second −600 to +600 / uncertainty 0 to 120 validation message.",
+      "result": "accepted"
+    }
+  ],
+  "findings": [],
+  "limits": [
+    "This supplement records the five requested final-release smoke observations. It carries forward broader source, responsive, and exhaustive numerical acceptance only where exact hashes prove the reviewed bytes are unchanged."
+  ]
+}

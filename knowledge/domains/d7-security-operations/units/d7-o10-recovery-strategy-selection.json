@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o10-recovery-strategy-selection",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.10"
+  ],
+  "title": "Select recovery site and processing strategies",
+  "summary": "Recovery strategy selection converts business priorities and service dependencies into backup, alternate-site, and multiple-processing choices that can meet recovery objectives.",
+  "outcome": "Given a critical service and disruption profile, compare storage, site, and processing strategies against RTO, RPO, capacity, dependency, cost, and trust requirements.",
+  "conceptIds": [
+    "backup-storage",
+    "onsite-backup",
+    "offsite-backup",
+    "cloud-backup",
+    "recovery-site",
+    "cold-site",
+    "warm-site",
+    "hot-site",
+    "reciprocal-agreement",
+    "multiple-processing-sites"
+  ],
+  "prerequisites": [
+    "d7-o10-recovery-strategies",
+    "d1-o07-business-continuity-requirements",
+    "d2-o04-data-lifecycle"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Select the recovery capability the business can operate and trust under the actual failure, not the site label that sounds fastest.",
+  "sections": [
+    {
+      "id": "storage-and-recovery-objectives",
+      "title": "Match storage to data-loss tolerance",
+      "body": "Backup storage strategy starts with the data's criticality, recovery point, confidentiality, integrity, retention, geographic risk, dependency, and restoration capacity. Onsite copies may restore quickly but share a site failure; offsite or cloud copies improve geographic separation but add network, provider, identity, and key dependencies. Define the copy schedule, consistency model, encryption, access path, immutability or deletion protection, restore owner, and evidence that the copy is usable. RPO is an outcome requirement, not a promise created by naming a backup tier.",
+      "keyPoints": [
+        "Location and independence matter as much as backup frequency.",
+        "A protected copy is not useful if keys, credentials, bandwidth, or compatible software are unavailable.",
+        "Recovery evidence should show both copy currency and successful restoration."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o10-sites",
+        "official-d7-66-74-strategy",
+        "sybex-d7-875-878"
+      ]
+    },
+    {
+      "id": "sites-and-processing",
+      "title": "Compare sites and multiple processing options",
+      "body": "A cold site provides space and basic facilities with more build time; a warm site provides some prepared capacity; a hot site or multiple processing site can reduce interruption but requires synchronized data, identity, network, keys, staffing, licensing, and operational acceptance. Reciprocal arrangements depend on compatible assumptions and a partner's availability during the same event. Compare the time and capacity to restore the complete service, not merely the application. Include regional, provider, supplier, environmental, and common-mode failure in the decision.",
+      "keyPoints": [
+        "Site readiness is a spectrum of capability, not a binary available/unavailable label.",
+        "Multiple sites can share the same software, identity, provider, or human dependency.",
+        "Capacity agreements must be tested under concurrent demand and declared-event conditions."
+      ],
+      "sourceRefIds": [
+        "official-d7-66-74-strategy",
+        "sybex-d7-879-883"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Regional claims service",
+      "situation": "A claims service has an RTO of four hours and an RPO of fifteen minutes. A proposed warm site has compute capacity but no current identity replica, key escrow access, or staff agreement.",
+      "reasoning": "The warm site does not yet meet the service objective. Add or test identity, keys, network, licensing, data replication, staffing, and acceptance steps, or revise the strategy and business expectation. A site's technical capacity is only one part of recovery capability."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "onsite backup",
+        "offsite backup"
+      ],
+      "difference": "Onsite copies can reduce restore time but share local hazards; offsite copies improve geographic separation while adding transfer and access dependencies."
+    },
+    {
+      "between": [
+        "warm site",
+        "hot site"
+      ],
+      "difference": "A warm site has some prepared capability but needs additional work or data before service; a hot site is prepared for much faster operational use, subject to validation."
+    },
+    {
+      "between": [
+        "multiple processing sites",
+        "backup site"
+      ],
+      "difference": "Multiple processing sites may run or be prepared as coordinated service capacity; a backup site is an alternate location used when primary processing is unavailable."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Cloud backup automatically satisfies offsite and recovery requirements.",
+      "correction": "Provider region, account, identity, key, deletion, bandwidth, restoration, and contractual assumptions must be verified."
+    },
+    {
+      "misconception": "A hot site guarantees the stated RTO.",
+      "correction": "Identity, data consistency, capacity, people, dependencies, validation, and business acceptance can still exceed the target."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Which requirements should drive a backup storage choice?",
+      "answer": "RPO, confidentiality, integrity, retention, geographic risk, access and key dependencies, restoration capacity, and evidence of usability."
+    },
+    {
+      "prompt": "What makes a site strategy incomplete even when compute is ready?",
+      "answer": "Missing identity, network, data, keys, licensing, staff, suppliers, monitoring, or acceptance dependencies."
+    },
+    {
+      "prompt": "Why evaluate common-mode failure?",
+      "answer": "Multiple sites or copies may still share a provider, region, software, identity, supplier, or human dependency."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A provider offers a hot site in the same region as production at a lower cost.",
+      "decision": "Compare regional hazard, provider control-plane, identity, staffing, and network dependencies against the BIA; require explicit residual-risk acceptance if geographic separation is insufficient.",
+      "why": "A fast local failover can fail with the same regional or provider event."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare onsite, offsite, and cloud backup; cold, warm, hot, reciprocal, and multiple processing sites; and their RTO/RPO dependencies.",
+    "connect": "Connect D7.10 to D1 BIA, D2 data lifecycle, D3 resilience, D7.11 DR execution, and D7.13 continuity.",
+    "apply": "Choose a storage and site strategy for a service, then list the capacity, identity, key, data, people, and supplier assumptions.",
+    "revisit": "Explain which shared dependency could defeat two apparently independent recovery sites."
+  },
+  "visualIds": [
+    "d7-o10-recovery-strategy-selection-decision-comparison-1",
+    "d7-o10-recovery-strategy-selection-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o10-sites",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.10 bullets: backup storage, recovery sites, multiple processing sites"
+      },
+      "supports": [
+        "objective scope",
+        "storage and site strategies"
+      ]
+    },
+    {
+      "id": "official-d7-66-74-strategy",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "66-74 (PDF pp. 66-74), Domain 7.10 recovery strategies"
+      },
+      "supports": [
+        "backup storage",
+        "alternate sites",
+        "recovery capacity"
+      ]
+    },
+    {
+      "id": "sybex-d7-875-878",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "875-878, Chapter 18 backup and recovery strategies"
+      },
+      "supports": [
+        "backup storage",
+        "RPO/RTO",
+        "backup independence"
+      ]
+    },
+    {
+      "id": "sybex-d7-879-883",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "879-883, Chapter 18 alternate sites and capacity"
+      },
+      "supports": [
+        "cold, warm, hot, and reciprocal sites",
+        "multiple processing locations"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o10-recovery-strategy-selection-visual-contract",
+    "unitId": "d7-o10-recovery-strategy-selection",
+    "teachingQuestion": "Which recovery capability meets business objective without common-mode failure?",
+    "misconception": "Backup/site/HA label proves recovery.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Rows separate selection/operation/validation failures.",
+    "conceptIds": [
+      "backup-storage",
+      "onsite-backup",
+      "offsite-backup",
+      "cloud-backup",
+      "recovery-site",
+      "cold-site",
+      "warm-site",
+      "hot-site",
+      "reciprocal-agreement",
+      "multiple-processing-sites"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal recovery tier/timing.",
+    "retrievalPrompt": "Name objective, dependency, owner, evidence, acceptance.",
+    "textFallback": "backup storage: backup storage: copy/capability in the recovery/DR process.. Decision: Select/authorize backup storage using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated backup storage leaves service/data/identity/key recovery incomplete.\nonsite backup: onsite backup: copy/capability in the recovery/DR process.. Decision: Select/authorize onsite backup using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated onsite backup leaves service/data/identity/key recovery incomplete.\noffsite backup: offsite backup: copy/capability in the recovery/DR process.. Decision: Select/authorize offsite backup using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated offsite backup leaves service/data/identity/key recovery incomplete.\ncloud backup: cloud backup: copy/capability in the recovery/DR process.. Decision: Select/authorize cloud backup using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated cloud backup leaves service/data/identity/key recovery incomplete.\nrecovery site: recovery site: copy/capability in the recovery/DR process.. Decision: Select/authorize recovery site using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated recovery site leaves service/data/identity/key recovery incomplete.\ncold site: cold site: site/location strategy in the recovery/DR process.. Decision: Select/authorize cold site using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated cold site leaves service/data/identity/key recovery incomplete.\nwarm site: warm site: site/location strategy in the recovery/DR process.. Decision: Select/authorize warm site using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated warm site leaves service/data/identity/key recovery incomplete.\nhot site: hot site: site/location strategy in the recovery/DR process.. Decision: Select/authorize hot site using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated hot site leaves service/data/identity/key recovery incomplete.\nreciprocal agreement: reciprocal agreement: site/location strategy in the recovery/DR process.. Decision: Select/authorize reciprocal agreement using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated reciprocal agreement leaves service/data/identity/key recovery incomplete.",
+    "sourceRefIds": [
+      "official-d7-66-74-strategy",
+      "sybex-d7-875-878",
+      "sybex-d7-879-883"
+    ],
+    "mapNodeId": "d7-o10-recovery-strategy-selection",
+    "visualIds": [
+      "d7-o10-recovery-strategy-selection-decision-comparison-1",
+      "d7-o10-recovery-strategy-selection-decision-comparison-2"
+    ]
+  }
+}

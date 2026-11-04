@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o02-security-models",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.2"
+  ],
+  "title": "Use security models to reason about allowed information flow",
+  "summary": "Security models state a protection goal and formal rules for information flow or state change. They help an architect distinguish confidentiality, integrity, and conflict-of-interest objectives rather than treating models as interchangeable labels.",
+  "outcome": "Select the model objective that best explains a proposed access or information-flow rule.",
+  "conceptIds": [
+    "security-model",
+    "bell-lapadula",
+    "biba",
+    "clark-wilson",
+    "brewer-nash",
+    "star-property",
+    "integrity",
+    "confidentiality",
+    "information-flow"
+  ],
+  "prerequisites": [
+    "confidentiality",
+    "integrity",
+    "least-privilege"
+  ],
+  "estimatedMinutes": 28,
+  "managerMindset": "Model names matter less than the property and flow rule they enforce. State the protected objective and then test whether the system’s rules actually preserve it.",
+  "sections": [
+    {
+      "id": "objectives",
+      "title": "Models express different protection goals",
+      "body": "Bell-LaPadula focuses on confidentiality through rules such as no read up and no write down. Biba focuses on integrity through no read down and no write up. Clark-Wilson protects integrity through well-formed transactions and separation of duties. Brewer-Nash limits access that could create conflicts after a user accesses a competitor’s data. The star property describes a flow constraint in a model; it is not a substitute for context.",
+      "keyPoints": [
+        "Confidentiality and integrity models can impose opposite-looking flow restrictions.",
+        "A model provides a reasoning tool, not an automatic application configuration."
+      ],
+      "sourceRefIds": [
+        "d3-o02-outline",
+        "d3-o02-textbook",
+        "d3-o02-sybex"
+      ]
+    },
+    {
+      "id": "apply",
+      "title": "Map model rules to real enforcement",
+      "body": "A real system must translate a model’s goal into labels, roles, transactions, workflows, or policy decisions, then protect the enforcement mechanism itself. Consider exceptions, administrators, data transformation, replication, and audit evidence. A rule that exists only in design documentation does not preserve a property when the implementation or process permits a conflicting path.",
+      "keyPoints": [
+        "Model enforcement includes administration and operational assurance.",
+        "Use separation of duties when integrity requires independent authorization and execution."
+      ],
+      "sourceRefIds": [
+        "d3-o02-textbook",
+        "d3-o02-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Use security models as enforceable information-flow constraints",
+      "body": "Security models describe which subjects may read, write, or change information under a formal policy. Bell-LaPadula emphasizes confidentiality flow and label-based restrictions; Biba emphasizes integrity and avoiding contamination from lower-integrity sources; the Brewer-Nash or Chinese Wall concept restricts conflicting commercial information; and the Clark-Wilson integrity model uses well-formed transactions and separation of duties. Select a model by the protected property, classification or integrity labels, trusted subjects, transition rules, and enforcement mechanism. The failure is treating a model name as a complete architecture: an application, administrator, interface, exception, or data-export path can bypass its intended policy if enforcement and audit do not match the model.",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o02-outline",
+        "d3-o02-textbook",
+        "d3-o02-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Financial release",
+      "situation": "A payment release must be entered by one person and approved by another using controlled transactions.",
+      "reasoning": "The main objective is integrity of the release process; a Clark-Wilson-style focus on well-formed transactions and separation of duties fits better than a confidentiality label model alone.",
+      "takeaway": "Choose the model from the harm being controlled."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Bell-LaPadula",
+      "b": "Biba",
+      "difference": "Bell-LaPadula prioritizes confidentiality flow; Biba prioritizes integrity flow and therefore reverses key read/write constraints."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A security model by itself is a technical control.",
+      "correction": "It is a formal or conceptual policy model that must be implemented, administered, and tested."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Which model is associated with no read up and no write down?",
+      "answer": "Bell-LaPadula, protecting confidentiality."
+    },
+    {
+      "prompt": "What does Clark-Wilson emphasize?",
+      "answer": "Integrity through well-formed transactions and separation of duties."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A researcher must not read lower-assurance unverified data before publishing an authoritative result. Which goal is being protected?",
+      "decisiveDetail": "The concern is contamination of trusted information, not unauthorized disclosure.",
+      "testedConceptIds": [
+        "biba",
+        "integrity"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "State each model’s protected property before its rule.",
+    "connect": "Connect model enforcement to D5 authorization and D7 audit evidence.",
+    "apply": "Classify three scenarios as confidentiality, integrity, or conflict-of-interest problems.",
+    "revisit": "In three days, contrast Bell-LaPadula and Biba without notes."
+  },
+  "visualIds": [
+    "d3-o02-security-models-flow-comparison",
+    "d3-o02-security-models-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o02-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.2"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o02-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "13-16",
+        "pdfPage": "13-16",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "security-models"
+      ]
+    },
+    {
+      "id": "d3-o02-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, Security Models, p. 309 onward; precise locator refinement pending"
+      },
+      "supports": [
+        "bell-lapadula",
+        "biba",
+        "clark-wilson"
+      ],
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o02-security-models-visual-contract",
+    "unitId": "d3-o02-security-models",
+    "teachingQuestion": "Which model objective explains the proposed information-flow rule?",
+    "misconception": "All security models enforce the same access pattern.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "A model is selected by confidentiality, integrity, conflict, or transaction objective and needs enforcement.",
+    "conceptIds": [
+      "security-model",
+      "bell-lapadula",
+      "biba",
+      "clark-wilson",
+      "brewer-nash",
+      "star-property",
+      "integrity",
+      "confidentiality",
+      "information-flow"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Classify no-read/no-write wording by property and state the enforcement mechanism.",
+    "textFallback": "Security models state a protection goal and formal rules for information flow or state change. They help an architect distinguish confidentiality, integrity, and conflict-of-interest objectives rather than treating models as interchangeable labels.\nThe main objective is integrity of the release process; a Clark-Wilson-style focus on well-formed transactions and separation of duties fits better than a confidentiality label model alone.",
+    "sourceRefIds": [
+      "d3-o02-textbook",
+      "d3-o02-sybex"
+    ],
+    "mapNodeId": "d3-o02-security-models",
+    "visualIds": [
+      "d3-o02-security-models-concept-comparison-1",
+      "d3-o02-security-models-flow-comparison"
+    ]
+  }
+}

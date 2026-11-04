@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-network-protocol-routing-design-concept-comparison-1",
+  "unitId": "d4-o01-network-protocol-routing-design",
+  "type": "table",
+  "title": "Evaluate network protocols, routing, and infrastructure design: concept decisions 1",
+  "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+  "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Osi Model",
+      "conceptIds": [
+        "osi-model"
+      ],
+      "definition": "Layered vocabulary for locating protocol functions and associated security threats.",
+      "detail": "Layered vocabulary for locating protocol functions and associated security threats.",
+      "decision": "Identify the functional layer before selecting inspection, routing, session, or application controls.",
+      "failureExample": "Applying only a network filter to an application-layer abuse case leaves the vulnerable function exposed.",
+      "retrievalAnswer": "Use OSI to locate the function, not to assume a control is sufficient.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Tcp Ip Model",
+      "conceptIds": [
+        "tcp-ip-model"
+      ],
+      "definition": "Internet protocol-suite model used to reason about deployed addressing, transport, and application communication.",
+      "detail": "Internet protocol-suite model used to reason about deployed addressing, transport, and application communication.",
+      "decision": "Use it with actual packet/session endpoints and map to OSI when comparing functions.",
+      "failureExample": "Treating transport reliability as application authorization confuses stack responsibilities.",
+      "retrievalAnswer": "TCP/IP explains deployed protocol roles; it does not grant trust.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Ipv4",
+      "conceptIds": [
+        "ipv4"
+      ],
+      "definition": "IP address family with unicast, local broadcast, and multicast reachability behavior.",
+      "detail": "IP address family with unicast, local broadcast, and multicast reachability behavior.",
+      "decision": "Identify scope and broadcast implications before routing/filtering a flow.",
+      "failureExample": "Broadcast permission on a sensitive segment expands recipient exposure.",
+      "retrievalAnswer": "IPv4 broadcast targets a local domain, not a chosen host.",
+      "tier": "B"
+    },
+    {
+      "id": "row-4",
+      "label": "Ipv6",
+      "conceptIds": [
+        "ipv6"
+      ],
+      "definition": "IP address family using unicast, multicast, and anycast rather than IPv4 broadcast.",
+      "detail": "IP address family using unicast, multicast, and anycast rather than IPv4 broadcast.",
+      "decision": "Implement explicit IPv6 routing, discovery, ACL, and telemetry policy in dual-stack environments.",
+      "failureExample": "Ignoring IPv6 lets a host bypass IPv4-only inspection.",
+      "retrievalAnswer": "IPv6 has no IPv4-style broadcast; account for multicast/anycast.",
+      "tier": "B"
+    },
+    {
+      "id": "row-5",
+      "label": "Ipv4 Ipv6",
+      "conceptIds": [
+        "ipv4-ipv6"
+      ],
+      "definition": "Coexistence/transition state in which both address families may expose parallel routes and policies.",
+      "detail": "Coexistence/transition state in which both address families may expose parallel routes and policies.",
+      "decision": "Test every service, management path, ACL, monitor, and tunnel for both families.",
+      "failureExample": "A secure IPv4 design is bypassed through an unlogged IPv6 listener.",
+      "retrievalAnswer": "Treat each family as a separately verified path.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "unicast",
+      "conceptIds": [
+        "unicast"
+      ],
+      "definition": "Delivery from one sender to one addressed receiver.",
+      "detail": "Delivery from one sender to one addressed receiver.",
+      "decision": "Use when a single intended endpoint and its authorization/path are known.",
+      "failureExample": "Assuming unicast means trusted destination ignores endpoint compromise.",
+      "retrievalAnswer": "Unicast answers “one receiver,” not “authorized receiver.”",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "Multicast",
+      "conceptIds": [
+        "multicast"
+      ],
+      "definition": "Delivery to members of an explicitly managed group.",
+      "detail": "Delivery to members of an explicitly managed group.",
+      "decision": "Control membership, scope, routing, and monitoring before enabling.",
+      "failureExample": "Uncontrolled membership receives sensitive telemetry intended for a service group.",
+      "retrievalAnswer": "Multicast requires group-membership control.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Traffic Monitoring",
+      "conceptIds": [
+        "traffic-monitoring"
+      ],
+      "definition": "Collection and analysis of traffic/flow evidence for behavior, capacity, policy, and anomaly detection.",
+      "detail": "Collection and analysis of traffic/flow evidence for behavior, capacity, policy, and anomaly detection.",
+      "decision": "Place sensors where visibility survives encapsulation/termination and protect their management/data paths.",
+      "failureExample": "A monitor before TLS termination cannot inspect protected application content.",
+      "retrievalAnswer": "Monitoring point must match the evidence question.",
+      "tier": "B"
+    },
+    {
+      "id": "row-9",
+      "label": "Ipsec",
+      "conceptIds": [
+        "ipsec"
+      ],
+      "definition": "Network-layer protection between defined IPsec peers and traffic selectors.",
+      "detail": "Network-layer protection between defined IPsec peers and traffic selectors.",
+      "decision": "Verify peer authentication, selectors, key renewal, path/intermediary handling, logs, and onward protection.",
+      "failureExample": "Encrypting to a gateway does not authorize access beyond it.",
+      "retrievalAnswer": "IPsec endpoint and selector define protected traffic.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "osi-model",
+    "tcp-ip-model",
+    "ipv4",
+    "ipv6",
+    "ipv4-ipv6",
+    "unicast",
+    "multicast",
+    "traffic-monitoring",
+    "ipsec"
+  ],
+  "altSummary": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+  "textFallback": "osi model: Layered vocabulary for locating protocol functions and associated security threats. Decide: Identify the functional layer before selecting inspection, routing, session, or application controls. Example/failure: Applying only a network filter to an application-layer abuse case leaves the vulnerable function exposed. Retrieve: Use OSI to locate the function, not to assume a control is sufficient.\ntcp ip model: Internet protocol-suite model used to reason about deployed addressing, transport, and application communication. Decide: Use it with actual packet/session endpoints and map to OSI when comparing functions. Example/failure: Treating transport reliability as application authorization confuses stack responsibilities. Retrieve: TCP/IP explains deployed protocol roles; it does not grant trust.\nipv4: IP address family with unicast, local broadcast, and multicast reachability behavior. Decide: Identify scope and broadcast implications before routing/filtering a flow. Example/failure: Broadcast permission on a sensitive segment expands recipient exposure. Retrieve: IPv4 broadcast targets a local domain, not a chosen host.\nipv6: IP address family using unicast, multicast, and anycast rather than IPv4 broadcast. Decide: Implement explicit IPv6 routing, discovery, ACL, and telemetry policy in dual-stack environments. Example/failure: Ignoring IPv6 lets a host bypass IPv4-only inspection. Retrieve: IPv6 has no IPv4-style broadcast; account for multicast/anycast.\nipv4 ipv6: Coexistence/transition state in which both address families may expose parallel routes and policies. Decide: Test every service, management path, ACL, monitor, and tunnel for both families. Example/failure: A secure IPv4 design is bypassed through an unlogged IPv6 listener. Retrieve: Treat each family as a separately verified path.\nunicast: Delivery from one sender to one addressed receiver. Decide: Use when a single intended endpoint and its authorization/path are known. Example/failure: Assuming unicast means trusted destination ignores endpoint compromise. Retrieve: Unicast answers “one receiver,” not “authorized receiver.”\nmulticast: Delivery to members of an explicitly managed group. Decide: Control membership, scope, routing, and monitoring before enabling. Example/failure: Uncontrolled membership receives sensitive telemetry intended for a service group. Retrieve: Multicast requires group-membership control.\ntraffic monitoring: Collection and analysis of traffic/flow evidence for behavior, capacity, policy, and anomaly detection. Decide: Place sensors where visibility survives encapsulation/termination and protect their management/data paths. Example/failure: A monitor before TLS termination cannot inspect protected application content. Retrieve: Monitoring point must match the evidence question.\nipsec: Network-layer protection between defined IPsec peers and traffic selectors. Decide: Verify peer authentication, selectors, key renewal, path/intermediary handling, logs, and onward protection. Example/failure: Encrypting to a gateway does not authorize access beyond it. Retrieve: IPsec endpoint and selector define protected traffic.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-573-621",
+    "sybex-d4-573-645"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "misconception": "An IP address, tunnel, or redundant link alone tells you the audience, trust boundary, or resilience outcome.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+    "conceptIds": [
+      "osi-model",
+      "tcp-ip-model",
+      "ipv4",
+      "ipv6",
+      "ipv4-ipv6",
+      "unicast",
+      "multicast",
+      "traffic-monitoring",
+      "ipsec"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "textFallback": "osi model: Layered vocabulary for locating protocol functions and associated security threats. Decide: Identify the functional layer before selecting inspection, routing, session, or application controls. Example/failure: Applying only a network filter to an application-layer abuse case leaves the vulnerable function exposed. Retrieve: Use OSI to locate the function, not to assume a control is sufficient.\ntcp ip model: Internet protocol-suite model used to reason about deployed addressing, transport, and application communication. Decide: Use it with actual packet/session endpoints and map to OSI when comparing functions. Example/failure: Treating transport reliability as application authorization confuses stack responsibilities. Retrieve: TCP/IP explains deployed protocol roles; it does not grant trust.\nipv4: IP address family with unicast, local broadcast, and multicast reachability behavior. Decide: Identify scope and broadcast implications before routing/filtering a flow. Example/failure: Broadcast permission on a sensitive segment expands recipient exposure. Retrieve: IPv4 broadcast targets a local domain, not a chosen host.\nipv6: IP address family using unicast, multicast, and anycast rather than IPv4 broadcast. Decide: Implement explicit IPv6 routing, discovery, ACL, and telemetry policy in dual-stack environments. Example/failure: Ignoring IPv6 lets a host bypass IPv4-only inspection. Retrieve: IPv6 has no IPv4-style broadcast; account for multicast/anycast.\nipv4 ipv6: Coexistence/transition state in which both address families may expose parallel routes and policies. Decide: Test every service, management path, ACL, monitor, and tunnel for both families. Example/failure: A secure IPv4 design is bypassed through an unlogged IPv6 listener. Retrieve: Treat each family as a separately verified path.\nunicast: Delivery from one sender to one addressed receiver. Decide: Use when a single intended endpoint and its authorization/path are known. Example/failure: Assuming unicast means trusted destination ignores endpoint compromise. Retrieve: Unicast answers “one receiver,” not “authorized receiver.”\nmulticast: Delivery to members of an explicitly managed group. Decide: Control membership, scope, routing, and monitoring before enabling. Example/failure: Uncontrolled membership receives sensitive telemetry intended for a service group. Retrieve: Multicast requires group-membership control.\ntraffic monitoring: Collection and analysis of traffic/flow evidence for behavior, capacity, policy, and anomaly detection. Decide: Place sensors where visibility survives encapsulation/termination and protect their management/data paths. Example/failure: A monitor before TLS termination cannot inspect protected application content. Retrieve: Monitoring point must match the evidence question.\nipsec: Network-layer protection between defined IPsec peers and traffic selectors. Decide: Verify peer authentication, selectors, key renewal, path/intermediary handling, logs, and onward protection. Example/failure: Encrypting to a gateway does not authorize access beyond it. Retrieve: IPsec endpoint and selector define protected traffic.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-573-621",
+      "sybex-d4-573-645"
+    ],
+    "mapNodeId": "d4-o01-network-protocol-routing-design"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

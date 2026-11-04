@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cissp-buddy.local/schema/visual.schema.json",
+  "title": "CISSP Buddy semantic visual",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "unitId",
+    "type",
+    "teachingQuestion",
+    "focalInsight",
+    "title",
+    "caption",
+    "nodes",
+    "relationships",
+    "altSummary",
+    "textFallback",
+    "sourceRefIds",
+    "review"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string"
+    },
+    "unitId": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "table",
+        "flowchart",
+        "process",
+        "state-machine",
+        "timeline",
+        "layer-stack",
+        "tree",
+        "quadrant",
+        "matrix",
+        "loop",
+        "sequence",
+        "data-flow"
+      ]
+    },
+    "teachingQuestion": {
+      "type": "string",
+      "minLength": 15
+    },
+    "focalInsight": {
+      "type": "string",
+      "minLength": 15
+    },
+    "title": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "nodes": {
+      "type": "array",
+      "maxItems": 9,
+      "items": {
+        "type": "object"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object"
+      }
+    },
+    "altSummary": {
+      "type": "string",
+      "minLength": 30
+    },
+    "textFallback": {
+      "type": "string",
+      "minLength": 60
+    },
+    "sourceRefIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "review": {
+      "type": "object"
+    },
+    "conceptIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "learningContract": {
+      "type": "object",
+      "required": [
+        "teachingQuestion",
+        "misconception",
+        "form",
+        "formRationale",
+        "focalInsight",
+        "conceptIds",
+        "relationships",
+        "intentionalOmissions",
+        "retrievalPrompt",
+        "textFallback",
+        "sourceRefIds",
+        "mapNodeId"
+      ]
+    }
+  }
+}

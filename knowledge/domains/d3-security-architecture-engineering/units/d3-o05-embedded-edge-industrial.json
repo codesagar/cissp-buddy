@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-embedded-edge-industrial",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.5"
+  ],
+  "title": "Assess embedded, edge, IoT, HPC, and industrial-system constraints",
+  "summary": "Embedded, IoT, edge, high-performance, and industrial systems combine constrained update paths, long service lives, remote physical exposure, safety or availability consequences, and specialized interfaces. Security decisions must respect those constraints while reducing unauthorized command, data, and management paths.",
+  "outcome": "Assess IoT, embedded, edge, industrial, and high-performance constraints and recommend segmentation, identity, update, monitoring, and recovery controls appropriate to the consequence.",
+  "conceptIds": [
+    "iot-security",
+    "embedded-security",
+    "edge-computing",
+    "industrial-control-systems",
+    "hpc-security",
+    "segmentation",
+    "secure-update",
+    "safety",
+    "availability",
+    "asset-inventory",
+    "hpc",
+    "scheduler-authority",
+    "shared-storage"
+  ],
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d3-o05-architecture-vulnerabilities",
+    "d1-o07-business-continuity-requirements"
+  ],
+  "estimatedMinutes": 50,
+  "managerMindset": "Where safety or essential availability matters, the right answer balances security with an understood operational consequence. Do not impose enterprise controls blindly; define approved access, safe change, isolation, and recovery with operators.",
+  "sections": [
+    {
+      "id": "constrained-assets",
+      "title": "Inventory constraints before prescribing controls",
+      "body": "Embedded and IoT devices may have limited memory, long replacement cycles, vendor-controlled firmware, weak local interfaces, and physical exposure. Edge systems process data near a source and may operate intermittently or outside a managed facility. HPC environments add high-bandwidth sharing, scheduler authority, specialized nodes, and valuable research or modeling workloads. Maintain an inventory, ownership, supported versions, interfaces, data sensitivity, update method, and failure consequence; without those facts, an apparent control can cause outage or leave an unmanaged exposure.",
+      "keyPoints": [
+        "A device that cannot be patched needs compensating controls and a lifecycle decision.",
+        "Physical access, firmware, and management interfaces are material boundaries for constrained systems."
+      ],
+      "sourceRefIds": [
+        "d3-o05-constrained-outline",
+        "d3-o05-constrained-textbook",
+        "d3-o05-constrained-sybex"
+      ]
+    },
+    {
+      "id": "industrial-safety",
+      "title": "Separate enterprise and industrial consequences",
+      "body": "Industrial control systems connect sensors, controllers, engineering workstations, and processes whose unsafe command or unavailable operation can affect people, equipment, environment, and production. Segment zones and conduits, restrict remote and engineering access, use approved change windows, protect backups and known-good configurations, monitor safely, and coordinate with operations. Security monitoring or scanning that is acceptable on enterprise IT may be unsafe or unsupported on an operational technology component, so validate tools and escalation procedures with accountable operators.",
+      "keyPoints": [
+        "Safety, process integrity, and availability may be primary consequences in ICS.",
+        "Segmentation and controlled access reduce exposure without assuming every legacy component can be changed."
+      ],
+      "sourceRefIds": [
+        "d3-o05-constrained-textbook",
+        "d3-o05-constrained-sybex"
+      ]
+    },
+    {
+      "id": "updates-recovery",
+      "title": "Build trusted update and recovery paths",
+      "body": "Secure deployment requires authenticated updates, integrity validation, protected signing or approval authority, rollback or recovery planning, and an inventory of deployed versions. For remote or intermittent assets, decide how a failed update is detected and recovered without widening access. Separate operator, maintainer, and remote-support roles; use least privilege and time-bounded access where feasible. Record telemetry that helps detect unsafe commands or configuration drift, but ensure collection and response do not disrupt a critical process.",
+      "keyPoints": [
+        "A signed update is valuable only if the validation and signing-key paths are protected.",
+        "Recovery must restore a trusted configuration, not merely reconnect the device."
+      ],
+      "sourceRefIds": [
+        "d3-o05-outline",
+        "d3-o05-constrained-textbook",
+        "d3-o05-constrained-sybex"
+      ]
+    },
+    {
+      "id": "hpc-scheduler-data-and-tenant-boundaries",
+      "title": "Secure the scheduler, shared fabric, and high-value workload boundary",
+      "body": "High-performance computing coordinates many processors, specialized nodes, high-bandwidth interconnects, shared storage, and often a scheduler that allocates resources among projects or tenants. Start with the workload’s sensitivity, export or publication restrictions, users, data path, node image, scheduler authority, shared storage, interconnect, and external/cloud dependency. Constrain scheduler and cluster-administrator authority, separate projects or tenants where risk requires it, protect credentials and job artifacts, monitor allocation and unusual data movement, and define recovery for a failed node or compromised job. The failure is treating throughput as the only requirement: a broad scheduler role or shared storage path can expose multiple workloads.",
+      "keyPoints": [
+        "The scheduler is both an availability and authorization control point.",
+        "High bandwidth and shared storage can amplify exfiltration and integrity consequences."
+      ],
+      "sourceRefIds": [
+        "d3-o05-constrained-textbook"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Remote water-treatment telemetry",
+      "situation": "Field sensors report to an edge gateway that can receive vendor firmware updates and is reachable by support staff.",
+      "reasoning": "Inventory devices and interfaces; segment field, control, and enterprise networks; require approved remote access through a monitored jump path; validate signed firmware with protected signing authority; stage and test updates with operators; protect gateway configuration backups; and define a safe manual or local recovery mode.",
+      "takeaway": "The design protects safety and operations by reducing command and update authority rather than assuming frequent endpoint patching."
+    },
+    {
+      "title": "Shared climate-model cluster",
+      "situation": "Two research groups submit workloads to a shared cluster containing export-controlled input data.",
+      "reasoning": "Map project identities, scheduler roles, job queues, node images, shared storage and outbound paths. Separate projects according to data rules, limit scheduler/admin authority, protect job artifacts, monitor allocation and transfer events, and define response for a compromised node.",
+      "takeaway": "A scheduler and shared storage are security boundaries as well as performance resources."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "IT availability",
+      "b": "ICS safety and process availability",
+      "difference": "Both value continuity, but an industrial action can have immediate physical consequences; change, scanning, response, and recovery decisions require operational safety authority."
+    },
+    {
+      "a": "Edge device",
+      "b": "Cloud workload",
+      "difference": "An edge device may be physically exposed, intermittently connected, and difficult to update, whereas a cloud workload usually has different provider and management-plane dependencies."
+    },
+    {
+      "a": "Compute-node compromise",
+      "b": "Scheduler compromise",
+      "difference": "A compromised compute node may expose its assigned workload; a compromised scheduler can alter allocation, job execution, and access across many users or nodes."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A device that cannot be patched is automatically acceptable if it is isolated once.",
+      "correction": "Isolation can be a compensating control, but it must be maintained with asset inventory, controlled access, monitoring, recovery, lifecycle ownership, and reassessment of exposed interfaces."
+    },
+    {
+      "claim": "HPC security is only a performance and availability concern.",
+      "correction": "Schedulers, shared storage, job artifacts, administrator roles, data movement, and multi-project access can create confidentiality and integrity failures at scale."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What information makes a constrained-device risk decision actionable?",
+      "answer": "Owner, version and support state, interfaces, data or process consequence, update method, access paths, compensating controls, and recovery plan."
+    },
+    {
+      "prompt": "Why coordinate ICS security testing with operators?",
+      "answer": "Active testing or change can disrupt a physical process, violate support constraints, or create a safety hazard."
+    },
+    {
+      "prompt": "Why is an HPC scheduler a high-value security control point?",
+      "answer": "It allocates shared resources and can affect many jobs, identities, nodes, and data paths; compromise can expand beyond one workload."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A vendor asks for permanent direct remote access to an industrial controller to speed support. What is the defensible alternative?",
+      "decisiveDetail": "Use a controlled, approved, monitored, time-bounded support path with accountable operator authorization and segmentation rather than a standing unrestricted connection.",
+      "testedConceptIds": [
+        "industrial-control-systems",
+        "remote-access",
+        "segmentation",
+        "least-privilege"
+      ]
+    },
+    {
+      "prompt": "A scheduler service account may read every project queue and shared storage location. What must the design decide?",
+      "decisiveDetail": "Whether that authority is necessary, how it is constrained and monitored, what tenant/data separation is required, and how compromise is contained and recovered.",
+      "testedConceptIds": [
+        "hpc",
+        "scheduler-authority",
+        "shared-storage"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare the update, access, and failure constraints of an IoT sensor, edge gateway, and industrial controller.",
+    "connect": "Connect D1 continuity, D3 secure design, D4 segmentation, D7 change and incident operations.",
+    "apply": "Write compensating controls for an unpatchable device.",
+    "revisit": "In three days, explain why a secure update path needs both authenticity and recovery."
+  },
+  "visualIds": [
+    "d3-o05-embedded-edge-industrial-concept-comparison-1",
+    "d3-o05-embedded-edge-industrial-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o05-constrained-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5: ICS, IoT, embedded, HPC, edge, virtualized systems"
+      },
+      "supports": [
+        "objective-boundary",
+        "constrained-and-industrial-topics"
+      ]
+    },
+    {
+      "id": "d3-o05-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o05-constrained-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "26-44",
+        "pdfPage": "26-44",
+        "note": "Domain 3 architecture-vulnerability range; printed page is the citation anchor."
+      },
+      "supports": [
+        "ics-iot-embedded-edge-risk",
+        "secure-update-and-segmentation"
+      ]
+    },
+    {
+      "id": "d3-o05-constrained-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 9, Security Vulnerabilities, Threats, and Countermeasures, pp. 353-446"
+      },
+      "supports": [
+        "ics-iot-and-platform-vulnerability-correlation"
+      ],
+      "sourceNotes": "Broad secondary locator requires section-level refinement; this unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o05-embedded-edge-industrial-visual-contract",
+    "unitId": "d3-o05-embedded-edge-industrial",
+    "teachingQuestion": "Which operational constraint governs the safe control choice for this device, OT, edge, or HPC system?",
+    "misconception": "Enterprise scanning or patching is safe on every operational technology asset.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+    "conceptIds": [
+      "iot-security",
+      "embedded-security",
+      "edge-computing",
+      "industrial-control-systems",
+      "hpc-security",
+      "segmentation",
+      "secure-update",
+      "safety",
+      "availability",
+      "asset-inventory",
+      "hpc",
+      "scheduler-authority",
+      "shared-storage"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Given an intermittent or safety-sensitive system, state the secure update or segmentation decision.",
+    "textFallback": "Embedded, IoT, edge, high-performance, and industrial systems combine constrained update paths, long service lives, remote physical exposure, safety or availability consequences, and specialized interfaces. Security decisions must respect those constraints while reducing unauthorized command, data, and management paths.\nInventory devices and interfaces; segment field, control, and enterprise networks; require approved remote access through a monitored jump path; validate signed firmware with protected signing authority; stage and test updates with operators; protect gateway configuration backups; and define a safe manual or local recovery mode.",
+    "sourceRefIds": [
+      "d3-o05-constrained-textbook",
+      "d3-o05-constrained-sybex"
+    ],
+    "mapNodeId": "d3-o05-embedded-edge-industrial",
+    "visualIds": [
+      "d3-o05-embedded-edge-industrial-concept-comparison-1",
+      "d3-o05-embedded-edge-industrial-concept-comparison-2"
+    ]
+  }
+}

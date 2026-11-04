@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-platform-data-architecture-concept-comparison-1",
+  "unitId": "d3-o05-platform-data-architecture",
+  "type": "table",
+  "title": "Assess platform, data, and distributed-system trust boundaries: concept decisions 1",
+  "teachingQuestion": "Which client, server, data, distributed, or management boundary must enforce this decision?",
+  "focalInsight": "Authoritative server-side and management-plane controls must constrain every high-impact path.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Client Security",
+      "conceptIds": [
+        "client-security"
+      ],
+      "definition": "Protection of endpoint execution, local data, credentials, patch state, and user interaction.",
+      "detail": "Protection of endpoint execution, local data, credentials, patch state, and user interaction.",
+      "decision": "Choose endpoint management, anti-malware, updates, local-data protection, and network controls by exposure.",
+      "failureExample": "A stolen thick client retains sensitive files and malware pivots to a server.",
+      "retrievalAnswer": "Client risk includes local compromise and a path into connected systems.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Server Security",
+      "conceptIds": [
+        "server-security"
+      ],
+      "definition": "Protection of centrally managed service systems, their privileged administration, and support paths.",
+      "detail": "Protection of centrally managed service systems, their privileged administration, and support paths.",
+      "decision": "Assess patchability, redundancy, physical/logistics access, monitoring volume, and service role.",
+      "failureExample": "An unsupported server stays unpatched because no redundant maintenance window exists.",
+      "retrievalAnswer": "Server availability design can remove the reason to defer critical patches.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Database Security",
+      "conceptIds": [
+        "database-security"
+      ],
+      "definition": "Protection of database data, DBMS interfaces, service identities, backups, and administrator paths.",
+      "detail": "Protection of database data, DBMS interfaces, service identities, backups, and administrator paths.",
+      "decision": "Control authorization, queries, input, replication, backups, logs, and separation of duties.",
+      "failureExample": "A malformed query bypasses controls on high-value records.",
+      "retrievalAnswer": "Database security covers data paths and privilege paths.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Cryptographic System",
+      "conceptIds": [
+        "cryptographic-system"
+      ],
+      "definition": "System of algorithms, keys, protocols, trust validation, and recovery dependencies.",
+      "detail": "System of algorithms, keys, protocols, trust validation, and recovery dependencies.",
+      "decision": "Select proven solutions by data state, performance, key distribution, trust, and endpoint assumptions.",
+      "failureExample": "A team invents encryption and leaves its bulk-encryption key distribution exposed.",
+      "retrievalAnswer": "Use well-tested crypto and design the key and recovery system.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Distributed System",
+      "conceptIds": [
+        "distributed-system"
+      ],
+      "definition": "Cooperating nodes that exchange identity, state, time, and work across imperfect networks.",
+      "detail": "Cooperating nodes that exchange identity, state, time, and work across imperfect networks.",
+      "decision": "Plan for partial failure, replay, inconsistent state, dependency loss, and observability.",
+      "failureExample": "A retry after timeout repeats an authorization-sensitive transaction.",
+      "retrievalAnswer": "Distributed failure behavior is a security design condition.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Trust Boundary",
+      "conceptIds": [
+        "trust-boundary"
+      ],
+      "definition": "Point where a different actor, privilege, data classification, or control assumption begins.",
+      "detail": "Point where a different actor, privilege, data classification, or control assumption begins.",
+      "decision": "Identify boundary crossings before granting access or accepting data.",
+      "failureExample": "An application treats a browser-supplied role as trustworthy.",
+      "retrievalAnswer": "A boundary needs validation and an authoritative decision.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Management Plane",
+      "conceptIds": [
+        "management-plane"
+      ],
+      "definition": "Privileged interfaces and workflows used to configure or administer systems.",
+      "detail": "Privileged interfaces and workflows used to configure or administer systems.",
+      "decision": "Protect with strong attributable authentication, segmentation, least privilege, logs, and review.",
+      "failureExample": "One console edits production guests, templates, and virtual switches.",
+      "retrievalAnswer": "Management authority can have a larger blast radius than a workload.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Segmentation",
+      "conceptIds": [
+        "segmentation"
+      ],
+      "definition": "Policy-enforced separation that limits unwanted communication across zones.",
+      "detail": "Policy-enforced separation that limits unwanted communication across zones.",
+      "decision": "Use when client, server, management, database, or tenant paths need distinct reachability.",
+      "failureExample": "A compromised client reaches the database management port directly.",
+      "retrievalAnswer": "Segment both the workload path and the privileged path.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Service Account Management",
+      "conceptIds": [
+        "service-account-management"
+      ],
+      "definition": "Creation, scoping, rotation, attribution, and review of nonhuman service identities.",
+      "detail": "Creation, scoping, rotation, attribution, and review of nonhuman service identities.",
+      "decision": "Give each service only needed permissions and avoid shared broad credentials.",
+      "failureExample": "All APIs use one unrestricted database account.",
+      "retrievalAnswer": "Service accounts need least privilege and accountability too.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "client-security",
+    "server-security",
+    "database-security",
+    "cryptographic-system",
+    "distributed-system",
+    "trust-boundary",
+    "management-plane",
+    "segmentation",
+    "service-account-management"
+  ],
+  "altSummary": "Authoritative server-side and management-plane controls must constrain every high-impact path.",
+  "textFallback": "client security: Protection of endpoint execution, local data, credentials, patch state, and user interaction. Decide: Choose endpoint management, anti-malware, updates, local-data protection, and network controls by exposure. Example/failure: A stolen thick client retains sensitive files and malware pivots to a server. Retrieve: Client risk includes local compromise and a path into connected systems.\nserver security: Protection of centrally managed service systems, their privileged administration, and support paths. Decide: Assess patchability, redundancy, physical/logistics access, monitoring volume, and service role. Example/failure: An unsupported server stays unpatched because no redundant maintenance window exists. Retrieve: Server availability design can remove the reason to defer critical patches.\ndatabase security: Protection of database data, DBMS interfaces, service identities, backups, and administrator paths. Decide: Control authorization, queries, input, replication, backups, logs, and separation of duties. Example/failure: A malformed query bypasses controls on high-value records. Retrieve: Database security covers data paths and privilege paths.\ncryptographic system: System of algorithms, keys, protocols, trust validation, and recovery dependencies. Decide: Select proven solutions by data state, performance, key distribution, trust, and endpoint assumptions. Example/failure: A team invents encryption and leaves its bulk-encryption key distribution exposed. Retrieve: Use well-tested crypto and design the key and recovery system.\ndistributed system: Cooperating nodes that exchange identity, state, time, and work across imperfect networks. Decide: Plan for partial failure, replay, inconsistent state, dependency loss, and observability. Example/failure: A retry after timeout repeats an authorization-sensitive transaction. Retrieve: Distributed failure behavior is a security design condition.\ntrust boundary: Point where a different actor, privilege, data classification, or control assumption begins. Decide: Identify boundary crossings before granting access or accepting data. Example/failure: An application treats a browser-supplied role as trustworthy. Retrieve: A boundary needs validation and an authoritative decision.\nmanagement plane: Privileged interfaces and workflows used to configure or administer systems. Decide: Protect with strong attributable authentication, segmentation, least privilege, logs, and review. Example/failure: One console edits production guests, templates, and virtual switches. Retrieve: Management authority can have a larger blast radius than a workload.\nsegmentation: Policy-enforced separation that limits unwanted communication across zones. Decide: Use when client, server, management, database, or tenant paths need distinct reachability. Example/failure: A compromised client reaches the database management port directly. Retrieve: Segment both the workload path and the privileged path.\nservice account management: Creation, scoping, rotation, attribution, and review of nonhuman service identities. Decide: Give each service only needed permissions and avoid shared broad credentials. Example/failure: All APIs use one unrestricted database account. Retrieve: Service accounts need least privilege and accountability too.",
+  "sourceRefIds": [
+    "d3-o05-platform-textbook",
+    "d3-o05-platform-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which client, server, data, distributed, or management boundary must enforce this decision?",
+    "misconception": "Internal location, encrypted storage, or VM separation makes the full path trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Authoritative server-side and management-plane controls must constrain every high-impact path.",
+    "conceptIds": [
+      "client-security",
+      "server-security",
+      "database-security",
+      "cryptographic-system",
+      "distributed-system",
+      "trust-boundary",
+      "management-plane",
+      "segmentation",
+      "service-account-management"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For a client-to-server request, state the authoritative authorization point and one privileged bypass path.",
+    "textFallback": "client security: Protection of endpoint execution, local data, credentials, patch state, and user interaction. Decide: Choose endpoint management, anti-malware, updates, local-data protection, and network controls by exposure. Example/failure: A stolen thick client retains sensitive files and malware pivots to a server. Retrieve: Client risk includes local compromise and a path into connected systems.\nserver security: Protection of centrally managed service systems, their privileged administration, and support paths. Decide: Assess patchability, redundancy, physical/logistics access, monitoring volume, and service role. Example/failure: An unsupported server stays unpatched because no redundant maintenance window exists. Retrieve: Server availability design can remove the reason to defer critical patches.\ndatabase security: Protection of database data, DBMS interfaces, service identities, backups, and administrator paths. Decide: Control authorization, queries, input, replication, backups, logs, and separation of duties. Example/failure: A malformed query bypasses controls on high-value records. Retrieve: Database security covers data paths and privilege paths.\ncryptographic system: System of algorithms, keys, protocols, trust validation, and recovery dependencies. Decide: Select proven solutions by data state, performance, key distribution, trust, and endpoint assumptions. Example/failure: A team invents encryption and leaves its bulk-encryption key distribution exposed. Retrieve: Use well-tested crypto and design the key and recovery system.\ndistributed system: Cooperating nodes that exchange identity, state, time, and work across imperfect networks. Decide: Plan for partial failure, replay, inconsistent state, dependency loss, and observability. Example/failure: A retry after timeout repeats an authorization-sensitive transaction. Retrieve: Distributed failure behavior is a security design condition.\ntrust boundary: Point where a different actor, privilege, data classification, or control assumption begins. Decide: Identify boundary crossings before granting access or accepting data. Example/failure: An application treats a browser-supplied role as trustworthy. Retrieve: A boundary needs validation and an authoritative decision.\nmanagement plane: Privileged interfaces and workflows used to configure or administer systems. Decide: Protect with strong attributable authentication, segmentation, least privilege, logs, and review. Example/failure: One console edits production guests, templates, and virtual switches. Retrieve: Management authority can have a larger blast radius than a workload.\nsegmentation: Policy-enforced separation that limits unwanted communication across zones. Decide: Use when client, server, management, database, or tenant paths need distinct reachability. Example/failure: A compromised client reaches the database management port directly. Retrieve: Segment both the workload path and the privileged path.\nservice account management: Creation, scoping, rotation, attribution, and review of nonhuman service identities. Decide: Give each service only needed permissions and avoid shared broad credentials. Example/failure: All APIs use one unrestricted database account. Retrieve: Service accounts need least privilege and accountability too.",
+    "sourceRefIds": [
+      "d3-o05-platform-textbook",
+      "d3-o05-platform-sybex"
+    ],
+    "mapNodeId": "d3-o05-platform-data-architecture"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

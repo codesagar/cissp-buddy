@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-embedded-edge-industrial-concept-comparison-2",
+  "unitId": "d3-o05-embedded-edge-industrial",
+  "type": "table",
+  "title": "Assess embedded, edge, IoT, HPC, and industrial-system constraints: concept decisions 2",
+  "teachingQuestion": "Which operational constraint governs the safe control choice for this device, OT, edge, or HPC system?",
+  "focalInsight": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Asset Inventory",
+      "conceptIds": [
+        "asset-inventory"
+      ],
+      "definition": "Current record of assets, owner, version, interfaces, and lifecycle status.",
+      "detail": "Current record of assets, owner, version, interfaces, and lifecycle status.",
+      "decision": "Create it before selecting device, OT, or HPC controls.",
+      "failureExample": "A vulnerable remote device remains unseen after its vendor support ends.",
+      "retrievalAnswer": "You cannot manage a system whose identity and ownership are unknown.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Hpc",
+      "conceptIds": [
+        "hpc"
+      ],
+      "definition": "Computing environment combining many processors, specialized nodes, shared storage, and fast interconnects.",
+      "detail": "Computing environment combining many processors, specialized nodes, shared storage, and fast interconnects.",
+      "decision": "Treat allocation, fabric, storage, job data, and external dependencies as boundaries.",
+      "failureExample": "A shared high-speed storage path exposes unpublished research data.",
+      "retrievalAnswer": "HPC’s scale can amplify data movement and privilege consequence.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Scheduler Authority",
+      "conceptIds": [
+        "scheduler-authority"
+      ],
+      "definition": "Authority to allocate HPC resources, submit or alter jobs, and influence workload execution.",
+      "detail": "Authority to allocate HPC resources, submit or alter jobs, and influence workload execution.",
+      "decision": "Constrain, attribute, review, and separate scheduler administration from ordinary users.",
+      "failureExample": "A scheduler administrator changes another project’s job or node assignment.",
+      "retrievalAnswer": "The scheduler is an authorization and availability control point.",
+      "tier": "B"
+    },
+    {
+      "id": "row-4",
+      "label": "Shared Storage",
+      "conceptIds": [
+        "shared-storage"
+      ],
+      "definition": "Storage accessed by multiple nodes, jobs, projects, or tenants.",
+      "detail": "Storage accessed by multiple nodes, jobs, projects, or tenants.",
+      "decision": "Apply project separation, access control, encryption where appropriate, monitoring, and backup policy.",
+      "failureExample": "A job writes sensitive output to a world-readable shared directory.",
+      "retrievalAnswer": "Shared storage needs explicit tenant and data boundaries.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "asset-inventory",
+    "hpc",
+    "scheduler-authority",
+    "shared-storage"
+  ],
+  "altSummary": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+  "textFallback": "asset inventory: Current record of assets, owner, version, interfaces, and lifecycle status. Decide: Create it before selecting device, OT, or HPC controls. Example/failure: A vulnerable remote device remains unseen after its vendor support ends. Retrieve: You cannot manage a system whose identity and ownership are unknown.\nhpc: Computing environment combining many processors, specialized nodes, shared storage, and fast interconnects. Decide: Treat allocation, fabric, storage, job data, and external dependencies as boundaries. Example/failure: A shared high-speed storage path exposes unpublished research data. Retrieve: HPC’s scale can amplify data movement and privilege consequence.\nscheduler authority: Authority to allocate HPC resources, submit or alter jobs, and influence workload execution. Decide: Constrain, attribute, review, and separate scheduler administration from ordinary users. Example/failure: A scheduler administrator changes another project’s job or node assignment. Retrieve: The scheduler is an authorization and availability control point.\nshared storage: Storage accessed by multiple nodes, jobs, projects, or tenants. Decide: Apply project separation, access control, encryption where appropriate, monitoring, and backup policy. Example/failure: A job writes sensitive output to a world-readable shared directory. Retrieve: Shared storage needs explicit tenant and data boundaries.",
+  "sourceRefIds": [
+    "d3-o05-constrained-textbook",
+    "d3-o05-constrained-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which operational constraint governs the safe control choice for this device, OT, edge, or HPC system?",
+    "misconception": "Enterprise scanning or patching is safe on every operational technology asset.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+    "conceptIds": [
+      "asset-inventory",
+      "hpc",
+      "scheduler-authority",
+      "shared-storage"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Given an intermittent or safety-sensitive system, state the secure update or segmentation decision.",
+    "textFallback": "asset inventory: Current record of assets, owner, version, interfaces, and lifecycle status. Decide: Create it before selecting device, OT, or HPC controls. Example/failure: A vulnerable remote device remains unseen after its vendor support ends. Retrieve: You cannot manage a system whose identity and ownership are unknown.\nhpc: Computing environment combining many processors, specialized nodes, shared storage, and fast interconnects. Decide: Treat allocation, fabric, storage, job data, and external dependencies as boundaries. Example/failure: A shared high-speed storage path exposes unpublished research data. Retrieve: HPC’s scale can amplify data movement and privilege consequence.\nscheduler authority: Authority to allocate HPC resources, submit or alter jobs, and influence workload execution. Decide: Constrain, attribute, review, and separate scheduler administration from ordinary users. Example/failure: A scheduler administrator changes another project’s job or node assignment. Retrieve: The scheduler is an authorization and availability control point.\nshared storage: Storage accessed by multiple nodes, jobs, projects, or tenants. Decide: Apply project separation, access control, encryption where appropriate, monitoring, and backup policy. Example/failure: A job writes sensitive output to a world-readable shared directory. Retrieve: Shared storage needs explicit tenant and data boundaries.",
+    "sourceRefIds": [
+      "d3-o05-constrained-textbook",
+      "d3-o05-constrained-sybex"
+    ],
+    "mapNodeId": "d3-o05-embedded-edge-industrial"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-network-segmentation-trust-zones-concept-comparison-1",
+  "unitId": "d4-o01-network-segmentation-trust-zones",
+  "type": "table",
+  "title": "Design network segmentation and trust zones: concept decisions 1",
+  "teachingQuestion": "Where should this flow cross a trust boundary, what policy permits it, and how will a bypass or failure be detected?",
+  "focalInsight": "A zone is a defined trust purpose plus enforced, observable crossings; VLANs and tunnels are mechanisms, not the purpose itself.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Trust Zone",
+      "conceptIds": [
+        "trust-zone"
+      ],
+      "definition": "Grouping with a stated trust/business purpose, assets, identities, permitted flows, owners, and failure consequences.",
+      "detail": "Grouping with a stated trust/business purpose, assets, identities, permitted flows, owners, and failure consequences.",
+      "decision": "Create a zone when its trust requirement differs; document crossings and exceptions.",
+      "failureExample": "An undefined “secure zone” cannot support consistent allow/deny decisions.",
+      "retrievalAnswer": "A zone needs purpose, assets, identities, crossings, and owner.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Network Segmentation",
+      "conceptIds": [
+        "network-segmentation"
+      ],
+      "definition": "Physical or logical restriction of communication between zones to reduce reachability and blast radius.",
+      "detail": "Physical or logical restriction of communication between zones to reduce reachability and blast radius.",
+      "decision": "Place enforcement on real crossings and test allowed, denied, and failure behavior.",
+      "failureExample": "A segmented diagram with an unfiltered routing path leaves lateral movement intact.",
+      "retrievalAnswer": "Segmentation works only at enforced crossings.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Micro Segmentation",
+      "conceptIds": [
+        "micro-segmentation"
+      ],
+      "definition": "Workload/identity-level policy that limits east-west communication beyond coarse network zones.",
+      "detail": "Workload/identity-level policy that limits east-west communication beyond coarse network zones.",
+      "decision": "Use for high-value or mixed-trust workloads; maintain service identity, policy lifecycle, and telemetry.",
+      "failureExample": "One compromised pod reaches peer services because the whole subnet is allowed.",
+      "retrievalAnswer": "Micro-segmentation limits workload-to-workload reachability.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Traffic Flows",
+      "conceptIds": [
+        "traffic-flows"
+      ],
+      "definition": "Specified source, destination, service, direction, identity, and path relationships that a zone policy evaluates.",
+      "detail": "Specified source, destination, service, direction, identity, and path relationships that a zone policy evaluates.",
+      "decision": "Inventory before policy; remove stale flows and verify dependency changes.",
+      "failureExample": "A forgotten backup path becomes an unmonitored bridge across zones.",
+      "retrievalAnswer": "A flow description states who talks to what, why, and through which enforcement.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Zero Trust",
+      "conceptIds": [
+        "zero-trust"
+      ],
+      "definition": "Design approach that continuously evaluates identity, device/context, and policy rather than assuming network location grants trust.",
+      "detail": "Design approach that continuously evaluates identity, device/context, and policy rather than assuming network location grants trust.",
+      "decision": "Apply explicit verification and least privilege at each requested resource/action while planning availability and telemetry.",
+      "failureExample": "A user on a corporate subnet receives broad access because location is treated as sufficient trust.",
+      "retrievalAnswer": "Zero trust verifies access per request/context, not merely network location.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Vlan",
+      "conceptIds": [
+        "vlan"
+      ],
+      "definition": "Layer-2 logical LAN segmentation on switching infrastructure.",
+      "detail": "Layer-2 logical LAN segmentation on switching infrastructure.",
+      "decision": "Use with inter-VLAN routing/ACL policy, trunk controls, management protection, and monitoring.",
+      "failureExample": "Putting systems in different VLANs without controlling the router between them does not block communication.",
+      "retrievalAnswer": "A VLAN separates Layer-2 broadcast domains; Layer-3 policy still matters.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "VPN",
+      "conceptIds": [
+        "vpn"
+      ],
+      "definition": "Protected logical tunnel connecting users/sites/networks through defined endpoints and traffic selectors.",
+      "detail": "Protected logical tunnel connecting users/sites/networks through defined endpoints and traffic selectors.",
+      "decision": "Verify authentication, endpoint trust, split/full routing, authorization, logs, and termination boundary.",
+      "failureExample": "A VPN grants a remote device broad internal reachability despite lacking device posture.",
+      "retrievalAnswer": "A VPN is a protected path, not blanket trust.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Vrf",
+      "conceptIds": [
+        "vrf"
+      ],
+      "definition": "Virtual routing/forwarding instances that keep route tables and forwarding domains logically separate.",
+      "detail": "Virtual routing/forwarding instances that keep route tables and forwarding domains logically separate.",
+      "decision": "Use for tenant/site separation while controlling route leaking, management, and monitoring.",
+      "failureExample": "An unintended route leak connects two customer/zone routing domains.",
+      "retrievalAnswer": "VRF separates routing tables; review route-leak exceptions.",
+      "tier": "B"
+    },
+    {
+      "id": "row-9",
+      "label": "Air Gap",
+      "conceptIds": [
+        "air-gap"
+      ],
+      "definition": "Physical/logical separation intended to remove ordinary network paths between environments.",
+      "detail": "Physical/logical separation intended to remove ordinary network paths between environments.",
+      "decision": "Use only with controlled transfer, maintenance, media, and verification procedures; validate no hidden bridge exists.",
+      "failureExample": "A dual-homed maintenance laptop silently bridges an “air-gapped” environment.",
+      "retrievalAnswer": "Air gap reduces paths; transfer/maintenance paths remain security decisions.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "trust-zone",
+    "network-segmentation",
+    "micro-segmentation",
+    "traffic-flows",
+    "zero-trust",
+    "vlan",
+    "vpn",
+    "vrf",
+    "air-gap"
+  ],
+  "altSummary": "A zone is a defined trust purpose plus enforced, observable crossings; VLANs and tunnels are mechanisms, not the purpose itself.",
+  "textFallback": "trust zone: Grouping with a stated trust/business purpose, assets, identities, permitted flows, owners, and failure consequences. Decide: Create a zone when its trust requirement differs; document crossings and exceptions. Example/failure: An undefined “secure zone” cannot support consistent allow/deny decisions. Retrieve: A zone needs purpose, assets, identities, crossings, and owner.\nnetwork segmentation: Physical or logical restriction of communication between zones to reduce reachability and blast radius. Decide: Place enforcement on real crossings and test allowed, denied, and failure behavior. Example/failure: A segmented diagram with an unfiltered routing path leaves lateral movement intact. Retrieve: Segmentation works only at enforced crossings.\nmicro segmentation: Workload/identity-level policy that limits east-west communication beyond coarse network zones. Decide: Use for high-value or mixed-trust workloads; maintain service identity, policy lifecycle, and telemetry. Example/failure: One compromised pod reaches peer services because the whole subnet is allowed. Retrieve: Micro-segmentation limits workload-to-workload reachability.\ntraffic flows: Specified source, destination, service, direction, identity, and path relationships that a zone policy evaluates. Decide: Inventory before policy; remove stale flows and verify dependency changes. Example/failure: A forgotten backup path becomes an unmonitored bridge across zones. Retrieve: A flow description states who talks to what, why, and through which enforcement.\nzero trust: Design approach that continuously evaluates identity, device/context, and policy rather than assuming network location grants trust. Decide: Apply explicit verification and least privilege at each requested resource/action while planning availability and telemetry. Example/failure: A user on a corporate subnet receives broad access because location is treated as sufficient trust. Retrieve: Zero trust verifies access per request/context, not merely network location.\nvlan: Layer-2 logical LAN segmentation on switching infrastructure. Decide: Use with inter-VLAN routing/ACL policy, trunk controls, management protection, and monitoring. Example/failure: Putting systems in different VLANs without controlling the router between them does not block communication. Retrieve: A VLAN separates Layer-2 broadcast domains; Layer-3 policy still matters.\nvpn: Protected logical tunnel connecting users/sites/networks through defined endpoints and traffic selectors. Decide: Verify authentication, endpoint trust, split/full routing, authorization, logs, and termination boundary. Example/failure: A VPN grants a remote device broad internal reachability despite lacking device posture. Retrieve: A VPN is a protected path, not blanket trust.\nvrf: Virtual routing/forwarding instances that keep route tables and forwarding domains logically separate. Decide: Use for tenant/site separation while controlling route leaking, management, and monitoring. Example/failure: An unintended route leak connects two customer/zone routing domains. Retrieve: VRF separates routing tables; review route-leak exceptions.\nair gap: Physical/logical separation intended to remove ordinary network paths between environments. Decide: Use only with controlled transfer, maintenance, media, and verification procedures; validate no hidden bridge exists. Example/failure: A dual-homed maintenance laptop silently bridges an “air-gapped” environment. Retrieve: Air gap reduces paths; transfer/maintenance paths remain security decisions.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-597-645"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Where should this flow cross a trust boundary, what policy permits it, and how will a bypass or failure be detected?",
+    "misconception": "Segmentation is accomplished merely by naming a VLAN or installing a firewall.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "A zone is a defined trust purpose plus enforced, observable crossings; VLANs and tunnels are mechanisms, not the purpose itself.",
+    "conceptIds": [
+      "trust-zone",
+      "network-segmentation",
+      "micro-segmentation",
+      "traffic-flows",
+      "zero-trust",
+      "vlan",
+      "vpn",
+      "vrf",
+      "air-gap"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Where should this flow cross a trust boundary, what policy permits it, and how will a bypass or failure be detected?",
+    "textFallback": "trust zone: Grouping with a stated trust/business purpose, assets, identities, permitted flows, owners, and failure consequences. Decide: Create a zone when its trust requirement differs; document crossings and exceptions. Example/failure: An undefined “secure zone” cannot support consistent allow/deny decisions. Retrieve: A zone needs purpose, assets, identities, crossings, and owner.\nnetwork segmentation: Physical or logical restriction of communication between zones to reduce reachability and blast radius. Decide: Place enforcement on real crossings and test allowed, denied, and failure behavior. Example/failure: A segmented diagram with an unfiltered routing path leaves lateral movement intact. Retrieve: Segmentation works only at enforced crossings.\nmicro segmentation: Workload/identity-level policy that limits east-west communication beyond coarse network zones. Decide: Use for high-value or mixed-trust workloads; maintain service identity, policy lifecycle, and telemetry. Example/failure: One compromised pod reaches peer services because the whole subnet is allowed. Retrieve: Micro-segmentation limits workload-to-workload reachability.\ntraffic flows: Specified source, destination, service, direction, identity, and path relationships that a zone policy evaluates. Decide: Inventory before policy; remove stale flows and verify dependency changes. Example/failure: A forgotten backup path becomes an unmonitored bridge across zones. Retrieve: A flow description states who talks to what, why, and through which enforcement.\nzero trust: Design approach that continuously evaluates identity, device/context, and policy rather than assuming network location grants trust. Decide: Apply explicit verification and least privilege at each requested resource/action while planning availability and telemetry. Example/failure: A user on a corporate subnet receives broad access because location is treated as sufficient trust. Retrieve: Zero trust verifies access per request/context, not merely network location.\nvlan: Layer-2 logical LAN segmentation on switching infrastructure. Decide: Use with inter-VLAN routing/ACL policy, trunk controls, management protection, and monitoring. Example/failure: Putting systems in different VLANs without controlling the router between them does not block communication. Retrieve: A VLAN separates Layer-2 broadcast domains; Layer-3 policy still matters.\nvpn: Protected logical tunnel connecting users/sites/networks through defined endpoints and traffic selectors. Decide: Verify authentication, endpoint trust, split/full routing, authorization, logs, and termination boundary. Example/failure: A VPN grants a remote device broad internal reachability despite lacking device posture. Retrieve: A VPN is a protected path, not blanket trust.\nvrf: Virtual routing/forwarding instances that keep route tables and forwarding domains logically separate. Decide: Use for tenant/site separation while controlling route leaking, management, and monitoring. Example/failure: An unintended route leak connects two customer/zone routing domains. Retrieve: VRF separates routing tables; review route-leak exceptions.\nair gap: Physical/logical separation intended to remove ordinary network paths between environments. Decide: Use only with controlled transfer, maintenance, media, and verification procedures; validate no hidden bridge exists. Example/failure: A dual-homed maintenance laptop silently bridges an “air-gapped” environment. Retrieve: Air gap reduces paths; transfer/maintenance paths remain security decisions.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-597-645"
+    ],
+    "mapNodeId": "d4-o01-network-segmentation-trust-zones"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

@@ -1,0 +1,358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cissp-buddy.local/schema/knowledge-unit.schema.json",
+  "title": "CISSP Buddy knowledge unit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "domainId",
+    "objectiveIds",
+    "title",
+    "summary",
+    "outcome",
+    "conceptIds",
+    "prerequisites",
+    "estimatedMinutes",
+    "managerMindset",
+    "sections",
+    "workedExamples",
+    "misconceptions",
+    "recallChecks",
+    "scenarioSeeds",
+    "studyPlan",
+    "visualIds",
+    "sourceRefs",
+    "review"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^d[1-8]-o[0-9]{2}-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "domainId": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "objectiveIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[1-8]\\.[0-9]{1,2}$"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 40
+    },
+    "outcome": {
+      "type": "string",
+      "minLength": 20
+    },
+    "conceptIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 120
+    },
+    "managerMindset": {
+      "type": "string",
+      "minLength": 20
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "body",
+          "keyPoints",
+          "sourceRefIds"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 80
+          },
+          "keyPoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceRefIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "workedExamples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "distinctions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "misconceptions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "recallChecks": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object"
+      }
+    },
+    "scenarioSeeds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "studyPlan": {
+      "type": "object",
+      "required": [
+        "learn",
+        "connect",
+        "apply",
+        "revisit"
+      ],
+      "properties": {
+        "learn": {
+          "type": "string"
+        },
+        "connect": {
+          "type": "string"
+        },
+        "apply": {
+          "type": "string"
+        },
+        "revisit": {
+          "type": "string"
+        }
+      }
+    },
+    "visualIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "sourceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "sourceId",
+          "locator",
+          "supports"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "locator": {
+            "type": "object"
+          },
+          "supports": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceNotes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status",
+        "reviewers",
+        "lastReviewedAt"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "draft",
+            "source-checked",
+            "ai-reviewed",
+            "expert-reviewed",
+            "ready",
+            "needs-correction"
+          ]
+        },
+        "reviewers": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "lastReviewedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "visualLearningContract": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unitId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "teachingQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "misconception": {
+          "type": "string",
+          "minLength": 1
+        },
+        "form": {
+          "type": "string",
+          "minLength": 1
+        },
+        "formRationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "focalInsight": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conceptIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "minItems": 0
+        },
+        "intentionalOmissions": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retrievalPrompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "textFallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "mapNodeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visualIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "unitId",
+        "teachingQuestion",
+        "misconception",
+        "form",
+        "formRationale",
+        "focalInsight",
+        "conceptIds",
+        "relationships",
+        "intentionalOmissions",
+        "retrievalPrompt",
+        "textFallback",
+        "sourceRefIds",
+        "mapNodeId",
+        "visualIds"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

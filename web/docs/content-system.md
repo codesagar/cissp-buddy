@@ -1,6 +1,6 @@
 # CISSP Buddy content system
 
-The main course has eight domains, 90 canonical units, 11 connection cases, and five native labs. It explains 698 distinct concepts across 892 unit/concept occurrences. Its 303 checks directly assess 450 distinct concepts; explanation coverage and assessment coverage are different. The preserved pilot has ten lessons, 97 concepts, 30 practice scenarios, 20 supplemental diagrams, and 30 embedded unscored checks. Content is AI source-checked, not human-expert certified or official ISC2 training.
+The main course has eight domains, 90 canonical units, 11 connection cases, and five native labs. It explains 698 distinct concepts across 892 unit/concept occurrences. Its 303 checks directly assess 448 distinct concepts; explanation coverage and assessment coverage are different. The preserved pilot has ten lessons, 97 concepts, 30 practice scenarios, 20 supplemental diagrams, and 30 embedded unscored checks. Content is AI source-checked, not human-expert certified or official ISC2 training.
 
 ## Authoring and delivery
 

@@ -1,0 +1,301 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o06-controls-compliance",
+  "domainId": 2,
+  "objectiveIds": [
+    "2.6"
+  ],
+  "title": "Select data-security controls and compliance requirements",
+  "summary": "Data controls should be selected from the asset's value, threats, lifecycle, and obligations. Compliance is a constraint and evidence requirement, not a guarantee that risk has disappeared.",
+  "outcome": "Translate a data classification and compliance context into layered administrative, technical, and physical controls with evidence and review criteria.",
+  "conceptIds": [
+    "data-security-controls",
+    "compliance",
+    "privacy",
+    "layered-controls",
+    "control-assurance",
+    "digital-rights-management",
+    "data-loss-prevention",
+    "cloud-access-security-broker",
+    "tailoring"
+  ],
+  "prerequisites": [
+    "d1-o04-legal-compliance",
+    "d1-o09-risk-management",
+    "d2-o01-inventory-classification"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Start with the data and the harm, then choose a defensible combination of controls and evidence; do not confuse a framework checklist with effective protection.",
+  "sections": [
+    {
+      "id": "control-selection",
+      "title": "Match controls to data and risk",
+      "body": "Controls can be administrative, technical, or physical and preventive, detective, corrective, deterrent, compensating, or recovery-oriented. Select them against confidentiality, integrity, availability, privacy, authenticity, and resilience needs. Layering reduces single points of failure: policy and training shape behavior, access and encryption constrain use, monitoring detects misuse, and recovery limits impact.",
+      "keyPoints": [
+        "Control type describes how a control functions; control category describes where or how it is implemented.",
+        "Controls should address the full lifecycle and threat path.",
+        "A compensating control requires documented rationale and equivalent risk treatment, not a vague exception."
+      ],
+      "sourceRefIds": [
+        "official-d2-37-47",
+        "takeaways-d2-controls",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "compliance-and-evidence",
+      "title": "Turn obligations into demonstrable practice",
+      "body": "Map applicable contractual, statutory, regulatory, privacy, industry, and organizational requirements to control objectives and evidence. Confirm scope, data location, processors, transfers, breach duties, retention, access rights, and assessment cadence. Review effectiveness, not only design: a control that exists on paper but is not used or monitored does not provide the claimed assurance.",
+      "keyPoints": [
+        "Compliance requirements depend on jurisdiction, data type, role, contract, and processing context.",
+        "Evidence should show operation over time, not just a policy document.",
+        "One control may satisfy several requirements, but one requirement may need multiple controls."
+      ],
+      "sourceRefIds": [
+        "official-d2-37-47",
+        "takeaways-d2-controls"
+      ]
+    },
+    {
+      "id": "states-tailoring-and-protection-services",
+      "title": "Match controls to data state and operating context",
+      "body": "Data at rest needs storage, key, backup, and media controls; data in transit needs protected channels, endpoint validation, and transfer governance; data in use needs access, isolation, memory/runtime, and output controls. Scope and tailor a baseline using data value, threat, architecture, legal obligations, performance, and operational feasibility. Standards provide repeatable control language but do not remove risk judgment. DRM restricts authorized use of content, DLP detects or blocks prohibited movement, and a CASB mediates visibility and policy for cloud use; each has coverage limits and needs owners, tuning, and evidence.",
+      "keyPoints": [
+        "The same record may occupy all three states simultaneously across copies and processing paths.",
+        "Tailoring documents why a baseline control is selected, modified, inherited, or compensated.",
+        "DRM, DLP, and CASB are control families, not guarantees; bypass, false positives, provider gaps, and unmanaged channels remain possible."
+      ],
+      "sourceRefIds": [
+        "official-d2-37-47",
+        "sybex-d2",
+        "takeaways-d2-controls"
+      ]
+    },
+    {
+      "id": "select-data-protection-methods-by-failure-path",
+      "title": "Choose DRM, DLP, and CASB for different control purposes",
+      "body": "DRM applies persistent usage restrictions to protected content and can limit actions by authorized recipients, but depends on supported clients, key/rights management, and does not eliminate capture or policy-bypass risk. DLP discovers, monitors, alerts on, or blocks policy-defined sensitive-data movement across endpoint, network, email, cloud, or other channels; it needs data identification, tuning, exception handling, and response ownership. A CASB provides visibility and policy enforcement for cloud-service use through one or more deployment modes, but its coverage depends on integration, supported services, identities, and traffic paths. Select a method from the data state, asset/classification, actor, channel, abuse path, architecture, legal/contract obligation, operational impact, and required evidence; layer methods where no one control covers the failure path.",
+      "keyPoints": [
+        "DRM governs authorized use of content; DLP governs prohibited movement or exposure patterns; CASB governs cloud-service visibility and policy enforcement.",
+        "A control’s advertised feature does not establish coverage for unmanaged devices, unsanctioned channels, encrypted content, or unsupported cloud paths.",
+        "Test detection/blocking, exceptions, false positives/negatives, and response evidence after deployment."
+      ],
+      "sourceRefIds": [
+        "official-d2-37-47"
+      ]
+    },
+    {
+      "id": "tailor-a-baseline-with-documented-risk-decisions",
+      "title": "Scope and tailor without silently removing protection",
+      "body": "Standards and baselines provide repeatable starting points, not universal final designs. Scope removes or marks controls that do not apply to a defined environment; tailoring modifies or supplements the selected baseline to match mission, architecture, data state, threat, privacy, legal/contract, performance, and operational conditions. For each decision, record the baseline, scope rationale, owner/approver, inherited/common or compensating control, parameter/value, implementation evidence, residual risk, and review trigger. Removing a control without documented applicability and equivalent risk treatment creates an untestable gap.",
+      "keyPoints": [
+        "Scoping tests applicability; tailoring adapts the applicable control set.",
+        "A compensating control must address the required protection objective with documented evidence, not merely be an exception.",
+        "Standards selection starts with obligation and risk context, then is tailored to the system boundary."
+      ],
+      "sourceRefIds": [
+        "official-d2-37-47"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Payment data in a managed service",
+      "situation": "A company sends payment-related data to a managed service provider and claims compliance because the provider has an audit report.",
+      "reasoning": "Scope the data flow, roles, contract, region, retention, access, encryption, logging, incident notification, and subprocessor controls. Use the provider report as evidence for specified controls, then assess customer responsibilities and residual risk; an attestation does not transfer every obligation."
+    },
+    {
+      "title": "Restricted design files shared with a cloud contractor",
+      "situation": "An engineering team must share restricted CAD files with a contractor who uses an approved cloud collaboration service.",
+      "reasoning": "Classify the files and map recipients, device/cloud paths, contractual terms, and required evidence. Use DRM if persistent permitted-use restriction is required for the files; use DLP for prohibited download/email/USB movement and alert response; use CASB controls for sanctioned cloud sharing, access, and visibility. Tailor the selected baseline for the contractor path, record exceptions/inherited controls, test each control’s coverage, and retain residual-risk evidence.",
+      "takeaway": "Control names are not answers; the data flow and failure path determine the layered control set."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "compliance",
+        "security effectiveness"
+      ],
+      "difference": "Compliance demonstrates alignment with specified obligations; effectiveness asks whether controls actually reduce the organization's risk in context."
+    },
+    {
+      "between": [
+        "preventive",
+        "detective",
+        "corrective"
+      ],
+      "difference": "Preventive controls reduce likelihood, detective controls identify events, and corrective controls contain, restore, or fix after detection."
+    },
+    {
+      "a": "DRM",
+      "b": "DLP",
+      "difference": "DRM restricts permitted use of a protected item after distribution; DLP detects or blocks policy-prohibited exposure or movement. They can complement but do not substitute for each other."
+    },
+    {
+      "a": "Scoping",
+      "b": "Tailoring",
+      "difference": "Scoping determines baseline applicability; tailoring adapts the selected baseline through documented, risk-based changes or additions."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Passing an audit means the data is secure.",
+      "correction": "An audit has scope, criteria, timing, and evidence limits; residual risk and changing threats still require management."
+    },
+    {
+      "misconception": "More controls always means better security.",
+      "correction": "Controls should be proportionate and usable; complexity can create gaps, workarounds, and false assurance."
+    },
+    {
+      "claim": "A CASB can see and control all cloud data automatically.",
+      "correction": "CASB visibility and enforcement depend on deployment mode, integrations, identity and traffic paths, supported services, encryption, and policy tuning; coverage must be verified."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should control selection begin with?",
+      "answer": "Asset value/classification, business and privacy impact, threats, lifecycle, and applicable obligations."
+    },
+    {
+      "prompt": "What is the value of operational evidence?",
+      "answer": "It demonstrates that a designed control was implemented and functioned over a relevant period."
+    },
+    {
+      "prompt": "Which method is most directly aimed at persistent use restrictions, prohibited movement detection/blocking, and cloud-service policy visibility?",
+      "answer": "DRM addresses persistent content-use restrictions; DLP addresses prohibited movement/exposure detection or blocking; CASB addresses visibility and policy enforcement for supported cloud-service use."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A vendor offers a compliance certificate but cannot explain data location or deletion after contract end.",
+      "decision": "Treat the certificate as limited evidence, resolve scope and contractual lifecycle requirements, and assess residual risk before approval.",
+      "why": "Compliance evidence is meaningful only for defined scope and responsibilities."
+    },
+    {
+      "prompt": "A team proposes DLP to stop a contractor who legitimately downloads a design file from an approved cloud service and later shares it outside the authorized purpose. What control question must be answered?",
+      "decisiveDetail": "DLP may detect or block defined movement, but the design also needs to assess persistent use restrictions (DRM), cloud sharing visibility/policy (CASB), recipient authorization, contractual terms, and the actual exfiltration path.",
+      "testedConceptIds": [
+        "digital-rights-management",
+        "data-loss-prevention",
+        "cloud-access-security-broker",
+        "tailoring"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review control categories, layering, compliance scope, and evidence.",
+    "connect": "Connect controls to D1 risk, D2 classification/lifecycle, D6 assessment, and D7 monitoring.",
+    "apply": "Build a control-to-requirement map for a sensitive SaaS data flow.",
+    "revisit": "Challenge each mapped control: what evidence would show it operated?"
+  },
+  "visualIds": [
+    "d2-o06-controls-compliance-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "official-d2-37-47",
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "37-47 (PDF pp. 37-47)"
+      },
+      "supports": [
+        "data controls",
+        "compliance"
+      ]
+    },
+    {
+      "id": "takeaways-d2-controls",
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-10"
+      },
+      "supports": [
+        "control layering and classification"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "284-290 (Chapter 5, Using Security Baselines and review questions; PDF pp. 284-290)"
+      },
+      "supports": [
+        "secondary cross-check"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d2-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d2-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d2-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d2-o06-controls-compliance-visual-contract",
+    "unitId": "d2-o06-controls-compliance",
+    "teachingQuestion": "Which layered control set and evidence meet this data state, obligation, and failure path?",
+    "misconception": "A product category or baseline name proves compliance and effective protection.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Select and tailor complementary controls from scope, data state, architecture, obligation, and operating evidence.",
+    "conceptIds": [
+      "data-security-controls",
+      "compliance",
+      "privacy",
+      "layered-controls",
+      "control-assurance",
+      "digital-rights-management",
+      "data-loss-prevention",
+      "cloud-access-security-broker",
+      "tailoring"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a data flow, state obligation, state, threat, layered controls, assurance evidence, and tailoring decision.",
+    "textFallback": "Data controls should be selected from the asset's value, threats, lifecycle, and obligations. Compliance is a constraint and evidence requirement, not a guarantee that risk has disappeared.\nScope the data flow, roles, contract, region, retention, access, encryption, logging, incident notification, and subprocessor controls. Use the provider report as evidence for specified controls, then assess customer responsibilities and residual risk; an attestation does not transfer every obligation.",
+    "sourceRefIds": [
+      "official-d2-37-47",
+      "takeaways-d2-controls",
+      "sybex-d2"
+    ],
+    "mapNodeId": "d2-o06-controls-compliance",
+    "visualIds": [
+      "d2-o06-controls-compliance-concept-comparison-1"
+    ]
+  }
+}

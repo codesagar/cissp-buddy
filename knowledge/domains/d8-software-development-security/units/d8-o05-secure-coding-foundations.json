@@ -1,0 +1,255 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o05-secure-coding-foundations",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.5"
+  ],
+  "title": "Apply language-neutral secure coding foundations",
+  "summary": "Secure coding prevents source-level weaknesses by validating inputs, encoding outputs, handling errors safely, enforcing authorization, protecting secrets, and using reviewable standards.",
+  "outcome": "Choose coding practices that prevent common source, API, authentication, authorization, and error-handling weaknesses.",
+  "conceptIds": [
+    "secure-coding",
+    "input-validation",
+    "output-encoding",
+    "error-handling",
+    "authentication",
+    "authorization",
+    "api-security",
+    "secrets",
+    "database-data-warehouse-security",
+    "web-application-environment"
+  ],
+  "prerequisites": [
+    "d5-o04-authorization-mechanisms",
+    "d3-o06-cryptographic-solutions"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Secure coding is a set of explicit invariants and review habits, not a language-specific checklist copied without context.",
+  "sections": [
+    {
+      "id": "source-weaknesses",
+      "title": "Control inputs, outputs, state, and errors",
+      "body": "Validate inputs against an allowlist and expected type, length, range, and encoding; use context-appropriate output encoding; avoid unsafe interpretation and injection; fail safely; protect error and log content; and make resource and authorization checks explicit. Use standards and peer review to make these rules repeatable.",
+      "keyPoints": [
+        "Validation and output encoding solve different boundary problems.",
+        "Error messages should aid operators without disclosing secrets or internals.",
+        "Authorization must be checked at the server-side object and action boundary."
+      ],
+      "sourceRefIds": [
+        "outline-d8-5",
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ]
+    },
+    {
+      "id": "api-and-identity",
+      "title": "Secure API contracts and identities",
+      "body": "API security includes authentication, authorization, object-level access, replay and rate controls, schema validation, data minimization, versioning, secure defaults, and consistent error behavior. Protect credentials and tokens, define service identity, and test abuse cases rather than only valid requests.",
+      "keyPoints": [
+        "An authenticated caller is not automatically authorized for every object or action.",
+        "API contracts need negative, boundary, and abuse-case tests.",
+        "Secrets should be handled through managed lifecycle controls, not source literals."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "miller-d8-705-760"
+      ]
+    },
+    {
+      "id": "database-and-web-context",
+      "title": "Secure data access and web contexts explicitly",
+      "body": "For database and data-warehouse access, separate authorization from query construction; use parameterized interfaces, least-privileged service identities, controlled analytics access, audit, retention and data-minimization rules. For web applications, validate untrusted input server-side, encode output for its exact HTML/attribute/URL/JavaScript context, protect session and transport behavior, and test authenticated and unauthenticated abuse paths.",
+      "keyPoints": [
+        "Parameterization prevents data being interpreted as query structure; it does not decide who may access an object.",
+        "Output encoding is context-specific and complements, rather than replaces, validation.",
+        "Database/warehouse and web controls need tests that use realistic roles and data flows."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Object-level API authorization",
+      "situation": "A user can change an invoice ID in a request and retrieve another customer's invoice.",
+      "reasoning": "Enforce server-side object ownership or policy authorization after authentication, minimize response data, log denial and anomaly events, add boundary tests, and review equivalent endpoints and caches."
+    },
+    {
+      "title": "Comment field across data and web contexts",
+      "situation": "A partner API stores free-form customer comments and a web dashboard renders them to finance users.",
+      "reasoning": "Server-side validation enforces type, length and business rules; parameterized data access keeps text separate from query structure; the dashboard uses output encoding for its exact display context; object-level authorization limits which comments a user can retrieve; errors avoid echoing secrets. Tests include malformed input, a valid comment containing markup characters, unauthorized object access, and log review."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "input validation",
+        "output encoding"
+      ],
+      "difference": "Validation constrains accepted data; encoding renders data safely for its output context. One does not replace the other."
+    },
+    {
+      "between": [
+        "authentication",
+        "authorization"
+      ],
+      "difference": "Authentication establishes identity; authorization decides whether that identity may perform the requested action on the target object."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A hidden API endpoint is protected because users cannot see it.",
+      "correction": "Discovery, direct requests, alternate clients, and compromised credentials require explicit authentication and authorization."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What must an API authorization check bind together?",
+      "answer": "The authenticated identity, requested action, target object, policy context, and server-side decision."
+    },
+    {
+      "prompt": "Why encode output by context?",
+      "answer": "Different interpreters and sinks require different safe representations; generic escaping can be insufficient or incorrect."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A service validates that a token is present but trusts a client-supplied account ID.",
+      "decision": "Derive the account context from trusted identity and enforce object-level authorization server-side.",
+      "why": "Presence of authentication material does not establish entitlement to the requested object."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review source weaknesses, API controls, identity, authorization, errors, and secrets.",
+    "connect": "Connect D5 IAM, D2 data minimization, D3 crypto, and D6 abuse-case testing.",
+    "apply": "Review one API for validation, encoding, authorization, and error leakage.",
+    "revisit": "Contrast authentication with authorization and validation with encoding."
+  },
+  "visualIds": [
+    "d8-o05-secure-coding-foundations-decision-comparison-1",
+    "d8-o05-secure-coding-foundations-database-data-warehouse-security-decision-trace",
+    "d8-o05-secure-coding-foundations-web-application-environment-decision-trace"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-5",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.5 bullets: source weaknesses, APIs, secure coding, software-defined security"
+      },
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-106-130",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "65–80, 100–117 (same PDF page numbers), objective 8.5; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "coding weaknesses and API security"
+      ]
+    },
+    {
+      "id": "sybex-d8-1085-1113",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1085-1113, Chapter 21"
+      },
+      "supports": [
+        "application weaknesses and attacks"
+      ]
+    },
+    {
+      "id": "miller-d8-705-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-760, Chapter 10"
+      },
+      "supports": [
+        "secure coding and APIs"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o05-secure-coding-foundations-visual-contract",
+    "unitId": "d8-o05-secure-coding-foundations",
+    "teachingQuestion": "What does database and warehouse security require beyond completing a technical action?",
+    "misconception": "A parameterized query is injection-safe but exposes another customer’s records because authorization was omitted.",
+    "form": "annotated-decision-trace",
+    "formRationale": "One exact distinction links a control or process to the failure that an incomplete implementation leaves open.",
+    "focalInsight": "Combine parameterized data access with object/row authorization, least privilege, auditing and appropriate retention/minimization.",
+    "conceptIds": [
+      "secure-coding",
+      "input-validation",
+      "output-encoding",
+      "error-handling",
+      "authentication",
+      "authorization",
+      "api-security",
+      "secrets",
+      "database-data-warehouse-security",
+      "web-application-environment"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed implementation settings are left to the unit and sources.",
+    "retrievalPrompt": "Explain which missing condition makes this example fail: A parameterized query is injection-safe but exposes another customer’s records because authorization was omitted.",
+    "textFallback": "Database and warehouse security: Protection of transactional and analytical data, queries, service identities and permitted data use. Decision: Combine parameterized data access with object/row authorization, least privilege, auditing and appropriate retention/minimization. Failure: A parameterized query is injection-safe but exposes another customer’s records because authorization was omitted.",
+    "sourceRefIds": [
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "mapNodeId": "d8-o05-secure-coding-foundations",
+    "visualIds": [
+      "d8-o05-secure-coding-foundations-database-data-warehouse-security-decision-trace",
+      "d8-o05-secure-coding-foundations-decision-comparison-1",
+      "d8-o05-secure-coding-foundations-web-application-environment-decision-trace"
+    ]
+  }
+}

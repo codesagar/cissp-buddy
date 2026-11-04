@@ -1,4 +1,5 @@
 'use client';
+import { appUrl } from '@/lib/course/static-loader';
 import {
   useCallback,
   useMemo,
@@ -168,10 +169,25 @@ export default function Home() {
       setRoute(readRoute());
     });
     const update = () => setRoute(readRoute());
+    const sync = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY || !event.newValue) return;
+      try {
+        setState(
+          validateBackup(JSON.parse(event.newValue), conceptIds, questions),
+        );
+      } catch {
+        setSaveAllowed(false);
+        setStorageIssue(
+          'Another tab saved unreadable progress. Saving is paused to preserve it. Export current work and the untouched stored record before restoring a validated backup.',
+        );
+      }
+    };
     window.addEventListener('hashchange', update);
+    window.addEventListener('storage', sync);
     return () => {
       cancelled = true;
       window.removeEventListener('hashchange', update);
+      window.removeEventListener('storage', sync);
     };
   }, [questions, conceptIds]);
   useEffect(() => {
@@ -474,6 +490,8 @@ export default function Home() {
             <Backup
               state={state}
               onRestore={(s) => {
+                // Persist first; a rejected replacement must not report success.
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
                 setState(s);
                 setSaveAllowed(true);
                 setStorageIssue('');
@@ -584,7 +602,7 @@ function SideNav({
       </SidebarContent>
       <SidebarFooter>
         {/* oxlint-disable-next-line next/no-html-link-for-pages -- Intentional full-document transition avoids Vinext beta's broken RSC prefetch shim. */}
-        <a href="/" className="sidebar-map-link">
+        <a href={appUrl('#/today')} className="sidebar-map-link">
           <BookOpen size={15} /> Open the complete 90-unit course{' '}
           <ArrowUpRight size={14} />
         </a>
@@ -2088,6 +2106,7 @@ function Backup({
   const [pending, setPending] = useState<StudyState | null>(null),
     [message, setMessage] = useState('');
   const input = useRef<HTMLInputElement>(null);
+  const importSelection = useRef(0);
   function exportBackup() {
     const blob = new Blob(
         [
@@ -2108,17 +2127,24 @@ function Backup({
     setMessage('Backup exported. Keep the file somewhere safe.');
   }
   async function importBackup(file: File | undefined) {
+    const selection = ++importSelection.current;
     if (!file) return;
+    setPending(null);
     try {
       if (file.size > 10000000)
         throw new Error(
           'This file is too large. Choose a CISSP Buddy JSON backup under 10 MB.',
         );
-      setPending(
-        validateBackup(JSON.parse(await file.text()), conceptIds, questions),
+      const candidate = validateBackup(
+        JSON.parse(await file.text()),
+        conceptIds,
+        questions,
       );
+      if (selection !== importSelection.current) return;
+      setPending(candidate);
       setMessage('');
     } catch (e) {
+      if (selection !== importSelection.current) return;
       setMessage(
         e instanceof Error
           ? e.message
@@ -2170,6 +2196,33 @@ function Backup({
             onClick={() => input.current?.click()}
           >
             <Upload size={16} /> Import backup
+          </button>
+          <button
+            className="button outline"
+            onClick={() => {
+              try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                const url = URL.createObjectURL(
+                  new Blob([JSON.stringify({ raw }, null, 2)], {
+                    type: 'application/json',
+                  }),
+                );
+                const anchor = document.createElement('a');
+                anchor.href = url;
+                anchor.download = 'cissp-pilot-stored-recovery.json';
+                anchor.click();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+                setMessage(
+                  'Untouched stored record exported for recovery. This is a recovery copy, not a validated progress backup.',
+                );
+              } catch {
+                setMessage(
+                  'The browser blocked access to stored records. Export backup to preserve current in-memory work.',
+                );
+              }
+            }}
+          >
+            Export untouched stored record
           </button>
           <input
             ref={input}
@@ -2229,11 +2282,17 @@ function Backup({
             <AlertDialogAction
               onClick={() => {
                 if (pending) {
-                  onRestore(pending);
-                  setPending(null);
-                  setMessage(
-                    'Backup restored. Your learning history is ready.',
-                  );
+                  try {
+                    onRestore(pending);
+                    setPending(null);
+                    setMessage(
+                      'Backup restored. Your learning history is ready.',
+                    );
+                  } catch {
+                    setMessage(
+                      'This browser could not write the backup. Current progress is unchanged; keep this page open and export it before trying again.',
+                    );
+                  }
                 }
               }}
             >

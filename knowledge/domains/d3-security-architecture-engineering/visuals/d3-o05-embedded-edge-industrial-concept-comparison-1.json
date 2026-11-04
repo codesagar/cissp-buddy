@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-embedded-edge-industrial-concept-comparison-1",
+  "unitId": "d3-o05-embedded-edge-industrial",
+  "type": "table",
+  "title": "Assess embedded, edge, IoT, HPC, and industrial-system constraints: concept decisions 1",
+  "teachingQuestion": "Which operational constraint governs the safe control choice for this device, OT, edge, or HPC system?",
+  "focalInsight": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Iot Security",
+      "conceptIds": [
+        "iot-security"
+      ],
+      "definition": "Risk management for connected devices with constrained hardware, interfaces, and lifecycles.",
+      "detail": "Risk management for connected devices with constrained hardware, interfaces, and lifecycles.",
+      "decision": "Inventory owner, firmware, interface, update path, physical exposure, and data.",
+      "failureExample": "A camera fleet has no owner or supported update mechanism.",
+      "retrievalAnswer": "Unowned devices cannot be securely operated or retired.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Embedded Security",
+      "conceptIds": [
+        "embedded-security"
+      ],
+      "definition": "Protection of purpose-built hardware and firmware with limited functions and update options.",
+      "detail": "Protection of purpose-built hardware and firmware with limited functions and update options.",
+      "decision": "Assess debug ports, firmware integrity, local interfaces, vendor support, and recovery.",
+      "failureExample": "An exposed maintenance port permits firmware replacement.",
+      "retrievalAnswer": "Embedded constraints change which controls are feasible.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Edge Computing",
+      "conceptIds": [
+        "edge-computing"
+      ],
+      "definition": "Local processing near a source with remote-management and intermittent-connectivity tradeoffs.",
+      "detail": "Local processing near a source with remote-management and intermittent-connectivity tradeoffs.",
+      "decision": "Plan local data protection, authentication, safe offline behavior, and recovery.",
+      "failureExample": "A remote node fails open when it cannot reach central identity services.",
+      "retrievalAnswer": "Edge must define a secure degraded mode.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Industrial Control Systems",
+      "conceptIds": [
+        "industrial-control-systems"
+      ],
+      "definition": "Operational technology that controls physical processes and can create safety consequences.",
+      "detail": "Operational technology that controls physical processes and can create safety consequences.",
+      "decision": "Coordinate controls with operators, change windows, safety, segmentation, and recovery.",
+      "failureExample": "A security change interrupts a production controller during a critical process.",
+      "retrievalAnswer": "A correct ICS action preserves the safety and process constraint.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Hpc Security",
+      "conceptIds": [
+        "hpc-security"
+      ],
+      "definition": "Protection of high-performance computing workloads, scheduler authority, shared fabric, and research data.",
+      "detail": "Protection of high-performance computing workloads, scheduler authority, shared fabric, and research data.",
+      "decision": "Assess project separation, scheduler roles, job artifacts, shared storage, exports, and recovery.",
+      "failureExample": "A broad scheduler account reads or reallocates multiple projects’ jobs.",
+      "retrievalAnswer": "Throughput does not remove authorization and data-boundary needs.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Segmentation",
+      "conceptIds": [
+        "segmentation"
+      ],
+      "definition": "Deliberate separation of networks or zones to limit reachability and blast radius.",
+      "detail": "Deliberate separation of networks or zones to limit reachability and blast radius.",
+      "decision": "Separate enterprise, OT, tenant, management, and workload paths by justified policy.",
+      "failureExample": "A compromised office endpoint directly reaches an engineering workstation.",
+      "retrievalAnswer": "Segmentation must restrict the paths that matter.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Secure Update",
+      "conceptIds": [
+        "secure-update"
+      ],
+      "definition": "Authenticated, integrity-checked, authorized change with safe rollout and recovery.",
+      "detail": "Authenticated, integrity-checked, authorized change with safe rollout and recovery.",
+      "decision": "Require provenance, approval/signing authority, version inventory, rollback, and failure handling.",
+      "failureExample": "A remote device applies a corrupted firmware update and cannot recover.",
+      "retrievalAnswer": "A secure update includes a trusted recovery path.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Safety",
+      "conceptIds": [
+        "safety"
+      ],
+      "definition": "Protection of people, equipment, environment, and process from harmful states.",
+      "detail": "Protection of people, equipment, environment, and process from harmful states.",
+      "decision": "Prioritize when a security action could alter or interrupt a physical process.",
+      "failureExample": "A scanning tool creates a denial of service against a controller.",
+      "retrievalAnswer": "Security choices in OT must be safe for the process.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Availability",
+      "conceptIds": [
+        "availability"
+      ],
+      "definition": "Ability of a service or process to perform when required.",
+      "detail": "Ability of a service or process to perform when required.",
+      "decision": "Design for consequence, redundancy, patch windows, recovery, and dependency failure.",
+      "failureExample": "A critical controller cannot be patched because no maintenance path exists.",
+      "retrievalAnswer": "Availability needs planned operation and recovery, not just uptime claims.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "iot-security",
+    "embedded-security",
+    "edge-computing",
+    "industrial-control-systems",
+    "hpc-security",
+    "segmentation",
+    "secure-update",
+    "safety",
+    "availability"
+  ],
+  "altSummary": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+  "textFallback": "iot security: Risk management for connected devices with constrained hardware, interfaces, and lifecycles. Decide: Inventory owner, firmware, interface, update path, physical exposure, and data. Example/failure: A camera fleet has no owner or supported update mechanism. Retrieve: Unowned devices cannot be securely operated or retired.\nembedded security: Protection of purpose-built hardware and firmware with limited functions and update options. Decide: Assess debug ports, firmware integrity, local interfaces, vendor support, and recovery. Example/failure: An exposed maintenance port permits firmware replacement. Retrieve: Embedded constraints change which controls are feasible.\nedge computing: Local processing near a source with remote-management and intermittent-connectivity tradeoffs. Decide: Plan local data protection, authentication, safe offline behavior, and recovery. Example/failure: A remote node fails open when it cannot reach central identity services. Retrieve: Edge must define a secure degraded mode.\nindustrial control systems: Operational technology that controls physical processes and can create safety consequences. Decide: Coordinate controls with operators, change windows, safety, segmentation, and recovery. Example/failure: A security change interrupts a production controller during a critical process. Retrieve: A correct ICS action preserves the safety and process constraint.\nhpc security: Protection of high-performance computing workloads, scheduler authority, shared fabric, and research data. Decide: Assess project separation, scheduler roles, job artifacts, shared storage, exports, and recovery. Example/failure: A broad scheduler account reads or reallocates multiple projects’ jobs. Retrieve: Throughput does not remove authorization and data-boundary needs.\nsegmentation: Deliberate separation of networks or zones to limit reachability and blast radius. Decide: Separate enterprise, OT, tenant, management, and workload paths by justified policy. Example/failure: A compromised office endpoint directly reaches an engineering workstation. Retrieve: Segmentation must restrict the paths that matter.\nsecure update: Authenticated, integrity-checked, authorized change with safe rollout and recovery. Decide: Require provenance, approval/signing authority, version inventory, rollback, and failure handling. Example/failure: A remote device applies a corrupted firmware update and cannot recover. Retrieve: A secure update includes a trusted recovery path.\nsafety: Protection of people, equipment, environment, and process from harmful states. Decide: Prioritize when a security action could alter or interrupt a physical process. Example/failure: A scanning tool creates a denial of service against a controller. Retrieve: Security choices in OT must be safe for the process.\navailability: Ability of a service or process to perform when required. Decide: Design for consequence, redundancy, patch windows, recovery, and dependency failure. Example/failure: A critical controller cannot be patched because no maintenance path exists. Retrieve: Availability needs planned operation and recovery, not just uptime claims.",
+  "sourceRefIds": [
+    "d3-o05-constrained-textbook",
+    "d3-o05-constrained-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which operational constraint governs the safe control choice for this device, OT, edge, or HPC system?",
+    "misconception": "Enterprise scanning or patching is safe on every operational technology asset.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Consequence, safety, supportability, physical exposure, and recovery determine feasible controls.",
+    "conceptIds": [
+      "iot-security",
+      "embedded-security",
+      "edge-computing",
+      "industrial-control-systems",
+      "hpc-security",
+      "segmentation",
+      "secure-update",
+      "safety",
+      "availability"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Given an intermittent or safety-sensitive system, state the secure update or segmentation decision.",
+    "textFallback": "iot security: Risk management for connected devices with constrained hardware, interfaces, and lifecycles. Decide: Inventory owner, firmware, interface, update path, physical exposure, and data. Example/failure: A camera fleet has no owner or supported update mechanism. Retrieve: Unowned devices cannot be securely operated or retired.\nembedded security: Protection of purpose-built hardware and firmware with limited functions and update options. Decide: Assess debug ports, firmware integrity, local interfaces, vendor support, and recovery. Example/failure: An exposed maintenance port permits firmware replacement. Retrieve: Embedded constraints change which controls are feasible.\nedge computing: Local processing near a source with remote-management and intermittent-connectivity tradeoffs. Decide: Plan local data protection, authentication, safe offline behavior, and recovery. Example/failure: A remote node fails open when it cannot reach central identity services. Retrieve: Edge must define a secure degraded mode.\nindustrial control systems: Operational technology that controls physical processes and can create safety consequences. Decide: Coordinate controls with operators, change windows, safety, segmentation, and recovery. Example/failure: A security change interrupts a production controller during a critical process. Retrieve: A correct ICS action preserves the safety and process constraint.\nhpc security: Protection of high-performance computing workloads, scheduler authority, shared fabric, and research data. Decide: Assess project separation, scheduler roles, job artifacts, shared storage, exports, and recovery. Example/failure: A broad scheduler account reads or reallocates multiple projects’ jobs. Retrieve: Throughput does not remove authorization and data-boundary needs.\nsegmentation: Deliberate separation of networks or zones to limit reachability and blast radius. Decide: Separate enterprise, OT, tenant, management, and workload paths by justified policy. Example/failure: A compromised office endpoint directly reaches an engineering workstation. Retrieve: Segmentation must restrict the paths that matter.\nsecure update: Authenticated, integrity-checked, authorized change with safe rollout and recovery. Decide: Require provenance, approval/signing authority, version inventory, rollback, and failure handling. Example/failure: A remote device applies a corrupted firmware update and cannot recover. Retrieve: A secure update includes a trusted recovery path.\nsafety: Protection of people, equipment, environment, and process from harmful states. Decide: Prioritize when a security action could alter or interrupt a physical process. Example/failure: A scanning tool creates a denial of service against a controller. Retrieve: Security choices in OT must be safe for the process.\navailability: Ability of a service or process to perform when required. Decide: Design for consequence, redundancy, patch windows, recovery, and dependency failure. Example/failure: A critical controller cannot be patched because no maintenance path exists. Retrieve: Availability needs planned operation and recovery, not just uptime claims.",
+    "sourceRefIds": [
+      "d3-o05-constrained-textbook",
+      "d3-o05-constrained-sybex"
+    ],
+    "mapNodeId": "d3-o05-embedded-edge-industrial"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

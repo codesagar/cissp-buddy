@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o02-ecosystem-controls",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.2"
+  ],
+  "title": "Secure the software development ecosystem",
+  "summary": "Development ecosystems include people, repositories, build systems, dependencies, pipelines, environments, secrets, and deployment infrastructure; each can alter software trustworthiness.",
+  "outcome": "Select layered controls for a development toolchain and explain how they prevent unauthorized change, leakage, and untrusted artifacts.",
+  "conceptIds": [
+    "development-ecosystem",
+    "ci-cd",
+    "source-control",
+    "build-integrity",
+    "secrets-management",
+    "dependency-management",
+    "supply-chain"
+  ],
+  "prerequisites": [
+    "d1-o11-supply-chain-risk",
+    "d5-o04-authorization-mechanisms"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Protect the path that produces software as carefully as the software itself.",
+  "sections": [
+    {
+      "id": "toolchain",
+      "title": "Control people, tools, and artifacts",
+      "body": "Use role separation, least privilege, protected branches, code review, signed commits or artifacts where appropriate, reproducible builds, dependency pinning and review, isolated runners, secret management, hardened development environments, artifact repositories, and provenance. Protect CI/CD service identities and distinguish source, build, test, and production privileges.",
+      "keyPoints": [
+        "A compromised build service can undermine otherwise secure source code.",
+        "Dependencies and build outputs require inventory and provenance.",
+        "Secrets belong in managed stores, not source code or logs."
+      ],
+      "sourceRefIds": [
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ]
+    },
+    {
+      "id": "ecosystem-assurance",
+      "title": "Manage change and operations",
+      "body": "Configuration management, change approval, environment separation, pipeline logging, vulnerability and license review, rollback, patching, and incident response keep the ecosystem trustworthy. Development and operations need shared ownership of emergency changes and evidence. Maturity models help assess process capability but do not replace risk judgment.",
+      "keyPoints": [
+        "Change controls should preserve speed with traceability and rollback.",
+        "Pipeline logs are security evidence and may contain sensitive data.",
+        "Maturity measures improvement in process capability, not absence of vulnerabilities."
+      ],
+      "sourceRefIds": [
+        "official-d8-36-55",
+        "miller-d8-727-760"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Compromised package dependency",
+      "situation": "A build pulls a popular package whose maintainer account was hijacked.",
+      "reasoning": "Use dependency inventory and pinning, provenance and integrity checks, review, isolated builds, monitoring, and rapid rollback. Assess impacted releases and rotate exposed secrets; trust in popularity is not provenance."
+    },
+    {
+      "title": "Emergency release with ecosystem evidence",
+      "situation": "A dependency fix must be released before the normal change window.",
+      "reasoning": "The emergency record references the dependency review, protected source revision, isolated build, test evidence, artifact digest, approver, target, monitoring/rollback plan, and post-release review. The retrospective decides whether a missing control, alert, or maturity practice must change and verifies that the change is implemented."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "source integrity",
+        "build integrity"
+      ],
+      "difference": "Source integrity concerns authorized code changes; build integrity concerns whether the produced artifact faithfully and securely derives from approved inputs."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A private repository makes source trustworthy.",
+      "correction": "Repository access, review, identity, dependencies, runners, and release provenance all require controls."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Name three toolchain control points.",
+      "answer": "Source access/review, dependency provenance, build runner isolation, artifact signing, secrets, and deployment authorization are examples."
+    },
+    {
+      "prompt": "Why separate environments?",
+      "answer": "To reduce unauthorized promotion and limit the impact of compromised identities or artifacts."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A CI runner has production credentials to simplify deployment.",
+      "decision": "Reduce privilege, use short-lived scoped credentials and an approval/promotion boundary.",
+      "why": "A build compromise would otherwise become a production compromise."
+    },
+    {
+      "scenario": "A CI/CD token is exposed in a build log. It can read repositories, start runners, and deploy to production.",
+      "decision": "Revoke/rotate the token, preserve logs, assess recent changes, and redesign privileges so source read/write, build execution, artifact promotion, and production deployment use distinct constrained identities with protected secrets and approvals.",
+      "why": "One overprivileged service identity joins otherwise separate ecosystem layers into a single compromise path."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review ecosystem components, provenance, secrets, dependency, and change controls.",
+    "connect": "Connect D1 supply-chain risk, D5 service identity, and D7 configuration/logging.",
+    "apply": "Draw a CI/CD trust boundary and assign credentials.",
+    "revisit": "Identify common-mode failures in the toolchain."
+  },
+  "visualIds": [
+    "d8-o02-ecosystem-controls-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-2",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.2"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-36-55",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "36–49 (same PDF page numbers), objective 8.2; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "ecosystem controls"
+      ],
+      "sourceNotes": "Body-page locator because D8 contents page duplicates D7."
+    },
+    {
+      "id": "sybex-d8-1049-1065",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1049-1065, Chapter 20"
+      },
+      "supports": [
+        "development controls and operations"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "supports": [
+        "ecosystem controls"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o02-ecosystem-controls-visual-contract",
+    "unitId": "d8-o02-ecosystem-controls",
+    "teachingQuestion": "How do development ecosystem controls prevent one compromised person, secret, dependency, or runner from becoming an untraceable production release?",
+    "misconception": "Protected branches or a mature process alone secure the ecosystem; the controls work independently.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Role separation, CI/CD identities, source control, secrets, dependencies, build integrity, artifacts, environment separation, change/rollback response.",
+    "conceptIds": [
+      "development-ecosystem",
+      "ci-cd",
+      "source-control",
+      "build-integrity",
+      "secrets-management",
+      "dependency-management",
+      "supply-chain"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not mandate a specific SCM, runner, maturity level, signing technology, or incident severity threshold.",
+    "retrievalPrompt": "A leaked CI token can read source, run builds, and deploy. Which boundaries failed, and which credentials/actions must change first?",
+    "textFallback": "development ecosystem: The interconnected people, identities, tools, repositories, dependencies, environments, pipelines, artifacts, and operational processes used to create and run software.. Decision: Assess cross-boundary trust paths and assign controls/owners at each handoff, not just per tool.. Failure/example: A secure code repository cannot protect a release if its runner or deployment identity is compromised.\nci cd: The automated and governed flow that integrates code and promotes artifacts through controlled environments.. Decision: Constrain service identities and promotion stages, preserve evidence, and require approval/exception paths appropriate to impact.. Failure/example: A single token that can modify build configuration and deploy removes independent release checks.\nsource control: Controlled versioning and review of source and related build/configuration changes.. Decision: Use protected branches, attributable review, limited administrative access, and audit of policy/history changes.. Failure/example: Changing branch-protection rules just before a merge can bypass review while leaving code history seemingly normal.\nbuild integrity: Protection of build inputs, environment, process, identity, and output from unauthorized modification.. Decision: Isolate/harden runners and configs, restrict who can invoke or alter them, and preserve attestable build records.. Failure/example: A shared mutable runner image can inject a backdoor into otherwise reviewed releases.\nsecrets management: Managed lifecycle control for sensitive credentials used by developers, runners, services, and deployments.. Decision: Use scoped retrieval, rotation, redaction, audit, and separation per environment/role; respond immediately to leakage.. Failure/example: A deployment key printed in a CI log can be reused to bypass later pipeline controls.\ndependency management: Governance of component selection, versions, inventories, vulnerabilities, licenses, updates, and owners.. Decision: Approve/pin/review dependencies, track transitive components, and test/authorize updates through the release process.. Failure/example: A transitive package takeover can alter builds without a direct developer commit.\nsupply chain: The broader external and internal chain of software inputs, services, people, and transformations that create a delivered product.. Decision: Identify trust dependencies and define provenance/response controls for code, packages, tools, builders, keys, and artifact stores.. Failure/example: A trusted library can be substituted in transit or by a compromised publisher account.",
+    "sourceRefIds": [
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760"
+    ],
+    "mapNodeId": "d8-o02-ecosystem-controls",
+    "visualIds": [
+      "d8-o02-ecosystem-controls-decision-comparison-1"
+    ]
+  }
+}

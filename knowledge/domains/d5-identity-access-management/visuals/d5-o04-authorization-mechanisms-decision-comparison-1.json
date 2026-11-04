@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o04-authorization-mechanisms-decision-comparison-1",
+  "unitId": "d5-o04-authorization-mechanisms",
+  "type": "table",
+  "title": "Implement and manage authorization mechanisms: decision comparison 1",
+  "teachingQuestion": "Which authorization model and enforcement path decides this action?",
+  "focalInsight": "PDP decides from policy/context; PEP enforces; model choice controls who/what changes access.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Authorization",
+      "conceptIds": [
+        "authorization"
+      ],
+      "definition": "permission decision",
+      "decision": "evaluate action/context",
+      "failureExample": "authenticated but unauthorized user",
+      "detail": "permission decision"
+    },
+    {
+      "id": "row-2",
+      "label": "RBAC",
+      "conceptIds": [
+        "rbac"
+      ],
+      "definition": "role→permission",
+      "decision": "define role lifecycle",
+      "failureExample": "role explosion",
+      "detail": "role→permission"
+    },
+    {
+      "id": "row-3",
+      "label": "Rule-Based Access Control",
+      "conceptIds": [
+        "rule-based-access-control"
+      ],
+      "definition": "Access is permitted or denied by evaluating explicit rules against request conditions.",
+      "decision": "Define rule scope, precedence and conflict behavior; maintain rules as resources and conditions change.",
+      "failureExample": "An obsolete allow rule still exposes an administrative port after a network change.",
+      "detail": "Access is permitted or denied by evaluating explicit rules against request conditions."
+    },
+    {
+      "id": "row-4",
+      "label": "MAC",
+      "conceptIds": [
+        "mac"
+      ],
+      "definition": "label/clearance policy",
+      "decision": "enforce mandatory rule",
+      "failureExample": "owner cannot override",
+      "detail": "label/clearance policy"
+    },
+    {
+      "id": "row-5",
+      "label": "DAC",
+      "conceptIds": [
+        "dac"
+      ],
+      "definition": "owner discretion",
+      "decision": "manage grants",
+      "failureExample": "uncontrolled sharing",
+      "detail": "owner discretion"
+    },
+    {
+      "id": "row-6",
+      "label": "ABAC",
+      "conceptIds": [
+        "abac"
+      ],
+      "definition": "attribute policy",
+      "decision": "validate freshness",
+      "failureExample": "stale department attribute",
+      "detail": "attribute policy"
+    },
+    {
+      "id": "row-7",
+      "label": "Risk-Based Access Control",
+      "conceptIds": [
+        "risk-based-access-control"
+      ],
+      "definition": "risk/context decision",
+      "decision": "step-up/deny threshold",
+      "failureExample": "impossible-travel ignored",
+      "detail": "risk/context decision"
+    },
+    {
+      "id": "row-8",
+      "label": "Policy Decision Point",
+      "conceptIds": [
+        "policy-decision-point"
+      ],
+      "definition": "policy evaluator",
+      "decision": "return permitted/denied",
+      "failureExample": "unavailable PDP",
+      "detail": "policy evaluator"
+    },
+    {
+      "id": "row-9",
+      "label": "Policy Enforcement Point",
+      "conceptIds": [
+        "policy-enforcement-point"
+      ],
+      "definition": "action gate",
+      "decision": "fail safely/log",
+      "failureExample": "PEP bypass",
+      "detail": "action gate"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "authorization",
+    "rbac",
+    "rule-based-access-control",
+    "mac",
+    "dac",
+    "abac",
+    "risk-based-access-control",
+    "policy-decision-point",
+    "policy-enforcement-point"
+  ],
+  "altSummary": "PDP decides from policy/context; PEP enforces; model choice controls who/what changes access.",
+  "textFallback": "Authorization: permission decision. Decision: evaluate action/context Failure/example: authenticated but unauthorized user\nRBAC: role→permission. Decision: define role lifecycle Failure/example: role explosion\nRule-Based Access Control: Access is permitted or denied by evaluating explicit rules against request conditions.. Decision: Define rule scope, precedence and conflict behavior; maintain rules as resources and conditions change. Failure/example: An obsolete allow rule still exposes an administrative port after a network change.\nMAC: label/clearance policy. Decision: enforce mandatory rule Failure/example: owner cannot override\nDAC: owner discretion. Decision: manage grants Failure/example: uncontrolled sharing\nABAC: attribute policy. Decision: validate freshness Failure/example: stale department attribute\nRisk-Based Access Control: risk/context decision. Decision: step-up/deny threshold Failure/example: impossible-travel ignored\nPolicy Decision Point: policy evaluator. Decision: return permitted/denied Failure/example: unavailable PDP\nPolicy Enforcement Point: action gate. Decision: fail safely/log Failure/example: PEP bypass",
+  "sourceRefIds": [
+    "official-d5-35-41",
+    "sybex-d5-677-690"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which authorization model and enforcement path decides this action?",
+    "misconception": "Authentication grants access.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "PDP decides from policy/context; PEP enforces; model choice controls who/what changes access.",
+    "conceptIds": [
+      "authorization",
+      "rbac",
+      "rule-based-access-control",
+      "mac",
+      "dac",
+      "abac",
+      "risk-based-access-control",
+      "policy-decision-point",
+      "policy-enforcement-point"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No claim one model fits all assets.",
+    "retrievalPrompt": "Attribute changes after decision: what must refresh?",
+    "textFallback": "Authorization: permission decision. Decision: evaluate action/context Failure/example: authenticated but unauthorized user\nRBAC: role→permission. Decision: define role lifecycle Failure/example: role explosion\nRule-Based Access Control: Access is permitted or denied by evaluating explicit rules against request conditions.. Decision: Define rule scope, precedence and conflict behavior; maintain rules as resources and conditions change. Failure/example: An obsolete allow rule still exposes an administrative port after a network change.\nMAC: label/clearance policy. Decision: enforce mandatory rule Failure/example: owner cannot override\nDAC: owner discretion. Decision: manage grants Failure/example: uncontrolled sharing\nABAC: attribute policy. Decision: validate freshness Failure/example: stale department attribute\nRisk-Based Access Control: risk/context decision. Decision: step-up/deny threshold Failure/example: impossible-travel ignored\nPolicy Decision Point: policy evaluator. Decision: return permitted/denied Failure/example: unavailable PDP\nPolicy Enforcement Point: action gate. Decision: fail safely/log Failure/example: PEP bypass",
+    "sourceRefIds": [
+      "official-d5-35-41",
+      "sybex-d5-677-690"
+    ],
+    "mapNodeId": "d5-o04-authorization-mechanisms"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

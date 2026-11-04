@@ -1,0 +1,263 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o02-components-and-endpoints",
+  "domainId": 4,
+  "objectiveIds": [
+    "4.2"
+  ],
+  "title": "Secure network components, media, and endpoints",
+  "summary": "Network security depends on the physical medium, infrastructure lifecycle, admission decisions, and host controls that implement the architecture.",
+  "outcome": "Evaluate a network component or endpoint and select controls for operation, media, access admission, maintenance, and failure conditions.",
+  "conceptIds": [
+    "network-components",
+    "transmission-media",
+    "network-access-control",
+    "endpoint-security",
+    "redundancy",
+    "support-lifecycle"
+  ],
+  "prerequisites": [
+    "d4-o01-architecture-and-segmentation",
+    "d5-o01-physical-logical-access"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "A secure design fails if its components are unsupported, physically exposed, or willing to admit an unhealthy endpoint.",
+  "sections": [
+    {
+      "id": "infrastructure-and-media",
+      "title": "Protect the infrastructure and its medium",
+      "body": "Infrastructure operation includes secure configuration, redundant power and paths, environmental protection, maintenance, warranty, support, inventory, and replacement planning. Transmission media require physical protection against tampering and interception plus attention to propagation quality, attenuation, interference, and signal integrity. The control choice depends on location, threat, availability requirement, and whether the medium can be inspected or replaced.",
+      "keyPoints": [
+        "Redundancy improves availability but can duplicate failure or misconfiguration if not tested.",
+        "Media security includes physical route, termination points, shielding, and monitoring.",
+        "Unsupported components create security and recovery risk even when configuration is correct."
+      ],
+      "sourceRefIds": [
+        "outline-d4-2",
+        "official-d4-78-84",
+        "aio-d4-937-989"
+      ]
+    },
+    {
+      "id": "admission-and-endpoints",
+      "title": "Admit and protect endpoints deliberately",
+      "body": "Network Access Control can combine identity, device posture, location, authorization, and quarantine to decide whether a device joins a network or receives a segment. Host-based controls such as hardened configurations, endpoint protection, host firewalls, encryption, patching, EDR, and logging reinforce network policy. NAC is not a replacement for endpoint security: a compliant device can still be compromised after admission.",
+      "keyPoints": [
+        "NAC decisions should be explicit about identity, posture, scope, and remediation.",
+        "Physical and virtual access-control solutions must cover relevant entry points.",
+        "Endpoint telemetry should feed D7 monitoring and incident processes."
+      ],
+      "sourceRefIds": [
+        "official-d4-78-84",
+        "sybex-d4-621-645",
+        "aio-d4-937-989"
+      ]
+    },
+    {
+      "id": "infrastructure-support-and-media",
+      "title": "Operate infrastructure and transmission media safely",
+      "body": "Infrastructure operation includes power redundancy, environmental and physical protection, warranty and support status, spare capacity, maintenance windows, configuration baselines, and tested failover. Transmission media choices require physical security, separation, shielding, distance, attenuation, interference, signal propagation, tamper evidence, and monitoring. A redundant path that shares a conduit, power source, provider, or unsupported firmware may fail together.",
+      "keyPoints": [
+        "Support and warranty are security inputs because unavailable fixes and replacement capacity extend exposure.",
+        "Media quality affects availability, observability, and integrity assumptions.",
+        "Record common-mode dependencies when claiming resilience."
+      ],
+      "sourceRefIds": [
+        "outline-d4-2",
+        "official-d4-78-84",
+        "aio-d4-937-989"
+      ]
+    },
+    {
+      "id": "nac-and-host-enforcement",
+      "title": "Gate admission and harden endpoints",
+      "body": "Network Access Control can be physical or virtual and may evaluate identity, device posture, location, certificate, role, and current risk before allowing, restricting, redirecting, or quarantining a connection. Host-based endpoint controls then enforce local configuration, malware prevention, firewall, integrity, logging, patch, and response requirements. NAC is an admission decision, not proof that a host remains safe after connection.",
+      "keyPoints": [
+        "Physical NAC can control port or switch placement; virtual NAC can mediate overlays, cloud, or software-defined access.",
+        "Posture signals need freshness, trust, and exception handling.",
+        "Endpoint controls must continue after admission and support isolation or recovery."
+      ],
+      "sourceRefIds": [
+        "outline-d4-2",
+        "official-d4-78-84",
+        "sybex-d4-621-645",
+        "aio-d4-937-989"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Contractor laptop admission",
+      "situation": "A contractor needs temporary access from a personal laptop to a restricted engineering segment.",
+      "reasoning": "Require an approved identity, managed or verified posture, current protection, least-privilege segment, session limits, logging, and expiry. If posture cannot be established, provide a controlled virtual workspace or quarantine rather than placing the device on the production LAN."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "NAC",
+        "endpoint protection"
+      ],
+      "difference": "NAC controls network admission or placement; endpoint protection hardens and monitors the host before and after admission."
+    },
+    {
+      "between": [
+        "redundancy",
+        "resilience"
+      ],
+      "difference": "Redundancy supplies alternate capacity or paths; resilience includes the broader ability to withstand, recover from, and adapt to failure."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A switch or router is secure once its default password changes.",
+      "correction": "Secure operation also requires hardened services, updates, management-path protection, physical security, backups, monitoring, and support."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does NAC evaluate?",
+      "answer": "Typically identity, device posture, authorization, location/context, and the resulting allow, limit, or quarantine decision."
+    },
+    {
+      "prompt": "Why does media propagation quality matter to security?",
+      "answer": "Interference, attenuation, or tampering can reduce availability and make monitoring or integrity assumptions unreliable."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A switch cluster has redundant power but both members share one unsupported firmware image.",
+      "decision": "Treat the cluster as a common-mode risk: establish supported versions, change controls, recovery images, and tested failover.",
+      "why": "Redundancy does not remove shared dependencies or lifecycle risk."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review infrastructure lifecycle, media threats, NAC, and host controls.",
+    "connect": "Connect NAC to D5 identity/access and endpoint telemetry to D7 operations.",
+    "apply": "Design an admission policy for managed, unmanaged, and contractor devices.",
+    "revisit": "List common-mode failures that redundancy would not prevent."
+  },
+  "visualIds": [
+    "d4-o02-components-and-endpoints-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d4-2",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "4.2"
+      },
+      "supports": [
+        "objective topics"
+      ]
+    },
+    {
+      "id": "official-d4-78-84",
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "78-84 (PDF pp. 78-84)"
+      },
+      "supports": [
+        "components",
+        "media",
+        "NAC",
+        "endpoint security"
+      ]
+    },
+    {
+      "id": "sybex-d4-621-645",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "621-645, Chapter 11"
+      },
+      "supports": [
+        "components",
+        "NAC",
+        "topologies"
+      ]
+    },
+    {
+      "id": "aio-d4-937-989",
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "locator": {
+        "type": "pdf-page",
+        "value": "937-989, Chapter 14 Network Components"
+      },
+      "supports": [
+        "transmission media",
+        "network devices",
+        "endpoint security"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d4-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d4-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d4-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d4-o02-components-and-endpoints-visual-contract",
+    "unitId": "d4-o02-components-and-endpoints",
+    "teachingQuestion": "Which component, medium, admission condition, endpoint control, and shared dependency must work together for this network service to remain secure and available?",
+    "misconception": "NAC admission or redundant hardware alone proves an endpoint and service remain secure.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Network security combines infrastructure lifecycle, physical/media realities, admission control, endpoint persistence, and true independence of redundant paths.",
+    "conceptIds": [
+      "network-components",
+      "transmission-media",
+      "network-access-control",
+      "endpoint-security",
+      "redundancy",
+      "support-lifecycle"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Which component, medium, admission condition, endpoint control, and shared dependency must work together for this network service to remain secure and available?",
+    "textFallback": "Network security depends on the physical medium, infrastructure lifecycle, admission decisions, and host controls that implement the architecture.\nRequire an approved identity, managed or verified posture, current protection, least-privilege segment, session limits, logging, and expiry. If posture cannot be established, provide a controlled virtual workspace or quarantine rather than placing the device on the production LAN.",
+    "sourceRefIds": [
+      "official-d4-78-84",
+      "sybex-d4-621-645",
+      "aio-d4-937-989"
+    ],
+    "mapNodeId": "d4-o02-components-and-endpoints",
+    "visualIds": [
+      "d4-o02-components-and-endpoints-concept-comparison-1"
+    ]
+  }
+}

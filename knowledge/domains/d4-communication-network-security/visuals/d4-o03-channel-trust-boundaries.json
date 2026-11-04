@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o03-channel-trust-boundaries",
+  "unitId": "d4-o03-secure-communication-channels",
+  "type": "process",
+  "teachingQuestion": "What must be decided before, during, and after a privileged communication channel is opened?",
+  "focalInsight": "A secure channel is governed end to end: authorize and constrain it before use, protect and observe it during use, and revoke and evidence it afterward.",
+  "title": "Privileged channel lifecycle",
+  "caption": "Authorize and validate the protected path before granting privileged access; close the scoped access and retain appropriate evidence.",
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Request and purpose",
+      "detail": "Identify the actor, business purpose, target service and support or collaboration need. Provider maintenance needs explicit scope and accountable sponsorship.",
+      "conceptIds": [
+        "remote-access",
+        "third-party-connectivity"
+      ]
+    },
+    {
+      "id": "approve",
+      "label": "Approve scope and window",
+      "detail": "Approve the identity, privilege, time window and intended path. Voice/video use also needs suitable recording consent, access and retention governance.",
+      "conceptIds": [
+        "remote-access",
+        "voice-video-security"
+      ]
+    },
+    {
+      "id": "validate",
+      "label": "Check endpoints and termination",
+      "detail": "Check protocol endpoints, authentication, key/certificate trust, encryption termination, exposed metadata and any onward hop; a protected link alone is not end-to-end service assurance.",
+      "conceptIds": [
+        "secure-channel"
+      ]
+    },
+    {
+      "id": "connect",
+      "label": "Enforce the permitted session",
+      "detail": "Grant resource access only after the approved identity, channel and authorization checks succeed. Broker remote administration through the approved path, with bounded privileges.",
+      "conceptIds": [
+        "remote-access",
+        "secure-channel"
+      ]
+    },
+    {
+      "id": "observe",
+      "label": "Observe use and constraints",
+      "detail": "Monitor relevant actions and session state; preserve accountable logs without collecting secrets or recording communications beyond the approved purpose.",
+      "conceptIds": [
+        "third-party-connectivity",
+        "voice-video-security"
+      ]
+    },
+    {
+      "id": "close",
+      "label": "Revoke and verify",
+      "detail": "End the session and revoke time-bounded grants at completion or expiry. Verify closure, investigate unexpected persistence and retain the authorized record. A later purpose is a new access decision.",
+      "conceptIds": [
+        "remote-access",
+        "third-party-connectivity"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "request",
+      "to": "approve",
+      "label": "establish accountable purpose"
+    },
+    {
+      "from": "approve",
+      "to": "validate",
+      "label": "check approved protection claims"
+    },
+    {
+      "from": "validate",
+      "to": "connect",
+      "label": "satisfy gates before access"
+    },
+    {
+      "from": "connect",
+      "to": "observe",
+      "label": "produce operation evidence"
+    },
+    {
+      "from": "observe",
+      "to": "close",
+      "label": "completion, expiry or revocation"
+    }
+  ],
+  "altSummary": "Six steps separate purpose and approval, endpoint/termination validation, permitted session enforcement, observation, and verified revocation; later work requires a new decision.",
+  "textFallback": "Request and purpose: Identify the actor, business purpose, target service and support or collaboration need. Provider maintenance needs explicit scope and accountable sponsorship.\nApprove scope and window: Approve the identity, privilege, time window and intended path. Voice/video use also needs suitable recording consent, access and retention governance.\nCheck endpoints and termination: Check protocol endpoints, authentication, key/certificate trust, encryption termination, exposed metadata and any onward hop; a protected link alone is not end-to-end service assurance.\nEnforce the permitted session: Grant resource access only after the approved identity, channel and authorization checks succeed. Broker remote administration through the approved path, with bounded privileges.\nObserve use and constraints: Monitor relevant actions and session state; preserve accountable logs without collecting secrets or recording communications beyond the approved purpose.\nRevoke and verify: End the session and revoke time-bounded grants at completion or expiry. Verify closure, investigate unexpected persistence and retain the authorized record. A later purpose is a new access decision.",
+  "sourceRefIds": [
+    "official-d4-85-98",
+    "sybex-d4-657-707"
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "Codex",
+        "date": "2026-09-17"
+      }
+    ],
+    "lastReviewedAt": "2026-09-17"
+  },
+  "conceptIds": [
+    "remote-access",
+    "third-party-connectivity",
+    "voice-video-security",
+    "secure-channel"
+  ]
+}

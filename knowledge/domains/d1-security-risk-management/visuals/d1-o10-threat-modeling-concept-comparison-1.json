@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d1-o10-threat-modeling-concept-comparison-1",
+  "unitId": "d1-o10-threat-modeling",
+  "type": "table",
+  "title": "Use threat modeling to improve a design before it fails: concept decisions 1",
+  "teachingQuestion": "Which model elements and method expose the plausible abuse path, and what decision must result?",
+  "focalInsight": "Bound the system with assets, actors, flows, and trust boundaries; choose methods for the question; own treatment.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Threat Modeling",
+      "conceptIds": [
+        "threat-modeling"
+      ],
+      "definition": "Bounded attacker/failure analysis of a system.",
+      "detail": "Bounded attacker/failure analysis of a system.",
+      "decision": "Set scope, asset, actor, flow, method, owner.",
+      "failureExample": "Attack list has no system model.",
+      "retrievalAnswer": "It changes design decisions.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Assets",
+      "conceptIds": [
+        "assets"
+      ],
+      "definition": "Valuable data, service, credential, trust relationship.",
+      "detail": "Valuable data, service, credential, trust relationship.",
+      "decision": "Identify protection target and consequence.",
+      "failureExample": "Admin credential omitted.",
+      "retrievalAnswer": "Assets anchor priority.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Actors",
+      "conceptIds": [
+        "actors"
+      ],
+      "definition": "People/services/attackers interacting with system.",
+      "detail": "People/services/attackers interacting with system.",
+      "decision": "Name authority, entry, legitimate/malicious roles.",
+      "failureExample": "Partner admin omitted.",
+      "retrievalAnswer": "Actors expose identity assumptions.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Trust Boundary",
+      "conceptIds": [
+        "trust-boundary"
+      ],
+      "definition": "Where authority/trust/control changes.",
+      "detail": "Where authority/trust/control changes.",
+      "decision": "Mark crossing and require validation/authorization.",
+      "failureExample": "External input becomes trusted internally.",
+      "retrievalAnswer": "Boundaries need controls.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Data Flow",
+      "conceptIds": [
+        "data-flow"
+      ],
+      "definition": "Path of data/commands between components.",
+      "detail": "Path of data/commands between components.",
+      "decision": "Map source, destination, content, protocol, store.",
+      "failureExample": "Queue/backup path omitted.",
+      "retrievalAnswer": "Flows show exposure.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Attack Surface",
+      "conceptIds": [
+        "attack-surface"
+      ],
+      "definition": "Influenceable interfaces, inputs, identities, dependencies.",
+      "detail": "Influenceable interfaces, inputs, identities, dependencies.",
+      "decision": "Prioritize exposed/privileged expansion.",
+      "failureExample": "Webhook adds commands unreviewed.",
+      "retrievalAnswer": "Surface is more than ports.",
+      "tier": "B"
+    },
+    {
+      "id": "row-7",
+      "label": "Threat",
+      "conceptIds": [
+        "threat"
+      ],
+      "definition": "Plausible adverse action against asset/path.",
+      "detail": "Plausible adverse action against asset/path.",
+      "decision": "Use method after system context.",
+      "failureExample": "SQL injection listed without input target.",
+      "retrievalAnswer": "Tie threat to asset/path/consequence.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Mitigation",
+      "conceptIds": [
+        "mitigation"
+      ],
+      "definition": "Design/control/test reducing modeled threat.",
+      "detail": "Design/control/test reducing modeled threat.",
+      "decision": "Assign owner, acceptance, proof, residual risk.",
+      "failureExample": "Validation proposed but untested.",
+      "retrievalAnswer": "Mitigation needs evidence.",
+      "tier": "B"
+    },
+    {
+      "id": "row-9",
+      "label": "Abuse Case",
+      "conceptIds": [
+        "abuse-case"
+      ],
+      "definition": "Narrative of harmful misuse of intended path.",
+      "detail": "Narrative of harmful misuse of intended path.",
+      "decision": "Test business logic/authorization.",
+      "failureExample": "Refund repeats approvals.",
+      "retrievalAnswer": "It finds feature misuse.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "threat-modeling",
+    "assets",
+    "actors",
+    "trust-boundary",
+    "data-flow",
+    "attack-surface",
+    "threat",
+    "mitigation",
+    "abuse-case"
+  ],
+  "altSummary": "Bound the system with assets, actors, flows, and trust boundaries; choose methods for the question; own treatment.",
+  "textFallback": "threat modeling: Bounded attacker/failure analysis of a system. Decide: Set scope, asset, actor, flow, method, owner. Example/failure: Attack list has no system model. Retrieve: It changes design decisions.\nassets: Valuable data, service, credential, trust relationship. Decide: Identify protection target and consequence. Example/failure: Admin credential omitted. Retrieve: Assets anchor priority.\nactors: People/services/attackers interacting with system. Decide: Name authority, entry, legitimate/malicious roles. Example/failure: Partner admin omitted. Retrieve: Actors expose identity assumptions.\ntrust boundary: Where authority/trust/control changes. Decide: Mark crossing and require validation/authorization. Example/failure: External input becomes trusted internally. Retrieve: Boundaries need controls.\ndata flow: Path of data/commands between components. Decide: Map source, destination, content, protocol, store. Example/failure: Queue/backup path omitted. Retrieve: Flows show exposure.\nattack surface: Influenceable interfaces, inputs, identities, dependencies. Decide: Prioritize exposed/privileged expansion. Example/failure: Webhook adds commands unreviewed. Retrieve: Surface is more than ports.\nthreat: Plausible adverse action against asset/path. Decide: Use method after system context. Example/failure: SQL injection listed without input target. Retrieve: Tie threat to asset/path/consequence.\nmitigation: Design/control/test reducing modeled threat. Decide: Assign owner, acceptance, proof, residual risk. Example/failure: Validation proposed but untested. Retrieve: Mitigation needs evidence.\nabuse case: Narrative of harmful misuse of intended path. Decide: Test business logic/authorization. Example/failure: Refund repeats approvals. Retrieve: It finds feature misuse.",
+  "sourceRefIds": [
+    "d1-o10-textbook",
+    "d1-o10-sybex",
+    "d1-o10-threat-modeling-depth-source-1"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which model elements and method expose the plausible abuse path, and what decision must result?",
+    "misconception": "A named methodology or a generic attack list is a complete threat model.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows expose distinctions, decision criteria, and misuse consequences.",
+    "focalInsight": "Bound the system with assets, actors, flows, and trust boundaries; choose methods for the question; own treatment.",
+    "conceptIds": [
+      "threat-modeling",
+      "assets",
+      "actors",
+      "trust-boundary",
+      "data-flow",
+      "attack-surface",
+      "threat",
+      "mitigation",
+      "abuse-case"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Map a boundary and choose STRIDE, LINDDUN, OCTAVE, or another method with a reason.",
+    "textFallback": "threat modeling: Bounded attacker/failure analysis of a system. Decide: Set scope, asset, actor, flow, method, owner. Example/failure: Attack list has no system model. Retrieve: It changes design decisions.\nassets: Valuable data, service, credential, trust relationship. Decide: Identify protection target and consequence. Example/failure: Admin credential omitted. Retrieve: Assets anchor priority.\nactors: People/services/attackers interacting with system. Decide: Name authority, entry, legitimate/malicious roles. Example/failure: Partner admin omitted. Retrieve: Actors expose identity assumptions.\ntrust boundary: Where authority/trust/control changes. Decide: Mark crossing and require validation/authorization. Example/failure: External input becomes trusted internally. Retrieve: Boundaries need controls.\ndata flow: Path of data/commands between components. Decide: Map source, destination, content, protocol, store. Example/failure: Queue/backup path omitted. Retrieve: Flows show exposure.\nattack surface: Influenceable interfaces, inputs, identities, dependencies. Decide: Prioritize exposed/privileged expansion. Example/failure: Webhook adds commands unreviewed. Retrieve: Surface is more than ports.\nthreat: Plausible adverse action against asset/path. Decide: Use method after system context. Example/failure: SQL injection listed without input target. Retrieve: Tie threat to asset/path/consequence.\nmitigation: Design/control/test reducing modeled threat. Decide: Assign owner, acceptance, proof, residual risk. Example/failure: Validation proposed but untested. Retrieve: Mitigation needs evidence.\nabuse case: Narrative of harmful misuse of intended path. Decide: Test business logic/authorization. Example/failure: Refund repeats approvals. Retrieve: It finds feature misuse.",
+    "sourceRefIds": [
+      "d1-o10-textbook",
+      "d1-o10-sybex",
+      "d1-o10-threat-modeling-depth-source-1"
+    ],
+    "mapNodeId": "d1-o10-threat-modeling"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

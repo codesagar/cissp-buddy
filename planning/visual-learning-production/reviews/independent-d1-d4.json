@@ -1,0 +1,2880 @@
+{
+  "schemaVersion": 1,
+  "reviewId": "independent-d1-d4-2026-09-18",
+  "reviewer": "independent SOL review by D5-D8 author agent",
+  "reviewedAt": "2026-09-18T23:24:09-05:00",
+  "scope": {
+    "domains": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "sourceModelCount": 43,
+    "sourcePaths": "web/lib/data/teaching/d1*.json through d4*.json",
+    "editPolicy": "Read-only review; no D1-D4 source model was modified.",
+    "diagramSemantics": "diagram-design skill rules applied: explicit labeled arrows, faithful boundary membership, persistent actors for sequence, exact relationships rather than decorative chains."
+  },
+  "releaseBinding": {
+    "releaseId": "cissp-course-2026-09-e96e49dc22eb3fe6",
+    "sourceHash": "e96e49dc22eb3fe6a2eb3d7350ea01b41b431d8dceb3bb1d8832caba03d74bd6",
+    "endpoint": "http://localhost:3000/api/course",
+    "manifestCounts": {
+      "units": 90,
+      "concepts": 698,
+      "conceptOccurrences": 892,
+      "teachingModels": 90,
+      "assessments": 270
+    },
+    "aggregateOfSortedSha256Lines": "93273f064ade0eef9ccd3f985f2f7c5006996b66010e47f1d26276553d4fe8aa"
+  },
+  "verdict": "changes_required",
+  "summary": {
+    "high": 7,
+    "medium": 3,
+    "low": 1,
+    "releaseBlockingFindingIds": [
+      "ID14-001",
+      "ID14-002",
+      "ID14-003",
+      "ID14-004",
+      "ID14-005",
+      "ID14-006",
+      "ID14-007"
+    ],
+    "positiveFindings": [
+      "All 43 files parse and bind to canonical unit IDs.",
+      "All 129 checks have exactly one keyed answer and every repairStateId resolves.",
+      "Every authored concept ID and sourceRef ID is canonical for its unit.",
+      "The four browser journeys persisted attempts through reload and opened Review with the expected retry.",
+      "d1-o01, d2-o04, d3-o07-implementation-side-channel-attacks, and d4-o01-network-segmentation-trust-zones contain strong authored relations despite specific issues noted elsewhere."
+    ]
+  },
+  "structuralChecks": {
+    "modelsParsed": 43,
+    "checksReviewed": 129,
+    "parseErrors": 0,
+    "invalidUnitIds": 0,
+    "invalidSourceRefs": 0,
+    "invalidConceptIds": 0,
+    "checksWithoutExactlyOneCorrect": 0,
+    "missingRepairStateIds": 0,
+    "treatmentDispositionSetMismatches": 0
+  },
+  "browserCoverage": {
+    "tool": "Codex in-app browser via Playwright accessibility/DOM inspection",
+    "baseUrl": "http://localhost:3000",
+    "additionalScreens": [
+      "d1-o07-business-continuity-requirements quantitative figure",
+      "d1-o10-threat-modeling boundary figure",
+      "d2-o04-data-lifecycle ledger figure",
+      "d3-o08-facility-design-principles boundary figure"
+    ],
+    "journeys": [
+      {
+        "domainId": 1,
+        "unitId": "d1-o02-security-concepts",
+        "steps": [
+          {
+            "action": "Open Predict",
+            "observed": "Transit status scenario and three options rendered."
+          },
+          {
+            "action": "Submit wrong confidentiality option",
+            "observed": "Feedback said sensitivity does not identify the failure and offered Inspect relevant explanation."
+          },
+          {
+            "action": "Open repair",
+            "observed": "Returned to Understand at state 3/4, “Control and evidence consequence.”"
+          },
+          {
+            "action": "Submit transfer answer “Authenticity fails even though data integrity may appear intact”",
+            "observed": "Correct feedback rendered."
+          },
+          {
+            "action": "Reload and open Review",
+            "observed": "2 distinct questions attempted; 1 response included a mistake; availability retry rendered."
+          }
+        ],
+        "result": "persistence_and_navigation_pass_content_finding_ID14-002"
+      },
+      {
+        "domainId": 2,
+        "unitId": "d2-o04-data-lifecycle",
+        "steps": [
+          {
+            "action": "Submit wrong “Every copy must be retained” prediction",
+            "observed": "Feedback correctly limited the hold to archive and backup."
+          },
+          {
+            "action": "Open repair",
+            "observed": "Returned to “Project purpose ends.”"
+          },
+          {
+            "action": "Submit correct separate-ledger transfer",
+            "observed": "Correct feedback preserved independent governance."
+          },
+          {
+            "action": "Reload and open Review",
+            "observed": "2 distinct questions attempted; 1 mistake; cache/backup retry rendered."
+          }
+        ],
+        "result": "pass"
+      },
+      {
+        "domainId": 3,
+        "unitId": "d3-o05-cloud-container-serverless",
+        "steps": [
+          {
+            "action": "Inspect Understand",
+            "observed": "Six sequence lifelines were External upload event, API/event gate, function, classifier, store, and deployment authority."
+          },
+          {
+            "action": "Submit wrong provider-responsibility prediction",
+            "observed": "Misconception-specific feedback rendered."
+          },
+          {
+            "action": "Open repair",
+            "observed": "Returned to “Control and evidence consequence.”"
+          },
+          {
+            "action": "Submit correct SaaS public-link transfer",
+            "observed": "Correct sharing-baseline feedback rendered."
+          },
+          {
+            "action": "Reload and open Review",
+            "observed": "2 distinct questions attempted; retry about untrusted queue event rendered."
+          }
+        ],
+        "result": "persistence_pass_content_findings_ID14-005_ID14-006"
+      },
+      {
+        "domainId": 4,
+        "unitId": "d4-o03-secure-communication-channels",
+        "steps": [
+          {
+            "action": "Inspect Understand",
+            "observed": "Six sequence lifelines were request, vendor identity/device, jump endpoint, operation, evidence/artifacts, and closure."
+          },
+          {
+            "action": "Submit wrong claim that live E2EE protects recordings",
+            "observed": "Feedback correctly separated the stored artifact."
+          },
+          {
+            "action": "Open repair",
+            "observed": "Returned to “Control and evidence consequence.”"
+          },
+          {
+            "action": "Submit correct governed-recording transfer",
+            "observed": "Correct feedback rendered."
+          },
+          {
+            "action": "Reload and open Review",
+            "observed": "2 distinct questions attempted; expired-ticket retry rendered."
+          }
+        ],
+        "result": "persistence_pass_content_findings_ID14-005_ID14-006"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "ID14-001",
+      "severity": "high",
+      "title": "Active relations contradict their authored state in 36 of 43 models",
+      "unitIds": [
+        "d1-o01-professional-ethics",
+        "d1-o02-security-concepts",
+        "d1-o03-security-governance",
+        "d1-o05-investigation-types",
+        "d1-o06-policy-framework",
+        "d1-o07-business-continuity-requirements",
+        "d1-o09-risk-management",
+        "d1-o10-threat-modeling",
+        "d1-o11-supply-chain-risk",
+        "d1-o12-security-awareness",
+        "d2-o01-inventory-classification",
+        "d2-o02-handling-requirements",
+        "d2-o03-secure-provisioning",
+        "d2-o04-data-lifecycle",
+        "d2-o05-retention-disposal",
+        "d2-o06-controls-compliance",
+        "d3-o01-secure-design-principles",
+        "d3-o02-security-models",
+        "d3-o03-control-selection",
+        "d3-o04-system-security-capabilities",
+        "d3-o05-cloud-container-serverless",
+        "d3-o05-platform-data-architecture",
+        "d3-o06-cryptographic-agility-quantum",
+        "d3-o06-cryptographic-primitives",
+        "d3-o06-cryptographic-solutions",
+        "d3-o06-key-management-pki",
+        "d3-o07-cryptanalytic-attack-models",
+        "d3-o07-cryptanalytic-attacks",
+        "d3-o07-protocol-credential-availability-attacks",
+        "d3-o08-facility-design-principles",
+        "d3-o09-facility-security-controls",
+        "d3-o10-information-system-lifecycle",
+        "d4-o01-architecture-and-segmentation",
+        "d4-o01-network-protocol-routing-design",
+        "d4-o01-wireless-cloud-remote-architecture",
+        "d4-o03-secure-communication-channels"
+      ],
+      "edges": [
+        {
+          "file": "d1-o01-professional-ethics.json",
+          "unitId": "d1-o01-professional-ethics",
+          "stateId": "preservation",
+          "edgeIndex": 3,
+          "edge": "harm --fails: concealment creates foreseeable harm--> preserve",
+          "missingActiveNodeIds": [
+            "harm"
+          ]
+        },
+        {
+          "file": "d1-o01-professional-ethics.json",
+          "unitId": "d1-o01-professional-ethics",
+          "stateId": "variant-stop",
+          "edgeIndex": 2,
+          "edge": "authority --fails: no authority to suppress--> preserve",
+          "missingActiveNodeIds": [
+            "authority"
+          ]
+        },
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "stateId": "changed-case",
+          "edgeIndex": 4,
+          "edge": "requirement-frame --must be demonstrated by--> evidence",
+          "missingActiveNodeIds": [
+            "evidence"
+          ]
+        },
+        {
+          "file": "d1-o03-security-governance.json",
+          "unitId": "d1-o03-security-governance",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "security-analysis --informs but does not replace decision by--> authorized-owner",
+          "missingActiveNodeIds": [
+            "security-analysis"
+          ]
+        },
+        {
+          "file": "d1-o05-investigation-types.json",
+          "unitId": "d1-o05-investigation-types",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "investigation-scope --limits--> collection",
+          "missingActiveNodeIds": [
+            "collection"
+          ]
+        },
+        {
+          "file": "d1-o06-policy-framework.json",
+          "unitId": "d1-o06-policy-framework",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "security-policy --is supported by adaptable--> security-guideline",
+          "missingActiveNodeIds": [
+            "security-guideline"
+          ]
+        },
+        {
+          "file": "d1-o07-business-continuity-requirements.json",
+          "unitId": "d1-o07-business-continuity-requirements",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "last-recoverable-data-point --defines the actual recoverable-data age interval ending at--> interruption-reference-time",
+          "missingActiveNodeIds": [
+            "last-recoverable-data-point",
+            "interruption-reference-time"
+          ]
+        },
+        {
+          "file": "d1-o09-risk-management.json",
+          "unitId": "d1-o09-risk-management",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "assessment --informs the authorized choice of--> treatment",
+          "missingActiveNodeIds": [
+            "treatment"
+          ]
+        },
+        {
+          "file": "d1-o09-risk-management.json",
+          "unitId": "d1-o09-risk-management",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "treatment --creates control claims and review triggers tested by--> assurance",
+          "missingActiveNodeIds": [
+            "treatment"
+          ]
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "stateId": "changed-case",
+          "edgeIndex": 4,
+          "edge": "processing-service --writes processed result to--> document-store",
+          "missingActiveNodeIds": [
+            "document-store"
+          ]
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "requirements --governs approved onboarding and operation of--> operation",
+          "missingActiveNodeIds": [
+            "operation"
+          ]
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "operation --produces service, update, component, and assurance evidence for--> monitoring",
+          "missingActiveNodeIds": [
+            "operation"
+          ]
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "stateId": "device-identity",
+          "edgeIndex": 1,
+          "edge": "assessment --turns findings into enforceable--> requirements",
+          "missingActiveNodeIds": [
+            "requirements"
+          ]
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "stateId": "device-identity",
+          "edgeIndex": 2,
+          "edge": "requirements --governs approved onboarding and operation of--> operation",
+          "missingActiveNodeIds": [
+            "requirements"
+          ]
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "practice-and-real-work --produces--> behavioral-evidence",
+          "missingActiveNodeIds": [
+            "behavioral-evidence"
+          ]
+        },
+        {
+          "file": "d2-o01-inventory-classification.json",
+          "unitId": "d2-o01-inventory-classification",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "governing-scheme --defines meaning of--> classification-or-categorization",
+          "missingActiveNodeIds": [
+            "classification-or-categorization"
+          ]
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "policy-permitted-approved-exception --records a scoped, time-bounded variance with owner, compensating controls, and review/end condition from--> handling-rule",
+          "missingActiveNodeIds": [
+            "policy-permitted-approved-exception"
+          ]
+        },
+        {
+          "file": "d2-o03-secure-provisioning.json",
+          "unitId": "d2-o03-secure-provisioning",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "gate --permits activation only after the required evidence passes--> operating",
+          "missingActiveNodeIds": [
+            "operating"
+          ]
+        },
+        {
+          "file": "d2-o03-secure-provisioning.json",
+          "unitId": "d2-o03-secure-provisioning",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "operating --is continuously compared with accepted purpose and baseline to detect--> drift",
+          "missingActiveNodeIds": [
+            "operating"
+          ]
+        },
+        {
+          "file": "d2-o04-data-lifecycle.json",
+          "unitId": "d2-o04-data-lifecycle",
+          "stateId": "local-delete",
+          "edgeIndex": 1,
+          "edge": "hold --blocks destruction of this named copy--> archive",
+          "missingActiveNodeIds": [
+            "hold"
+          ]
+        },
+        {
+          "file": "d2-o04-data-lifecycle.json",
+          "unitId": "d2-o04-data-lifecycle",
+          "stateId": "local-delete",
+          "edgeIndex": 2,
+          "edge": "hold --blocks destruction of this named copy--> backup",
+          "missingActiveNodeIds": [
+            "hold"
+          ]
+        },
+        {
+          "file": "d2-o04-data-lifecycle.json",
+          "unitId": "d2-o04-data-lifecycle",
+          "stateId": "local-delete",
+          "edgeIndex": 3,
+          "edge": "primary --requires copy-specific disposition proof--> evidence",
+          "missingActiveNodeIds": [
+            "evidence"
+          ]
+        },
+        {
+          "file": "d2-o04-data-lifecycle.json",
+          "unitId": "d2-o04-data-lifecycle",
+          "stateId": "local-delete",
+          "edgeIndex": 4,
+          "edge": "export --supplier outcome remains unverified--> evidence",
+          "missingActiveNodeIds": [
+            "evidence"
+          ]
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "no-hold-and-authorized-disposition --permits--> method-selection-and-sanitization",
+          "missingActiveNodeIds": [
+            "method-selection-and-sanitization"
+          ]
+        },
+        {
+          "file": "d2-o06-controls-compliance.json",
+          "unitId": "d2-o06-controls-compliance",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "provider --assigns provider and customer duties around--> cloud",
+          "missingActiveNodeIds": [
+            "provider"
+          ]
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Administrator --controls under separate authority--> Deployment configuration",
+          "missingActiveNodeIds": [
+            "Deployment configuration"
+          ]
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "High-integrity subject --read denied by the stated Biba no-read-down rule--> Low-integrity object",
+          "missingActiveNodeIds": [
+            "Low-integrity object"
+          ]
+        },
+        {
+          "file": "d3-o03-control-selection.json",
+          "unitId": "d3-o03-control-selection",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "Test evidence --supports reassessment--> Residual-risk decision",
+          "missingActiveNodeIds": [
+            "Residual-risk decision"
+          ]
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Hardware root of trust --can anchor specific measurements--> Startup measurement evidence",
+          "missingActiveNodeIds": [
+            "Startup measurement evidence"
+          ]
+        },
+        {
+          "file": "d3-o05-cloud-container-serverless.json",
+          "unitId": "d3-o05-cloud-container-serverless",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "classifier --writes only the authorized result object to--> store",
+          "missingActiveNodeIds": [
+            "store"
+          ]
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Replication or backup path --creates another protected data boundary--> Data copy",
+          "missingActiveNodeIds": [
+            "Data copy"
+          ]
+        },
+        {
+          "file": "d3-o06-cryptographic-agility-quantum.json",
+          "unitId": "d3-o06-cryptographic-agility-quantum",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "profile --must operate across the actual--> dependencies",
+          "missingActiveNodeIds": [
+            "dependencies"
+          ]
+        },
+        {
+          "file": "d3-o06-cryptographic-agility-quantum.json",
+          "unitId": "d3-o06-cryptographic-agility-quantum",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "dependencies --define the cases and partners exercised by--> tests",
+          "missingActiveNodeIds": [
+            "dependencies"
+          ]
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Protected signer authority --creates integrity and origin evidence--> Signature",
+          "missingActiveNodeIds": [
+            "Signature"
+          ]
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Key lifecycle --governs access, rotation and compromise response--> Encryption and signing use",
+          "missingActiveNodeIds": [
+            "Encryption and signing use"
+          ]
+        },
+        {
+          "file": "d3-o06-key-management-pki.json",
+          "unitId": "d3-o06-key-management-pki",
+          "stateId": "changed-case",
+          "edgeIndex": 5,
+          "edge": "validation --supports service trust only after all checks pass--> restored",
+          "missingActiveNodeIds": [
+            "restored"
+          ]
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Chosen-ciphertext input --may expose useful error behavior--> Observable endpoint response",
+          "missingActiveNodeIds": [
+            "Observable endpoint response"
+          ]
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attacks.json",
+          "unitId": "d3-o07-cryptanalytic-attacks",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Stolen usable credential artifact --may enable accepted authentication--> Authentication abuse",
+          "missingActiveNodeIds": [
+            "Authentication abuse"
+          ]
+        },
+        {
+          "file": "d3-o07-protocol-credential-availability-attacks.json",
+          "unitId": "d3-o07-protocol-credential-availability-attacks",
+          "stateId": "changed-case",
+          "edgeIndex": 4,
+          "edge": "restore --requires integrity, security, and business checks before--> acceptance",
+          "missingActiveNodeIds": [
+            "acceptance"
+          ]
+        },
+        {
+          "file": "d3-o08-facility-design-principles.json",
+          "unitId": "d3-o08-facility-design-principles",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Emergency egress --must remain compatible with the applicable design--> People safety",
+          "missingActiveNodeIds": [
+            "People safety"
+          ]
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "Generator capability --depends on tested operation--> Transfer, fuel and maintenance",
+          "missingActiveNodeIds": [
+            "Transfer, fuel and maintenance"
+          ]
+        },
+        {
+          "file": "d3-o10-information-system-lifecycle.json",
+          "unitId": "d3-o10-information-system-lifecycle",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "implementation --supplies scoped readiness evidence to--> acceptance",
+          "missingActiveNodeIds": [
+            "acceptance"
+          ]
+        },
+        {
+          "file": "d3-o10-information-system-lifecycle.json",
+          "unitId": "d3-o10-information-system-lifecycle",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "acceptance --assigns continuing owners and conditions for--> operations",
+          "missingActiveNodeIds": [
+            "acceptance"
+          ]
+        },
+        {
+          "file": "d4-o01-architecture-and-segmentation.json",
+          "unitId": "d4-o01-architecture-and-segmentation",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "management --can change edge route and policy behavior at--> ingress",
+          "missingActiveNodeIds": [
+            "management"
+          ]
+        },
+        {
+          "file": "d4-o01-architecture-and-segmentation.json",
+          "unitId": "d4-o01-architecture-and-segmentation",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "management --can change east–west route and enforcement behavior in--> services",
+          "missingActiveNodeIds": [
+            "management"
+          ]
+        },
+        {
+          "file": "d4-o01-network-protocol-routing-design.json",
+          "unitId": "d4-o01-network-protocol-routing-design",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "scope --defines the intended receiver and delivery behavior for--> data",
+          "missingActiveNodeIds": [
+            "scope"
+          ]
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "broker --permits only the scoped application or administration session into--> cloud",
+          "missingActiveNodeIds": [
+            "cloud"
+          ]
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "edge --uses a restricted and authenticated origin path to--> origin",
+          "missingActiveNodeIds": [
+            "origin"
+          ]
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "stateId": "changed-case",
+          "edgeIndex": 4,
+          "edge": "cloud --applies tenant route, identity, ingress, and egress policy around--> origin",
+          "missingActiveNodeIds": [
+            "cloud",
+            "origin"
+          ]
+        },
+        {
+          "file": "d4-o03-secure-communication-channels.json",
+          "unitId": "d4-o03-secure-communication-channels",
+          "stateId": "changed-case",
+          "edgeIndex": 2,
+          "edge": "broker --permits only the ticket-bound target action in--> operation",
+          "missingActiveNodeIds": [
+            "operation"
+          ]
+        },
+        {
+          "file": "d4-o03-secure-communication-channels.json",
+          "unitId": "d4-o03-secure-communication-channels",
+          "stateId": "changed-case",
+          "edgeIndex": 3,
+          "edge": "operation --produces commands, flows, and artifacts recorded in--> evidence",
+          "missingActiveNodeIds": [
+            "operation"
+          ]
+        }
+      ],
+      "checks": [],
+      "steps": [
+        "Open the unit at Understand.",
+        "Advance to the named state or choose the reviewed changed case.",
+        "Compare activeEdgeIndexes with activeNodeIds in the bound model.",
+        "Observe that at least one focused relation names an endpoint the state does not activate; the generic map nevertheless highlights that endpoint because selected edges override state focus."
+      ],
+      "observed": "51 active-edge occurrences in 36 models omit one or both endpoints from activeNodeIds.",
+      "expected": "Every active edge in a state has both endpoints active, so the caption, statuses, and selected relation describe one coherent state.",
+      "recommendation": "For each listed occurrence, either add the missing endpoint with a concrete status or remove the edge index. Recheck changed-case states first; most violations are there."
+    },
+    {
+      "id": "ID14-002",
+      "severity": "high",
+      "title": "The Domain 1.2 prediction does not answer its transit-integrity case",
+      "unitIds": [
+        "d1-o02-security-concepts"
+      ],
+      "edges": [
+        "failure-scenario --is diagnosed by consequence--> property-question"
+      ],
+      "checks": [
+        "d1-o02-security-concepts-prediction-v1"
+      ],
+      "steps": [
+        "Open d1-o02-security-concepts at Understand.",
+        "Read the scenario: altered public-transit arrival times with no sensitive data.",
+        "Open Predict and inspect all three options."
+      ],
+      "observed": "No option identifies integrity or frames a measurable integrity requirement for the transit page. The two distractors discuss a business feed/publisher, which belongs to the transfer case, while the keyed answer is only a generic method. All six figure nodes have empty conceptIds and restate abstract labels rather than the transit actors, data, alteration, consequence, threshold, and evidence.",
+      "expected": "One keyed option directly diagnoses integrity in the stated transit case and names a measurable integrity outcome; distractors stay in that same case.",
+      "recommendation": "Author the prediction around the transit status page, its publisher/update path, altered arrival data, safety consequence, acceptable error or freshness threshold, and integrity evidence. Keep the payroll publisher case only in transfer."
+    },
+    {
+      "id": "ID14-003",
+      "severity": "high",
+      "title": "The recovery-objective quantitative model has a missing RPO marker and a wrong concept binding",
+      "unitIds": [
+        "d1-o07-business-continuity-requirements"
+      ],
+      "edges": [
+        "last-recoverable-data-point --defines the actual recoverable-data age interval ending at--> interruption-reference-time"
+      ],
+      "checks": [
+        "d1-o07-business-continuity-requirements-prediction-v1",
+        "d1-o07-business-continuity-requirements-transfer-v1"
+      ],
+      "steps": [
+        "Open d1-o07-business-continuity-requirements at Understand.",
+        "Read the quantitative figure and its text equivalent.",
+        "Inspect the nodes, conceptIds, and Business Impact Analysis detail."
+      ],
+      "observed": "Business Impact Analysis refers to an RPO Marker that does not exist. Interruption Reference Time is bound to recovery-time-objective even though it terminates the RPO look-back interval. The figure shows no numeric positions or intervals in the worked case, so its quantitative representation renders as six prose boxes with fragments such as “Disruption Start elapsed recovery target to RTO Marker.”",
+      "expected": "The model explicitly represents disruption time, restore time, last recoverable point, RTO, RPO, and MTD/MAD on compatible axes, with correct concept bindings and no nonexistent endpoint.",
+      "recommendation": "Add the missing RPO target/interval, bind interruption and last-recoverable points to recovery-point-objective, supply actual worked-case values, and write complete node/status sentences."
+    },
+    {
+      "id": "ID14-004",
+      "severity": "high",
+      "title": "The security-models case asks for Clark–Wilson but the worked figure teaches different models",
+      "unitIds": [
+        "d3-o02-security-models"
+      ],
+      "edges": [
+        "Lower-confidentiality subject --read denied by Bell-LaPadula--> Higher-confidentiality object",
+        "High-integrity subject --read denied by Biba--> Low-integrity object"
+      ],
+      "checks": [
+        "d3-o02-security-models-prediction-v1",
+        "d3-o02-security-models-transfer-v1"
+      ],
+      "steps": [
+        "Open d3-o02-security-models at Understand.",
+        "Read the payment-release scenario requiring separate entry and approval through controlled transactions.",
+        "Compare the initial figure and prediction options with the scenario."
+      ],
+      "observed": "The scenario is a Clark–Wilson separation-of-duties/well-formed-transaction case, but the first three states show only Bell–LaPadula and Biba subject/object flows. There is no Clark–Wilson entity or edge, and Brewer–Nash appears only in focal prose. The keyed prediction says to select a model by its goal rather than identifying the violating action requested by the prompt.",
+      "expected": "The worked case contains user, transformation procedure, constrained data item, integrity verification procedure, and separated roles, and the keyed answer resolves the specific payment-release action.",
+      "recommendation": "Make Clark–Wilson the worked case, move Bell–LaPadula/Biba/Brewer–Nash into distinct comparison cases, and rewrite the prediction so one answer directly resolves the stated operation."
+    },
+    {
+      "id": "ID14-005",
+      "severity": "high",
+      "title": "Two sequence diagrams use six stages or artifacts as persistent lifelines",
+      "unitIds": [
+        "d3-o05-cloud-container-serverless",
+        "d4-o03-secure-communication-channels"
+      ],
+      "edges": [
+        "d3: external upload event → API/event gate → function → classifier → store, plus deployment authority",
+        "d4: maintenance request → identity/device → jump endpoint → operation → evidence → closure"
+      ],
+      "checks": [],
+      "steps": [
+        "Open each unit at Understand.",
+        "Inspect the rendered sequence headings and vertical lifelines.",
+        "Compare each heading with a persistent actor that can send or receive a message."
+      ],
+      "observed": "Both diagrams render six lifelines. Upload event, maintenance request, operation, evidence, and closure are transient stages/artifacts, so the lifelines imply persistence and message exchange the authored entities do not have. The D4 edge “Observed session and artifacts supports review and confirms the required Revocation and verified closure” is an evidence dependency, not a message.",
+      "expected": "Sequence uses at most five persistent actors and actual message order, or the model uses state/decision/boundary for gates and artifacts.",
+      "recommendation": "Convert these to state or boundary models, or replace the headings with true actors/services and keep stages as messages or state changes."
+    },
+    {
+      "id": "ID14-006",
+      "severity": "high",
+      "title": "Seven transfer visuals reuse entities from a different system",
+      "unitIds": [
+        "d3-o01-secure-design-principles",
+        "d3-o05-architecture-vulnerabilities",
+        "d3-o05-cloud-container-serverless",
+        "d3-o05-embedded-edge-industrial",
+        "d3-o05-platform-data-architecture",
+        "d4-o02-components-and-endpoints",
+        "d4-o03-secure-communication-channels"
+      ],
+      "edges": [],
+      "checks": [
+        "d3-o01-secure-design-principles-transfer-v1",
+        "d3-o05-architecture-vulnerabilities-transfer-v1",
+        "d3-o05-cloud-container-serverless-transfer-v1",
+        "d3-o05-embedded-edge-industrial-transfer-v1",
+        "d3-o05-platform-data-architecture-transfer-v1",
+        "d4-o02-components-and-endpoints-transfer-v1",
+        "d4-o03-secure-communication-channels-transfer-v1"
+      ],
+      "steps": [
+        "Open each listed unit at Understand.",
+        "Choose Reviewed changed case or inspect changed-case state.",
+        "Compare transfer prompt nouns with node labels and active statuses."
+      ],
+      "observed": "The changed fact is carried almost entirely in the caption/status while the diagram remains another system: payroll policy engine over partner-upload nodes; orchestrator over edge-update nodes; SaaS public sharing over document-intake nodes; HPC scheduler over firmware/control-system nodes; hypervisor over browser/API/database nodes; redundant switches over NAC endpoint nodes; meeting recording over vendor-maintenance nodes.",
+      "expected": "The changed case preserves relevant entities and replaces or adds the entity whose changed fact drives the consequence.",
+      "recommendation": "Author variant-specific entities through a separate model where necessary, or keep the transfer within the same system boundary. A caption pasted onto unrelated boxes is not a changed-case visual."
+    },
+    {
+      "id": "ID14-007",
+      "severity": "high",
+      "title": "Boundary and ledger lanes misstate membership or declare an empty semantic region",
+      "unitIds": [
+        "d1-o10-threat-modeling",
+        "d2-o02-handling-requirements",
+        "d3-o03-control-selection",
+        "d3-o04-system-security-capabilities",
+        "d3-o05-architecture-vulnerabilities",
+        "d3-o05-platform-data-architecture",
+        "d3-o06-cryptographic-solutions",
+        "d3-o08-facility-design-principles"
+      ],
+      "edges": [],
+      "checks": [],
+      "steps": [
+        "Open each listed boundary/ledger model at Understand.",
+        "Read lane labels/rules and inspect which nodes render in each lane.",
+        "Compare node role with the stated membership rule."
+      ],
+      "observed": "Examples visible in the release: d1-o10 leaves Origin empty and puts Partner Actor in Boundary/control; d3-o08 puts Restricted Operations Room, Approved Personnel, Emergency Egress, and People Safety in Origin while Protected side is empty; d3-o03 ledger leaves Decision subjects empty; d3-o05-platform-data-architecture and d3-o06-cryptographic-solutions leave Protected side empty. Other listed models declare similarly empty origin/protected lanes.",
+      "expected": "Every lane has meaningful membership and each node belongs to the lane whose rule describes that actor, control, protected resource, or evidence.",
+      "recommendation": "Reassign nodes based on case semantics, remove unused lanes, and add missing protected outcomes/evidence where the representation requires them."
+    },
+    {
+      "id": "ID14-008",
+      "severity": "medium",
+      "title": "Visible state statuses are authored as truncated sentence fragments",
+      "unitIds": [
+        "d1-o04-legal-compliance",
+        "d1-o05-investigation-types",
+        "d1-o08-personnel-security",
+        "d1-o09-risk-management",
+        "d1-o10-threat-modeling",
+        "d1-o11-supply-chain-risk",
+        "d1-o12-security-awareness",
+        "d2-o01-inventory-classification",
+        "d2-o02-handling-requirements",
+        "d2-o03-secure-provisioning",
+        "d2-o05-retention-disposal",
+        "d2-o06-controls-compliance",
+        "d3-o01-secure-design-principles",
+        "d3-o02-security-models",
+        "d3-o04-system-security-capabilities",
+        "d3-o05-architecture-vulnerabilities",
+        "d3-o05-cloud-container-serverless",
+        "d3-o05-embedded-edge-industrial",
+        "d3-o05-platform-data-architecture",
+        "d3-o06-cryptographic-agility-quantum",
+        "d3-o06-cryptographic-solutions",
+        "d3-o06-key-management-pki",
+        "d3-o07-cryptanalytic-attack-models",
+        "d3-o07-cryptanalytic-attacks",
+        "d3-o07-protocol-credential-availability-attacks",
+        "d3-o09-facility-security-controls",
+        "d3-o10-information-system-lifecycle",
+        "d4-o01-architecture-and-segmentation",
+        "d4-o01-network-protocol-routing-design",
+        "d4-o01-wireless-cloud-remote-architecture",
+        "d4-o02-components-and-endpoints",
+        "d4-o03-secure-communication-channels"
+      ],
+      "edges": [],
+      "checks": [],
+      "steps": [
+        "Open an affected unit at Understand.",
+        "Advance to Case facts or Changed fact.",
+        "Read the bold node status shown above the node detail."
+      ],
+      "observed": "81 literal ellipsis strings across 32 files end before the consequence or control is complete; examples include “Treat the recording as a new governed copy ... and protect…” and “RPO ... exceeded…” patterns.",
+      "expected": "Each status is a short, complete, concrete outcome label; layout handles clipping rather than authored strings ending mid-thought.",
+      "recommendation": "Replace each listed value with a concise complete status (for example “public recording link: exposure unresolved”); keep full reasoning in captions.",
+      "occurrences": [
+        {
+          "file": "d1-o04-legal-compliance.json",
+          "unitId": "d1-o04-legal-compliance",
+          "path": "states.0.statuses.transfer",
+          "value": "Customer records, support purpose, origin, destination, remote administrators, technology, and recipient are separate…"
+        },
+        {
+          "file": "d1-o05-investigation-types.json",
+          "unitId": "d1-o05-investigation-types",
+          "path": "states.3.statuses.collection",
+          "value": "Validate the demand with qualified owners, preserve the named material by the deadline, document custody, and prevent…"
+        },
+        {
+          "file": "d1-o05-investigation-types.json",
+          "unitId": "d1-o05-investigation-types",
+          "path": "variants.0.states.1.statuses.collection",
+          "value": "Validate the demand with qualified owners, preserve the named material by the deadline, document custody, and prevent…"
+        },
+        {
+          "file": "d1-o08-personnel-security.json",
+          "unitId": "d1-o08-personnel-security",
+          "path": "states.0.statuses.sponsor",
+          "value": "The accountable sponsor approves the new duties, retained exceptions, expiry, and proportional screening or agreement…"
+        },
+        {
+          "file": "d1-o08-personnel-security.json",
+          "unitId": "d1-o08-personnel-security",
+          "path": "states.3.statuses.evidence",
+          "value": "Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege, then…"
+        },
+        {
+          "file": "d1-o08-personnel-security.json",
+          "unitId": "d1-o08-personnel-security",
+          "path": "variants.0.states.1.statuses.evidence",
+          "value": "Remove procurement-inappropriate legacy access, explicitly reapprove and time-bound the clinical privilege, then…"
+        },
+        {
+          "file": "d1-o09-risk-management.json",
+          "unitId": "d1-o09-risk-management",
+          "path": "states.0.statuses.controls",
+          "value": "Segmentation, privileged access, detection, protected recovery, and restoration tests modify the defined path only…"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "path": "states.3.statuses.document-store",
+          "value": "Redraw the supplier boundary and flows, model malicious content and update compromise at the new control points, and…"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "path": "variants.0.states.1.statuses.document-store",
+          "value": "Redraw the supplier boundary and flows, model malicious content and update compromise at the new control points, and…"
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "path": "states.0.statuses.criticality",
+          "value": "The utility records the service dependency, remote management, data access, safety consequence, subcontractors,…"
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "path": "states.0.statuses.assessment",
+          "value": "Due diligence, third-party assessment, provenance, tamper and counterfeit risk, SBOM visibility, and update authority…"
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "path": "states.3.statuses.exit",
+          "value": "Treat the announcement as a monitoring trigger, reassess exposure and contractual options, and activate remediation or…"
+        },
+        {
+          "file": "d1-o11-supply-chain-risk.json",
+          "unitId": "d1-o11-supply-chain-risk",
+          "path": "variants.0.states.1.statuses.exit",
+          "value": "Treat the announcement as a monitoring trigger, reassess exposure and contractual options, and activate remediation or…"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "path": "states.3.statuses.behavioral-evidence",
+          "value": "Treat the behavior and outcome signals as more relevant than completion while checking population, exposure, process…"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "path": "variants.0.states.1.statuses.behavioral-evidence",
+          "value": "Treat the behavior and outcome signals as more relevant than completion while checking population, exposure, process…"
+        },
+        {
+          "file": "d2-o01-inventory-classification.json",
+          "unitId": "d2-o01-inventory-classification",
+          "path": "states.3.statuses.classification-or-categorization",
+          "value": "Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity, and any…"
+        },
+        {
+          "file": "d2-o01-inventory-classification.json",
+          "unitId": "d2-o01-inventory-classification",
+          "path": "variants.0.states.1.statuses.classification-or-categorization",
+          "value": "Classify from the named scheme and consequences, emphasizing integrity, availability, authenticity, and any…"
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "path": "states.2.statuses.handling-rule",
+          "value": "result: Policy Permitted Approved Exception records a scoped, time-bounded variance with owner, compensating controls,…"
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "path": "states.3.statuses.handling-rule",
+          "value": "Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know,…"
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "path": "variants.0.states.1.statuses.handling-rule",
+          "value": "Add media inventory, chain-of-custody, transport, return, and sanitization controls while retaining need-to-know,…"
+        },
+        {
+          "file": "d2-o03-secure-provisioning.json",
+          "unitId": "d2-o03-secure-provisioning",
+          "path": "states.0.statuses.request",
+          "value": "The workspace request names its owner, purpose, data classification, dependencies, access model, support period, and…"
+        },
+        {
+          "file": "d2-o03-secure-provisioning.json",
+          "unitId": "d2-o03-secure-provisioning",
+          "path": "states.0.statuses.template",
+          "value": "The platform instantiates managed logging, encryption, access, network, backup, and update defaults from the current…"
+        },
+        {
+          "file": "d2-o03-secure-provisioning.json",
+          "unitId": "d2-o03-secure-provisioning",
+          "path": "states.3.statuses.gate",
+          "value": "Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception, and record…"
+        },
+        {
+          "file": "d2-o03-secure-provisioning.json",
+          "unitId": "d2-o03-secure-provisioning",
+          "path": "variants.0.states.1.statuses.gate",
+          "value": "Move to remediation or isolation, remove the rule or obtain a newly authorized bounded exception, and record…"
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "path": "states.3.statuses.method-selection-and-sanitization",
+          "value": "Do not release the media; select a supported method or destruction path, execute it, verify the result, and validate…"
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "path": "variants.0.states.1.statuses.method-selection-and-sanitization",
+          "value": "Do not release the media; select a supported method or destruction path, execute it, verify the result, and validate…"
+        },
+        {
+          "file": "d2-o06-controls-compliance.json",
+          "unitId": "d2-o06-controls-compliance",
+          "path": "states.0.statuses.data",
+          "value": "The company identifies classification, minimum fields, recipient, use, location, retention, and every managed or…"
+        },
+        {
+          "file": "d2-o06-controls-compliance.json",
+          "unitId": "d2-o06-controls-compliance",
+          "path": "states.3.statuses.evidence",
+          "value": "Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response,…"
+        },
+        {
+          "file": "d2-o06-controls-compliance.json",
+          "unitId": "d2-o06-controls-compliance",
+          "path": "variants.0.states.1.statuses.evidence",
+          "value": "Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response,…"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "path": "states.3.statuses.Deployment configuration",
+          "value": "Fail secure or use a narrowly defined emergency mode with minimum privilege, time bounds, logging, approval, and later…"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "path": "variants.0.states.1.statuses.Deployment configuration",
+          "value": "Fail secure or use a narrowly defined emergency mode with minimum privilege, time bounds, logging, approval, and later…"
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "path": "states.3.statuses.Low-integrity object",
+          "value": "Map A to Bell–LaPadula confidentiality, B to Biba integrity, and C to Clark–Wilson well-formed transactions and…"
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "path": "variants.0.states.1.statuses.Low-integrity object",
+          "value": "Map A to Bell–LaPadula confidentiality, B to Biba integrity, and C to Clark–Wilson well-formed transactions and…"
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "path": "states.3.statuses.Startup measurement evidence",
+          "value": "Move keys into separately controlled custody with least privilege, dual control or equivalent approval, audit, backup,…"
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "path": "variants.0.states.1.statuses.Startup measurement evidence",
+          "value": "Move keys into separately controlled custody with least privilege, dual control or equivalent approval, audit, backup,…"
+        },
+        {
+          "file": "d3-o05-architecture-vulnerabilities.json",
+          "unitId": "d3-o05-architecture-vulnerabilities",
+          "path": "states.3.statuses.Data store",
+          "value": "Treat the orchestrator identity and control plane as the dominant boundary: narrow privilege, separate duties, protect…"
+        },
+        {
+          "file": "d3-o05-architecture-vulnerabilities.json",
+          "unitId": "d3-o05-architecture-vulnerabilities",
+          "path": "variants.0.states.1.statuses.Data store",
+          "value": "Treat the orchestrator identity and control plane as the dominant boundary: narrow privilege, separate duties, protect…"
+        },
+        {
+          "file": "d3-o05-cloud-container-serverless.json",
+          "unitId": "d3-o05-cloud-container-serverless",
+          "path": "states.0.statuses.gateway",
+          "value": "The managed API authenticates the caller, validates the event envelope, and authorizes the upload action before…"
+        },
+        {
+          "file": "d3-o05-cloud-container-serverless.json",
+          "unitId": "d3-o05-cloud-container-serverless",
+          "path": "states.3.statuses.classifier",
+          "value": "Correct the tenant sharing baseline, constrain identities and links, monitor exposure, set retention, and verify…"
+        },
+        {
+          "file": "d3-o05-cloud-container-serverless.json",
+          "unitId": "d3-o05-cloud-container-serverless",
+          "path": "variants.0.states.1.statuses.classifier",
+          "value": "Correct the tenant sharing baseline, constrain identities and links, monitor exposure, set retention, and verify…"
+        },
+        {
+          "file": "d3-o05-embedded-edge-industrial.json",
+          "unitId": "d3-o05-embedded-edge-industrial",
+          "path": "states.3.statuses.Control-system zone",
+          "value": "Scope scheduler identity and storage permissions, separate tenant/team data, audit privileged jobs, and protect the…"
+        },
+        {
+          "file": "d3-o05-embedded-edge-industrial.json",
+          "unitId": "d3-o05-embedded-edge-industrial",
+          "path": "variants.0.states.1.statuses.Control-system zone",
+          "value": "Scope scheduler identity and storage permissions, separate tenant/team data, audit privileged jobs, and protect the…"
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "path": "states.3.statuses.Data copy",
+          "value": "Model the hypervisor management plane as a common-mode dependency and isolate credentials, administration, monitoring,…"
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "path": "variants.0.states.1.statuses.Data copy",
+          "value": "Model the hypervisor management plane as a common-mode dependency and isolate credentials, administration, monitoring,…"
+        },
+        {
+          "file": "d3-o06-cryptographic-agility-quantum.json",
+          "unitId": "d3-o06-cryptographic-agility-quantum",
+          "path": "states.0.statuses.inventory",
+          "value": "The organization records protocol location, role, algorithm/profile, key and trust owner, data lifetime,…"
+        },
+        {
+          "file": "d3-o06-cryptographic-agility-quantum.json",
+          "unitId": "d3-o06-cryptographic-agility-quantum",
+          "path": "states.0.statuses.priority",
+          "value": "Data longevity, exposure, cryptographic role, standard status, dependency, and consequence determine which uses move…"
+        },
+        {
+          "file": "d3-o06-cryptographic-agility-quantum.json",
+          "unitId": "d3-o06-cryptographic-agility-quantum",
+          "path": "states.3.statuses.inventory",
+          "value": "Record the blocking dependency and protocol role, assess exposure and lifetime, use compensating architecture where…"
+        },
+        {
+          "file": "d3-o06-cryptographic-agility-quantum.json",
+          "unitId": "d3-o06-cryptographic-agility-quantum",
+          "path": "variants.0.states.1.statuses.inventory",
+          "value": "Record the blocking dependency and protocol role, assess exposure and lifetime, use compensating architecture where…"
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "path": "states.3.statuses.Encryption and signing use",
+          "value": "Separate key custody and authorization from backup storage, restrict and audit recovery use, protect key backups,…"
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "path": "variants.0.states.1.statuses.Encryption and signing use",
+          "value": "Separate key custody and authorization from backup storage, restrict and audit recovery use, protect key backups,…"
+        },
+        {
+          "file": "d3-o06-key-management-pki.json",
+          "unitId": "d3-o06-key-management-pki",
+          "path": "states.0.statuses.decision",
+          "value": "The accountable certificate and incident authority decides containment, suspension or revocation, notification, and…"
+        },
+        {
+          "file": "d3-o06-key-management-pki.json",
+          "unitId": "d3-o06-key-management-pki",
+          "path": "states.3.statuses.restored",
+          "value": "Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions, log…"
+        },
+        {
+          "file": "d3-o06-key-management-pki.json",
+          "unitId": "d3-o06-key-management-pki",
+          "path": "variants.0.states.1.statuses.restored",
+          "value": "Use a preapproved, time-limited fail policy or cached evidence where justified, constrain affected transactions, log…"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "path": "states.3.statuses.Observable endpoint response",
+          "value": "Treat this as an online guessing path and add rate limits, detection, lockout or risk controls, and stronger…"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "path": "variants.0.states.1.statuses.Observable endpoint response",
+          "value": "Treat this as an online guessing path and add rate limits, detection, lockout or risk controls, and stronger…"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attacks.json",
+          "unitId": "d3-o07-cryptanalytic-attacks",
+          "path": "states.3.statuses.Authentication abuse",
+          "value": "Classify and test an implementation timing side channel, use constant-time design or other leakage reduction, and…"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attacks.json",
+          "unitId": "d3-o07-cryptanalytic-attacks",
+          "path": "variants.0.states.1.statuses.Authentication abuse",
+          "value": "Classify and test an implementation timing side channel, use constant-time design or other leakage reduction, and…"
+        },
+        {
+          "file": "d3-o07-protocol-credential-availability-attacks.json",
+          "unitId": "d3-o07-protocol-credential-availability-attacks",
+          "path": "states.3.statuses.acceptance",
+          "value": "Contain and replace compromised identities and sessions, protect the recovery plane, then restore and validate service…"
+        },
+        {
+          "file": "d3-o07-protocol-credential-availability-attacks.json",
+          "unitId": "d3-o07-protocol-credential-availability-attacks",
+          "path": "variants.0.states.1.statuses.acceptance",
+          "value": "Contain and replace compromised identities and sessions, protect the recovery plane, then restore and validate service…"
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "path": "states.3.statuses.Transfer, fuel and maintenance",
+          "value": "Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance, and…"
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "path": "variants.0.states.1.statuses.Transfer, fuel and maintenance",
+          "value": "Test UPS ride-through, generator start and transfer, critical-load capacity, fuel/runtime, alarms, maintenance, and…"
+        },
+        {
+          "file": "d3-o10-information-system-lifecycle.json",
+          "unitId": "d3-o10-information-system-lifecycle",
+          "path": "states.0.statuses.architecture",
+          "value": "Trust boundaries, identities, data, dependencies, controls, failure behavior, and evidence plans trace to the…"
+        },
+        {
+          "file": "d3-o10-information-system-lifecycle.json",
+          "unitId": "d3-o10-information-system-lifecycle",
+          "path": "states.3.statuses.retirement",
+          "value": "Do not complete handoff; assign and accept operational ownership, evidence, support, monitoring, recovery, change, and…"
+        },
+        {
+          "file": "d3-o10-information-system-lifecycle.json",
+          "unitId": "d3-o10-information-system-lifecycle",
+          "path": "variants.0.states.1.statuses.retirement",
+          "value": "Do not complete handoff; assign and accept operational ownership, evidence, support, monitoring, recovery, change, and…"
+        },
+        {
+          "file": "d4-o01-architecture-and-segmentation.json",
+          "unitId": "d4-o01-architecture-and-segmentation",
+          "path": "states.0.statuses.client",
+          "value": "External and wireless sources reach only the intended protected ingress and never inherit trust from transport or…"
+        },
+        {
+          "file": "d4-o01-architecture-and-segmentation.json",
+          "unitId": "d4-o01-architecture-and-segmentation",
+          "path": "states.0.statuses.ingress",
+          "value": "Edge controls terminate named protocols, authenticate and authorize requests, apply policy, and record observable…"
+        },
+        {
+          "file": "d4-o01-architecture-and-segmentation.json",
+          "unitId": "d4-o01-architecture-and-segmentation",
+          "path": "states.3.statuses.ingress",
+          "value": "Mark the gateway as the termination boundary and protect and authenticate the backend hop or place it within an…"
+        },
+        {
+          "file": "d4-o01-architecture-and-segmentation.json",
+          "unitId": "d4-o01-architecture-and-segmentation",
+          "path": "variants.0.states.1.statuses.ingress",
+          "value": "Mark the gateway as the termination boundary and protect and authenticate the backend hop or place it within an…"
+        },
+        {
+          "file": "d4-o01-network-protocol-routing-design.json",
+          "unitId": "d4-o01-network-protocol-routing-design",
+          "path": "states.0.statuses.scope",
+          "value": "The case distinguishes unicast, multicast membership, anycast receiver selection, and store-and-forward or cut-through…"
+        },
+        {
+          "file": "d4-o01-network-protocol-routing-design.json",
+          "unitId": "d4-o01-network-protocol-routing-design",
+          "path": "states.0.statuses.control",
+          "value": "Authorized routing and topology logic selects paths and programs forwarding behavior for IPv4, IPv6, and converged…"
+        },
+        {
+          "file": "d4-o01-network-protocol-routing-design.json",
+          "unitId": "d4-o01-network-protocol-routing-design",
+          "path": "states.3.statuses.control",
+          "value": "Separate anycast receiver scope, controller common-mode risk, TLS termination, and the edge-to-origin protection…"
+        },
+        {
+          "file": "d4-o01-network-protocol-routing-design.json",
+          "unitId": "d4-o01-network-protocol-routing-design",
+          "path": "variants.0.states.1.statuses.control",
+          "value": "Separate anycast receiver scope, controller common-mode risk, TLS termination, and the edge-to-origin protection…"
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "path": "states.0.statuses.radio",
+          "value": "Wi-Fi, Bluetooth, Zigbee, cellular, satellite, and remote clients have different range, peer, carrier, device, and…"
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "path": "states.0.statuses.broker",
+          "value": "The broker authenticates user and device context and limits the session to approved applications, actions, time, and…"
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "path": "states.3.statuses.detection",
+          "value": "Use a scoped broker or application access policy, narrow identity and destination rights, log the session, and expire…"
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "path": "variants.0.states.1.statuses.detection",
+          "value": "Use a scoped broker or application access policy, narrow identity and destination rights, log the session, and expire…"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "path": "states.3.statuses.Host protection and monitoring",
+          "value": "Record firmware and credential common-mode failures, remediate support and identity separation, and test failover…"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "path": "variants.0.states.1.statuses.Host protection and monitoring",
+          "value": "Record firmware and credential common-mode failures, remediate support and identity separation, and test failover…"
+        },
+        {
+          "file": "d4-o03-secure-communication-channels.json",
+          "unitId": "d4-o03-secure-communication-channels",
+          "path": "states.0.statuses.request",
+          "value": "The sponsor and ticket name the vendor, business purpose, target, permitted operation, support window, evidence, and…"
+        },
+        {
+          "file": "d4-o03-secure-communication-channels.json",
+          "unitId": "d4-o03-secure-communication-channels",
+          "path": "states.3.statuses.closure",
+          "value": "Treat the recording as a new governed copy: restrict identity and sharing, set retention, log access, and protect…"
+        },
+        {
+          "file": "d4-o03-secure-communication-channels.json",
+          "unitId": "d4-o03-secure-communication-channels",
+          "path": "variants.0.states.1.statuses.closure",
+          "value": "Treat the recording as a new governed copy: restrict identity and sharing, set retention, log access, and protect…"
+        }
+      ]
+    },
+    {
+      "id": "ID14-009",
+      "severity": "medium",
+      "title": "Thirteen checks cue the keyed answer by length and specificity",
+      "unitIds": [
+        "d1-o02-security-concepts",
+        "d1-o06-policy-framework",
+        "d2-o06-controls-compliance",
+        "d3-o06-cryptographic-primitives",
+        "d3-o07-implementation-side-channel-attacks",
+        "d3-o07-protocol-credential-availability-attacks",
+        "d3-o08-facility-design-principles",
+        "d4-o01-network-segmentation-trust-zones",
+        "d4-o01-wireless-cloud-remote-architecture",
+        "d4-o02-components-and-endpoints"
+      ],
+      "edges": [],
+      "checks": [
+        "d1-o02-security-concepts-prediction-v1",
+        "d1-o06-policy-framework-prediction-v1",
+        "d1-o06-policy-framework-transfer-v1",
+        "d2-o06-controls-compliance-transfer-v1",
+        "d2-o06-controls-compliance-retry-v1",
+        "d3-o06-cryptographic-primitives-transfer-v1",
+        "d3-o07-side-predict-v1",
+        "d3-o07-protocol-credential-availability-attacks-prediction-v1",
+        "d3-o07-protocol-credential-availability-attacks-retry-v1",
+        "d3-o08-facility-design-principles-prediction-v1",
+        "d4-o01-zone-retry-v1",
+        "d4-o01-wireless-cloud-remote-architecture-retry-v1",
+        "d4-o02-components-and-endpoints-transfer-v1"
+      ],
+      "steps": [
+        "Open the named check without revealing feedback.",
+        "Compare the three answer labels.",
+        "Note that the correct option is at least 1.40 times the mean distractor length and often is the only multi-control operational sentence."
+      ],
+      "observed": "The keyed answer is consistently more complete and specific than brief absolute distractors in the listed checks, enabling test-taking by form rather than concept.",
+      "expected": "Plausible alternatives have comparable grammatical form, scope, and specificity.",
+      "recommendation": "Balance option length and make distractors plausible bounded decisions that fail one precise condition.",
+      "metrics": [
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "checkId": "d1-o02-security-concepts-prediction-v1",
+          "correctLength": 87,
+          "distractorMeanLength": 59.5,
+          "ratio": 1.46,
+          "correctOption": "Diagnose the consequence first, then write a property-specific, measurable requirement."
+        },
+        {
+          "file": "d1-o06-policy-framework.json",
+          "unitId": "d1-o06-policy-framework",
+          "checkId": "d1-o06-policy-framework-prediction-v1",
+          "correctLength": 103,
+          "distractorMeanLength": 65.5,
+          "ratio": 1.57,
+          "correctOption": "Put the measurable minimum in a standard and treat any variance as a scoped, owned, expiring exception."
+        },
+        {
+          "file": "d1-o06-policy-framework.json",
+          "unitId": "d1-o06-policy-framework",
+          "checkId": "d1-o06-policy-framework-transfer-v1",
+          "correctLength": 92,
+          "distractorMeanLength": 64.5,
+          "ratio": 1.43,
+          "correctOption": "Update and approve the obsolete procedure while preserving the valid policy and MFA standard"
+        },
+        {
+          "file": "d2-o06-controls-compliance.json",
+          "unitId": "d2-o06-controls-compliance",
+          "checkId": "d2-o06-controls-compliance-transfer-v1",
+          "correctLength": 116,
+          "distractorMeanLength": 80,
+          "ratio": 1.45,
+          "correctOption": "Identify the lost technical coverage and govern the new copy through identity, contract/policy, monitoring, response"
+        },
+        {
+          "file": "d2-o06-controls-compliance.json",
+          "unitId": "d2-o06-controls-compliance",
+          "checkId": "d2-o06-controls-compliance-retry-v1",
+          "correctLength": 95,
+          "distractorMeanLength": 61.5,
+          "ratio": 1.54,
+          "correctOption": "Treat the certificate as limited evidence, resolve scope and contractual lifecycle requirements"
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "checkId": "d3-o06-cryptographic-primitives-transfer-v1",
+          "correctLength": 89,
+          "distractorMeanLength": 57.5,
+          "ratio": 1.55,
+          "correctOption": "Use individual authenticated signing or another approval record that supports attribution"
+        },
+        {
+          "file": "d3-o07-implementation-side-channel-attacks.json",
+          "unitId": "d3-o07-implementation-side-channel-attacks",
+          "checkId": "d3-o07-side-predict-v1",
+          "correctLength": 85,
+          "distractorMeanLength": 60.5,
+          "ratio": 1.4,
+          "correctOption": "Define the remote observer, measure the behavior, and test sensitive-state dependence"
+        },
+        {
+          "file": "d3-o07-protocol-credential-availability-attacks.json",
+          "unitId": "d3-o07-protocol-credential-availability-attacks",
+          "checkId": "d3-o07-protocol-credential-availability-attacks-prediction-v1",
+          "correctLength": 139,
+          "distractorMeanLength": 88.5,
+          "ratio": 1.57,
+          "correctOption": "Contain credentials and privileged paths, restore into known-good systems, validate integrity, and obtain business and security acceptance."
+        },
+        {
+          "file": "d3-o07-protocol-credential-availability-attacks.json",
+          "unitId": "d3-o07-protocol-credential-availability-attacks",
+          "checkId": "d3-o07-protocol-credential-availability-attacks-retry-v1",
+          "correctLength": 94,
+          "distractorMeanLength": 67,
+          "ratio": 1.4,
+          "correctOption": "Re-establish trusted privileged identities and administration paths before recovery acceptance"
+        },
+        {
+          "file": "d3-o08-facility-design-principles.json",
+          "unitId": "d3-o08-facility-design-principles",
+          "checkId": "d3-o08-facility-design-principles-prediction-v1",
+          "correctLength": 117,
+          "distractorMeanLength": 80.5,
+          "ratio": 1.45,
+          "correctOption": "Design separate safe egress and controlled ingress behaviors, with response and monitoring that preserve life safety."
+        },
+        {
+          "file": "d4-o01-network-segmentation-trust-zones.json",
+          "unitId": "d4-o01-network-segmentation-trust-zones",
+          "checkId": "d4-o01-zone-retry-v1",
+          "correctLength": 99,
+          "distractorMeanLength": 70,
+          "ratio": 1.41,
+          "correctOption": "Treat the media path as a governed crossing with authorization, inspection, direction, and evidence"
+        },
+        {
+          "file": "d4-o01-wireless-cloud-remote-architecture.json",
+          "unitId": "d4-o01-wireless-cloud-remote-architecture",
+          "checkId": "d4-o01-wireless-cloud-remote-architecture-retry-v1",
+          "correctLength": 95,
+          "distractorMeanLength": 64,
+          "ratio": 1.48,
+          "correctOption": "Restrict and authenticate origin access, monitor ingress, and test alternate paths and failover"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "checkId": "d4-o02-components-and-endpoints-transfer-v1",
+          "correctLength": 94,
+          "distractorMeanLength": 65,
+          "ratio": 1.45,
+          "correctOption": "Record firmware and credential common-mode failures, remediate support and identity separation"
+        }
+      ]
+    },
+    {
+      "id": "ID14-010",
+      "severity": "medium",
+      "title": "Twenty-four models leave assessed visual entities without concept provenance",
+      "unitIds": [
+        "d1-o02-security-concepts",
+        "d1-o03-security-governance",
+        "d1-o05-investigation-types",
+        "d1-o06-policy-framework",
+        "d1-o07-business-continuity-requirements",
+        "d1-o10-threat-modeling",
+        "d1-o12-security-awareness",
+        "d2-o01-inventory-classification",
+        "d2-o02-handling-requirements",
+        "d2-o05-retention-disposal",
+        "d3-o01-secure-design-principles",
+        "d3-o02-security-models",
+        "d3-o03-control-selection",
+        "d3-o04-system-security-capabilities",
+        "d3-o05-architecture-vulnerabilities",
+        "d3-o05-embedded-edge-industrial",
+        "d3-o05-platform-data-architecture",
+        "d3-o06-cryptographic-primitives",
+        "d3-o06-cryptographic-solutions",
+        "d3-o07-cryptanalytic-attack-models",
+        "d3-o07-cryptanalytic-attacks",
+        "d3-o08-facility-design-principles",
+        "d3-o09-facility-security-controls",
+        "d4-o02-components-and-endpoints"
+      ],
+      "edges": [],
+      "checks": [],
+      "steps": [
+        "Inspect node conceptIds in the bound files.",
+        "Compare empty nodes with concepts assessed by prediction, transfer, and retry."
+      ],
+      "observed": "87 nodes across 24 files have empty conceptIds; d1-o02 leaves all six empty, and d3-o01 leaves all six empty even though the checks assess named design principles.",
+      "expected": "Every visual entity that teaches or is assessed maps to the exact canonical concept IDs it instantiates; truly contextual actors may remain untagged only when they teach no concept.",
+      "recommendation": "Map each teaching/control node to the canonical concepts it actually demonstrates, and leave empty only pure case actors with an explicit rationale.",
+      "nodes": [
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "nodeId": "failure-scenario",
+          "label": "Failure Scenario"
+        },
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "nodeId": "property-question",
+          "label": "Property Question"
+        },
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "nodeId": "selected-property",
+          "label": "Selected Property"
+        },
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "nodeId": "requirement-frame",
+          "label": "Requirement Frame"
+        },
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "nodeId": "business-consequence",
+          "label": "Business Consequence"
+        },
+        {
+          "file": "d1-o02-security-concepts.json",
+          "unitId": "d1-o02-security-concepts",
+          "nodeId": "evidence",
+          "label": "Evidence"
+        },
+        {
+          "file": "d1-o03-security-governance.json",
+          "unitId": "d1-o03-security-governance",
+          "nodeId": "authorized-owner",
+          "label": "Authorized Owner"
+        },
+        {
+          "file": "d1-o03-security-governance.json",
+          "unitId": "d1-o03-security-governance",
+          "nodeId": "management-operation",
+          "label": "Management Operation"
+        },
+        {
+          "file": "d1-o05-investigation-types.json",
+          "unitId": "d1-o05-investigation-types",
+          "nodeId": "observed-event",
+          "label": "Observed Event"
+        },
+        {
+          "file": "d1-o05-investigation-types.json",
+          "unitId": "d1-o05-investigation-types",
+          "nodeId": "initial-preservation",
+          "label": "Initial Preservation"
+        },
+        {
+          "file": "d1-o05-investigation-types.json",
+          "unitId": "d1-o05-investigation-types",
+          "nodeId": "purpose-classification",
+          "label": "Purpose Classification"
+        },
+        {
+          "file": "d1-o06-policy-framework.json",
+          "unitId": "d1-o06-policy-framework",
+          "nodeId": "review-or-expiry",
+          "label": "Review Or Expiry"
+        },
+        {
+          "file": "d1-o07-business-continuity-requirements.json",
+          "unitId": "d1-o07-business-continuity-requirements",
+          "nodeId": "disruption-start",
+          "label": "Disruption Start"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "nodeId": "partner-actor",
+          "label": "Partner Actor"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "nodeId": "gateway",
+          "label": "API gateway"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "nodeId": "validation-decision",
+          "label": "Validation Decision"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "nodeId": "rejected-or-quarantined-request",
+          "label": "Rejected Or Quarantined Request"
+        },
+        {
+          "file": "d1-o10-threat-modeling.json",
+          "unitId": "d1-o10-threat-modeling",
+          "nodeId": "document-store",
+          "label": "Document Store"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "nodeId": "defined-risk-and-audience",
+          "label": "Defined Risk And Audience"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "nodeId": "target-behavior",
+          "label": "Target Behavior"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "nodeId": "intervention-choice",
+          "label": "Intervention Choice"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "nodeId": "guided-practice-and-reinforcement",
+          "label": "Guided Practice And Reinforcement"
+        },
+        {
+          "file": "d1-o12-security-awareness.json",
+          "unitId": "d1-o12-security-awareness",
+          "nodeId": "practice-and-real-work",
+          "label": "Practice And Real Work"
+        },
+        {
+          "file": "d2-o01-inventory-classification.json",
+          "unitId": "d2-o01-inventory-classification",
+          "nodeId": "asset-copies-and-dependencies",
+          "label": "Asset Copies And Dependencies"
+        },
+        {
+          "file": "d2-o01-inventory-classification.json",
+          "unitId": "d2-o01-inventory-classification",
+          "nodeId": "governing-scheme",
+          "label": "Governing Scheme"
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "nodeId": "support-purpose",
+          "label": "Support Purpose"
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "nodeId": "minimum-export",
+          "label": "Minimum Export"
+        },
+        {
+          "file": "d2-o02-handling-requirements.json",
+          "unitId": "d2-o02-handling-requirements",
+          "nodeId": "policy-permitted-approved-exception",
+          "label": "Policy Permitted Approved Exception"
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "nodeId": "disposition-due",
+          "label": "Disposition Due"
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "nodeId": "preservation-duty-check",
+          "label": "Preservation Duty Check"
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "nodeId": "preserve-and-restrict",
+          "label": "Preserve And Restrict"
+        },
+        {
+          "file": "d2-o05-retention-disposal.json",
+          "unitId": "d2-o05-retention-disposal",
+          "nodeId": "no-hold-and-authorized-disposition",
+          "label": "No Hold And Authorized Disposition"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "nodeId": "Partner upload",
+          "label": "Partner Upload"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "nodeId": "Validation boundary",
+          "label": "Validation Boundary"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "nodeId": "Processor identity",
+          "label": "Processor Identity"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "nodeId": "Storage operation",
+          "label": "Storage Operation"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "nodeId": "Administrator",
+          "label": "Administrator"
+        },
+        {
+          "file": "d3-o01-secure-design-principles.json",
+          "unitId": "d3-o01-secure-design-principles",
+          "nodeId": "Deployment configuration",
+          "label": "Deployment Configuration"
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "nodeId": "Higher-confidentiality object",
+          "label": "Higher Confidentiality Object"
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "nodeId": "Higher-confidentiality subject",
+          "label": "Higher Confidentiality Subject"
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "nodeId": "Lower-confidentiality object",
+          "label": "Lower Confidentiality Object"
+        },
+        {
+          "file": "d3-o02-security-models.json",
+          "unitId": "d3-o02-security-models",
+          "nodeId": "Low-integrity object",
+          "label": "Low Integrity Object"
+        },
+        {
+          "file": "d3-o03-control-selection.json",
+          "unitId": "d3-o03-control-selection",
+          "nodeId": "Business requirement",
+          "label": "Business Requirement"
+        },
+        {
+          "file": "d3-o03-control-selection.json",
+          "unitId": "d3-o03-control-selection",
+          "nodeId": "Selected controls",
+          "label": "Selected Controls"
+        },
+        {
+          "file": "d3-o03-control-selection.json",
+          "unitId": "d3-o03-control-selection",
+          "nodeId": "Control operation",
+          "label": "Control Operation"
+        },
+        {
+          "file": "d3-o03-control-selection.json",
+          "unitId": "d3-o03-control-selection",
+          "nodeId": "Test evidence",
+          "label": "Test Evidence"
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "nodeId": "Hypervisor",
+          "label": "Hypervisor"
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "nodeId": "Guest workload boundaries",
+          "label": "Guest Workload Boundaries"
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "nodeId": "Hypervisor configuration",
+          "label": "Hypervisor Configuration"
+        },
+        {
+          "file": "d3-o04-system-security-capabilities.json",
+          "unitId": "d3-o04-system-security-capabilities",
+          "nodeId": "Startup measurement evidence",
+          "label": "Startup Measurement Evidence"
+        },
+        {
+          "file": "d3-o05-architecture-vulnerabilities.json",
+          "unitId": "d3-o05-architecture-vulnerabilities",
+          "nodeId": "Vendor update authority",
+          "label": "Vendor Update Authority"
+        },
+        {
+          "file": "d3-o05-architecture-vulnerabilities.json",
+          "unitId": "d3-o05-architecture-vulnerabilities",
+          "nodeId": "Edge workload identity",
+          "label": "Edge Workload Identity"
+        },
+        {
+          "file": "d3-o05-architecture-vulnerabilities.json",
+          "unitId": "d3-o05-architecture-vulnerabilities",
+          "nodeId": "Data store",
+          "label": "Data Store"
+        },
+        {
+          "file": "d3-o05-embedded-edge-industrial.json",
+          "unitId": "d3-o05-embedded-edge-industrial",
+          "nodeId": "Device update validator",
+          "label": "Device Update Validator"
+        },
+        {
+          "file": "d3-o05-embedded-edge-industrial.json",
+          "unitId": "d3-o05-embedded-edge-industrial",
+          "nodeId": "Remote support path",
+          "label": "Remote Support Path"
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "nodeId": "Browser request",
+          "label": "Browser Request"
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "nodeId": "API authorization",
+          "label": "API Authorization"
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "nodeId": "Replication or backup path",
+          "label": "Replication Or Backup Path"
+        },
+        {
+          "file": "d3-o05-platform-data-architecture.json",
+          "unitId": "d3-o05-platform-data-architecture",
+          "nodeId": "Data copy",
+          "label": "Data Copy"
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "nodeId": "Shared secret and approved encryption",
+          "label": "Shared Secret And Approved Encryption"
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "nodeId": "Protected payload",
+          "label": "Protected Payload"
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "nodeId": "Payload",
+          "label": "Payload"
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "nodeId": "Hash value",
+          "label": "Hash Value"
+        },
+        {
+          "file": "d3-o06-cryptographic-primitives.json",
+          "unitId": "d3-o06-cryptographic-primitives",
+          "nodeId": "Protected signer authority",
+          "label": "Protected Signer Authority"
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "nodeId": "Sensitive document",
+          "label": "Sensitive Document"
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "nodeId": "Confidentiality requirement",
+          "label": "Confidentiality Requirement"
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "nodeId": "Approval requirement",
+          "label": "Approval Requirement"
+        },
+        {
+          "file": "d3-o06-cryptographic-solutions.json",
+          "unitId": "d3-o06-cryptographic-solutions",
+          "nodeId": "Encryption and signing use",
+          "label": "Encryption And Signing Use"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "nodeId": "Ciphertexts",
+          "label": "Ciphertexts"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "nodeId": "Plaintext–ciphertext pairs",
+          "label": "Plaintext–Ciphertext Pairs"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "nodeId": "Chosen-ciphertext input",
+          "label": "Chosen Ciphertext Input"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attack-models.json",
+          "unitId": "d3-o07-cryptanalytic-attack-models",
+          "nodeId": "Observable endpoint response",
+          "label": "Observable Endpoint Response"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attacks.json",
+          "unitId": "d3-o07-cryptanalytic-attacks",
+          "nodeId": "Missing peer validation",
+          "label": "Missing Peer Validation"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attacks.json",
+          "unitId": "d3-o07-cryptanalytic-attacks",
+          "nodeId": "Intermediary opportunity",
+          "label": "Intermediary Opportunity"
+        },
+        {
+          "file": "d3-o07-cryptanalytic-attacks.json",
+          "unitId": "d3-o07-cryptanalytic-attacks",
+          "nodeId": "Stolen usable credential artifact",
+          "label": "Stolen Usable Credential Artifact"
+        },
+        {
+          "file": "d3-o08-facility-design-principles.json",
+          "unitId": "d3-o08-facility-design-principles",
+          "nodeId": "Public entrance",
+          "label": "Public Entrance"
+        },
+        {
+          "file": "d3-o08-facility-design-principles.json",
+          "unitId": "d3-o08-facility-design-principles",
+          "nodeId": "Reception boundary",
+          "label": "Reception Boundary"
+        },
+        {
+          "file": "d3-o08-facility-design-principles.json",
+          "unitId": "d3-o08-facility-design-principles",
+          "nodeId": "Approved personnel",
+          "label": "Approved Personnel"
+        },
+        {
+          "file": "d3-o08-facility-design-principles.json",
+          "unitId": "d3-o08-facility-design-principles",
+          "nodeId": "Emergency egress",
+          "label": "Emergency Egress"
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "nodeId": "Alarm event",
+          "label": "Alarm Event"
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "nodeId": "Accountable responder",
+          "label": "Accountable Responder"
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "nodeId": "Generator capability",
+          "label": "Generator Capability"
+        },
+        {
+          "file": "d3-o09-facility-security-controls.json",
+          "unitId": "d3-o09-facility-security-controls",
+          "nodeId": "Transfer, fuel and maintenance",
+          "label": "Transfer, Fuel And Maintenance"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "nodeId": "Identity and posture evidence",
+          "label": "Identity And Posture Evidence"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "nodeId": "NAC decision",
+          "label": "NAC Decision"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "nodeId": "Assigned segment",
+          "label": "Assigned Segment"
+        },
+        {
+          "file": "d4-o02-components-and-endpoints.json",
+          "unitId": "d4-o02-components-and-endpoints",
+          "nodeId": "Host protection and monitoring",
+          "label": "Host Protection And Monitoring"
+        }
+      ]
+    },
+    {
+      "id": "ID14-011",
+      "severity": "low",
+      "title": "Generated option and node prose leaks template artifacts",
+      "unitIds": [
+        "d1-o03-security-governance",
+        "d1-o04-legal-compliance",
+        "d1-o10-threat-modeling",
+        "d2-o01-inventory-classification",
+        "d2-o02-handling-requirements",
+        "d2-o03-secure-provisioning",
+        "d3-o02-security-models",
+        "d3-o04-system-security-capabilities",
+        "d3-o09-facility-security-controls",
+        "d4-o01-network-protocol-routing-design"
+      ],
+      "edges": [],
+      "checks": [
+        "d1-o03-security-governance-prediction-v1",
+        "d1-o10-threat-modeling-prediction-v1"
+      ],
+      "steps": [
+        "Open affected checks and read option labels aloud.",
+        "Inspect node details in the affected generated models."
+      ],
+      "observed": "Labels include malformed “.; no separate scope or evidence check is needed” and template prefixes such as “Given the stated facts” / “In this case.” Many details simply concatenate node labels and edge text (“Failure Scenario is diagnosed by consequence Property Question”) rather than explain the case.",
+      "expected": "Options read as natural parallel decisions and node details describe the concrete case.",
+      "recommendation": "Edit the authored prose directly; remove template prefixes/suffixes and write complete case-specific sentences."
+    }
+  ],
+  "modelReviews": [
+    {
+      "file": "web/lib/data/teaching/d1-o01-professional-ethics.json",
+      "unitId": "d1-o01-professional-ethics",
+      "sha256": "77c622938141dc37512ec86931dcad7caf584e08fdfb6fc24069694001eb48cf",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o02-security-concepts.json",
+      "unitId": "d1-o02-security-concepts",
+      "sha256": "7c5399fd29575f5eb06e63588180d427821d274a547de816acd00c2ba5d99bee",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-002",
+        "ID14-009",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o03-security-governance.json",
+      "unitId": "d1-o03-security-governance",
+      "sha256": "382c5fbc079d97414f9a3a6bb0a943f133d3399535c10c1e7d8521ce028f954f",
+      "representation": "ledger",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o04-legal-compliance.json",
+      "unitId": "d1-o04-legal-compliance",
+      "sha256": "dd9410a9541aa7baef75966c5774241b9a4dd0b36c65ab88bd9a6027a34d44be",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 7,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-008",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_recommended"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o05-investigation-types.json",
+      "unitId": "d1-o05-investigation-types",
+      "sha256": "0956f6d56924f6bf98199950dae9b73e24e067bdaddca617b453b5acfb320230",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 4,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o06-policy-framework.json",
+      "unitId": "d1-o06-policy-framework",
+      "sha256": "028992c82a09e3c5cced7b8242f2f534b9accdc7a9f7326cab3c36c817d10b04",
+      "representation": "state",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-009",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o07-business-continuity-requirements.json",
+      "unitId": "d1-o07-business-continuity-requirements",
+      "sha256": "76db20e2d865cff4de39362e23844cf2830dea7d78aa1bf60127c3e9cb7ef3bb",
+      "representation": "quantitative",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-003",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o08-personnel-security.json",
+      "unitId": "d1-o08-personnel-security",
+      "sha256": "875196a56112cffd2894f50e9fa9b1621246913a489cdad144dea67e1134f08d",
+      "representation": "timeline",
+      "nodeCount": 5,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_recommended"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o09-risk-management.json",
+      "unitId": "d1-o09-risk-management",
+      "sha256": "6d7c5715ab99d2d65007c744f6b63ff21f91f99dc89d4207c508b947e0655dc9",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o10-threat-modeling.json",
+      "unitId": "d1-o10-threat-modeling",
+      "sha256": "e1eb91630d0b4f34f0382ed6ea577f6c374f2577e09e8bbac81e69733ceb5beb",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-007",
+        "ID14-008",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o11-supply-chain-risk.json",
+      "unitId": "d1-o11-supply-chain-risk",
+      "sha256": "ececd75bbda5c7aaaeb1398b54698ce46956acf06a5dd0f991f50842042517d8",
+      "representation": "timeline",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 2,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d1-o12-security-awareness.json",
+      "unitId": "d1-o12-security-awareness",
+      "sha256": "70db5197ce66acc195acd3fe813aa29ff8e10a4f8de8743025487786faadd2c7",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 4,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d2-o01-inventory-classification.json",
+      "unitId": "d2-o01-inventory-classification",
+      "sha256": "ca3bd363f87cd074643e59e676bfe2df68e419bd844d47f63417afe143d2b5c1",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 4,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d2-o02-handling-requirements.json",
+      "unitId": "d2-o02-handling-requirements",
+      "sha256": "c0a283289b6ea51edd05eca73dc8aa6b0e89f3f490951303b093cdeb122aab8b",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 4,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-007",
+        "ID14-008",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d2-o03-secure-provisioning.json",
+      "unitId": "d2-o03-secure-provisioning",
+      "sha256": "9da766f70ff8353e3cccc0294d5a4adbcf7c22a953775cd2de6c8ef7d21e7fc4",
+      "representation": "state",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d2-o04-data-lifecycle.json",
+      "unitId": "d2-o04-data-lifecycle",
+      "sha256": "f35072f3681f222b4440ba1fecf9b0d64bf71b70867c3ad7d2bbf1374ea91d79",
+      "representation": "ledger",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d2-o05-retention-disposal.json",
+      "unitId": "d2-o05-retention-disposal",
+      "sha256": "d2a2e428e4535a69bd9366cf6dbb11a4869d272167dee5dc574df2f9d98893e7",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d2-o06-controls-compliance.json",
+      "unitId": "d2-o06-controls-compliance",
+      "sha256": "06bbcde48ac0c2fab65c8905cf670a4519a101c222c729f9460acebb06ff7f7b",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 7,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-009"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o01-secure-design-principles.json",
+      "unitId": "d3-o01-secure-design-principles",
+      "sha256": "79ae05a227cb36490973a6b4958dddb2dca2e18af3ecba7efc5632131ee05d2b",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-006",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o02-security-models.json",
+      "unitId": "d3-o02-security-models",
+      "sha256": "e3dae764bc88dff9c89c56c967194776c8af79b7a3e8d66691b960e10c052705",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-004",
+        "ID14-008",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o03-control-selection.json",
+      "unitId": "d3-o03-control-selection",
+      "sha256": "a2819a7d05456d4001ee559cd58aea1fdad37682dd48e9093c3136d96c5b93c9",
+      "representation": "ledger",
+      "nodeCount": 6,
+      "edgeCount": 4,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-007",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o04-system-security-capabilities.json",
+      "unitId": "d3-o04-system-security-capabilities",
+      "sha256": "eaf2f3927d89ed96ecf6bb6443ce639b0ce61f5ec0160cf3415b74863bbd12da",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-007",
+        "ID14-008",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o05-architecture-vulnerabilities.json",
+      "unitId": "d3-o05-architecture-vulnerabilities",
+      "sha256": "bd774eb100aa6b77f413bed64c5909d9fe5dd227c243ae62268755e9bbcf8c55",
+      "representation": "boundary",
+      "nodeCount": 5,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-006",
+        "ID14-007",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o05-cloud-container-serverless.json",
+      "unitId": "d3-o05-cloud-container-serverless",
+      "sha256": "1dd9f51ee3015c43edfa634f4e6092d3038608df959dd4b8f08a6d2a17b9b366",
+      "representation": "sequence",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-005",
+        "ID14-006",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o05-embedded-edge-industrial.json",
+      "unitId": "d3-o05-embedded-edge-industrial",
+      "sha256": "a4be07d1d8f74351e9bf8860b9bac46cfe76051482c856ae887035d0b88d60f0",
+      "representation": "comparison",
+      "nodeCount": 5,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-006",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o05-platform-data-architecture.json",
+      "unitId": "d3-o05-platform-data-architecture",
+      "sha256": "88eb55aecfc3cb554313a266eb6a481fb20cb1d143054821591c99e418c31ff2",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-006",
+        "ID14-007",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o06-cryptographic-agility-quantum.json",
+      "unitId": "d3-o06-cryptographic-agility-quantum",
+      "sha256": "50cf91f1606b753bc24ccdacedf73ae0be9a4072e461a927e64ec3d4631a823f",
+      "representation": "ledger",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o06-cryptographic-primitives.json",
+      "unitId": "d3-o06-cryptographic-primitives",
+      "sha256": "a705b08ae2a11122d94227e6fd367e663a9bd4b43f116fd40f2f69d03d2d5a82",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-009",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o06-cryptographic-solutions.json",
+      "unitId": "d3-o06-cryptographic-solutions",
+      "sha256": "68a9100569ca398479c4c71ba5dae527a3afabc99d486b7205eacf4b50e8831b",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-007",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o06-key-management-pki.json",
+      "unitId": "d3-o06-key-management-pki",
+      "sha256": "80a3af1ba3f9dedb631b4daff19274a509cd54b642336ca52d28dee4c555502d",
+      "representation": "state",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o07-cryptanalytic-attack-models.json",
+      "unitId": "d3-o07-cryptanalytic-attack-models",
+      "sha256": "c09b7d55f9be89da008b2130dc0012e7551b775195609b30db1ec457f06abf7f",
+      "representation": "decision",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o07-cryptanalytic-attacks.json",
+      "unitId": "d3-o07-cryptanalytic-attacks",
+      "sha256": "83863c1e50b92278fcfcac3950af78aaa24de9e3e84eb42d11c7d6012535242d",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o07-implementation-side-channel-attacks.json",
+      "unitId": "d3-o07-implementation-side-channel-attacks",
+      "sha256": "eccd9b042680be06be54e538dcff8909ea449354a45d82833d8f6f62d161b121",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 5,
+      "variantCount": 3,
+      "findingIds": [
+        "ID14-009"
+      ],
+      "reviewDisposition": "changes_recommended"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o07-protocol-credential-availability-attacks.json",
+      "unitId": "d3-o07-protocol-credential-availability-attacks",
+      "sha256": "f5dbe6307a16e4f3768806f52127fa77c2b500b1d1c322c5e06665f76ae1d172",
+      "representation": "state",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-009"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o08-facility-design-principles.json",
+      "unitId": "d3-o08-facility-design-principles",
+      "sha256": "b868846b4809bccd47828b265173eca25699a1659cde4e000961f0fb5f200832",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-007",
+        "ID14-009",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o09-facility-security-controls.json",
+      "unitId": "d3-o09-facility-security-controls",
+      "sha256": "3bee674d1e013730a46d34ade264fc267d5a43db3c2ce874ee8911f2e557e067",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-010",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d3-o10-information-system-lifecycle.json",
+      "unitId": "d3-o10-information-system-lifecycle",
+      "sha256": "abdb90afeab83e4fe43c3609d364942dcbd122fa3c0831f2abec72b65e1f7c67",
+      "representation": "timeline",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d4-o01-architecture-and-segmentation.json",
+      "unitId": "d4-o01-architecture-and-segmentation",
+      "sha256": "3977023b087938da7891026ea76ee20f9102b11550ecef733bafac07f6b537ad",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 7,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d4-o01-network-protocol-routing-design.json",
+      "unitId": "d4-o01-network-protocol-routing-design",
+      "sha256": "b1482db515fabf60bb7a3e145da65005731837503e8a4395a457a7af63c1a480",
+      "representation": "comparison",
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-011"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d4-o01-network-segmentation-trust-zones.json",
+      "unitId": "d4-o01-network-segmentation-trust-zones",
+      "sha256": "c513621c97b9f8eeca504ab892207fc074453a6fa80e9fe1d5d6f278bf1e470a",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 7,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-009"
+      ],
+      "reviewDisposition": "changes_recommended"
+    },
+    {
+      "file": "web/lib/data/teaching/d4-o01-wireless-cloud-remote-architecture.json",
+      "unitId": "d4-o01-wireless-cloud-remote-architecture",
+      "sha256": "75d95848a413e88b9ac2c0fe8d0bd88774ce77c29d470228bfeb8bbf9d832e96",
+      "representation": "boundary",
+      "nodeCount": 6,
+      "edgeCount": 7,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-008",
+        "ID14-009"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d4-o02-components-and-endpoints.json",
+      "unitId": "d4-o02-components-and-endpoints",
+      "sha256": "2675039f4446e9231e6f558bf211c1ff88017bf0acd19bfd3a598ab34037b580",
+      "representation": "state",
+      "nodeCount": 5,
+      "edgeCount": 3,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-006",
+        "ID14-008",
+        "ID14-009",
+        "ID14-010"
+      ],
+      "reviewDisposition": "changes_required"
+    },
+    {
+      "file": "web/lib/data/teaching/d4-o03-secure-communication-channels.json",
+      "unitId": "d4-o03-secure-communication-channels",
+      "sha256": "58487d830771af9b886d809ec0c2faa150242699fd23ed185ae14bbcf21b299e",
+      "representation": "sequence",
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "stateCount": 4,
+      "variantCount": 1,
+      "findingIds": [
+        "ID14-001",
+        "ID14-005",
+        "ID14-006",
+        "ID14-008"
+      ],
+      "reviewDisposition": "changes_required"
+    }
+  ]
+}

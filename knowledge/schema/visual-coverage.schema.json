@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cissp-buddy.local/schema/visual-coverage.schema.json",
+  "title": "visual-coverage",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "generatedAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classificationRule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conceptId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "representations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "visualId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unitId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "elementIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true
+                },
+                "encoding": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "visualId",
+                "unitId",
+                "elementIds",
+                "encoding"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "reviewStatus": {
+            "enum": [
+              "pending",
+              "reviewed"
+            ]
+          }
+        },
+        "required": [
+          "conceptId",
+          "tier",
+          "rationale",
+          "unitIds",
+          "representations",
+          "reviewStatus"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contractIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "visualIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "reviewStatus": {
+            "enum": [
+              "pending",
+              "reviewed"
+            ]
+          }
+        },
+        "required": [
+          "unitId",
+          "contractIds",
+          "visualIds",
+          "reviewStatus"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "classificationRule",
+    "concepts",
+    "units"
+  ],
+  "additionalProperties": false
+}

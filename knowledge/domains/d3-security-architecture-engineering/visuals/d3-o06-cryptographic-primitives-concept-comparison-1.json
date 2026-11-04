@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o06-cryptographic-primitives-concept-comparison-1",
+  "unitId": "d3-o06-cryptographic-primitives",
+  "type": "table",
+  "title": "Select cryptographic primitives from protection requirements: concept decisions 1",
+  "teachingQuestion": "Which primitive supplies the required property, and what composition or operational dependency can invalidate it?",
+  "focalInsight": "Choose the primitive by confidentiality, integrity, authenticity, and protocol role, then protect its keys and endpoints.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Symmetric Cryptography",
+      "conceptIds": [
+        "symmetric-cryptography"
+      ],
+      "definition": "Shared-secret cryptography efficient for protecting bulk data.",
+      "detail": "Shared-secret cryptography efficient for protecting bulk data.",
+      "decision": "Use for bulk confidentiality when shared-key creation, storage, rotation, and recovery are controlled.",
+      "failureExample": "A backup is encrypted but the same exposed system stores the recovery key.",
+      "retrievalAnswer": "Symmetric protection is only as strong as shared-key handling.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Asymmetric Cryptography",
+      "conceptIds": [
+        "asymmetric-cryptography"
+      ],
+      "definition": "Public/private-key cryptography used for key exchange, signatures, and scalable trust patterns.",
+      "detail": "Public/private-key cryptography used for key exchange, signatures, and scalable trust patterns.",
+      "decision": "Use when public verification or nonshared keying patterns fit the protocol and performance needs.",
+      "failureExample": "A public key is accepted without validating the identity bound to it.",
+      "retrievalAnswer": "Public-key crypto requires trustworthy binding and validation.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Hashing",
+      "conceptIds": [
+        "hashing"
+      ],
+      "definition": "One-way computation producing a fixed-length value for integrity-related use.",
+      "detail": "One-way computation producing a fixed-length value for integrity-related use.",
+      "decision": "Use for integrity comparison with an authenticated trusted value or suitable construction.",
+      "failureExample": "A team hashes a file and assumes the hash makes the file confidential.",
+      "retrievalAnswer": "A hash can detect change; it does not hide data.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Message Authentication",
+      "conceptIds": [
+        "message-authentication"
+      ],
+      "definition": "Verification that a message came from a party holding an agreed secret or key and was not altered.",
+      "detail": "Verification that a message came from a party holding an agreed secret or key and was not altered.",
+      "decision": "Use when peer authenticity and integrity are required in a shared-key context.",
+      "failureExample": "An API accepts a bare hash supplied by the untrusted client.",
+      "retrievalAnswer": "Authenticate the integrity value; an unauthenticated hash is not origin proof.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Digital Signature",
+      "conceptIds": [
+        "digital-signature"
+      ],
+      "definition": "Private-key operation and validation context that supports origin and integrity evidence.",
+      "detail": "Private-key operation and validation context that supports origin and integrity evidence.",
+      "decision": "Use when verifiers need public validation tied to a managed identity and certificate or trust context.",
+      "failureExample": "A signature validates mathematically but the signer certificate is expired or wrong for the use.",
+      "retrievalAnswer": "Validate both signature and its trust context.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Elliptic Curve Cryptography",
+      "conceptIds": [
+        "elliptic-curve-cryptography"
+      ],
+      "definition": "Family of asymmetric methods with efficiency and implementation considerations.",
+      "detail": "Family of asymmetric methods with efficiency and implementation considerations.",
+      "decision": "Select through approved profile and protocol needs; do not use it as a generic synonym for encryption.",
+      "failureExample": "A design states “use ECC” without identifying key exchange, signature, parameters, or validation.",
+      "retrievalAnswer": "ECC names a method family; the required protocol role still matters.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Confidentiality",
+      "conceptIds": [
+        "confidentiality"
+      ],
+      "definition": "Protection of information against unauthorized disclosure in a stated data state.",
+      "detail": "Protection of information against unauthorized disclosure in a stated data state.",
+      "decision": "Define the data state, authorized recipients, key authority, and endpoint assumptions.",
+      "failureExample": "Encrypted transit still exposes data on a compromised authorized endpoint.",
+      "retrievalAnswer": "Crypto can protect a path without solving endpoint authorization.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Integrity",
+      "conceptIds": [
+        "integrity"
+      ],
+      "definition": "Assurance that information has not been altered without authorization.",
+      "detail": "Assurance that information has not been altered without authorization.",
+      "decision": "Choose an authenticated mechanism and verification context for the required change path.",
+      "failureExample": "A stored checksum is changed with the altered file by an attacker.",
+      "retrievalAnswer": "Integrity evidence needs a protected reference or key.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Authenticity",
+      "conceptIds": [
+        "authenticity"
+      ],
+      "definition": "Confidence that an asserted identity, origin, or object is genuine in context.",
+      "detail": "Confidence that an asserted identity, origin, or object is genuine in context.",
+      "decision": "Validate identity binding, trust anchor, freshness, and intended use.",
+      "failureExample": "A service accepts any certificate signed by an unapproved CA.",
+      "retrievalAnswer": "Authenticity depends on the validation context, not a key alone.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "symmetric-cryptography",
+    "asymmetric-cryptography",
+    "hashing",
+    "message-authentication",
+    "digital-signature",
+    "elliptic-curve-cryptography",
+    "confidentiality",
+    "integrity",
+    "authenticity"
+  ],
+  "altSummary": "Choose the primitive by confidentiality, integrity, authenticity, and protocol role, then protect its keys and endpoints.",
+  "textFallback": "symmetric cryptography: Shared-secret cryptography efficient for protecting bulk data. Decide: Use for bulk confidentiality when shared-key creation, storage, rotation, and recovery are controlled. Example/failure: A backup is encrypted but the same exposed system stores the recovery key. Retrieve: Symmetric protection is only as strong as shared-key handling.\nasymmetric cryptography: Public/private-key cryptography used for key exchange, signatures, and scalable trust patterns. Decide: Use when public verification or nonshared keying patterns fit the protocol and performance needs. Example/failure: A public key is accepted without validating the identity bound to it. Retrieve: Public-key crypto requires trustworthy binding and validation.\nhashing: One-way computation producing a fixed-length value for integrity-related use. Decide: Use for integrity comparison with an authenticated trusted value or suitable construction. Example/failure: A team hashes a file and assumes the hash makes the file confidential. Retrieve: A hash can detect change; it does not hide data.\nmessage authentication: Verification that a message came from a party holding an agreed secret or key and was not altered. Decide: Use when peer authenticity and integrity are required in a shared-key context. Example/failure: An API accepts a bare hash supplied by the untrusted client. Retrieve: Authenticate the integrity value; an unauthenticated hash is not origin proof.\ndigital signature: Private-key operation and validation context that supports origin and integrity evidence. Decide: Use when verifiers need public validation tied to a managed identity and certificate or trust context. Example/failure: A signature validates mathematically but the signer certificate is expired or wrong for the use. Retrieve: Validate both signature and its trust context.\nelliptic curve cryptography: Family of asymmetric methods with efficiency and implementation considerations. Decide: Select through approved profile and protocol needs; do not use it as a generic synonym for encryption. Example/failure: A design states “use ECC” without identifying key exchange, signature, parameters, or validation. Retrieve: ECC names a method family; the required protocol role still matters.\nconfidentiality: Protection of information against unauthorized disclosure in a stated data state. Decide: Define the data state, authorized recipients, key authority, and endpoint assumptions. Example/failure: Encrypted transit still exposes data on a compromised authorized endpoint. Retrieve: Crypto can protect a path without solving endpoint authorization.\nintegrity: Assurance that information has not been altered without authorization. Decide: Choose an authenticated mechanism and verification context for the required change path. Example/failure: A stored checksum is changed with the altered file by an attacker. Retrieve: Integrity evidence needs a protected reference or key.\nauthenticity: Confidence that an asserted identity, origin, or object is genuine in context. Decide: Validate identity binding, trust anchor, freshness, and intended use. Example/failure: A service accepts any certificate signed by an unapproved CA. Retrieve: Authenticity depends on the validation context, not a key alone.",
+  "sourceRefIds": [
+    "d3-o06-primitives-textbook",
+    "d3-o06-primitives-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which primitive supplies the required property, and what composition or operational dependency can invalidate it?",
+    "misconception": "A hash, encryption, signature, and key exchange all provide the same protection.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Choose the primitive by confidentiality, integrity, authenticity, and protocol role, then protect its keys and endpoints.",
+    "conceptIds": [
+      "symmetric-cryptography",
+      "asymmetric-cryptography",
+      "hashing",
+      "message-authentication",
+      "digital-signature",
+      "elliptic-curve-cryptography",
+      "confidentiality",
+      "integrity",
+      "authenticity"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For the scenario, identify the primitive, the property, and one required validation or key control.",
+    "textFallback": "symmetric cryptography: Shared-secret cryptography efficient for protecting bulk data. Decide: Use for bulk confidentiality when shared-key creation, storage, rotation, and recovery are controlled. Example/failure: A backup is encrypted but the same exposed system stores the recovery key. Retrieve: Symmetric protection is only as strong as shared-key handling.\nasymmetric cryptography: Public/private-key cryptography used for key exchange, signatures, and scalable trust patterns. Decide: Use when public verification or nonshared keying patterns fit the protocol and performance needs. Example/failure: A public key is accepted without validating the identity bound to it. Retrieve: Public-key crypto requires trustworthy binding and validation.\nhashing: One-way computation producing a fixed-length value for integrity-related use. Decide: Use for integrity comparison with an authenticated trusted value or suitable construction. Example/failure: A team hashes a file and assumes the hash makes the file confidential. Retrieve: A hash can detect change; it does not hide data.\nmessage authentication: Verification that a message came from a party holding an agreed secret or key and was not altered. Decide: Use when peer authenticity and integrity are required in a shared-key context. Example/failure: An API accepts a bare hash supplied by the untrusted client. Retrieve: Authenticate the integrity value; an unauthenticated hash is not origin proof.\ndigital signature: Private-key operation and validation context that supports origin and integrity evidence. Decide: Use when verifiers need public validation tied to a managed identity and certificate or trust context. Example/failure: A signature validates mathematically but the signer certificate is expired or wrong for the use. Retrieve: Validate both signature and its trust context.\nelliptic curve cryptography: Family of asymmetric methods with efficiency and implementation considerations. Decide: Select through approved profile and protocol needs; do not use it as a generic synonym for encryption. Example/failure: A design states “use ECC” without identifying key exchange, signature, parameters, or validation. Retrieve: ECC names a method family; the required protocol role still matters.\nconfidentiality: Protection of information against unauthorized disclosure in a stated data state. Decide: Define the data state, authorized recipients, key authority, and endpoint assumptions. Example/failure: Encrypted transit still exposes data on a compromised authorized endpoint. Retrieve: Crypto can protect a path without solving endpoint authorization.\nintegrity: Assurance that information has not been altered without authorization. Decide: Choose an authenticated mechanism and verification context for the required change path. Example/failure: A stored checksum is changed with the altered file by an attacker. Retrieve: Integrity evidence needs a protected reference or key.\nauthenticity: Confidence that an asserted identity, origin, or object is genuine in context. Decide: Validate identity binding, trust anchor, freshness, and intended use. Example/failure: A service accepts any certificate signed by an unapproved CA. Retrieve: Authenticity depends on the validation context, not a key alone.",
+    "sourceRefIds": [
+      "d3-o06-primitives-textbook",
+      "d3-o06-primitives-sybex"
+    ],
+    "mapNodeId": "d3-o06-cryptographic-primitives"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

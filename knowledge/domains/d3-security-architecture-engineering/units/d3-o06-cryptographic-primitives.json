@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o06-cryptographic-primitives",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.6"
+  ],
+  "title": "Select cryptographic primitives from protection requirements",
+  "summary": "Cryptographic selection starts with the required property, data state, participants, trust model, performance, interoperability, and failure consequence. Symmetric, asymmetric, hashing, message-authentication, and signature mechanisms play different roles and must be composed into a managed protocol.",
+  "outcome": "Select symmetric, asymmetric, hashing, and signature roles from protection requirements and identify a composition or implementation dependency.",
+  "conceptIds": [
+    "symmetric-cryptography",
+    "asymmetric-cryptography",
+    "hashing",
+    "message-authentication",
+    "digital-signature",
+    "elliptic-curve-cryptography",
+    "confidentiality",
+    "integrity",
+    "authenticity"
+  ],
+  "prerequisites": [
+    "d3-o03-control-selection",
+    "d3-o04-system-security-capabilities"
+  ],
+  "estimatedMinutes": 45,
+  "managerMindset": "Name the protection property and trust assumption before naming a primitive. A familiar algorithm does not by itself establish a secure protocol, identity, key path, or endpoint.",
+  "sections": [
+    {
+      "id": "properties",
+      "title": "Map security properties to roles",
+      "body": "Confidentiality prevents unauthorized disclosure for a defined data state. Integrity detects unauthorized change in a defined verification context. Authenticity supports confidence in an identity or origin, while nonrepudiation requires a broader evidentiary and process context. Symmetric cryptography efficiently protects bulk data using shared secret material. Asymmetric cryptography supports key exchange and public verification patterns. Hashes produce fixed-length integrity values but do not make data secret. Signatures use private-key operations and a validation context to support origin and integrity evidence.",
+      "keyPoints": [
+        "A hash alone does not identify who created it.",
+        "Encryption and signing protect different claims and may be combined."
+      ],
+      "sourceRefIds": [
+        "d3-o06-primitives-outline",
+        "d3-o06-primitives-textbook",
+        "d3-o06-primitives-sybex"
+      ]
+    },
+    {
+      "id": "selection",
+      "title": "Select a complete mechanism, not a buzzword",
+      "body": "Choose approved algorithms and parameters through organizational policy and current authoritative guidance, then assess data classification, lifecycle, performance, interoperability, endpoint exposure, and error behavior. Elliptic-curve methods are asymmetric methods with distinct efficiency and implementation considerations; they are not a general synonym for encryption. Use established, correctly configured protocols and libraries rather than assembling primitives casually. Authenticate peers where needed, validate parameters and certificates, manage randomness, and avoid exposing errors that reveal useful attack information.",
+      "keyPoints": [
+        "Primitive choice, mode or protocol, parameter validation, and implementation all affect the resulting claim.",
+        "Use of unapproved or homemade cryptography creates a governance and assurance problem."
+      ],
+      "sourceRefIds": [
+        "d3-o06-primitives-textbook",
+        "d3-o06-primitives-sybex"
+      ]
+    },
+    {
+      "id": "scope-and-limits",
+      "title": "State the residual limits honestly",
+      "body": "Cryptography does not solve malicious authorized use, compromised endpoints, uncontrolled key export, weak access control, unsafe backups, or unavailable service. A correct design states which data state and adversary are in scope and layers identity, authorization, monitoring, recovery, and secure operations around the cryptographic mechanism. Review how the mechanism behaves under loss, rotation, downgrade, incompatible peers, and incident response so that security failure does not silently become broad permission or permanent data loss.",
+      "keyPoints": [
+        "The endpoint and key path commonly define the practical protection limit.",
+        "A control claim needs a scope, an owner, and observable evidence."
+      ],
+      "sourceRefIds": [
+        "d3-o06-outline",
+        "d3-o06-primitives-textbook",
+        "d3-o06-primitives-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Signed release archive",
+      "situation": "A company wants customers to detect altered release packages and verify the approving publisher.",
+      "reasoning": "Use an approved signing process with protected signer authority, a validation and trust path, integrity verification before installation, revocation or replacement handling, and logging of release approval. Add transport and repository controls; signing does not make an infected build trustworthy if the signing authority was misused.",
+      "takeaway": "The selected primitive supports a specific property only within its key, trust, and release process."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Hash",
+      "b": "Message authentication or signature",
+      "difference": "A hash supplies an integrity value but no inherent authenticated creator; a keyed authenticator or signature adds an authentication relationship under its key and verification assumptions."
+    },
+    {
+      "a": "Symmetric",
+      "b": "Asymmetric cryptography",
+      "difference": "Symmetric mechanisms use shared secret material efficiently for bulk protection; asymmetric mechanisms use related public and private material for different exchange, authentication, and signature roles."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Encrypting a file proves who created it.",
+      "correction": "Encryption primarily addresses confidentiality; origin evidence requires an appropriate authenticated or signature process and protected keys."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Why is a cryptographic primitive not an end-to-end guarantee?",
+      "answer": "Keys, protocol composition, identity validation, endpoint behavior, configuration, and operations determine whether the intended property survives."
+    },
+    {
+      "prompt": "What does a hash not provide by itself?",
+      "answer": "Secrecy or trustworthy origin identity."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A team sends a hash beside a downloaded installer over the same unauthenticated channel. What is missing?",
+      "decisiveDetail": "An attacker can replace both; use an authenticated trust or signature process and validate it before relying on the integrity value.",
+      "testedConceptIds": [
+        "hashing",
+        "digital-signature",
+        "authenticity"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Map each of confidentiality, integrity, authenticity, and nonrepudiation to a mechanism and its dependency.",
+    "connect": "Connect D4 secure channels, D5 authenticators, and D7 key or configuration operations.",
+    "apply": "Assess a proposed encryption claim for scope, key, protocol, endpoint, and recovery limits.",
+    "revisit": "In three days, contrast a hash with a signature from memory."
+  },
+  "visualIds": [
+    "d3-o06-cryptographic-primitives-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o06-primitives-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6: cryptographic methods including symmetric, asymmetric, elliptic curves, and quantum"
+      },
+      "supports": [
+        "objective-boundary",
+        "cryptographic-methods"
+      ]
+    },
+    {
+      "id": "d3-o06-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o06-primitives-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "45-84",
+        "pdfPage": "45-84",
+        "note": "Domain 3 cryptography range; printed page is the citation anchor."
+      },
+      "supports": [
+        "symmetric-asymmetric-hash-signature-selection",
+        "elliptic-curve-context"
+      ]
+    },
+    {
+      "id": "d3-o06-primitives-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7, Cryptography and PKI, pp. 219-308"
+      },
+      "supports": [
+        "cryptographic-primitives",
+        "selection-correlation"
+      ],
+      "sourceNotes": "Broad chapter locator requires section-level refinement; this unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o06-cryptographic-primitives-visual-contract",
+    "unitId": "d3-o06-cryptographic-primitives",
+    "teachingQuestion": "Which primitive supplies the required property, and what composition or operational dependency can invalidate it?",
+    "misconception": "A hash, encryption, signature, and key exchange all provide the same protection.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Choose the primitive by confidentiality, integrity, authenticity, and protocol role, then protect its keys and endpoints.",
+    "conceptIds": [
+      "symmetric-cryptography",
+      "asymmetric-cryptography",
+      "hashing",
+      "message-authentication",
+      "digital-signature",
+      "elliptic-curve-cryptography",
+      "confidentiality",
+      "integrity",
+      "authenticity"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For the scenario, identify the primitive, the property, and one required validation or key control.",
+    "textFallback": "Cryptographic selection starts with the required property, data state, participants, trust model, performance, interoperability, and failure consequence. Symmetric, asymmetric, hashing, message-authentication, and signature mechanisms play different roles and must be composed into a managed protocol.\nUse an approved signing process with protected signer authority, a validation and trust path, integrity verification before installation, revocation or replacement handling, and logging of release approval. Add transport and repository controls; signing does not make an infected build trustworthy if the signing authority was misused.",
+    "sourceRefIds": [
+      "d3-o06-primitives-textbook",
+      "d3-o06-primitives-sybex"
+    ],
+    "mapNodeId": "d3-o06-cryptographic-primitives",
+    "visualIds": [
+      "d3-o06-cryptographic-primitives-concept-comparison-1"
+    ]
+  }
+}

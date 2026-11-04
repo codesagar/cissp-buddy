@@ -1,0 +1,264 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o07-preventive-detective-control-operations",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.7"
+  ],
+  "title": "Operate preventive and detective control families",
+  "summary": "Preventive and detective measures reduce exposure, identify suspicious behavior, and create response paths when designed for the boundary, asset, and failure mode they actually cover.",
+  "outcome": "Given a threat and control boundary, select and operate an appropriate firewall, IDPS, allow or deny rule, service, sandbox, honeypot, or anti-malware measure with ownership and failure handling.",
+  "conceptIds": [
+    "firewall",
+    "next-generation-firewall",
+    "web-application-firewall",
+    "ids",
+    "ips",
+    "allowlist",
+    "denylist",
+    "third-party-security-service",
+    "sandbox",
+    "honeypot",
+    "honeynet",
+    "anti-malware"
+  ],
+  "prerequisites": [
+    "d7-o07-detective-preventive-measures",
+    "d4-o01-network-segmentation-trust-zones",
+    "d8-o05-secure-coding-foundations"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Name the threat, boundary, control owner, expected decision, and failure behavior before calling a product a security control.",
+  "sections": [
+    {
+      "id": "boundary-controls",
+      "title": "Place controls at the decision boundary",
+      "body": "A firewall filters traffic according to defined attributes and policy; a next-generation or web application firewall may add application, identity, or content context. IDS observes and alerts, while IPS can block or alter traffic and therefore carries availability and bypass risk. Allowlisting and denylisting are policy choices whose maintenance, default behavior, and exception process matter more than the label. Choose placement from the data flow and trust boundary, define fail-open or fail-closed behavior, and test encrypted, fragmented, tunneled, and management traffic that may evade assumptions.",
+      "keyPoints": [
+        "A control is effective only where the relevant path crosses it.",
+        "Blocking authority requires a safe exception and rollback path.",
+        "Control placement must account for encryption, bypass routes, and management access."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o07-controls",
+        "official-d7-52-59-controls",
+        "sybex-d7-810-818"
+      ]
+    },
+    {
+      "id": "isolation-and-malware-controls",
+      "title": "Use isolation and layered malicious-code defenses",
+      "body": "Sandboxing limits execution or observation of untrusted content, but the analysis environment must be isolated and its evasion limits understood. Honeypots and honeynets create deliberately attractive or instrumented assets for detection and intelligence; they need clear legal, operational, and containment boundaries. Anti-malware combines prevention, detection, quarantine, update, and recovery decisions across endpoints, servers, mail, and workloads. Third-party security services can extend capacity, but responsibility, data access, service availability, evidence return, and exit conditions must be explicit.",
+      "keyPoints": [
+        "Isolation is a control claim that must be tested against escape, communication, and administration paths.",
+        "A decoy is not a substitute for protecting production assets.",
+        "Outsourced detection still requires customer ownership of risk, escalation, and evidence."
+      ],
+      "sourceRefIds": [
+        "official-d7-52-59-controls",
+        "sybex-d7-819-828"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Protecting a public application",
+      "situation": "A public application uses a WAF, network firewall, endpoint anti-malware, and a third-party managed detection service. An emergency rule blocks a partner API because its traffic resembles automated abuse.",
+      "reasoning": "Keep the block bounded to the attack pattern and verify partner identity, source range, and business impact. Record the rule owner and expiry, monitor bypass paths, and coordinate the managed service's evidence and escalation. Validate the application at the WAF and code layers; a network firewall alone cannot express all application abuse."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "IDS",
+        "IPS"
+      ],
+      "difference": "An IDS primarily detects and reports; an IPS is positioned to prevent or alter traffic and can therefore introduce a direct availability or blocking consequence."
+    },
+    {
+      "between": [
+        "allowlist",
+        "denylist"
+      ],
+      "difference": "An allowlist authorizes known acceptable items by default; a denylist blocks known unacceptable items while permitting other items, leaving different unknown-behavior risks."
+    },
+    {
+      "between": [
+        "sandbox",
+        "honeypot"
+      ],
+      "difference": "A sandbox isolates or analyzes an untrusted object or process; a honeypot is a decoy asset intended to attract and reveal activity."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A next-generation firewall replaces application security.",
+      "correction": "It may add application context, but secure code, identity, authorization, and data controls remain necessary."
+    },
+    {
+      "misconception": "A honeypot can safely contain any attacker.",
+      "correction": "A decoy needs isolation, monitored management, legal authorization, and tested limits so it cannot become a pivot."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What questions determine firewall or IPS placement?",
+      "answer": "Which flow and trust boundary require a decision, what context is available, what bypasses exist, and how failure will be handled."
+    },
+    {
+      "prompt": "Why does a third-party security service not transfer accountability?",
+      "answer": "The organization still owns risk, authorization, escalation, evidence requirements, and service or exit decisions."
+    },
+    {
+      "prompt": "What must accompany an allowlist exception?",
+      "answer": "A bounded scope, owner, rationale, expiry or review, monitoring, and rollback path."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "An IPS blocks a high-volume backup transfer every night, causing missed recovery points.",
+      "decision": "Validate the transfer identity and destination, create a narrow authenticated exception or alternate path, monitor it, and retain the threat-detection coverage.",
+      "why": "A preventive control can create a business continuity failure when its context and exception design are incomplete."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare firewalls, NGFW/WAF, IDS/IPS, allowlists, denylists, third-party services, sandboxes, honeypots, honeynets, and anti-malware.",
+    "connect": "Connect D7.7 to D4 network boundaries, D5 enforcement, D8 application controls, D7.2 telemetry, and D6 control testing.",
+    "apply": "Place controls around one application and state each control's decision, owner, failure behavior, and evidence.",
+    "revisit": "Explain how a layered control design can still fail through an encrypted or unmanaged bypass path."
+  },
+  "visualIds": [
+    "d7-o07-preventive-detective-control-operations-decision-comparison-1",
+    "d7-o07-preventive-detective-control-operations-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o07-controls",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.7 bullets: firewalls, IDS/IPS, allow/deny lists, services, sandboxing, honeypots, anti-malware"
+      },
+      "supports": [
+        "objective scope",
+        "control families"
+      ]
+    },
+    {
+      "id": "official-d7-52-59-controls",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "52-59 (PDF pp. 52-59), Domain 7.7 detective and preventive measures"
+      },
+      "supports": [
+        "firewalls",
+        "IDPS",
+        "malware",
+        "decoys",
+        "control operation"
+      ]
+    },
+    {
+      "id": "sybex-d7-810-818",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "810-818, Chapter 17 security controls and firewalls"
+      },
+      "supports": [
+        "firewalls",
+        "IDS/IPS",
+        "allow and deny decisions"
+      ]
+    },
+    {
+      "id": "sybex-d7-819-828",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "819-828, Chapter 17 endpoint, malware, sandbox, and monitoring controls"
+      },
+      "supports": [
+        "anti-malware",
+        "sandboxing",
+        "honeypots",
+        "managed security services"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o07-preventive-detective-control-operations-visual-contract",
+    "unitId": "d7-o07-preventive-detective-control-operations",
+    "teachingQuestion": "Where should each boundary control operate and how does it fail safely?",
+    "misconception": "Firewall, IDS, IPS, sandbox, or honeypot label guarantees outcome.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Each row distinguishes purpose, selection, failure, and response.",
+    "conceptIds": [
+      "firewall",
+      "next-generation-firewall",
+      "web-application-firewall",
+      "ids",
+      "ips",
+      "allowlist",
+      "denylist",
+      "third-party-security-service",
+      "sandbox",
+      "honeypot",
+      "honeynet",
+      "anti-malware"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No vendor-specific configuration or auto-response authority.",
+    "retrievalPrompt": "For the scenario, choose control/threshold/owner and state failure evidence.",
+    "textFallback": "firewall: Firewall: policy filters flow. Decision: decide boundary/rules/default.. Failure/example: management bypass.\nnext generation firewall: NGFW: adds app/identity/content context. Decision: decide decrypt/inspect limits.. Failure/example: encrypted blind spot.\nweb application firewall: WAF: web request protection. Decision: decide app coverage/tuning.. Failure/example: API bypass.\nids: IDS: detects only. Decision: decide response owner.. Failure/example: alert ignored.\nips: IPS: blocks. Decision: decide fail-open/closed.. Failure/example: outage or bypass.\nallowlist: Allowlist: permit known set. Decision: decide maintenance/exception.. Failure/example: needed update blocked.\ndenylist: Denylist: block known set. Decision: decide currency/coverage.. Failure/example: unknown threat allowed.\nthird party security service: Third-party service: outsourced control. Decision: decide data/access/SLA/exit.. Failure/example: provider outage.\nsandbox: Sandbox: isolate untrusted execution. Decision: decide escape/evasion limits.. Failure/example: sample reaches production.",
+    "sourceRefIds": [
+      "official-d7-52-59-controls",
+      "sybex-d7-810-818",
+      "sybex-d7-819-828"
+    ],
+    "mapNodeId": "d7-o07-preventive-detective-control-operations",
+    "visualIds": [
+      "d7-o07-preventive-detective-control-operations-decision-comparison-1",
+      "d7-o07-preventive-detective-control-operations-decision-comparison-2"
+    ]
+  }
+}

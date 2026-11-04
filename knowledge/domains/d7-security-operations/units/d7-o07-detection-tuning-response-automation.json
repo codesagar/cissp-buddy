@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o07-detection-tuning-response-automation",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.7"
+  ],
+  "title": "Tune detections and constrain response automation",
+  "summary": "Detection quality depends on coverage, control health, useful thresholds, analyst feedback, and automation boundaries that preserve evidence and prevent a defensive action from becoming a new outage.",
+  "outcome": "Given noisy or changing detection data, tune a control, measure false positives and false negatives, and automate only actions whose authority, safeguards, and rollback are explicit.",
+  "conceptIds": [
+    "detection-tuning",
+    "control-health",
+    "false-positive",
+    "false-negative",
+    "security-metrics",
+    "ml-detection",
+    "ai-security-tool",
+    "response-automation",
+    "escalation-boundary",
+    "control-coverage"
+  ],
+  "prerequisites": [
+    "d7-o07-detective-preventive-measures",
+    "d7-o02-monitoring-detection-triage",
+    "d7-o06-incident-management"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Tune for decisions and outcomes, not a quiet dashboard; every automated action needs a bounded authority, safety check, and recovery path.",
+  "sections": [
+    {
+      "id": "measure-and-tune",
+      "title": "Tune against coverage and outcomes",
+      "body": "Tuning changes thresholds, rules, signatures, models, data sources, suppressions, and response routing. Measure alert volume, time to triage, true and false positive rates, known missed cases, asset coverage, control health, and outcome quality. Compare results against test cases and incidents rather than assuming a lower volume is better. Review changes after system, identity, threat, or business-process changes. Keep an approval record and preserve the previous configuration so a tuning change can be reversed without losing the ability to investigate.",
+      "keyPoints": [
+        "A quiet control can be disabled, blind, or over-suppressed.",
+        "False-negative evidence is harder to observe and requires tests, simulations, hunts, and incident review.",
+        "Coverage and health metrics should identify missing or failing sensors, not only successful alerts."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o07-tuning",
+        "official-d7-52-59-tuning",
+        "sybex-d7-810-828"
+      ]
+    },
+    {
+      "id": "automation-and-ai-guardrails",
+      "title": "Automate within explicit safety boundaries",
+      "body": "Automation can enrich an event, isolate an endpoint, disable a credential, block a destination, or open a case. Define the confidence threshold, affected scope, authorization, human override, rate limit, evidence capture, notification, and rollback before enabling a disruptive action. Machine-learning or AI-based tools can detect relationships not expressed by a fixed rule, but they can drift, inherit biased data, be evaded, or produce an opaque score. Keep a human review path for high-impact actions and test the model or automation against adversarial and benign changes.",
+      "keyPoints": [
+        "Automated containment should fail safely and be reversible.",
+        "An AI score is an input to a security decision, not an explanation of intent.",
+        "Every automation needs ownership, auditability, and a way to suspend it when it misbehaves."
+      ],
+      "sourceRefIds": [
+        "official-d7-52-59-tuning",
+        "sybex-d7-819-828"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Automated endpoint isolation",
+      "situation": "An endpoint model detects ransomware-like file changes and isolates the device automatically. A backup administrator's maintenance tool triggers the same pattern on a recovery server.",
+      "reasoning": "The action should require asset criticality and maintenance context, capture the triggering events, notify the owner, and provide a tested rollback or alternate console path. Tune the model using the labeled case but do not suppress the behavior globally; preserve a targeted detection for unauthorized encryption on recovery assets."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "tuning",
+        "disabling"
+      ],
+      "difference": "Tuning changes detection behavior to improve useful decisions while preserving a stated objective; disabling removes coverage and requires an explicit risk decision."
+    },
+    {
+      "between": [
+        "automation",
+        "autonomy"
+      ],
+      "difference": "Automation executes a defined action under rules and safeguards; autonomy implies broader independent decisions and requires stronger governance and validation."
+    },
+    {
+      "between": [
+        "control health",
+        "control effectiveness"
+      ],
+      "difference": "Health asks whether a control is running and reporting; effectiveness asks whether it achieves the intended security outcome."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Machine-learning detection removes the need for rule tuning.",
+      "correction": "Models also need data quality, drift monitoring, threshold decisions, validation, and response governance."
+    },
+    {
+      "misconception": "The fastest automated containment is always safest.",
+      "correction": "An unbounded action can disrupt critical service, destroy evidence, or spread a mistaken decision; scope and rollback matter."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Which evidence can show that tuning improved a control?",
+      "answer": "Test cases, incident outcomes, false-positive and false-negative examples, coverage, sensor health, triage time, and documented change results."
+    },
+    {
+      "prompt": "What safeguards belong around disruptive automation?",
+      "answer": "Confidence and scope limits, authorization, evidence capture, notification, human override, rate limits, and rollback."
+    },
+    {
+      "prompt": "Why measure control health separately from effectiveness?",
+      "answer": "A running sensor may still miss the intended threat, while a useful control can appear quiet because the condition is absent."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A tuning review proposes raising an alert threshold because analysts are overloaded, but the last incident was detected below the proposed threshold.",
+      "decision": "Reject a volume-only change; test alternative enrichment, routing, asset-based thresholds, and staffing, and document residual risk if scope changes.",
+      "why": "Reducing analyst workload by discarding low-volume high-impact signals can increase false negatives."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study tuning, health, effectiveness, false positives and negatives, AI/ML caveats, response automation, and escalation boundaries.",
+    "connect": "Connect D7.7 to D7.2 triage, D7.6 incident authority, D6 measurement, D5 account actions, and D8 software change.",
+    "apply": "Design one automated containment action with a confidence rule, scope, evidence, approval, notification, and rollback.",
+    "revisit": "Explain how you would detect a quiet but blind control after a major platform change."
+  },
+  "visualIds": [
+    "d7-o07-detection-tuning-response-automation-decision-comparison-1",
+    "d7-o07-detection-tuning-response-automation-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o07-tuning",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.7 bullets: operate and maintain detection and preventive measures, including AI-based tools"
+      },
+      "supports": [
+        "objective scope",
+        "maintenance and tuning"
+      ]
+    },
+    {
+      "id": "official-d7-52-59-tuning",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "52-59 (PDF pp. 52-59), Domain 7.7 control maintenance and detection"
+      },
+      "supports": [
+        "control health",
+        "detection tuning",
+        "automation considerations"
+      ]
+    },
+    {
+      "id": "sybex-d7-810-828",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "810-828, Chapter 17 control monitoring and response"
+      },
+      "supports": [
+        "control operation",
+        "false positives",
+        "malware and automated response"
+      ]
+    },
+    {
+      "id": "sybex-d7-819-828",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "819-828, Chapter 17 control tuning, endpoint, and automated response"
+      },
+      "supports": [
+        "tuning",
+        "control health",
+        "automated response"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o07-detection-tuning-response-automation-visual-contract",
+    "unitId": "d7-o07-detection-tuning-response-automation",
+    "teachingQuestion": "When may a detection or automated response be changed without creating a new blind spot or harm?",
+    "misconception": "Lower alert volume proves better detection, or AI score may autonomously act without limits.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Each row distinguishes purpose, selection, failure, and response.",
+    "conceptIds": [
+      "detection-tuning",
+      "control-health",
+      "false-positive",
+      "false-negative",
+      "security-metrics",
+      "ml-detection",
+      "ai-security-tool",
+      "response-automation",
+      "escalation-boundary",
+      "control-coverage"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No vendor-specific configuration or auto-response authority.",
+    "retrievalPrompt": "For the scenario, choose control/threshold/owner and state failure evidence.",
+    "textFallback": "detection tuning: Tuning: alter rule/model/data/threshold. Decision: decide evidence/rollback.. Failure/example: coverage lost.\ncontrol health: Control health: agent/rule/data availability. Decision: decide degradation alert.. Failure/example: sensor silently disabled.\nfalse positive: False positive: alert without condition. Decision: decide workload tuning.. Failure/example: analyst fatigue.\nfalse negative: False negative: missed condition. Decision: decide coverage/test.. Failure/example: silent compromise.\nsecurity metrics: Metrics: outcome/coverage/latency measures. Decision: decide change from known results.. Failure/example: vanity count.\nml detection: ML detection: learned pattern scoring. Decision: decide drift/bias/testing.. Failure/example: benign change misclassified.\nai security tool: AI tool: assist detection/response. Decision: decide human override/high-impact limit.. Failure/example: opaque automated isolation.\nresponse automation: Response automation: enrichment/block/isolate action. Decision: decide confidence/scope/rollback.. Failure/example: business outage.\nescalation boundary: Escalation boundary: threshold requiring human/authority. Decision: decide disruption limit.. Failure/example: auto-disable executive account.",
+    "sourceRefIds": [
+      "official-d7-52-59-tuning",
+      "sybex-d7-810-828",
+      "sybex-d7-819-828"
+    ],
+    "mapNodeId": "d7-o07-detection-tuning-response-automation",
+    "visualIds": [
+      "d7-o07-detection-tuning-response-automation-decision-comparison-1",
+      "d7-o07-detection-tuning-response-automation-decision-comparison-2"
+    ]
+  }
+}

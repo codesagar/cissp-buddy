@@ -1,0 +1,262 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o02-monitoring-detection-triage",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.2"
+  ],
+  "title": "Operate monitoring, detection, and alert triage",
+  "summary": "Monitoring turns telemetry, threat intelligence, and behavioral baselines into prioritized decisions while tuning controls to remain useful as systems and adversaries change.",
+  "outcome": "Given a detection signal, classify and prioritize it, select corroborating evidence, escalate or close it, and improve the use case without hiding meaningful risk.",
+  "conceptIds": [
+    "idps",
+    "siem",
+    "continuous-monitoring",
+    "alert-triage",
+    "detection-use-case",
+    "threshold-tuning",
+    "threat-intelligence",
+    "threat-hunting",
+    "ueba",
+    "false-positive",
+    "false-negative"
+  ],
+  "prerequisites": [
+    "d7-o02-logging-monitoring",
+    "d7-o02-logging-architecture-evidence",
+    "d7-o06-incident-management"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Treat an alert as a decision request: assess confidence and impact, seek corroboration, act within authority, and learn from the outcome.",
+  "sections": [
+    {
+      "id": "signals-and-triage",
+      "title": "Turn signals into prioritized work",
+      "body": "An IDPS, SIEM, endpoint sensor, cloud service, or application rule produces a signal, not a verdict. Triage combines asset criticality, identity or entity, behavior baseline, attack technique, confidence, business context, and potential impact. Define use cases with an owner, data dependencies, threshold, severity, escalation path, and closure evidence. Correlate independent sources before taking disruptive action when the risk permits; contain quickly when confidence and consequence justify it. Record why an alert was escalated, suppressed, or closed so tuning is evidence-based.",
+      "keyPoints": [
+        "Severity and confidence are different dimensions; a low-confidence signal on a critical asset may still deserve review.",
+        "Use-case owners define the action and evidence needed for closure.",
+        "Triage must preserve evidence and respect incident, privacy, and access authority."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o02-monitoring",
+        "official-d7-15-30-monitoring",
+        "sybex-d7-841-850"
+      ]
+    },
+    {
+      "id": "intelligence-behavior-tuning",
+      "title": "Use intelligence and behavior without blind trust",
+      "body": "Threat intelligence supplies context about actors, indicators, tactics, vulnerabilities, and campaigns; threat hunting asks a hypothesis-driven question across available telemetry. UEBA establishes or compares behavior for users and entities, but a baseline can be wrong, stale, or biased toward privileged or unusual work. Tune rules, models, and thresholds against known outcomes, false positives, false negatives, drift, and missed coverage. Preserve a review path for analysts to challenge automated scores and update detections when business processes, identities, or adversary behavior changes.",
+      "keyPoints": [
+        "An indicator is a clue whose relevance depends on time, source quality, and local context.",
+        "UEBA highlights deviation; deviation is not proof of malicious intent.",
+        "Tuning should measure both noisy alerts and missed consequential activity."
+      ],
+      "sourceRefIds": [
+        "official-d7-15-30-monitoring",
+        "sybex-d7-834-850"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Impossible travel with privileged activity",
+      "situation": "UEBA flags an administrator who authenticates from two regions within ten minutes. A VPN gateway shows a corporate egress address, and a change ticket shows an approved maintenance window.",
+      "reasoning": "Do not close solely on the anomaly or escalate solely on the model score. Correlate VPN session identity, device, ticket, MFA, target systems, and command history. If the evidence matches the approved work, document the benign cause and tune the model or exception with an expiry; if it does not, escalate and protect the account under incident procedures."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "IDPS",
+        "SIEM"
+      ],
+      "difference": "IDPS focuses on detecting or preventing suspicious activity at defined enforcement or observation points; SIEM aggregates and correlates events across sources for monitoring and investigation."
+    },
+    {
+      "between": [
+        "threat intelligence",
+        "threat hunting"
+      ],
+      "difference": "Intelligence provides contextual knowledge or indicators; hunting is an analyst-led search for evidence of a hypothesized threat in the environment."
+    },
+    {
+      "between": [
+        "false positive",
+        "false negative"
+      ],
+      "difference": "A false positive produces an alert without the condition of interest; a false negative misses a condition that exists."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A high alert count proves monitoring is effective.",
+      "correction": "Volume can reflect noisy rules, duplicate sources, or poor triage; effectiveness requires meaningful coverage, timely decisions, and known outcomes."
+    },
+    {
+      "misconception": "Threat intelligence feeds can be copied directly into blocking rules.",
+      "correction": "Validate source quality, age, relevance, confidence, and business impact before blocking or escalating."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should a detection use case specify besides a rule?",
+      "answer": "Owner, data dependencies, threshold or logic, severity, response or escalation path, and closure evidence."
+    },
+    {
+      "prompt": "Why can a UEBA anomaly not be treated as proof?",
+      "answer": "Legitimate work, shared infrastructure, changed roles, travel, or a biased baseline can produce unusual behavior."
+    },
+    {
+      "prompt": "What two outcomes should tuning measure?",
+      "answer": "The cost of false positives and the risk or examples of false negatives, alongside coverage and response timeliness."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "An analyst proposes suppressing all failed-login alerts from a service account because overnight maintenance creates noise.",
+      "decision": "Scope the exception to the approved host, window, and source; retain counts and an expiry; add a separate alert for deviation from the maintenance pattern.",
+      "why": "A broad suppression can hide credential abuse and removes the evidence needed to reassess the rule."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study IDPS, SIEM, continuous monitoring, use cases, triage, threat intelligence, hunting, UEBA, and tuning tradeoffs.",
+    "connect": "Connect D7.2 to D7.6 incident response, D7.7 controls, D4 network telemetry, D5 identity signals, and D6 measurement.",
+    "apply": "Write a detection use case with a signal, context, severity, owner, response, and closure evidence.",
+    "revisit": "Take one noisy rule and propose a bounded exception that preserves evidence and tests for drift."
+  },
+  "visualIds": [
+    "d7-o02-monitoring-detection-triage-decision-comparison-1",
+    "d7-o02-monitoring-detection-triage-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o02-monitoring",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.2 bullets: IDPS, SIEM, continuous monitoring, threat intelligence, UEBA"
+      },
+      "supports": [
+        "objective scope",
+        "monitoring and detection topics"
+      ]
+    },
+    {
+      "id": "official-d7-15-30-monitoring",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "15-30 (PDF pp. 15-30), Domain 7.2 logging and monitoring"
+      },
+      "supports": [
+        "IDPS",
+        "SIEM",
+        "monitoring",
+        "threat intelligence",
+        "behavioral analytics"
+      ]
+    },
+    {
+      "id": "sybex-d7-834-850",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "834-850, Chapter 17 logging, monitoring, and SIEM"
+      },
+      "supports": [
+        "monitoring operations",
+        "SIEM",
+        "triage",
+        "tuning"
+      ]
+    },
+    {
+      "id": "sybex-d7-841-850",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "841-850, Chapter 17 monitoring, alert handling, and tuning"
+      },
+      "supports": [
+        "triage",
+        "thresholds",
+        "monitoring operations"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o02-monitoring-detection-triage-visual-contract",
+    "unitId": "d7-o02-monitoring-detection-triage",
+    "teachingQuestion": "When should a signal be escalated, suppressed, or used to tune detection?",
+    "misconception": "High alert volume or feed indicators prove effective monitoring.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "idps",
+      "siem",
+      "continuous-monitoring",
+      "alert-triage",
+      "detection-use-case",
+      "threshold-tuning",
+      "threat-intelligence",
+      "threat-hunting",
+      "ueba",
+      "false-positive",
+      "false-negative"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "idps: IDPS: observes/prevents at points. Decision: decide enforcement/observation placement.. Failure/example: blind lateral path.\nsiem: SIEM: aggregates/correlates multi-source events. Decision: decide source quality/use cases.. Failure/example: correlation on missing identity.\ncontinuous monitoring: Continuous monitoring: recurring control/risk signals. Decision: decide reassessment trigger.. Failure/example: drift persists after audit.\nalert triage: Triage: assess confidence/impact/context. Decision: decide escalation/closure evidence.. Failure/example: noisy rule hides incident.\ndetection use case: Use case: owned question with data/threshold/playbook. Decision: decide coverage.. Failure/example: alert has no response path.\nthreshold tuning: Tuning: change threshold from outcomes. Decision: decide precision/recall tradeoff.. Failure/example: lowers noise and misses attack.\nthreat intelligence: Intelligence: contextual actors/indicators/TTPs. Decision: decide relevance/age/confidence.. Failure/example: stale IOC blocks business.\nthreat hunting: Hunting: hypothesis-led telemetry search. Decision: decide question/evidence.. Failure/example: feed lookup called hunt.\nueba: UEBA: entity behavior baseline. Decision: decide baseline bias/exception review.. Failure/example: privileged anomaly normalized.",
+    "sourceRefIds": [
+      "official-d7-15-30-monitoring",
+      "sybex-d7-834-850",
+      "sybex-d7-841-850"
+    ],
+    "mapNodeId": "d7-o02-monitoring-detection-triage",
+    "visualIds": [
+      "d7-o02-monitoring-detection-triage-decision-comparison-1",
+      "d7-o02-monitoring-detection-triage-decision-comparison-2"
+    ]
+  }
+}

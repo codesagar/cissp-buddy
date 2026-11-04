@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o06-key-management-pki-concept-comparison-1",
+  "unitId": "d3-o06-key-management-pki",
+  "type": "table",
+  "title": "Design key management and PKI as trust operations: concept decisions 1",
+  "teachingQuestion": "Who controls the key or certificate transition, and what must a relying party validate?",
+  "focalInsight": "PKI trust depends on protected issuance, an appropriate trust anchor, status, and complete relying-party validation.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Key Management",
+      "conceptIds": [
+        "key-management"
+      ],
+      "definition": "Governance and protection of cryptographic key authority and use.",
+      "detail": "Governance and protection of cryptographic key authority and use.",
+      "decision": "Assign custody, access, separation, auditing, recovery, and compromise response.",
+      "failureExample": "An application administrator exports a production private key during troubleshooting.",
+      "retrievalAnswer": "Key access needs separate authority and evidence.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Key Lifecycle",
+      "conceptIds": [
+        "key-lifecycle"
+      ],
+      "definition": "Controlled states from generation and binding through use, rotation, revocation, archival, and destruction.",
+      "detail": "Controlled states from generation and binding through use, rotation, revocation, archival, and destruction.",
+      "decision": "Define accountable transitions and test their dependent-service effects.",
+      "failureExample": "A lost key has no approved recovery or destruction record.",
+      "retrievalAnswer": "Each key transition needs authority and a record.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Public Key Infrastructure",
+      "conceptIds": [
+        "public-key-infrastructure"
+      ],
+      "definition": "Trust system that manages issuance and reliance on identity-to-key bindings.",
+      "detail": "Trust system that manages issuance and reliance on identity-to-key bindings.",
+      "decision": "Use when a relying party needs managed, scalable certificate trust.",
+      "failureExample": "A CA issues a certificate without adequate enrollment or authorization checks.",
+      "retrievalAnswer": "PKI is operational trust, not only signed data.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Certificate",
+      "conceptIds": [
+        "certificate"
+      ],
+      "definition": "Credential binding an identity or service to a public key under issuer policy.",
+      "detail": "Credential binding an identity or service to a public key under issuer policy.",
+      "decision": "Check intended identity, use, validity, chain, and status before reliance.",
+      "failureExample": "A valid certificate is used for a service name it was not issued for.",
+      "retrievalAnswer": "A certificate must fit the intended reliance.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Certificate Authority",
+      "conceptIds": [
+        "certificate-authority"
+      ],
+      "definition": "Authority that issues and manages certificates under a defined trust policy.",
+      "detail": "Authority that issues and manages certificates under a defined trust policy.",
+      "decision": "Protect issuance, signing keys, enrollment, audit, and compromise response.",
+      "failureExample": "A compromised CA signing key issues arbitrary trusted certificates.",
+      "retrievalAnswer": "CA protection can determine the trust scope’s blast radius.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Revocation",
+      "conceptIds": [
+        "revocation"
+      ],
+      "definition": "Withdrawal or suspension process for a compromised or no-longer-authorized certificate or key.",
+      "detail": "Withdrawal or suspension process for a compromised or no-longer-authorized certificate or key.",
+      "decision": "Use when status must change before normal expiry; plan distribution and relying-party behavior.",
+      "failureExample": "A compromised certificate remains accepted until its scheduled expiration.",
+      "retrievalAnswer": "Revocation needs timely status propagation and validation.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Key Rotation",
+      "conceptIds": [
+        "key-rotation"
+      ],
+      "definition": "Planned replacement of a key and dependent configurations or credentials.",
+      "detail": "Planned replacement of a key and dependent configurations or credentials.",
+      "decision": "Coordinate activation, compatibility, rollback, evidence, and old-key retirement.",
+      "failureExample": "A new key is deployed but clients still depend on the retired key.",
+      "retrievalAnswer": "Rotate the system dependency, not only the key object.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Key Recovery",
+      "conceptIds": [
+        "key-recovery"
+      ],
+      "definition": "Authorized restoration of key access or capability after loss or disruption.",
+      "detail": "Authorized restoration of key access or capability after loss or disruption.",
+      "decision": "Allow only with scoped authority, evidence, secure handling, and testing.",
+      "failureExample": "A recovery procedure becomes an unlogged way to export private keys.",
+      "retrievalAnswer": "Recovery must not create an uncontrolled key-release path.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Hardware Security Module",
+      "conceptIds": [
+        "hardware-security-module"
+      ],
+      "definition": "Dedicated hardware or service boundary for protected key operations and custody.",
+      "detail": "Dedicated hardware or service boundary for protected key operations and custody.",
+      "decision": "Use when key extraction resistance, controlled operations, and audit are needed.",
+      "failureExample": "A private key is copied into application configuration despite an HSM.",
+      "retrievalAnswer": "An HSM helps only when use and administration are also constrained.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "key-management",
+    "key-lifecycle",
+    "public-key-infrastructure",
+    "certificate",
+    "certificate-authority",
+    "revocation",
+    "key-rotation",
+    "key-recovery",
+    "hardware-security-module"
+  ],
+  "altSummary": "PKI trust depends on protected issuance, an appropriate trust anchor, status, and complete relying-party validation.",
+  "textFallback": "key management: Governance and protection of cryptographic key authority and use. Decide: Assign custody, access, separation, auditing, recovery, and compromise response. Example/failure: An application administrator exports a production private key during troubleshooting. Retrieve: Key access needs separate authority and evidence.\nkey lifecycle: Controlled states from generation and binding through use, rotation, revocation, archival, and destruction. Decide: Define accountable transitions and test their dependent-service effects. Example/failure: A lost key has no approved recovery or destruction record. Retrieve: Each key transition needs authority and a record.\npublic key infrastructure: Trust system that manages issuance and reliance on identity-to-key bindings. Decide: Use when a relying party needs managed, scalable certificate trust. Example/failure: A CA issues a certificate without adequate enrollment or authorization checks. Retrieve: PKI is operational trust, not only signed data.\ncertificate: Credential binding an identity or service to a public key under issuer policy. Decide: Check intended identity, use, validity, chain, and status before reliance. Example/failure: A valid certificate is used for a service name it was not issued for. Retrieve: A certificate must fit the intended reliance.\ncertificate authority: Authority that issues and manages certificates under a defined trust policy. Decide: Protect issuance, signing keys, enrollment, audit, and compromise response. Example/failure: A compromised CA signing key issues arbitrary trusted certificates. Retrieve: CA protection can determine the trust scope’s blast radius.\nrevocation: Withdrawal or suspension process for a compromised or no-longer-authorized certificate or key. Decide: Use when status must change before normal expiry; plan distribution and relying-party behavior. Example/failure: A compromised certificate remains accepted until its scheduled expiration. Retrieve: Revocation needs timely status propagation and validation.\nkey rotation: Planned replacement of a key and dependent configurations or credentials. Decide: Coordinate activation, compatibility, rollback, evidence, and old-key retirement. Example/failure: A new key is deployed but clients still depend on the retired key. Retrieve: Rotate the system dependency, not only the key object.\nkey recovery: Authorized restoration of key access or capability after loss or disruption. Decide: Allow only with scoped authority, evidence, secure handling, and testing. Example/failure: A recovery procedure becomes an unlogged way to export private keys. Retrieve: Recovery must not create an uncontrolled key-release path.\nhardware security module: Dedicated hardware or service boundary for protected key operations and custody. Decide: Use when key extraction resistance, controlled operations, and audit are needed. Example/failure: A private key is copied into application configuration despite an HSM. Retrieve: An HSM helps only when use and administration are also constrained.",
+  "sourceRefIds": [
+    "d3-o06-pki-textbook",
+    "d3-o06-pki-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Who controls the key or certificate transition, and what must a relying party validate?",
+    "misconception": "A certificate is trustworthy merely because it is signed.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "PKI trust depends on protected issuance, an appropriate trust anchor, status, and complete relying-party validation.",
+    "conceptIds": [
+      "key-management",
+      "key-lifecycle",
+      "public-key-infrastructure",
+      "certificate",
+      "certificate-authority",
+      "revocation",
+      "key-rotation",
+      "key-recovery",
+      "hardware-security-module"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Name the lifecycle transition, its authority, evidence, and effect on dependent services.",
+    "textFallback": "key management: Governance and protection of cryptographic key authority and use. Decide: Assign custody, access, separation, auditing, recovery, and compromise response. Example/failure: An application administrator exports a production private key during troubleshooting. Retrieve: Key access needs separate authority and evidence.\nkey lifecycle: Controlled states from generation and binding through use, rotation, revocation, archival, and destruction. Decide: Define accountable transitions and test their dependent-service effects. Example/failure: A lost key has no approved recovery or destruction record. Retrieve: Each key transition needs authority and a record.\npublic key infrastructure: Trust system that manages issuance and reliance on identity-to-key bindings. Decide: Use when a relying party needs managed, scalable certificate trust. Example/failure: A CA issues a certificate without adequate enrollment or authorization checks. Retrieve: PKI is operational trust, not only signed data.\ncertificate: Credential binding an identity or service to a public key under issuer policy. Decide: Check intended identity, use, validity, chain, and status before reliance. Example/failure: A valid certificate is used for a service name it was not issued for. Retrieve: A certificate must fit the intended reliance.\ncertificate authority: Authority that issues and manages certificates under a defined trust policy. Decide: Protect issuance, signing keys, enrollment, audit, and compromise response. Example/failure: A compromised CA signing key issues arbitrary trusted certificates. Retrieve: CA protection can determine the trust scope’s blast radius.\nrevocation: Withdrawal or suspension process for a compromised or no-longer-authorized certificate or key. Decide: Use when status must change before normal expiry; plan distribution and relying-party behavior. Example/failure: A compromised certificate remains accepted until its scheduled expiration. Retrieve: Revocation needs timely status propagation and validation.\nkey rotation: Planned replacement of a key and dependent configurations or credentials. Decide: Coordinate activation, compatibility, rollback, evidence, and old-key retirement. Example/failure: A new key is deployed but clients still depend on the retired key. Retrieve: Rotate the system dependency, not only the key object.\nkey recovery: Authorized restoration of key access or capability after loss or disruption. Decide: Allow only with scoped authority, evidence, secure handling, and testing. Example/failure: A recovery procedure becomes an unlogged way to export private keys. Retrieve: Recovery must not create an uncontrolled key-release path.\nhardware security module: Dedicated hardware or service boundary for protected key operations and custody. Decide: Use when key extraction resistance, controlled operations, and audit are needed. Example/failure: A private key is copied into application configuration despite an HSM. Retrieve: An HSM helps only when use and administration are also constrained.",
+    "sourceRefIds": [
+      "d3-o06-pki-textbook",
+      "d3-o06-pki-sybex"
+    ],
+    "mapNodeId": "d3-o06-key-management-pki"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

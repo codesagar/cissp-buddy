@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o04-system-security-capabilities",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.4"
+  ],
+  "title": "Use platform security capabilities as architectural building blocks",
+  "summary": "Information-system capabilities such as isolation, memory protection, trusted execution roots, encryption, logging, and virtualization support security objectives only when their limits, configuration, and operational dependencies are understood.",
+  "outcome": "Match a platform capability to a protection objective and identify the assumption that must also hold.",
+  "conceptIds": [
+    "memory-protection",
+    "process-isolation",
+    "trusted-platform-module",
+    "secure-boot",
+    "encryption",
+    "key-management",
+    "virtualization",
+    "logging",
+    "hardware-root-of-trust",
+    "privileged-account-management"
+  ],
+  "prerequisites": [
+    "control-selection",
+    "secure-design"
+  ],
+  "estimatedMinutes": 24,
+  "managerMindset": "A capability is not a guarantee. Ask what it protects, when it is active, who administers it, how it fails, and what evidence demonstrates the claimed state.",
+  "sections": [
+    {
+      "id": "capabilities",
+      "title": "Capabilities protect different layers",
+      "body": "Memory and process isolation limit one workload’s ability to read or alter another. A hardware root of trust and secure boot can provide evidence about approved startup state. Encryption protects information in selected states but depends on key management and endpoint handling. Virtualization can isolate workloads but introduces management-plane and hypervisor dependencies. Logging supports detection and accountability when protected and reviewed.",
+      "keyPoints": [
+        "Match the capability to the asset, state, and threat.",
+        "Management planes and key paths are part of the architecture."
+      ],
+      "sourceRefIds": [
+        "d3-o04-outline",
+        "d3-o04-textbook",
+        "d3-o04-sybex"
+      ]
+    },
+    {
+      "id": "limits",
+      "title": "Design for limits and operation",
+      "body": "A TPM cannot compensate for an untrusted administrator or poor recovery process. Encryption cannot protect data after an authorized endpoint displays it. Isolation can fail through configuration, shared services, vulnerable management interfaces, or side channels. Define attestation, patching, privileged administration, monitoring, backup, and incident response alongside the capability.",
+      "keyPoints": [
+        "Claims must include scope and residual risk.",
+        "Operational controls preserve the capability’s intended protection."
+      ],
+      "sourceRefIds": [
+        "d3-o04-textbook",
+        "d3-o04-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Bound capability claims with configuration and operational assumptions",
+      "body": "Memory protection separates process or privilege address spaces; a TPM or other hardware root can protect keys and measurements; encryption and decryption protect selected data states under managed keys; secure boot and attestation can provide startup or configuration evidence; isolation and virtualization separate workloads while adding hypervisor and management-plane dependencies; and logging supports accountability when protected and reviewed. Select a capability by asset, state, threat, privilege boundary, integration path, administrator, update mechanism, and evidence. A capability is not a guarantee: a compromised privileged manager, exported key, weak recovery path, disabled measurement, shared service, or unreviewed configuration can defeat the intended claim. Layer operations, monitoring, access control, and recovery around the platform feature.",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o04-outline",
+        "d3-o04-textbook",
+        "d3-o04-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Virtualized payment service",
+      "situation": "A payment workload runs beside lower-trust services on a shared virtual platform.",
+      "reasoning": "Use isolation and segmentation, protect the hypervisor and management plane, restrict administrator access, validate startup and patch status, manage keys separately, and monitor cross-boundary events.",
+      "takeaway": "Isolation is an architecture and operations claim, not simply a deployment label."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Encryption",
+      "b": "Key management",
+      "difference": "Encryption transforms protected data; key management governs generation, storage, access, rotation, recovery, and destruction of the material that makes protection meaningful."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A TPM makes a whole system trustworthy.",
+      "correction": "It can anchor specific measurements or keys; trust still depends on configuration, software, administration, and response processes."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does memory protection primarily limit?",
+      "answer": "Unauthorized access or modification across process or privilege boundaries."
+    },
+    {
+      "prompt": "Why is a virtualization management plane security critical?",
+      "answer": "It can control or observe many guest workloads, making it a high-impact trust boundary."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A team encrypts database disks but stores unrestricted decryption keys on the same administrator workstation. What assumption has failed?",
+      "decisiveDetail": "Encryption depends on key separation and control, not only algorithm use.",
+      "testedConceptIds": [
+        "encryption",
+        "key-management",
+        "privileged-account-management"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Map one platform capability to its asset, threat, limit, and evidence.",
+    "connect": "Connect hardware roots to cryptography and D7 configuration management.",
+    "apply": "Identify the management plane in a cloud or virtual design.",
+    "revisit": "In three days, state why encryption and key management cannot be separated."
+  },
+  "visualIds": [
+    "d3-o04-system-security-capabilities-concept-comparison-1",
+    "d3-o04-system-security-capabilities-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o04-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.4"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o04-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "21-25",
+        "pdfPage": "21-25",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "information-system-capabilities"
+      ]
+    },
+    {
+      "id": "d3-o04-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, system capabilities, p. 309 onward; precise locator refinement pending"
+      },
+      "supports": [
+        "memory-protection",
+        "trusted-platform-module",
+        "encryption"
+      ],
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o04-system-security-capabilities-visual-contract",
+    "unitId": "d3-o04-system-security-capabilities",
+    "teachingQuestion": "Which platform capability protects this layer, and what assumption must still hold?",
+    "misconception": "A TPM, encryption, or VM eliminates all remaining risk.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Capabilities protect bounded layers and rely on keys, configuration, administration, and operation.",
+    "conceptIds": [
+      "memory-protection",
+      "process-isolation",
+      "trusted-platform-module",
+      "secure-boot",
+      "encryption",
+      "key-management",
+      "virtualization",
+      "logging",
+      "hardware-root-of-trust",
+      "privileged-account-management"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Map the incident to a capability, its boundary, and its required supporting control.",
+    "textFallback": "Information-system capabilities such as isolation, memory protection, trusted execution roots, encryption, logging, and virtualization support security objectives only when their limits, configuration, and operational dependencies are understood.\nUse isolation and segmentation, protect the hypervisor and management plane, restrict administrator access, validate startup and patch status, manage keys separately, and monitor cross-boundary events.",
+    "sourceRefIds": [
+      "d3-o04-textbook",
+      "d3-o04-sybex"
+    ],
+    "mapNodeId": "d3-o04-system-security-capabilities",
+    "visualIds": [
+      "d3-o04-system-security-capabilities-concept-comparison-1",
+      "d3-o04-system-security-capabilities-concept-comparison-2"
+    ]
+  }
+}

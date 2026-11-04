@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o05-secure-coding-memory-concurrency-decision-comparison-1",
+  "unitId": "d8-o05-secure-coding-memory-concurrency",
+  "type": "table",
+  "title": "Control memory, concurrency, dependency, and platform-specific failures: decision comparison 1",
+  "teachingQuestion": "Which implementation failure violates the security invariant—memory safety, concurrency, resource limit, dependency behavior, or programmable policy—and what layered evidence detects it?",
+  "focalInsight": "Memory safety/buffer bounds, race/concurrency invariants, resource exhaustion, dependency change, software-defined control-plane security.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Memory Safety",
+      "conceptIds": [
+        "memory-safety"
+      ],
+      "definition": "The property that software accesses memory only within valid bounds, lifetime, type, and ownership rules.",
+      "decision": "Prefer safe constructs/languages where suitable and enforce bounds/lifetime discipline; test unsafe interfaces and treat mitigations as layers.",
+      "failureExample": "Use-after-free or out-of-bounds access can corrupt data or transfer control to attacker-influenced code.",
+      "detail": "The property that software accesses memory only within valid bounds, lifetime, type, and ownership rules."
+    },
+    {
+      "id": "row-2",
+      "label": "Buffer Overflow",
+      "conceptIds": [
+        "buffer-overflow"
+      ],
+      "definition": "Writing more data than a fixed buffer can hold, corrupting adjacent memory and potentially altering behavior or control flow.",
+      "decision": "Validate/bound input and use safe APIs/structures/compiler/runtime protections; test edge and oversized input at every interface.",
+      "failureExample": "A 17th byte written into a 16-byte buffer can overwrite adjacent state.",
+      "detail": "Writing more data than a fixed buffer can hold, corrupting adjacent memory and potentially altering behavior or control flow."
+    },
+    {
+      "id": "row-3",
+      "label": "Race Condition",
+      "conceptIds": [
+        "race-condition"
+      ],
+      "definition": "A defect where correctness or security outcome depends on uncontrolled timing/interleaving of concurrent operations.",
+      "decision": "Define the invariant, use synchronization/atomicity/idempotency as appropriate, and test forced interleavings and duplicate requests.",
+      "failureExample": "Two withdrawals both see available funds before either update, violating the balance invariant.",
+      "detail": "A defect where correctness or security outcome depends on uncontrolled timing/interleaving of concurrent operations."
+    },
+    {
+      "id": "row-4",
+      "label": "Concurrency",
+      "conceptIds": [
+        "concurrency"
+      ],
+      "definition": "Execution of multiple tasks whose shared state, ordering, visibility, cancellation, and failures must be controlled.",
+      "decision": "Choose coordination that preserves required integrity/authorization semantics and bound retries/timeouts.",
+      "failureExample": "Parallel requests can bypass a single-use token rule if check and consume are not atomic.",
+      "detail": "Execution of multiple tasks whose shared state, ordering, visibility, cancellation, and failures must be controlled."
+    },
+    {
+      "id": "row-5",
+      "label": "Resource Exhaustion",
+      "conceptIds": [
+        "resource-exhaustion"
+      ],
+      "definition": "Loss of availability when requests, memory, CPU, files, connections, retries, or queues consume finite resources without adequate bounds.",
+      "decision": "Apply quotas, timeouts, cancellation, backpressure, size/rate limits, and resilient failure handling based on service need.",
+      "failureExample": "Unbounded file upload processing can exhaust workers and deny legitimate users service.",
+      "detail": "Loss of availability when requests, memory, CPU, files, connections, retries, or queues consume finite resources without adequate bounds."
+    },
+    {
+      "id": "row-6",
+      "label": "Dependency Risk",
+      "conceptIds": [
+        "dependency-risk"
+      ],
+      "definition": "Risk introduced when a library, runtime, platform, or policy dependency changes, is vulnerable, unsupported, malicious, or behaves unexpectedly.",
+      "decision": "Inventory/pin/review dependencies, assess update impact, test changes, and retain rollback/response ownership.",
+      "failureExample": "A library update can change authorization defaults even if application source did not change.",
+      "detail": "Risk introduced when a library, runtime, platform, or policy dependency changes, is vulnerable, unsupported, malicious, or behaves unexpectedly."
+    },
+    {
+      "id": "row-7",
+      "label": "Software Defined Security",
+      "conceptIds": [
+        "software-defined-security"
+      ],
+      "definition": "Security capabilities whose policy, enforcement, configuration, or control plane is programmable and distributed across software-managed infrastructure/services.",
+      "decision": "Protect policy authorship/approval, validate changes, separate duties, stage/monitor rollout, log decisions, define safe failure, and retain rollback.",
+      "failureExample": "A compromised policy service can rapidly grant broad access across every connected workload.",
+      "detail": "Security capabilities whose policy, enforcement, configuration, or control plane is programmable and distributed across software-managed infrastructure/services."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "memory-safety",
+    "buffer-overflow",
+    "race-condition",
+    "concurrency",
+    "resource-exhaustion",
+    "dependency-risk",
+    "software-defined-security"
+  ],
+  "altSummary": "Memory safety/buffer bounds, race/concurrency invariants, resource exhaustion, dependency change, software-defined control-plane security.",
+  "textFallback": "memory safety: The property that software accesses memory only within valid bounds, lifetime, type, and ownership rules.. Decision: Prefer safe constructs/languages where suitable and enforce bounds/lifetime discipline; test unsafe interfaces and treat mitigations as layers.. Failure/example: Use-after-free or out-of-bounds access can corrupt data or transfer control to attacker-influenced code.\nbuffer overflow: Writing more data than a fixed buffer can hold, corrupting adjacent memory and potentially altering behavior or control flow.. Decision: Validate/bound input and use safe APIs/structures/compiler/runtime protections; test edge and oversized input at every interface.. Failure/example: A 17th byte written into a 16-byte buffer can overwrite adjacent state.\nrace condition: A defect where correctness or security outcome depends on uncontrolled timing/interleaving of concurrent operations.. Decision: Define the invariant, use synchronization/atomicity/idempotency as appropriate, and test forced interleavings and duplicate requests.. Failure/example: Two withdrawals both see available funds before either update, violating the balance invariant.\nconcurrency: Execution of multiple tasks whose shared state, ordering, visibility, cancellation, and failures must be controlled.. Decision: Choose coordination that preserves required integrity/authorization semantics and bound retries/timeouts.. Failure/example: Parallel requests can bypass a single-use token rule if check and consume are not atomic.\nresource exhaustion: Loss of availability when requests, memory, CPU, files, connections, retries, or queues consume finite resources without adequate bounds.. Decision: Apply quotas, timeouts, cancellation, backpressure, size/rate limits, and resilient failure handling based on service need.. Failure/example: Unbounded file upload processing can exhaust workers and deny legitimate users service.\ndependency risk: Risk introduced when a library, runtime, platform, or policy dependency changes, is vulnerable, unsupported, malicious, or behaves unexpectedly.. Decision: Inventory/pin/review dependencies, assess update impact, test changes, and retain rollback/response ownership.. Failure/example: A library update can change authorization defaults even if application source did not change.\nsoftware defined security: Security capabilities whose policy, enforcement, configuration, or control plane is programmable and distributed across software-managed infrastructure/services.. Decision: Protect policy authorship/approval, validate changes, separate duties, stage/monitor rollout, log decisions, define safe failure, and retain rollback.. Failure/example: A compromised policy service can rapidly grant broad access across every connected workload.",
+  "sourceRefIds": [
+    "official-d8-106-130",
+    "sybex-d8-1085-1113",
+    "miller-d8-705-760"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which implementation failure violates the security invariant—memory safety, concurrency, resource limit, dependency behavior, or programmable policy—and what layered evidence detects it?",
+    "misconception": "A compiler/runtime mitigation or central policy engine guarantees correct authorization, integrity, and availability.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Memory safety/buffer bounds, race/concurrency invariants, resource exhaustion, dependency change, software-defined control-plane security.",
+    "conceptIds": [
+      "memory-safety",
+      "buffer-overflow",
+      "race-condition",
+      "concurrency",
+      "resource-exhaustion",
+      "dependency-risk",
+      "software-defined-security"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe a language, locking primitive, quota value, policy engine, or make toolchain mitigations absolute guarantees.",
+    "retrievalPrompt": "Two transfers race for the same balance after a policy change. State the invariant, enforcement, test evidence, and safe rollback/failure behavior.",
+    "textFallback": "memory safety: The property that software accesses memory only within valid bounds, lifetime, type, and ownership rules.. Decision: Prefer safe constructs/languages where suitable and enforce bounds/lifetime discipline; test unsafe interfaces and treat mitigations as layers.. Failure/example: Use-after-free or out-of-bounds access can corrupt data or transfer control to attacker-influenced code.\nbuffer overflow: Writing more data than a fixed buffer can hold, corrupting adjacent memory and potentially altering behavior or control flow.. Decision: Validate/bound input and use safe APIs/structures/compiler/runtime protections; test edge and oversized input at every interface.. Failure/example: A 17th byte written into a 16-byte buffer can overwrite adjacent state.\nrace condition: A defect where correctness or security outcome depends on uncontrolled timing/interleaving of concurrent operations.. Decision: Define the invariant, use synchronization/atomicity/idempotency as appropriate, and test forced interleavings and duplicate requests.. Failure/example: Two withdrawals both see available funds before either update, violating the balance invariant.\nconcurrency: Execution of multiple tasks whose shared state, ordering, visibility, cancellation, and failures must be controlled.. Decision: Choose coordination that preserves required integrity/authorization semantics and bound retries/timeouts.. Failure/example: Parallel requests can bypass a single-use token rule if check and consume are not atomic.\nresource exhaustion: Loss of availability when requests, memory, CPU, files, connections, retries, or queues consume finite resources without adequate bounds.. Decision: Apply quotas, timeouts, cancellation, backpressure, size/rate limits, and resilient failure handling based on service need.. Failure/example: Unbounded file upload processing can exhaust workers and deny legitimate users service.\ndependency risk: Risk introduced when a library, runtime, platform, or policy dependency changes, is vulnerable, unsupported, malicious, or behaves unexpectedly.. Decision: Inventory/pin/review dependencies, assess update impact, test changes, and retain rollback/response ownership.. Failure/example: A library update can change authorization defaults even if application source did not change.\nsoftware defined security: Security capabilities whose policy, enforcement, configuration, or control plane is programmable and distributed across software-managed infrastructure/services.. Decision: Protect policy authorship/approval, validate changes, separate duties, stage/monitor rollout, log decisions, define safe failure, and retain rollback.. Failure/example: A compromised policy service can rapidly grant broad access across every connected workload.",
+    "sourceRefIds": [
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "mapNodeId": "d8-o05-secure-coding-memory-concurrency"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

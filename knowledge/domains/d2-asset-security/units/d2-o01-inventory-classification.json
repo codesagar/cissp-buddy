@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o01-inventory-classification",
+  "domainId": 2,
+  "objectiveIds": [
+    "2.1"
+  ],
+  "title": "Inventory, own, and classify information assets",
+  "summary": "Asset protection starts with a usable inventory and a decision about value, sensitivity, criticality, and ownership. Classification makes handling rules repeatable; it is not a label applied once and forgotten.",
+  "outcome": "Given a mixed set of information and technology, identify the owner and custodian, select a defensible classification, and explain what decision the label enables.",
+  "conceptIds": [
+    "asset-inventory",
+    "data-owner",
+    "data-custodian",
+    "classification",
+    "sensitivity",
+    "criticality",
+    "categorization",
+    "security-requirements"
+  ],
+  "prerequisites": [
+    "d1-o03-security-governance",
+    "d1-o09-risk-management"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "An inventory is a decision instrument: if an organization cannot locate or value an asset, it cannot reliably fund, monitor, or retire its protection.",
+  "sections": [
+    {
+      "id": "inventory-and-roles",
+      "title": "Know what exists and who decides",
+      "body": "Inventory the information, systems, devices, media, services, and dependencies that support business processes. The owner is accountable for classification and protection requirements; a custodian operates controls on the owner's behalf; a user consumes the asset under authorized rules. A single person may hold more than one role in a small organization, but the accountability distinction still matters.",
+      "keyPoints": [
+        "Inventory scope includes information and the resources that process, store, transmit, or protect it.",
+        "Ownership is an accountability decision, not merely physical possession.",
+        "Criticality describes business consequence; sensitivity describes harm from inappropriate disclosure or handling."
+      ],
+      "sourceRefIds": [
+        "outline-d2",
+        "official-d2-9-13",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "classification-decisions",
+      "title": "Turn value and sensitivity into a label",
+      "body": "Classification schemes should be few enough to use consistently and precise enough to drive handling. A useful decision considers confidentiality, integrity, availability, privacy, legal obligations, business criticality, and data aggregation. Classification should be reviewed when the business context, content, owner, or legal requirement changes; a label is not a substitute for risk analysis.",
+      "keyPoints": [
+        "Classification is an information-owner decision supported by security expertise.",
+        "Aggregation can make a collection more sensitive than individual records.",
+        "Labels must map to handling, access, retention, and disposal rules."
+      ],
+      "sourceRefIds": [
+        "official-d2-9-13",
+        "takeaways-d2",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "classification-and-categorization-decisions",
+      "title": "Distinguish impact assessment, grouping, and labels",
+      "body": "In the supplied ISC2 textbook terminology, classification assesses the impact of compromised security properties, while categorization groups data with comparable sensitivity and protection obligations. Terminology is framework-dependent: NIST FIPS 199 uses security categorization for the potential-impact assessment of confidentiality, integrity, and availability. Identify the governing scheme before interpreting a label. The owner sets protection requirements and remains accountable when classification work is delegated. Define the impact factors, grouping rules, label vocabulary, handling baseline, review trigger, and inventory evidence. A label without enforced handling, access, retention, and disposal requirements does not protect an asset.",
+      "keyPoints": [
+        "Classification is not merely a secrecy label; integrity, availability, authenticity, safety, and obligation can matter.",
+        "Do not infer the meaning of classification or categorization without the framework and organizational policy.",
+        "Reassess on change to content, purpose, owner, legal requirement, or aggregation."
+      ],
+      "sourceRefIds": [
+        "official-d2-9-13"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Customer analytics export",
+      "situation": "An analyst exports pseudonymized customer records with a join key into a shared workspace.",
+      "reasoning": "The join key can restore identity, so the export remains sensitive. The data owner sets the classification; the custodian applies workspace access, encryption, monitoring, and retention controls. The right response is not to declare it public merely because direct names were removed."
+    },
+    {
+      "title": "Safety-critical maintenance data",
+      "situation": "A utility has public maintenance instructions and a restricted service history for the same equipment.",
+      "reasoning": "Classify the restricted history by the impact of unauthorized disclosure or alteration. Categorize both sets as safety-critical because incorrect or unavailable instructions can affect safe operation. Apply different access/handling baselines while preserving the safety category’s integrity, availability, and change-control requirements.",
+      "takeaway": "Classification and categorization may coexist; they should lead to explicit controls rather than competing labels."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "owner",
+        "custodian"
+      ],
+      "difference": "The owner sets value, classification, and requirements; the custodian implements and operates protection."
+    },
+    {
+      "between": [
+        "sensitivity",
+        "criticality"
+      ],
+      "difference": "Sensitivity is primarily about harm from inappropriate disclosure or handling; criticality is about business dependence and impact from loss or interruption."
+    },
+    {
+      "between": [
+        "classification",
+        "categorization"
+      ],
+      "difference": "Classification assigns a protection level from the impact of compromise; categorization groups information or assets by shared mission, business, legal, or control needs. Both drive safeguards, but they answer different decisions."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "The IT department automatically owns all data.",
+      "correction": "IT commonly acts as custodian; business/data owners remain accountable for meaning, value, and requirements."
+    },
+    {
+      "misconception": "Removing a name makes data non-sensitive.",
+      "correction": "Re-identification, joins, context, and aggregation can preserve sensitivity."
+    },
+    {
+      "claim": "Categorization is just another name for a higher or lower classification.",
+      "correction": "Classification is a protection-level decision; categorization groups assets by a shared characteristic or requirement and may not be a hierarchy."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Who approves the classification?",
+      "answer": "The accountable data/information owner, with security and legal input as needed."
+    },
+    {
+      "prompt": "What must a classification label change?",
+      "answer": "At minimum, handling, access, retention, and disposal expectations."
+    },
+    {
+      "prompt": "What must each classification or categorization label change?",
+      "answer": "A defined handling, access, retention/disposal, monitoring, or control baseline decision, with an accountable owner and review trigger."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A SaaS inventory lists an HR report but not its exports, backups, or API tokens. What is the first governance gap to correct?",
+      "decision": "Expand the asset inventory and assign ownership across copies and supporting resources before selecting controls.",
+      "why": "Untracked copies and dependencies evade lifecycle and handling controls."
+    },
+    {
+      "prompt": "A public weather alert has no confidentiality requirement but must be timely, accurate, authentic, and nonrepudiable. What label decision is missing if the team calls it “public” and stops?",
+      "decisiveDetail": "The team still must classify/categorize the integrity, availability, authenticity, safety, and operational-control requirements; public visibility does not mean low protection need.",
+      "testedConceptIds": [
+        "classification",
+        "categorization",
+        "security-requirements"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study owner/custodian/user roles and classification drivers.",
+    "connect": "Connect classification to D2.2 handling and D2.4 lifecycle.",
+    "apply": "Classify one customer dataset and its copies, exports, and backups.",
+    "revisit": "Recreate the role distinction and classification decision tree from memory in 24 hours."
+  },
+  "visualIds": [
+    "d2-o01-classification-decision",
+    "d2-o01-inventory-classification-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d2",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "Domain 2 objectives 2.1-2.6"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d2-9-13",
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "9-13 (PDF pp. 9-13)"
+      },
+      "supports": [
+        "inventory",
+        "classification",
+        "ownership"
+      ]
+    },
+    {
+      "id": "takeaways-d2",
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-8"
+      },
+      "supports": [
+        "classification rationale"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "256-263 (Chapter 5, Identifying and Classifying Information and Assets; PDF pp. 256-263)"
+      },
+      "supports": [
+        "secondary cross-check"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d2-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d2-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d2-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d2-o01-inventory-classification-visual-contract",
+    "unitId": "d2-o01-inventory-classification",
+    "teachingQuestion": "Who owns this asset, how should it be classified or categorized, and what handling decision follows?",
+    "misconception": "Inventory labels alone protect assets.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Ownership and classification establish protection requirements only when tied to current inventory and enforceable handling.",
+    "conceptIds": [
+      "asset-inventory",
+      "data-owner",
+      "data-custodian",
+      "classification",
+      "sensitivity",
+      "criticality",
+      "categorization",
+      "security-requirements"
+    ],
+    "relationships": [
+      {
+        "from": "asset",
+        "to": "owner",
+        "label": "accountability"
+      },
+      {
+        "from": "owner",
+        "to": "context",
+        "label": "business decision"
+      },
+      {
+        "from": "context",
+        "to": "label",
+        "label": "classification basis"
+      },
+      {
+        "from": "label",
+        "to": "rules",
+        "label": "drives"
+      },
+      {
+        "from": "rules",
+        "to": "review",
+        "label": "continuous governance"
+      },
+      {
+        "from": "review",
+        "to": "context",
+        "label": "reassess"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For an asset, state owner, custodian, classification/categorization, consequence, and handling decision.",
+    "textFallback": "Asset protection starts with a usable inventory and a decision about value, sensitivity, criticality, and ownership. Classification makes handling rules repeatable; it is not a label applied once and forgotten.\nThe join key can restore identity, so the export remains sensitive. The data owner sets the classification; the custodian applies workspace access, encryption, monitoring, and retention controls. The right response is not to declare it public merely because direct names were removed.",
+    "sourceRefIds": [
+      "official-d2-9-13",
+      "takeaways-d2",
+      "sybex-d2"
+    ],
+    "mapNodeId": "d2-o01-inventory-classification",
+    "visualIds": [
+      "d2-o01-classification-decision",
+      "d2-o01-inventory-classification-concept-comparison-1"
+    ]
+  }
+}

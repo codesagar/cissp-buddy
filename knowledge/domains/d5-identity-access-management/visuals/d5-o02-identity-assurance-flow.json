@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o02-identity-assurance-flow",
+  "unitId": "d5-o02-identification-authentication-strategy",
+  "type": "flowchart",
+  "teachingQuestion": "Where does assurance come from between a claimed identity and an active session?",
+  "focalInsight": "Identification, proofing, authentication, authorization, and session management are linked stages, not interchangeable terms.",
+  "title": "From identity claim to session",
+  "caption": "Each stage adds a different kind of evidence or decision.",
+  "nodes": [
+    { "id": "claim", "label": "Claim identity", "detail": "Identifier names a subject" },
+    { "id": "proof", "label": "Proof and register", "detail": "Establish account relationship and assurance" },
+    { "id": "auth", "label": "Authenticate", "detail": "Verify control of bound authenticator" },
+    { "id": "decide", "label": "Authorize", "detail": "Evaluate requested object and action" },
+    { "id": "session", "label": "Manage session", "detail": "Bound lifetime, monitor, reauthenticate, revoke" }
+  ],
+  "relationships": [
+    { "from": "claim", "to": "proof", "label": "is established by" },
+    { "from": "proof", "to": "auth", "label": "binds authenticator" },
+    { "from": "auth", "to": "decide", "label": "supplies subject evidence" },
+    { "from": "decide", "to": "session", "label": "permits a bounded session" },
+    { "from": "session", "to": "auth", "label": "may require reauthentication" }
+  ],
+  "altSummary": "A flow moves from an identity claim through proofing and registration, authentication, authorization, and bounded session management, with reauthentication possible.",
+  "textFallback": "An identifier is a claim. Proofing and registration establish the identity relationship. Authentication verifies control of a bound authenticator. Authorization decides the requested action, and session controls preserve or revoke the resulting access over time.",
+  "sourceRefIds": ["outline-d5-o02", "official-d5-17-31", "sybex-d5-641-663"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

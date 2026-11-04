@@ -1,0 +1,291 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o06-key-management-pki",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.6"
+  ],
+  "title": "Design key management and PKI as trust operations",
+  "summary": "Keys and certificates create operational trust paths: generation, protection, access, issuance, binding, distribution, validation, rotation, revocation, recovery, archival, and destruction. An architecture is only as strong as the authorities and evidence governing those lifecycle transitions.",
+  "outcome": "Design key and certificate lifecycle controls, trust validation, and recovery while identifying the authority and evidence for each critical transition.",
+  "conceptIds": [
+    "key-management",
+    "key-lifecycle",
+    "public-key-infrastructure",
+    "certificate",
+    "certificate-authority",
+    "revocation",
+    "key-rotation",
+    "key-recovery",
+    "hardware-security-module",
+    "trust-anchor",
+    "certificate-validation"
+  ],
+  "prerequisites": [
+    "d3-o06-cryptographic-primitives",
+    "d3-o04-system-security-capabilities",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "estimatedMinutes": 55,
+  "managerMindset": "Treat key and certificate authority as a privileged business process. Ask who can create, export, approve, revoke, recover, and audit trust material before deciding an application is protected.",
+  "sections": [
+    {
+      "id": "key-lifecycle",
+      "title": "Control every key lifecycle transition",
+      "body": "Key lifecycle includes generation, registration or binding, storage, distribution, activation, use, rotation, suspension or revocation, backup or recovery where authorized, archival, and destruction. Separate key custodianship, application administration, and approval duties where risk warrants it. Protect key material with scoped access and suitable hardware or service boundaries, record usage, define compromise response, and test restoration. A recovery process must not become an undocumented key-export path.",
+      "keyPoints": [
+        "A key is an access-enabling asset with its own classification and owner.",
+        "Rotation, revocation, and recovery need tested triggers and accountable authority."
+      ],
+      "sourceRefIds": [
+        "d3-o06-pki-outline",
+        "d3-o06-pki-textbook",
+        "d3-o06-pki-sybex"
+      ]
+    },
+    {
+      "id": "pki-validation",
+      "title": "Validate identity-to-key bindings",
+      "body": "PKI establishes and operates a chain of trust that binds an identity or service to a public key through issuance and validation processes. A relying party must validate the certificate or assertion according to its intended use, trust anchors, validity period, names or identities, policy constraints, and available revocation or status mechanism. Issuance quality matters: a certificate is not trustworthy merely because it has a cryptographic signature; the enrollment, identity proofing, authorization, and CA protection must support the intended reliance.",
+      "keyPoints": [
+        "Certificate validation is a runtime decision, not only a procurement choice.",
+        "Trust anchors and issuance authority define the scope of a PKI claim."
+      ],
+      "sourceRefIds": [
+        "d3-o06-pki-textbook",
+        "d3-o06-pki-sybex"
+      ]
+    },
+    {
+      "id": "incident-and-recovery",
+      "title": "Plan compromise, continuity, and evidence",
+      "body": "For compromised keys or certificates, identify authority to suspend or revoke, distribute status, rotate dependent services, notify relying parties, preserve required evidence, and restore secure operation. Build inventories that connect keys and certificates to systems, owners, data, dependencies, and expiry. Test expiry, lost key, CA or service outage, and emergency replacement paths. Availability pressure must not lead to bypassing validation permanently; use a documented, risk-owned exception and a plan to remove it.",
+      "keyPoints": [
+        "Inventory and dependency mapping make cryptographic incidents recoverable.",
+        "A PKI outage is both an availability event and a trust-validation decision."
+      ],
+      "sourceRefIds": [
+        "d3-o06-outline",
+        "d3-o06-pki-textbook",
+        "d3-o06-pki-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Mutual service authentication",
+      "situation": "Two payment services use certificates to authenticate each other across a network boundary.",
+      "reasoning": "Define trusted issuers, workload enrollment and identity proofing, private-key protection, service name validation, expiry and revocation response, log evidence, and an emergency rotation procedure. Test that an expired or wrong-name certificate fails safely and that replacement does not grant extra authorization.",
+      "takeaway": "Mutual authentication depends on lifecycle, validation, and operations—not merely possession of certificates."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Key rotation",
+      "b": "Certificate revocation",
+      "difference": "Rotation replaces material on a planned or triggered schedule; revocation communicates that a previously issued certificate should no longer be relied upon under the applicable validation process."
+    },
+    {
+      "a": "Encryption key escrow",
+      "b": "Backup or recovery",
+      "difference": "Escrow gives an authorized third party a defined recovery role; backup or recovery preserves availability of material. Both expand access and need explicit governance."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A certificate always proves the current identity of its presenter.",
+      "correction": "It supports a bounded identity-to-key claim only if the relying party validates the chain, name or intended use, time, status, and trust-anchor assumptions."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Which lifecycle events should have an owner and evidence?",
+      "answer": "At least generation, protection, issuance or binding, distribution, use, rotation, revocation, recovery, archival, and destruction."
+    },
+    {
+      "prompt": "Why is certificate validation more than checking a signature?",
+      "answer": "The relying party must also evaluate trust anchor, identity or name, intended use, validity, policy, and available status information."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A service bypasses certificate validation during a CA outage and never removes the workaround. What design principle was lost?",
+      "decisiveDetail": "Trust validation must fail safely or use a documented risk-owned emergency pattern; a permanent bypass converts an availability event into a persistent authenticity failure.",
+      "testedConceptIds": [
+        "public-key-infrastructure",
+        "certificate-validation",
+        "fail-securely",
+        "key-lifecycle"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Trace one certificate from enrollment through validation, expiry, and replacement.",
+    "connect": "Connect D4 channels, D5 identity proofing, D7 incident response, and D1 governance for escrow or recovery decisions.",
+    "apply": "Create a compromise runbook with owners, dependencies, and evidence.",
+    "revisit": "In three days, explain why revocation and rotation are distinct."
+  },
+  "visualIds": [
+    "d3-o06-key-management-pki-certificate-lifecycle",
+    "d3-o06-key-management-pki-concept-comparison-1",
+    "d3-o06-key-management-pki-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o06-pki-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6: cryptographic life cycle and PKI"
+      },
+      "supports": [
+        "objective-boundary",
+        "key-lifecycle",
+        "pki"
+      ]
+    },
+    {
+      "id": "d3-o06-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o06-pki-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "45-84",
+        "pdfPage": "45-84",
+        "note": "Domain 3 cryptography range; printed page is the citation anchor."
+      },
+      "supports": [
+        "key-lifecycle",
+        "pki-validation",
+        "certificate-revocation"
+      ]
+    },
+    {
+      "id": "d3-o06-pki-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7, Cryptography and PKI, pp. 219-308"
+      },
+      "supports": [
+        "key-management",
+        "pki-and-certificate-lifecycle"
+      ],
+      "sourceNotes": "Broad chapter locator requires section-level refinement; this unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o06-key-management-pki-visual-contract",
+    "unitId": "d3-o06-key-management-pki",
+    "teachingQuestion": "Who controls the key or certificate transition, and what must a relying party validate?",
+    "misconception": "A certificate is trustworthy merely because it is signed.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "PKI trust depends on protected issuance, an appropriate trust anchor, status, and complete relying-party validation.",
+    "conceptIds": [
+      "key-management",
+      "key-lifecycle",
+      "public-key-infrastructure",
+      "certificate",
+      "certificate-authority",
+      "revocation",
+      "key-rotation",
+      "key-recovery",
+      "hardware-security-module",
+      "trust-anchor",
+      "certificate-validation"
+    ],
+    "relationships": [
+      {
+        "from": "enroll",
+        "to": "key",
+        "label": "authorizes"
+      },
+      {
+        "from": "key",
+        "to": "issue",
+        "label": "supports"
+      },
+      {
+        "from": "issue",
+        "to": "validate",
+        "label": "enables"
+      },
+      {
+        "from": "validate",
+        "to": "monitor",
+        "label": "creates evidence for"
+      },
+      {
+        "from": "monitor",
+        "to": "revoke",
+        "label": "triggers"
+      },
+      {
+        "from": "revoke",
+        "to": "recover",
+        "label": "transitions to"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Name the lifecycle transition, its authority, evidence, and effect on dependent services.",
+    "textFallback": "Keys and certificates create operational trust paths: generation, protection, access, issuance, binding, distribution, validation, rotation, revocation, recovery, archival, and destruction. An architecture is only as strong as the authorities and evidence governing those lifecycle transitions.\nDefine trusted issuers, workload enrollment and identity proofing, private-key protection, service name validation, expiry and revocation response, log evidence, and an emergency rotation procedure. Test that an expired or wrong-name certificate fails safely and that replacement does not grant extra authorization.",
+    "sourceRefIds": [
+      "d3-o06-pki-textbook",
+      "d3-o06-pki-sybex"
+    ],
+    "mapNodeId": "d3-o06-key-management-pki",
+    "visualIds": [
+      "d3-o06-key-management-pki-certificate-lifecycle",
+      "d3-o06-key-management-pki-concept-comparison-1",
+      "d3-o06-key-management-pki-concept-comparison-2"
+    ]
+  }
+}

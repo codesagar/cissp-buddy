@@ -1,0 +1,255 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o06-cryptographic-solutions",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.6"
+  ],
+  "title": "Select cryptographic solutions as complete systems",
+  "summary": "Cryptography supports confidentiality, integrity, authenticity, and nonrepudiation only when algorithm, protocol, key lifecycle, implementation, trust, performance, and operational recovery are selected as one system.",
+  "outcome": "Recommend a cryptographic solution direction for a protection requirement and identify the key-management or protocol dependency that could invalidate it.",
+  "conceptIds": [
+    "cryptography",
+    "symmetric-cryptography",
+    "asymmetric-cryptography",
+    "hash",
+    "digital-signature",
+    "public-key-infrastructure",
+    "key-management",
+    "key-lifecycle",
+    "certificate",
+    "elliptic-curve-cryptography",
+    "post-quantum-cryptography",
+    "quantum-key-distribution"
+  ],
+  "prerequisites": [
+    "security-requirements",
+    "d3-o03-control-selection",
+    "d3-o04-system-security-capabilities"
+  ],
+  "estimatedMinutes": 44,
+  "managerMindset": "Do not begin with an algorithm name. Begin with the protected property, participants, data state, performance and interoperability constraints, key ownership, recovery, and how the protocol fails.",
+  "sections": [
+    {
+      "id": "choose",
+      "title": "Choose the right cryptographic role",
+      "body": "Symmetric cryptography is efficient for bulk data protection and requires secure shared-key handling. Asymmetric cryptography supports key exchange, signatures, and scalable trust patterns but has different performance and operational costs. Hashes support integrity checks but do not provide secrecy. Digital signatures support origin and integrity evidence under a managed key and certificate context. PKI manages identity-to-key bindings through issuance, validation, revocation, and lifecycle processes.",
+      "keyPoints": [
+        "A primitive’s property is not the same as an end-to-end protocol guarantee.",
+        "Certificates and keys require lifecycle management, not just generation."
+      ],
+      "sourceRefIds": [
+        "d3-o06-outline",
+        "d3-o06-textbook",
+        "d3-o06-sybex"
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "title": "Keys and protocols determine actual protection",
+      "body": "Key generation, storage, distribution, access, rotation, backup, recovery, revocation, escrow decisions, and destruction are security decisions. Protocol configuration must address authentication, freshness, downgrade resistance, parameter validation, and error handling. Emerging quantum concerns affect algorithm longevity and migration planning; they do not justify unsupported claims that every current system needs immediate replacement.",
+      "keyPoints": [
+        "Loss or compromise of key material can defeat strong algorithms.",
+        "Cryptographic agility allows justified migration without uncontrolled change."
+      ],
+      "sourceRefIds": [
+        "d3-o06-textbook",
+        "d3-o06-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Supplier document exchange",
+      "situation": "Two organizations exchange sensitive documents and need to verify who approved each release.",
+      "reasoning": "Protect transport and stored data as required, use a defined trust and certificate-validation process for signatures, control keys and access, define revocation and recovery, and preserve auditable approval evidence.",
+      "takeaway": "Encryption and signatures solve different properties and both depend on key lifecycle."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Hash",
+      "b": "Digital signature",
+      "difference": "A hash detects change when compared through a trusted channel; a signature binds an integrity value to a signer’s private key and verification context."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Using encryption means data is secure.",
+      "correction": "Protection depends on keys, endpoints, algorithms, protocols, configuration, identities, recovery, and operational handling."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does PKI manage beyond encryption?",
+      "answer": "Trustworthy identity-to-key bindings, issuance, validation, revocation, and certificate lifecycle."
+    },
+    {
+      "prompt": "Why is cryptographic agility useful?",
+      "answer": "It supports controlled migration when threats, standards, or interoperability needs change."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A system uses strong disk encryption but lets any administrator export the decryption key. What should drive the correction?",
+      "decisiveDetail": "The key lifecycle and privileged access defeat the intended confidentiality claim.",
+      "testedConceptIds": [
+        "key-management",
+        "encryption",
+        "least-privilege"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Map confidentiality, integrity, authenticity, and nonrepudiation to suitable cryptographic roles.",
+    "connect": "Connect D4 secure channels and D5 identity proof to PKI decisions.",
+    "apply": "List key-lifecycle controls for one system.",
+    "revisit": "In three days, contrast a hash with a signature."
+  },
+  "visualIds": [
+    "d3-o06-cryptographic-solutions-key-lifecycle",
+    "d3-o06-cryptographic-solutions-concept-comparison-1",
+    "d3-o06-cryptographic-solutions-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o06-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.6"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o06-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "45-84",
+        "pdfPage": "45-84",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "cryptographic-solutions",
+        "key-lifecycle",
+        "pki"
+      ]
+    },
+    {
+      "id": "d3-o06-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7, Cryptography and PKI, pp. 219-308"
+      },
+      "supports": [
+        "symmetric-asymmetric-cryptography",
+        "pki",
+        "key-management"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o06-cryptographic-solutions-visual-contract",
+    "unitId": "d3-o06-cryptographic-solutions",
+    "teachingQuestion": "What complete cryptographic solution fits this requirement, and which key or protocol dependency could defeat it?",
+    "misconception": "Selecting a strong algorithm completes the security design.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "A usable solution joins mechanism, identity, key lifecycle, protocol validation, recovery, and operations.",
+    "conceptIds": [
+      "cryptography",
+      "symmetric-cryptography",
+      "asymmetric-cryptography",
+      "hash",
+      "digital-signature",
+      "public-key-infrastructure",
+      "key-management",
+      "key-lifecycle",
+      "certificate",
+      "elliptic-curve-cryptography",
+      "post-quantum-cryptography",
+      "quantum-key-distribution"
+    ],
+    "relationships": [
+      {
+        "from": "generate",
+        "to": "protect",
+        "label": "creates material to"
+      },
+      {
+        "from": "protect",
+        "to": "distribute",
+        "label": "releases through"
+      },
+      {
+        "from": "distribute",
+        "to": "use",
+        "label": "enables"
+      },
+      {
+        "from": "use",
+        "to": "rotate",
+        "label": "produces lifecycle triggers"
+      },
+      {
+        "from": "rotate",
+        "to": "recover",
+        "label": "ends or transitions"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "State the data state, crypto role, trust dependency, and recovery risk for the proposed solution.",
+    "textFallback": "Cryptography supports confidentiality, integrity, authenticity, and nonrepudiation only when algorithm, protocol, key lifecycle, implementation, trust, performance, and operational recovery are selected as one system.\nProtect transport and stored data as required, use a defined trust and certificate-validation process for signatures, control keys and access, define revocation and recovery, and preserve auditable approval evidence.",
+    "sourceRefIds": [
+      "d3-o06-textbook",
+      "d3-o06-sybex"
+    ],
+    "mapNodeId": "d3-o06-cryptographic-solutions",
+    "visualIds": [
+      "d3-o06-cryptographic-solutions-concept-comparison-1",
+      "d3-o06-cryptographic-solutions-concept-comparison-2",
+      "d3-o06-cryptographic-solutions-key-lifecycle"
+    ]
+  }
+}

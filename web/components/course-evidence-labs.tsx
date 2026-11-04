@@ -356,7 +356,9 @@ export function EventTimelineLab({ position, update }: Props) {
           <div className="clock-position-context">
             <div>
               <strong>Visible plot position: {visibleRange}</strong>
-              <span>Rows: Identity sign-in · API request · Database write</span>
+              <span>
+                Rows: {data.events.map((event) => event.label).join(' · ')}
+              </span>
             </div>
             <div>
               <button

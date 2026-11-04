@@ -111,7 +111,7 @@ export type QuestionMetadata = {
 export type EnrichedQuestion = Question & { metadata: QuestionMetadata };
 export type Curriculum = {
   releaseId: string;
-  storage: 'D1';
+  storage: 'static' | 'D1';
   lessons: (Lesson & { design: LearningDesign })[];
   questions: EnrichedQuestion[];
   nodes: ConceptNode[];

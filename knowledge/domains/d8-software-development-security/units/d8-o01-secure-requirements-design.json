@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o01-secure-requirements-design",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.1"
+  ],
+  "title": "Turn risk into secure requirements and design",
+  "summary": "Security requirements and design decisions make risk, privacy, abuse cases, trust boundaries, and acceptance evidence explicit before implementation.",
+  "outcome": "Translate stakeholder risk into testable requirements and threat-informed design decisions.",
+  "conceptIds": [
+    "security-requirements",
+    "privacy-requirements",
+    "threat-modeling",
+    "secure-design",
+    "integrated-product-team",
+    "acceptance-criteria"
+  ],
+  "prerequisites": [
+    "d1-o10-threat-modeling",
+    "d3-o01-secure-design-principles"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "A requirement is useful only when an owner can test it, trace it to a design decision, and accept or remediate residual risk.",
+  "sections": [
+    {
+      "id": "requirements-and-ipt",
+      "title": "Make security a shared product decision",
+      "body": "An Integrated Product Team brings product, engineering, security, privacy, operations, legal, and user representatives into requirements and tradeoffs. Express confidentiality, integrity, availability, privacy, resilience, abuse prevention, logging, and recovery needs as observable acceptance criteria with owners and exceptions.",
+      "keyPoints": [
+        "Security and privacy requirements should be testable rather than slogans.",
+        "IPT participation exposes dependency and operational constraints early.",
+        "Trace each material requirement to design, test evidence, and risk acceptance."
+      ],
+      "sourceRefIds": [
+        "outline-d8-1",
+        "official-d8-9-35",
+        "miller-d8-705-727"
+      ]
+    },
+    {
+      "id": "threat-informed-design",
+      "title": "Design from abuse paths and boundaries",
+      "body": "Threat modeling identifies assets, actors, trust boundaries, entry points, misuse cases, and control assumptions. Use the result to choose authentication, authorization, input handling, isolation, encryption, logging, and resilience controls; record assumptions and revisit them when architecture or data flows change.",
+      "keyPoints": [
+        "A threat model is a decision aid, not a one-time document.",
+        "Security design must include service dependencies and operational paths.",
+        "Acceptance criteria should prove the control works against the modeled abuse case."
+      ],
+      "sourceRefIds": [
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Payment API requirement",
+      "situation": "A product team adds a partner payment endpoint handling personal and financial data.",
+      "reasoning": "The IPT identifies data classification, abuse cases, fraud and replay risks, privacy obligations, trust boundaries, rate limits, authorization, encryption, audit events, and failure behavior; each becomes a testable requirement linked to design and D6 evidence."
+    },
+    {
+      "title": "Webhook threat-model trace",
+      "situation": "A payment API adds a partner webhook that can trigger refund processing.",
+      "reasoning": "The IPT identifies the new partner-to-service trust boundary, spoofing and replay abuse cases, and personal-data flow. It writes the requirement “Only authenticated partner messages with a fresh, unique request identifier may initiate a refund; rejected messages create an audit event without exposing payment data.” Design selects signature validation, nonce storage, authorization, rate limiting, and safe logs. Acceptance evidence includes replay, invalid-signature, and authorization tests plus the named product owner’s exception decision."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "security requirement",
+        "security control"
+      ],
+      "difference": "A requirement states the needed outcome or constraint; a control is the implemented mechanism and evidence that satisfies it."
+    },
+    {
+      "between": [
+        "threat model",
+        "risk acceptance"
+      ],
+      "difference": "Threat modeling analyzes plausible abuse and controls; risk acceptance is an accountable decision about residual exposure."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A security review at the end can recover missed requirements cheaply.",
+      "correction": "Late discovery can require architectural change; early traceable requirements reduce rework while operation still needs monitoring."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What makes a security requirement testable?",
+      "answer": "It specifies an observable behavior or constraint, owner, context, and acceptance evidence."
+    },
+    {
+      "prompt": "Who should participate in an IPT?",
+      "answer": "Relevant product, engineering, security, privacy, operations, legal, and user stakeholders for the decision."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A design encrypts data but has no stated key ownership, rotation, failure, or access requirement.",
+      "decision": "Add lifecycle and authorization requirements before implementation and trace them to D3/D6 evidence.",
+      "why": "A mechanism without ownership and acceptance criteria leaves the security outcome ambiguous."
+    },
+    {
+      "scenario": "A change routes webhook events through a new cloud queue managed by a different team.",
+      "decision": "Reopen the threat model and requirements trace because the queue creates a new trust boundary, data retention path, authorization owner, and availability dependency.",
+      "why": "A prior threat model only supports its recorded architecture and assumptions."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Practice converting threats and stakeholder needs into acceptance criteria.",
+    "connect": "Connect D1 risk, D3 architecture/crypto, D6 testing, and D2 data classification.",
+    "apply": "Threat-model one API and write five testable requirements.",
+    "revisit": "Review whether each requirement has an owner and evidence."
+  },
+  "visualIds": [
+    "d8-o01-secure-requirements-design-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-1",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.1 bullets: methodologies, maturity, operations, change, IPT"
+      },
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-9-35",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "9–34 (same PDF page numbers), objective 8.1; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "requirements, design, IPT"
+      ],
+      "sourceNotes": "Body locator, not corrupted contents page."
+    },
+    {
+      "id": "sybex-d8-1017-1049",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1049, Chapter 20"
+      },
+      "supports": [
+        "secure requirements and design"
+      ]
+    },
+    {
+      "id": "miller-d8-705-727",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-727, Chapter 10"
+      },
+      "supports": [
+        "SDLC and team practices"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o01-secure-requirements-design-visual-contract",
+    "unitId": "d8-o01-secure-requirements-design",
+    "teachingQuestion": "How does a product risk become a testable security/privacy requirement, a design decision, and acceptance evidence?",
+    "misconception": "Naming encryption or authentication is a complete security requirement, and a threat model is a one-time document.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "IPT decision, security/privacy outcomes, threat boundary, control assumption, acceptance criterion, and change-triggered review.",
+    "conceptIds": [
+      "security-requirements",
+      "privacy-requirements",
+      "threat-modeling",
+      "secure-design",
+      "integrated-product-team",
+      "acceptance-criteria"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe a single threat-model method, encryption algorithm, privacy law, or approval workflow.",
+    "retrievalPrompt": "A new partner webhook can initiate refunds. State one abuse case, one testable requirement, one design control, and one acceptance test.",
+    "textFallback": "security requirements: Observable security outcomes or constraints the system must satisfy, such as authorized access, integrity protection, auditable events, or safe failure.. Decision: Write each requirement with context, owner, measurable acceptance evidence, and any approved exception before selecting implementation.. Failure/example: “Use encryption” without scope, key authority, and a test leaves confidentiality behavior ambiguous.\nprivacy requirements: Requirements governing lawful and appropriate collection, use, disclosure, retention, access, and deletion of personal data in the product.. Decision: Identify data purpose and lifecycle with privacy stakeholders, then define constraints and evidence for the affected flow.. Failure/example: A feature can meet functional needs while retaining personal data longer or sharing it more broadly than allowed.\nthreat modeling: Structured analysis of assets, actors, trust boundaries, entry points, abuse cases, and control assumptions from an attacker perspective.. Decision: Perform and update it when architecture, data flow, exposure, or key assumptions change; use results to choose controls and tests.. Failure/example: Reusing a model after adding an external queue misses the new boundary and abuse paths.\nsecure design: Architecture and detailed design that deliberately enforces requirements through boundaries, authorization, validation, isolation, cryptography, logging, and resilient behavior.. Decision: Choose a control because it mitigates a modeled abuse case and document its dependencies, failure behavior, and verification.. Failure/example: Adding authentication without authorization can still let a valid low-privilege user initiate refunds.\nintegrated product team: A cross-functional group that makes product tradeoffs with product, engineering, security, privacy, operations, legal, and relevant users/partners.. Decision: Use the IPT early to resolve conflicting requirements and assign owners for decisions that cross disciplines.. Failure/example: A security team discovering a retention constraint after release may require costly redesign or unlawful processing.\nacceptance criteria: Pre-agreed, observable conditions and evidence used to decide whether a delivered system meets its specified requirements.. Decision: Make criteria trace to the requirement and abuse case; test normal, failure, and misuse behavior before acceptance or explicit risk disposition.. Failure/example: A login test that proves only a valid user can sign in does not prove invalid signatures or unauthorized roles are rejected.",
+    "sourceRefIds": [
+      "official-d8-9-35",
+      "sybex-d8-1017-1049",
+      "miller-d8-705-727"
+    ],
+    "mapNodeId": "d8-o01-secure-requirements-design",
+    "visualIds": [
+      "d8-o01-secure-requirements-design-decision-comparison-1"
+    ]
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o02-logging-architecture-evidence",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.2"
+  ],
+  "title": "Build logging architecture that preserves useful evidence",
+  "summary": "Logging architecture makes security-relevant activity observable, attributable, time-ordered, protected, and usable without collecting everything indiscriminately.",
+  "outcome": "Given a service and its risks, select event sources, fields, time controls, retention, integrity protections, and egress visibility that produce actionable evidence.",
+  "conceptIds": [
+    "log-architecture",
+    "event-source",
+    "event-context",
+    "time-synchronization",
+    "log-integrity",
+    "log-retention",
+    "log-management",
+    "egress-monitoring",
+    "telemetry"
+  ],
+  "prerequisites": [
+    "d7-o02-logging-monitoring",
+    "d7-o01-investigations",
+    "d5-o06-authentication-systems"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Collect the evidence needed to make and defend a decision, then protect its meaning, availability, privacy, and chain of custody.",
+  "sections": [
+    {
+      "id": "event-sources-and-context",
+      "title": "Choose events and context that answer a question",
+      "body": "Start with an operational or investigative question: who changed a control, which identity accessed a record, what crossed an egress boundary, or which process made a decision. Select sources across identity, endpoint, application, database, network, cloud control plane, and physical systems. Record time, source, subject, object, action, result, correlation identifier, location, and relevant policy or device context. The collection decision balances detection value, performance, privacy, retention cost, and legal constraints. A verbose log with no stable identity, synchronized time, or outcome is not strong evidence.",
+      "keyPoints": [
+        "Event selection follows risk and use cases, not a blanket collect-everything rule.",
+        "Context fields make events attributable and correlatable across systems.",
+        "Missing time, identity, outcome, or source integrity can make an event misleading."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o02-logging-architecture",
+        "official-d7-15-30-logging",
+        "sybex-d7-834-840"
+      ]
+    },
+    {
+      "id": "protection-retention-egress",
+      "title": "Protect logs and make retention defensible",
+      "body": "Log management includes transport, normalization, storage, indexing, access control, integrity protection, retention, archival, disposal, and recovery. Synchronize clocks or record reliable offsets so a timeline can be reconstructed. Use append-oriented or otherwise tamper-evident storage, restrict administration, separate operators from investigators where appropriate, and monitor logging failures. Egress monitoring complements inbound detection by looking for unusual destinations, volume, protocol, identity, or data movement. Retention should satisfy investigative, regulatory, contractual, and privacy needs while defining what happens when storage, transport, or a source is unavailable.",
+      "keyPoints": [
+        "A logging control must detect its own collection, transport, and storage failure.",
+        "Retention is a policy decision tied to use, law, and cost; indefinite retention is not automatically safer.",
+        "Egress signals need identity, asset, baseline, and data context to avoid treating normal synchronization as exfiltration."
+      ],
+      "sourceRefIds": [
+        "official-d7-15-30-logging",
+        "sybex-d7-841-850"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Investigating a privileged data export",
+      "situation": "A privileged operator exports a customer dataset shortly after changing a database role. The database log has the query, the identity provider has the authentication, and the egress sensor sees an unusual destination, but clocks differ by four minutes.",
+      "reasoning": "Correlate identity, role change, query, and egress events using stable identifiers and correct for clock offsets before drawing a timeline. Preserve the original records, restrict access, document the offset and collection gap, and avoid claiming intent from an incomplete sequence. Improve time synchronization and alert on privileged changes followed by sensitive egress."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "logging",
+        "monitoring"
+      ],
+      "difference": "Logging records events for later use; monitoring interprets current or accumulated signals to identify conditions requiring action."
+    },
+    {
+      "between": [
+        "retention",
+        "archiving"
+      ],
+      "difference": "Retention defines how long records must remain available; archiving is one storage approach that may support long-term access and integrity."
+    },
+    {
+      "between": [
+        "event",
+        "evidence"
+      ],
+      "difference": "An event is a recorded occurrence; it becomes useful evidence only when provenance, integrity, context, and handling support a defensible interpretation."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A SIEM automatically makes incomplete source events reliable.",
+      "correction": "Correlation can expose patterns, but it cannot recover missing identity, inaccurate time, altered records, or an unmonitored source."
+    },
+    {
+      "misconception": "More retention always improves security.",
+      "correction": "Retention must balance investigative value with privacy, access risk, cost, legal authority, and the ability to protect the records."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Which fields usually make a security event correlatable and attributable?",
+      "answer": "Source, time, subject, object, action, result, and a correlation or transaction identifier, with relevant context."
+    },
+    {
+      "prompt": "Why monitor the logging pipeline itself?",
+      "answer": "A disabled agent, failed transport, full store, or altered clock can create a silent evidence gap."
+    },
+    {
+      "prompt": "What makes an egress alert actionable?",
+      "answer": "Identity, asset, destination, volume or behavior baseline, protocol, and data sensitivity context."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A central log store has a valid hash chain, but an administrator who can delete source agents also administers the store.",
+      "decision": "Separate duties, restrict deletion, alert on agent changes, retain independent copies, and document the residual trust assumption.",
+      "why": "Integrity mechanisms do not remove privileged administration risk or prove that collection was complete."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study event selection, context, time integrity, transport, storage, access, retention, egress, and logging failure detection.",
+    "connect": "Connect D7.2 to D7.1 evidence, D5 accounting, D4 telemetry, D2 retention, and D6 assessment evidence.",
+    "apply": "Build a logging matrix for one privileged workflow and state the fields, retention, owner, and failure alert for each source.",
+    "revisit": "Reconstruct a timeline with clock drift and identify which claims remain supported and which require corroboration."
+  },
+  "visualIds": [
+    "d7-o02-logging-architecture-evidence-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o02-logging-architecture",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.2 bullets: log management, egress monitoring, event context"
+      },
+      "supports": [
+        "objective scope",
+        "logging and monitoring topics"
+      ]
+    },
+    {
+      "id": "official-d7-15-30-logging",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "15-30 (PDF pp. 15-30), Domain 7.2 logging and monitoring"
+      },
+      "supports": [
+        "logging architecture",
+        "log management",
+        "monitoring and egress considerations"
+      ]
+    },
+    {
+      "id": "sybex-d7-834-840",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "834-840, Chapter 17 logging and audit trails"
+      },
+      "supports": [
+        "event records",
+        "log collection",
+        "time and integrity considerations"
+      ]
+    },
+    {
+      "id": "sybex-d7-841-850",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "841-850, Chapter 17 monitoring and log management"
+      },
+      "supports": [
+        "log management",
+        "monitoring",
+        "egress and retention considerations"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o02-logging-architecture-evidence-visual-contract",
+    "unitId": "d7-o02-logging-architecture-evidence",
+    "teachingQuestion": "Which telemetry is evidence strong enough to reconstruct this action?",
+    "misconception": "A SIEM can repair missing identity, inaccurate time, or altered source events.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "log-architecture",
+      "event-source",
+      "event-context",
+      "time-synchronization",
+      "log-integrity",
+      "log-retention",
+      "log-management",
+      "egress-monitoring",
+      "telemetry"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "log architecture: Architecture: source→transport→normalize→protect→retain/recover. Decision: decide required evidence path.. Failure/example: logging outage invisible.\nevent source: Source: system producing event. Decision: decide coverage/owner/configuration.. Failure/example: cloud control-plane changes absent.\nevent context: Context: actor/action/object/result/time/correlation/policy. Decision: decide minimum fields.. Failure/example: log has action but no identity.\ntime synchronization: Time: synchronized clocks/offsets reconstruct order. Decision: decide source/monitoring.. Failure/example: false incident timeline.\nlog integrity: Integrity: tamper-evident/restricted records. Decision: decide storage/admin separation.. Failure/example: attacker edits logs.\nlog retention: Retention: required availability period. Decision: decide legal/privacy/cost/protection.. Failure/example: evidence expires before inquiry.\nlog management: Management: access/index/archive/dispose/recover lifecycle. Decision: decide owner and failure response.. Failure/example: searchable logs exposed.\negress monitoring: Egress: observe destination/volume/protocol/identity/data movement. Decision: decide material outbound use cases.. Failure/example: exfiltration bypasses inbound controls.\ntelemetry: Telemetry: operational/security signals. Decision: decide quality and action owner.. Failure/example: high-volume unusable fields.",
+    "sourceRefIds": [
+      "official-d7-15-30-logging",
+      "sybex-d7-834-840",
+      "sybex-d7-841-850"
+    ],
+    "mapNodeId": "d7-o02-logging-architecture-evidence",
+    "visualIds": [
+      "d7-o02-logging-architecture-evidence-decision-comparison-1"
+    ]
+  }
+}

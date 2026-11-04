@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o01-secure-delivery-operations",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.1"
+  ],
+  "title": "Integrate security into delivery and operations",
+  "summary": "Security continues through implementation, testing, deployment, operation, change, maintenance, and retirement; delivery method and maturity model shape evidence and feedback but do not remove accountability.",
+  "outcome": "Select lifecycle gates and operational feedback appropriate to delivery speed, risk, and system change.",
+  "conceptIds": [
+    "agile",
+    "waterfall",
+    "devops",
+    "devsecops",
+    "scaled-agile",
+    "cmm",
+    "samm",
+    "change-management",
+    "operations-maintenance"
+  ],
+  "prerequisites": [
+    "d8-o01-secure-requirements-design",
+    "d7-o09-change-management",
+    "d6-o01-strategy"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Fast delivery is safe only when controls, evidence, rollback, ownership, and feedback keep pace with change.",
+  "sections": [
+    {
+      "id": "methodology-and-maturity",
+      "title": "Choose feedback and governance deliberately",
+      "body": "Waterfall uses formal phase baselines; Agile iterates in small increments; DevOps joins delivery and operations; DevSecOps makes security collaboration and automation explicit; scaled frameworks coordinate many teams. CMM and SAMM can reveal process capability and improvement priorities, but maturity scores do not prove a product is secure.",
+      "keyPoints": [
+        "The method changes timing and evidence, not the need for security decisions.",
+        "Maturity models assess capability and repeatability, not residual risk alone.",
+        "Automated checks should be fast enough to influence the change."
+      ],
+      "sourceRefIds": [
+        "outline-d8-1",
+        "official-d8-9-35",
+        "miller-d8-705-727"
+      ]
+    },
+    {
+      "id": "delivery-operations-change",
+      "title": "Preserve assurance after release",
+      "body": "Secure delivery requires environment separation, release authorization, configuration baselines, rollback, vulnerability response, monitoring, incident feedback, maintenance ownership, and retirement actions. Emergency changes need an explicit path with retrospective evidence rather than bypassing accountability.",
+      "keyPoints": [
+        "Deployment is a transition into operational assurance, not its endpoint.",
+        "Change records connect code, configuration, approver, test evidence, and rollback.",
+        "Retirement revokes access, handles data and secrets, and preserves required evidence."
+      ],
+      "sourceRefIds": [
+        "official-d8-9-35",
+        "sybex-d8-1017-1049"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Scaled DevSecOps release",
+      "situation": "Several teams release a shared identity service weekly while an urgent vulnerability requires an emergency change.",
+      "reasoning": "Use risk-based gates, automated regression and security checks, peer separation, scoped approval, canary deployment, rollback, monitoring, and a retrospective. The maturity model tracks whether this process is repeatable, while the release decision remains risk-owned."
+    },
+    {
+      "title": "Emergency dependency patch with accountable speed",
+      "situation": "A critical vulnerability affects the production identity service and exploitation is observed.",
+      "reasoning": "The incident/change authority records affected versions and business impact, scopes the patch, names the approver and deployment owner, performs focused regression and authentication tests, defines a canary/monitoring signal and rollback trigger, then documents the post-change review. The emergency path shortens approval timing; it does not remove evidence, ownership, or learning."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "maturity model",
+        "security assessment"
+      ],
+      "difference": "A maturity model evaluates process capability and improvement; an assessment evaluates a system, control, or risk claim at a point in time."
+    },
+    {
+      "between": [
+        "change approval",
+        "change testing"
+      ],
+      "difference": "Approval authorizes a risk-informed change; testing provides evidence that its behavior and controls meet expectations."
+    },
+    {
+      "between": [
+        "maturity model",
+        "release security evidence"
+      ],
+      "difference": "CMM/SAMM indicate whether a process is institutionalized and improvable. Release evidence—threat-model change review, test results, approval, provenance/configuration, monitoring, and rollback readiness—supports the decision for this change; neither substitutes for the other."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "DevSecOps means every security control must be fully automated.",
+      "correction": "Automation improves consistency and speed, but design judgment, exceptions, incident response, and accountability remain human responsibilities."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does SAMM or CMM tell a manager?",
+      "answer": "It indicates process capability and improvement areas, not that an individual release has no vulnerabilities."
+    },
+    {
+      "prompt": "What belongs in an emergency change record?",
+      "answer": "Scope, risk, approver, tests/evidence, deployment owner, monitoring, rollback, and follow-up review."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A mature pipeline reports high scores but production incidents show missing rollback and ownership.",
+      "decision": "Treat maturity as an improvement signal, then remediate operational controls and validate outcomes.",
+      "why": "Process capability metrics cannot substitute for control effectiveness and operational evidence."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare methodologies, maturity models, operations, maintenance, and change paths.",
+    "connect": "Connect D6 assessment, D7 operations/change, and D1 governance/risk acceptance.",
+    "apply": "Design a release gate and emergency-change path.",
+    "revisit": "Explain why maturity does not equal security."
+  },
+  "visualIds": [
+    "d8-o01-secure-delivery-operations-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-1",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.1 bullets: methodologies, maturity, operations, change, IPT"
+      },
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-9-35",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "9–34 (same PDF page numbers), objective 8.1; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "methodologies, maturity, operations, change"
+      ]
+    },
+    {
+      "id": "sybex-d8-1017-1049",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1049, Chapter 20"
+      },
+      "supports": [
+        "development lifecycle and change"
+      ]
+    },
+    {
+      "id": "miller-d8-705-727",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-727, Chapter 10"
+      },
+      "supports": [
+        "development methodologies"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o01-secure-delivery-operations-visual-contract",
+    "unitId": "d8-o01-secure-delivery-operations",
+    "teachingQuestion": "How do delivery methods change when security evidence is produced without changing the need for accountable release and operational feedback?",
+    "misconception": "DevSecOps means automated checks make governance unnecessary, or a high maturity score proves a release is safe.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Waterfall/Agile/DevOps/DevSecOps timing, scaled coordination, process maturity, change authorization, and operations/maintenance feedback.",
+    "conceptIds": [
+      "agile",
+      "waterfall",
+      "devops",
+      "devsecops",
+      "scaled-agile",
+      "cmm",
+      "samm",
+      "change-management",
+      "operations-maintenance"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe an organization’s approval chain, a particular CI/CD tool, exact maturity score, or release frequency.",
+    "retrievalPrompt": "An exploited identity vulnerability requires an urgent patch. What must remain true even though the emergency path is faster?",
+    "textFallback": "waterfall: A lifecycle approach that organizes work into formal phases and baselines, commonly with approval milestones before transition.. Decision: Use when controlled requirements, documentation, and formal gates suit the mission; still manage rework and security changes across phases.. Failure/example: Deferring security until a final phase embeds missing requirements into design and makes remediation expensive.\nagile: An iterative approach that delivers small increments through collaborative planning, building, testing, and feedback cycles.. Decision: Put security stories, acceptance criteria, threat-model changes, and security tests into each increment rather than a final hardening phase.. Failure/example: A rapid sprint cadence with security work kept in a separate backlog ships repeated unreviewed exposure.\ndevops: A delivery/operating model that joins development, operations, and often quality practices to improve flow, reliability, and feedback.. Decision: Use shared operational telemetry and deployment practice to shorten feedback, while retaining security requirements and accountable change decisions.. Failure/example: Fast deployment without production ownership or rollback turns operational feedback into repeated outages.\ndevsecops: DevOps practices with security collaboration, security criteria, and appropriate automated/manual checks integrated through delivery and operations.. Decision: Automate repeatable checks early and keep human ownership for design tradeoffs, exceptions, incident response, and acceptance.. Failure/example: Treating a passed scanner as authorization to release can miss a changed trust boundary or unmet privacy requirement.\nscaled agile: Coordination practices that align multiple Agile teams, shared dependencies, and integrated delivery outcomes.. Decision: Use common security standards, architecture decisions, dependency visibility, and cross-team acceptance evidence when one team’s change affects another.. Failure/example: One team can safely pass its service tests while breaking a shared authorization contract used by another team.\ncmm: Capability Maturity Model: a framework for assessing whether development processes are repeatable, defined, measured, and improving.. Decision: Use it to prioritize process improvement; pair it with change-specific product evidence and risk decisions.. Failure/example: A mature documentation process can repeatedly produce a release with an untested authorization flaw.\nsamm: Software Assurance Maturity Model: a maturity framework for evaluating and improving software-security practices across the development organization.. Decision: Use it to identify practice gaps and a realistic improvement roadmap, not to declare an individual system free of vulnerabilities.. Failure/example: A high SAMM practice level does not prove that a newly added endpoint has been threat-modeled.\nchange management: Controlled transition from a current software/configuration state to a future state through scoped request, risk review, authorization, implementation, verification, and learning.. Decision: Link the change to code/configuration, tests, approver, deployment owner, monitoring, rollback, and retrospective; use a governed emergency path when needed.. Failure/example: An urgent patch with no rollback owner can convert a vulnerability response into prolonged service loss.\noperations maintenance: Post-production activity that monitors, patches, recovers, manages vulnerabilities and changes, maintains ownership, and retires software safely.. Decision: Treat production signals and incidents as input to risk, backlog, design, and lifecycle decisions; retain responsibility through retirement.. Failure/example: Leaving a superseded service account or secret active after retirement extends attack surface indefinitely.",
+    "sourceRefIds": [
+      "official-d8-9-35",
+      "sybex-d8-1017-1049",
+      "miller-d8-705-727"
+    ],
+    "mapNodeId": "d8-o01-secure-delivery-operations",
+    "visualIds": [
+      "d8-o01-secure-delivery-operations-decision-comparison-1"
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "reviewer": "Root; independent of course_integration implementation",
+  "reviewedAt": "2026-09-19T06:28:18.431460+00:00",
+  "status": "accepted",
+  "releaseId": "cissp-course-2026-09-0605853d09809a70",
+  "sourceHash": "0605853d09809a706deb6ededf707f8d84f5ec3eb31b232aa3ab2300c6dbeb14",
+  "buildBinding": "planning/visual-learning-production/qa/cissp-course-2026-09-0605853d09809a70-preview-build-binding-v2.json",
+  "buildBindingSha256": "3b552419014ddf43d4d34e54ee14f060ec91236e3cf2fb2a68083853a24e8bfb",
+  "scope": "UI-only native-anchor fix for four intentional full-document transitions between course and original pilot",
+  "changedFiles": [
+    {
+      "path": "web/app/pilot/page.tsx",
+      "beforeSha256": "c81be6b8637e721b5db7278d3ebe7998ea2dc8d52fdbbb9bf0c226f592408389",
+      "afterSha256": "058fc025ad32aa348a40a02e1f8b43a2fd4d8b04287fdb0b86a555fb74c651af",
+      "linkTransitions": [
+        "/"
+      ]
+    },
+    {
+      "path": "web/components/course-app.tsx",
+      "beforeSha256": "e5fbd53dfc95ab3d605455623e8c9ceeb3f8f7c3047c3131bac27d6c8490210c",
+      "afterSha256": "9405c67889434cd5df003e4a169f23d6cd531ba5e5547f8db3d41a0061663a1f",
+      "linkTransitions": [
+        "/pilot",
+        "/pilot/#/backup"
+      ]
+    },
+    {
+      "path": "web/components/study-app.tsx",
+      "beforeSha256": "ffce9b53b2f48b8130070229f5ac16cb382a3a686c0b0b340e9adabbd651c374",
+      "afterSha256": "29941e53575f56d4b127c444ee7c2bb9cb03fdbaf15bd16184d14bce65c76e96",
+      "linkTransitions": [
+        "/"
+      ]
+    }
+  ],
+  "browserChecks": [
+    {
+      "transition": "course sidebar \u2192 /pilot",
+      "result": "Actual click after sidebar scroll opened pilot; original Resume practice restored Question 1 of 4 and Pause & save retained it."
+    },
+    {
+      "transition": "pilot \u2192 /",
+      "result": "Actual complete-course link returned to Learn how security decisions connect."
+    },
+    {
+      "transition": "course backup \u2192 /pilot/#/backup",
+      "result": "Actual link opened pilot Keep your progress. Take it with you. backup page."
+    },
+    {
+      "transition": "full reload and all above transitions",
+      "result": "No new browser error or warning entries; predecessor Vinext prefetch errors remain in historical logs only."
+    }
+  ],
+  "carryForward": "Immutable content source hash and all 101 model hashes unchanged. Prior semantic reviews, numerical/model tests and exhaustive browser-state evidence remain scoped to identical artifacts. Source and dist hashes for changed UI are explicitly bound here.",
+  "openFindings": [],
+  "priorUiAcceptance": {
+    "path": "planning/visual-learning-production/reviews/independent-final-ui-anchor-fix.json",
+    "sha256": "8550fb2cae06e48c7e755266a5778d06660cea8d254b37a2bd5e8b4a42c72e1e"
+  },
+  "strictBuildCarryover": "Source files and immutable course models are identical to the accepted native-anchor build. The strict rebuild changes generated BUILD_ID/chunk names; exact final dist is frozen and bound.",
+  "finalBuildBrowserSmoke": "Fresh final-build reload, course-to-pilot, preserved Resume practice availability, pilot-to-course, course-to-pilot backup deep link and return all passed. Browser warning/error log since reload is empty. Clean Today screenshot saved."
+}

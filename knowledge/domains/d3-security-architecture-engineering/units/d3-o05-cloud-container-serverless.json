@@ -1,0 +1,334 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-cloud-container-serverless",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.5"
+  ],
+  "title": "Assess cloud, container, API, and serverless security paths",
+  "summary": "Cloud service models, microservices, containers, and serverless functions change control ownership and multiply management, identity, image, interface, and event boundaries. Assess the specific provider-customer responsibility and the path from deployment authority to protected data.",
+  "outcome": "Assess shared responsibility, orchestration, image, API, and serverless failure paths and recommend controls with accountable owners.",
+  "conceptIds": [
+    "cloud-security",
+    "shared-responsibility",
+    "saas",
+    "iaas",
+    "paas",
+    "microservices",
+    "api-security",
+    "containerization",
+    "serverless",
+    "orchestration",
+    "workload-identity",
+    "event-validation",
+    "cloud-service-model",
+    "configuration-management"
+  ],
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d3-o04-system-security-capabilities",
+    "d1-o10-threat-modeling"
+  ],
+  "estimatedMinutes": 52,
+  "managerMindset": "Do not accept 'the cloud provider handles security' or 'containers isolate workloads' as conclusions. Trace responsibility, deployment authority, identity, data, telemetry, and recovery for each layer.",
+  "sections": [
+    {
+      "id": "shared-responsibility",
+      "title": "Assign responsibility by service and layer",
+      "body": "SaaS, PaaS, and IaaS shift operational responsibility but do not eliminate customer accountability for data, identity, configuration, integration, and use. A defensible design states who configures identity, network exposure, encryption options, logging, backups, incident interfaces, and service continuity. Assess the contract and the actual implementation separately: a provider capability is not automatically enabled, appropriately scoped, or monitored by the customer.",
+      "keyPoints": [
+        "Shared responsibility is a layer-by-layer allocation, not a transfer of all risk.",
+        "Configuration and identity decisions are frequent cloud control boundaries."
+      ],
+      "sourceRefIds": [
+        "d3-o05-cloud-outline",
+        "d3-o05-cloud-textbook",
+        "d3-o05-cloud-sybex"
+      ]
+    },
+    {
+      "id": "container-and-api",
+      "title": "Treat image, orchestrator, API, and workload identity as boundaries",
+      "body": "A container packages a workload but depends on its image supply chain, runtime settings, host or cluster, network policy, secrets, and orchestration control plane. Microservices replace one large trust boundary with many service and API calls. Use authenticated workload identities, least-privilege service authorization, constrained images, protected registries, secrets management, segmentation, input and object authorization, and logging that preserves request context. The cluster administrator and deployment pipeline are high-impact authorities.",
+      "keyPoints": [
+        "Container isolation is not a substitute for host, control-plane, or identity protection.",
+        "An API must authorize an action and object, not only authenticate the calling service."
+      ],
+      "sourceRefIds": [
+        "d3-o05-cloud-textbook",
+        "d3-o05-cloud-sybex"
+      ]
+    },
+    {
+      "id": "serverless-events",
+      "title": "Design for event-driven and serverless failure modes",
+      "body": "Serverless reduces direct server administration but introduces event source permissions, function identities, dependency packages, secret handling, timeout and retry behavior, concurrency, and observability concerns. An event-driven function must validate the event and authorize the resulting action even when the event came from an internal service. Bound retries, make sensitive operations idempotent where appropriate, protect deployment authority, and capture correlation evidence without recording secrets. Plan for a failed dependency rather than silently widening access or repeating an irreversible action.",
+      "keyPoints": [
+        "Managed execution changes the control surface; it does not remove it.",
+        "Retry and event handling can create security-relevant duplicate or unauthorized effects."
+      ],
+      "sourceRefIds": [
+        "d3-o05-outline",
+        "d3-o05-cloud-textbook",
+        "d3-o05-cloud-sybex"
+      ]
+    },
+    {
+      "id": "service-model-control-allocation",
+      "title": "Choose cloud controls at the service-model boundary",
+      "body": "SaaS provides the provider application for consumer use; PaaS provides a platform for consumer-deployed applications; IaaS provides processing, storage, and networking resources on which the consumer manages more of the stack. The service model changes who operates infrastructure, but the customer still needs to decide and verify data handling, identities, configuration, integration, logging, recovery, and contractual obligations. Compare each offered control to the service layer and actual configuration. A customer cannot rely on an IaaS provider to secure a guest operating-system configuration it administers, and cannot assume a SaaS provider’s default sharing setting meets its data policy.",
+      "keyPoints": [
+        "“Provider managed” describes an operating allocation, not an automatic security outcome.",
+        "Verify the control boundary by service and configuration, not cloud marketing terms."
+      ],
+      "sourceRefIds": [
+        "d3-o05-cloud-textbook"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Document intake on a managed cloud",
+      "situation": "An external upload invokes a serverless function that stores files and calls a containerized classifier.",
+      "reasoning": "Assign provider and customer responsibilities; validate uploads and events at both functions, use distinct workload identities, scope object-storage and classifier permissions, scan and pin images, protect deployment and registry access, record correlation IDs, and test retries and failed identity-service behavior.",
+      "takeaway": "The secure design is a chain of accountable decisions across cloud service, function, container, API, and data store."
+    },
+    {
+      "title": "Data-sharing default in a SaaS collaboration service",
+      "situation": "A team enables a SaaS workspace that is provider-operated but contains regulated documents.",
+      "reasoning": "Determine the provider-operated layer and customer-controlled sharing, identity, retention, audit, integration, and recovery settings. Configure and test those controls, define accountable ownership, and review material provider or tenant changes.",
+      "takeaway": "A provider-operated application still has customer-side data and configuration decisions."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "IaaS responsibility",
+      "b": "SaaS responsibility",
+      "difference": "IaaS leaves the customer responsible for substantially more operating-system, workload, and configuration decisions; SaaS typically shifts more service operation but still leaves data, identity, configuration, and integration decisions to the customer."
+    },
+    {
+      "a": "Container",
+      "b": "Virtual machine",
+      "difference": "Both create isolation boundaries, but containers commonly share a host kernel and rely heavily on image, runtime, and orchestration controls; neither label alone proves adequate isolation."
+    },
+    {
+      "a": "SaaS configuration responsibility",
+      "b": "IaaS guest-system responsibility",
+      "difference": "SaaS consumers generally configure use of a provider application; IaaS consumers configure workloads and guest systems on provider resources. Both require identity, data, and integration decisions, but the operated layer differs."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Serverless applications need no patching or access review.",
+      "correction": "The platform may operate infrastructure, while the customer remains responsible for code, dependencies, function permissions, event sources, data, configuration, and deployment authority."
+    },
+    {
+      "claim": "A cloud service model transfers every security responsibility to the provider.",
+      "correction": "The model allocates operation of layers; customers retain responsibilities such as data, identity, configuration, integration, monitoring, and contractual assurance appropriate to the service."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should a shared-responsibility statement name?",
+      "answer": "The service layer, each control activity, its owner, implementation evidence, and any residual dependency."
+    },
+    {
+      "prompt": "Why is an orchestration control plane high impact?",
+      "answer": "It can deploy, configure, observe, or disrupt multiple workloads and therefore changes many trust boundaries at once."
+    },
+    {
+      "prompt": "What should be compared before accepting a cloud control claim?",
+      "answer": "The service model, exact layer, provider capability, customer configuration and operation, evidence, failure handling, and accountable owner."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A function trusts every event from an internal queue and grants the event's requested account change. What must be added?",
+      "decisiveDetail": "Authenticate the producing path as appropriate, validate event content and freshness, and authorize the requested account action under the function's scoped identity.",
+      "testedConceptIds": [
+        "serverless",
+        "event-validation",
+        "authorization",
+        "workload-identity"
+      ]
+    },
+    {
+      "prompt": "A customer assumes an IaaS provider patches the guest OS because the provider patches hosts. What is the decisive distinction?",
+      "decisiveDetail": "Provider host/infrastructure operation is distinct from customer guest/workload configuration and patching; confirm contractual scope and assign/verify the guest lifecycle control.",
+      "testedConceptIds": [
+        "cloud-service-model",
+        "shared-responsibility",
+        "configuration-management"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Create a layer-by-layer responsibility table for one SaaS, PaaS, or IaaS workflow.",
+    "connect": "Connect D1 supplier risk, D4 secure channels, D5 service identity, D7 logging, and D8 delivery supply chain.",
+    "apply": "Threat-model an API-to-container-to-data flow.",
+    "revisit": "In three days, name the five controls that protect a container beyond the container image."
+  },
+  "visualIds": [
+    "d3-o05-cloud-container-serverless-control-plane-map",
+    "d3-o05-cloud-container-serverless-concept-comparison-1",
+    "d3-o05-cloud-container-serverless-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o05-cloud-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5: cloud SaaS/IaaS/PaaS, microservices/API, containerization, serverless"
+      },
+      "supports": [
+        "objective-boundary",
+        "cloud-and-modern-architecture-topics"
+      ]
+    },
+    {
+      "id": "d3-o05-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o05-cloud-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "26-44",
+        "pdfPage": "26-44",
+        "note": "Domain 3 architecture-vulnerability range; printed page is the citation anchor."
+      },
+      "supports": [
+        "cloud-shared-responsibility",
+        "container-api-serverless-risk"
+      ]
+    },
+    {
+      "id": "d3-o05-cloud-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 9, Security Vulnerabilities, Threats, and Countermeasures, pp. 353-446"
+      },
+      "supports": [
+        "cloud-and-container-vulnerability-correlation"
+      ],
+      "sourceNotes": "Broad secondary locator requires section-level refinement; this unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o05-cloud-container-serverless-visual-contract",
+    "unitId": "d3-o05-cloud-container-serverless",
+    "teachingQuestion": "Who owns each control at this cloud service boundary, and what could misuse it?",
+    "misconception": "Provider operation means the customer no longer has security obligations.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+    "conceptIds": [
+      "cloud-security",
+      "shared-responsibility",
+      "saas",
+      "iaas",
+      "paas",
+      "microservices",
+      "api-security",
+      "containerization",
+      "serverless",
+      "orchestration",
+      "workload-identity",
+      "event-validation",
+      "cloud-service-model",
+      "configuration-management"
+    ],
+    "relationships": [
+      {
+        "from": "user",
+        "to": "api",
+        "label": "submits request to"
+      },
+      {
+        "from": "api",
+        "to": "workload",
+        "label": "invokes"
+      },
+      {
+        "from": "workload",
+        "to": "data",
+        "label": "uses scoped access to"
+      },
+      {
+        "from": "deploy",
+        "to": "orchestrator",
+        "label": "changes"
+      },
+      {
+        "from": "orchestrator",
+        "to": "workload",
+        "label": "deploys and configures"
+      },
+      {
+        "from": "provider",
+        "to": "orchestrator",
+        "label": "operates defined service layer for"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Compare SaaS, PaaS, and IaaS responsibility for a specified control.",
+    "textFallback": "Cloud service models, microservices, containers, and serverless functions change control ownership and multiply management, identity, image, interface, and event boundaries. Assess the specific provider-customer responsibility and the path from deployment authority to protected data.\nAssign provider and customer responsibilities; validate uploads and events at both functions, use distinct workload identities, scope object-storage and classifier permissions, scan and pin images, protect deployment and registry access, record correlation IDs, and test retries and failed identity-service behavior.",
+    "sourceRefIds": [
+      "d3-o05-cloud-textbook",
+      "d3-o05-cloud-sybex"
+    ],
+    "mapNodeId": "d3-o05-cloud-container-serverless",
+    "visualIds": [
+      "d3-o05-cloud-container-serverless-concept-comparison-1",
+      "d3-o05-cloud-container-serverless-concept-comparison-2",
+      "d3-o05-cloud-container-serverless-control-plane-map"
+    ]
+  }
+}

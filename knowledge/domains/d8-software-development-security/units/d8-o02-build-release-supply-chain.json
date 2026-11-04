@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o02-build-release-supply-chain",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.2"
+  ],
+  "title": "Secure build, test, and release supply chains",
+  "summary": "CI/CD, configuration management, repositories, artifacts, and application-security tests must preserve provenance and block unauthorized or untested promotion.",
+  "outcome": "Design layered pipeline controls that produce trustworthy, traceable release artifacts.",
+  "conceptIds": [
+    "ci-cd",
+    "continuous-integration",
+    "continuous-delivery",
+    "configuration-management",
+    "build-integrity",
+    "artifact-provenance",
+    "sast",
+    "dast",
+    "sca",
+    "iast",
+    "software-supply-chain",
+    "software-provenance",
+    "dependency-management"
+  ],
+  "prerequisites": [
+    "d8-o02-development-environment-access",
+    "d1-o11-supply-chain-risk",
+    "d6-o02-control-testing"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Trust the artifact only when its inputs, transformations, tests, approvals, and deployment identity are traceable.",
+  "sections": [
+    {
+      "id": "pipeline-and-configuration",
+      "title": "Separate and attest pipeline stages",
+      "body": "CI/CD pipelines should isolate source, build, test, staging, and production privileges; protect runners and configuration; pin and inventory dependencies; preserve logs and provenance; and require authorized promotion. Configuration management detects drift and makes rollback reproducible.",
+      "keyPoints": [
+        "A compromised runner can alter every downstream artifact.",
+        "Promotion boundaries reduce unauthorized release risk.",
+        "Provenance links artifact identity to source, dependencies, builder, tests, and approver."
+      ],
+      "sourceRefIds": [
+        "outline-d8-2",
+        "official-d8-36-55",
+        "sybex-d8-1049-1065"
+      ]
+    },
+    {
+      "id": "application-security-testing",
+      "title": "Use complementary application-security tests",
+      "body": "SAST inspects code or representations before execution; DAST exercises a running application; SCA inventories third-party components; IAST observes execution while tests run. Select tests from risk and lifecycle timing, interpret findings, assign remediation, and retain evidence rather than treating any tool as complete coverage.",
+      "keyPoints": [
+        "Static, dynamic, composition, and interactive tests expose different blind spots.",
+        "Tools generate signals; triage and risk ownership determine release action.",
+        "Tests must cover APIs, configurations, dependencies, and abuse cases where relevant."
+      ],
+      "sourceRefIds": [
+        "official-d8-36-55",
+        "miller-d8-727-760"
+      ]
+    },
+    {
+      "id": "integrity-evidence-for-build-and-release",
+      "title": "Make release integrity a verifiable chain, not a vendor promise",
+      "body": "A secure build and release process identifies the approved source revision, dependencies and their provenance, build environment, build steps, test and policy results, produced artifact, signing identity, repository, deployment approval, and the evidence that connects them. Protect source and pipeline credentials, separate or constrain roles, pin and verify dependencies where appropriate, preserve logs and attestations, and define how keys, compromised builders, malicious dependencies, or a failed rollback are handled. An SBOM can describe components, but it does not alone prove a component is safe, the artifact came from the intended source, or deployment followed policy. NIST SSDF’s Protect the Software and Produce Well-Secured Software practices provide a risk-informed structure; OWASP Top 10:2025 addresses software supply chain failures and software or data integrity failures as awareness risks; the list is not a complete verification standard.",
+      "keyPoints": [
+        "Integrity evidence should allow a reviewer to trace a deployed artifact back to approved source, dependencies, build, test, signing, and release decision.",
+        "An inventory or signature is useful only with trustworthy identity, scope, verification, revocation, and response processes."
+      ],
+      "sourceRefIds": [
+        "official-d8-36-55",
+        "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+        "d8-o02-build-release-supply-chain-owasp-top-10-2025"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Unsigned artifact promotion",
+      "situation": "A pipeline can deploy any file placed in an artifact bucket, and SAST findings are merely reported.",
+      "reasoning": "Restrict artifact writes, sign or attest provenance, verify identity at promotion, bind deployment to approved commit and test evidence, triage high-risk findings, and provide rollback. The goal is a trustworthy release path, not a dashboard of scans."
+    },
+    {
+      "title": "Compromised dependency publishing key",
+      "situation": "A dependency used by a production service is republished from a valid-looking but unapproved publisher identity.",
+      "reasoning": "Stop promotion of affected builds, identify versions and deployed artifacts from build records, validate trusted publisher and integrity evidence, assess exposure, replace or pin the dependency under an approved change, rotate affected credentials, and document detection and prevention improvements.",
+      "takeaway": "A successful build is not proof that its inputs are authorized or safe."
+    },
+    {
+      "title": "Authorized artifact-promotion trace",
+      "situation": "A payment-service release is proposed after an urgent dependency update.",
+      "reasoning": "The promotion record ties protected source revision and reviewed dependency lockfile to an isolated build runner, recorded build steps, SCA/SAST and focused integration results, artifact digest, signing identity, repository entry, release approver, deployment target, monitoring, and rollback. If the builder is suspected compromised, freeze promotion, preserve evidence, rebuild from trusted source in a clean runner, rotate affected credentials, compare digests/attestations, and investigate prior artifacts."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "SAST",
+        "DAST"
+      ],
+      "difference": "SAST analyzes code or an intermediate representation without executing the application; DAST probes a running target and its deployed behavior."
+    },
+    {
+      "between": [
+        "SCA",
+        "IAST"
+      ],
+      "difference": "SCA focuses on component inventory and known risk; IAST observes instrumented execution paths while tests run."
+    },
+    {
+      "a": "SBOM",
+      "b": "Build provenance/attestation",
+      "difference": "An SBOM inventories components in a software artifact; build provenance or an attestation records evidence about how a specific artifact was produced. Either needs trustworthy collection, verification, and response processes."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A clean SAST report proves the release is secure.",
+      "correction": "It cannot cover runtime configuration, dependency provenance, deployment identity, or all dynamic and business-logic abuse."
+    },
+    {
+      "claim": "A signed artifact or SBOM proves the release has no supply-chain risk.",
+      "correction": "Signatures and inventories need verified identity, protected keys, approved source/dependency policy, traceable build and deployment evidence, revocation, and incident response."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does provenance establish?",
+      "answer": "The relationship among approved source, dependencies, builder, transformations, tests, approvals, and the released artifact."
+    },
+    {
+      "prompt": "Why combine SAST and DAST?",
+      "answer": "They inspect different representations and execution conditions with complementary blind spots."
+    },
+    {
+      "prompt": "What evidence should connect a production artifact to an approved release?",
+      "answer": "Approved source revision, dependency identity/provenance, protected build environment and steps, test/policy results, artifact identity/signing, release approval, deployment record, and retained verification evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "SCA finds a vulnerable component with no reachable exploit path, while a critical DAST authorization flaw is open.",
+      "decision": "Risk-rank both findings using exposure and reachability; do not let a low-impact SCA exception hide the release-blocking authorization flaw.",
+      "why": "Tool severity is not the same as business risk."
+    },
+    {
+      "prompt": "A release is signed, but the CI runner pulled an unpinned external action with no recorded digest. What cannot be concluded?",
+      "decisiveDetail": "That the produced artifact came only from approved, reproducible inputs; investigate the runner and action identity, scope, build records, affected artifacts, and the release/rollback path.",
+      "testedConceptIds": [
+        "software-supply-chain",
+        "build-integrity",
+        "software-provenance",
+        "dependency-management"
+      ]
+    },
+    {
+      "scenario": "SCA reports no known CVE for a dependency, but a release artifact was built from an unreviewed branch by a shared runner.",
+      "decision": "Do not promote. SCA answers component-vulnerability inventory, not source authorization or build integrity; establish protected source, runner identity/isolation, artifact provenance, and approval evidence.",
+      "why": "Different tools produce different evidence and cannot substitute for supply-chain control."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare CI/CD stages, CM, provenance, SAST, DAST, SCA, and IAST.",
+    "connect": "Connect D1 supply chain, D6 testing/evidence, D5 service identities, and D7 deployment monitoring.",
+    "apply": "Draw a promotion boundary with required attestations.",
+    "revisit": "Explain each test's blind spot."
+  },
+  "visualIds": [
+    "d8-o02-build-release-supply-chain-decision-comparison-1",
+    "d8-o02-build-release-supply-chain-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-2",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.2 bullets: CI/CD, CM, repositories, application-security testing"
+      },
+      "supports": [
+        "objective scope"
+      ]
+    },
+    {
+      "id": "official-d8-36-55",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "36–49 (same PDF page numbers), objective 8.2; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "CI/CD, CM, testing"
+      ]
+    },
+    {
+      "id": "sybex-d8-1049-1065",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1049-1065, Chapter 20"
+      },
+      "supports": [
+        "development controls and pipelines"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "supports": [
+        "application testing and release controls"
+      ]
+    },
+    {
+      "id": "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+      "sourceId": "nist-sp-800-218-2022",
+      "locator": {
+        "type": "section",
+        "value": "SSDF v1.1, PS.1 Protect All Forms of Code; PS.2 Provide a Mechanism for Verifying Software Release Integrity; PS.3 Archive and Protect Each Software Release; PW.4 Reuse Existing, Well-Secured Software"
+      },
+      "supports": [
+        "NIST SSDF v1.1 recommends high-level secure-development practices that can be integrated into any SDLC to reduce vulnerabilities, mitigate impact, and address root causes. Its four practice groups are Prepare the Organization, Protect the Software, Produce Well-Secured Software, and Respond to Vulnerabilities."
+      ]
+    },
+    {
+      "id": "d8-o02-build-release-supply-chain-owasp-top-10-2025",
+      "sourceId": "owasp-top-10-2025",
+      "locator": {
+        "type": "web-section",
+        "url": "https://top10.owasp.org/2025/A03_2025-Software_Supply_Chain_Failures/",
+        "heading": "Description; How to prevent"
+      },
+      "supports": [
+        "dependency inventory, protected development/build systems, artifact integrity/provenance, and lifecycle response"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o02-build-release-supply-chain-visual-contract",
+    "unitId": "d8-o02-build-release-supply-chain",
+    "teachingQuestion": "What chain of evidence shows that a deployed artifact was built from approved source and dependencies in a protected process?",
+    "misconception": "An SBOM, clean scanner result, or successful build alone proves the released artifact is trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+    "conceptIds": [
+      "ci-cd",
+      "continuous-integration",
+      "continuous-delivery",
+      "configuration-management",
+      "build-integrity",
+      "artifact-provenance",
+      "sast",
+      "dast",
+      "sca",
+      "iast",
+      "software-supply-chain",
+      "software-provenance",
+      "dependency-management"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not require a particular CI/CD vendor, signing scheme, artifact format, or universal policy threshold.",
+    "retrievalPrompt": "SCA is clean but the artifact came from an unreviewed branch and shared runner. Which provenance claims remain unproved?",
+    "textFallback": "ci cd: Automated and governed continuous integration/continuous delivery pipeline practices that build, test, package, and promote change through environments.. Decision: Separate pipeline roles/environments and define required evidence and authorization before promotion.. Failure/example: A pipeline credential able to alter source, build, and production creates an unchecked path to deployment.\ncontinuous integration: Frequent integration of changes into a shared codebase with automated build and test feedback.. Decision: Use to discover integration defects quickly while protecting the source revision and test environment.. Failure/example: Passing a unit build does not prove the merged application or release artifact is authorized.\ncontinuous delivery: Capability to keep validated changes ready for controlled production release, with promotion evidence and release decisions.. Decision: Require explicit policy/approval and environment safeguards even when deployment can be automated.. Failure/example: Automatically releasing every ready artifact can expose customers to an unreviewed high-impact change.\nconfiguration management: Control of identified configuration items, versions, authorized changes, baselines, status, and reproducibility.. Decision: Name artifacts and allowable states, control entry/change, and preserve the baseline needed for rollback and investigation.. Failure/example: An unknown production configuration makes it impossible to reproduce, verify, or safely reverse a release.\nbuild integrity: Assurance that the build process, runner, inputs, configuration, and outputs were protected from unauthorized alteration.. Decision: Use isolated/maintained runners, constrained identities, protected configuration, logs, and response procedures for suspected compromise.. Failure/example: A compromised build runner can inject code after source review and before artifact signing.\nartifact provenance: Evidence linking a released artifact to its source revision, dependencies, build process, identity, tests, and authorized promotion.. Decision: Verify digest/attestation/signing and promotion records before deployment; preserve enough evidence to investigate or reproduce.. Failure/example: An artifact name and version label alone cannot prove what source or builder produced it.\nsast: Static application security testing analyzes source, bytecode, or representations without executing the application.. Decision: Use early to find code-pattern issues and triage findings with context; it cannot prove runtime configuration or all exploitability.. Failure/example: Treating SAST silence as proof of secure authentication misses deployment and business-logic failures.\ndast: Dynamic application security testing exercises a running application from outside to observe security behavior.. Decision: Use against a controlled, representative running target and interpret coverage/authorization limits.. Failure/example: A DAST scan that lacks an authenticated role cannot establish that privileged authorization is sound.\nsca: Software composition analysis identifies included third-party components and associated known-risk/license information.. Decision: Use with dependency inventory, provenance, version policy, and remediation ownership; distinguish known-CVE status from integrity and fitness.. Failure/example: A clean SCA result does not prove the dependency came from an approved source or has no unknown flaw.",
+    "sourceRefIds": [
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760",
+      "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+      "d8-o02-build-release-supply-chain-owasp-top-10-2025"
+    ],
+    "mapNodeId": "d8-o02-build-release-supply-chain",
+    "visualIds": [
+      "d8-o02-build-release-supply-chain-decision-comparison-1",
+      "d8-o02-build-release-supply-chain-decision-comparison-2"
+    ]
+  }
+}

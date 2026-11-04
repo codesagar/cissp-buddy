@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-cryptanalytic-attack-models",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.7"
+  ],
+  "title": "Distinguish cryptanalytic attack models and assumptions",
+  "summary": "Cryptanalytic attack labels describe what an adversary can observe, obtain, choose, or compute. Brute-force, ciphertext-only, known-plaintext, frequency-analysis, and chosen-ciphertext reasoning helps an architect avoid claims that a mechanism is safe without considering keys, inputs, protocols, and implementation behavior.",
+  "outcome": "Distinguish brute-force, ciphertext-only, known-plaintext, frequency-analysis, and chosen-ciphertext assumptions and match each to a mitigation category.",
+  "conceptIds": [
+    "cryptanalysis",
+    "brute-force",
+    "ciphertext-only-attack",
+    "known-plaintext-attack",
+    "frequency-analysis",
+    "chosen-ciphertext-attack",
+    "key-space",
+    "protocol-validation",
+    "rate-limiting"
+  ],
+  "prerequisites": [
+    "d3-o06-cryptographic-primitives",
+    "d3-o06-key-management-pki"
+  ],
+  "estimatedMinutes": 43,
+  "managerMindset": "The exam-relevant question is not whether an attack name sounds sophisticated. Ask what capability the attacker has, what security property is threatened, and which design or operational decision removes or reduces that capability.",
+  "sections": [
+    {
+      "id": "attack-capability",
+      "title": "Model the information and control available to the adversary",
+      "body": "A brute-force attack attempts candidate keys or credentials until one succeeds, so effective key strength, rate limits, authentication controls, and detection matter. A ciphertext-only attack gives the adversary ciphertexts but no confirmed corresponding plaintext. A known-plaintext attack assumes some plaintext-ciphertext pairs are known. Frequency analysis exploits predictable symbol or pattern distribution, particularly in weak or historical designs. Chosen-ciphertext reasoning assumes an attacker can submit selected ciphertexts to a decryption-related behavior and learn from outputs or errors.",
+      "keyPoints": [
+        "Attack labels describe assumptions, not automatic success.",
+        "The same system can expose multiple attacker capabilities."
+      ],
+      "sourceRefIds": [
+        "d3-o07-models-outline",
+        "d3-o07-models-textbook",
+        "d3-o07-models-sybex"
+      ]
+    },
+    {
+      "id": "design-response",
+      "title": "Reduce capability through sound design and operation",
+      "body": "Use approved modern cryptography and adequate key strength rather than relying on obscurity or historical patterns. Protect keys and credentials; constrain online guesses with rate, lockout, and monitoring appropriate to the use case; avoid error behavior that creates a decryption oracle; validate inputs and protocol state; and keep libraries and configurations current. Do not assume that encryption alone eliminates replay, downgrade, identity, or endpoint risks. Mitigation must match the actual protocol and threat model.",
+      "keyPoints": [
+        "Rate limiting addresses an online guessing path; it does not repair weak cryptographic construction.",
+        "Generic errors and correct protocol validation can prevent attackers from learning through different responses."
+      ],
+      "sourceRefIds": [
+        "d3-o07-models-textbook",
+        "d3-o07-models-sybex"
+      ]
+    },
+    {
+      "id": "evidence",
+      "title": "Test the claim without creating a new exposure",
+      "body": "Document the cryptographic profile, keys and their lifecycle, protocol state machine, expected failures, monitoring signals, and update authority. Test known failure conditions in authorized environments: malformed input, expired credentials, repeated requests, protocol downgrade attempts, and response consistency. Use approved tools and scope because decryption-oracle or high-rate testing against production can itself create availability or disclosure risk. Feed findings to design, key-management, and incident processes.",
+      "keyPoints": [
+        "Security testing must be authorized and designed not to become an attack.",
+        "Evidence links a threat assumption to a tested control behavior."
+      ],
+      "sourceRefIds": [
+        "d3-o07-outline",
+        "d3-o07-models-textbook",
+        "d3-o07-models-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Encrypted customer-token API",
+      "situation": "An API returns different messages for malformed encrypted tokens and tokens that fail integrity validation.",
+      "reasoning": "Treat the difference as an oracle risk, normalize external errors, validate the complete protected token through an approved library, limit repeated attempts, log safely, and test response consistency in a nonproduction environment. Confirm that key rotation and incident response do not reintroduce distinguishable behavior.",
+      "takeaway": "The risk comes from attacker-controlled input combined with observable behavior, not only from the encryption algorithm."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Known plaintext",
+      "b": "Chosen ciphertext",
+      "difference": "Known plaintext gives an attacker some matched observed pairs; chosen-ciphertext reasoning gives an attacker influence over ciphertext submitted to a target behavior and potentially information from its response."
+    },
+    {
+      "a": "Brute force",
+      "b": "Frequency analysis",
+      "difference": "Brute force searches candidates; frequency analysis exploits statistical patterns. Their assumptions and mitigations are different."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Any encryption makes frequency analysis irrelevant.",
+      "correction": "Modern approved mechanisms are designed differently from simple substitution systems, but security still depends on correct algorithm, mode or protocol, keys, inputs, and implementation."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What is the central question in a chosen-ciphertext analysis?",
+      "answer": "Whether an attacker can submit selected ciphertext and learn useful information from decryption-related behavior or errors."
+    },
+    {
+      "prompt": "Why is online rate limiting not a general cryptographic fix?",
+      "answer": "It reduces one guessing channel but does not correct weak key material, protocol construction, or implementation leakage."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A login service lets attackers try unlimited common passwords but uses strong transport encryption. What threat remains?",
+      "decisiveDetail": "Transport encryption does not prevent online brute-force guessing; enforce rate controls, detection, strong authentication, and an appropriate response process.",
+      "testedConceptIds": [
+        "brute-force",
+        "authentication",
+        "rate-limiting"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "For each attack label, state attacker capability, observation, threatened property, and mitigation category.",
+    "connect": "Connect D4 protocol behavior, D5 authentication controls, D6 authorized testing, and D7 monitoring.",
+    "apply": "Inspect an error path for observable distinctions an attacker could use.",
+    "revisit": "In three days, contrast ciphertext-only and known-plaintext attacks."
+  },
+  "visualIds": [
+    "d3-o07-cryptanalytic-attack-models-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o07-models-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7: brute force, ciphertext only, known plaintext, frequency analysis, chosen ciphertext"
+      },
+      "supports": [
+        "objective-boundary",
+        "classical-cryptanalytic-topics"
+      ]
+    },
+    {
+      "id": "d3-o07-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o07-models-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "85-95",
+        "pdfPage": "85-95",
+        "note": "Domain 3 cryptanalytic-attacks range; printed page is the citation anchor."
+      },
+      "supports": [
+        "cryptanalytic-attack-models",
+        "mitigation-context"
+      ]
+    },
+    {
+      "id": "d3-o07-models-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7 and 9, pp. 219-446; attack-specific locator refinement pending"
+      },
+      "supports": [
+        "cryptanalytic-attack-correlation"
+      ],
+      "sourceNotes": "Secondary locator is broad and must be refined before source-checked status."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o07-cryptanalytic-attack-models-visual-contract",
+    "unitId": "d3-o07-cryptanalytic-attack-models",
+    "teachingQuestion": "What attacker capability defines this cryptanalytic model, and what mitigation category addresses it?",
+    "misconception": "Encryption alone prevents replay, guesses, downgrade, and decryption-oracle behavior.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "The attack assumption determines whether key strength, protocol validation, error behavior, or rate controls matter.",
+    "conceptIds": [
+      "cryptanalysis",
+      "brute-force",
+      "ciphertext-only-attack",
+      "known-plaintext-attack",
+      "frequency-analysis",
+      "chosen-ciphertext-attack",
+      "key-space",
+      "protocol-validation",
+      "rate-limiting"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Classify the attacker knowledge or influence, then name the matching control.",
+    "textFallback": "Cryptanalytic attack labels describe what an adversary can observe, obtain, choose, or compute. Brute-force, ciphertext-only, known-plaintext, frequency-analysis, and chosen-ciphertext reasoning helps an architect avoid claims that a mechanism is safe without considering keys, inputs, protocols, and implementation behavior.\nTreat the difference as an oracle risk, normalize external errors, validate the complete protected token through an approved library, limit repeated attempts, log safely, and test response consistency in a nonproduction environment. Confirm that key rotation and incident response do not reintroduce distinguishable behavior.",
+    "sourceRefIds": [
+      "d3-o07-models-textbook",
+      "d3-o07-models-sybex"
+    ],
+    "mapNodeId": "d3-o07-cryptanalytic-attack-models",
+    "visualIds": [
+      "d3-o07-cryptanalytic-attack-models-concept-comparison-1"
+    ]
+  }
+}

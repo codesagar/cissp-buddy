@@ -1,0 +1,325 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-architecture-and-segmentation",
+  "domainId": 4,
+  "objectiveIds": [
+    "4.1"
+  ],
+  "title": "Design secure network architectures and segmentation",
+  "summary": "Secure network architecture makes flows, trust boundaries, protocol layers, planes, dependencies, and performance visible, then uses physical, logical, and micro-segmentation to constrain impact.",
+  "outcome": "Given a network scenario, map the flow and architecture, choose proportionate segmentation and protocol protections, and identify the metrics and monitoring needed to validate the design.",
+  "conceptIds": [
+    "osi-model",
+    "tcp-ip-model",
+    "network-segmentation",
+    "micro-segmentation",
+    "traffic-flows",
+    "network-planes",
+    "network-observability",
+    "secure-protocols",
+    "wireless-security",
+    "software-defined-networking",
+    "physical-logical-boundary"
+  ],
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d3-o06-cryptographic-solutions"
+  ],
+  "estimatedMinutes": 60,
+  "managerMindset": "Architecture is a risk decision about paths and blast radius, not a shopping list of devices.",
+  "sections": [
+    {
+      "id": "models-and-flows",
+      "title": "Reason about layers, flows, and performance",
+      "body": "The OSI model is a troubleshooting and control vocabulary; TCP/IP groups those functions differently for implementation. IPv4/IPv6 addressing and unicast, broadcast, multicast, and anycast shape reachability. Document north-south and east-west flows, data/control/management planes, and transport choices such as store-and-forward versus cut-through. Capacity decisions require bandwidth, throughput, latency, jitter, and signal-to-noise context because availability and security controls can affect each other.",
+      "keyPoints": [
+        "Models help locate a control or failure; they are not themselves security controls.",
+        "Traffic direction and plane separation expose different trust and monitoring needs.",
+        "Performance metrics should be tied to an availability or user requirement."
+      ],
+      "sourceRefIds": [
+        "outline-d4",
+        "official-d4-8-77",
+        "sybex-d4-571-620"
+      ]
+    },
+    {
+      "id": "segmentation-and-modern-networks",
+      "title": "Reduce blast radius with deliberate boundaries",
+      "body": "Physical separation includes in-band, out-of-band, and air-gapped designs; logical separation includes VLANs, VPNs, virtual routing and forwarding, and virtual domains. Micro-segmentation applies policy closer to workloads through overlays, distributed firewalls, routers, IDS/IPS, and zero-trust decisions. Edge, VPC, SDN, SD-WAN, NFV, CDN, wireless, cellular, satellite, and converged protocols add dependencies that must be inventoried, authenticated, monitored, and capacity-managed.",
+      "keyPoints": [
+        "Segmentation is useful only when routing, identity, and policy enforcement prevent unintended paths.",
+        "Zero trust is a continuous decision model, not a synonym for a VLAN.",
+        "Wireless, cellular, CDN, VPC, and SDN boundaries remain part of the security architecture."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ]
+    },
+    {
+      "id": "protocol-selection",
+      "title": "Select secure protocols and observability",
+      "body": "Use secure protocol choices appropriate to the communication purpose: IPSec for network-layer protection, SSH for secure administration, and TLS for protected application sessions are examples. Consider what each protocol authenticates, encrypts, protects against modification, exposes to intermediaries, and logs. Monitoring and management should detect faults, abnormal flow, capacity pressure, and policy violations without creating an unmanaged management path.",
+      "keyPoints": [
+        "Protocol selection depends on endpoint trust, layer, threat, and operational support.",
+        "Encryption does not automatically authenticate every endpoint or protect metadata.",
+        "Management interfaces and observability pipelines require their own access and integrity controls."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-597-645"
+      ]
+    },
+    {
+      "id": "protocol-layer-and-endpoint-boundary",
+      "title": "Select a channel control from its protection boundary",
+      "body": "IPsec provides security services at the IP layer and uses security associations, key management, and cryptographic algorithms; SSH protects an administrative transport/session; TLS protects an application session. Do not select only by the word “encryption.” Identify the endpoints that terminate protection, traffic and metadata exposed before/after that boundary, identity/authentication, keys/certificates, policy enforcement point, logging, inspection impact, availability dependency, and failure behavior. A secure tunnel to an untrusted endpoint or unmanaged management plane does not make the protected service trustworthy.",
+      "keyPoints": [
+        "The layer and termination point determine what a channel control can and cannot protect.",
+        "Protocol deployment requires policy, key/identity operations, monitoring, and recovery planning."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Multi-tier customer platform",
+      "situation": "A public web tier, internal API, database, administrative plane, and analytics workers share a cloud VPC.",
+      "reasoning": "Model north-south ingress and east-west service flows separately. Place public ingress behind protected edge controls, isolate management out-of-band or by tightly controlled logical segment, use identity-aware micro-segmentation between tiers, protect service channels with appropriate TLS, and send flow, capacity, and policy events to monitoring. A flat subnet would make compromise of one tier unnecessarily broad."
+    },
+    {
+      "title": "Managed API across a hybrid network",
+      "situation": "A service crosses a cloud VPC and partner network and is administered remotely.",
+      "reasoning": "Separate API application-session protection from IP-path protection and remote administration. Define TLS endpoints and service identity, use IPsec where the path threat model requires it, broker SSH through a managed jump path, and monitor each control boundary.",
+      "takeaway": "One encrypted link cannot answer every data, identity, and administration boundary."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "VLAN",
+        "micro-segmentation"
+      ],
+      "difference": "A VLAN creates a logical broadcast boundary; micro-segmentation applies finer-grained workload or identity policy, often distributed and dynamic."
+    },
+    {
+      "between": [
+        "north-south",
+        "east-west"
+      ],
+      "difference": "North-south is ingress/egress between environments; east-west is lateral traffic among internal workloads."
+    },
+    {
+      "between": [
+        "control plane",
+        "management plane"
+      ],
+      "difference": "The control plane makes forwarding or service decisions; the management plane configures and administers the system."
+    },
+    {
+      "between": [
+        "IPsec",
+        "TLS"
+      ],
+      "difference": "IPsec applies protection at the IP layer and can protect defined IP paths; TLS normally protects an application session between TLS endpoints. Neither substitutes for endpoint authorization or management-plane controls."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A firewall at the perimeter makes internal segmentation unnecessary.",
+      "correction": "East-west movement, cloud paths, wireless, and compromised insiders require internal boundaries and monitoring."
+    },
+    {
+      "misconception": "The OSI model tells you exactly where every modern protocol belongs.",
+      "correction": "It is a conceptual aid; multilayer and tunneled protocols may span or encapsulate layers."
+    },
+    {
+      "misconception": "Any encrypted tunnel protects the application end to end.",
+      "correction": "Protection ends where the selected protocol terminates; proxies, gateways, endpoints, and management paths require separately verified controls."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should a secure architecture diagram show beyond devices?",
+      "answer": "Trust boundaries, flows and direction, planes, protocols, identities, dependencies, and control/monitoring points."
+    },
+    {
+      "prompt": "Name three segmentation approaches.",
+      "answer": "Physical isolation or air gap, VLAN/VPN/VRF logical segmentation, and workload-level micro-segmentation are examples."
+    },
+    {
+      "prompt": "Which facts determine whether IPsec, TLS, or SSH fits a path?",
+      "answer": "Layer and endpoints, traffic purpose, identity/authentication need, metadata exposure, routing/management boundary, operational support, and evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A hospital wants an isolated clinical network but still needs controlled vendor maintenance and emergency data exchange.",
+      "decision": "Use separated management and data paths, explicit brokered access, strong authentication, narrowly defined flows, monitoring, and tested break-glass procedures.",
+      "why": "An absolute air gap may conflict with operational requirements; the decision must address both blast radius and safe maintenance."
+    },
+    {
+      "scenario": "TLS terminates at a public gateway and a shared backend hop is cleartext.",
+      "decision": "Assess the gateway-to-backend boundary separately and apply an approved protected channel or isolation/control set.",
+      "why": "TLS protection ends at its termination point; the downstream segment has its own threat model."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review OSI/TCP-IP, addressing, secure protocols, planes, flows, segmentation, and metrics.",
+    "connect": "Connect D3 crypto and architecture to D5 access and D7 monitoring/configuration.",
+    "apply": "Annotate a three-tier architecture with flows, segments, protocol protections, and telemetry.",
+    "revisit": "Explain which paths remain if one segment, identity provider, or monitoring system fails."
+  },
+  "visualIds": [
+    "d4-o01-segmentation-layers",
+    "d4-o01-architecture-and-segmentation-concept-comparison-1",
+    "d4-o01-architecture-and-segmentation-concept-comparison-2",
+    "d4-o01-architecture-and-segmentation-concept-comparison-3"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d4",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "4.1"
+      },
+      "supports": [
+        "objective topics"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77)"
+      },
+      "supports": [
+        "architecture",
+        "protocols",
+        "segmentation",
+        "wireless",
+        "SDN"
+      ]
+    },
+    {
+      "id": "sybex-d4-571-620",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "571-620, Chapter 11 Secure Network Architecture and Components"
+      },
+      "supports": [
+        "models",
+        "protocols",
+        "wireless",
+        "cellular"
+      ]
+    },
+    {
+      "id": "sybex-d4-597-645",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "597-645, Chapter 11"
+      },
+      "supports": [
+        "secure protocols",
+        "microsegmentation",
+        "network components"
+      ]
+    },
+    {
+      "id": "d4-o01-architecture-and-segmentation-rfc-4301-2005",
+      "sourceId": "rfc-4301-2005",
+      "locator": {
+        "type": "section",
+        "value": "RFC 4301, Security Architecture for IP"
+      },
+      "supports": [
+        "RFC 4301 defines IPsec architecture, security associations, key management, and its IP-layer scope."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d4-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d4-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d4-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d4-o01-architecture-and-segmentation-visual-contract",
+    "unitId": "d4-o01-architecture-and-segmentation",
+    "teachingQuestion": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+    "misconception": "A VLAN, tunnel, or encrypted protocol automatically creates a secure trust boundary.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+    "conceptIds": [
+      "osi-model",
+      "tcp-ip-model",
+      "network-segmentation",
+      "micro-segmentation",
+      "traffic-flows",
+      "network-planes",
+      "network-observability",
+      "secure-protocols",
+      "wireless-security",
+      "software-defined-networking",
+      "physical-logical-boundary"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+    "textFallback": "Secure network architecture makes flows, trust boundaries, protocol layers, planes, dependencies, and performance visible, then uses physical, logical, and micro-segmentation to constrain impact.\nModel north-south ingress and east-west service flows separately. Place public ingress behind protected edge controls, isolate management out-of-band or by tightly controlled logical segment, use identity-aware micro-segmentation between tiers, protect service channels with appropriate TLS, and send flow, capacity, and policy events to monitoring. A flat subnet would make compromise of one tier unnecessarily broad.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-571-620",
+      "sybex-d4-597-645",
+      "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+    ],
+    "mapNodeId": "d4-o01-architecture-and-segmentation",
+    "visualIds": [
+      "d4-o01-architecture-and-segmentation-concept-comparison-1",
+      "d4-o01-architecture-and-segmentation-concept-comparison-2",
+      "d4-o01-architecture-and-segmentation-concept-comparison-3",
+      "d4-o01-segmentation-layers"
+    ]
+  }
+}

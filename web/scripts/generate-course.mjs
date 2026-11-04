@@ -429,6 +429,14 @@ const manifest = {
     conceptLabels: unit.concepts.map((concept) => concept.label),
     estimatedMinutes: unit.estimatedMinutes,
     teachingReady: unit.teaching !== null,
+    prerequisites: unit.prerequisites,
+    checks: unit.teaching
+      ? [
+          unit.teaching.prediction,
+          unit.teaching.transfer,
+          unit.teaching.retry,
+        ].map(({ id, conceptIds }) => ({ id, conceptIds }))
+      : [],
   })),
   counts: {
     units: courseUnits.length,

@@ -1,0 +1,287 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o01-physical-logical-access",
+  "domainId": 5,
+  "objectiveIds": [
+    "5.1"
+  ],
+  "title": "Control physical and logical access to assets",
+  "summary": "Access control is the positive, reviewable control of subjects attempting to view, use, modify, move, or enter protected assets. A sound design coordinates administrative direction with physical and logical enforcement.",
+  "outcome": "Given an access scenario spanning a facility, device, application, and data set, identify the subject, object, action, control plane, owner, and evidence needed to permit or deny the request.",
+  "conceptIds": [
+    "physical-access",
+    "logical-access",
+    "subject",
+    "object",
+    "access-control-boundary",
+    "centralized-access-administration",
+    "need-to-know"
+  ],
+  "prerequisites": [
+    "d2-o01-inventory-classification",
+    "d1-o03-security-governance"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Every access path needs an accountable owner, a defined boundary, a reason for access, a control that can enforce the decision, and evidence that the control worked.",
+  "sections": [
+    {
+      "id": "access-language",
+      "title": "Name the request precisely",
+      "body": "An access request is easier to govern when its subject, object, action, and context are explicit. A subject may be a person, device, process, or service; an object may be a file, record, facility, device, application, or network resource. Physical access controls movement through spaces and handling of tangible assets, while logical access controls information flows and system operations. Administrative controls set the rules, but a badge reader, operating system, application, or API must enforce them at the relevant boundary.",
+      "keyPoints": [
+        "Physical and logical controls protect different manifestations of an asset and often must work together.",
+        "A username or badge is a claim or token; the policy still needs to decide what action is allowed.",
+        "Inventory, classification, ownership, and business need should precede control selection."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o01",
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ]
+    },
+    {
+      "id": "administration-and-enforcement",
+      "title": "Choose where access is administered and enforced",
+      "body": "Centralized administration gives one function consistent policy and visibility; decentralized administration lets resource owners manage access close to the asset; a hybrid model combines central guardrails with delegated decisions. The choice is about accountability and operating context, not about whether enforcement is technical. A privileged administrator may need both a physical barrier and a logical control, with independent logs and periodic review so one compromised path does not silently bypass the other.",
+      "keyPoints": [
+        "Centralized, decentralized, and hybrid describe administration and authority, not authentication factors.",
+        "Least privilege and need to know constrain what a permitted subject may do.",
+        "Access evidence should cover both entry to the environment and use of the resource."
+      ],
+      "sourceRefIds": [
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Authorize every physical and logical asset type",
+      "body": "Apply the same request model—subject, asset, action, context, owner, policy, enforcement point, evidence, and revocation—to information, systems, devices, facilities, applications, and services. Information access may constrain reading, changing, printing, or exporting; systems and devices add administration, console, and physical-port paths; facilities add entry, escort, and visitor controls; applications and services add APIs, workloads, and service identities. Select identity assurance and least privilege proportionate to consequence, and preserve an accountable record. A common failure is protecting an application screen while leaving its data export, device administrator, physical facility, or service API path broadly available.",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o01",
+        "official-d5-9-16",
+        "sybex-d5-639-642"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Remote maintenance of a restricted lab",
+      "situation": "A vendor needs to update a controller in a restricted lab. The vendor has a valid account but is not approved for unescorted facility entry.",
+      "reasoning": "Treat the person, maintenance laptop, controller, lab, and update operation as separate subjects and objects. Provide approved logical access through a monitored jump path, require a time-bounded authorization and named sponsor, and arrange escorted physical access only if hands-on work is unavoidable. The valid account does not defeat the physical boundary or authorize unrelated systems."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "physical access",
+        "logical access"
+      ],
+      "difference": "Physical access governs presence and handling in places or with tangible assets; logical access governs information, system, device, application, and service operations."
+    },
+    {
+      "between": [
+        "identification",
+        "access authorization"
+      ],
+      "difference": "Identification names a claimed subject; authorization decides which action on which object is permitted under policy."
+    },
+    {
+      "between": [
+        "centralized administration",
+        "centralized enforcement"
+      ],
+      "difference": "Administration assigns responsibility for policy decisions; enforcement is the control point that applies the result and may be distributed."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A successful login gives the user access to the environment.",
+      "correction": "Authentication supplies evidence about a claimant; resource and facility policy still determines which objects and actions are permitted."
+    },
+    {
+      "misconception": "Physical access is only a facilities concern.",
+      "correction": "Physical entry can expose consoles, media, network paths, and devices, so IAM and security architecture must account for it."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What four elements make an access request useful to a policy decision?",
+      "answer": "The subject, object, requested action, and relevant context or conditions."
+    },
+    {
+      "prompt": "What is the practical difference between centralized and decentralized access administration?",
+      "answer": "Centralized administration concentrates policy authority and visibility; decentralized administration delegates decisions to resource owners or local managers, with corresponding governance tradeoffs."
+    },
+    {
+      "prompt": "Why can a physical badge and a logical account require separate controls?",
+      "answer": "They protect different boundaries and compromise paths; possession of one should not automatically grant the other."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A terminated contractor's badge is disabled, but the contractor's VPN certificate still works.",
+      "decision": "Treat physical and logical deprovisioning as separate enforcement paths and revoke the certificate through the identity lifecycle process.",
+      "why": "Access is a set of paths, not a single account record."
+    },
+    {
+      "scenario": "A data owner wants to delegate all access approvals to the help desk for speed.",
+      "decision": "Use a governed delegation with approval scope, evidence, separation of duties, and review rather than transferring ownership invisibly.",
+      "why": "Operational convenience must not erase accountability for the asset or decision."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study subject/object/action language, physical versus logical control, and centralized, decentralized, and hybrid administration.",
+    "connect": "Connect access requests to D2 classification and D3 facility controls; preview D5.4 authorization decisions.",
+    "apply": "Map one employee, one service, one facility, and one application to their access boundaries and evidence.",
+    "revisit": "Redraw the boundary map after 24 hours and explain which control would fail if the badge, directory, or enforcement point were unavailable."
+  },
+  "visualIds": [
+    "d5-o01-access-control-boundaries",
+    "d5-o01-physical-logical-access-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o01",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "5.1"
+      },
+      "supports": [
+        "objective boundary",
+        "physical and logical access scope"
+      ]
+    },
+    {
+      "id": "official-d5-9-16",
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "9-16 (PDF pp. 9-16)"
+      },
+      "supports": [
+        "access-control definition",
+        "subjects and objects",
+        "physical and logical controls",
+        "administration models"
+      ]
+    },
+    {
+      "id": "sybex-d5-639-642",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "639-642, Chapter 13"
+      },
+      "supports": [
+        "controlling access to assets",
+        "physical and logical access",
+        "subjects and objects"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d5.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d5-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d5-o01-physical-logical-access-visual-contract",
+    "unitId": "d5-o01-physical-logical-access",
+    "teachingQuestion": "Which subject may use which object through which physical/logical boundary?",
+    "misconception": "A badge or network login proves authorization everywhere.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Authorization is bounded by object, context, and need-to-know.",
+    "conceptIds": [
+      "physical-access",
+      "logical-access",
+      "subject",
+      "object",
+      "access-control-boundary",
+      "centralized-access-administration",
+      "need-to-know"
+    ],
+    "relationships": [
+      {
+        "from": "policy",
+        "to": "physical",
+        "label": "sets conditions"
+      },
+      {
+        "from": "policy",
+        "to": "logical",
+        "label": "sets conditions"
+      },
+      {
+        "from": "physical",
+        "to": "object",
+        "label": "limits presence or handling"
+      },
+      {
+        "from": "logical",
+        "to": "object",
+        "label": "limits operations"
+      },
+      {
+        "from": "physical",
+        "to": "evidence",
+        "label": "records entry"
+      },
+      {
+        "from": "logical",
+        "to": "evidence",
+        "label": "records use"
+      }
+    ],
+    "intentionalOmissions": "Do not claim centralization is always required.",
+    "retrievalPrompt": "Badge holder enters a room but API role lacks object permission: what differs?",
+    "textFallback": "physical access: entry to facility/area. Decision: approve identity/location. Failure/example: tailgating bypass\nlogical access: system/service action. Decision: authorize subject-object action. Failure/example: valid login reads forbidden record\nsubject: requesting person/device/service. Decision: bind identity to request. Failure/example: shared account\nobject: protected resource. Decision: classify owner/action. Failure/example: unowned data store\naccess control boundary: enforcement crossing. Decision: place PEP/entry check. Failure/example: management bypass\ncentralized access administration: consistent administration. Decision: reconcile changes. Failure/example: local orphan account\nneed to know: minimum business access. Decision: limit recipient/scope. Failure/example: overbroad group",
+    "sourceRefIds": [
+      "official-d5-9-16",
+      "sybex-d5-639-642"
+    ],
+    "mapNodeId": "d5-o01-physical-logical-access",
+    "visualIds": [
+      "d5-o01-access-control-boundaries",
+      "d5-o01-physical-logical-access-decision-comparison-1"
+    ]
+  }
+}

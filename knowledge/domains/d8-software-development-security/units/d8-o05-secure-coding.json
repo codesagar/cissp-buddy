@@ -1,0 +1,258 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o05-secure-coding",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.5"
+  ],
+  "title": "Apply secure coding guidelines and standards",
+  "summary": "Secure coding reduces common weaknesses by making input, output, memory, error, identity, API, dependency, and secret-handling decisions explicit and reviewable.",
+  "outcome": "Recognize high-impact coding and API weaknesses and select standards, design practices, and tests that prevent or detect them.",
+  "conceptIds": [
+    "secure-coding",
+    "input-validation",
+    "output-encoding",
+    "injection",
+    "api-security",
+    "authentication",
+    "authorization",
+    "secrets",
+    "error-handling",
+    "database-data-warehouse-security",
+    "web-application-environment"
+  ],
+  "prerequisites": [
+    "d3-o02-security-models",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Secure coding is a system of defaults, review, testing, and feedback—not a memorized list of bugs.",
+  "sections": [
+    {
+      "id": "common-weaknesses",
+      "title": "Prevent unsafe behavior by design",
+      "body": "Use allow-list validation and canonicalization appropriate to context, parameterized queries, output encoding, safe memory and resource handling, secure error behavior, strong authentication and authorization, protected secrets, safe cryptography APIs, dependency hygiene, and least privilege. APIs must validate object-level authorization, replay, rate, and data exposure—not merely authenticate callers.",
+      "keyPoints": [
+        "Validation and encoding solve different problems and occur at different boundaries.",
+        "Authentication identifies a caller; authorization constrains actions and objects.",
+        "Use established libraries and standards instead of inventing cryptography."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ]
+    },
+    {
+      "id": "standards-and-review",
+      "title": "Make secure coding repeatable",
+      "body": "Coding standards, threat-informed review, misuse cases, linters, SAST/DAST, dependency checks, peer review, secure design patterns, and developer training make expectations repeatable. Record exceptions and risk decisions, test fixes, and feed production incidents and logs back into standards. Standards should be language- and architecture-aware without weakening core principles.",
+      "keyPoints": [
+        "Automated checks are guardrails, not complete reasoning.",
+        "Review should consider data flow, trust boundaries, authorization, and failure modes.",
+        "Security guidance must be maintained as frameworks and threats change."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "miller-d8-705-760"
+      ]
+    },
+    {
+      "id": "database-web-objective-depth",
+      "title": "Apply secure coding to database/data-warehouse and web environments",
+      "body": "Data and analytics systems need parameterized query interfaces, least-privileged service identities, object/row access decisions, protected audit, retention/minimization, and tests for unauthorized data access. Web systems need server-side validation, context-appropriate output encoding, safe session/transport behavior, authorization on each protected object/action, and safe errors. These controls complement one another: parameterization prevents data becoming query syntax; authorization decides whether the request is permitted.",
+      "keyPoints": [
+        "Do not use client-side validation as a security boundary.",
+        "Do not let a valid authentication result substitute for object-level authorization.",
+        "Test database/data-warehouse and web flows with malicious, malformed, and cross-tenant requests."
+      ],
+      "sourceRefIds": [
+        "official-d8-106-130",
+        "sybex-d8-1085-1113"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Search endpoint",
+      "situation": "A search API concatenates a query string and returns detailed error messages.",
+      "reasoning": "Use parameterized queries, validate and constrain inputs, encode outputs for their rendering context, return safe errors, enforce object-level authorization, rate-limit, log security-relevant events without secrets, and test negative and abuse cases."
+    },
+    {
+      "title": "Invoice API and web dashboard decision trace",
+      "situation": "A customer requests invoice 123 through an API; a browser dashboard later displays invoice notes.",
+      "reasoning": "The API validates request shape and identifiers server-side, authenticates the caller, authorizes that caller for invoice 123 before querying, uses parameterized data access, minimizes returned fields, rate/replay protects sensitive actions, and logs the decision without tokens. The dashboard encodes notes for the actual output context and returns generic errors. Tests include another customer’s object ID, malformed input, markup in notes, replay, and unavailable dependency behavior."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "input validation",
+        "output encoding"
+      ],
+      "difference": "Validation constrains acceptable input before processing; encoding makes data safe for its output context. Neither substitutes for authorization."
+    },
+    {
+      "between": [
+        "authentication",
+        "authorization"
+      ],
+      "difference": "Authentication verifies identity or credential; authorization decides permitted action on a resource."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A framework automatically prevents all injection and authorization bugs.",
+      "correction": "Framework defaults help, but unsafe APIs, custom logic, configuration, and object-level decisions still require review and tests."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What is the safest default for database queries?",
+      "answer": "Use parameterized queries or trusted data-access abstractions rather than concatenating untrusted input."
+    },
+    {
+      "prompt": "What must an API authorization test check?",
+      "answer": "Whether each caller can access only the permitted action and object, including alternate IDs and roles."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "An API authenticates users but accepts any object ID supplied by the caller.",
+      "decision": "Add server-side object authorization and tests for horizontal and vertical privilege escalation.",
+      "why": "Authentication alone does not authorize access to every object."
+    },
+    {
+      "scenario": "A legacy database driver cannot meet the current parameterization standard before a contractual deadline.",
+      "decision": "Create a time-bounded exception with explicit affected paths, threat/risk owner, compensating controls such as restricted interface and monitoring, migration/upgrade owner and date, and focused retest before closure.",
+      "why": "A coding standard is not waived by convenience; exceptions must be accountable and verified."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review coding standards, validation/encoding, authorization, APIs, secrets, and testing.",
+    "connect": "Connect D3 architecture/crypto, D5 IAM, D6 testing, and D7 logging.",
+    "apply": "Threat-model and test a small API endpoint.",
+    "revisit": "Explain which control prevents, detects, and responds to each weakness."
+  },
+  "visualIds": [
+    "d8-o05-secure-coding-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-5",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.5"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-106-130",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "65–80, 100–117 (same PDF page numbers), objective 8.5; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "secure coding standards and weaknesses"
+      ],
+      "sourceNotes": "D8 contents page is corrupted."
+    },
+    {
+      "id": "sybex-d8-1085-1113",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1085-1113, Chapter 21"
+      },
+      "supports": [
+        "application attacks and secure coding"
+      ]
+    },
+    {
+      "id": "miller-d8-705-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "705-760, Chapter 10"
+      },
+      "supports": [
+        "secure coding standards"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o05-secure-coding-visual-contract",
+    "unitId": "d8-o05-secure-coding",
+    "teachingQuestion": "When an API/web request reaches data, which secure-coding control answers each distinct question: valid data, authorized actor/object, safe query, safe output, safe failure, and verifiable behavior?",
+    "misconception": "Authentication or a parameterized query alone secures a data-returning API, and one generic input filter makes all outputs safe.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Secure coding standards, validation/encoding/injection, API authentication/authorization, secrets/error handling, database/data warehouse, web context, reviewed exceptions.",
+    "conceptIds": [
+      "secure-coding",
+      "input-validation",
+      "output-encoding",
+      "injection",
+      "api-security",
+      "authentication",
+      "authorization",
+      "secrets",
+      "error-handling",
+      "database-data-warehouse-security",
+      "web-application-environment"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe one language, ORM, query syntax, browser framework, crypto algorithm, or universal exception duration.",
+    "retrievalPrompt": "A valid user asks for another tenant’s invoice and its notes contain markup. Which controls deny access and render data safely, and what evidence tests them?",
+    "textFallback": "secure coding: Language- and architecture-aware practices and standards that make safe implementation, review, testing, exceptions, and learning repeatable.. Decision: Apply rules to the actual data flow/threat model; document risk-owned exceptions with compensating controls, expiry, and retest.. Failure/example: A developer bypassing a rule for one deadline can create a durable cross-tenant access flaw.\ninput validation: Server-side checking that received data conforms to expected syntax, type, length, range, encoding, and business semantics.. Decision: Allowlist expected values and validate both syntactic and contextual/semantic rules before processing or storage.. Failure/example: A request with a numeric amount can still be invalid if it exceeds an authorized transfer limit.\noutput encoding: Context-aware transformation of untrusted data before it is emitted to an interpreter such as HTML, attribute, URL, JavaScript, or template.. Decision: Use correct context encoding at the output sink and safe rendering APIs; preserve raw data only where needed for later safe use.. Failure/example: Rendering stored notes without encoding can execute attacker-supplied markup for an administrator.\ninjection: A weakness where untrusted input is interpreted as command/query/template/code structure instead of treated solely as data.. Decision: Use parameterized/bound interfaces and safe APIs, validate input, minimize interpreter use, and test malicious syntax in affected contexts.. Failure/example: String-concatenating an invoice ID into a query lets data alter query logic.\napi security: Controls that keep programmatic interfaces safe across caller identity, object/action authority, data validation, replay/rate limits, response exposure, error behavior, and logging.. Decision: Model/test abuse cases for each endpoint and protect sensitive operations with server-side checks and observability.. Failure/example: An API that authenticates a caller but returns any requested invoice ID permits cross-tenant disclosure.\nauthentication: Proof that a user, device, or service presents valid identity credentials.. Decision: Protect credential/token issuance, validation, expiration, revocation, and storage; require stronger assurance for higher-risk use.. Failure/example: A stolen valid session can satisfy authentication while the attacker is still unauthorized for a particular object.\nauthorization: Server-side decision whether the authenticated principal may take the requested action on this resource in this context.. Decision: Enforce at every protected object/action boundary using least privilege and deny by default; test negative/cross-tenant cases.. Failure/example: Only checking role “customer” allows a customer to retrieve another customer’s invoice.\nsecrets: Sensitive access material such as keys, passwords, tokens, and connection strings that must be protected throughout creation, use, rotation, and revocation.. Decision: Use managed environment-scoped retrieval, short/appropriate scope, redaction, rotation, and incident response instead of code/config hardcoding.. Failure/example: A secret committed to a repository may remain in history and build caches after removal.\nerror handling: Controlled failure behavior that protects users and system state while providing authorized diagnostics without leaking internals or credentials.. Decision: Fail closed/safely where appropriate, return generic responses to callers, protect detailed logs, and test dependency/exception paths.. Failure/example: A database exception returned to a browser reveals schema details useful for attack.",
+    "sourceRefIds": [
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "mapNodeId": "d8-o05-secure-coding",
+    "visualIds": [
+      "d8-o05-secure-coding-decision-comparison-1"
+    ]
+  }
+}

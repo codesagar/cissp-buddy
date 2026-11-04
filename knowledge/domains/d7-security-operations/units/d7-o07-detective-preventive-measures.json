@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o07-detective-preventive-measures",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.7"
+  ],
+  "title": "Operate detective and preventive measures",
+  "summary": "Preventive controls reduce the chance or impact of an unwanted action; detective controls reveal events or deviations so people or automation can respond. Operations must maintain, tune, test, and connect both types to a response path.",
+  "outcome": "Given a threat and control objective, classify preventive, detective, corrective, and compensating measures, then define how they are operated, monitored, and tested.",
+  "conceptIds": [
+    "preventive-control",
+    "detective-control",
+    "corrective-control",
+    "compensating-control",
+    "ids",
+    "ips",
+    "endpoint-protection",
+    "security-control-tuning"
+  ],
+  "prerequisites": [
+    "d7-o02-logging-monitoring",
+    "d7-o06-incident-management",
+    "d1-o09-risk-management"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "A control's category matters less than whether it is deployed at the right boundary, maintained, monitored, and connected to a decision when it detects change.",
+  "sections": [
+    {
+      "id": "control-purpose",
+      "title": "Match control type to the threat",
+      "body": "Preventive measures make an unwanted action harder or less likely, such as segmentation, secure configuration, access control, or filtering. Detective measures identify activity or deviation, such as intrusion detection, endpoint telemetry, integrity monitoring, or review. Corrective measures restore or repair; compensating measures provide a different path to reduce risk when the preferred control is unavailable. Controls can have multiple effects, but the intended purpose and operating evidence should be explicit.",
+      "keyPoints": [
+        "A control type describes its risk-reduction role, not its product category.",
+        "Detective measures only help when alert ownership, triage, and response exist.",
+        "Compensating controls need documented rationale, scope, duration, and validation."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o07",
+        "official-d7-52-59",
+        "sybex-d7-810-828"
+      ]
+    },
+    {
+      "id": "operate-and-tune",
+      "title": "Maintain and tune controls",
+      "body": "Operational controls degrade through drift, disabled agents, changing traffic, new threats, false positives, and staff turnover. Maintain signatures and rules, validate coverage, monitor health, protect management interfaces, test fail-safe behavior, and review performance indicators. Network and host controls should be layered so one missed detection or bypass does not expose the protected asset without another opportunity to contain or alert.",
+      "keyPoints": [
+        "Control health and coverage are operational signals worth monitoring.",
+        "False positives consume response capacity; false negatives can conceal harm, so tuning should use risk and evidence.",
+        "Layering controls across host, network, identity, application, and data boundaries improves resilience."
+      ],
+      "sourceRefIds": [
+        "official-d7-52-59",
+        "sybex-d7-810-828"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Endpoint detection disabled",
+      "situation": "A critical server's endpoint agent is disabled to support a vendor tool, and a network sensor is producing noisy alerts.",
+      "reasoning": "Treat the disabled agent as a control exception, evaluate whether the network sensor compensates for the missing coverage, tune the sensor against meaningful behaviors, and set an owner and expiry for the exception. Do not claim equivalent protection without testing what the compensating control can actually observe and block."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "preventive",
+        "detective"
+      ],
+      "difference": "Preventive controls reduce likelihood or exposure before or during an action; detective controls reveal events or deviations for response."
+    },
+    {
+      "between": [
+        "detective",
+        "corrective"
+      ],
+      "difference": "Detection identifies a condition; correction removes, repairs, or restores after the condition is known."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "An intrusion prevention system makes detection unnecessary.",
+      "correction": "Prevention can fail, be bypassed, or block legitimate activity; independent detection supports visibility and investigation."
+    },
+    {
+      "misconception": "A control is effective because it was installed.",
+      "correction": "Effectiveness requires operation, coverage, maintenance, health monitoring, testing, and a response path."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What makes a detective control operationally useful?",
+      "answer": "It has coverage, health monitoring, actionable signals, an owner, triage, and a response or escalation path."
+    },
+    {
+      "prompt": "What should a compensating control record?",
+      "answer": "The missing preferred control, rationale, scope, risk, alternative measure, owner, duration, and validation evidence."
+    },
+    {
+      "prompt": "Why layer controls?",
+      "answer": "Different controls fail or see different boundaries, so layered coverage creates more opportunities to prevent, detect, contain, and recover."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A firewall blocks a known malicious domain, but no endpoint or DNS telemetry is retained.",
+      "decision": "Keep the preventive block, add independent detection and retention where risk warrants, and verify the block's scope and bypass paths.",
+      "why": "A preventive action without evidence may stop one path while hiding broader compromise."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study preventive, detective, corrective, and compensating controls; IDS/IPS, endpoint measures, tuning, health, and layered coverage.",
+    "connect": "Connect to D6 control testing, D4 network security, D5 access enforcement, and D7.2 monitoring.",
+    "apply": "Classify the controls around one workstation or API and identify the missing response path.",
+    "revisit": "Describe how you would know a control was installed but not operating effectively."
+  },
+  "visualIds": [
+    "d7-o07-detective-preventive-measures-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o07",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.7"
+      },
+      "supports": [
+        "objective boundary",
+        "detective and preventive measures"
+      ]
+    },
+    {
+      "id": "official-d7-52-59",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "52-59 (PDF pp. 52-59)"
+      },
+      "supports": [
+        "detective controls",
+        "preventive controls",
+        "control operation"
+      ]
+    },
+    {
+      "id": "sybex-d7-810-828",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "810-828, Chapter 17"
+      },
+      "supports": [
+        "preventive measures",
+        "intrusion detection and prevention",
+        "specific controls"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o07-detective-preventive-measures-visual-contract",
+    "unitId": "d7-o07-detective-preventive-measures",
+    "teachingQuestion": "Which control purpose and operating evidence reduces this failure path?",
+    "misconception": "A control product name proves prevention or detection.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Each row distinguishes purpose, selection, failure, and response.",
+    "conceptIds": [
+      "preventive-control",
+      "detective-control",
+      "corrective-control",
+      "compensating-control",
+      "ids",
+      "ips",
+      "endpoint-protection",
+      "security-control-tuning"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No vendor-specific configuration or auto-response authority.",
+    "retrievalPrompt": "For the scenario, choose control/threshold/owner and state failure evidence.",
+    "textFallback": "preventive control: Preventive: reduce likelihood/action. Decision: decide placement/default.. Failure/example: bypass path.\ndetective control: Detective: reveal condition. Decision: decide signal/owner/response.. Failure/example: alert untriaged.\ncorrective control: Corrective: repair/restore. Decision: decide recovery evidence.. Failure/example: recurring compromise.\ncompensating control: Compensating: alternative reduction when preferred unavailable. Decision: decide residual/expiry.. Failure/example: permanent weak exception.\nids: IDS: observe/alert. Decision: decide sensor placement/coverage.. Failure/example: encrypted bypass.\nips: IPS: block/alter traffic. Decision: decide fail behavior/availability.. Failure/example: legitimate traffic blocked.\nendpoint protection: Endpoint protection: host prevention/detection/response. Decision: decide health/update/isolation.. Failure/example: disabled agent.\nsecurity control tuning: Control tuning: maintain signatures/rules. Decision: decide test/rollback.. Failure/example: stale rule misses new behavior.",
+    "sourceRefIds": [
+      "official-d7-52-59",
+      "sybex-d7-810-828"
+    ],
+    "mapNodeId": "d7-o07-detective-preventive-measures",
+    "visualIds": [
+      "d7-o07-detective-preventive-measures-decision-comparison-1"
+    ]
+  }
+}

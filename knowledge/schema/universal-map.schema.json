@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cissp-buddy.local/schema/universal-map.schema.json",
+  "title": "universal-map",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generatedFrom": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rootNodeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolutionLevels": {
+      "const": [
+        0,
+        1,
+        2
+      ]
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "landscape",
+              "domain",
+              "objective",
+              "official-topic",
+              "unit",
+              "concept",
+              "visual",
+              "distinction-anchor",
+              "misconception",
+              "scenario",
+              "visual-element"
+            ]
+          },
+          "level": {
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "navigation": {
+            "type": "object"
+          },
+          "domainIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8
+            },
+            "minItems": 0
+          },
+          "objectiveIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "conceptId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conceptIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "visualId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "correction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decisiveDetail": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "level",
+          "label",
+          "parentIds",
+          "navigation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "from": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "from",
+          "to",
+          "kind",
+          "rationale"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "generatedFrom",
+    "rootNodeId",
+    "resolutionLevels",
+    "nodes",
+    "edges"
+  ],
+  "additionalProperties": false
+}

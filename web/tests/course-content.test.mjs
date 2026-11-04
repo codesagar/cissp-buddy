@@ -355,7 +355,10 @@ test('recovery timeline validation distinguishes restoration from acceptance', (
 
 test('manifest stays bounded and excludes individual unit payloads', () => {
   const json = JSON.stringify(generatedCourseManifest);
-  assert.ok(Buffer.byteLength(json) < 100_000);
+  assert.ok(
+    Buffer.byteLength(json) < 160_000,
+    'outline stays bounded with prerequisite and named-check scope metadata',
+  );
   assert.equal('sections' in generatedCourseManifest.units[0], false);
   assert.equal('concepts' in generatedCourseManifest.units[0], false);
   assert.equal('teaching' in generatedCourseManifest.units[0], false);
@@ -386,29 +389,23 @@ test('release identity changes when content changes and carries the hash prefix'
   );
 });
 
-test('course migration is additive and leaves the pilot schema untouched', () => {
-  const migrations = [
-    fs.readFileSync(
-      new URL('../drizzle/0001_careful_calypso.sql', import.meta.url),
-      'utf8',
-    ),
-    fs.readFileSync(
-      new URL('../drizzle/0002_flaky_winter_soldier.sql', import.meta.url),
-      'utf8',
-    ),
-  ];
-  assert.match(migrations[0], /CREATE TABLE `course_releases`/);
-  assert.match(migrations[0], /CREATE TABLE `course_units`/);
-  assert.match(migrations[0], /CREATE TABLE `course_source_bindings`/);
-  assert.match(migrations[1], /CREATE TABLE `course_connections`/);
-  assert.match(migrations[1], /CREATE TABLE `course_reference_relationships`/);
-  for (const migration of migrations) {
-    const statements = migration
-      .split('--> statement-breakpoint')
-      .map((statement) => statement.trim())
-      .filter(Boolean);
-    assert.ok(statements.length > 0);
-    for (const statement of statements)
-      assert.doesNotMatch(statement, /^(?:DROP|DELETE|UPDATE|ALTER)\b/i);
+test('manifest recommendation metadata binds exact prerequisites and scoped named checks', () => {
+  for (const unit of generatedCourseUnits) {
+    const summary = generatedCourseManifest.units.find(
+      ({ id }) => id === unit.id,
+    );
+    assert.deepEqual(summary.prerequisites, unit.prerequisites);
+    assert.deepEqual(
+      summary.checks,
+      unit.teaching
+        ? [
+            unit.teaching.prediction,
+            unit.teaching.transfer,
+            unit.teaching.retry,
+          ].map(({ id, conceptIds }) => ({ id, conceptIds }))
+        : [],
+    );
+    for (const check of summary.checks)
+      assert.ok(check.conceptIds.every((id) => unit.conceptIds.includes(id)));
   }
 });

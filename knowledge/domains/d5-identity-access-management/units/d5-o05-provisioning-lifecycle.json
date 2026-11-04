@@ -1,0 +1,324 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o05-provisioning-lifecycle",
+  "domainId": 5,
+  "objectiveIds": [
+    "5.5"
+  ],
+  "title": "Manage the identity and access provisioning lifecycle",
+  "summary": "Identity access must change with the relationship, role, task, and risk of a person, device, or service. Joiner, mover, and leaver controls, privilege governance, service-account ownership, and recurring review prevent orphaned access and privilege creep.",
+  "outcome": "Given a human or nonhuman identity change, specify the approvals, provisioning or deprovisioning actions, downstream revocations, elevated-access controls, and evidence needed to keep permissions accurate.",
+  "conceptIds": [
+    "identity-lifecycle",
+    "provisioning",
+    "deprovisioning",
+    "joiner-mover-leaver",
+    "role-definition",
+    "privilege-escalation",
+    "just-in-time-access",
+    "service-account-management",
+    "access-review",
+    "privilege-creep"
+  ],
+  "prerequisites": [
+    "d5-o01-physical-logical-access",
+    "d5-o04-authorization-mechanisms",
+    "d1-o08-personnel-security"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "Access is a changing business relationship, not a one-time ticket; every grant needs an owner, every change a trigger, and every exit a verified revocation across downstream systems.",
+  "sections": [
+    {
+      "id": "joiner-mover-leaver",
+      "title": "Treat identity as a stateful lifecycle",
+      "body": "Provisioning creates or enables an identity and assigns only the access required for an approved role or task. A mover event changes duties, team, location, or project and should trigger both new approvals and removal of access no longer needed. A leaver event disables the identity, revokes sessions and credentials, recovers equipment, and propagates revocation to applications, cloud services, APIs, and physical controls. Automation helps, but an owner must verify exceptions and failed downstream actions.",
+      "keyPoints": [
+        "Joiner, mover, and leaver events are business triggers that should be linked to access workflow.",
+        "Deprovisioning is more than deleting a directory object; credentials, tokens, sessions, keys, devices, and delegated access also matter.",
+        "Failed or delayed downstream revocation is a reportable control exception."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o05",
+        "official-d5-42-49",
+        "sybex-d5-664-667"
+      ]
+    },
+    {
+      "id": "privilege-and-review",
+      "title": "Control elevation, service identities, and review",
+      "body": "Role definitions should express business duties rather than convenience, and privilege escalation should be constrained, approved, time-bounded, logged, and reviewed. Just-in-time access can reduce standing privilege when the request, approval, duration, and action are attributable. Service accounts need named owners, narrow scopes, credential rotation, noninteractive-use controls, monitoring, and retirement conditions. Periodic and event-driven access reviews compare actual permissions to current duties and detect privilege creep, orphaned accounts, and toxic combinations of roles.",
+      "keyPoints": [
+        "Least privilege includes removing permissions that are no longer required.",
+        "JIT access reduces standing privilege but does not replace approval, monitoring, or emergency governance.",
+        "Service identities require the same lifecycle discipline as human identities, adapted to deployment and rotation events."
+      ],
+      "sourceRefIds": [
+        "official-d5-42-49",
+        "sybex-d5-664-667"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Control joiner, mover, leaver, privileged, and service identity states",
+      "body": "Review user, system, and service accounts against owner, business purpose, entitlement, activity, and risk. Provision and deprovision across onboarding, offboarding, and transfers must update authoritative sources, downstream systems, credentials, groups, sessions, assets, and evidence quickly enough for the consequence. Role definition and transition requires removal of incompatible old access as well as addition of new access. Privilege escalation through mechanisms such as sudo should be approved, scoped, time-bounded, logged, and reviewed. Service accounts need an owner, noninteractive purpose, least privilege, protected credentials, rotation, monitoring, and retirement. Typical abuse is orphaned access, standing admin rights, reused shared credentials, a transfer retaining incompatible access, or an unreviewed service principal outliving its application.",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o05",
+        "official-d5-42-49",
+        "sybex-d5-664-667"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "A transfer into production operations",
+      "situation": "An engineer transfers from application development to production operations. HR updates the role, but the identity platform fails to remove the developer's source-repository administrator permission.",
+      "reasoning": "Treat the transfer as a mover event with an explicit old-role removal and new-role approval. Reconcile directory, source control, cloud, production, VPN, and physical access; issue only the production privileges needed; require JIT elevation for sensitive changes; and document the failed downstream revocation as an exception until verified."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "provisioning",
+        "authorization"
+      ],
+      "difference": "Provisioning changes the durable identity-to-access relationship; authorization evaluates an individual request against policy and context."
+    },
+    {
+      "between": [
+        "deprovisioning",
+        "disablement"
+      ],
+      "difference": "Disablement blocks a primary account, while deprovisioning also revokes downstream permissions, credentials, sessions, tokens, keys, and physical access."
+    },
+    {
+      "between": [
+        "JIT access",
+        "privilege escalation"
+      ],
+      "difference": "JIT is a controlled time-bounded way to grant needed privilege; escalation describes gaining a higher privilege level and can be legitimate or abusive."
+    },
+    {
+      "between": [
+        "periodic review",
+        "event-driven review"
+      ],
+      "difference": "Periodic reviews run on a schedule; event-driven reviews respond to role, risk, incident, ownership, or resource changes."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Removing a user from the directory completes offboarding.",
+      "correction": "Offboarding must account for downstream applications, cloud roles, API tokens, sessions, certificates, keys, devices, badges, and delegated access."
+    },
+    {
+      "misconception": "A service account does not need an owner because it is not a person.",
+      "correction": "A service identity needs an accountable owner, purpose, scope, rotation, monitoring, and retirement trigger."
+    },
+    {
+      "misconception": "Access certification is a box-checking exercise once a year.",
+      "correction": "Reviews should be risk-based and event-driven as well as periodic, with evidence that stale or conflicting access was removed."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What are the three lifecycle events commonly called joiner, mover, and leaver?",
+      "answer": "They represent entering or gaining a relationship, changing duties or context, and ending the relationship or access need."
+    },
+    {
+      "prompt": "Why is deprovisioning broader than disabling an account?",
+      "answer": "Access can persist in downstream applications, tokens, sessions, credentials, keys, devices, and physical controls."
+    },
+    {
+      "prompt": "What evidence should a JIT elevation record contain?",
+      "answer": "At minimum the requesting subject, reason or task, approver or policy, scope, start and expiry, actions or session evidence, and revocation outcome."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A vendor's contract ends on Friday, but an integration uses a long-lived API key with no inventory owner.",
+      "decision": "Identify ownership, rotate or revoke the key, disable the service identity, review logs and downstream dependencies, and retain evidence of completion.",
+      "why": "Third-party and nonhuman access can outlive the human relationship unless explicitly linked to lifecycle controls."
+    },
+    {
+      "scenario": "An administrator requests permanent root access to avoid repeated approval delays.",
+      "decision": "Use a scoped, monitored, time-bounded elevation path with emergency controls and review rather than standing root access.",
+      "why": "Operational friction should be solved through workflow design, not unbounded privilege."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study joiner/mover/leaver, provisioning, deprovisioning, role definition, privilege escalation, JIT, service accounts, and access review.",
+    "connect": "Connect personnel events to D1, authorization models to D5.4, and operational revocation and logs to D7.",
+    "apply": "Trace one employee transfer and one service retirement through every identity store and enforcement point.",
+    "revisit": "From memory, list five places access may persist after directory disablement and the evidence needed to prove revocation."
+  },
+  "visualIds": [
+    "d5-o05-identity-lifecycle",
+    "d5-o05-provisioning-lifecycle-decision-comparison-1",
+    "d5-o05-provisioning-lifecycle-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o05",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "5.5"
+      },
+      "supports": [
+        "objective boundary",
+        "access review",
+        "provisioning/deprovisioning",
+        "privilege escalation",
+        "service accounts"
+      ]
+    },
+    {
+      "id": "official-d5-42-49",
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "42-49 (PDF pp. 42-49)"
+      },
+      "supports": [
+        "identity lifecycle",
+        "onboarding/offboarding",
+        "role changes",
+        "JIT",
+        "privilege creep",
+        "access review"
+      ]
+    },
+    {
+      "id": "sybex-d5-664-667",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "664-667, Chapter 13"
+      },
+      "supports": [
+        "provisioning",
+        "deprovisioning",
+        "roles",
+        "account maintenance",
+        "access review"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d5.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d5-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d5-o05-provisioning-lifecycle-visual-contract",
+    "unitId": "d5-o05-provisioning-lifecycle",
+    "teachingQuestion": "Which event creates, changes, expires, reviews, or removes access?",
+    "misconception": "Monthly access review is adequate offboarding.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Event-driven changes prevent orphaned access and privilege creep.",
+    "conceptIds": [
+      "identity-lifecycle",
+      "provisioning",
+      "deprovisioning",
+      "joiner-mover-leaver",
+      "role-definition",
+      "privilege-escalation",
+      "just-in-time-access",
+      "service-account-management",
+      "access-review",
+      "privilege-creep"
+    ],
+    "relationships": [
+      {
+        "from": "requested",
+        "to": "active",
+        "label": "approve and provision"
+      },
+      {
+        "from": "active",
+        "to": "mover",
+        "label": "business event"
+      },
+      {
+        "from": "mover",
+        "to": "active",
+        "label": "reconcile access"
+      },
+      {
+        "from": "active",
+        "to": "elevated",
+        "label": "approved task"
+      },
+      {
+        "from": "elevated",
+        "to": "active",
+        "label": "expiry or completion"
+      },
+      {
+        "from": "active",
+        "to": "suspended",
+        "label": "risk or incident"
+      },
+      {
+        "from": "suspended",
+        "to": "retired",
+        "label": "disable and revoke"
+      },
+      {
+        "from": "active",
+        "to": "retired",
+        "label": "leaver or service end"
+      }
+    ],
+    "intentionalOmissions": "No fixed review interval.",
+    "retrievalPrompt": "Mover retains old admin role: which event/control failed?",
+    "textFallback": "Identity Lifecycle: identity from creation to closure. Decision: maintain owner/status Failure/example: orphan\nProvisioning: approved grant. Decision: validate request/role Failure/example: unapproved access\nDeprovisioning: remove entitlement. Decision: revoke at exit Failure/example: active account after exit\nJoiner-Mover-Leaver: Employment or relationship events trigger creation, review, adjustment and removal of identity access.. Decision: At a transfer, approve the new role and remove obsolete access; at departure, revoke accounts, sessions and related credentials. Failure/example: A transferred employee accumulates privileges from every earlier job.\nRole Definition: role permission set. Decision: review role scope Failure/example: toxic combination\nPrivilege Escalation: temporary elevation. Decision: approve/audit/expire Failure/example: standing root\nJust-in-Time Access: on-demand bounded privilege. Decision: set expiry/context Failure/example: JIT never revokes\nService Account Management: nonhuman identity control. Decision: owner/secret/rotation Failure/example: shared service secret\nAccess Review: attestation/reconciliation. Decision: remove stale grant Failure/example: rubber-stamp review",
+    "sourceRefIds": [
+      "official-d5-42-49",
+      "sybex-d5-664-667"
+    ],
+    "mapNodeId": "d5-o05-provisioning-lifecycle",
+    "visualIds": [
+      "d5-o05-identity-lifecycle",
+      "d5-o05-provisioning-lifecycle-decision-comparison-1",
+      "d5-o05-provisioning-lifecycle-decision-comparison-2"
+    ]
+  }
+}

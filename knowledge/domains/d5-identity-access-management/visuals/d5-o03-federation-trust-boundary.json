@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o03-federation-trust-boundary",
+  "unitId": "d5-o03-federated-identity",
+  "type": "sequence",
+  "teachingQuestion": "What must a relying party verify before trusting a third-party identity assertion?",
+  "focalInsight": "Federation moves authentication evidence across a trust boundary; validation and local authorization remain with the relying party.",
+  "title": "Federated trust sequence",
+  "caption": "The relying party validates the assertion before creating a local session.",
+  "nodes": [
+    { "id": "principal", "label": "Principal or client", "detail": "Requests the resource" },
+    { "id": "idp", "label": "Identity provider", "detail": "Authenticates and issues assertion" },
+    { "id": "assertion", "label": "Assertion or token", "detail": "Carries issuer, audience, claims, time, signature" },
+    { "id": "rp", "label": "Relying party", "detail": "Validates trust and maps local policy" },
+    { "id": "resource", "label": "Resource service", "detail": "Enforces authorized action" }
+  ],
+  "relationships": [
+    { "from": "principal", "to": "idp", "label": "requests authentication" },
+    { "from": "idp", "to": "assertion", "label": "issues signed evidence" },
+    { "from": "assertion", "to": "rp", "label": "crosses trust boundary" },
+    { "from": "rp", "to": "resource", "label": "maps local authorization" },
+    { "from": "rp", "to": "assertion", "label": "checks issuer, audience, time, replay" }
+  ],
+  "altSummary": "A principal authenticates at an identity provider, which issues an assertion; a relying party validates it and then authorizes access to a resource service.",
+  "textFallback": "The identity provider authenticates the principal and signs an assertion. The relying party checks the issuer, audience, signature, timing, replay protections, and required claims before making a local authorization decision. OAuth delegation should not be confused with authentication.",
+  "sourceRefIds": ["outline-d5-o03", "official-d5-32-34", "sybex-d5-659-663"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

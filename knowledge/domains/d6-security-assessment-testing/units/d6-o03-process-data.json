@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d6-o03-process-data",
+  "domainId": 6,
+  "objectiveIds": [
+    "6.3"
+  ],
+  "title": "Collect and interpret security process data",
+  "summary": "Process data turns recurring control activity into measurable evidence about performance, exposure, compliance, and improvement.",
+  "outcome": "Define useful security-process measures, collect reliable data, and distinguish a metric from a misleading activity count.",
+  "conceptIds": [
+    "security-metrics",
+    "kpi",
+    "kri",
+    "evidence",
+    "data-quality",
+    "continuous-monitoring"
+  ],
+  "prerequisites": [
+    "d1-o09-risk-management",
+    "d6-o01-strategy"
+  ],
+  "estimatedMinutes": 25,
+  "managerMindset": "Measure decisions and risk outcomes, not vanity volume.",
+  "sections": [
+    {
+      "id": "data-and-measures",
+      "title": "Collect decision-relevant data",
+      "body": "Process data can include account reviews, backup verification, patch age, training completion, incident response time, vulnerability remediation, control exceptions, and recovery exercises. Define numerator, denominator, population, time window, owner, source, quality checks, and reporting audience before collecting it.",
+      "keyPoints": [
+        "A metric needs a definition and context to be comparable.",
+        "Leading indicators show control activity or exposure; lagging indicators show outcomes.",
+        "Data quality and collection bias can distort conclusions."
+      ],
+      "sourceRefIds": [
+        "official-d6-39-49",
+        "sybex-d6-829-835"
+      ]
+    },
+    {
+      "id": "metrics-for-action",
+      "title": "Use measures to improve",
+      "body": "Metrics should support a decision such as funding, remediation priority, risk acceptance, or control redesign. Normalize where useful, trend over time, segment by business context, and explain uncertainty. A rising count may reflect better detection rather than worsening security, while a falling count may reflect missing telemetry.",
+      "keyPoints": [
+        "Correlation is not causation.",
+        "Thresholds need owners and response actions.",
+        "Metrics should be reviewed for gaming and unintended incentives."
+      ],
+      "sourceRefIds": [
+        "official-d6-39-49",
+        "aio-d6-1223-1250"
+      ]
+    },
+    {
+      "id": "governance-and-resilience-data",
+      "title": "Collect approval, recovery, and resilience evidence",
+      "body": "Process data includes management review and approval records, account provisioning/deprovisioning and recertification, backup success and restore verification, training completion and competency, DR/BC exercise results, recovery time and recovery point performance, and open exceptions. Validate source completeness and distinguish activity counts from outcome measures. A KPI can show delivery performance; a KRI should expose rising exposure or uncertainty; both need thresholds, owners, and action.",
+      "keyPoints": [
+        "Approval evidence shows accountable decisions, not just that a workflow was opened.",
+        "Backup success without restore verification does not establish recoverability.",
+        "DR/BC metrics should be tied to tested dependencies, RTO/RPO, and business acceptance."
+      ],
+      "sourceRefIds": [
+        "official-d6-39-49",
+        "aio-d6-1223-1250"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Patch compliance metric",
+      "situation": "Leadership sees 98% patch compliance and assumes low exposure.",
+      "reasoning": "Check denominator, criticality, asset coverage, age, exceptions, internet exposure, and whether the metric includes unmanaged assets. Pair compliance with exploitable vulnerability age and exposure to make a risk decision."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "KPI",
+        "KRI"
+      ],
+      "difference": "A KPI tracks performance toward an objective; a KRI signals increasing risk. One measure can serve both only when its decision context is explicit."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "More security activity always means better security.",
+      "correction": "Activity counts need outcome and risk context; they can rise because detection improved or controls are failing."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What defines a trustworthy metric?",
+      "answer": "Clear measure, population, timeframe, source, owner, quality checks, and decision use."
+    },
+    {
+      "prompt": "Why segment a metric?",
+      "answer": "Aggregates can hide material differences in business unit, asset criticality, or exposure."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "Incident volume falls after a logging pipeline migration.",
+      "decision": "Validate telemetry coverage before concluding risk fell.",
+      "why": "A data-collection failure can imitate improvement."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review process-data categories and metric design.",
+    "connect": "Connect measures to D1 risk appetite and D7 logging/operations.",
+    "apply": "Define three metrics with thresholds and actions.",
+    "revisit": "Challenge each metric for gaming and blind spots."
+  },
+  "visualIds": [
+    "d6-o03-process-data-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d6-3",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "6.3"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d6-39-49",
+      "sourceId": "isc2-official-textbook-d6-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "39-49 (PDF pp. 39-49)"
+      },
+      "supports": [
+        "process data"
+      ]
+    },
+    {
+      "id": "sybex-d6-829-835",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "829-835, Chapter 15"
+      },
+      "supports": [
+        "security management data"
+      ]
+    },
+    {
+      "id": "aio-d6-1223-1250",
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1223-1250, Chapter 19"
+      },
+      "supports": [
+        "metrics and reporting"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d6.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d6-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d6-o03-process-data-visual-contract",
+    "unitId": "d6-o03-process-data",
+    "teachingQuestion": "What process data is credible enough to change a risk/control decision?",
+    "misconception": "Dashboard count is evidence without provenance/context.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "KPI measures outcome, KRI signals exposure; both need quality/owner/threshold.",
+    "conceptIds": [
+      "security-metrics",
+      "kpi",
+      "kri",
+      "evidence",
+      "data-quality",
+      "continuous-monitoring"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No metric target claimed universal.",
+    "retrievalPrompt": "Backup success is 99% but restores fail: which evidence wins?",
+    "textFallback": "security metrics: measured control/process signal. Decision: define numerator/denominator. Failure/example: vanity count\nkpi: performance toward objective. Decision: set owner/target. Failure/example: fast tickets hide risk\nkri: exposure warning. Decision: set escalation threshold. Failure/example: risk trend ignored\nevidence: verifiable artifact. Decision: retain provenance. Failure/example: unverified assertion\ndata quality: completeness/accuracy/timeliness. Decision: validate source. Failure/example: missing logs\ncontinuous monitoring: ongoing signal review. Decision: reassess change. Failure/example: static audit stale",
+    "sourceRefIds": [
+      "official-d6-39-49",
+      "sybex-d6-829-835",
+      "aio-d6-1223-1250"
+    ],
+    "mapNodeId": "d6-o03-process-data",
+    "visualIds": [
+      "d6-o03-process-data-decision-comparison-1"
+    ]
+  }
+}

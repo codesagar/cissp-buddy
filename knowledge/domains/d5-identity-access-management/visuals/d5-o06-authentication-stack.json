@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o06-authentication-stack",
+  "unitId": "d5-o06-authentication-systems",
+  "type": "layer-stack",
+  "teachingQuestion": "Which layers must work together for an authentication system to remain trustworthy after login?",
+  "focalInsight": "A directory, protocol, authenticator, session, authorization, and accounting layer each solve a different part of the end-to-end control.",
+  "title": "Authentication-system layers",
+  "caption": "The system is stronger when every layer has a clear owner, protected interface, and failure response.",
+  "nodes": [
+    { "id": "directory", "label": "Identity source", "detail": "LDAP, Active Directory, service registry" },
+    { "id": "protocol", "label": "Authentication protocol", "detail": "Kerberos, RADIUS, TACACS+, federation" },
+    { "id": "authenticator", "label": "Authenticator", "detail": "Knowledge, possession, inherence, MFA" },
+    { "id": "decision", "label": "Authorization", "detail": "Policy and permitted action" },
+    { "id": "session", "label": "Session and revocation", "detail": "Lifetime, anomaly response, termination" },
+    { "id": "accounting", "label": "Accounting evidence", "detail": "Attempts, outcomes, time, actor, system" }
+  ],
+  "relationships": [
+    { "from": "directory", "to": "protocol", "label": "supplies identity data" },
+    { "from": "protocol", "to": "authenticator", "label": "verifies evidence" },
+    { "from": "authenticator", "to": "decision", "label": "establishes subject" },
+    { "from": "decision", "to": "session", "label": "permits bounded use" },
+    { "from": "session", "to": "accounting", "label": "records activity" },
+    { "from": "accounting", "to": "session", "label": "supports detection and termination" }
+  ],
+  "altSummary": "A stack links identity source, authentication protocol, authenticator, authorization, session and revocation, and accounting evidence.",
+  "textFallback": "The identity source provides records; the protocol exchanges and verifies evidence; the authenticator supplies factors; authorization decides the action; session controls preserve and revoke access; accounting records attempts and activity. Weakness in any layer can undermine the whole system.",
+  "sourceRefIds": ["outline-d5-o06", "official-d5-50-57", "sybex-d5-690-694"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

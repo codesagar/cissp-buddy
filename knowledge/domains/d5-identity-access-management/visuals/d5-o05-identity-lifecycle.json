@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o05-identity-lifecycle",
+  "unitId": "d5-o05-provisioning-lifecycle",
+  "type": "state-machine",
+  "teachingQuestion": "How should access change as a person, device, or service changes state?",
+  "focalInsight": "Provisioning and deprovisioning are state transitions with approvals, downstream effects, and evidence—not one-time account tickets.",
+  "title": "Identity and access lifecycle",
+  "caption": "Joiner, mover, and leaver events trigger controlled state changes and verification.",
+  "nodes": [
+    { "id": "requested", "label": "Requested", "detail": "Owner, purpose, role, evidence" },
+    { "id": "active", "label": "Active", "detail": "Least required access" },
+    { "id": "mover", "label": "Role or context change", "detail": "Reapprove and remove stale access" },
+    { "id": "elevated", "label": "JIT elevated", "detail": "Time-bounded, monitored privilege" },
+    { "id": "suspended", "label": "Suspended", "detail": "Revoke sessions and paths" },
+    { "id": "retired", "label": "Retired", "detail": "Downstream revocation and evidence" }
+  ],
+  "relationships": [
+    { "from": "requested", "to": "active", "label": "approve and provision" },
+    { "from": "active", "to": "mover", "label": "business event" },
+    { "from": "mover", "to": "active", "label": "reconcile access" },
+    { "from": "active", "to": "elevated", "label": "approved task" },
+    { "from": "elevated", "to": "active", "label": "expiry or completion" },
+    { "from": "active", "to": "suspended", "label": "risk or incident" },
+    { "from": "suspended", "to": "retired", "label": "disable and revoke" },
+    { "from": "active", "to": "retired", "label": "leaver or service end" }
+  ],
+  "altSummary": "An identity moves from request to active access; role changes trigger reconciliation, elevation is temporary, and risk or departure leads to suspension and complete retirement.",
+  "textFallback": "Start with an approved request and provision least privilege. A mover event removes old access and adds newly approved access. JIT elevation expires back to the normal state. Risk, incident, or departure suspends and then retires the identity, revoking downstream permissions, sessions, credentials, keys, and physical access.",
+  "sourceRefIds": ["outline-d5-o05", "official-d5-42-49", "sybex-d5-664-667"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o10-information-system-lifecycle",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.10"
+  ],
+  "title": "Manage security through the information-system lifecycle",
+  "summary": "Security is a lifecycle responsibility from stakeholder needs through requirements, design, implementation, integration, verification, deployment, operations, maintenance, and retirement. Decisions and evidence must survive transitions between teams.",
+  "outcome": "Identify the lifecycle activity that should produce or validate a needed security decision, control, or evidence artifact.",
+  "conceptIds": [
+    "information-system-lifecycle",
+    "stakeholder-requirements",
+    "requirements-analysis",
+    "architecture-design",
+    "implementation",
+    "integration",
+    "verification-validation",
+    "deployment",
+    "operations-maintenance",
+    "retirement-disposal",
+    "security-acceptance"
+  ],
+  "prerequisites": [
+    "security-requirements",
+    "secure-design",
+    "control-selection",
+    "risk-management"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Security cannot be inspected in at the end. Assign decisions and evidence to lifecycle stages, preserve them across handoffs, and treat operation and retirement as security phases rather than afterthoughts.",
+  "sections": [
+    {
+      "id": "lifecycle",
+      "title": "Security decisions mature across stages",
+      "body": "Stakeholders establish mission, constraints, assets, risk tolerance, and requirements. Analysis makes requirements testable; architecture chooses trust boundaries and controls; implementation and integration realize them; verification and validation test claims; transition ensures accepted operation. Security artifacts should be traceable: a requirement connects to design, implementation, test result, owner, exception, and residual-risk decision.",
+      "keyPoints": [
+        "Verification asks whether the system meets specified requirements; validation asks whether it meets intended stakeholder need.",
+        "Traceability prevents security requirements from disappearing during handoffs."
+      ],
+      "sourceRefIds": [
+        "d3-o10-outline",
+        "d3-o10-textbook",
+        "d3-o10-sybex"
+      ]
+    },
+    {
+      "id": "operate-retire",
+      "title": "Operations and retirement preserve the security case",
+      "body": "Operations sustain configuration, identity, monitoring, vulnerability management, change control, backups, incident response, and evidence. Retirement plans data disposition, key destruction or escrow decisions, access removal, media handling, contract exit, and retained evidence. Reassess risk whenever a lifecycle change alters the system, dependencies, threat model, or legal obligations.",
+      "keyPoints": [
+        "Deployment is the start of operational assurance, not the end of engineering.",
+        "Retirement must close data, identity, supplier, and evidence obligations."
+      ],
+      "sourceRefIds": [
+        "d3-o10-textbook",
+        "d3-o10-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Carry security evidence through every lifecycle state",
+      "body": "Start with stakeholder needs and requirements that state security, privacy, resilience, legal, operational, and acceptance criteria. Analyze requirements for conflicts and traceability; make architectural design decisions about trust boundaries, controls, interfaces, and residual risk; implement and integrate under controlled change; verify and validate the stated requirements with evidence; transition or deploy with approved configuration, operations readiness, and rollback; sustain through monitoring, patching, access review, incident learning, and change; then retire or dispose through data handling, revocation, records, supplier, and asset processes. Each lifecycle handoff requires an accountable owner and acceptance evidence. Failures include a secure design that is never tested, a deployment without operational logging or recovery ownership, and retirement that leaves access, data, keys, or supplier obligations active.",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o10-outline",
+        "d3-o10-textbook",
+        "d3-o10-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Customer portal replacement",
+      "situation": "A legacy portal is replaced by a cloud service with a migration deadline.",
+      "reasoning": "Trace requirements through architecture and testing, verify migration and access controls, define operational ownership and monitoring, preserve necessary audit evidence, revoke legacy access, and dispose of retained data and keys according to policy.",
+      "takeaway": "A secure replacement includes decommissioning the old system, not only launching the new one."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Verification",
+      "b": "Validation",
+      "difference": "Verification checks conformance to specified requirements; validation checks that the solution meets the intended stakeholder use and need."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Security testing at deployment is enough.",
+      "correction": "Requirements, architecture, implementation, operations, changes, and retirement each create security decisions and evidence needs."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does traceability connect?",
+      "answer": "A security requirement with its design, implementation, test evidence, owner, exception, and residual-risk decision."
+    },
+    {
+      "prompt": "What must retirement address?",
+      "answer": "Data, access, keys, media, contracts, evidence, and disposal or retention obligations."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A new service passes a launch test, but no team owns patching or monitoring after go-live. Which lifecycle gap is most important?",
+      "decisiveDetail": "Operational maintenance and sustainment responsibilities are missing, not just another pre-launch test.",
+      "testedConceptIds": [
+        "operations-maintenance",
+        "security-acceptance",
+        "information-system-lifecycle"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Trace one security requirement across all lifecycle stages.",
+    "connect": "Connect D8 SDLC, D7 operations, D1 risk, and D2 disposition to lifecycle work.",
+    "apply": "List retirement actions for a cloud service.",
+    "revisit": "In three days, distinguish verification from validation."
+  },
+  "visualIds": [
+    "d3-o10-information-system-lifecycle-security-traceability",
+    "d3-o10-information-system-lifecycle-concept-comparison-1",
+    "d3-o10-information-system-lifecycle-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o10-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.10"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o10-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "110-115",
+        "pdfPage": "110-115",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "information-system-lifecycle"
+      ]
+    },
+    {
+      "id": "d3-o10-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 20, Software Development Security, pp. 941-992; lifecycle correlation"
+      },
+      "supports": [
+        "system-lifecycle",
+        "verification-validation",
+        "operations-maintenance"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o10-information-system-lifecycle-visual-contract",
+    "unitId": "d3-o10-information-system-lifecycle",
+    "teachingQuestion": "Which lifecycle activity must create or validate this security decision or evidence artifact?",
+    "misconception": "Security acceptance at deployment proves security will remain effective.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Traceability from stakeholder need through operation and disposal keeps security accountable across change.",
+    "conceptIds": [
+      "information-system-lifecycle",
+      "stakeholder-requirements",
+      "requirements-analysis",
+      "architecture-design",
+      "implementation",
+      "integration",
+      "verification-validation",
+      "deployment",
+      "operations-maintenance",
+      "retirement-disposal",
+      "security-acceptance"
+    ],
+    "relationships": [
+      {
+        "from": "need",
+        "to": "requirement",
+        "label": "is analyzed into"
+      },
+      {
+        "from": "requirement",
+        "to": "design",
+        "label": "drives"
+      },
+      {
+        "from": "design",
+        "to": "verify",
+        "label": "is tested by"
+      },
+      {
+        "from": "verify",
+        "to": "operate",
+        "label": "is accepted into"
+      },
+      {
+        "from": "operate",
+        "to": "retire",
+        "label": "ends with"
+      },
+      {
+        "from": "operate",
+        "to": "requirement",
+        "label": "change can revise"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Place the requirement, control, evidence, exception, or disposition decision in its lifecycle stage.",
+    "textFallback": "Security is a lifecycle responsibility from stakeholder needs through requirements, design, implementation, integration, verification, deployment, operations, maintenance, and retirement. Decisions and evidence must survive transitions between teams.\nTrace requirements through architecture and testing, verify migration and access controls, define operational ownership and monitoring, preserve necessary audit evidence, revoke legacy access, and dispose of retained data and keys according to policy.",
+    "sourceRefIds": [
+      "d3-o10-textbook",
+      "d3-o10-sybex"
+    ],
+    "mapNodeId": "d3-o10-information-system-lifecycle",
+    "visualIds": [
+      "d3-o10-information-system-lifecycle-concept-comparison-1",
+      "d3-o10-information-system-lifecycle-concept-comparison-2",
+      "d3-o10-information-system-lifecycle-security-traceability"
+    ]
+  }
+}

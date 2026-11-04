@@ -1,0 +1,263 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o10-recovery-capability-operations",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.10"
+  ],
+  "title": "Operate resilient recovery capabilities",
+  "summary": "Recovery capability is an operating system of protected copies, replication, failover, resilience, capacity, and evidence that must remain usable as services and threats change.",
+  "outcome": "Given a recovery capability, verify its copies and dependencies, operate failover or restoration safely, and collect evidence that resilience and recovery objectives remain credible.",
+  "conceptIds": [
+    "backup-verification",
+    "restore-testing",
+    "replication",
+    "immutable-backup",
+    "recovery-capability",
+    "dependency-mapping",
+    "failover",
+    "resilience",
+    "high-availability",
+    "fault-tolerance",
+    "qos",
+    "recovery-readiness"
+  ],
+  "prerequisites": [
+    "d7-o10-recovery-strategies",
+    "d7-o10-recovery-strategy-selection",
+    "d7-o03-configuration-management"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "A recovery capability is ready only when people can invoke it, dependencies work, data is trustworthy, capacity is sufficient, and evidence supports the claim.",
+  "sections": [
+    {
+      "id": "protect-and-verify-copies",
+      "title": "Protect copies and prove restoration",
+      "body": "Backups and replicas need access control, encryption and key recovery, separation from production compromise, integrity or immutability controls, retention, and monitoring. Verification checks that jobs complete, copies are current, and storage is reachable; restore testing proves that data, software, configuration, identities, keys, and procedures can produce a usable service. Test selective and full restoration, corruption and ransomware scenarios, dependency loss, and operator handoff. Record evidence, exceptions, and corrective actions rather than treating a successful job status as proof of recovery.",
+      "keyPoints": [
+        "Backup success is a transport or job result; restoration success is a service outcome.",
+        "Immutable copies still need recoverable keys, access, compatible tooling, and tested procedures.",
+        "A restore test should include security validation and business acceptance where the service is critical."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o10-capability",
+        "official-d7-66-74-capability",
+        "sybex-d7-875-878"
+      ]
+    },
+    {
+      "id": "resilience-failover-capacity",
+      "title": "Operate resilience and failover as a service",
+      "body": "High availability reduces interruption through redundant components and paths; fault tolerance aims to continue despite defined failures; QoS protects service behavior under contention. These mechanisms need dependency maps, health signals, quorum or failover rules, capacity headroom, synchronized state, identity and key access, monitoring, and a safe return path. Failover can move a service into an unsafe or overloaded state, and resilience can mask latent corruption. Exercise planned and unplanned transitions and verify that business, security, and operations teams know who accepts the result.",
+      "keyPoints": [
+        "Resilience scope must name the failure it tolerates and the failure it does not.",
+        "Capacity and QoS decisions affect whether failover remains useful under load.",
+        "Failback is a change with its own validation and risk, not an automatic undo."
+      ],
+      "sourceRefIds": [
+        "official-d7-66-74-capability",
+        "sybex-d7-879-883"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Recovery copy after ransomware",
+      "situation": "Backup jobs report success during a ransomware event, but the backup service shares the production identity and its latest snapshots are encrypted. An older immutable copy can be read from a separate account.",
+      "reasoning": "Isolate affected credentials, preserve evidence, validate the immutable copy, restore dependencies in order, scan and harden the clean environment, and test data integrity before service acceptance. Record the RPO gap and revise isolation, key, monitoring, and restore procedures."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "backup verification",
+        "restore testing"
+      ],
+      "difference": "Verification checks whether a copy or job appears complete; restore testing proves that selected data and dependencies can produce a usable service."
+    },
+    {
+      "between": [
+        "high availability",
+        "fault tolerance"
+      ],
+      "difference": "High availability reduces downtime through redundancy and failover; fault tolerance is designed to continue through specified component failures, usually with tighter coupling and cost."
+    },
+    {
+      "between": [
+        "failover",
+        "failback"
+      ],
+      "difference": "Failover moves service to an alternate capability; failback returns it after validation and carries its own change and integrity risks."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Replication guarantees recoverable data.",
+      "correction": "Replication can copy corruption, deletion, unauthorized changes, or an unavailable dependency; independent recovery points and validation still matter."
+    },
+    {
+      "misconception": "Fault tolerance makes recovery planning unnecessary.",
+      "correction": "It addresses defined component failures, not every regional, logical, security, supplier, or human failure."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does a full recovery test need beyond a backup job status?",
+      "answer": "A usable restore of data, software, configuration, identity, keys, dependencies, procedures, security validation, and acceptance evidence."
+    },
+    {
+      "prompt": "What should a resilience claim name?",
+      "answer": "The failure it tolerates, its dependencies and capacity assumptions, its detection and transition behavior, and its limits."
+    },
+    {
+      "prompt": "Why can failover produce an unsafe result?",
+      "answer": "The alternate may be overloaded, stale, corrupted, misconfigured, unauthenticated, or missing monitoring and keys."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A database cluster fails over successfully, but the secondary has half the primary's capacity and its key-management route is not monitored.",
+      "decision": "Throttle or prioritize service according to the continuity plan, verify key and monitoring dependencies, and do not declare full recovery until capacity and security acceptance criteria are met.",
+      "why": "A technical transition can leave the business service degraded or untrustworthy."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study backup verification, immutable copies, restore tests, replication, HA, fault tolerance, QoS, failover, capacity, and recovery readiness.",
+    "connect": "Connect D7.10 to D3 resilience, D2 data integrity, D5 identity and keys, D7.3 configuration, and D7.11 restoration.",
+    "apply": "Write a recovery-readiness checklist for one service including copies, dependencies, capacity, security validation, and acceptance.",
+    "revisit": "Explain why a successful failover is not enough to prove business recovery."
+  },
+  "visualIds": [
+    "d7-o10-recovery-capability-operations-decision-comparison-1",
+    "d7-o10-recovery-capability-operations-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o10-capability",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.10 bullets: resilience, HA, QoS, fault tolerance, backup and site operation"
+      },
+      "supports": [
+        "objective scope",
+        "recovery capability"
+      ]
+    },
+    {
+      "id": "official-d7-66-74-capability",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "66-74 (PDF pp. 66-74), Domain 7.10 resilience and recovery operations"
+      },
+      "supports": [
+        "backup verification",
+        "resilience",
+        "high availability",
+        "fault tolerance"
+      ]
+    },
+    {
+      "id": "sybex-d7-875-878",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "875-878, Chapter 18 backup and restoration"
+      },
+      "supports": [
+        "backup verification",
+        "restore testing",
+        "recovery currency"
+      ]
+    },
+    {
+      "id": "sybex-d7-879-883",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "879-883, Chapter 18 resilience and alternate processing"
+      },
+      "supports": [
+        "HA",
+        "fault tolerance",
+        "capacity",
+        "alternate processing"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o10-recovery-capability-operations-visual-contract",
+    "unitId": "d7-o10-recovery-capability-operations",
+    "teachingQuestion": "Which recovery capability meets business objective without common-mode failure?",
+    "misconception": "Backup/site/HA label proves recovery.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Rows separate selection/operation/validation failures.",
+    "conceptIds": [
+      "backup-verification",
+      "restore-testing",
+      "replication",
+      "immutable-backup",
+      "recovery-capability",
+      "dependency-mapping",
+      "failover",
+      "resilience",
+      "high-availability",
+      "fault-tolerance",
+      "qos",
+      "recovery-readiness"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal recovery tier/timing.",
+    "retrievalPrompt": "Name objective, dependency, owner, evidence, acceptance.",
+    "textFallback": "backup verification: backup verification: copy/capability in the recovery/DR process.. Decision: Select/authorize backup verification using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated backup verification leaves service/data/identity/key recovery incomplete.\nrestore testing: restore testing: copy/capability in the recovery/DR process.. Decision: Select/authorize restore testing using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated restore testing leaves service/data/identity/key recovery incomplete.\nreplication: replication: copy/capability in the recovery/DR process.. Decision: Select/authorize replication using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated replication leaves service/data/identity/key recovery incomplete.\nimmutable backup: immutable backup: copy/capability in the recovery/DR process.. Decision: Select/authorize immutable backup using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated immutable backup leaves service/data/identity/key recovery incomplete.\nrecovery capability: recovery capability: copy/capability in the recovery/DR process.. Decision: Select/authorize recovery capability using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated recovery capability leaves service/data/identity/key recovery incomplete.\ndependency mapping: dependency mapping: recovery process element in the recovery/DR process.. Decision: Select/authorize dependency mapping using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated dependency mapping leaves service/data/identity/key recovery incomplete.\nfailover: failover: recovery process element in the recovery/DR process.. Decision: Select/authorize failover using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated failover leaves service/data/identity/key recovery incomplete.\nresilience: resilience: business threshold in the recovery/DR process.. Decision: Select/authorize resilience using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated resilience leaves service/data/identity/key recovery incomplete.\nhigh availability: high availability: business threshold in the recovery/DR process.. Decision: Select/authorize high availability using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated high availability leaves service/data/identity/key recovery incomplete.",
+    "sourceRefIds": [
+      "official-d7-66-74-capability",
+      "sybex-d7-875-878",
+      "sybex-d7-879-883"
+    ],
+    "mapNodeId": "d7-o10-recovery-capability-operations",
+    "visualIds": [
+      "d7-o10-recovery-capability-operations-decision-comparison-1",
+      "d7-o10-recovery-capability-operations-decision-comparison-2"
+    ]
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o03-control-selection",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.3"
+  ],
+  "title": "Select controls from security requirements",
+  "summary": "Control selection begins with business and security requirements, threat and failure analysis, constraints, and assurance evidence. A named product or framework is not a requirement.",
+  "outcome": "Trace a security requirement to a proportionate control set, evidence, owner, and residual-risk decision.",
+  "conceptIds": [
+    "security-requirements",
+    "control-selection",
+    "control-baseline",
+    "preventive-control",
+    "detective-control",
+    "corrective-control",
+    "compensating-control",
+    "assurance",
+    "residual-risk"
+  ],
+  "prerequisites": [
+    "risk-management",
+    "security-requirements",
+    "secure-design"
+  ],
+  "estimatedMinutes": 24,
+  "managerMindset": "Ask what must be protected, against what, at what acceptable cost and latency, and how operation will be evidenced. Select controls as a coherent system rather than a shopping list.",
+  "sections": [
+    {
+      "id": "derive",
+      "title": "Derive controls from a requirement",
+      "body": "Translate a business need into confidentiality, integrity, availability, privacy, safety, or accountability requirements; identify threats, architecture constraints, and risk tolerance; then select preventive, detective, corrective, recovery, or compensating controls. Consider control dependencies and avoid a single point of failure. A requirement should also state an owner, measurable expectation, and acceptable exception process.",
+      "keyPoints": [
+        "Controls are treatments for defined risk and requirements.",
+        "A compensating control must address the relevant failure, not merely exist nearby."
+      ],
+      "sourceRefIds": [
+        "d3-o03-outline",
+        "d3-o03-textbook",
+        "d3-o03-sybex"
+      ]
+    },
+    {
+      "id": "assure",
+      "title": "Validate design and operation",
+      "body": "Document why a control was selected, how it is configured, what assumptions it relies on, and what evidence demonstrates effective operation. Test behavior under expected failures and changes, monitor drift, and reassess residual risk. This connects Domain 1 governance and risk decisions with Domain 6 assessment and Domain 7 operational evidence.",
+      "keyPoints": [
+        "A designed control and an operating control are separate claims.",
+        "Requirements change as assets, threats, laws, and business processes change."
+      ],
+      "sourceRefIds": [
+        "d3-o03-textbook",
+        "d3-o03-sybex"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Select controls from requirements, threat paths, and operating evidence",
+      "body": "Translate a system requirement into a protected asset or service, property, threat or failure, constraint, owner, control objective, implementation option, evidence, and residual risk. Combine administrative, technical, and physical controls as needed; choose preventive, detective, corrective, deterrent, compensating, or recovery roles based on the path rather than product category. Consider feasibility, interoperability, performance, human operation, lifecycle cost, privacy, supplier dependency, and failure behavior. Assess control design and operation through tests and monitoring, and document exceptions with accountable risk acceptance. Failure modes include copying a framework baseline without tailoring, selecting a control that an operator cannot sustain, or measuring deployment instead of the intended reduction in risk.",
+      "keyPoints": [
+        "State the protected property, boundary, decision owner, operating evidence, and residual failure mode.",
+        "Treat architecture controls as lifecycle commitments: configuration, monitoring, response, maintenance, and recovery determine whether the claim holds."
+      ],
+      "sourceRefIds": [
+        "d3-o03-outline",
+        "d3-o03-textbook",
+        "d3-o03-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Privileged database maintenance",
+      "situation": "A team needs emergency database administration without standing broad access.",
+      "reasoning": "Derive a time-bounded administrative requirement, combine approval, strong authentication, just-in-time authorization, session logging, review, and recovery procedures, then test the emergency path.",
+      "takeaway": "No single tool satisfies the entire privileged-access requirement."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Control baseline",
+      "b": "Tailoring",
+      "difference": "A baseline provides a starting set; tailoring adjusts it with documented rationale for the system context and residual risk."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A control is selected once and then remains suitable forever.",
+      "correction": "Changes in threat, architecture, operation, and requirements require reassessment."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should a control selection record include?",
+      "answer": "Requirement, threat or failure addressed, owner, assumptions, configuration, evidence, exceptions, and residual risk."
+    },
+    {
+      "prompt": "When is a compensating control acceptable?",
+      "answer": "When it demonstrably addresses the relevant requirement or risk with authorized rationale and evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A team proposes encryption for a service outage requirement. What should the reviewer ask?",
+      "decisiveDetail": "Encryption may protect confidentiality but does not directly address availability or recovery requirements.",
+      "testedConceptIds": [
+        "control-selection",
+        "security-requirements",
+        "availability"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Trace one requirement to a prevention, detection, and recovery control.",
+    "connect": "Connect control selection to D1 risk and D6 validation.",
+    "apply": "Write the evidence needed to show a privileged-control path works.",
+    "revisit": "In three days, explain baseline versus tailored control selection."
+  },
+  "visualIds": [
+    "d3-o03-control-selection-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o03-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.3"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o03-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "17-20",
+        "pdfPage": "17-20",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "security-requirements-control-selection"
+      ]
+    },
+    {
+      "id": "d3-o03-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 8, control and capability selection, p. 309 onward; precise locator refinement pending"
+      },
+      "supports": [
+        "control-selection",
+        "security-requirements"
+      ],
+      "sourceNotes": "Secondary correlation is recorded from the local table of contents; unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o03-control-selection-visual-contract",
+    "unitId": "d3-o03-control-selection",
+    "teachingQuestion": "Which control set is proportionate to this requirement and failure path?",
+    "misconception": "A named product or baseline proves the requirement is met.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Controls need an owner, evidence, operational assumptions, and a residual-risk decision.",
+    "conceptIds": [
+      "security-requirements",
+      "control-selection",
+      "control-baseline",
+      "preventive-control",
+      "detective-control",
+      "corrective-control",
+      "compensating-control",
+      "assurance",
+      "residual-risk"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a stated threat, name one preventive, detective, or corrective role and its evidence.",
+    "textFallback": "Control selection begins with business and security requirements, threat and failure analysis, constraints, and assurance evidence. A named product or framework is not a requirement.\nDerive a time-bounded administrative requirement, combine approval, strong authentication, just-in-time authorization, session logging, review, and recovery procedures, then test the emergency path.",
+    "sourceRefIds": [
+      "d3-o03-textbook",
+      "d3-o03-sybex"
+    ],
+    "mapNodeId": "d3-o03-control-selection",
+    "visualIds": [
+      "d3-o03-control-selection-concept-comparison-1"
+    ]
+  }
+}

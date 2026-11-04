@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o03-configuration-management",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.3"
+  ],
+  "title": "Perform configuration management",
+  "summary": "Configuration management keeps systems in a known, approved, and recoverable state. Inventory, baselines, controlled images, automation, versioning, documentation, and drift detection reduce the gap between intended and operational security.",
+  "outcome": "Given a system change or drift finding, identify the configuration item and baseline, assess impact, select an approved correction, and produce evidence that the resulting state is secure and reproducible.",
+  "conceptIds": [
+    "configuration-item",
+    "secure-baseline",
+    "configuration-drift",
+    "golden-image",
+    "configuration-automation",
+    "versioning",
+    "configuration-documentation",
+    "provisioning",
+    "configuration-baseline",
+    "desired-state"
+  ],
+  "prerequisites": [
+    "d2-o03-secure-provisioning",
+    "d6-o02-control-testing"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Configuration is a security control only when the organization knows the intended state, detects drift, governs changes, and can restore a verified state.",
+  "sections": [
+    {
+      "id": "baseline-and-drift",
+      "title": "Provision from an intended state and detect drift",
+      "body": "Configuration management starts with provisioning and a complete inventory of configuration items and their relationships, followed by a desired-state baseline that records approved versions, settings, services, interfaces, identities, and dependencies. Provisioning should apply the approved state consistently and establish ownership, logging, and rollback evidence. Baselines can use hardened images, templates, or configuration-as-code, but they must be tested and maintained. Drift can be accidental, unauthorized, or an emergency response; detect it, classify it, and decide whether to remediate, approve, or investigate.",
+      "keyPoints": [
+        "Provisioning creates or changes a resource; baselining defines the approved state it should produce.",
+        "Inventory must include dependencies and cloud or managed-service configuration where the organization is accountable.",
+        "Drift detection supports both security and troubleshooting."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o03",
+        "official-d7-31-34",
+        "sybex-d7-782-788"
+      ]
+    },
+    {
+      "id": "automation-and-evidence",
+      "title": "Automate repeatable correction safely",
+      "body": "Automation can provision, compare, and remediate configurations consistently, but an unsafe script can spread a defect at scale. Use version control, peer review, test environments, least privilege, protected secrets, approval gates, rollback, and post-change validation. Decide whether drift is a security defect, an approved exception, or evidence of an unrecorded change before correcting it. Document exceptions and emergency changes so the operational record explains why a system differs from baseline and when the deviation will be removed.",
+      "keyPoints": [
+        "Automation needs its own identity, access, testing, and rollback controls.",
+        "Configuration documentation should explain dependencies and operational consequences, not only values.",
+        "Validation confirms the intended state was reached; it does not replace approval or monitoring."
+      ],
+      "sourceRefIds": [
+        "official-d7-31-34",
+        "sybex-d7-782-788"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Drift on a public API host",
+      "situation": "A production host differs from the approved image: a diagnostic port is open and a package version is newer than the baseline.",
+      "reasoning": "Confirm the host and configuration item, assess whether the change is authorized and security-relevant, preserve evidence, and compare the state against the change record. Remediate through the approved pipeline or document an exception with expiry; do not overwrite forensic evidence or blindly rebuild before understanding why the drift occurred."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "baseline",
+        "backup"
+      ],
+      "difference": "A baseline defines an approved configuration state; a backup preserves recoverable data or system content and may not represent a secure or current state."
+    },
+    {
+      "between": [
+        "configuration management",
+        "change management"
+      ],
+      "difference": "Configuration management controls and observes system state; change management governs the authorization, scheduling, communication, and review of changes."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A golden image is permanently secure.",
+      "correction": "Images age, dependencies change, and deployment context varies; baseline content requires review, patching, testing, and drift detection."
+    },
+    {
+      "misconception": "Automation removes the need for approvals.",
+      "correction": "Automation increases repeatability but still requires controlled identity, review, testing, authorization, and rollback."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does a baseline provide?",
+      "answer": "An approved, documented reference state against which configuration changes and drift can be evaluated."
+    },
+    {
+      "prompt": "What is provisioning's relationship to a baseline?",
+      "answer": "Provisioning creates or changes the resource; the baseline states the approved desired configuration that provisioning should produce."
+    },
+    {
+      "prompt": "What controls make configuration automation safer?",
+      "answer": "Version control, review, least privilege, test environments, approvals, protected secrets, rollback, and validation."
+    },
+    {
+      "prompt": "Why record an emergency configuration exception?",
+      "answer": "It preserves accountability, explains deviation from baseline, and gives the organization a deadline and owner for remediation."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "An emergency firewall change restores service but bypasses normal review.",
+      "decision": "Record the change and reason, validate the resulting configuration, monitor it, and schedule retrospective approval and cleanup.",
+      "why": "Emergency authority can accelerate action without making undocumented drift acceptable."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study configuration items, baselines, images, automation, drift, versioning, documentation, and validation.",
+    "connect": "Connect configuration to D2 provisioning, D6 testing, D7.8 patching, and D7.9 change management.",
+    "apply": "Define a baseline and drift response for one cloud service or endpoint fleet.",
+    "revisit": "Explain how you would distinguish authorized emergency change, accidental drift, and malicious persistence from the same diff."
+  },
+  "visualIds": [
+    "d7-o03-configuration-management-decision-comparison-1",
+    "d7-o03-configuration-management-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o03",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.3"
+      },
+      "supports": [
+        "objective boundary",
+        "configuration management"
+      ]
+    },
+    {
+      "id": "official-d7-31-34",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "31-34 (PDF pp. 31-34)"
+      },
+      "supports": [
+        "baselines",
+        "configuration management database",
+        "drift and documentation"
+      ]
+    },
+    {
+      "id": "sybex-d7-782-788",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "782-788, Chapter 16"
+      },
+      "supports": [
+        "configuration management",
+        "baselines",
+        "automation",
+        "versioning",
+        "documentation"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o03-configuration-management-visual-contract",
+    "unitId": "d7-o03-configuration-management",
+    "teachingQuestion": "When actual configuration differs, who decides remediation, exception, or investigation?",
+    "misconception": "Golden image stays secure or automation eliminates approvals.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "configuration-item",
+      "secure-baseline",
+      "configuration-drift",
+      "golden-image",
+      "configuration-automation",
+      "versioning",
+      "configuration-documentation",
+      "provisioning",
+      "configuration-baseline",
+      "desired-state"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "configuration item: CI: managed asset/configuration/dependency. Decision: decide inventory/owner.. Failure/example: unmanaged cloud resource.\nsecure baseline: Secure baseline: approved hardened expected state. Decision: decide review/test.. Failure/example: obsolete cipher setting.\nconfiguration drift: Drift: actual differs expected. Decision: decide defect/approved exception/investigation.. Failure/example: emergency change never documented.\ngolden image: Golden image: reusable template, not eternal state. Decision: decide patch/rebuild.. Failure/example: old image redeployed.\nconfiguration automation: Automation: repeat provision/compare/remediate. Decision: decide privileged script safeguards.. Failure/example: faulty script spreads defect.\nversioning: Versioning: trace config revision. Decision: decide rollback/change evidence.. Failure/example: cannot identify working version.\nconfiguration documentation: Documentation: explain state/dependency/exception. Decision: decide authoritative record.. Failure/example: operator relies on stale wiki.\nprovisioning: Provisioning: create approved state. Decision: decide owner/baseline/acceptance.. Failure/example: asset active before inventory.\nconfiguration baseline: Baseline: measurable reference configuration. Decision: decide compliance evidence.. Failure/example: backup mistaken for baseline.",
+    "sourceRefIds": [
+      "official-d7-31-34",
+      "sybex-d7-782-788"
+    ],
+    "mapNodeId": "d7-o03-configuration-management",
+    "visualIds": [
+      "d7-o03-configuration-management-decision-comparison-1",
+      "d7-o03-configuration-management-decision-comparison-2"
+    ]
+  }
+}

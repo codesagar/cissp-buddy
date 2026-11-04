@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o02-components-and-endpoints-concept-comparison-1",
+  "unitId": "d4-o02-components-and-endpoints",
+  "type": "table",
+  "title": "Secure network components, media, and endpoints: concept decisions 1",
+  "teachingQuestion": "Which component, medium, admission condition, endpoint control, and shared dependency must work together for this network service to remain secure and available?",
+  "focalInsight": "Network security combines infrastructure lifecycle, physical/media realities, admission control, endpoint persistence, and true independence of redundant paths.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Network Components",
+      "conceptIds": [
+        "network-components"
+      ],
+      "definition": "Devices and services such as switches, routers, firewalls, access points, controllers, and supporting hardware that forward, enforce, or manage connectivity.",
+      "detail": "Devices and services such as switches, routers, firewalls, access points, controllers, and supporting hardware that forward, enforce, or manage connectivity.",
+      "decision": "Harden configuration/identity/management, inventory lifecycle, monitor health, and control changes for each component role.",
+      "failureExample": "Default credentials on a network controller override sound downstream segmentation.",
+      "retrievalAnswer": "Every component has a forwarding/enforcement role and a management attack surface.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Transmission Media",
+      "conceptIds": [
+        "transmission-media"
+      ],
+      "definition": "Physical paths—copper, fiber, radio, and related infrastructure—that carry signals with different tamper, interception, distance, attenuation, and interference properties.",
+      "detail": "Physical paths—copper, fiber, radio, and related infrastructure—that carry signals with different tamper, interception, distance, attenuation, and interference properties.",
+      "decision": "Choose/protect medium from location, threat, capacity, propagation quality, maintainability, and inspection needs.",
+      "failureExample": "A cable run through public space is tapped despite strong application encryption metadata exposure.",
+      "retrievalAnswer": "Medium choice affects physical attack and availability properties.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Network Access Control",
+      "conceptIds": [
+        "network-access-control"
+      ],
+      "definition": "Admission control using identity, device posture, location, role, certificate, and risk to allow, restrict, redirect, or quarantine network access.",
+      "detail": "Admission control using identity, device posture, location, role, certificate, and risk to allow, restrict, redirect, or quarantine network access.",
+      "decision": "Set policy and remediation/quarantine paths; reassess posture and log the admission decision.",
+      "failureExample": "A device passes NAC then becomes compromised after admission.",
+      "retrievalAnswer": "NAC decides admission; it does not guarantee ongoing endpoint safety.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Endpoint Security",
+      "conceptIds": [
+        "endpoint-security"
+      ],
+      "definition": "Host controls such as hardened configuration, EDR, host firewall, encryption, patching, integrity, logging, and response.",
+      "detail": "Host controls such as hardened configuration, EDR, host firewall, encryption, patching, integrity, logging, and response.",
+      "decision": "Apply and monitor controls after admission, with device lifecycle/identity ownership and incident containment.",
+      "failureExample": "A compliant laptop loses patches and is exploited while still on its permitted VLAN.",
+      "retrievalAnswer": "Endpoint security remains active after network admission.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Redundancy",
+      "conceptIds": [
+        "redundancy"
+      ],
+      "definition": "Multiple components or paths intended to preserve service through a failure.",
+      "detail": "Multiple components or paths intended to preserve service through a failure.",
+      "decision": "Verify independence across power, conduit, provider, controller, firmware, identity, and failover behavior.",
+      "failureExample": "Two links share one conduit or control plane and fail together during an outage.",
+      "retrievalAnswer": "Redundancy requires no critical common-mode dependency.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Support Lifecycle",
+      "conceptIds": [
+        "support-lifecycle"
+      ],
+      "definition": "Vendor support, warranty, maintenance, inventory, replacement, patch, and retirement management for network assets.",
+      "detail": "Vendor support, warranty, maintenance, inventory, replacement, patch, and retirement management for network assets.",
+      "decision": "Track support status and replace/compensate for unsupported hardware/firmware before exposure becomes unfixable.",
+      "failureExample": "An unsupported switch cannot receive a fix for a critical management-plane flaw.",
+      "retrievalAnswer": "Lifecycle status determines whether remediation is feasible.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "network-components",
+    "transmission-media",
+    "network-access-control",
+    "endpoint-security",
+    "redundancy",
+    "support-lifecycle"
+  ],
+  "altSummary": "Network security combines infrastructure lifecycle, physical/media realities, admission control, endpoint persistence, and true independence of redundant paths.",
+  "textFallback": "network components: Devices and services such as switches, routers, firewalls, access points, controllers, and supporting hardware that forward, enforce, or manage connectivity. Decide: Harden configuration/identity/management, inventory lifecycle, monitor health, and control changes for each component role. Example/failure: Default credentials on a network controller override sound downstream segmentation. Retrieve: Every component has a forwarding/enforcement role and a management attack surface.\ntransmission media: Physical paths—copper, fiber, radio, and related infrastructure—that carry signals with different tamper, interception, distance, attenuation, and interference properties. Decide: Choose/protect medium from location, threat, capacity, propagation quality, maintainability, and inspection needs. Example/failure: A cable run through public space is tapped despite strong application encryption metadata exposure. Retrieve: Medium choice affects physical attack and availability properties.\nnetwork access control: Admission control using identity, device posture, location, role, certificate, and risk to allow, restrict, redirect, or quarantine network access. Decide: Set policy and remediation/quarantine paths; reassess posture and log the admission decision. Example/failure: A device passes NAC then becomes compromised after admission. Retrieve: NAC decides admission; it does not guarantee ongoing endpoint safety.\nendpoint security: Host controls such as hardened configuration, EDR, host firewall, encryption, patching, integrity, logging, and response. Decide: Apply and monitor controls after admission, with device lifecycle/identity ownership and incident containment. Example/failure: A compliant laptop loses patches and is exploited while still on its permitted VLAN. Retrieve: Endpoint security remains active after network admission.\nredundancy: Multiple components or paths intended to preserve service through a failure. Decide: Verify independence across power, conduit, provider, controller, firmware, identity, and failover behavior. Example/failure: Two links share one conduit or control plane and fail together during an outage. Retrieve: Redundancy requires no critical common-mode dependency.\nsupport lifecycle: Vendor support, warranty, maintenance, inventory, replacement, patch, and retirement management for network assets. Decide: Track support status and replace/compensate for unsupported hardware/firmware before exposure becomes unfixable. Example/failure: An unsupported switch cannot receive a fix for a critical management-plane flaw. Retrieve: Lifecycle status determines whether remediation is feasible.",
+  "sourceRefIds": [
+    "official-d4-78-84",
+    "sybex-d4-621-645",
+    "aio-d4-937-989"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which component, medium, admission condition, endpoint control, and shared dependency must work together for this network service to remain secure and available?",
+    "misconception": "NAC admission or redundant hardware alone proves an endpoint and service remain secure.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Network security combines infrastructure lifecycle, physical/media realities, admission control, endpoint persistence, and true independence of redundant paths.",
+    "conceptIds": [
+      "network-components",
+      "transmission-media",
+      "network-access-control",
+      "endpoint-security",
+      "redundancy",
+      "support-lifecycle"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Which component, medium, admission condition, endpoint control, and shared dependency must work together for this network service to remain secure and available?",
+    "textFallback": "network components: Devices and services such as switches, routers, firewalls, access points, controllers, and supporting hardware that forward, enforce, or manage connectivity. Decide: Harden configuration/identity/management, inventory lifecycle, monitor health, and control changes for each component role. Example/failure: Default credentials on a network controller override sound downstream segmentation. Retrieve: Every component has a forwarding/enforcement role and a management attack surface.\ntransmission media: Physical paths—copper, fiber, radio, and related infrastructure—that carry signals with different tamper, interception, distance, attenuation, and interference properties. Decide: Choose/protect medium from location, threat, capacity, propagation quality, maintainability, and inspection needs. Example/failure: A cable run through public space is tapped despite strong application encryption metadata exposure. Retrieve: Medium choice affects physical attack and availability properties.\nnetwork access control: Admission control using identity, device posture, location, role, certificate, and risk to allow, restrict, redirect, or quarantine network access. Decide: Set policy and remediation/quarantine paths; reassess posture and log the admission decision. Example/failure: A device passes NAC then becomes compromised after admission. Retrieve: NAC decides admission; it does not guarantee ongoing endpoint safety.\nendpoint security: Host controls such as hardened configuration, EDR, host firewall, encryption, patching, integrity, logging, and response. Decide: Apply and monitor controls after admission, with device lifecycle/identity ownership and incident containment. Example/failure: A compliant laptop loses patches and is exploited while still on its permitted VLAN. Retrieve: Endpoint security remains active after network admission.\nredundancy: Multiple components or paths intended to preserve service through a failure. Decide: Verify independence across power, conduit, provider, controller, firmware, identity, and failover behavior. Example/failure: Two links share one conduit or control plane and fail together during an outage. Retrieve: Redundancy requires no critical common-mode dependency.\nsupport lifecycle: Vendor support, warranty, maintenance, inventory, replacement, patch, and retirement management for network assets. Decide: Track support status and replace/compensate for unsupported hardware/firmware before exposure becomes unfixable. Example/failure: An unsupported switch cannot receive a fix for a critical management-plane flaw. Retrieve: Lifecycle status determines whether remediation is feasible.",
+    "sourceRefIds": [
+      "official-d4-78-84",
+      "sybex-d4-621-645",
+      "aio-d4-937-989"
+    ],
+    "mapNodeId": "d4-o02-components-and-endpoints"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

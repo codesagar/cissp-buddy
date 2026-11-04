@@ -1,6 +1,11 @@
 import { scheduleReview } from '../study-state.ts';
 import type { ReviewCard } from '../study-state';
-import type { TeachingCheck, TeachingModel } from './types';
+import type {
+  CourseManifest,
+  TeachingCheck,
+  TeachingModel,
+  UnitSummary,
+} from './types';
 
 export const COURSE_STORAGE_KEY = 'cissp-buddy:course:v1';
 export const stages = ['understand', 'predict', 'transfer', 'review'] as const;
@@ -149,6 +154,79 @@ export function courseEvidence(state: LearnerState) {
   };
 }
 
+/** Current checks define coverage; historical answers remain evidence in their own right. */
+export function currentCourseEvidence(
+  state: LearnerState,
+  manifest: CourseManifest,
+) {
+  const checks = manifest.units.flatMap((unit) => unit.checks || []);
+  const currentIds = new Set(checks.map((check) => check.id));
+  const attempts = state.attempts.filter((attempt) =>
+    currentIds.has(attempt.questionId),
+  );
+  const answered = new Set(attempts.map((attempt) => attempt.questionId));
+  const assisted = attempts.filter(
+    (a) => a.guess || a.hintUsed || a.outcomeViewed,
+  );
+  const independent = new Set(
+    attempts
+      .filter((a) => a.correct && !a.guess && !a.hintUsed && !a.outcomeViewed)
+      .map((a) => a.questionId),
+  );
+  const assessed = new Set(checks.flatMap((check) => check.conceptIds));
+  const explained = new Set(manifest.units.flatMap((unit) => unit.conceptIds));
+  return {
+    unanswered: checks.filter((check) => !answered.has(check.id)).length,
+    independent: independent.size,
+    assisted: assisted.length,
+    repeated: attempts.length - answered.size,
+    noDirectCheck: [...explained].filter((id) => !assessed.has(id)).length,
+  };
+}
+
+/** Curriculum order and declared prerequisite exposure, never an inference of mastery. */
+export function recommendCourseUnit(
+  state: LearnerState,
+  manifest: CourseManifest,
+): { unit: UnitSummary; reason: string } | null {
+  const answered = new Set(state.attempts.map((attempt) => attempt.questionId));
+  const candidate = manifest.units.find((unit) =>
+    (unit.checks || []).some((check) => !answered.has(check.id)),
+  );
+  if (!candidate) return null;
+  const encountered = new Set(
+    manifest.units
+      .filter((unit) => state.units[unit.id])
+      .flatMap((unit) => unit.conceptIds),
+  );
+  const unitIds = new Set(manifest.units.map((unit) => unit.id));
+  const missing = (candidate.prerequisites || []).filter((id) =>
+    unitIds.has(id) ? !state.units[id] : !encountered.has(id),
+  );
+  const earlier = manifest.units.slice(0, manifest.units.indexOf(candidate));
+  const prerequisite = earlier.find(
+    (unit) =>
+      !state.units[unit.id] &&
+      (missing.includes(unit.id) ||
+        unit.conceptIds.some((id) => !unitIds.has(id) && missing.includes(id))),
+  );
+  if (prerequisite)
+    return {
+      unit: prerequisite,
+      reason: `This earlier unit explains a declared prerequisite for “${candidate.title}”. A visit records exposure, not understanding; its checks provide separate evidence.`,
+    };
+  return {
+    unit: candidate,
+    reason: state.units[candidate.id]
+      ? 'This is the first unit in curriculum order with an unanswered named check. Your visit and saved position are separate from answers.'
+      : candidate.prerequisites?.length
+        ? missing.length
+          ? 'This is the next unanswered unit in curriculum order. Some declared prerequisite explanations have not been visited; inspect its prerequisites before beginning. Visits record exposure, not mastery.'
+          : 'This is the next unanswered unit in curriculum order. You have visited explanations of its declared prerequisites; that records exposure, not mastery.'
+        : 'This is the first unanswered unit in curriculum order and has no declared prerequisites.',
+  };
+}
+
 const object = (x: unknown): x is Record<string, unknown> =>
   !!x && typeof x === 'object' && !Array.isArray(x);
 const finite = (x: unknown): x is number =>
@@ -169,6 +247,8 @@ function validCheck(c: unknown): c is TeachingCheck {
   )
     return false;
   return (
+    new Set(c.options.map((option) => (object(option) ? option.id : undefined)))
+      .size === c.options.length &&
     c.options.every(
       (o) =>
         object(o) &&
@@ -177,7 +257,8 @@ function validCheck(c: unknown): c is TeachingCheck {
         typeof o.correct === 'boolean' &&
         typeof o.feedback === 'string' &&
         typeof o.repairStateId === 'string',
-    ) && c.options.filter((o) => o.correct).length === 1
+    ) &&
+    c.options.filter((o) => o.correct).length === 1
   );
 }
 /** Unknown historical IDs are retained; damaged records are rejected without replacement. */
@@ -270,7 +351,8 @@ export function validateLearnerState(input: unknown): LearnerState {
     if (
       !chosen ||
       chosen.correct !== a.correct ||
-      a.snapshot.id !== a.questionId
+      a.snapshot.id !== a.questionId ||
+      JSON.stringify(a.snapshot.conceptIds) !== JSON.stringify(a.conceptIds)
     )
       return fail();
     ids.add(a.id);
@@ -285,9 +367,23 @@ export function validateLearnerState(input: unknown): LearnerState {
       typeof r.needsReview !== 'boolean'
     )
       return fail();
-  for (const u of Object.values(input.units))
-    for (const d of Object.values((u as UnitPosition).checks))
-      if (d.submittedAttemptId && !ids.has(d.submittedAttemptId)) return fail();
+  const attemptsById = new Map(
+    (input.attempts as CourseAttempt[]).map((attempt) => [attempt.id, attempt]),
+  );
+  for (const [unitId, unit] of Object.entries(input.units))
+    for (const [questionId, draft] of Object.entries(
+      (unit as UnitPosition).checks,
+    )) {
+      if (!draft.submittedAttemptId) continue;
+      const attempt = attemptsById.get(draft.submittedAttemptId);
+      if (
+        !attempt ||
+        attempt.unitId !== unitId ||
+        attempt.questionId !== questionId ||
+        attempt.selected !== draft.selected
+      )
+        return fail();
+    }
   return structuredClone(input) as LearnerState;
 }
 
@@ -302,13 +398,26 @@ export function writeProgressBackup(
   if (backup.pilot)
     writes.push(['cissp-buddy:v1', JSON.stringify(backup.pilot)]);
   const previous = writes.map(([key]) => [key, storage.getItem(key)] as const);
+  let completed = 0;
   try {
-    for (const [key, value] of writes) storage.setItem(key, value);
-  } catch (error) {
-    for (const [key, value] of previous) {
-      if (value === null) storage.removeItem(key);
-      else storage.setItem(key, value);
+    for (const [key, value] of writes) {
+      storage.setItem(key, value);
+      completed += 1;
     }
+  } catch (error) {
+    let rollbackFailed = false;
+    for (const [key, value] of previous.slice(0, completed).reverse()) {
+      try {
+        if (value === null) storage.removeItem(key);
+        else storage.setItem(key, value);
+      } catch {
+        rollbackFailed = true;
+      }
+    }
+    if (rollbackFailed)
+      throw new Error(
+        'Restore was interrupted and the browser also blocked recovery. Some stored records may have changed. Keep this page open and export your current progress and untouched stored records before reloading.',
+      );
     throw error;
   }
 }

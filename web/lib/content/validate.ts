@@ -1,4 +1,4 @@
-import type { Curriculum } from '../curriculum';
+import type { Curriculum } from '../curriculum.ts';
 export function validateRelease(pack: Curriculum) {
   const fail = (message: string): never => {
     throw new Error(`Content validation: ${message}`);
@@ -20,7 +20,7 @@ export function validateRelease(pack: Curriculum) {
   );
   const nodes = new Map(pack.nodes.map((n) => [n.id, n])),
     lessons = new Map(pack.lessons.map((l) => [l.id, l]));
-  if (!pack.releaseId || pack.storage !== 'D1')
+  if (!pack.releaseId || !['static', 'D1'].includes(pack.storage))
     fail('release provenance missing');
   for (const n of pack.nodes) {
     if (

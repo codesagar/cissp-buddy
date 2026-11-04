@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o10-recovery-strategies",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.10"
+  ],
+  "title": "Implement recovery strategies",
+  "summary": "Recovery strategies define how an organization maintains or restores critical services after disruption. They balance business priorities, dependencies, recovery objectives, resilience, alternate processing, backups, communications, people, and trustworthy return to operation.",
+  "outcome": "Given a service disruption, choose a recovery strategy that matches business impact and recovery objectives, identify dependencies and alternate capabilities, and define how trust and service acceptance will be restored.",
+  "conceptIds": [
+    "recovery-strategy",
+    "rto",
+    "rpo",
+    "mtd",
+    "high-availability",
+    "fault-tolerance",
+    "alternate-processing",
+    "backup-recovery",
+    "trusted-recovery"
+  ],
+  "prerequisites": [
+    "d1-o07-business-continuity-requirements",
+    "d2-o04-data-lifecycle",
+    "d3-o10-information-system-lifecycle"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Recover the business service, not just a server; prioritize by impact, dependencies, recovery objectives, trust, people, and evidence.",
+  "sections": [
+    {
+      "id": "strategy-selection",
+      "title": "Match strategy to business need",
+      "body": "A recovery strategy translates business priorities and impact analysis into capabilities such as redundancy, high availability, fault tolerance, backups, alternate processing sites, manual workarounds, reciprocal arrangements, or cloud recovery. Recovery time objective, recovery point objective, maximum tolerable downtime, service dependencies, data integrity, staffing, communications, and cost shape the choice. A strategy should state what is protected, how the service fails over or is rebuilt, and who accepts the recovered service.",
+      "keyPoints": [
+        "RTO concerns how quickly service returns; RPO concerns the acceptable data-loss point; MTD expresses business tolerance.",
+        "High availability and fault tolerance reduce interruption but do not guarantee clean recovery from corruption or compromise.",
+        "Dependencies, people, data, facilities, suppliers, and communications can be recovery bottlenecks."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o10",
+        "official-d7-66-74",
+        "sybex-d7-875-883"
+      ]
+    },
+    {
+      "id": "trusted-recovery",
+      "title": "Restore a trustworthy service",
+      "body": "Recovery must address integrity and security as well as availability. Protect backups and recovery images, establish clean sources, verify dependencies and configuration, control emergency access, validate data and monitoring, and obtain business and security acceptance before normal operation. Record decisions, timing, deviations, and residual risk, and feed lessons into continuity, architecture, and operational plans.",
+      "keyPoints": [
+        "A fast restore from a compromised source can reintroduce the incident.",
+        "Recovery acceptance needs technical, security, and business criteria.",
+        "Recovery capabilities require maintenance, testing, staff readiness, and supplier commitments."
+      ],
+      "sourceRefIds": [
+        "official-d7-66-74",
+        "sybex-d7-875-883"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Payment service outage",
+      "situation": "A payment service has a 30-minute RTO and near-zero RPO, but its recovery site lacks the same identity, network, and key-management dependencies.",
+      "reasoning": "The strategy is incomplete until dependencies and trust services are included. Test replication, key access, identity, network paths, staffing, communications, and business acceptance; otherwise a technically available application may not be a usable or safe service."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "high availability",
+        "disaster recovery"
+      ],
+      "difference": "High availability reduces interruption during expected component failure; disaster recovery restores service after a disruptive event and includes broader planning and recovery decisions."
+    },
+    {
+      "between": [
+        "RTO",
+        "RPO"
+      ],
+      "difference": "RTO is the target time to restore service; RPO is the acceptable point in time to which data can be recovered."
+    },
+    {
+      "between": [
+        "recovery",
+        "restoration"
+      ],
+      "difference": "Restoration brings systems or data back; recovery includes decisions, dependencies, security validation, communications, and acceptance of the business service."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A replicated production site eliminates disaster-recovery planning.",
+      "correction": "Replication can copy corruption, rely on unavailable dependencies, or fail under regional, provider, identity, or human disruption."
+    },
+    {
+      "misconception": "The fastest restore is always the best recovery.",
+      "correction": "The source must be trustworthy and the recovered service must meet security, integrity, dependency, and business acceptance criteria."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What do RTO and RPO measure?",
+      "answer": "RTO measures target restoration time; RPO measures acceptable data-loss point or recovery currency."
+    },
+    {
+      "prompt": "Why include identity and key management in recovery dependencies?",
+      "answer": "A service cannot operate safely if its recovered systems cannot authenticate, authorize, decrypt, or be monitored."
+    },
+    {
+      "prompt": "Who accepts a recovered service?",
+      "answer": "Defined business, technical, and security owners using agreed criteria and evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A cloud region fails while the provider's status page reports the application healthy in a secondary region.",
+      "decision": "Verify identity, data consistency, keys, network paths, monitoring, dependencies, and business acceptance before declaring recovery complete.",
+      "why": "Provider infrastructure availability is not the same as recovered business service."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study recovery strategies, RTO, RPO, MTD, availability, fault tolerance, alternate sites, backups, dependencies, and trusted recovery.",
+    "connect": "Connect D7.10 to D1 BIA, D3 resilience, D2 data protection, D7.11 DR processes, and D7.13 continuity.",
+    "apply": "Choose a recovery strategy for one critical service and list the dependencies and acceptance evidence.",
+    "revisit": "Explain what could make a replicated service unavailable or untrustworthy during a recovery."
+  },
+  "visualIds": [
+    "d7-o10-recovery-strategy",
+    "d7-o10-recovery-strategies-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o10",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.10"
+      },
+      "supports": [
+        "objective boundary",
+        "recovery strategies"
+      ]
+    },
+    {
+      "id": "official-d7-66-74",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "66-74 (PDF pp. 66-74)"
+      },
+      "supports": [
+        "resilience",
+        "recovery strategies",
+        "alternate processing",
+        "trusted recovery"
+      ]
+    },
+    {
+      "id": "sybex-d7-875-883",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "875-883, Chapter 18"
+      },
+      "supports": [
+        "resilience",
+        "high availability",
+        "recovery strategy",
+        "alternate sites"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o10-recovery-strategies-visual-contract",
+    "unitId": "d7-o10-recovery-strategies",
+    "teachingQuestion": "Which recovery capability meets business objective without common-mode failure?",
+    "misconception": "Backup/site/HA label proves recovery.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Rows separate selection/operation/validation failures.",
+    "conceptIds": [
+      "recovery-strategy",
+      "rto",
+      "rpo",
+      "mtd",
+      "high-availability",
+      "fault-tolerance",
+      "alternate-processing",
+      "backup-recovery",
+      "trusted-recovery"
+    ],
+    "relationships": [
+      {
+        "from": "impact",
+        "to": "objectives",
+        "label": "sets"
+      },
+      {
+        "from": "objectives",
+        "to": "capability",
+        "label": "constrains"
+      },
+      {
+        "from": "capability",
+        "to": "trust",
+        "label": "must restore"
+      },
+      {
+        "from": "trust",
+        "to": "accept",
+        "label": "provides evidence"
+      },
+      {
+        "from": "accept",
+        "to": "impact",
+        "label": "feeds improvement"
+      }
+    ],
+    "intentionalOmissions": "No universal recovery tier/timing.",
+    "retrievalPrompt": "Name objective, dependency, owner, evidence, acceptance.",
+    "textFallback": "recovery strategy: recovery strategy: copy/capability in the recovery/DR process.. Decision: Select/authorize recovery strategy using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated recovery strategy leaves service/data/identity/key recovery incomplete.\nrto: rto: business threshold in the recovery/DR process.. Decision: Select/authorize rto using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated rto leaves service/data/identity/key recovery incomplete.\nrpo: rpo: business threshold in the recovery/DR process.. Decision: Select/authorize rpo using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated rpo leaves service/data/identity/key recovery incomplete.\nmtd: mtd: business threshold in the recovery/DR process.. Decision: Select/authorize mtd using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated mtd leaves service/data/identity/key recovery incomplete.\nhigh availability: high availability: business threshold in the recovery/DR process.. Decision: Select/authorize high availability using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated high availability leaves service/data/identity/key recovery incomplete.\nfault tolerance: fault tolerance: business threshold in the recovery/DR process.. Decision: Select/authorize fault tolerance using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated fault tolerance leaves service/data/identity/key recovery incomplete.\nalternate processing: alternate processing: site/location strategy in the recovery/DR process.. Decision: Select/authorize alternate processing using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated alternate processing leaves service/data/identity/key recovery incomplete.\nbackup recovery: backup recovery: copy/capability in the recovery/DR process.. Decision: Select/authorize backup recovery using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated backup recovery leaves service/data/identity/key recovery incomplete.\ntrusted recovery: trusted recovery: copy/capability in the recovery/DR process.. Decision: Select/authorize trusted recovery using BIA objective, dependency, capacity, accountable owner and test evidence.. Failure/example: Missing, shared, stale, or unvalidated trusted recovery leaves service/data/identity/key recovery incomplete.",
+    "sourceRefIds": [
+      "official-d7-66-74",
+      "sybex-d7-875-883"
+    ],
+    "mapNodeId": "d7-o10-recovery-strategies",
+    "visualIds": [
+      "d7-o10-recovery-strategies-decision-comparison-1",
+      "d7-o10-recovery-strategy"
+    ]
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o02-build-release-supply-chain-decision-comparison-1",
+  "unitId": "d8-o02-build-release-supply-chain",
+  "type": "table",
+  "title": "Secure build, test, and release supply chains: decision comparison 1",
+  "teachingQuestion": "What chain of evidence shows that a deployed artifact was built from approved source and dependencies in a protected process?",
+  "focalInsight": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Ci Cd",
+      "conceptIds": [
+        "ci-cd"
+      ],
+      "definition": "Automated and governed continuous integration/continuous delivery pipeline practices that build, test, package, and promote change through environments.",
+      "decision": "Separate pipeline roles/environments and define required evidence and authorization before promotion.",
+      "failureExample": "A pipeline credential able to alter source, build, and production creates an unchecked path to deployment.",
+      "detail": "Automated and governed continuous integration/continuous delivery pipeline practices that build, test, package, and promote change through environments."
+    },
+    {
+      "id": "row-2",
+      "label": "Continuous Integration",
+      "conceptIds": [
+        "continuous-integration"
+      ],
+      "definition": "Frequent integration of changes into a shared codebase with automated build and test feedback.",
+      "decision": "Use to discover integration defects quickly while protecting the source revision and test environment.",
+      "failureExample": "Passing a unit build does not prove the merged application or release artifact is authorized.",
+      "detail": "Frequent integration of changes into a shared codebase with automated build and test feedback."
+    },
+    {
+      "id": "row-3",
+      "label": "Continuous Delivery",
+      "conceptIds": [
+        "continuous-delivery"
+      ],
+      "definition": "Capability to keep validated changes ready for controlled production release, with promotion evidence and release decisions.",
+      "decision": "Require explicit policy/approval and environment safeguards even when deployment can be automated.",
+      "failureExample": "Automatically releasing every ready artifact can expose customers to an unreviewed high-impact change.",
+      "detail": "Capability to keep validated changes ready for controlled production release, with promotion evidence and release decisions."
+    },
+    {
+      "id": "row-4",
+      "label": "Configuration Management",
+      "conceptIds": [
+        "configuration-management"
+      ],
+      "definition": "Control of identified configuration items, versions, authorized changes, baselines, status, and reproducibility.",
+      "decision": "Name artifacts and allowable states, control entry/change, and preserve the baseline needed for rollback and investigation.",
+      "failureExample": "An unknown production configuration makes it impossible to reproduce, verify, or safely reverse a release.",
+      "detail": "Control of identified configuration items, versions, authorized changes, baselines, status, and reproducibility."
+    },
+    {
+      "id": "row-5",
+      "label": "Build Integrity",
+      "conceptIds": [
+        "build-integrity"
+      ],
+      "definition": "Assurance that the build process, runner, inputs, configuration, and outputs were protected from unauthorized alteration.",
+      "decision": "Use isolated/maintained runners, constrained identities, protected configuration, logs, and response procedures for suspected compromise.",
+      "failureExample": "A compromised build runner can inject code after source review and before artifact signing.",
+      "detail": "Assurance that the build process, runner, inputs, configuration, and outputs were protected from unauthorized alteration."
+    },
+    {
+      "id": "row-6",
+      "label": "Artifact Provenance",
+      "conceptIds": [
+        "artifact-provenance"
+      ],
+      "definition": "Evidence linking a released artifact to its source revision, dependencies, build process, identity, tests, and authorized promotion.",
+      "decision": "Verify digest/attestation/signing and promotion records before deployment; preserve enough evidence to investigate or reproduce.",
+      "failureExample": "An artifact name and version label alone cannot prove what source or builder produced it.",
+      "detail": "Evidence linking a released artifact to its source revision, dependencies, build process, identity, tests, and authorized promotion."
+    },
+    {
+      "id": "row-7",
+      "label": "Sast",
+      "conceptIds": [
+        "sast"
+      ],
+      "definition": "Static application security testing analyzes source, bytecode, or representations without executing the application.",
+      "decision": "Use early to find code-pattern issues and triage findings with context; it cannot prove runtime configuration or all exploitability.",
+      "failureExample": "Treating SAST silence as proof of secure authentication misses deployment and business-logic failures.",
+      "detail": "Static application security testing analyzes source, bytecode, or representations without executing the application."
+    },
+    {
+      "id": "row-8",
+      "label": "Dast",
+      "conceptIds": [
+        "dast"
+      ],
+      "definition": "Dynamic application security testing exercises a running application from outside to observe security behavior.",
+      "decision": "Use against a controlled, representative running target and interpret coverage/authorization limits.",
+      "failureExample": "A DAST scan that lacks an authenticated role cannot establish that privileged authorization is sound.",
+      "detail": "Dynamic application security testing exercises a running application from outside to observe security behavior."
+    },
+    {
+      "id": "row-9",
+      "label": "Sca",
+      "conceptIds": [
+        "sca"
+      ],
+      "definition": "Software composition analysis identifies included third-party components and associated known-risk/license information.",
+      "decision": "Use with dependency inventory, provenance, version policy, and remediation ownership; distinguish known-CVE status from integrity and fitness.",
+      "failureExample": "A clean SCA result does not prove the dependency came from an approved source or has no unknown flaw.",
+      "detail": "Software composition analysis identifies included third-party components and associated known-risk/license information."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "ci-cd",
+    "continuous-integration",
+    "continuous-delivery",
+    "configuration-management",
+    "build-integrity",
+    "artifact-provenance",
+    "sast",
+    "dast",
+    "sca"
+  ],
+  "altSummary": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+  "textFallback": "ci cd: Automated and governed continuous integration/continuous delivery pipeline practices that build, test, package, and promote change through environments.. Decision: Separate pipeline roles/environments and define required evidence and authorization before promotion.. Failure/example: A pipeline credential able to alter source, build, and production creates an unchecked path to deployment.\ncontinuous integration: Frequent integration of changes into a shared codebase with automated build and test feedback.. Decision: Use to discover integration defects quickly while protecting the source revision and test environment.. Failure/example: Passing a unit build does not prove the merged application or release artifact is authorized.\ncontinuous delivery: Capability to keep validated changes ready for controlled production release, with promotion evidence and release decisions.. Decision: Require explicit policy/approval and environment safeguards even when deployment can be automated.. Failure/example: Automatically releasing every ready artifact can expose customers to an unreviewed high-impact change.\nconfiguration management: Control of identified configuration items, versions, authorized changes, baselines, status, and reproducibility.. Decision: Name artifacts and allowable states, control entry/change, and preserve the baseline needed for rollback and investigation.. Failure/example: An unknown production configuration makes it impossible to reproduce, verify, or safely reverse a release.\nbuild integrity: Assurance that the build process, runner, inputs, configuration, and outputs were protected from unauthorized alteration.. Decision: Use isolated/maintained runners, constrained identities, protected configuration, logs, and response procedures for suspected compromise.. Failure/example: A compromised build runner can inject code after source review and before artifact signing.\nartifact provenance: Evidence linking a released artifact to its source revision, dependencies, build process, identity, tests, and authorized promotion.. Decision: Verify digest/attestation/signing and promotion records before deployment; preserve enough evidence to investigate or reproduce.. Failure/example: An artifact name and version label alone cannot prove what source or builder produced it.\nsast: Static application security testing analyzes source, bytecode, or representations without executing the application.. Decision: Use early to find code-pattern issues and triage findings with context; it cannot prove runtime configuration or all exploitability.. Failure/example: Treating SAST silence as proof of secure authentication misses deployment and business-logic failures.\ndast: Dynamic application security testing exercises a running application from outside to observe security behavior.. Decision: Use against a controlled, representative running target and interpret coverage/authorization limits.. Failure/example: A DAST scan that lacks an authenticated role cannot establish that privileged authorization is sound.\nsca: Software composition analysis identifies included third-party components and associated known-risk/license information.. Decision: Use with dependency inventory, provenance, version policy, and remediation ownership; distinguish known-CVE status from integrity and fitness.. Failure/example: A clean SCA result does not prove the dependency came from an approved source or has no unknown flaw.",
+  "sourceRefIds": [
+    "official-d8-36-55",
+    "sybex-d8-1049-1065",
+    "miller-d8-727-760",
+    "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+    "d8-o02-build-release-supply-chain-owasp-top-10-2025"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What chain of evidence shows that a deployed artifact was built from approved source and dependencies in a protected process?",
+    "misconception": "An SBOM, clean scanner result, or successful build alone proves the released artifact is trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+    "conceptIds": [
+      "ci-cd",
+      "continuous-integration",
+      "continuous-delivery",
+      "configuration-management",
+      "build-integrity",
+      "artifact-provenance",
+      "sast",
+      "dast",
+      "sca"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not require a particular CI/CD vendor, signing scheme, artifact format, or universal policy threshold.",
+    "retrievalPrompt": "SCA is clean but the artifact came from an unreviewed branch and shared runner. Which provenance claims remain unproved?",
+    "textFallback": "ci cd: Automated and governed continuous integration/continuous delivery pipeline practices that build, test, package, and promote change through environments.. Decision: Separate pipeline roles/environments and define required evidence and authorization before promotion.. Failure/example: A pipeline credential able to alter source, build, and production creates an unchecked path to deployment.\ncontinuous integration: Frequent integration of changes into a shared codebase with automated build and test feedback.. Decision: Use to discover integration defects quickly while protecting the source revision and test environment.. Failure/example: Passing a unit build does not prove the merged application or release artifact is authorized.\ncontinuous delivery: Capability to keep validated changes ready for controlled production release, with promotion evidence and release decisions.. Decision: Require explicit policy/approval and environment safeguards even when deployment can be automated.. Failure/example: Automatically releasing every ready artifact can expose customers to an unreviewed high-impact change.\nconfiguration management: Control of identified configuration items, versions, authorized changes, baselines, status, and reproducibility.. Decision: Name artifacts and allowable states, control entry/change, and preserve the baseline needed for rollback and investigation.. Failure/example: An unknown production configuration makes it impossible to reproduce, verify, or safely reverse a release.\nbuild integrity: Assurance that the build process, runner, inputs, configuration, and outputs were protected from unauthorized alteration.. Decision: Use isolated/maintained runners, constrained identities, protected configuration, logs, and response procedures for suspected compromise.. Failure/example: A compromised build runner can inject code after source review and before artifact signing.\nartifact provenance: Evidence linking a released artifact to its source revision, dependencies, build process, identity, tests, and authorized promotion.. Decision: Verify digest/attestation/signing and promotion records before deployment; preserve enough evidence to investigate or reproduce.. Failure/example: An artifact name and version label alone cannot prove what source or builder produced it.\nsast: Static application security testing analyzes source, bytecode, or representations without executing the application.. Decision: Use early to find code-pattern issues and triage findings with context; it cannot prove runtime configuration or all exploitability.. Failure/example: Treating SAST silence as proof of secure authentication misses deployment and business-logic failures.\ndast: Dynamic application security testing exercises a running application from outside to observe security behavior.. Decision: Use against a controlled, representative running target and interpret coverage/authorization limits.. Failure/example: A DAST scan that lacks an authenticated role cannot establish that privileged authorization is sound.\nsca: Software composition analysis identifies included third-party components and associated known-risk/license information.. Decision: Use with dependency inventory, provenance, version policy, and remediation ownership; distinguish known-CVE status from integrity and fitness.. Failure/example: A clean SCA result does not prove the dependency came from an approved source or has no unknown flaw.",
+    "sourceRefIds": [
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760",
+      "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+      "d8-o02-build-release-supply-chain-owasp-top-10-2025"
+    ],
+    "mapNodeId": "d8-o02-build-release-supply-chain"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

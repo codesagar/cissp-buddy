@@ -1,0 +1,386 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-network-protocol-routing-design",
+  "domainId": 4,
+  "objectiveIds": [
+    "4.1"
+  ],
+  "title": "Evaluate network protocols, routing, and infrastructure design",
+  "summary": "Protocol and infrastructure choices determine reachability, protection, performance, and operational visibility across layered and converged networks.",
+  "outcome": "Select protocol, routing, plane, and performance designs that satisfy security and availability requirements while exposing meaningful operational evidence.",
+  "conceptIds": [
+    "osi-model",
+    "tcp-ip-model",
+    "ipv4",
+    "ipv6",
+    "secure-protocols",
+    "routing",
+    "network-planes",
+    "performance-metrics",
+    "converged-protocols",
+    "ipv4-ipv6",
+    "multicast",
+    "traffic-monitoring",
+    "ipsec",
+    "management-plane",
+    "segmentation",
+    "authorization",
+    "topology",
+    "change-management",
+    "incident-response",
+    "unicast",
+    "store-and-forward",
+    "cut-through",
+    "channel-termination-boundary",
+    "anycast"
+  ],
+  "prerequisites": [
+    "d3-o06-cryptographic-solutions",
+    "d4-o01-architecture-and-segmentation"
+  ],
+  "estimatedMinutes": 45,
+  "managerMindset": "Choose protocols and paths for the threat, trust, and service requirement; never assume a layer label equals protection.",
+  "sections": [
+    {
+      "id": "models-and-protocols",
+      "title": "Map layers and protection claims",
+      "body": "OSI and TCP/IP models provide reasoning vocabulary but modern protocols may encapsulate or span layers. IPv4/IPv6 addressing and unicast, broadcast, multicast, and anycast change reachability. IPSec, SSH, and TLS protect different layers and endpoints; ask what is authenticated, encrypted, exposed as metadata, and visible to intermediaries. Converged protocols such as iSCSI, VoIP, InfiniBand over Ethernet, and Compute Express Link create shared failure and trust considerations.",
+      "keyPoints": [
+        "A protocol's security claim depends on endpoints, configuration, and key/identity validation.",
+        "Encapsulation can hide or expose control and monitoring information.",
+        "Convergence can improve efficiency while coupling failure domains."
+      ],
+      "sourceRefIds": [
+        "outline-4.1-protocols",
+        "official-d4-8-77",
+        "sybex-d4-573-621"
+      ]
+    },
+    {
+      "id": "routing-and-performance",
+      "title": "Design paths, planes, and measurable service",
+      "body": "Separate data, control, and management planes where risk warrants; define routing boundaries, route authentication, administration, and failure behavior. Evaluate bandwidth, throughput, latency, jitter, and signal-to-noise ratio against service requirements. Capacity management, traffic shaping, fault detection, and observability must include the controls themselves and their management channels.",
+      "keyPoints": [
+        "Availability metrics can reveal security degradation or control-induced failure.",
+        "Routing changes require authorization, logging, and rollback.",
+        "Store-and-forward and cut-through switching create different inspection and latency tradeoffs."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-573-645"
+      ]
+    },
+    {
+      "id": "ip-delivery-scope-and-exposure",
+      "title": "Choose delivery scope from intended receivers and exposure",
+      "body": "IPv4 and IPv6 provide network-layer addressing and forwarding, but the delivery type changes who can receive a transmission. Unicast targets one receiver; multicast targets members of a group; broadcast reaches a local broadcast domain in IPv4; anycast uses the same address at multiple nodes so routing selects a reachable instance. Before permitting or filtering a flow, identify the intended audience, address family, network scope, forwarding path, membership/control mechanism, logging point, and denial-of-service or disclosure consequence. Treating a group or anycast address as if it were a single host can create unintended reachability or incomplete monitoring.",
+      "keyPoints": [
+        "Delivery scope is a security and capacity decision, not only an addressing detail.",
+        "IPv6 does not use IPv4 broadcast; use the applicable IPv6 multicast/other mechanisms rather than copying IPv4 assumptions."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77"
+      ]
+    },
+    {
+      "id": "protocol-termination-coverage-and-identity",
+      "title": "Select a secure channel by its endpoints and termination boundary",
+      "body": "IPsec protects selected IP traffic between IPsec endpoints; SSH protects an administrative transport/session; TLS protects an application session between TLS endpoints. Name the protected traffic, layer, cryptographic endpoints, identity and key/certificate validation, metadata exposed before or after termination, intermediaries, authorization point, logging, inspection impact, failure behavior, and renewal/revocation path. A channel that terminates at a gateway protects traffic only to that gateway; the onward path has its own threat model and controls. Encryption does not replace endpoint authorization or secure administration of the terminating system.",
+      "keyPoints": [
+        "Protocol names do not state where protection begins and ends.",
+        "The termination point is a decisive boundary for confidentiality, integrity, visibility, and incident investigation."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77"
+      ]
+    },
+    {
+      "id": "topology-plane-and-forwarding-failure",
+      "title": "Separate topology resilience from privileged plane control",
+      "body": "Topology determines available paths and shared failure domains; data-plane devices forward traffic, control-plane functions make forwarding decisions, and management-plane interfaces configure and administer the system. Store-and-forward switching can inspect a complete frame before forwarding, while cut-through begins forwarding before full reception and can reduce latency at the cost of different error/inspection tradeoffs. Choose redundancy, routing authentication, control-plane protection, management access, monitoring, rollback, and failure testing from the service and security requirement. A redundant topology still fails broadly when a shared controller, management identity, route policy, or power/fabric dependency is compromised.",
+      "keyPoints": [
+        "Availability architecture needs both path redundancy and protected decision/administration planes.",
+        "Low latency cannot silently remove mandatory inspection or policy enforcement."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Voice and data convergence",
+      "situation": "A campus converges voice, data, and building systems on one switching fabric.",
+      "reasoning": "Separate trust and quality requirements through logical zones and QoS, authenticate control and management planes, protect signaling/media appropriately, monitor jitter and route changes, and test failure isolation. Shared infrastructure must not imply shared authorization."
+    },
+    {
+      "title": "Multicast telemetry distribution",
+      "situation": "A control center distributes telemetry to approved regional consumers.",
+      "reasoning": "Identify who can join or receive the group, the address family and scope, route/control points, authentication and authorization needs, expected volume, logs, and behavior if an unauthorized receiver or flooded group is detected.",
+      "takeaway": "A group-delivery decision needs membership and exposure controls, not only an address."
+    },
+    {
+      "title": "Partner API through a reverse proxy",
+      "situation": "TLS terminates at a public proxy, then the request crosses a shared internal network to an API.",
+      "reasoning": "Verify client-to-proxy identity and TLS, define the proxy-to-API trust and protected channel, authorize the request at the API, protect proxy administration, log both boundaries, and test certificate/identity failure and internal-hop exposure.",
+      "takeaway": "A secure external session does not decide the security of a downstream boundary."
+    },
+    {
+      "title": "Redundant low-latency trading network",
+      "situation": "A design uses redundant cut-through switches and a centralized controller to meet latency targets.",
+      "reasoning": "Map shared controller, management identities, route policies, power/fabric dependencies, mandatory inspection points, rollback, and failover behavior. Require protected control/management access and test whether a controller compromise or failed inspection point violates service or policy.",
+      "takeaway": "Redundant links do not offset a shared privileged plane or bypassed mandatory control."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "bandwidth",
+        "throughput"
+      ],
+      "difference": "Bandwidth is potential capacity; throughput is achieved useful delivery after protocol, congestion, and control effects."
+    },
+    {
+      "between": [
+        "TLS",
+        "IPSec"
+      ],
+      "difference": "TLS typically protects application sessions; IPSec protects IP-layer traffic, with different endpoint and metadata implications."
+    },
+    {
+      "a": "Unicast",
+      "b": "Multicast",
+      "difference": "Unicast targets one receiver; multicast targets subscribed members of a group. Filtering, monitoring, membership, and capacity assumptions should reflect that different scope."
+    },
+    {
+      "a": "TLS termination at a gateway",
+      "b": "End-to-end application protection",
+      "difference": "Gateway-terminated TLS protects a client-to-gateway session; an onward service hop requires separately evaluated protection. End-to-end protection reaches the intended application endpoint without an intermediary decrypting it."
+    },
+    {
+      "a": "Control plane",
+      "b": "Management plane",
+      "difference": "The control plane establishes forwarding behavior; the management plane configures and administers devices and policies. Both are privileged but have different functions and attack paths."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "OSI layers precisely classify every protocol and determine its security.",
+      "correction": "Models aid analysis; multilayer and tunneled protocols require examining actual encapsulation and endpoints."
+    },
+    {
+      "claim": "IPv6 broadcast is configured the same way as IPv4 broadcast.",
+      "correction": "IPv6 does not use IPv4 broadcast. Design the required IPv6 delivery behavior using applicable mechanisms and validate receiver scope instead of importing an IPv4 broadcast assumption."
+    },
+    {
+      "claim": "A TLS indicator means every backend hop is protected and authorized.",
+      "correction": "TLS protection ends at its configured termination point; downstream channels, service authorization, gateway administration, logs, and key lifecycle require separate controls."
+    },
+    {
+      "claim": "Redundant links alone make a network architecture resilient.",
+      "correction": "Shared control planes, management identities, route policy, power, fabric, and inspection dependencies can still create common-mode failure or compromise."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What questions should accompany a secure-protocol choice?",
+      "answer": "Which endpoints authenticate, what is protected, what metadata remains, where keys live, and how operation is monitored."
+    },
+    {
+      "prompt": "Name three network performance metrics.",
+      "answer": "Bandwidth, throughput, latency, jitter, and signal-to-noise ratio are valid examples."
+    },
+    {
+      "prompt": "What distinguishes unicast, multicast, broadcast, and anycast during a security review?",
+      "answer": "The intended receiver scope and routing behavior: one receiver, group members, a local broadcast domain in IPv4, or one of several reachable instances. Those differences drive exposure, filtering, monitoring, and capacity decisions."
+    },
+    {
+      "prompt": "What should a secure-protocol design identify before selection?",
+      "answer": "Traffic purpose, layer, cryptographic endpoints, identity/key validation, termination point, exposed metadata, authorization, logging/inspection, availability, and failure/revocation behavior."
+    },
+    {
+      "prompt": "How do store-and-forward and cut-through forwarding change a security design?",
+      "answer": "Store-and-forward receives a full frame before forwarding and can support different error/inspection behavior; cut-through reduces forwarding latency but needs explicit assurance that required controls and error handling remain effective."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A low-latency cut-through path bypasses an inspection point required by policy.",
+      "decision": "Reconcile the latency requirement with inspection placement or choose a design that preserves the required control.",
+      "why": "Performance optimization cannot silently remove a security boundary."
+    },
+    {
+      "prompt": "A service changes from unicast updates to multicast but keeps host-only firewall logging. What must change?",
+      "decisiveDetail": "Validate group membership and receiver scope, network controls, group-aware telemetry, volume/DoS behavior, and unintended listener exposure; one-host assumptions no longer describe the flow.",
+      "testedConceptIds": [
+        "ipv4-ipv6",
+        "multicast",
+        "traffic-monitoring"
+      ]
+    },
+    {
+      "prompt": "A VPN connects a partner network to a data center, but partner administrators can reach a management subnet. What remains to be designed?",
+      "decisiveDetail": "The tunnel scope does not authorize administration. Define partner identity, least-privilege paths, segmentation, management authentication, logging, review, and termination/failure behavior.",
+      "testedConceptIds": [
+        "ipsec",
+        "management-plane",
+        "segmentation",
+        "authorization"
+      ]
+    },
+    {
+      "prompt": "A network controller outage leaves forwarding active but blocks authorized route changes during an incident. What should the design review evaluate?",
+      "decisiveDetail": "Control-plane availability and authority, emergency change governance, out-of-band management, rollback, safe default behavior, monitoring, and whether traffic isolation can be performed without creating a larger outage.",
+      "testedConceptIds": [
+        "network-planes",
+        "topology",
+        "change-management",
+        "incident-response"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review models, addressing, secure protocols, routing planes, converged protocols, and metrics.",
+    "connect": "Connect D3 cryptography, D4 segmentation, and D7 observability.",
+    "apply": "Compare TLS, SSH, and IPSec for three use cases.",
+    "revisit": "Explain what a metric says and what it cannot say."
+  },
+  "visualIds": [
+    "d4-o01-network-protocol-routing-design-concept-comparison-1",
+    "d4-o01-network-protocol-routing-design-concept-comparison-2",
+    "d4-o01-network-protocol-routing-design-concept-comparison-3"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-4.1-protocols",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "4.1 bullets: OSI/TCP-IP, IP, secure/converged protocols, transport, performance"
+      },
+      "supports": [
+        "topic scope"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77), body protocol and architecture sections"
+      },
+      "supports": [
+        "models, protocols, transport, metrics"
+      ]
+    },
+    {
+      "id": "sybex-d4-573-621",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "573-621, Chapter 11"
+      },
+      "supports": [
+        "OSI/TCP-IP, IP, secure protocols, wireless/cellular"
+      ]
+    },
+    {
+      "id": "sybex-d4-573-645",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "573-645, Chapter 11"
+      },
+      "supports": [
+        "network architecture, routing, components"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d4-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d4-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d4-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d4-o01-network-protocol-routing-design-visual-contract",
+    "unitId": "d4-o01-network-protocol-routing-design",
+    "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "misconception": "An IP address, tunnel, or redundant link alone tells you the audience, trust boundary, or resilience outcome.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+    "conceptIds": [
+      "osi-model",
+      "tcp-ip-model",
+      "ipv4",
+      "ipv6",
+      "secure-protocols",
+      "routing",
+      "network-planes",
+      "performance-metrics",
+      "converged-protocols",
+      "ipv4-ipv6",
+      "multicast",
+      "traffic-monitoring",
+      "ipsec",
+      "management-plane",
+      "segmentation",
+      "authorization",
+      "topology",
+      "change-management",
+      "incident-response",
+      "unicast",
+      "store-and-forward",
+      "cut-through",
+      "channel-termination-boundary",
+      "anycast"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "textFallback": "Protocol and infrastructure choices determine reachability, protection, performance, and operational visibility across layered and converged networks.\nSeparate trust and quality requirements through logical zones and QoS, authenticate control and management planes, protect signaling/media appropriately, monitor jitter and route changes, and test failure isolation. Shared infrastructure must not imply shared authorization.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-573-621",
+      "sybex-d4-573-645"
+    ],
+    "mapNodeId": "d4-o01-network-protocol-routing-design",
+    "visualIds": [
+      "d4-o01-network-protocol-routing-design-concept-comparison-1",
+      "d4-o01-network-protocol-routing-design-concept-comparison-2",
+      "d4-o01-network-protocol-routing-design-concept-comparison-3"
+    ]
+  }
+}

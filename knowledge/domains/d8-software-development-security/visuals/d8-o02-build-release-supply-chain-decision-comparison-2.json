@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o02-build-release-supply-chain-decision-comparison-2",
+  "unitId": "d8-o02-build-release-supply-chain",
+  "type": "table",
+  "title": "Secure build, test, and release supply chains: decision comparison 2",
+  "teachingQuestion": "What chain of evidence shows that a deployed artifact was built from approved source and dependencies in a protected process?",
+  "focalInsight": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Iast",
+      "conceptIds": [
+        "iast"
+      ],
+      "definition": "Interactive application security testing observes application behavior from inside while tests execute.",
+      "decision": "Use when instrumented execution can enrich code/runtime insight; define test coverage and protect the instrumented environment.",
+      "failureExample": "IAST cannot observe an abuse path that its test suite never executes.",
+      "detail": "Interactive application security testing observes application behavior from inside while tests execute."
+    },
+    {
+      "id": "row-2",
+      "label": "Software Supply Chain",
+      "conceptIds": [
+        "software-supply-chain"
+      ],
+      "definition": "The people, code, dependencies, tools, build systems, repositories, services, and handoffs that contribute to delivered software.",
+      "decision": "Map and protect each trust dependency and define response for compromised source, dependency, builder, key, or repository.",
+      "failureExample": "Focusing only on application code ignores a malicious package, stolen release key, or altered pipeline configuration.",
+      "detail": "The people, code, dependencies, tools, build systems, repositories, services, and handoffs that contribute to delivered software."
+    },
+    {
+      "id": "row-3",
+      "label": "Software Provenance",
+      "conceptIds": [
+        "software-provenance"
+      ],
+      "definition": "Verifiable history of where software inputs/artifacts came from and how they were transformed before release.",
+      "decision": "Preserve source/dependency/build/identity/attestation evidence sufficient to verify origin and investigate anomalies.",
+      "failureExample": "Without provenance, an organization cannot distinguish an approved artifact from one substituted in the repository.",
+      "detail": "Verifiable history of where software inputs/artifacts came from and how they were transformed before release."
+    },
+    {
+      "id": "row-4",
+      "label": "Dependency Management",
+      "conceptIds": [
+        "dependency-management"
+      ],
+      "definition": "Selection, inventory, version control, review, update, and retirement of software components a product relies on.",
+      "decision": "Pin/record versions where appropriate, review source/license/vulnerability status, assign owners, and test updates before promotion.",
+      "failureExample": "An unconstrained transitive update can change production behavior without a deliberate code change.",
+      "detail": "Selection, inventory, version control, review, update, and retirement of software components a product relies on."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "iast",
+    "software-supply-chain",
+    "software-provenance",
+    "dependency-management"
+  ],
+  "altSummary": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+  "textFallback": "iast: Interactive application security testing observes application behavior from inside while tests execute.. Decision: Use when instrumented execution can enrich code/runtime insight; define test coverage and protect the instrumented environment.. Failure/example: IAST cannot observe an abuse path that its test suite never executes.\nsoftware supply chain: The people, code, dependencies, tools, build systems, repositories, services, and handoffs that contribute to delivered software.. Decision: Map and protect each trust dependency and define response for compromised source, dependency, builder, key, or repository.. Failure/example: Focusing only on application code ignores a malicious package, stolen release key, or altered pipeline configuration.\nsoftware provenance: Verifiable history of where software inputs/artifacts came from and how they were transformed before release.. Decision: Preserve source/dependency/build/identity/attestation evidence sufficient to verify origin and investigate anomalies.. Failure/example: Without provenance, an organization cannot distinguish an approved artifact from one substituted in the repository.\ndependency management: Selection, inventory, version control, review, update, and retirement of software components a product relies on.. Decision: Pin/record versions where appropriate, review source/license/vulnerability status, assign owners, and test updates before promotion.. Failure/example: An unconstrained transitive update can change production behavior without a deliberate code change.",
+  "sourceRefIds": [
+    "official-d8-36-55",
+    "sybex-d8-1049-1065",
+    "miller-d8-727-760",
+    "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+    "d8-o02-build-release-supply-chain-owasp-top-10-2025"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What chain of evidence shows that a deployed artifact was built from approved source and dependencies in a protected process?",
+    "misconception": "An SBOM, clean scanner result, or successful build alone proves the released artifact is trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "CI/CD stages, configuration baseline, build integrity, artifact/software provenance, dependency management, and complementary SAST/DAST/SCA/IAST evidence.",
+    "conceptIds": [
+      "iast",
+      "software-supply-chain",
+      "software-provenance",
+      "dependency-management"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not require a particular CI/CD vendor, signing scheme, artifact format, or universal policy threshold.",
+    "retrievalPrompt": "SCA is clean but the artifact came from an unreviewed branch and shared runner. Which provenance claims remain unproved?",
+    "textFallback": "iast: Interactive application security testing observes application behavior from inside while tests execute.. Decision: Use when instrumented execution can enrich code/runtime insight; define test coverage and protect the instrumented environment.. Failure/example: IAST cannot observe an abuse path that its test suite never executes.\nsoftware supply chain: The people, code, dependencies, tools, build systems, repositories, services, and handoffs that contribute to delivered software.. Decision: Map and protect each trust dependency and define response for compromised source, dependency, builder, key, or repository.. Failure/example: Focusing only on application code ignores a malicious package, stolen release key, or altered pipeline configuration.\nsoftware provenance: Verifiable history of where software inputs/artifacts came from and how they were transformed before release.. Decision: Preserve source/dependency/build/identity/attestation evidence sufficient to verify origin and investigate anomalies.. Failure/example: Without provenance, an organization cannot distinguish an approved artifact from one substituted in the repository.\ndependency management: Selection, inventory, version control, review, update, and retirement of software components a product relies on.. Decision: Pin/record versions where appropriate, review source/license/vulnerability status, assign owners, and test updates before promotion.. Failure/example: An unconstrained transitive update can change production behavior without a deliberate code change.",
+    "sourceRefIds": [
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760",
+      "d8-o02-build-release-supply-chain-nist-sp-800-218-2022",
+      "d8-o02-build-release-supply-chain-owasp-top-10-2025"
+    ],
+    "mapNodeId": "d8-o02-build-release-supply-chain"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

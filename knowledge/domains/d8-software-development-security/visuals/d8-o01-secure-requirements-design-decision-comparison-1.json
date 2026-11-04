@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o01-secure-requirements-design-decision-comparison-1",
+  "unitId": "d8-o01-secure-requirements-design",
+  "type": "table",
+  "title": "Turn risk into secure requirements and design: decision comparison 1",
+  "teachingQuestion": "How does a product risk become a testable security/privacy requirement, a design decision, and acceptance evidence?",
+  "focalInsight": "IPT decision, security/privacy outcomes, threat boundary, control assumption, acceptance criterion, and change-triggered review.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Security Requirements",
+      "conceptIds": [
+        "security-requirements"
+      ],
+      "definition": "Observable security outcomes or constraints the system must satisfy, such as authorized access, integrity protection, auditable events, or safe failure.",
+      "decision": "Write each requirement with context, owner, measurable acceptance evidence, and any approved exception before selecting implementation.",
+      "failureExample": "“Use encryption” without scope, key authority, and a test leaves confidentiality behavior ambiguous.",
+      "detail": "Observable security outcomes or constraints the system must satisfy, such as authorized access, integrity protection, auditable events, or safe failure."
+    },
+    {
+      "id": "row-2",
+      "label": "Privacy Requirements",
+      "conceptIds": [
+        "privacy-requirements"
+      ],
+      "definition": "Requirements governing lawful and appropriate collection, use, disclosure, retention, access, and deletion of personal data in the product.",
+      "decision": "Identify data purpose and lifecycle with privacy stakeholders, then define constraints and evidence for the affected flow.",
+      "failureExample": "A feature can meet functional needs while retaining personal data longer or sharing it more broadly than allowed.",
+      "detail": "Requirements governing lawful and appropriate collection, use, disclosure, retention, access, and deletion of personal data in the product."
+    },
+    {
+      "id": "row-3",
+      "label": "Threat Modeling",
+      "conceptIds": [
+        "threat-modeling"
+      ],
+      "definition": "Structured analysis of assets, actors, trust boundaries, entry points, abuse cases, and control assumptions from an attacker perspective.",
+      "decision": "Perform and update it when architecture, data flow, exposure, or key assumptions change; use results to choose controls and tests.",
+      "failureExample": "Reusing a model after adding an external queue misses the new boundary and abuse paths.",
+      "detail": "Structured analysis of assets, actors, trust boundaries, entry points, abuse cases, and control assumptions from an attacker perspective."
+    },
+    {
+      "id": "row-4",
+      "label": "Secure Design",
+      "conceptIds": [
+        "secure-design"
+      ],
+      "definition": "Architecture and detailed design that deliberately enforces requirements through boundaries, authorization, validation, isolation, cryptography, logging, and resilient behavior.",
+      "decision": "Choose a control because it mitigates a modeled abuse case and document its dependencies, failure behavior, and verification.",
+      "failureExample": "Adding authentication without authorization can still let a valid low-privilege user initiate refunds.",
+      "detail": "Architecture and detailed design that deliberately enforces requirements through boundaries, authorization, validation, isolation, cryptography, logging, and resilient behavior."
+    },
+    {
+      "id": "row-5",
+      "label": "Integrated Product Team",
+      "conceptIds": [
+        "integrated-product-team"
+      ],
+      "definition": "A cross-functional group that makes product tradeoffs with product, engineering, security, privacy, operations, legal, and relevant users/partners.",
+      "decision": "Use the IPT early to resolve conflicting requirements and assign owners for decisions that cross disciplines.",
+      "failureExample": "A security team discovering a retention constraint after release may require costly redesign or unlawful processing.",
+      "detail": "A cross-functional group that makes product tradeoffs with product, engineering, security, privacy, operations, legal, and relevant users/partners."
+    },
+    {
+      "id": "row-6",
+      "label": "Acceptance Criteria",
+      "conceptIds": [
+        "acceptance-criteria"
+      ],
+      "definition": "Pre-agreed, observable conditions and evidence used to decide whether a delivered system meets its specified requirements.",
+      "decision": "Make criteria trace to the requirement and abuse case; test normal, failure, and misuse behavior before acceptance or explicit risk disposition.",
+      "failureExample": "A login test that proves only a valid user can sign in does not prove invalid signatures or unauthorized roles are rejected.",
+      "detail": "Pre-agreed, observable conditions and evidence used to decide whether a delivered system meets its specified requirements."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "security-requirements",
+    "privacy-requirements",
+    "threat-modeling",
+    "secure-design",
+    "integrated-product-team",
+    "acceptance-criteria"
+  ],
+  "altSummary": "IPT decision, security/privacy outcomes, threat boundary, control assumption, acceptance criterion, and change-triggered review.",
+  "textFallback": "security requirements: Observable security outcomes or constraints the system must satisfy, such as authorized access, integrity protection, auditable events, or safe failure.. Decision: Write each requirement with context, owner, measurable acceptance evidence, and any approved exception before selecting implementation.. Failure/example: “Use encryption” without scope, key authority, and a test leaves confidentiality behavior ambiguous.\nprivacy requirements: Requirements governing lawful and appropriate collection, use, disclosure, retention, access, and deletion of personal data in the product.. Decision: Identify data purpose and lifecycle with privacy stakeholders, then define constraints and evidence for the affected flow.. Failure/example: A feature can meet functional needs while retaining personal data longer or sharing it more broadly than allowed.\nthreat modeling: Structured analysis of assets, actors, trust boundaries, entry points, abuse cases, and control assumptions from an attacker perspective.. Decision: Perform and update it when architecture, data flow, exposure, or key assumptions change; use results to choose controls and tests.. Failure/example: Reusing a model after adding an external queue misses the new boundary and abuse paths.\nsecure design: Architecture and detailed design that deliberately enforces requirements through boundaries, authorization, validation, isolation, cryptography, logging, and resilient behavior.. Decision: Choose a control because it mitigates a modeled abuse case and document its dependencies, failure behavior, and verification.. Failure/example: Adding authentication without authorization can still let a valid low-privilege user initiate refunds.\nintegrated product team: A cross-functional group that makes product tradeoffs with product, engineering, security, privacy, operations, legal, and relevant users/partners.. Decision: Use the IPT early to resolve conflicting requirements and assign owners for decisions that cross disciplines.. Failure/example: A security team discovering a retention constraint after release may require costly redesign or unlawful processing.\nacceptance criteria: Pre-agreed, observable conditions and evidence used to decide whether a delivered system meets its specified requirements.. Decision: Make criteria trace to the requirement and abuse case; test normal, failure, and misuse behavior before acceptance or explicit risk disposition.. Failure/example: A login test that proves only a valid user can sign in does not prove invalid signatures or unauthorized roles are rejected.",
+  "sourceRefIds": [
+    "official-d8-9-35",
+    "sybex-d8-1017-1049",
+    "miller-d8-705-727"
+  ],
+  "learningContract": {
+    "teachingQuestion": "How does a product risk become a testable security/privacy requirement, a design decision, and acceptance evidence?",
+    "misconception": "Naming encryption or authentication is a complete security requirement, and a threat model is a one-time document.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "IPT decision, security/privacy outcomes, threat boundary, control assumption, acceptance criterion, and change-triggered review.",
+    "conceptIds": [
+      "security-requirements",
+      "privacy-requirements",
+      "threat-modeling",
+      "secure-design",
+      "integrated-product-team",
+      "acceptance-criteria"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe a single threat-model method, encryption algorithm, privacy law, or approval workflow.",
+    "retrievalPrompt": "A new partner webhook can initiate refunds. State one abuse case, one testable requirement, one design control, and one acceptance test.",
+    "textFallback": "security requirements: Observable security outcomes or constraints the system must satisfy, such as authorized access, integrity protection, auditable events, or safe failure.. Decision: Write each requirement with context, owner, measurable acceptance evidence, and any approved exception before selecting implementation.. Failure/example: “Use encryption” without scope, key authority, and a test leaves confidentiality behavior ambiguous.\nprivacy requirements: Requirements governing lawful and appropriate collection, use, disclosure, retention, access, and deletion of personal data in the product.. Decision: Identify data purpose and lifecycle with privacy stakeholders, then define constraints and evidence for the affected flow.. Failure/example: A feature can meet functional needs while retaining personal data longer or sharing it more broadly than allowed.\nthreat modeling: Structured analysis of assets, actors, trust boundaries, entry points, abuse cases, and control assumptions from an attacker perspective.. Decision: Perform and update it when architecture, data flow, exposure, or key assumptions change; use results to choose controls and tests.. Failure/example: Reusing a model after adding an external queue misses the new boundary and abuse paths.\nsecure design: Architecture and detailed design that deliberately enforces requirements through boundaries, authorization, validation, isolation, cryptography, logging, and resilient behavior.. Decision: Choose a control because it mitigates a modeled abuse case and document its dependencies, failure behavior, and verification.. Failure/example: Adding authentication without authorization can still let a valid low-privilege user initiate refunds.\nintegrated product team: A cross-functional group that makes product tradeoffs with product, engineering, security, privacy, operations, legal, and relevant users/partners.. Decision: Use the IPT early to resolve conflicting requirements and assign owners for decisions that cross disciplines.. Failure/example: A security team discovering a retention constraint after release may require costly redesign or unlawful processing.\nacceptance criteria: Pre-agreed, observable conditions and evidence used to decide whether a delivered system meets its specified requirements.. Decision: Make criteria trace to the requirement and abuse case; test normal, failure, and misuse behavior before acceptance or explicit risk disposition.. Failure/example: A login test that proves only a valid user can sign in does not prove invalid signatures or unauthorized roles are rejected.",
+    "sourceRefIds": [
+      "official-d8-9-35",
+      "sybex-d8-1017-1049",
+      "miller-d8-705-727"
+    ],
+    "mapNodeId": "d8-o01-secure-requirements-design"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

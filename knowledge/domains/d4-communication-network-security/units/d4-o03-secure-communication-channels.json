@@ -1,0 +1,298 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o03-secure-communication-channels",
+  "domainId": 4,
+  "objectiveIds": [
+    "4.3"
+  ],
+  "title": "Implement secure communication channels",
+  "summary": "Secure channels align protocol protections, endpoint identity, remote-access design, collaboration use, data transport, and third-party obligations with the approved architecture.",
+  "outcome": "Choose and operate a secure channel for voice/video, remote administration, data transport, or third-party connectivity while preserving identity, confidentiality, integrity, availability, and accountability.",
+  "conceptIds": [
+    "secure-channel",
+    "remote-access",
+    "voice-video-security",
+    "third-party-connectivity",
+    "vpn",
+    "tls",
+    "ssh",
+    "backhaul"
+  ],
+  "prerequisites": [
+    "d4-o01-architecture-and-segmentation",
+    "d4-o02-components-and-endpoints",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "A channel is a service relationship with endpoints, trust, configuration, monitoring, and failure modes—not merely an encrypted tunnel.",
+  "sections": [
+    {
+      "id": "collaboration-and-remote",
+      "title": "Protect people and administrators",
+      "body": "Voice, video, and collaboration platforms need identity assurance, meeting admission, authorization, encryption appropriate to the threat, recording and screen-sharing governance, secure clients, updates, and logging. Remote administrative access needs strong authentication, least privilege, managed endpoints, approved jump paths, session controls, and separation from ordinary user traffic. Convenience features should not silently expand the trust boundary.",
+      "keyPoints": [
+        "A secure session includes endpoint, identity, channel, content, and administrative controls.",
+        "Remote administration is a high-value path and should be isolated, monitored, and time-bounded.",
+        "Meeting recordings, chat, transcripts, and shared screens become governed information assets."
+      ],
+      "sourceRefIds": [
+        "outline-d4-3",
+        "official-d4-85-98",
+        "sybex-d4-657-678"
+      ]
+    },
+    {
+      "id": "data-and-third-party",
+      "title": "Govern data paths and external dependencies",
+      "body": "Backhaul, satellite, carrier, telecom, hardware-support, and other third-party channels require defined service boundaries, route and data protection, authentication, availability expectations, incident notification, logging, access expiry, and contractual accountability. Select VPN, TLS, SSH, or other protections by layer and use case; verify that encryption endpoints and metadata exposure match the threat model.",
+      "keyPoints": [
+        "A provider relationship does not eliminate the customer's responsibility for data, identities, and configuration.",
+        "Third-party connectivity should be narrowly scoped, monitored, and revocable.",
+        "Availability and latency requirements influence channel and cryptographic choices."
+      ],
+      "sourceRefIds": [
+        "official-d4-85-98",
+        "sybex-d4-657-707",
+        "aio-d4-990-1020"
+      ]
+    },
+    {
+      "id": "channel-families-and-boundaries",
+      "title": "Choose channel controls for collaboration, remote, data, and third-party paths",
+      "body": "Voice, video, and collaboration channels create live media plus recordings, transcripts, chat, files, and metadata; govern identity, room/device posture, encryption, recording authorization, retention, and moderation. Remote administrative access needs brokered identity, MFA, least privilege, jump paths, time bounds, session evidence, and revocation. Data communications such as backhaul and satellite require availability, latency, provider, jurisdiction, encryption endpoint, and fallback decisions. Third-party telecom and hardware support requires contracts, access windows, support identities, monitoring, incident duties, and exit evidence.",
+      "keyPoints": [
+        "Transport encryption does not govern stored collaboration artifacts or endpoint trust.",
+        "A channel's availability and provider dependency can be as important as confidentiality.",
+        "Third-party support should be treated as a controlled identity and data path, not permanent trust."
+      ],
+      "sourceRefIds": [
+        "outline-d4-3",
+        "official-d4-85-98",
+        "sybex-d4-657-707",
+        "aio-d4-990-1020"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Vendor maintenance channel",
+      "situation": "A hardware vendor requests remote access to a production network for a scheduled repair.",
+      "reasoning": "Use an approved jump host, vendor identity with MFA, ticket-bound least privilege, time-limited access, session recording/logging, monitored commands and flows, and a tested revocation path. Require the contract and support process to define evidence and incident duties. Do not publish a permanent inbound port merely because the vendor is trusted."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "VPN",
+        "SSH",
+        "TLS"
+      ],
+      "difference": "VPN commonly protects a routed network path, SSH protects interactive or tunneled administration, and TLS protects application sessions; each has different endpoints, metadata, and operational dependencies."
+    },
+    {
+      "between": [
+        "channel confidentiality",
+        "endpoint trust"
+      ],
+      "difference": "Encryption can protect traffic in transit while a compromised or misidentified endpoint still receives or exposes the plaintext."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A VPN makes remote users trusted by default.",
+      "correction": "The VPN is one channel control; identity, device posture, authorization, segmentation, monitoring, and session limits still determine trust."
+    },
+    {
+      "misconception": "A provider's encrypted link removes the need for contractual controls.",
+      "correction": "Contracts define roles, support access, data handling, notification, evidence, and termination that encryption cannot provide."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What controls belong around remote administration?",
+      "answer": "Strong identity/MFA, managed endpoint, least privilege, jump path, time bounds, logging/session evidence, monitoring, and revocation."
+    },
+    {
+      "prompt": "What extra assets can collaboration create?",
+      "answer": "Recordings, transcripts, chat, shared files, screenshots, and meeting metadata."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A video platform supports end-to-end encryption but stores recordings indefinitely in a tenant accessible to many users.",
+      "decision": "Govern recording authorization, storage classification, access, retention, deletion, and audit separately from transport encryption.",
+      "why": "Channel protection does not govern the resulting stored assets."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review secure protocol layers, remote access, collaboration, data transport, and third-party controls.",
+    "connect": "Connect D3 cryptography, D5 authentication/access, and D7 monitoring/incident response.",
+    "apply": "Write a vendor-access runbook with approval, path, controls, telemetry, and closure evidence.",
+    "revisit": "Identify what happens if identity, carrier, monitoring, or revocation services fail."
+  },
+  "visualIds": [
+    "d4-o03-channel-trust-boundaries",
+    "d4-o03-secure-communication-channels-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d4-3",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "4.3"
+      },
+      "supports": [
+        "objective topics"
+      ]
+    },
+    {
+      "id": "official-d4-85-98",
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "85-98 (PDF pp. 85-98)"
+      },
+      "supports": [
+        "secure channels",
+        "remote access",
+        "voice/video",
+        "third party"
+      ]
+    },
+    {
+      "id": "sybex-d4-657-678",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "657-678, Chapter 12 Secure Communications and Network Attacks"
+      },
+      "supports": [
+        "protocol security",
+        "voice",
+        "remote access"
+      ]
+    },
+    {
+      "id": "sybex-d4-657-707",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "657-707, Chapter 12"
+      },
+      "supports": [
+        "collaboration",
+        "VPN",
+        "third-party connectivity"
+      ]
+    },
+    {
+      "id": "aio-d4-990-1020",
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "locator": {
+        "type": "pdf-page",
+        "value": "990-1020, Chapter 15 Secure Communications Channels"
+      },
+      "supports": [
+        "remote and secure communication channels"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d4-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d4-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d4-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d4-o03-secure-communication-channels-visual-contract",
+    "unitId": "d4-o03-secure-communication-channels",
+    "teachingQuestion": "For a voice, video, remote-admin, provider, or transport channel, what identity, endpoint, scope, media/data governance, evidence, and revocation decision makes it securely usable?",
+    "misconception": "Encrypting a call or tunneling a session makes all participants, recordings, administration, and onward paths trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "A channel is secure only across its full lifecycle: authorized setup, protected/observed use, and revocation/evidence at completion.",
+    "conceptIds": [
+      "secure-channel",
+      "remote-access",
+      "voice-video-security",
+      "third-party-connectivity",
+      "vpn",
+      "tls",
+      "ssh",
+      "backhaul"
+    ],
+    "relationships": [
+      {
+        "from": "request",
+        "to": "approve",
+        "label": "establish accountable purpose"
+      },
+      {
+        "from": "approve",
+        "to": "validate",
+        "label": "check approved protection claims"
+      },
+      {
+        "from": "validate",
+        "to": "connect",
+        "label": "satisfy gates before access"
+      },
+      {
+        "from": "connect",
+        "to": "observe",
+        "label": "produce operation evidence"
+      },
+      {
+        "from": "observe",
+        "to": "close",
+        "label": "completion, expiry or revocation"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a voice, video, remote-admin, provider, or transport channel, what identity, endpoint, scope, media/data governance, evidence, and revocation decision makes it securely usable?",
+    "textFallback": "Secure channels align protocol protections, endpoint identity, remote-access design, collaboration use, data transport, and third-party obligations with the approved architecture.\nUse an approved jump host, vendor identity with MFA, ticket-bound least privilege, time-limited access, session recording/logging, monitored commands and flows, and a tested revocation path. Require the contract and support process to define evidence and incident duties. Do not publish a permanent inbound port merely because the vendor is trusted.",
+    "sourceRefIds": [
+      "official-d4-85-98",
+      "sybex-d4-657-678",
+      "sybex-d4-657-707",
+      "aio-d4-990-1020"
+    ],
+    "mapNodeId": "d4-o03-secure-communication-channels",
+    "visualIds": [
+      "d4-o03-channel-trust-boundaries",
+      "d4-o03-secure-communication-channels-concept-comparison-1"
+    ]
+  }
+}

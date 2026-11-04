@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-implementation-side-channel-attacks-concept-comparison-1",
+  "unitId": "d3-o07-implementation-side-channel-attacks",
+  "type": "table",
+  "title": "Identify implementation, side-channel, timing, and fault-injection paths: concept decisions 1",
+  "teachingQuestion": "What can this attacker observe or induce around the computation, and which defense fits that path?",
+  "focalInsight": "Observation, access, repeatability, error behavior, hardware, and physical interfaces define implementation risk.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Implementation Attack",
+      "conceptIds": [
+        "implementation-attack"
+      ],
+      "definition": "Attack against behavior around a computation rather than the mathematical design itself.",
+      "detail": "Attack against behavior around a computation rather than the mathematical design itself.",
+      "decision": "Model remote, local, co-resident, maintainer, supply-chain, and physical access.",
+      "failureExample": "A system selects a sound algorithm but leaks a key in debug output.",
+      "retrievalAnswer": "Implementation behavior belongs in the threat model.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Side Channel",
+      "conceptIds": [
+        "side-channel"
+      ],
+      "definition": "Leakage via timing, power, electromagnetic signals, cache behavior, or errors.",
+      "detail": "Leakage via timing, power, electromagnetic signals, cache behavior, or errors.",
+      "decision": "Assess measurable signal, attacker access, repeatability, and secret exposure.",
+      "failureExample": "A co-resident workload observes cache patterns during key operations.",
+      "retrievalAnswer": "A side channel reveals behavior without reading the key directly.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Timing Attack",
+      "conceptIds": [
+        "timing-attack"
+      ],
+      "definition": "Inference from data-dependent processing duration.",
+      "detail": "Inference from data-dependent processing duration.",
+      "decision": "Use constant-time comparison or equivalent where timing is observable and sensitive.",
+      "failureExample": "An authentication check returns faster on the first mismatched byte.",
+      "retrievalAnswer": "Time differences can disclose secret progress.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Fault Injection",
+      "conceptIds": [
+        "fault-injection"
+      ],
+      "definition": "Inducing voltage, clock, memory, input, or environmental faults to alter execution.",
+      "detail": "Inducing voltage, clock, memory, input, or environmental faults to alter execution.",
+      "decision": "Use integrity checks, redundancy, protected boot/update, tamper measures, and physical controls as justified.",
+      "failureExample": "A fault makes a device skip secure-boot verification.",
+      "retrievalAnswer": "Fault resistance requires a response to abnormal execution.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Error Handling",
+      "conceptIds": [
+        "error-handling"
+      ],
+      "definition": "Design of failure responses so errors do not reveal secrets or permit unsafe continuation.",
+      "detail": "Design of failure responses so errors do not reveal secrets or permit unsafe continuation.",
+      "decision": "Normalize external errors, log protected detail, and fail securely.",
+      "failureExample": "Different login errors reveal whether an account, password, or token was valid.",
+      "retrievalAnswer": "Useful operator evidence need not be useful attacker feedback.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Constant Time",
+      "conceptIds": [
+        "constant-time"
+      ],
+      "definition": "Implementation approach that avoids secret-dependent timing where needed.",
+      "detail": "Implementation approach that avoids secret-dependent timing where needed.",
+      "decision": "Use for operations and comparisons exposed to an attacker’s timing measurements.",
+      "failureExample": "A compiler optimization reintroduces secret-dependent branch timing.",
+      "retrievalAnswer": "Constant-time needs assurance after code and toolchain changes.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Hardware Security",
+      "conceptIds": [
+        "hardware-security"
+      ],
+      "definition": "Use of hardware or service boundaries to protect secrets and sensitive operations.",
+      "detail": "Use of hardware or service boundaries to protect secrets and sensitive operations.",
+      "decision": "Choose when extraction resistance, controlled operations, and physical assurance matter.",
+      "failureExample": "A hardware-backed key is accessible through an enabled debug interface.",
+      "retrievalAnswer": "Hardware protection depends on configuration and interface control.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Physical Security",
+      "conceptIds": [
+        "physical-security"
+      ],
+      "definition": "Controls limiting physical observation, tampering, maintenance abuse, and device theft.",
+      "detail": "Controls limiting physical observation, tampering, maintenance abuse, and device theft.",
+      "decision": "Apply by facility, device exposure, attacker capability, and consequence.",
+      "failureExample": "An unattended device exposes test pads and diagnostic ports.",
+      "retrievalAnswer": "Physical access can change the attacker model completely.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Secure Coding",
+      "conceptIds": [
+        "secure-coding"
+      ],
+      "definition": "Engineering practice that avoids unsafe input, state, memory, error, and dependency behavior.",
+      "detail": "Engineering practice that avoids unsafe input, state, memory, error, and dependency behavior.",
+      "decision": "Use vetted libraries, review, tests, patching, and controlled changes.",
+      "failureExample": "A parser flaw lets malformed input bypass protocol validation.",
+      "retrievalAnswer": "Secure crypto requires secure surrounding code.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "implementation-attack",
+    "side-channel",
+    "timing-attack",
+    "fault-injection",
+    "error-handling",
+    "constant-time",
+    "hardware-security",
+    "physical-security",
+    "secure-coding"
+  ],
+  "altSummary": "Observation, access, repeatability, error behavior, hardware, and physical interfaces define implementation risk.",
+  "textFallback": "implementation attack: Attack against behavior around a computation rather than the mathematical design itself. Decide: Model remote, local, co-resident, maintainer, supply-chain, and physical access. Example/failure: A system selects a sound algorithm but leaks a key in debug output. Retrieve: Implementation behavior belongs in the threat model.\nside channel: Leakage via timing, power, electromagnetic signals, cache behavior, or errors. Decide: Assess measurable signal, attacker access, repeatability, and secret exposure. Example/failure: A co-resident workload observes cache patterns during key operations. Retrieve: A side channel reveals behavior without reading the key directly.\ntiming attack: Inference from data-dependent processing duration. Decide: Use constant-time comparison or equivalent where timing is observable and sensitive. Example/failure: An authentication check returns faster on the first mismatched byte. Retrieve: Time differences can disclose secret progress.\nfault injection: Inducing voltage, clock, memory, input, or environmental faults to alter execution. Decide: Use integrity checks, redundancy, protected boot/update, tamper measures, and physical controls as justified. Example/failure: A fault makes a device skip secure-boot verification. Retrieve: Fault resistance requires a response to abnormal execution.\nerror handling: Design of failure responses so errors do not reveal secrets or permit unsafe continuation. Decide: Normalize external errors, log protected detail, and fail securely. Example/failure: Different login errors reveal whether an account, password, or token was valid. Retrieve: Useful operator evidence need not be useful attacker feedback.\nconstant time: Implementation approach that avoids secret-dependent timing where needed. Decide: Use for operations and comparisons exposed to an attacker’s timing measurements. Example/failure: A compiler optimization reintroduces secret-dependent branch timing. Retrieve: Constant-time needs assurance after code and toolchain changes.\nhardware security: Use of hardware or service boundaries to protect secrets and sensitive operations. Decide: Choose when extraction resistance, controlled operations, and physical assurance matter. Example/failure: A hardware-backed key is accessible through an enabled debug interface. Retrieve: Hardware protection depends on configuration and interface control.\nphysical security: Controls limiting physical observation, tampering, maintenance abuse, and device theft. Decide: Apply by facility, device exposure, attacker capability, and consequence. Example/failure: An unattended device exposes test pads and diagnostic ports. Retrieve: Physical access can change the attacker model completely.\nsecure coding: Engineering practice that avoids unsafe input, state, memory, error, and dependency behavior. Decide: Use vetted libraries, review, tests, patching, and controlled changes. Example/failure: A parser flaw lets malformed input bypass protocol validation. Retrieve: Secure crypto requires secure surrounding code.",
+  "sourceRefIds": [
+    "d3-o07-implementation-textbook",
+    "d3-o07-implementation-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "What can this attacker observe or induce around the computation, and which defense fits that path?",
+    "misconception": "A sound cryptographic algorithm guarantees a sound implementation.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Observation, access, repeatability, error behavior, hardware, and physical interfaces define implementation risk.",
+    "conceptIds": [
+      "implementation-attack",
+      "side-channel",
+      "timing-attack",
+      "fault-injection",
+      "error-handling",
+      "constant-time",
+      "hardware-security",
+      "physical-security",
+      "secure-coding"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "State the leakage or fault path, attacker access, and the proportional mitigation.",
+    "textFallback": "implementation attack: Attack against behavior around a computation rather than the mathematical design itself. Decide: Model remote, local, co-resident, maintainer, supply-chain, and physical access. Example/failure: A system selects a sound algorithm but leaks a key in debug output. Retrieve: Implementation behavior belongs in the threat model.\nside channel: Leakage via timing, power, electromagnetic signals, cache behavior, or errors. Decide: Assess measurable signal, attacker access, repeatability, and secret exposure. Example/failure: A co-resident workload observes cache patterns during key operations. Retrieve: A side channel reveals behavior without reading the key directly.\ntiming attack: Inference from data-dependent processing duration. Decide: Use constant-time comparison or equivalent where timing is observable and sensitive. Example/failure: An authentication check returns faster on the first mismatched byte. Retrieve: Time differences can disclose secret progress.\nfault injection: Inducing voltage, clock, memory, input, or environmental faults to alter execution. Decide: Use integrity checks, redundancy, protected boot/update, tamper measures, and physical controls as justified. Example/failure: A fault makes a device skip secure-boot verification. Retrieve: Fault resistance requires a response to abnormal execution.\nerror handling: Design of failure responses so errors do not reveal secrets or permit unsafe continuation. Decide: Normalize external errors, log protected detail, and fail securely. Example/failure: Different login errors reveal whether an account, password, or token was valid. Retrieve: Useful operator evidence need not be useful attacker feedback.\nconstant time: Implementation approach that avoids secret-dependent timing where needed. Decide: Use for operations and comparisons exposed to an attacker’s timing measurements. Example/failure: A compiler optimization reintroduces secret-dependent branch timing. Retrieve: Constant-time needs assurance after code and toolchain changes.\nhardware security: Use of hardware or service boundaries to protect secrets and sensitive operations. Decide: Choose when extraction resistance, controlled operations, and physical assurance matter. Example/failure: A hardware-backed key is accessible through an enabled debug interface. Retrieve: Hardware protection depends on configuration and interface control.\nphysical security: Controls limiting physical observation, tampering, maintenance abuse, and device theft. Decide: Apply by facility, device exposure, attacker capability, and consequence. Example/failure: An unattended device exposes test pads and diagnostic ports. Retrieve: Physical access can change the attacker model completely.\nsecure coding: Engineering practice that avoids unsafe input, state, memory, error, and dependency behavior. Decide: Use vetted libraries, review, tests, patching, and controlled changes. Example/failure: A parser flaw lets malformed input bypass protocol validation. Retrieve: Secure crypto requires secure surrounding code.",
+    "sourceRefIds": [
+      "d3-o07-implementation-textbook",
+      "d3-o07-implementation-sybex"
+    ],
+    "mapNodeId": "d3-o07-implementation-side-channel-attacks"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

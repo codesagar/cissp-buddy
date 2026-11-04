@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o11-disaster-recovery-restoration-validation-decision-comparison-1",
+  "unitId": "d7-o11-disaster-recovery-restoration-validation",
+  "type": "table",
+  "title": "Restore and validate disaster-recovered services: decision comparison 1",
+  "teachingQuestion": "Who declares, restores, validates, accepts, and transitions DR service?",
+  "focalInsight": "Rows separate selection/operation/validation failures.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "DR Assessment",
+      "conceptIds": [
+        "dr-assessment"
+      ],
+      "definition": "A safety-aware assessment that establishes disruption scope, recoverability, dependencies, evidence needs, and whether the recovery strategy remains viable.",
+      "decision": "Use verified facts to decide containment, alternate-site use, restoration order, and escalation.",
+      "failureExample": "Skipping assessment can make teams restore the wrong scope or contaminate evidence and backups.",
+      "detail": "A safety-aware assessment that establishes disruption scope, recoverability, dependencies, evidence needs, and whether the recovery strategy remains viable."
+    },
+    {
+      "id": "row-2",
+      "label": "Restoration",
+      "conceptIds": [
+        "restoration"
+      ],
+      "definition": "Controlled rebuild or recovery of prioritized services, data, identities, configurations, and dependencies from trustworthy sources.",
+      "decision": "Restore in dependency-aware order using approved sources, protected credentials, and recorded execution evidence.",
+      "failureExample": "A service can appear online while missing data, identity services, interfaces, or required security configuration.",
+      "detail": "Controlled rebuild or recovery of prioritized services, data, identities, configurations, and dependencies from trustworthy sources."
+    },
+    {
+      "id": "row-3",
+      "label": "Service Validation",
+      "conceptIds": [
+        "service-validation"
+      ],
+      "definition": "Technical and business checks that the restored service performs its defined functions within recovery criteria.",
+      "decision": "Validate functionality, dependencies, performance, monitoring, and required workflows before release to users.",
+      "failureExample": "A successful boot or health check alone does not prove the business service is usable.",
+      "detail": "Technical and business checks that the restored service performs its defined functions within recovery criteria."
+    },
+    {
+      "id": "row-4",
+      "label": "Data Integrity",
+      "conceptIds": [
+        "data-integrity"
+      ],
+      "definition": "Evidence that recovered data is complete enough for the approved recovery point, internally consistent, authorized, and fit for intended use.",
+      "decision": "Compare recovery-point targets, record counts/checks, transactional consistency, and business reconciliation results.",
+      "failureExample": "Loading an old or inconsistent copy can silently corrupt downstream decisions and records.",
+      "detail": "Evidence that recovered data is complete enough for the approved recovery point, internally consistent, authorized, and fit for intended use."
+    },
+    {
+      "id": "row-5",
+      "label": "Security Validation",
+      "conceptIds": [
+        "security-validation"
+      ],
+      "definition": "Verification that restoration re-establishes identities, authorization, encryption/key use, logging, vulnerability state, and protective monitoring.",
+      "decision": "Validate the controls required for the service before widening access or ending heightened monitoring.",
+      "failureExample": "A fast restore that bypasses access control, keys, patches, or logging may create a second incident.",
+      "detail": "Verification that restoration re-establishes identities, authorization, encryption/key use, logging, vulnerability state, and protective monitoring."
+    },
+    {
+      "id": "row-6",
+      "label": "Service Acceptance",
+      "conceptIds": [
+        "service-acceptance"
+      ],
+      "definition": "The accountable business owner’s decision that validated recovery meets the agreed service, data, risk, and operational criteria.",
+      "decision": "Accept only after technical evidence, business workflow checks, known limitations, and risk disposition are recorded.",
+      "failureExample": "Technical completion is not business acceptance; returning users without owner acceptance can conceal unacceptable loss or limitation.",
+      "detail": "The accountable business owner’s decision that validated recovery meets the agreed service, data, risk, and operational criteria."
+    },
+    {
+      "id": "row-7",
+      "label": "Return To Normal",
+      "conceptIds": [
+        "return-to-normal"
+      ],
+      "definition": "A controlled transition from recovery mode to normal operations, including reconciled data, stable monitoring, communications, and closure criteria.",
+      "decision": "Transition when normal capability is stable, residual risks are accepted, recovery work is documented, and rollback/contingency is understood.",
+      "failureExample": "Premature transition can reintroduce failed dependencies, lose recovery evidence, or leave users on an unsupported temporary service.",
+      "detail": "A controlled transition from recovery mode to normal operations, including reconciled data, stable monitoring, communications, and closure criteria."
+    },
+    {
+      "id": "row-8",
+      "label": "Recovery Evidence",
+      "conceptIds": [
+        "recovery-evidence"
+      ],
+      "definition": "Time-stamped, attributable records of decisions, sources, changes, tests, results, exceptions, and acceptances made during recovery.",
+      "decision": "Preserve evidence sufficient for safety, audit, reconciliation, learning, and later decision review.",
+      "failureExample": "A narrative without logs, test results, or approver identity cannot substantiate that recovery criteria were met.",
+      "detail": "Time-stamped, attributable records of decisions, sources, changes, tests, results, exceptions, and acceptances made during recovery."
+    },
+    {
+      "id": "row-9",
+      "label": "DR Lessons Learned",
+      "conceptIds": [
+        "dr-lessons-learned"
+      ],
+      "definition": "A controlled improvement loop that converts validated recovery observations into owned actions and retestable plan/capability changes.",
+      "decision": "Prioritize findings by service and risk impact, assign action evidence, update controlled artifacts, and retest.",
+      "failureExample": "Treating lessons as a retrospective-only discussion leaves known recovery defects unresolved.",
+      "detail": "A controlled improvement loop that converts validated recovery observations into owned actions and retestable plan/capability changes."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "dr-assessment",
+    "restoration",
+    "service-validation",
+    "data-integrity",
+    "security-validation",
+    "service-acceptance",
+    "return-to-normal",
+    "recovery-evidence",
+    "dr-lessons-learned"
+  ],
+  "altSummary": "Rows separate selection/operation/validation failures.",
+  "textFallback": "DR Assessment: A safety-aware assessment that establishes disruption scope, recoverability, dependencies, evidence needs, and whether the recovery strategy remains viable. Decision: Use verified facts to decide containment, alternate-site use, restoration order, and escalation. Failure: Skipping assessment can make teams restore the wrong scope or contaminate evidence and backups.\nRestoration: Controlled rebuild or recovery of prioritized services, data, identities, configurations, and dependencies from trustworthy sources. Decision: Restore in dependency-aware order using approved sources, protected credentials, and recorded execution evidence. Failure: A service can appear online while missing data, identity services, interfaces, or required security configuration.\nService Validation: Technical and business checks that the restored service performs its defined functions within recovery criteria. Decision: Validate functionality, dependencies, performance, monitoring, and required workflows before release to users. Failure: A successful boot or health check alone does not prove the business service is usable.\nData Integrity: Evidence that recovered data is complete enough for the approved recovery point, internally consistent, authorized, and fit for intended use. Decision: Compare recovery-point targets, record counts/checks, transactional consistency, and business reconciliation results. Failure: Loading an old or inconsistent copy can silently corrupt downstream decisions and records.\nSecurity Validation: Verification that restoration re-establishes identities, authorization, encryption/key use, logging, vulnerability state, and protective monitoring. Decision: Validate the controls required for the service before widening access or ending heightened monitoring. Failure: A fast restore that bypasses access control, keys, patches, or logging may create a second incident.\nService Acceptance: The accountable business owner’s decision that validated recovery meets the agreed service, data, risk, and operational criteria. Decision: Accept only after technical evidence, business workflow checks, known limitations, and risk disposition are recorded. Failure: Technical completion is not business acceptance; returning users without owner acceptance can conceal unacceptable loss or limitation.\nReturn To Normal: A controlled transition from recovery mode to normal operations, including reconciled data, stable monitoring, communications, and closure criteria. Decision: Transition when normal capability is stable, residual risks are accepted, recovery work is documented, and rollback/contingency is understood. Failure: Premature transition can reintroduce failed dependencies, lose recovery evidence, or leave users on an unsupported temporary service.\nRecovery Evidence: Time-stamped, attributable records of decisions, sources, changes, tests, results, exceptions, and acceptances made during recovery. Decision: Preserve evidence sufficient for safety, audit, reconciliation, learning, and later decision review. Failure: A narrative without logs, test results, or approver identity cannot substantiate that recovery criteria were met.\nDR Lessons Learned: A controlled improvement loop that converts validated recovery observations into owned actions and retestable plan/capability changes. Decision: Prioritize findings by service and risk impact, assign action evidence, update controlled artifacts, and retest. Failure: Treating lessons as a retrospective-only discussion leaves known recovery defects unresolved.",
+  "sourceRefIds": [
+    "official-d7-75-81-restoration",
+    "sybex-d7-890-895",
+    "sybex-d7-896-898",
+    "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-1",
+    "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-2"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Who declares, restores, validates, accepts, and transitions DR service?",
+    "misconception": "Host start proves DR completion.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Rows separate selection/operation/validation failures.",
+    "conceptIds": [
+      "dr-assessment",
+      "restoration",
+      "service-validation",
+      "data-integrity",
+      "security-validation",
+      "service-acceptance",
+      "return-to-normal",
+      "recovery-evidence",
+      "dr-lessons-learned"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal recovery tier/timing.",
+    "retrievalPrompt": "Name objective, dependency, owner, evidence, acceptance.",
+    "textFallback": "DR Assessment: A safety-aware assessment that establishes disruption scope, recoverability, dependencies, evidence needs, and whether the recovery strategy remains viable. Decision: Use verified facts to decide containment, alternate-site use, restoration order, and escalation. Failure: Skipping assessment can make teams restore the wrong scope or contaminate evidence and backups.\nRestoration: Controlled rebuild or recovery of prioritized services, data, identities, configurations, and dependencies from trustworthy sources. Decision: Restore in dependency-aware order using approved sources, protected credentials, and recorded execution evidence. Failure: A service can appear online while missing data, identity services, interfaces, or required security configuration.\nService Validation: Technical and business checks that the restored service performs its defined functions within recovery criteria. Decision: Validate functionality, dependencies, performance, monitoring, and required workflows before release to users. Failure: A successful boot or health check alone does not prove the business service is usable.\nData Integrity: Evidence that recovered data is complete enough for the approved recovery point, internally consistent, authorized, and fit for intended use. Decision: Compare recovery-point targets, record counts/checks, transactional consistency, and business reconciliation results. Failure: Loading an old or inconsistent copy can silently corrupt downstream decisions and records.\nSecurity Validation: Verification that restoration re-establishes identities, authorization, encryption/key use, logging, vulnerability state, and protective monitoring. Decision: Validate the controls required for the service before widening access or ending heightened monitoring. Failure: A fast restore that bypasses access control, keys, patches, or logging may create a second incident.\nService Acceptance: The accountable business owner’s decision that validated recovery meets the agreed service, data, risk, and operational criteria. Decision: Accept only after technical evidence, business workflow checks, known limitations, and risk disposition are recorded. Failure: Technical completion is not business acceptance; returning users without owner acceptance can conceal unacceptable loss or limitation.\nReturn To Normal: A controlled transition from recovery mode to normal operations, including reconciled data, stable monitoring, communications, and closure criteria. Decision: Transition when normal capability is stable, residual risks are accepted, recovery work is documented, and rollback/contingency is understood. Failure: Premature transition can reintroduce failed dependencies, lose recovery evidence, or leave users on an unsupported temporary service.\nRecovery Evidence: Time-stamped, attributable records of decisions, sources, changes, tests, results, exceptions, and acceptances made during recovery. Decision: Preserve evidence sufficient for safety, audit, reconciliation, learning, and later decision review. Failure: A narrative without logs, test results, or approver identity cannot substantiate that recovery criteria were met.\nDR Lessons Learned: A controlled improvement loop that converts validated recovery observations into owned actions and retestable plan/capability changes. Decision: Prioritize findings by service and risk impact, assign action evidence, update controlled artifacts, and retest. Failure: Treating lessons as a retrospective-only discussion leaves known recovery defects unresolved.",
+    "sourceRefIds": [
+      "official-d7-75-81-restoration",
+      "sybex-d7-890-895",
+      "sybex-d7-896-898"
+    ],
+    "mapNodeId": "d7-o11-disaster-recovery-restoration-validation"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

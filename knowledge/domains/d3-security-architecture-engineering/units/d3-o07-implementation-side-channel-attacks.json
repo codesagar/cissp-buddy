@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-implementation-side-channel-attacks",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.7"
+  ],
+  "title": "Identify implementation, side-channel, timing, and fault-injection paths",
+  "summary": "A sound cryptographic primitive can fail when implementation behavior exposes time, power, electromagnetic, cache, error, or fault information. Implementation attack analysis locates the leakage source, attacker proximity, measurement capability, privilege boundary, and compensating design and operational controls.",
+  "outcome": "Identify timing, side-channel, and fault-injection exposure and select mitigation categories based on the attacker’s observation and access path.",
+  "conceptIds": [
+    "implementation-attack",
+    "side-channel",
+    "timing-attack",
+    "fault-injection",
+    "error-handling",
+    "constant-time",
+    "hardware-security",
+    "physical-security",
+    "secure-coding"
+  ],
+  "prerequisites": [
+    "d3-o06-cryptographic-primitives",
+    "d3-o04-system-security-capabilities",
+    "d8-o05-secure-coding"
+  ],
+  "estimatedMinutes": 46,
+  "managerMindset": "Do not call a library safe in the abstract. Evaluate the actual execution environment, error behavior, physical access, update path, compiler or runtime behavior, and evidence that sensitive operations do not leak or fail open.",
+  "sections": [
+    {
+      "id": "leakage-paths",
+      "title": "Recognize behavior that reveals secrets",
+      "body": "Implementation attacks target behavior around a computation rather than defeating the mathematical design directly. A side channel may reveal useful information through timing, power use, electromagnetic emissions, cache effects, error differences, or other measurable behavior. Timing attacks compare response duration or processing path. Fault injection induces or exploits abnormal conditions such as voltage, clock, memory, input, or environmental disturbance to alter execution or extract information. The practical risk depends on the secret, attacker access, repeatability, and measurement quality.",
+      "keyPoints": [
+        "Leakage can be remote, local, or physical depending on the design.",
+        "Different error messages and code paths can become observable side channels."
+      ],
+      "sourceRefIds": [
+        "d3-o07-implementation-outline",
+        "d3-o07-implementation-textbook",
+        "d3-o07-implementation-sybex"
+      ]
+    },
+    {
+      "id": "defense",
+      "title": "Layer implementation and environmental defenses",
+      "body": "Use vetted cryptographic implementations and current maintenance processes; avoid data-dependent observable behavior where the threat requires it; use constant-time or equivalent techniques where appropriate; normalize errors; validate inputs; protect secrets in suitable hardware or service boundaries; restrict debug, diagnostic, and physical interfaces; and monitor integrity and configuration. For fault injection, use integrity checks, redundancy or verification where suitable, tamper response, protected boot and update paths, and physical controls proportional to risk. No single defense applies to every platform.",
+      "keyPoints": [
+        "Defenses must match the execution environment and threat capability.",
+        "Physical security and secure engineering can be cryptographic controls when they protect implementation behavior."
+      ],
+      "sourceRefIds": [
+        "d3-o07-implementation-textbook",
+        "d3-o07-implementation-sybex"
+      ]
+    },
+    {
+      "id": "assurance",
+      "title": "Test leakage claims safely and continuously",
+      "body": "Define the relevant attacker model before selecting review or testing: remote user, co-resident workload, local maintainer, supply-chain actor, or physical attacker. Review code and configuration, test authorized observable behavior, validate that debug modes and exception paths are disabled or controlled, and assess update and attestation evidence. Treat a patch or compiler change as a potential implementation change; repeat appropriate assurance rather than assuming a mathematical algorithm choice covers the new behavior.",
+      "keyPoints": [
+        "A change in runtime, hardware, compiler, or diagnostic configuration can change leakage risk.",
+        "Authorized testing must protect availability and avoid exposing production secrets."
+      ],
+      "sourceRefIds": [
+        "d3-o07-outline",
+        "d3-o07-implementation-textbook",
+        "d3-o07-implementation-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Hardware-backed signing appliance",
+      "situation": "A signing service exposes detailed errors and supports an unattended debug port for maintenance.",
+      "reasoning": "Reduce external error detail, authorize and disable or physically protect debug interfaces, use vendor-supported secure configuration, monitor privileged maintenance, validate update integrity, and test that invalid requests do not produce a distinguishable secret-related response. Review physical access and incident handling with the key custodian.",
+      "takeaway": "Hardware backing helps only when diagnostics, maintenance, and physical paths preserve the intended boundary."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Side channel",
+      "b": "Fault injection",
+      "difference": "A side channel observes unintended information from normal or induced behavior; fault injection attempts to alter execution or state so that protection is bypassed or information is revealed."
+    },
+    {
+      "a": "Timing variation",
+      "b": "Functional error",
+      "difference": "Timing variation leaks through duration or path; a functional error may be harmless or may become a leak if its type, detail, or behavior differs in an attacker-observable way."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Physical controls are irrelevant when cryptography is used.",
+      "correction": "Physical or local access can enable debug, probing, extraction, or fault paths that undermine an otherwise appropriate cryptographic design."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What makes an implementation side channel actionable?",
+      "answer": "A secret-dependent observable signal, an attacker able to measure it sufficiently, and a path from the observation to a security-relevant inference."
+    },
+    {
+      "prompt": "Why can detailed errors be risky?",
+      "answer": "They can reveal validation stage, state, or secret-dependent behavior that helps an attacker adapt inputs or distinguish protected conditions."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "An embedded token returns a different status code for each failed PIN-validation step. What is the first security question?",
+      "decisiveDetail": "Determine whether the differing observable behavior reveals information that lets an attacker infer correct partial values or validation state, then normalize and rate-limit the path.",
+      "testedConceptIds": [
+        "side-channel",
+        "timing-attack",
+        "error-handling",
+        "embedded-security"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "List leakage signal, attacker access, protected secret, and mitigation for one remote and one physical case.",
+    "connect": "Connect D3 platform capabilities, D7 physical operations, and D8 secure coding and testing.",
+    "apply": "Review an exception path for externally observable differences.",
+    "revisit": "In three days, explain how fault injection differs from a side channel."
+  },
+  "visualIds": [
+    "d3-o07-implementation-side-channel-leakage-paths",
+    "d3-o07-implementation-side-channel-attacks-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o07-implementation-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7: implementation attacks, side-channel, fault injection, timing"
+      },
+      "supports": [
+        "objective-boundary",
+        "implementation-attack-topics"
+      ]
+    },
+    {
+      "id": "d3-o07-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o07-implementation-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "85-95",
+        "pdfPage": "85-95",
+        "note": "Domain 3 cryptanalytic-attacks range; printed page is the citation anchor."
+      },
+      "supports": [
+        "implementation-side-channel-fault-timing-attacks",
+        "mitigation-context"
+      ]
+    },
+    {
+      "id": "d3-o07-implementation-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7 and 9, pp. 219-446; attack-specific locator refinement pending"
+      },
+      "supports": [
+        "implementation-attack-correlation"
+      ],
+      "sourceNotes": "Secondary locator is broad and must be refined before source-checked status."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o07-implementation-side-channel-attacks-visual-contract",
+    "unitId": "d3-o07-implementation-side-channel-attacks",
+    "teachingQuestion": "What can this attacker observe or induce around the computation, and which defense fits that path?",
+    "misconception": "A sound cryptographic algorithm guarantees a sound implementation.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Observation, access, repeatability, error behavior, hardware, and physical interfaces define implementation risk.",
+    "conceptIds": [
+      "implementation-attack",
+      "side-channel",
+      "timing-attack",
+      "fault-injection",
+      "error-handling",
+      "constant-time",
+      "hardware-security",
+      "physical-security",
+      "secure-coding"
+    ],
+    "relationships": [
+      {
+        "from": "signal",
+        "to": "access",
+        "label": "must be measurable by"
+      },
+      {
+        "from": "access",
+        "to": "secret",
+        "label": "targets inference about"
+      },
+      {
+        "from": "fault",
+        "to": "secret",
+        "label": "attempts to alter or expose"
+      },
+      {
+        "from": "engineering",
+        "to": "signal",
+        "label": "reduces"
+      },
+      {
+        "from": "environment",
+        "to": "access",
+        "label": "constrains"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "State the leakage or fault path, attacker access, and the proportional mitigation.",
+    "textFallback": "A sound cryptographic primitive can fail when implementation behavior exposes time, power, electromagnetic, cache, error, or fault information. Implementation attack analysis locates the leakage source, attacker proximity, measurement capability, privilege boundary, and compensating design and operational controls.\nReduce external error detail, authorize and disable or physically protect debug interfaces, use vendor-supported secure configuration, monitor privileged maintenance, validate update integrity, and test that invalid requests do not produce a distinguishable secret-related response. Review physical access and incident handling with the key custodian.",
+    "sourceRefIds": [
+      "d3-o07-implementation-textbook",
+      "d3-o07-implementation-sybex"
+    ],
+    "mapNodeId": "d3-o07-implementation-side-channel-attacks",
+    "visualIds": [
+      "d3-o07-implementation-side-channel-attacks-concept-comparison-1",
+      "d3-o07-implementation-side-channel-leakage-paths"
+    ]
+  }
+}

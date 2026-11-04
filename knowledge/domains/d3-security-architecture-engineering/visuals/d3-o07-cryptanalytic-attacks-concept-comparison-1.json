@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-cryptanalytic-attacks-concept-comparison-1",
+  "unitId": "d3-o07-cryptanalytic-attacks",
+  "type": "table",
+  "title": "Reason about cryptanalytic and implementation attacks: concept decisions 1",
+  "teachingQuestion": "Which attack path has the decisive weakness, and how should the mitigation be directed?",
+  "focalInsight": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Cryptanalysis",
+      "conceptIds": [
+        "cryptanalysis"
+      ],
+      "definition": "Analysis of the attack path against cryptography or its implementation.",
+      "detail": "Analysis of the attack path against cryptography or its implementation.",
+      "decision": "Identify whether the weakness is math, protocol, credential, endpoint, or recovery.",
+      "failureExample": "Ransomware is treated as an algorithm-breaking event.",
+      "retrievalAnswer": "Classify the decisive weakness before choosing a response.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Brute Force",
+      "conceptIds": [
+        "brute-force"
+      ],
+      "definition": "Search through candidate secrets until one works.",
+      "detail": "Search through candidate secrets until one works.",
+      "decision": "Combine adequate secret strength with online-guess protections and detection.",
+      "failureExample": "A privileged login permits repeated password trials without alerting.",
+      "retrievalAnswer": "Search cost and response controls determine practical brute force.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Ciphertext Only Attack",
+      "conceptIds": [
+        "ciphertext-only-attack"
+      ],
+      "definition": "Attempt to infer plaintext or keys from intercepted ciphertexts alone.",
+      "detail": "Attempt to infer plaintext or keys from intercepted ciphertexts alone.",
+      "decision": "Use current approved designs and avoid weak pattern-preserving systems.",
+      "failureExample": "A legacy cipher exposes recognizable structure from ciphertext samples.",
+      "retrievalAnswer": "Ciphertext-only does not mean risk-free ciphertext.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Known Plaintext Attack",
+      "conceptIds": [
+        "known-plaintext-attack"
+      ],
+      "definition": "Attack using known matched plaintext and ciphertext.",
+      "detail": "Attack using known matched plaintext and ciphertext.",
+      "decision": "Avoid vulnerable schemes; protect protocol composition and keys.",
+      "failureExample": "A predictable message template supplies useful plaintext to a weak scheme.",
+      "retrievalAnswer": "Known plaintext tests a scheme’s design assumption.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Chosen Ciphertext Attack",
+      "conceptIds": [
+        "chosen-ciphertext-attack"
+      ],
+      "definition": "Attack using attacker-selected ciphertexts and observable decryption behavior.",
+      "detail": "Attack using attacker-selected ciphertexts and observable decryption behavior.",
+      "decision": "Reject invalid input uniformly and avoid exploitable decryption feedback.",
+      "failureExample": "Different server errors reveal whether a ciphertext has valid structure.",
+      "retrievalAnswer": "Do not expose a decryption oracle.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Frequency Analysis",
+      "conceptIds": [
+        "frequency-analysis"
+      ],
+      "definition": "Analysis of repeated character or pattern frequencies in weak ciphers.",
+      "detail": "Analysis of repeated character or pattern frequencies in weak ciphers.",
+      "decision": "Use modern schemes that do not expose classical frequency patterns.",
+      "failureExample": "A substitution cipher’s repeated symbols reveal likely words.",
+      "retrievalAnswer": "Frequency analysis exploits predictable distribution.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Side Channel",
+      "conceptIds": [
+        "side-channel"
+      ],
+      "definition": "Information leakage through observable implementation behavior such as timing or power.",
+      "detail": "Information leakage through observable implementation behavior such as timing or power.",
+      "decision": "Assess attacker access, repeatability, secret value, and measurement path.",
+      "failureExample": "Power traces reveal differences during private-key operations.",
+      "retrievalAnswer": "The math may be sound while the implementation leaks.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Timing Attack",
+      "conceptIds": [
+        "timing-attack"
+      ],
+      "definition": "Side-channel attack comparing operation time to infer secrets or branches.",
+      "detail": "Side-channel attack comparing operation time to infer secrets or branches.",
+      "decision": "Use constant-time or equivalent handling where the attacker model requires it.",
+      "failureExample": "A remote comparison returns earlier for a matching prefix.",
+      "retrievalAnswer": "Data-dependent time can disclose information.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Fault Injection",
+      "conceptIds": [
+        "fault-injection"
+      ],
+      "definition": "Inducing abnormal execution to bypass checks or expose secrets.",
+      "detail": "Inducing abnormal execution to bypass checks or expose secrets.",
+      "decision": "Protect hardware, boot/update paths, integrity checks, and error handling proportionately.",
+      "failureExample": "Voltage disturbance skips a signature-verification branch.",
+      "retrievalAnswer": "Faults target behavior, not necessarily the cipher mathematics.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "cryptanalysis",
+    "brute-force",
+    "ciphertext-only-attack",
+    "known-plaintext-attack",
+    "chosen-ciphertext-attack",
+    "frequency-analysis",
+    "side-channel",
+    "timing-attack",
+    "fault-injection"
+  ],
+  "altSummary": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+  "textFallback": "cryptanalysis: Analysis of the attack path against cryptography or its implementation. Decide: Identify whether the weakness is math, protocol, credential, endpoint, or recovery. Example/failure: Ransomware is treated as an algorithm-breaking event. Retrieve: Classify the decisive weakness before choosing a response.\nbrute force: Search through candidate secrets until one works. Decide: Combine adequate secret strength with online-guess protections and detection. Example/failure: A privileged login permits repeated password trials without alerting. Retrieve: Search cost and response controls determine practical brute force.\nciphertext only attack: Attempt to infer plaintext or keys from intercepted ciphertexts alone. Decide: Use current approved designs and avoid weak pattern-preserving systems. Example/failure: A legacy cipher exposes recognizable structure from ciphertext samples. Retrieve: Ciphertext-only does not mean risk-free ciphertext.\nknown plaintext attack: Attack using known matched plaintext and ciphertext. Decide: Avoid vulnerable schemes; protect protocol composition and keys. Example/failure: A predictable message template supplies useful plaintext to a weak scheme. Retrieve: Known plaintext tests a scheme’s design assumption.\nchosen ciphertext attack: Attack using attacker-selected ciphertexts and observable decryption behavior. Decide: Reject invalid input uniformly and avoid exploitable decryption feedback. Example/failure: Different server errors reveal whether a ciphertext has valid structure. Retrieve: Do not expose a decryption oracle.\nfrequency analysis: Analysis of repeated character or pattern frequencies in weak ciphers. Decide: Use modern schemes that do not expose classical frequency patterns. Example/failure: A substitution cipher’s repeated symbols reveal likely words. Retrieve: Frequency analysis exploits predictable distribution.\nside channel: Information leakage through observable implementation behavior such as timing or power. Decide: Assess attacker access, repeatability, secret value, and measurement path. Example/failure: Power traces reveal differences during private-key operations. Retrieve: The math may be sound while the implementation leaks.\ntiming attack: Side-channel attack comparing operation time to infer secrets or branches. Decide: Use constant-time or equivalent handling where the attacker model requires it. Example/failure: A remote comparison returns earlier for a matching prefix. Retrieve: Data-dependent time can disclose information.\nfault injection: Inducing abnormal execution to bypass checks or expose secrets. Decide: Protect hardware, boot/update paths, integrity checks, and error handling proportionately. Example/failure: Voltage disturbance skips a signature-verification branch. Retrieve: Faults target behavior, not necessarily the cipher mathematics.",
+  "sourceRefIds": [
+    "d3-o07-textbook",
+    "d3-o07-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which attack path has the decisive weakness, and how should the mitigation be directed?",
+    "misconception": "Every attack involving encryption is a cryptanalytic break.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+    "conceptIds": [
+      "cryptanalysis",
+      "brute-force",
+      "ciphertext-only-attack",
+      "known-plaintext-attack",
+      "chosen-ciphertext-attack",
+      "frequency-analysis",
+      "side-channel",
+      "timing-attack",
+      "fault-injection"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Identify the attack class, the decisive weakness, and the mitigation category.",
+    "textFallback": "cryptanalysis: Analysis of the attack path against cryptography or its implementation. Decide: Identify whether the weakness is math, protocol, credential, endpoint, or recovery. Example/failure: Ransomware is treated as an algorithm-breaking event. Retrieve: Classify the decisive weakness before choosing a response.\nbrute force: Search through candidate secrets until one works. Decide: Combine adequate secret strength with online-guess protections and detection. Example/failure: A privileged login permits repeated password trials without alerting. Retrieve: Search cost and response controls determine practical brute force.\nciphertext only attack: Attempt to infer plaintext or keys from intercepted ciphertexts alone. Decide: Use current approved designs and avoid weak pattern-preserving systems. Example/failure: A legacy cipher exposes recognizable structure from ciphertext samples. Retrieve: Ciphertext-only does not mean risk-free ciphertext.\nknown plaintext attack: Attack using known matched plaintext and ciphertext. Decide: Avoid vulnerable schemes; protect protocol composition and keys. Example/failure: A predictable message template supplies useful plaintext to a weak scheme. Retrieve: Known plaintext tests a scheme’s design assumption.\nchosen ciphertext attack: Attack using attacker-selected ciphertexts and observable decryption behavior. Decide: Reject invalid input uniformly and avoid exploitable decryption feedback. Example/failure: Different server errors reveal whether a ciphertext has valid structure. Retrieve: Do not expose a decryption oracle.\nfrequency analysis: Analysis of repeated character or pattern frequencies in weak ciphers. Decide: Use modern schemes that do not expose classical frequency patterns. Example/failure: A substitution cipher’s repeated symbols reveal likely words. Retrieve: Frequency analysis exploits predictable distribution.\nside channel: Information leakage through observable implementation behavior such as timing or power. Decide: Assess attacker access, repeatability, secret value, and measurement path. Example/failure: Power traces reveal differences during private-key operations. Retrieve: The math may be sound while the implementation leaks.\ntiming attack: Side-channel attack comparing operation time to infer secrets or branches. Decide: Use constant-time or equivalent handling where the attacker model requires it. Example/failure: A remote comparison returns earlier for a matching prefix. Retrieve: Data-dependent time can disclose information.\nfault injection: Inducing abnormal execution to bypass checks or expose secrets. Decide: Protect hardware, boot/update paths, integrity checks, and error handling proportionately. Example/failure: Voltage disturbance skips a signature-verification branch. Retrieve: Faults target behavior, not necessarily the cipher mathematics.",
+    "sourceRefIds": [
+      "d3-o07-textbook",
+      "d3-o07-sybex"
+    ],
+    "mapNodeId": "d3-o07-cryptanalytic-attacks"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

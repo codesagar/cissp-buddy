@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o04-authorization-decision",
+  "unitId": "d5-o04-authorization-mechanisms",
+  "type": "data-flow",
+  "teachingQuestion": "How does a policy become an enforced permit, deny, or step-up result?",
+  "focalInsight": "A policy decision is only protective when its inputs are trustworthy and every enforcement point applies the result.",
+  "title": "Authorization decision path",
+  "caption": "Subject, object, action, and context flow through policy to an enforcement point.",
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Access request",
+      "detail": "Specify the requesting subject, protected object, requested action and relevant context; identity alone does not establish permission.",
+      "conceptIds": [
+        "authorization"
+      ]
+    },
+    {
+      "id": "attributes",
+      "label": "Verified policy inputs",
+      "detail": "Use attributes and policy data whose origin, freshness, integrity and applicability have been established; do not trust a requester\u2019s unverified claim."
+    },
+    {
+      "id": "pdp",
+      "label": "Policy decision point",
+      "detail": "The policy decision point evaluates applicable policy against the access request and trusted inputs.",
+      "conceptIds": [
+        "policy-decision-point"
+      ]
+    },
+    {
+      "id": "result",
+      "label": "Decision and obligations",
+      "detail": "The decision is scoped to the request and may permit, deny or require additional evidence or obligations; a decision by itself does not grant effective access."
+    },
+    {
+      "id": "pep",
+      "label": "Policy enforcement point",
+      "detail": "The policy enforcement point mediates the resource access and applies the decision and its obligations. A bypassed enforcement point defeats a correct policy decision.",
+      "conceptIds": [
+        "policy-enforcement-point"
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Review and revoke",
+      "detail": "Logs, tests, access reviews and change/revocation events challenge whether inputs and enforcement remain current; update future decisions accordingly."
+    }
+  ],
+  "relationships": [
+    {
+      "from": "request",
+      "to": "pdp",
+      "label": "submits"
+    },
+    {
+      "from": "attributes",
+      "to": "pdp",
+      "label": "provides context"
+    },
+    {
+      "from": "pdp",
+      "to": "result",
+      "label": "evaluates"
+    },
+    {
+      "from": "result",
+      "to": "pep",
+      "label": "is applied by"
+    },
+    {
+      "from": "pep",
+      "to": "review",
+      "label": "produces evidence"
+    },
+    {
+      "from": "review",
+      "to": "pdp",
+      "label": "refreshes or changes policy"
+    }
+  ],
+  "altSummary": "An access request and attributes enter a policy decision point, which returns permit, deny, or step-up; a policy enforcement point applies it and sends evidence back for review.",
+  "textFallback": "The request states subject, object, action and context. Verified policy inputs supply relevant roles, labels, device state, time and risk. The policy decision point evaluates rules and produces a scoped decision with obligations. The policy enforcement point must mediate the actual resource access and apply that result. Evidence from operation, reviews and revocations updates future decisions. Trustworthy input and complete enforcement are required; a signed-in subject or computed permit is not sufficient by itself.",
+  "sourceRefIds": [
+    "outline-d5-o04",
+    "official-d5-35-41",
+    "sybex-d5-677-690"
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "role": "AI author",
+        "name": "GPT-5.6-luna"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  },
+  "conceptIds": [
+    "authorization",
+    "policy-decision-point",
+    "policy-enforcement-point"
+  ],
+  "learningContract": {
+    "teachingQuestion": "How does a policy become an enforced permit, deny, or step-up result?",
+    "misconception": "Successful authentication or a computed permit means the resource is necessarily protected.",
+    "form": "data-flow",
+    "formRationale": "Separate decision computation from the resource enforcement boundary, and show where evidence changes future decisions.",
+    "focalInsight": "A policy decision is only protective when its inputs are trustworthy and every enforcement point applies the result.",
+    "conceptIds": [
+      "authorization",
+      "policy-decision-point",
+      "policy-enforcement-point"
+    ],
+    "relationships": [
+      {
+        "from": "request",
+        "to": "pdp",
+        "label": "submits"
+      },
+      {
+        "from": "attributes",
+        "to": "pdp",
+        "label": "provides context"
+      },
+      {
+        "from": "pdp",
+        "to": "result",
+        "label": "evaluates"
+      },
+      {
+        "from": "result",
+        "to": "pep",
+        "label": "is applied by"
+      },
+      {
+        "from": "pep",
+        "to": "review",
+        "label": "produces evidence"
+      },
+      {
+        "from": "review",
+        "to": "pdp",
+        "label": "refreshes or changes policy"
+      }
+    ],
+    "intentionalOmissions": "Detailed RBAC, DAC, MAC and ABAC rule comparisons are in the companion tables; this view does not prescribe one policy engine or default for safety-critical systems.",
+    "retrievalPrompt": "A policy engine denies an API request, but an alternate endpoint still serves the object. Which component and boundary failed?",
+    "textFallback": "The request states subject, object, action and context. Verified policy inputs supply relevant roles, labels, device state, time and risk. The policy decision point evaluates rules and produces a scoped decision with obligations. The policy enforcement point must mediate the actual resource access and apply that result. Evidence from operation, reviews and revocations updates future decisions. Trustworthy input and complete enforcement are required; a signed-in subject or computed permit is not sufficient by itself.",
+    "sourceRefIds": [
+      "outline-d5-o04",
+      "official-d5-35-41",
+      "sybex-d5-677-690"
+    ],
+    "mapNodeId": "d5-o04-authorization-mechanisms"
+  }
+}

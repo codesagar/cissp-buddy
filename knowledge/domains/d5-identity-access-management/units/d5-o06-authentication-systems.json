@@ -1,0 +1,314 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o06-authentication-systems",
+  "domainId": 5,
+  "objectiveIds": [
+    "5.6"
+  ],
+  "title": "Implement authentication systems",
+  "summary": "Authentication systems operationalize identity and access decisions through directories, protocols, authenticators, sessions, and accounting. The design must fit the environment while protecting credentials, handling errors, and keeping authentication events attributable.",
+  "outcome": "Given an enterprise authentication requirement, select an appropriate system pattern and explain how its directory, protocol, factor, session, accounting, failure, and revocation controls work together.",
+  "conceptIds": [
+    "authentication-system",
+    "aaa",
+    "directory-service",
+    "kerberos",
+    "radius",
+    "tacacs-plus",
+    "ldap",
+    "active-directory",
+    "session-management",
+    "false-acceptance",
+    "false-rejection",
+    "accounting"
+  ],
+  "prerequisites": [
+    "d5-o02-identification-authentication-strategy",
+    "d5-o04-authorization-mechanisms"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Select an authentication system as an end-to-end control: identity store, protocol, factor, session, accounting, failure mode, and revocation matter more than a product label.",
+  "sections": [
+    {
+      "id": "system-architecture",
+      "title": "Assemble authentication, authorization, and accounting",
+      "body": "An authentication system verifies a claimed identity and commonly participates in AAA: authentication establishes identity evidence, authorization supplies or evaluates permissions, and accounting records attempts and activity for accountability. Directory services such as LDAP or Active Directory store and expose identity data; Kerberos supports ticket-based authentication; RADIUS and TACACS+ commonly serve network or remote-access environments. The correct choice depends on trust boundaries, device and service support, protocol protection, availability, integration, and operational ownership.",
+      "keyPoints": [
+        "AAA functions are related but should remain conceptually and operationally distinguishable.",
+        "A directory is an identity source, not a complete authorization or assurance decision by itself.",
+        "Legacy protocols can remain useful, but their transport, encryption, credential, and management risks must be assessed."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o06",
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ]
+    },
+    {
+      "id": "errors-sessions-and-revocation",
+      "title": "Protect failure, session, and accounting paths",
+      "body": "Authentication systems must handle false rejection and false acceptance deliberately: rejecting a legitimate claimant harms availability, while accepting an impostor harms confidentiality, integrity, and accountability. Session management tracks and protects requests after authentication, enforces inactivity and lifetime limits, and supports forced termination when anomalies or revocation occur. Accounting should preserve who or what attempted access, what system responded, when it happened, and enough integrity and time context to investigate without exposing unnecessary credential data.",
+      "keyPoints": [
+        "The acceptable balance between false acceptance and false rejection depends on consequence and context.",
+        "Sessions and cached credentials can outlive the initial authentication unless explicitly bounded and revoked.",
+        "Logging authentication events supports detection and investigation but does not replace access control."
+      ],
+      "sourceRefIds": [
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Implement authentication systems as resilient protocol and lifecycle services",
+      "body": "An authentication system combines identifier handling, proofing and enrollment, authenticators, credential storage and verification, authentication protocols, secure transport, factor or device binding, session issuance, authorization handoff, accounting, monitoring, recovery, revocation, change, and retirement. Select protocol and system design from user, device, service, network, federation, assurance, privacy, availability, and interoperability requirements; validate messages, peer identity, time, replay resistance, errors, and downgrade behavior. Operate lifecycle controls for registration, issuance, reset, replacement, lost device, compromise, expiry, logging, key or certificate rotation, and decommissioning. Failure modes include a secure factor carried over an insecure channel, account recovery weaker than enrollment, protocol replay, session fixation, unmanaged shared secret, inadequate audit records, and an authentication outage causing unsafe bypass.",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o06",
+        "official-d5-50-57",
+        "sybex-d5-690-694"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Remote network access for a mixed workforce",
+      "situation": "A company needs VPN authentication for employees, contractors, and managed devices. Some legacy network equipment supports RADIUS, while administrators require stronger, separately monitored access.",
+      "reasoning": "Use a central identity source and a supported authentication service with protected transport and MFA where consequence requires it. Define device and user policy inputs, separate administrator paths, log authentication and authorization outcomes, rate-limit and monitor failures, and test revocation and session termination. Preserve the legacy protocol only with compensating controls and a retirement plan if its capabilities are insufficient."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "directory service",
+        "authentication protocol"
+      ],
+      "difference": "A directory stores or retrieves identity data; a protocol defines how parties exchange authentication or authorization information."
+    },
+    {
+      "between": [
+        "RADIUS",
+        "TACACS+"
+      ],
+      "difference": "Both can support network access, but they differ in transport, encryption, separation of AAA functions, and ecosystem behavior; choose from requirements rather than brand familiarity."
+    },
+    {
+      "between": [
+        "false rejection",
+        "false acceptance"
+      ],
+      "difference": "False rejection denies a legitimate claimant; false acceptance incorrectly grants a claimant recognition or access."
+    },
+    {
+      "between": [
+        "authentication event",
+        "session",
+        "accounting record"
+      ],
+      "difference": "The event verifies a claimant, the session carries subsequent requests, and accounting records attempts and activity for traceability."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A central directory automatically provides secure authentication.",
+      "correction": "The directory is one component; protocol protection, authenticator assurance, authorization, session, availability, and monitoring still require design."
+    },
+    {
+      "misconception": "Every authentication failure should be tuned to eliminate false rejections.",
+      "correction": "Reducing false rejection can increase false acceptance; tune thresholds and recovery against the consequences and operational context."
+    },
+    {
+      "misconception": "Logging a login is the same as enforcing access.",
+      "correction": "Accounting provides evidence after or around an event; an authorization and enforcement control still has to permit or deny the operation."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What do the three AAA functions represent?",
+      "answer": "Authentication verifies identity evidence, authorization determines allowed actions, and accounting records access attempts or activity for accountability."
+    },
+    {
+      "prompt": "Why should session management be part of authentication-system design?",
+      "answer": "The session carries requests after the initial check and must preserve, limit, and revoke the assurance represented by that check."
+    },
+    {
+      "prompt": "Which error generally creates the greater direct security risk: false acceptance or false rejection?",
+      "answer": "False acceptance can recognize an impostor as legitimate and grant access; the impact still depends on the asset and operating context."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "An organization disables an employee in the directory, but active VPN sessions remain valid for eight hours.",
+      "decision": "Add session revocation or bounded reauthentication tied to disablement and test the control during offboarding and incident response.",
+      "why": "Identity state changes do not automatically invalidate established sessions."
+    },
+    {
+      "scenario": "A biometric reader is tuned to minimize user inconvenience at a high-security entrance.",
+      "decision": "Evaluate false-acceptance risk, sensor and environment conditions, fallback authentication, and the consequence of an unauthorized entry before changing thresholds.",
+      "why": "Convenience tuning can shift the error balance toward a more damaging failure mode."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study AAA, directory services, Kerberos, RADIUS, TACACS+, LDAP, Active Directory, authentication errors, session management, and accounting.",
+    "connect": "Connect system choice to D5.2 factors, D5.4 authorization, D4 secure channels, and D7 logging and investigations.",
+    "apply": "Sketch a VPN authentication flow including identity source, protocol, MFA, authorization, session expiry, accounting, and revocation.",
+    "revisit": "Explain which component would change if the organization replaced a directory, added a new device class, or needed immediate session termination."
+  },
+  "visualIds": [
+    "d5-o06-authentication-stack",
+    "d5-o06-authentication-systems-decision-comparison-1",
+    "d5-o06-authentication-systems-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o06",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "5.6"
+      },
+      "supports": [
+        "objective boundary",
+        "authentication systems"
+      ]
+    },
+    {
+      "id": "official-d5-50-57",
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "50-57 (PDF pp. 50-57)"
+      },
+      "supports": [
+        "authentication systems",
+        "RADIUS",
+        "TACACS+",
+        "directories",
+        "AAA",
+        "sessions",
+        "errors"
+      ]
+    },
+    {
+      "id": "sybex-d5-690-694",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "690-694, Chapter 14"
+      },
+      "supports": [
+        "authentication systems",
+        "SSO implementation",
+        "internal and internet authentication"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d5.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d5-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d5-o06-authentication-systems-visual-contract",
+    "unitId": "d5-o06-authentication-systems",
+    "teachingQuestion": "Which authentication service handles identity, policy, accounting, and session failure for this system?",
+    "misconception": "Directory, authentication protocol, and authorization service are interchangeable.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "AAA separates authenticate/authorize/account; false acceptance/rejection are threshold tradeoffs.",
+    "conceptIds": [
+      "authentication-system",
+      "aaa",
+      "directory-service",
+      "kerberos",
+      "radius",
+      "tacacs-plus",
+      "ldap",
+      "active-directory",
+      "session-management",
+      "false-acceptance",
+      "false-rejection",
+      "accounting"
+    ],
+    "relationships": [
+      {
+        "from": "directory",
+        "to": "protocol",
+        "label": "supplies identity data"
+      },
+      {
+        "from": "protocol",
+        "to": "authenticator",
+        "label": "verifies evidence"
+      },
+      {
+        "from": "authenticator",
+        "to": "decision",
+        "label": "establishes subject"
+      },
+      {
+        "from": "decision",
+        "to": "session",
+        "label": "permits bounded use"
+      },
+      {
+        "from": "session",
+        "to": "accounting",
+        "label": "records activity"
+      },
+      {
+        "from": "accounting",
+        "to": "session",
+        "label": "supports detection and termination"
+      }
+    ],
+    "intentionalOmissions": "No vendor configuration prescription.",
+    "retrievalPrompt": "Network device needs centralized admin command accountability: which service traits matter?",
+    "textFallback": "authentication system: system establishing claimant. Decision: select assurance/availability. Failure/example: outage bypass\naaa: authn/authz/accounting. Decision: separate decision/evidence. Failure/example: no action trace\ndirectory service: identity attribute store. Decision: protect/replicate/reconcile. Failure/example: stale group\nkerberos: ticket-based auth. Decision: protect KDC/time/service accounts. Failure/example: ticket abuse\nradius: network access AAA. Decision: protect shared/secrets/accounting. Failure/example: weak device admission\ntacacs plus: device admin AAA. Decision: centralize command/accounting. Failure/example: unlogged privileged command\nldap: directory access protocol. Decision: secure bind/query. Failure/example: anonymous query\nactive directory: directory/domain service. Decision: protect domain authority. Failure/example: compromised domain admin\nsession management: authenticated session control. Decision: expire/revoke. Failure/example: hijacked token",
+    "sourceRefIds": [
+      "official-d5-50-57",
+      "sybex-d5-690-694"
+    ],
+    "mapNodeId": "d5-o06-authentication-systems",
+    "visualIds": [
+      "d5-o06-authentication-stack",
+      "d5-o06-authentication-systems-decision-comparison-1",
+      "d5-o06-authentication-systems-decision-comparison-2"
+    ]
+  }
+}

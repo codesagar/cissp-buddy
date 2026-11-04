@@ -1,0 +1,280 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o11-disaster-recovery-restoration-validation",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.11"
+  ],
+  "title": "Restore and validate disaster-recovered services",
+  "summary": "Disaster recovery restoration is a controlled sequence from assessment through rebuild, data and security validation, business acceptance, return to normal, and learning.",
+  "outcome": "Given an activated DR event, sequence restoration, validate integrity and security, obtain service acceptance, and document residual risk and lessons.",
+  "conceptIds": [
+    "dr-assessment",
+    "restoration",
+    "service-validation",
+    "data-integrity",
+    "security-validation",
+    "service-acceptance",
+    "return-to-normal",
+    "recovery-evidence",
+    "dr-lessons-learned"
+  ],
+  "prerequisites": [
+    "d7-o11-disaster-recovery",
+    "d7-o11-disaster-recovery-process-governance",
+    "d7-o10-recovery-capability-operations"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Restore in dependency order, validate the service rather than the component, and make acceptance and residual risk explicit before normalizing operations.",
+  "sections": [
+    {
+      "id": "assess-and-restore",
+      "title": "Assess damage and restore in dependency order",
+      "body": "Assessment identifies affected facilities, systems, data, identities, networks, suppliers, people, and evidence; it also tests whether the assumed recovery strategy is still available. Restore from a trustworthy source in an order that makes dependencies and security controls usable, such as identity, network, keys, management, data, application, and monitoring as appropriate to the service. Control emergency changes and access, record deviations, and protect original evidence. A restoration step is not complete merely because a host or process starts.",
+      "keyPoints": [
+        "Assessment updates the recovery decision when the event changes the assumptions.",
+        "Dependency order should include security and monitoring services, not just application tiers.",
+        "Emergency access and changes need bounded authority and later review."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o11-restoration",
+        "official-d7-75-81-restoration",
+        "sybex-d7-890-895"
+      ]
+    },
+    {
+      "id": "validate-and-transition",
+      "title": "Validate security, business function, and return",
+      "body": "Validation tests data integrity, configuration, identity and authorization, encryption and keys, logging and detection, vulnerability state, interfaces, performance, and business workflows. Technical owners confirm controls; business owners confirm that the service supports the priority function; security and risk owners accept or escalate residual risk. Return to normal only after the original service, alternate service, or new design has a documented transition plan, monitoring, communications, and rollback. Capture timing, gaps, costs, and lessons for plan and architecture changes.",
+      "keyPoints": [
+        "Availability without integrity, authorization, or monitoring is not a trustworthy recovery.",
+        "Business acceptance is distinct from technical smoke testing.",
+        "Return-to-normal is another controlled change and can reintroduce the original failure."
+      ],
+      "sourceRefIds": [
+        "official-d7-75-81-restoration",
+        "sybex-d7-896-898"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Restoring a customer portal",
+      "situation": "A portal is restored from a clean image, but the identity provider uses a changed signing key and the monitoring agent is not enrolled in the recovery environment.",
+      "reasoning": "Keep the portal in controlled recovery status. Re-establish key and identity trust, validate authorization and session behavior, enroll monitoring, test customer workflows and data integrity, and obtain business and security acceptance before opening traffic. Record the dependency gap and update the DR build sequence."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "restoration",
+        "validation"
+      ],
+      "difference": "Restoration brings components or data back; validation establishes that the recovered service is secure, functional, observable, and acceptable for business use."
+    },
+    {
+      "between": [
+        "technical acceptance",
+        "business acceptance"
+      ],
+      "difference": "Technical acceptance confirms infrastructure and control criteria; business acceptance confirms that the prioritized function and risk decision are usable and authorized."
+    },
+    {
+      "between": [
+        "return-to-normal",
+        "failback"
+      ],
+      "difference": "Return-to-normal is the governed transition to the intended operating state; failback is one technical mechanism that may support it after validation."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "If the application responds, restoration is complete.",
+      "correction": "Identity, data integrity, keys, authorization, monitoring, dependencies, performance, and business workflow still require validation."
+    },
+    {
+      "misconception": "Lessons learned belong only in the incident report.",
+      "correction": "Recovery findings should update DR plans, architecture, controls, training, supplier commitments, and test objectives with accountable owners."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should a DR assessment revisit?",
+      "answer": "Affected assets, people, suppliers, dependencies, evidence, recovery capability, safety, and whether the original strategy and priorities remain valid."
+    },
+    {
+      "prompt": "Name four validation dimensions beyond application availability.",
+      "answer": "Data integrity, identity and authorization, keys and encryption, logging and detection, vulnerability state, interfaces, performance, and business workflow are valid examples."
+    },
+    {
+      "prompt": "Why is return-to-normal a change?",
+      "answer": "The transition can alter routing, data state, configuration, access, and monitoring and can reintroduce the original failure."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "The alternate service meets its RTO, but validation finds stale authorization roles and no alert when a recovery administrator changes them.",
+      "decision": "Keep the service constrained, correct and test authorization and monitoring, obtain acceptance, and document the RTO result and security delay separately.",
+      "why": "A fast but unauthorized or unobservable service is not a safe recovery."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study damage assessment, dependency-order restoration, data and security validation, service acceptance, transition, evidence, and lessons.",
+    "connect": "Connect D7.11 to D7.10 recovery capability, D7.2 monitoring, D5 authorization, D2 data integrity, D6 validation, and D7.9 change.",
+    "apply": "Create acceptance criteria for a recovered service that include technical, security, business, and evidence owners.",
+    "revisit": "Explain which validation failure would stop you from opening the recovered service and why."
+  },
+  "visualIds": [
+    "d7-o11-disaster-recovery-restoration-validation-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o11-restoration",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.11 bullets: assessment, restoration, lessons learned"
+      },
+      "supports": [
+        "objective scope",
+        "restoration and validation"
+      ]
+    },
+    {
+      "id": "official-d7-75-81-restoration",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "75-81 (PDF pp. 75-81), Domain 7.11 assessment, recovery, restoration, and transition"
+      },
+      "supports": [
+        "assessment",
+        "restoration",
+        "validation",
+        "lessons"
+      ]
+    },
+    {
+      "id": "sybex-d7-890-895",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "890-895, Chapter 18 recovery execution and restoration"
+      },
+      "supports": [
+        "assessment",
+        "restoration sequence",
+        "recovery teams"
+      ]
+    },
+    {
+      "id": "sybex-d7-896-898",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "896-898, Chapter 18 validation, return, and lessons learned"
+      },
+      "supports": [
+        "service validation",
+        "return to normal",
+        "lessons"
+      ]
+    },
+    {
+      "id": "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-1",
+      "sourceId": "harris-maymi-aio-9e-2022",
+      "locator": {
+        "type": "pdf-page-heading",
+        "pdfPage": "1479-1488",
+        "heading": "Data backup, restoration, replication, and recovery verification"
+      },
+      "supports": [
+        "recovery-visual-definitions-and-decisions"
+      ]
+    },
+    {
+      "id": "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-2",
+      "sourceId": "conrad-study-guide-4e-2023",
+      "locator": {
+        "type": "pdf-page-heading",
+        "pdfPage": "442-443",
+        "heading": "Respond and Reconstitution"
+      },
+      "supports": [
+        "recovery-visual-definitions-and-decisions"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o11-disaster-recovery-restoration-validation-visual-contract",
+    "unitId": "d7-o11-disaster-recovery-restoration-validation",
+    "teachingQuestion": "Who declares, restores, validates, accepts, and transitions DR service?",
+    "misconception": "Host start proves DR completion.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Rows separate selection/operation/validation failures.",
+    "conceptIds": [
+      "dr-assessment",
+      "restoration",
+      "service-validation",
+      "data-integrity",
+      "security-validation",
+      "service-acceptance",
+      "return-to-normal",
+      "recovery-evidence",
+      "dr-lessons-learned"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal recovery tier/timing.",
+    "retrievalPrompt": "Name objective, dependency, owner, evidence, acceptance.",
+    "textFallback": "DR Assessment: A safety-aware assessment that establishes disruption scope, recoverability, dependencies, evidence needs, and whether the recovery strategy remains viable. Decision: Use verified facts to decide containment, alternate-site use, restoration order, and escalation. Failure: Skipping assessment can make teams restore the wrong scope or contaminate evidence and backups.\nRestoration: Controlled rebuild or recovery of prioritized services, data, identities, configurations, and dependencies from trustworthy sources. Decision: Restore in dependency-aware order using approved sources, protected credentials, and recorded execution evidence. Failure: A service can appear online while missing data, identity services, interfaces, or required security configuration.\nService Validation: Technical and business checks that the restored service performs its defined functions within recovery criteria. Decision: Validate functionality, dependencies, performance, monitoring, and required workflows before release to users. Failure: A successful boot or health check alone does not prove the business service is usable.\nData Integrity: Evidence that recovered data is complete enough for the approved recovery point, internally consistent, authorized, and fit for intended use. Decision: Compare recovery-point targets, record counts/checks, transactional consistency, and business reconciliation results. Failure: Loading an old or inconsistent copy can silently corrupt downstream decisions and records.\nSecurity Validation: Verification that restoration re-establishes identities, authorization, encryption/key use, logging, vulnerability state, and protective monitoring. Decision: Validate the controls required for the service before widening access or ending heightened monitoring. Failure: A fast restore that bypasses access control, keys, patches, or logging may create a second incident.\nService Acceptance: The accountable business owner’s decision that validated recovery meets the agreed service, data, risk, and operational criteria. Decision: Accept only after technical evidence, business workflow checks, known limitations, and risk disposition are recorded. Failure: Technical completion is not business acceptance; returning users without owner acceptance can conceal unacceptable loss or limitation.\nReturn To Normal: A controlled transition from recovery mode to normal operations, including reconciled data, stable monitoring, communications, and closure criteria. Decision: Transition when normal capability is stable, residual risks are accepted, recovery work is documented, and rollback/contingency is understood. Failure: Premature transition can reintroduce failed dependencies, lose recovery evidence, or leave users on an unsupported temporary service.\nRecovery Evidence: Time-stamped, attributable records of decisions, sources, changes, tests, results, exceptions, and acceptances made during recovery. Decision: Preserve evidence sufficient for safety, audit, reconciliation, learning, and later decision review. Failure: A narrative without logs, test results, or approver identity cannot substantiate that recovery criteria were met.\nDR Lessons Learned: A controlled improvement loop that converts validated recovery observations into owned actions and retestable plan/capability changes. Decision: Prioritize findings by service and risk impact, assign action evidence, update controlled artifacts, and retest. Failure: Treating lessons as a retrospective-only discussion leaves known recovery defects unresolved.",
+    "sourceRefIds": [
+      "official-d7-75-81-restoration",
+      "sybex-d7-890-895",
+      "sybex-d7-896-898",
+      "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-1",
+      "d7-o11-disaster-recovery-restoration-validation-visual-corroboration-2"
+    ],
+    "mapNodeId": "d7-o11-disaster-recovery-restoration-validation",
+    "visualIds": [
+      "d7-o11-disaster-recovery-restoration-validation-decision-comparison-1"
+    ]
+  }
+}

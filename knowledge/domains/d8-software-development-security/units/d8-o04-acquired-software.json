@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o04-acquired-software",
+  "domainId": 8,
+  "objectiveIds": [
+    "8.4"
+  ],
+  "title": "Assess the security impact of acquired software",
+  "summary": "Commercial, open-source, managed, and third-party software introduce security, privacy, availability, licensing, support, and supply-chain decisions that must be assessed before and during use.",
+  "outcome": "Evaluate acquired software and services for trust, dependency, data, support, contract, and exit risks, then define controls and evidence.",
+  "conceptIds": [
+    "acquired-software",
+    "cots",
+    "open-source",
+    "third-party-risk",
+    "software-bill-of-materials",
+    "vendor-risk"
+  ],
+  "prerequisites": [
+    "d1-o11-supply-chain-risk",
+    "d2-o06-controls-compliance"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Buying software transfers implementation work, not accountability for risk, data, or exit.",
+  "sections": [
+    {
+      "id": "due-diligence",
+      "title": "Assess what enters the environment",
+      "body": "Review architecture, data flows, identities, dependencies, vulnerability history, update process, secure-development evidence, support lifecycle, licensing, privacy, hosting regions, subprocessors, resilience, incident duties, and ability to export or delete data. Use SBOM/provenance and independent evidence where available.",
+      "keyPoints": [
+        "COTS and open source differ in support and control models but both carry dependency risk.",
+        "Managed service contracts must define roles and evidence.",
+        "Exit and replacement constraints are security concerns."
+      ],
+      "sourceRefIds": [
+        "official-d8-91-105",
+        "sybex-d8-1017-1065"
+      ]
+    },
+    {
+      "id": "controls-and-exit",
+      "title": "Manage residual and lifecycle risk",
+      "body": "Use contract controls, sandboxing, least privilege, network segmentation, monitoring, patch and vulnerability commitments, compensating controls, approval gates, and periodic reassessment. Define breach notification, audit rights, portability, key ownership, deletion, transition assistance, and termination procedures before dependency becomes critical.",
+      "keyPoints": [
+        "A security questionnaire is an input, not proof.",
+        "Controls must cover updates, support expiration, and subcontractors.",
+        "Exit planning reduces lock-in and availability risk."
+      ],
+      "sourceRefIds": [
+        "official-d8-91-105",
+        "miller-d8-727-760"
+      ]
+    },
+    {
+      "id": "acquisition-models-and-exit",
+      "title": "Compare acquisition models and preserve exit options",
+      "body": "COTS is vendor-developed software with limited customer control over source and release timing; open source provides inspectable and modifiable code but still has maintainer, dependency, license, and support risk; third-party software introduces supplier governance; managed enterprise applications shift more operation to a provider; SaaS, PaaS, and IaaS divide responsibility differently across application, platform, runtime, identity, data, and infrastructure. Assess each model for data location, tenant isolation, update authority, vulnerability disclosure, logging, subprocessor access, resilience, portability, contract rights, and secure exit.",
+      "keyPoints": [
+        "More provider operation does not transfer customer data, identity, configuration, or risk accountability automatically.",
+        "Open source visibility is not the same as maintained, vulnerability-free, or supported software.",
+        "Exit requires export, deletion, key/access revocation, evidence, and continuity testing."
+      ],
+      "sourceRefIds": [
+        "outline-d8-4",
+        "official-d8-91-105",
+        "sybex-d8-1017-1065",
+        "miller-d8-727-760"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Hosted analytics service",
+      "situation": "A vendor processes classified customer data and relies on multiple subprocessors.",
+      "reasoning": "Map data, identities, regions, subprocessors, retention, incident evidence, update/support, access, logging, contract rights, and exit. Approve only with controls and residual-risk ownership; vendor reputation alone is not assurance."
+    },
+    {
+      "title": "Critical SaaS acquisition and exit decision",
+      "situation": "A payroll service will process employee data and become a critical monthly dependency.",
+      "reasoning": "The assessment records architecture/data flows, regions, tenant and identity model, subprocessors, vulnerability/update and incident commitments, logging/audit evidence, resilience, key ownership, export format, deletion evidence, transition assistance, and termination rights. If the provider cannot supply a required exit path or breach-notification duty, the IPT either negotiates it, introduces compensating controls, selects another provider, or records accountable residual risk before onboarding."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "COTS",
+        "open source",
+        "managed service"
+      ],
+      "difference": "They differ in control over source, support, hosting, and operations, but each requires context-specific supply-chain and lifecycle assessment."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Open source has no supplier risk because code is public.",
+      "correction": "Maintainer identity, dependency chain, build provenance, support, and vulnerability response still create risk."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Name three acquired-software questions.",
+      "answer": "What data/identities does it use, how is it updated and supported, and how can the organization respond or exit?"
+    },
+    {
+      "prompt": "Why assess subprocessors?",
+      "answer": "They can access or alter data and service dependencies beyond the primary vendor."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A vendor refuses to disclose its support end date and data-deletion process.",
+      "decision": "Treat the unknowns as material risk, require commitments or compensating controls, and consider an alternative.",
+      "why": "Unbounded support and exit uncertainty can create security and availability failure."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study COTS, open-source, managed-service, and supplier controls.",
+    "connect": "Connect D1 SCRM, D2 data, D5 access, and D7 operations.",
+    "apply": "Create an acquired-software decision checklist.",
+    "revisit": "Test whether it covers update, subprocessor, and exit risks."
+  },
+  "visualIds": [
+    "d8-o04-acquired-software-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d8-4",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "8.4"
+      },
+      "supports": [
+        "objective boundary"
+      ]
+    },
+    {
+      "id": "official-d8-91-105",
+      "sourceId": "isc2-official-textbook-d8-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "59–64 (same PDF page numbers), objective 8.4; body headings inspected, corrupted contents page excluded"
+      },
+      "supports": [
+        "acquired software and services"
+      ],
+      "sourceNotes": "D8 contents page is corrupted."
+    },
+    {
+      "id": "sybex-d8-1017-1065",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "1017-1065, Chapter 20"
+      },
+      "supports": [
+        "software supply and assessment"
+      ]
+    },
+    {
+      "id": "miller-d8-727-760",
+      "sourceId": "miller-cissp-dummies-8e-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "727-760, Chapter 10"
+      },
+      "supports": [
+        "acquired software"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d8-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d8-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d8-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d8-o04-acquired-software-visual-contract",
+    "unitId": "d8-o04-acquired-software",
+    "teachingQuestion": "Before software or a managed service becomes critical, what evidence, contract terms, compensating controls, and exit conditions must support the risk decision?",
+    "misconception": "COTS, open source, or SaaS are inherently safe because someone else builds or operates them; an SBOM alone proves fitness.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Acquired model, source/dependency evidence, vendor risk, security obligations, monitoring, portability/deletion, and reassessment.",
+    "conceptIds": [
+      "acquired-software",
+      "cots",
+      "open-source",
+      "third-party-risk",
+      "software-bill-of-materials",
+      "vendor-risk"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not state that one cloud model always owns a particular control, mandate a vendor, or give legal advice on contract language.",
+    "retrievalPrompt": "A payroll SaaS offers an SBOM but cannot commit to export support or breach-notification timing. What remains unproved and who chooses the response?",
+    "textFallback": "acquired software: Software or service obtained from outside the organization whose security, support, and lifecycle still affect the organization’s risk.. Decision: Assess fit, architecture, data/identity/dependency impact, evidence, support, contract, and exit before adoption and periodically thereafter.. Failure/example: A product can meet today’s feature need yet leave the organization unable to patch, audit, or exit a critical dependency.\ncots: Commercial off-the-shelf software supplied as a vendor product with limited customer control over source and release timing.. Decision: Evaluate vendor support, update cadence, configuration, integrations, vulnerability response, and compensating controls for the intended use.. Failure/example: Assuming a popular COTS package is secure can leave a known vulnerable configuration or unsupported version in production.\nopen source: Software whose source can be inspected and modified under its license, while maintenance, provenance, dependency, and support responsibilities remain.. Decision: Evaluate maintainer health, release integrity, transitive dependencies, license, internal ownership, update/review capacity, and support plan.. Failure/example: Inspectable source does not help if nobody owns timely review and updates for the deployed component.\nthird party risk: Risk arising from an external supplier’s software, service, people, subprocessors, operations, or failure to meet obligations.. Decision: Identify shared dependencies and contractually/operationally allocate notification, audit, security, resilience, and exit responsibilities.. Failure/example: A provider incident can expose customer data when subprocessor access and notification duties were never understood.\nsoftware bill of materials: A structured inventory of software components and related dependency information used to understand composition and support vulnerability response.. Decision: Use it to identify direct/transitive components, versions, owners, and update exposure; pair it with provenance, testing, and supplier evidence.. Failure/example: An SBOM can list a component without proving the artifact was built from approved source or that the component is safe.\nvendor risk: Risk that a vendor’s security, viability, contractual performance, updates, support, hosting, or exit behavior harms the organization.. Decision: Assess pre-contract evidence and establish ongoing monitoring, audit/notification, portability/deletion, transition, and termination terms.. Failure/example: A vendor’s unexpected end of support can turn a patched service into an unremediable critical exposure.",
+    "sourceRefIds": [
+      "official-d8-91-105",
+      "sybex-d8-1017-1065",
+      "miller-d8-727-760"
+    ],
+    "mapNodeId": "d8-o04-acquired-software",
+    "visualIds": [
+      "d8-o04-acquired-software-decision-comparison-1"
+    ]
+  }
+}

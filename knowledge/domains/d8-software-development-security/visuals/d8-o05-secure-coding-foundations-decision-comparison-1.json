@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o05-secure-coding-foundations-decision-comparison-1",
+  "unitId": "d8-o05-secure-coding-foundations",
+  "type": "table",
+  "title": "Apply language-neutral secure coding foundations: decision comparison 1",
+  "teachingQuestion": "For untrusted API/web data, which control decides whether input is acceptable, how it is stored/interpreted, who may act on it, and how it is safely returned?",
+  "focalInsight": "Input validation, output encoding, error handling, authentication, authorization, API object access, and secret protection.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Secure Coding",
+      "conceptIds": [
+        "secure-coding"
+      ],
+      "definition": "Repeatable coding and review practices that prevent or reduce known weakness classes while preserving intended behavior under normal, invalid, and hostile conditions.",
+      "decision": "Apply language/architecture-aware standards, threat-informed review, tests, exception governance, and production feedback.",
+      "failureExample": "A one-time secure-coding course without review and testing does not control a new authorization defect.",
+      "detail": "Repeatable coding and review practices that prevent or reduce known weakness classes while preserving intended behavior under normal, invalid, and hostile conditions."
+    },
+    {
+      "id": "row-2",
+      "label": "Input Validation",
+      "conceptIds": [
+        "input-validation"
+      ],
+      "definition": "Server-side enforcement that untrusted data has permitted type, structure, length, range, encoding, and business meaning before use.",
+      "decision": "Validate syntactic and semantic rules as close as practical to receipt; allowlist expected values and treat client validation as UX, not security.",
+      "failureExample": "A client-side-only price check can be bypassed by a crafted request.",
+      "detail": "Server-side enforcement that untrusted data has permitted type, structure, length, range, encoding, and business meaning before use."
+    },
+    {
+      "id": "row-3",
+      "label": "Output Encoding",
+      "conceptIds": [
+        "output-encoding"
+      ],
+      "definition": "Transforming data for the exact output interpreter/context so untrusted content is displayed as data rather than executed as markup, script, URL, or other code.",
+      "decision": "Encode when emitting data into its target context and use suitable rendering APIs; do not rely on input filters to predict future contexts.",
+      "failureExample": "HTML encoding text placed inside a JavaScript context can still create executable behavior.",
+      "detail": "Transforming data for the exact output interpreter/context so untrusted content is displayed as data rather than executed as markup, script, URL, or other code."
+    },
+    {
+      "id": "row-4",
+      "label": "Error Handling",
+      "conceptIds": [
+        "error-handling"
+      ],
+      "definition": "Safe handling of expected and unexpected failures that preserves availability and diagnosability without exposing internal details or secrets.",
+      "decision": "Return minimal user-facing errors, log protected diagnostic context, and define safe rollback/failure behavior.",
+      "failureExample": "An API stack trace can disclose schema, paths, or tokens that help an attacker.",
+      "detail": "Safe handling of expected and unexpected failures that preserves availability and diagnosability without exposing internal details or secrets."
+    },
+    {
+      "id": "row-5",
+      "label": "Authentication",
+      "conceptIds": [
+        "authentication"
+      ],
+      "definition": "Verification of the identity or credential presented by a user, service, or device.",
+      "decision": "Choose strong, managed authentication appropriate to the actor and protect credential/token lifecycle; authentication alone does not grant object access.",
+      "failureExample": "A valid customer token may still be used to request another customer’s invoice.",
+      "detail": "Verification of the identity or credential presented by a user, service, or device."
+    },
+    {
+      "id": "row-6",
+      "label": "Authorization",
+      "conceptIds": [
+        "authorization"
+      ],
+      "definition": "Enforcement of whether an authenticated principal may perform a requested action on a specific object or resource in the current context.",
+      "decision": "Check server-side at each sensitive action/object boundary using least privilege and deny-by-default behavior.",
+      "failureExample": "Checking only that a token is valid enables insecure direct object access.",
+      "detail": "Enforcement of whether an authenticated principal may perform a requested action on a specific object or resource in the current context."
+    },
+    {
+      "id": "row-7",
+      "label": "API Security",
+      "conceptIds": [
+        "api-security"
+      ],
+      "definition": "Protection of programmatic interfaces through identity, object/action authorization, input/schema validation, rate/replay controls, data minimization, versioning, safe errors, and observability.",
+      "decision": "Model API abuse paths and test valid/invalid callers, object IDs, token reuse, rate behavior, and response data.",
+      "failureExample": "An authenticated API with no object-level authorization can expose every tenant’s data.",
+      "detail": "Protection of programmatic interfaces through identity, object/action authorization, input/schema validation, rate/replay controls, data minimization, versioning, safe errors, and observability."
+    },
+    {
+      "id": "row-8",
+      "label": "Secrets",
+      "conceptIds": [
+        "secrets"
+      ],
+      "definition": "Credentials, keys, tokens, connection strings, and sensitive values whose disclosure or misuse grants access or weakens controls.",
+      "decision": "Use managed scoped storage/retrieval, rotation, revocation, redaction, and separate environment identities; never hardcode or expose them in errors/logs.",
+      "failureExample": "A database password embedded in client code can be extracted and used outside the intended application.",
+      "detail": "Credentials, keys, tokens, connection strings, and sensitive values whose disclosure or misuse grants access or weakens controls."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "secure-coding",
+    "input-validation",
+    "output-encoding",
+    "error-handling",
+    "authentication",
+    "authorization",
+    "api-security",
+    "secrets"
+  ],
+  "altSummary": "Input validation, output encoding, error handling, authentication, authorization, API object access, and secret protection.",
+  "textFallback": "secure coding: Repeatable coding and review practices that prevent or reduce known weakness classes while preserving intended behavior under normal, invalid, and hostile conditions.. Decision: Apply language/architecture-aware standards, threat-informed review, tests, exception governance, and production feedback.. Failure/example: A one-time secure-coding course without review and testing does not control a new authorization defect.\ninput validation: Server-side enforcement that untrusted data has permitted type, structure, length, range, encoding, and business meaning before use.. Decision: Validate syntactic and semantic rules as close as practical to receipt; allowlist expected values and treat client validation as UX, not security.. Failure/example: A client-side-only price check can be bypassed by a crafted request.\noutput encoding: Transforming data for the exact output interpreter/context so untrusted content is displayed as data rather than executed as markup, script, URL, or other code.. Decision: Encode when emitting data into its target context and use suitable rendering APIs; do not rely on input filters to predict future contexts.. Failure/example: HTML encoding text placed inside a JavaScript context can still create executable behavior.\nerror handling: Safe handling of expected and unexpected failures that preserves availability and diagnosability without exposing internal details or secrets.. Decision: Return minimal user-facing errors, log protected diagnostic context, and define safe rollback/failure behavior.. Failure/example: An API stack trace can disclose schema, paths, or tokens that help an attacker.\nauthentication: Verification of the identity or credential presented by a user, service, or device.. Decision: Choose strong, managed authentication appropriate to the actor and protect credential/token lifecycle; authentication alone does not grant object access.. Failure/example: A valid customer token may still be used to request another customer’s invoice.\nauthorization: Enforcement of whether an authenticated principal may perform a requested action on a specific object or resource in the current context.. Decision: Check server-side at each sensitive action/object boundary using least privilege and deny-by-default behavior.. Failure/example: Checking only that a token is valid enables insecure direct object access.\napi security: Protection of programmatic interfaces through identity, object/action authorization, input/schema validation, rate/replay controls, data minimization, versioning, safe errors, and observability.. Decision: Model API abuse paths and test valid/invalid callers, object IDs, token reuse, rate behavior, and response data.. Failure/example: An authenticated API with no object-level authorization can expose every tenant’s data.\nsecrets: Credentials, keys, tokens, connection strings, and sensitive values whose disclosure or misuse grants access or weakens controls.. Decision: Use managed scoped storage/retrieval, rotation, revocation, redaction, and separate environment identities; never hardcode or expose them in errors/logs.. Failure/example: A database password embedded in client code can be extracted and used outside the intended application.",
+  "sourceRefIds": [
+    "official-d8-106-130",
+    "sybex-d8-1085-1113",
+    "miller-d8-705-760"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For untrusted API/web data, which control decides whether input is acceptable, how it is stored/interpreted, who may act on it, and how it is safely returned?",
+    "misconception": "Input allowlisting alone prevents injection/XSS, and authentication proves access to every object.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Input validation, output encoding, error handling, authentication, authorization, API object access, and secret protection.",
+    "conceptIds": [
+      "secure-coding",
+      "input-validation",
+      "output-encoding",
+      "error-handling",
+      "authentication",
+      "authorization",
+      "api-security",
+      "secrets"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe one schema language, query API, authentication protocol, encoding library, or secret manager.",
+    "retrievalPrompt": "A partner submits a comment that will be stored and later rendered to a finance dashboard. State the validation, authorization, query, encoding, error, and logging decisions.",
+    "textFallback": "secure coding: Repeatable coding and review practices that prevent or reduce known weakness classes while preserving intended behavior under normal, invalid, and hostile conditions.. Decision: Apply language/architecture-aware standards, threat-informed review, tests, exception governance, and production feedback.. Failure/example: A one-time secure-coding course without review and testing does not control a new authorization defect.\ninput validation: Server-side enforcement that untrusted data has permitted type, structure, length, range, encoding, and business meaning before use.. Decision: Validate syntactic and semantic rules as close as practical to receipt; allowlist expected values and treat client validation as UX, not security.. Failure/example: A client-side-only price check can be bypassed by a crafted request.\noutput encoding: Transforming data for the exact output interpreter/context so untrusted content is displayed as data rather than executed as markup, script, URL, or other code.. Decision: Encode when emitting data into its target context and use suitable rendering APIs; do not rely on input filters to predict future contexts.. Failure/example: HTML encoding text placed inside a JavaScript context can still create executable behavior.\nerror handling: Safe handling of expected and unexpected failures that preserves availability and diagnosability without exposing internal details or secrets.. Decision: Return minimal user-facing errors, log protected diagnostic context, and define safe rollback/failure behavior.. Failure/example: An API stack trace can disclose schema, paths, or tokens that help an attacker.\nauthentication: Verification of the identity or credential presented by a user, service, or device.. Decision: Choose strong, managed authentication appropriate to the actor and protect credential/token lifecycle; authentication alone does not grant object access.. Failure/example: A valid customer token may still be used to request another customer’s invoice.\nauthorization: Enforcement of whether an authenticated principal may perform a requested action on a specific object or resource in the current context.. Decision: Check server-side at each sensitive action/object boundary using least privilege and deny-by-default behavior.. Failure/example: Checking only that a token is valid enables insecure direct object access.\napi security: Protection of programmatic interfaces through identity, object/action authorization, input/schema validation, rate/replay controls, data minimization, versioning, safe errors, and observability.. Decision: Model API abuse paths and test valid/invalid callers, object IDs, token reuse, rate behavior, and response data.. Failure/example: An authenticated API with no object-level authorization can expose every tenant’s data.\nsecrets: Credentials, keys, tokens, connection strings, and sensitive values whose disclosure or misuse grants access or weakens controls.. Decision: Use managed scoped storage/retrieval, rotation, revocation, redaction, and separate environment identities; never hardcode or expose them in errors/logs.. Failure/example: A database password embedded in client code can be extracted and used outside the intended application.",
+    "sourceRefIds": [
+      "official-d8-106-130",
+      "sybex-d8-1085-1113",
+      "miller-d8-705-760"
+    ],
+    "mapNodeId": "d8-o05-secure-coding-foundations"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

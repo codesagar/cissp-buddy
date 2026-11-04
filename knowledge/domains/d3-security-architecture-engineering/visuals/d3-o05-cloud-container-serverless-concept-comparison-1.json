@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-cloud-container-serverless-concept-comparison-1",
+  "unitId": "d3-o05-cloud-container-serverless",
+  "type": "table",
+  "title": "Assess cloud, container, API, and serverless security paths: concept decisions 1",
+  "teachingQuestion": "Who owns each control at this cloud service boundary, and what could misuse it?",
+  "focalInsight": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Cloud Security",
+      "conceptIds": [
+        "cloud-security"
+      ],
+      "definition": "Protection of cloud data, identity, configuration, integration, operations, and contracts.",
+      "detail": "Protection of cloud data, identity, configuration, integration, operations, and contracts.",
+      "decision": "Evaluate the actual tenant configuration and service layer, not the cloud label.",
+      "failureExample": "A public object store exposes data despite provider infrastructure security.",
+      "retrievalAnswer": "Cloud security includes customer-controlled settings and evidence.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Shared Responsibility",
+      "conceptIds": [
+        "shared-responsibility"
+      ],
+      "definition": "Explicit division of who operates and assures each cloud control layer.",
+      "detail": "Explicit division of who operates and assures each cloud control layer.",
+      "decision": "Assign provider and customer actions for identity, data, network, logs, backups, and incidents.",
+      "failureExample": "Neither party monitors a customer-controlled access rule.",
+      "retrievalAnswer": "An unassigned responsibility is an unmanaged risk.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Saas",
+      "conceptIds": [
+        "saas"
+      ],
+      "definition": "Provider application consumed by the customer, with customer configuration and data-use duties.",
+      "detail": "Provider application consumed by the customer, with customer configuration and data-use duties.",
+      "decision": "Focus on tenant access, sharing, data handling, integration, and contractual evidence.",
+      "failureExample": "A SaaS collaboration space retains an open default sharing policy.",
+      "retrievalAnswer": "SaaS reduces infrastructure operation, not tenant governance.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Iaas",
+      "conceptIds": [
+        "iaas"
+      ],
+      "definition": "Provider processing, storage, and networking on which the customer manages more of the stack.",
+      "detail": "Provider processing, storage, and networking on which the customer manages more of the stack.",
+      "decision": "Focus on guest OS, workload, virtual network, identities, and configuration.",
+      "failureExample": "An IaaS guest remains unpatched because the customer assumes the provider does it.",
+      "retrievalAnswer": "IaaS leaves substantial customer administration responsibility.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Paas",
+      "conceptIds": [
+        "paas"
+      ],
+      "definition": "Provider platform for customer-deployed applications.",
+      "detail": "Provider platform for customer-deployed applications.",
+      "decision": "Focus on application code, identities, data, configurations, integrations, and platform limits.",
+      "failureExample": "An application exposes credentials in a PaaS configuration variable.",
+      "retrievalAnswer": "PaaS changes the boundary; it does not remove application responsibility.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Microservices",
+      "conceptIds": [
+        "microservices"
+      ],
+      "definition": "Many collaborating services with separate deployment and communication boundaries.",
+      "detail": "Many collaborating services with separate deployment and communication boundaries.",
+      "decision": "Give each service a workload identity and authorize each call.",
+      "failureExample": "A mesh routes calls but a service accepts an unauthenticated internal request.",
+      "retrievalAnswer": "Network routing is not service authorization.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "API Security",
+      "conceptIds": [
+        "api-security"
+      ],
+      "definition": "Server-side enforcement of authenticated, authorized, validated API actions.",
+      "detail": "Server-side enforcement of authenticated, authorized, validated API actions.",
+      "decision": "Check caller, object, action, input, rate, and audit context at each endpoint.",
+      "failureExample": "A token holder accesses another tenant’s object by changing an API parameter.",
+      "retrievalAnswer": "Authorize the specific object and action on the server.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Containerization",
+      "conceptIds": [
+        "containerization"
+      ],
+      "definition": "Deployment of packaged workload images under a runtime and orchestration context.",
+      "detail": "Deployment of packaged workload images under a runtime and orchestration context.",
+      "decision": "Control image provenance, registry access, runtime privilege, secrets, and network policy.",
+      "failureExample": "A stale image with a vulnerable library is redeployed from an unprotected registry.",
+      "retrievalAnswer": "The image and control plane are part of the security boundary.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Serverless",
+      "conceptIds": [
+        "serverless"
+      ],
+      "definition": "Event-triggered managed execution with function-specific identities and dependencies.",
+      "detail": "Event-triggered managed execution with function-specific identities and dependencies.",
+      "decision": "Validate event origin and payload; bound permission, retries, and side effects.",
+      "failureExample": "A replayed event causes a function to create the same privileged record repeatedly.",
+      "retrievalAnswer": "Use authorization and idempotence where repeated events matter.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "cloud-security",
+    "shared-responsibility",
+    "saas",
+    "iaas",
+    "paas",
+    "microservices",
+    "api-security",
+    "containerization",
+    "serverless"
+  ],
+  "altSummary": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+  "textFallback": "cloud security: Protection of cloud data, identity, configuration, integration, operations, and contracts. Decide: Evaluate the actual tenant configuration and service layer, not the cloud label. Example/failure: A public object store exposes data despite provider infrastructure security. Retrieve: Cloud security includes customer-controlled settings and evidence.\nshared responsibility: Explicit division of who operates and assures each cloud control layer. Decide: Assign provider and customer actions for identity, data, network, logs, backups, and incidents. Example/failure: Neither party monitors a customer-controlled access rule. Retrieve: An unassigned responsibility is an unmanaged risk.\nsaas: Provider application consumed by the customer, with customer configuration and data-use duties. Decide: Focus on tenant access, sharing, data handling, integration, and contractual evidence. Example/failure: A SaaS collaboration space retains an open default sharing policy. Retrieve: SaaS reduces infrastructure operation, not tenant governance.\niaas: Provider processing, storage, and networking on which the customer manages more of the stack. Decide: Focus on guest OS, workload, virtual network, identities, and configuration. Example/failure: An IaaS guest remains unpatched because the customer assumes the provider does it. Retrieve: IaaS leaves substantial customer administration responsibility.\npaas: Provider platform for customer-deployed applications. Decide: Focus on application code, identities, data, configurations, integrations, and platform limits. Example/failure: An application exposes credentials in a PaaS configuration variable. Retrieve: PaaS changes the boundary; it does not remove application responsibility.\nmicroservices: Many collaborating services with separate deployment and communication boundaries. Decide: Give each service a workload identity and authorize each call. Example/failure: A mesh routes calls but a service accepts an unauthenticated internal request. Retrieve: Network routing is not service authorization.\napi security: Server-side enforcement of authenticated, authorized, validated API actions. Decide: Check caller, object, action, input, rate, and audit context at each endpoint. Example/failure: A token holder accesses another tenant’s object by changing an API parameter. Retrieve: Authorize the specific object and action on the server.\ncontainerization: Deployment of packaged workload images under a runtime and orchestration context. Decide: Control image provenance, registry access, runtime privilege, secrets, and network policy. Example/failure: A stale image with a vulnerable library is redeployed from an unprotected registry. Retrieve: The image and control plane are part of the security boundary.\nserverless: Event-triggered managed execution with function-specific identities and dependencies. Decide: Validate event origin and payload; bound permission, retries, and side effects. Example/failure: A replayed event causes a function to create the same privileged record repeatedly. Retrieve: Use authorization and idempotence where repeated events matter.",
+  "sourceRefIds": [
+    "d3-o05-cloud-textbook",
+    "d3-o05-cloud-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Who owns each control at this cloud service boundary, and what could misuse it?",
+    "misconception": "Provider operation means the customer no longer has security obligations.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+    "conceptIds": [
+      "cloud-security",
+      "shared-responsibility",
+      "saas",
+      "iaas",
+      "paas",
+      "microservices",
+      "api-security",
+      "containerization",
+      "serverless"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Compare SaaS, PaaS, and IaaS responsibility for a specified control.",
+    "textFallback": "cloud security: Protection of cloud data, identity, configuration, integration, operations, and contracts. Decide: Evaluate the actual tenant configuration and service layer, not the cloud label. Example/failure: A public object store exposes data despite provider infrastructure security. Retrieve: Cloud security includes customer-controlled settings and evidence.\nshared responsibility: Explicit division of who operates and assures each cloud control layer. Decide: Assign provider and customer actions for identity, data, network, logs, backups, and incidents. Example/failure: Neither party monitors a customer-controlled access rule. Retrieve: An unassigned responsibility is an unmanaged risk.\nsaas: Provider application consumed by the customer, with customer configuration and data-use duties. Decide: Focus on tenant access, sharing, data handling, integration, and contractual evidence. Example/failure: A SaaS collaboration space retains an open default sharing policy. Retrieve: SaaS reduces infrastructure operation, not tenant governance.\niaas: Provider processing, storage, and networking on which the customer manages more of the stack. Decide: Focus on guest OS, workload, virtual network, identities, and configuration. Example/failure: An IaaS guest remains unpatched because the customer assumes the provider does it. Retrieve: IaaS leaves substantial customer administration responsibility.\npaas: Provider platform for customer-deployed applications. Decide: Focus on application code, identities, data, configurations, integrations, and platform limits. Example/failure: An application exposes credentials in a PaaS configuration variable. Retrieve: PaaS changes the boundary; it does not remove application responsibility.\nmicroservices: Many collaborating services with separate deployment and communication boundaries. Decide: Give each service a workload identity and authorize each call. Example/failure: A mesh routes calls but a service accepts an unauthenticated internal request. Retrieve: Network routing is not service authorization.\napi security: Server-side enforcement of authenticated, authorized, validated API actions. Decide: Check caller, object, action, input, rate, and audit context at each endpoint. Example/failure: A token holder accesses another tenant’s object by changing an API parameter. Retrieve: Authorize the specific object and action on the server.\ncontainerization: Deployment of packaged workload images under a runtime and orchestration context. Decide: Control image provenance, registry access, runtime privilege, secrets, and network policy. Example/failure: A stale image with a vulnerable library is redeployed from an unprotected registry. Retrieve: The image and control plane are part of the security boundary.\nserverless: Event-triggered managed execution with function-specific identities and dependencies. Decide: Validate event origin and payload; bound permission, retries, and side effects. Example/failure: A replayed event causes a function to create the same privileged record repeatedly. Retrieve: Use authorization and idempotence where repeated events matter.",
+    "sourceRefIds": [
+      "d3-o05-cloud-textbook",
+      "d3-o05-cloud-sybex"
+    ],
+    "mapNodeId": "d3-o05-cloud-container-serverless"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

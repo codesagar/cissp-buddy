@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-architecture-and-segmentation-concept-comparison-1",
+  "unitId": "d4-o01-architecture-and-segmentation",
+  "type": "table",
+  "title": "Design secure network architectures and segmentation: concept decisions 1",
+  "teachingQuestion": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+  "focalInsight": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Osi Model",
+      "conceptIds": [
+        "osi-model"
+      ],
+      "definition": "Seven-layer reference model for locating communication functions, controls, and faults.",
+      "detail": "Seven-layer reference model for locating communication functions, controls, and faults.",
+      "decision": "Use it to locate the affected function and control, while recognizing real protocols can span layers.",
+      "failureExample": "Calling an application authorization flaw a Layer 3 issue directs remediation to routing.",
+      "retrievalAnswer": "Use OSI to name the layer/function before choosing a control.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Tcp Ip Model",
+      "conceptIds": [
+        "tcp-ip-model"
+      ],
+      "definition": "Implementation-oriented stack that groups networking functions into fewer protocol layers.",
+      "detail": "Implementation-oriented stack that groups networking functions into fewer protocol layers.",
+      "decision": "Use it to reason about deployed Internet protocols; translate, rather than equate blindly, to OSI terms.",
+      "failureExample": "Assuming TCP/IP and OSI layers map one-for-one obscures where encryption or routing terminates.",
+      "retrievalAnswer": "TCP/IP is a deployed stack; OSI is a comparison vocabulary.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Traffic Flows",
+      "conceptIds": [
+        "traffic-flows"
+      ],
+      "definition": "Documented north-south and east-west communications among users, services, management, and dependencies.",
+      "detail": "Documented north-south and east-west communications among users, services, management, and dependencies.",
+      "decision": "Allow only flows with known purpose, source/destination identity, protocol, path, and monitoring point.",
+      "failureExample": "An undocumented east-west path lets a compromised workload reach a sensitive service.",
+      "retrievalAnswer": "A flow record needs endpoints, purpose, enforcement point, and evidence.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Network Planes",
+      "conceptIds": [
+        "network-planes"
+      ],
+      "definition": "Data plane forwards traffic; control plane decides forwarding; management plane configures and administers devices.",
+      "detail": "Data plane forwards traffic; control plane decides forwarding; management plane configures and administers devices.",
+      "decision": "Separate and protect planes where risk warrants, especially management identities and control interfaces.",
+      "failureExample": "A protected data path still fails if an attacker reconfigures it through the management plane.",
+      "retrievalAnswer": "Name the plane an attacker would target to change routes.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Network Observability",
+      "conceptIds": [
+        "network-observability"
+      ],
+      "definition": "Flow, fault, capacity, and policy telemetry that lets operators detect and explain network behavior.",
+      "detail": "Flow, fault, capacity, and policy telemetry that lets operators detect and explain network behavior.",
+      "decision": "Collect protected, actionable signals at enforcement and management points without creating an unmanaged collector path.",
+      "failureExample": "Encryption or segmentation failures remain invisible when denied flows and device health are not observed.",
+      "retrievalAnswer": "Observability must show policy outcome and device/flow health.",
+      "tier": "B"
+    },
+    {
+      "id": "row-6",
+      "label": "Secure Protocols",
+      "conceptIds": [
+        "secure-protocols"
+      ],
+      "definition": "Protocols selected for a specific layer, endpoint identity, confidentiality, integrity, and failure model.",
+      "detail": "Protocols selected for a specific layer, endpoint identity, confidentiality, integrity, and failure model.",
+      "decision": "Choose by protected traffic, termination points, key/certificate validation, metadata exposure, inspection, and availability impact.",
+      "failureExample": "Selecting “encryption” without locating endpoints leaves an onward path unprotected.",
+      "retrievalAnswer": "Ask where protection terminates and what remains exposed.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Wireless Security",
+      "conceptIds": [
+        "wireless-security"
+      ],
+      "definition": "Controls for radio association, encryption, admission, rogue detection, management, and RF availability.",
+      "detail": "Controls for radio association, encryption, admission, rogue detection, management, and RF availability.",
+      "decision": "Match authentication, segmentation, monitoring, and physical/radio risks to the wireless use case.",
+      "failureExample": "A strong Wi-Fi password does not isolate guest or IoT traffic from enterprise services.",
+      "retrievalAnswer": "Wireless security includes admission, segmentation, and rogue/association monitoring.",
+      "tier": "B"
+    },
+    {
+      "id": "row-8",
+      "label": "Software Defined Networking",
+      "conceptIds": [
+        "software-defined-networking"
+      ],
+      "definition": "Architecture that separates/centralizes programmable network control from forwarding devices through software control interfaces.",
+      "detail": "Architecture that separates/centralizes programmable network control from forwarding devices through software control interfaces.",
+      "decision": "Protect controller identity, policy changes, APIs, availability, logs, and rollback as a high-value control plane.",
+      "failureExample": "A compromised SDN controller can alter policy across many forwarding devices.",
+      "retrievalAnswer": "In SDN, the controller/control API is a critical trust boundary.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Micro Segmentation",
+      "conceptIds": [
+        "micro-segmentation"
+      ],
+      "definition": "Fine-grained workload or identity-aware policy enforced close to services rather than only at large network zones.",
+      "detail": "Fine-grained workload or identity-aware policy enforced close to services rather than only at large network zones.",
+      "decision": "Use when east-west blast radius matters and maintain explicit service identity, policy, and observability.",
+      "failureExample": "A broad subnet rule lets one compromised host laterally reach every workload in the segment.",
+      "retrievalAnswer": "Micro-segmentation asks which workload may call which service.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "osi-model",
+    "tcp-ip-model",
+    "traffic-flows",
+    "network-planes",
+    "network-observability",
+    "secure-protocols",
+    "wireless-security",
+    "software-defined-networking",
+    "micro-segmentation"
+  ],
+  "altSummary": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+  "textFallback": "osi model: Seven-layer reference model for locating communication functions, controls, and faults. Decide: Use it to locate the affected function and control, while recognizing real protocols can span layers. Example/failure: Calling an application authorization flaw a Layer 3 issue directs remediation to routing. Retrieve: Use OSI to name the layer/function before choosing a control.\ntcp ip model: Implementation-oriented stack that groups networking functions into fewer protocol layers. Decide: Use it to reason about deployed Internet protocols; translate, rather than equate blindly, to OSI terms. Example/failure: Assuming TCP/IP and OSI layers map one-for-one obscures where encryption or routing terminates. Retrieve: TCP/IP is a deployed stack; OSI is a comparison vocabulary.\ntraffic flows: Documented north-south and east-west communications among users, services, management, and dependencies. Decide: Allow only flows with known purpose, source/destination identity, protocol, path, and monitoring point. Example/failure: An undocumented east-west path lets a compromised workload reach a sensitive service. Retrieve: A flow record needs endpoints, purpose, enforcement point, and evidence.\nnetwork planes: Data plane forwards traffic; control plane decides forwarding; management plane configures and administers devices. Decide: Separate and protect planes where risk warrants, especially management identities and control interfaces. Example/failure: A protected data path still fails if an attacker reconfigures it through the management plane. Retrieve: Name the plane an attacker would target to change routes.\nnetwork observability: Flow, fault, capacity, and policy telemetry that lets operators detect and explain network behavior. Decide: Collect protected, actionable signals at enforcement and management points without creating an unmanaged collector path. Example/failure: Encryption or segmentation failures remain invisible when denied flows and device health are not observed. Retrieve: Observability must show policy outcome and device/flow health.\nsecure protocols: Protocols selected for a specific layer, endpoint identity, confidentiality, integrity, and failure model. Decide: Choose by protected traffic, termination points, key/certificate validation, metadata exposure, inspection, and availability impact. Example/failure: Selecting “encryption” without locating endpoints leaves an onward path unprotected. Retrieve: Ask where protection terminates and what remains exposed.\nwireless security: Controls for radio association, encryption, admission, rogue detection, management, and RF availability. Decide: Match authentication, segmentation, monitoring, and physical/radio risks to the wireless use case. Example/failure: A strong Wi-Fi password does not isolate guest or IoT traffic from enterprise services. Retrieve: Wireless security includes admission, segmentation, and rogue/association monitoring.\nsoftware defined networking: Architecture that separates/centralizes programmable network control from forwarding devices through software control interfaces. Decide: Protect controller identity, policy changes, APIs, availability, logs, and rollback as a high-value control plane. Example/failure: A compromised SDN controller can alter policy across many forwarding devices. Retrieve: In SDN, the controller/control API is a critical trust boundary.\nmicro segmentation: Fine-grained workload or identity-aware policy enforced close to services rather than only at large network zones. Decide: Use when east-west blast radius matters and maintain explicit service identity, policy, and observability. Example/failure: A broad subnet rule lets one compromised host laterally reach every workload in the segment. Retrieve: Micro-segmentation asks which workload may call which service.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-571-620",
+    "sybex-d4-597-645",
+    "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+    "misconception": "A VLAN, tunnel, or encrypted protocol automatically creates a secure trust boundary.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Security comes from matched physical, logical, workload, identity, and observable enforcement—not from a topology label or encryption alone.",
+    "conceptIds": [
+      "osi-model",
+      "tcp-ip-model",
+      "traffic-flows",
+      "network-planes",
+      "network-observability",
+      "secure-protocols",
+      "wireless-security",
+      "software-defined-networking",
+      "micro-segmentation"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Which boundary, protocol endpoint, and management path constrain a risky flow without creating an unseen bypass?",
+    "textFallback": "osi model: Seven-layer reference model for locating communication functions, controls, and faults. Decide: Use it to locate the affected function and control, while recognizing real protocols can span layers. Example/failure: Calling an application authorization flaw a Layer 3 issue directs remediation to routing. Retrieve: Use OSI to name the layer/function before choosing a control.\ntcp ip model: Implementation-oriented stack that groups networking functions into fewer protocol layers. Decide: Use it to reason about deployed Internet protocols; translate, rather than equate blindly, to OSI terms. Example/failure: Assuming TCP/IP and OSI layers map one-for-one obscures where encryption or routing terminates. Retrieve: TCP/IP is a deployed stack; OSI is a comparison vocabulary.\ntraffic flows: Documented north-south and east-west communications among users, services, management, and dependencies. Decide: Allow only flows with known purpose, source/destination identity, protocol, path, and monitoring point. Example/failure: An undocumented east-west path lets a compromised workload reach a sensitive service. Retrieve: A flow record needs endpoints, purpose, enforcement point, and evidence.\nnetwork planes: Data plane forwards traffic; control plane decides forwarding; management plane configures and administers devices. Decide: Separate and protect planes where risk warrants, especially management identities and control interfaces. Example/failure: A protected data path still fails if an attacker reconfigures it through the management plane. Retrieve: Name the plane an attacker would target to change routes.\nnetwork observability: Flow, fault, capacity, and policy telemetry that lets operators detect and explain network behavior. Decide: Collect protected, actionable signals at enforcement and management points without creating an unmanaged collector path. Example/failure: Encryption or segmentation failures remain invisible when denied flows and device health are not observed. Retrieve: Observability must show policy outcome and device/flow health.\nsecure protocols: Protocols selected for a specific layer, endpoint identity, confidentiality, integrity, and failure model. Decide: Choose by protected traffic, termination points, key/certificate validation, metadata exposure, inspection, and availability impact. Example/failure: Selecting “encryption” without locating endpoints leaves an onward path unprotected. Retrieve: Ask where protection terminates and what remains exposed.\nwireless security: Controls for radio association, encryption, admission, rogue detection, management, and RF availability. Decide: Match authentication, segmentation, monitoring, and physical/radio risks to the wireless use case. Example/failure: A strong Wi-Fi password does not isolate guest or IoT traffic from enterprise services. Retrieve: Wireless security includes admission, segmentation, and rogue/association monitoring.\nsoftware defined networking: Architecture that separates/centralizes programmable network control from forwarding devices through software control interfaces. Decide: Protect controller identity, policy changes, APIs, availability, logs, and rollback as a high-value control plane. Example/failure: A compromised SDN controller can alter policy across many forwarding devices. Retrieve: In SDN, the controller/control API is a critical trust boundary.\nmicro segmentation: Fine-grained workload or identity-aware policy enforced close to services rather than only at large network zones. Decide: Use when east-west blast radius matters and maintain explicit service identity, policy, and observability. Example/failure: A broad subnet rule lets one compromised host laterally reach every workload in the segment. Retrieve: Micro-segmentation asks which workload may call which service.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-571-620",
+      "sybex-d4-597-645",
+      "d4-o01-architecture-and-segmentation-rfc-4301-2005"
+    ],
+    "mapNodeId": "d4-o01-architecture-and-segmentation"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

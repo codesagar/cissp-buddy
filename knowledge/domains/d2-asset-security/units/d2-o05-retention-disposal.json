@@ -1,0 +1,290 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o05-retention-disposal",
+  "domainId": 2,
+  "objectiveIds": [
+    "2.5"
+  ],
+  "title": "Retain what is required and dispose of what is not",
+  "summary": "Retention is a deliberate period and trigger based on business, legal, regulatory, contractual, and risk needs. Disposal ends authorized retention with a method appropriate to the medium and sensitivity.",
+  "outcome": "Choose a retention decision and disposal method for an asset while accounting for legal holds, media, replicas, and evidence.",
+  "conceptIds": [
+    "retention",
+    "legal-hold",
+    "disposal",
+    "media-sanitization",
+    "data-remanence"
+  ],
+  "prerequisites": [
+    "d2-o01-inventory-classification",
+    "d2-o04-data-lifecycle"
+  ],
+  "estimatedMinutes": 25,
+  "managerMindset": "Retention is neither 'keep forever' nor 'delete quickly'; it is a documented business decision with a defensible trigger and verifiable end state.",
+  "sections": [
+    {
+      "id": "retention-decision",
+      "title": "Set a defensible retention rule",
+      "body": "Retention schedules identify the record class, owner, minimum and maximum period where applicable, trigger, storage and access requirements, and disposition authority. Inputs include business usefulness, contractual commitments, regulation, litigation or investigation needs, privacy principles, cost, and risk. A legal hold or investigation suspends ordinary disposition for the affected scope.",
+      "keyPoints": [
+        "A retention trigger might be contract end, case close, employee departure, or transaction completion.",
+        "Legal holds override routine destruction until released by the responsible authority.",
+        "Retention applies across systems and copies that fall within scope."
+      ],
+      "sourceRefIds": [
+        "official-d2-32-36",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "secure-disposal",
+      "title": "Make disposal effective and provable",
+      "body": "Data remanence is recoverable residual information left after ordinary deletion or incomplete sanitization. Select an approved sanitization method for the actual medium, information sensitivity, intended reuse, and acceptable recovery effort. Clear, purge, and destroy describe sanitization methods; cryptographic erase is a technique whose suitability depends on the encryption implementation and the ability to sanitize every relevant key. Ordinary file deletion or a generic overwrite rule is not enough for every medium. Preserve custody and account for scoped replicas and backups. Verification checks that the technique completed as expected; validation uses that evidence, the method’s suitability, and relevant anomalies to decide whether the result is acceptable. If it is not, keep custody and repeat or escalate the method before releasing the media.",
+      "keyPoints": [
+        "Disposal is a process with authorization, execution, verification, and evidence.",
+        "Different media and encryption states change the appropriate sanitization method.",
+        "Destroying a server does not automatically destroy replicated cloud or backup data."
+      ],
+      "sourceRefIds": [
+        "official-d2-32-36",
+        "takeaways-d2-retention",
+        "d2-o05-nist-sanitization-r2"
+      ]
+    },
+    {
+      "id": "eol-eos-and-exceptions",
+      "title": "Treat end of life and end of support as retention decisions",
+      "body": "Vendor end-of-life (EOL) announcements describe product discontinuation milestones, while end of support (EOS) identifies the loss of specified maintenance or assistance. Exact labels and support entitlements depend on the vendor notice and contract. These milestones trigger an organization’s own migration, continued-use risk decision, or retirement/decommissioning plan; they are not automatically the date the organization removes the asset. Identify dependent data and services, readable export formats, migration or compensating-control needs, license effects, owner approval, and disposal evidence. A legal hold may require preserving records but does not itself authorize indefinite operation of unsupported technology.",
+      "keyPoints": [
+        "Unsupported software and hardware can make ordinary retention or continued operation unsafe.",
+        "Retirement planning includes data export, access revocation, keys, dependencies, contracts, and evidence.",
+        "Exceptions need scope, owner, expiry, compensating controls, and reassessment."
+      ],
+      "sourceRefIds": [
+        "official-d2-32-36",
+        "sybex-d2"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Retiring encrypted laptops",
+      "situation": "A fleet of encrypted laptops is being returned to a leasing company.",
+      "reasoning": "Confirm the data classification and encryption implementation, remove organizational accounts and keys according to policy, use an approved sanitization method suited to the drive and reuse condition, preserve serial-number evidence, and obtain provider confirmation. Do not rely only on deleting user profiles."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "retention",
+        "backup retention"
+      ],
+      "difference": "A record-retention schedule preserves information for business/legal purpose; backup retention preserves recoverability for an operational window."
+    },
+    {
+      "between": [
+        "clear",
+        "purge",
+        "destroy"
+      ],
+      "difference": "Clear, purge, and destroy target different recovery resistance and reuse outcomes. They are not a fixed sequence of steps. Choose a suitable technique for the medium and risk; validate the outcome before release."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A certificate of destruction proves every copy was removed.",
+      "correction": "It evidences a specified disposal event; scope must be checked against replicas, backups, exports, and holds."
+    },
+    {
+      "misconception": "Legal hold means retain all organizational data indefinitely.",
+      "correction": "The hold applies to identified scope and relevant preservation duties, not unrelated data."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What can suspend ordinary disposal?",
+      "answer": "A legal hold, investigation, regulatory requirement, contract, or other authorized preservation obligation."
+    },
+    {
+      "prompt": "What must disposal evidence show?",
+      "answer": "Authorized scope, affected copies/media, method, date, responsible party, verification evidence, validation decision, and final custody/disposition."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A privacy team requests deletion, but litigation counsel has issued a hold over the same customer records.",
+      "decision": "Coordinate with counsel and privacy/data owner; preserve the held scope while handling any legally permitted separation or notification.",
+      "why": "Disposition obligations can conflict and require documented authority, not unilateral deletion."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study retention triggers, legal holds, sanitization concepts, and evidence.",
+    "connect": "Connect disposal to classification, lifecycle copies, privacy, and operations.",
+    "apply": "Draft a retirement checklist for a laptop and a cloud bucket.",
+    "revisit": "Explain which copies your checklist would miss and how to verify them."
+  },
+  "visualIds": [
+    "d2-o05-retention-disposal-gates"
+  ],
+  "sourceRefs": [
+    {
+      "id": "official-d2-32-36",
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "32-36 (PDF pp. 32-36)"
+      },
+      "supports": [
+        "retention and disposal"
+      ]
+    },
+    {
+      "id": "takeaways-d2-retention",
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-10"
+      },
+      "supports": [
+        "lifecycle and asset protection"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "284-290 (Chapter 5, Using Security Baselines and review questions; PDF pp. 284-290)"
+      },
+      "supports": [
+        "secondary cross-check"
+      ]
+    },
+    {
+      "id": "d2-o05-nist-sanitization-r2",
+      "sourceId": "nist-sp-800-88r2-2025",
+      "locator": {
+        "type": "web-section",
+        "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-88r2.pdf",
+        "section": "Sections 4.3–4.6; especially 4.5.1 Verification and 4.5.2 Validation",
+        "printedPage": "24–25 for verification/validation",
+        "pdfPage": "33–34"
+      },
+      "supports": [
+        "medium-appropriate sanitization",
+        "verification versus validation",
+        "custody and recorded disposition"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d2-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d2-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d2-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d2-o05-retention-disposal-visual-contract",
+    "unitId": "d2-o05-retention-disposal",
+    "teachingQuestion": "Does a preservation duty block disposition, and is the sanitization result effective enough for the intended media release?",
+    "misconception": "A due date, ordinary deletion, or a completion certificate automatically authorizes media release.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Retention is scoped; verification confirms technique completion; validation accepts or rejects effectiveness using suitability and anomalies.",
+    "conceptIds": [
+      "retention",
+      "legal-hold",
+      "disposal",
+      "media-sanitization",
+      "data-remanence"
+    ],
+    "relationships": [
+      {
+        "id": "edge-1",
+        "from": "due",
+        "to": "hold",
+        "label": "check obligations"
+      },
+      {
+        "id": "edge-2",
+        "from": "hold",
+        "to": "preserve",
+        "label": "yes"
+      },
+      {
+        "id": "edge-3",
+        "from": "hold",
+        "to": "sanitize",
+        "label": "no"
+      },
+      {
+        "id": "edge-4",
+        "from": "sanitize",
+        "to": "accept",
+        "label": "verify, then validate"
+      },
+      {
+        "id": "edge-5",
+        "from": "accept",
+        "to": "release",
+        "label": "yes"
+      },
+      {
+        "id": "edge-6",
+        "from": "accept",
+        "to": "rework",
+        "label": "no"
+      },
+      {
+        "id": "edge-7",
+        "from": "rework",
+        "to": "sanitize",
+        "label": "repeat or escalate"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "State retention trigger, hold scope, sanitization method, verification evidence, validation decision, and release record.",
+    "textFallback": "Retention is a deliberate period and trigger based on business, legal, regulatory, contractual, and risk needs. Disposal ends authorized retention with a method appropriate to the medium and sensitivity.\nConfirm the data classification and encryption implementation, remove organizational accounts and keys according to policy, use an approved sanitization method suited to the drive and reuse condition, preserve serial-number evidence, and obtain provider confirmation. Do not rely only on deleting user profiles.",
+    "sourceRefIds": [
+      "official-d2-32-36",
+      "takeaways-d2-retention",
+      "sybex-d2",
+      "d2-o05-nist-sanitization-r2"
+    ],
+    "mapNodeId": "d2-o05-retention-disposal",
+    "visualIds": [
+      "d2-o05-retention-disposal-gates"
+    ]
+  }
+}

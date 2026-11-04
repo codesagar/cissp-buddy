@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o04-foundational-operations",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.4"
+  ],
+  "title": "Apply foundational security operations concepts",
+  "summary": "Foundational operations make everyday security work reliable through need to know, least privilege, separation of duties, privileged-account governance, service expectations, and trained people who can escalate safely.",
+  "outcome": "Given an operational process, identify excessive authority, conflicting duties, missing service expectations, or unsafe staffing and propose controls that preserve accountability and continuity.",
+  "conceptIds": [
+    "least-privilege",
+    "need-to-know",
+    "separation-of-duties",
+    "two-person-control",
+    "job-rotation",
+    "privileged-account-management",
+    "sla",
+    "operational-training"
+  ],
+  "prerequisites": [
+    "d5-o04-authorization-mechanisms",
+    "d5-o05-provisioning-lifecycle",
+    "d1-o03-security-governance"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Design routine work so no single person can silently create, approve, execute, and hide a high-impact action.",
+  "sections": [
+    {
+      "id": "authority-and-accountability",
+      "title": "Constrain routine authority",
+      "body": "Need to know limits information exposure to a legitimate purpose, while least privilege limits the operations a subject can perform. Separation of duties divides incompatible responsibilities; two-person control adds concurrence for especially sensitive actions; job rotation and mandatory vacations can expose hidden dependence or fraud but are not substitutes for technical controls. Decide which duties, information, and privileged actions are incompatible, then enforce the decision with named identities, approval, review, and monitoring. Privileged accounts require strong authentication, separate use, monitoring, approval, and periodic review.",
+      "keyPoints": [
+        "Least privilege is about capability; need to know is about information access.",
+        "SoD can be static in role design or dynamic at transaction time, and failure often appears as one person controlling request, approval, execution, and review.",
+        "Privileged access should be attributable, time-bounded where practical, and independently reviewed."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o04",
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ]
+    },
+    {
+      "id": "service-and-people",
+      "title": "Make operational commitments explicit",
+      "body": "Service-level agreements and internal operating agreements define availability, response times, escalation, maintenance windows, reporting, evidence, and responsibilities between teams or providers. Choose measurable service and security commitments that match business impact, define remedies and escalation when they are missed, and test the evidence path. Training and awareness help operators recognize unsafe actions and escalate anomalies, while emergency management clarifies who may act when normal paths are unavailable. Document exceptions and test whether staffing, skills, tools, and vendor commitments remain adequate for the service's risk.",
+      "keyPoints": [
+        "An SLA is a measurable operational commitment, not a replacement for security requirements.",
+        "People and third parties need defined escalation and emergency roles.",
+        "Operational resilience includes trained coverage and succession, not only redundant technology; untested job rotation can create handoff errors."
+      ],
+      "sourceRefIds": [
+        "official-d7-35-39",
+        "sybex-d7-765-773"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Emergency database restore",
+      "situation": "One database administrator can approve and execute a production restore, while the team has no independent review or emergency escalation record.",
+      "reasoning": "Separate request, approval, execution, and validation where possible; use two-person control or independent review for the high-impact action; require privileged access logging and a post-event review. If the emergency makes normal separation impossible, document the exception and compensate with monitoring and retrospective validation."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "least privilege",
+        "need to know"
+      ],
+      "difference": "Least privilege limits permitted actions; need to know limits information disclosed for a legitimate purpose."
+    },
+    {
+      "between": [
+        "SLA",
+        "security policy"
+      ],
+      "difference": "An SLA records measurable service commitments and responsibilities; policy states organizational requirements and direction."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Two people sharing one administrator password provides two-person control.",
+      "correction": "Shared credentials destroy attribution; use separate identities, independent approval, and an auditable mechanism for concurrence."
+    },
+    {
+      "misconception": "Job rotation proves that no fraud occurred.",
+      "correction": "Rotation may expose hidden dependence but must complement access reviews, logs, control testing, and segregation."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "How do least privilege and need to know differ?",
+      "answer": "Least privilege limits actions; need to know limits information exposure to the purpose and role."
+    },
+    {
+      "prompt": "What does two-person control add?",
+      "answer": "A second authorized person must concur or participate in a sensitive action, reducing unilateral misuse."
+    },
+    {
+      "prompt": "What should an operational SLA make measurable?",
+      "answer": "Examples include availability, response and escalation times, maintenance, reporting, evidence, and responsibility boundaries."
+    },
+    {
+      "prompt": "What is a job-rotation failure mode?",
+      "answer": "An unplanned handoff can expose missing documentation, hidden single-person dependency, or excessive access; define training, overlap, review, and monitoring."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A vendor requests standing administrator access to meet a response-time commitment.",
+      "decision": "Use named, scoped, time-bounded or JIT access with monitoring and an escalation path; negotiate the SLA rather than granting permanent privilege.",
+      "why": "Service speed does not justify unbounded authority."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study least privilege, need to know, SoD, two-person control, job rotation, privileged account management, SLAs, and operational training.",
+    "connect": "Connect to D5 authorization and lifecycle, D1 governance, and D7 incident and personnel controls.",
+    "apply": "Map incompatible duties and emergency exceptions in one operational process.",
+    "revisit": "Explain how the process would continue safely if one approver, administrator, or vendor became unavailable."
+  },
+  "visualIds": [
+    "d7-o04-foundational-operations-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o04",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.4"
+      },
+      "supports": [
+        "objective boundary",
+        "foundational operations"
+      ]
+    },
+    {
+      "id": "official-d7-35-39",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "35-39 (PDF pp. 35-39)"
+      },
+      "supports": [
+        "need to know",
+        "least privilege",
+        "SoD",
+        "privileged accounts",
+        "SLAs"
+      ]
+    },
+    {
+      "id": "sybex-d7-765-773",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "765-773, Chapter 16"
+      },
+      "supports": [
+        "foundational operations",
+        "privileged management",
+        "SLAs",
+        "personnel safety",
+        "training"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o04-foundational-operations-visual-contract",
+    "unitId": "d7-o04-foundational-operations",
+    "teachingQuestion": "Which operational responsibility must be separated, approved, measured, and evidenced?",
+    "misconception": "Shared admin password is two-person control or job rotation proves fraud absent.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Definitions, decision owner/criterion, failure consequence, and retrieval remain distinct.",
+    "conceptIds": [
+      "least-privilege",
+      "need-to-know",
+      "separation-of-duties",
+      "two-person-control",
+      "job-rotation",
+      "privileged-account-management",
+      "sla",
+      "operational-training"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No universal tool/configuration or legal conclusion.",
+    "retrievalPrompt": "Use the stated decisive scenario to select owner, control/evidence, and escalation.",
+    "textFallback": "least privilege: Least privilege: minimum actions. Decision: decide role/scope/time.. Failure/example: broad admin command.\nneed to know: Need-to-know: minimum information disclosure. Decision: decide legitimate purpose.. Failure/example: staff browse sensitive record.\nseparation of duties: SoD: incompatible duties separated. Decision: decide conflict matrix.. Failure/example: requester approves own payment.\ntwo person control: Two-person control: independent concurrence with attribution. Decision: decide dual approval mechanism.. Failure/example: shared credential.\njob rotation: Rotation: alternate staff exposes hidden dependence/fraud. Decision: decide coverage/hand-off.. Failure/example: sole operator concealment.\nprivileged account management: PAM: separate/strong/audited privilege. Decision: decide approval/session review.. Failure/example: daily-use domain admin.\nsla: SLA: measurable provider/team commitment. Decision: decide metric/remedy/escalation.. Failure/example: vague uptime promise.\noperational training: Training: operator skill/escalation readiness. Decision: decide role practice/evidence.. Failure/example: emergency procedure unknown.",
+    "sourceRefIds": [
+      "official-d7-35-39",
+      "sybex-d7-765-773"
+    ],
+    "mapNodeId": "d7-o04-foundational-operations",
+    "visualIds": [
+      "d7-o04-foundational-operations-decision-comparison-1"
+    ]
+  }
+}

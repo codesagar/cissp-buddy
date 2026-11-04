@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-cryptanalytic-attacks-concept-comparison-2",
+  "unitId": "d3-o07-cryptanalytic-attacks",
+  "type": "table",
+  "title": "Reason about cryptanalytic and implementation attacks: concept decisions 2",
+  "teachingQuestion": "Which attack path has the decisive weakness, and how should the mitigation be directed?",
+  "focalInsight": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Man In The Middle",
+      "conceptIds": [
+        "man-in-the-middle"
+      ],
+      "definition": "Active intermediary attack that observes, alters, relays, or influences an exchange.",
+      "detail": "Active intermediary attack that observes, alters, relays, or influences an exchange.",
+      "decision": "Require authenticated peers, correct validation, freshness, and downgrade resistance.",
+      "failureExample": "A user accepts an untrusted certificate prompt on public Wi-Fi.",
+      "retrievalAnswer": "Encryption without peer validation permits active interception.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Pass The Hash",
+      "conceptIds": [
+        "pass-the-hash"
+      ],
+      "definition": "Use of stolen password-derived credential material in authentication flows that accept it.",
+      "detail": "Use of stolen password-derived credential material in authentication flows that accept it.",
+      "decision": "Protect credential material, limit privilege, segment, monitor, and remediate sessions/endpoints.",
+      "failureExample": "A stolen artifact authenticates to another host even after a password change.",
+      "retrievalAnswer": "Address the usable artifact and affected sessions, not only the password.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Kerberos Attack",
+      "conceptIds": [
+        "kerberos-attack"
+      ],
+      "definition": "Abuse of Kerberos identities, tickets, service accounts, delegation, or directory authority.",
+      "detail": "Abuse of Kerberos identities, tickets, service accounts, delegation, or directory authority.",
+      "decision": "Review ticket, service-account, delegation, time, endpoint, and privileged-directory paths.",
+      "failureExample": "An overprivileged service account enables forged or misused ticket access.",
+      "retrievalAnswer": "Kerberos risk is an identity and ticket-system problem.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Ransomware",
+      "conceptIds": [
+        "ransomware"
+      ],
+      "definition": "Attack chain that can encrypt, exfiltrate, disrupt, and pressure business operations.",
+      "detail": "Attack chain that can encrypt, exfiltrate, disrupt, and pressure business operations.",
+      "decision": "Layer prevention with privilege limits, segmentation, monitored administration, protected backups, and rehearsed recovery.",
+      "failureExample": "Backups are reachable with the same admin credentials used by attackers.",
+      "retrievalAnswer": "Ransomware response centers availability, recovery, and business consequence.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Implementation Security",
+      "conceptIds": [
+        "implementation-security"
+      ],
+      "definition": "Secure engineering of cryptographic code, configuration, hardware, and operations.",
+      "detail": "Secure engineering of cryptographic code, configuration, hardware, and operations.",
+      "decision": "Maintain vetted libraries, safe configuration, patching, validation, and testing.",
+      "failureExample": "A correct algorithm runs in a vulnerable outdated library.",
+      "retrievalAnswer": "Algorithm selection does not assure implementation security.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "man-in-the-middle",
+    "pass-the-hash",
+    "kerberos-attack",
+    "ransomware",
+    "implementation-security"
+  ],
+  "altSummary": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+  "textFallback": "man in the middle: Active intermediary attack that observes, alters, relays, or influences an exchange. Decide: Require authenticated peers, correct validation, freshness, and downgrade resistance. Example/failure: A user accepts an untrusted certificate prompt on public Wi-Fi. Retrieve: Encryption without peer validation permits active interception.\npass the hash: Use of stolen password-derived credential material in authentication flows that accept it. Decide: Protect credential material, limit privilege, segment, monitor, and remediate sessions/endpoints. Example/failure: A stolen artifact authenticates to another host even after a password change. Retrieve: Address the usable artifact and affected sessions, not only the password.\nkerberos attack: Abuse of Kerberos identities, tickets, service accounts, delegation, or directory authority. Decide: Review ticket, service-account, delegation, time, endpoint, and privileged-directory paths. Example/failure: An overprivileged service account enables forged or misused ticket access. Retrieve: Kerberos risk is an identity and ticket-system problem.\nransomware: Attack chain that can encrypt, exfiltrate, disrupt, and pressure business operations. Decide: Layer prevention with privilege limits, segmentation, monitored administration, protected backups, and rehearsed recovery. Example/failure: Backups are reachable with the same admin credentials used by attackers. Retrieve: Ransomware response centers availability, recovery, and business consequence.\nimplementation security: Secure engineering of cryptographic code, configuration, hardware, and operations. Decide: Maintain vetted libraries, safe configuration, patching, validation, and testing. Example/failure: A correct algorithm runs in a vulnerable outdated library. Retrieve: Algorithm selection does not assure implementation security.",
+  "sourceRefIds": [
+    "d3-o07-textbook",
+    "d3-o07-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which attack path has the decisive weakness, and how should the mitigation be directed?",
+    "misconception": "Every attack involving encryption is a cryptanalytic break.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+    "conceptIds": [
+      "man-in-the-middle",
+      "pass-the-hash",
+      "kerberos-attack",
+      "ransomware",
+      "implementation-security"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Identify the attack class, the decisive weakness, and the mitigation category.",
+    "textFallback": "man in the middle: Active intermediary attack that observes, alters, relays, or influences an exchange. Decide: Require authenticated peers, correct validation, freshness, and downgrade resistance. Example/failure: A user accepts an untrusted certificate prompt on public Wi-Fi. Retrieve: Encryption without peer validation permits active interception.\npass the hash: Use of stolen password-derived credential material in authentication flows that accept it. Decide: Protect credential material, limit privilege, segment, monitor, and remediate sessions/endpoints. Example/failure: A stolen artifact authenticates to another host even after a password change. Retrieve: Address the usable artifact and affected sessions, not only the password.\nkerberos attack: Abuse of Kerberos identities, tickets, service accounts, delegation, or directory authority. Decide: Review ticket, service-account, delegation, time, endpoint, and privileged-directory paths. Example/failure: An overprivileged service account enables forged or misused ticket access. Retrieve: Kerberos risk is an identity and ticket-system problem.\nransomware: Attack chain that can encrypt, exfiltrate, disrupt, and pressure business operations. Decide: Layer prevention with privilege limits, segmentation, monitored administration, protected backups, and rehearsed recovery. Example/failure: Backups are reachable with the same admin credentials used by attackers. Retrieve: Ransomware response centers availability, recovery, and business consequence.\nimplementation security: Secure engineering of cryptographic code, configuration, hardware, and operations. Decide: Maintain vetted libraries, safe configuration, patching, validation, and testing. Example/failure: A correct algorithm runs in a vulnerable outdated library. Retrieve: Algorithm selection does not assure implementation security.",
+    "sourceRefIds": [
+      "d3-o07-textbook",
+      "d3-o07-sybex"
+    ],
+    "mapNodeId": "d3-o07-cryptanalytic-attacks"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

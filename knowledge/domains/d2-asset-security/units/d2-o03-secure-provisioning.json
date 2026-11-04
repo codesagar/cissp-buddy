@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o03-secure-provisioning",
+  "domainId": 2,
+  "objectiveIds": [
+    "2.3"
+  ],
+  "title": "Provision resources securely",
+  "summary": "Provisioning is the controlled introduction, configuration, authorization, and handoff of resources so that a new asset begins life with known ownership, secure defaults, and traceable approvals.",
+  "outcome": "Specify a secure provisioning workflow that prevents unmanaged resources, excessive access, and configuration drift from entering service.",
+  "conceptIds": [
+    "secure-provisioning",
+    "secure-defaults",
+    "baseline",
+    "authorization",
+    "configuration-drift",
+    "asset-inventory",
+    "data-lifecycle"
+  ],
+  "prerequisites": [
+    "d2-o01-inventory-classification",
+    "d2-o02-handling-requirements"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "The cheapest time to establish ownership, classification, baseline, and access boundaries is before the resource handles production information.",
+  "sections": [
+    {
+      "id": "provisioning-gates",
+      "title": "Control the entry into service",
+      "body": "A provisioning workflow should record the request, owner, business purpose, classification, environment, dependencies, approver, identity/access assignments, configuration baseline, and acceptance evidence. Build or buy processes should use approved images, hardened defaults, secrets management, vulnerability checks, and inventory registration before production use.",
+      "keyPoints": [
+        "Provisioning includes administrative and technical steps, not just installing hardware or software.",
+        "Registration and ownership make later monitoring, change, and disposal possible.",
+        "Secure defaults reduce the number of decisions left to busy operators."
+      ],
+      "sourceRefIds": [
+        "official-d2-18-22",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "continuous-assurance",
+      "title": "Keep the provisioned resource within policy",
+      "body": "After handoff, compare the resource against its baseline, monitor ownership and access, and reconcile inventory with reality. A provisioned resource that drifts, changes purpose, or loses support may need reclassification, remediation, isolation, or retirement. Automation improves consistency but does not remove approval and accountability.",
+      "keyPoints": [
+        "Baseline comparison detects drift; it does not replace risk-based review.",
+        "Access and ownership should be revalidated after role or purpose changes.",
+        "Cloud and ephemeral resources still require inventory and lifecycle evidence."
+      ],
+      "sourceRefIds": [
+        "official-d2-18-22",
+        "takeaways-d2-provision"
+      ]
+    },
+    {
+      "id": "asset-lifecycle-and-inventory-accountability",
+      "title": "Provision assets as managed lifecycle entries",
+      "body": "Asset management spans identifying or acquiring/developing a resource, assessing and selecting it, deploying it, operating and monitoring it, changing/reclassifying it, and retiring/disposal. Provisioning is the controlled transition into service, not the complete lifecycle. Before activation, record the asset and data owner, custodian/operator, business purpose, tangible/intangible type, classification/categorization, dependencies, location/environment, approved configuration, access, support/EOL information, acceptance evidence, and planned review/retirement trigger. The owner remains accountable for the asset’s value and protection requirements; custodians implement and operate the approved safeguards. An unregistered or ownerless asset cannot be reliably assessed, changed, retained, or disposed.",
+      "keyPoints": [
+        "Inventory must include tangible and intangible assets and the dependencies that support them.",
+        "An approved build becomes a managed asset only when ownership, inventory, controls, and lifecycle evidence are recorded.",
+        "Ephemeral resources need an owner, expiry, and inventory evidence while they exist."
+      ],
+      "sourceRefIds": [
+        "official-d2-18-22"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "New analytics workspace",
+      "situation": "A data science team requests a cloud workspace to process restricted customer data.",
+      "reasoning": "Before activation, identify the owner, data classification, approved region, tenant boundary, identity groups, logging, encryption, retention, backup, baseline, and deprovision date. Provision from an approved template, validate controls, register the resource, and record acceptance."
+    },
+    {
+      "title": "Unmanaged SaaS design tool",
+      "situation": "A product team begins using a SaaS design tool that stores prototypes and customer feedback.",
+      "reasoning": "Before treating the service as approved, inventory the service, exported files, integrations, accounts, data types, owner, provider/subprocessor dependencies, region, access, retention, support and exit plan. Set classification-driven controls, register acceptance, and review the service on material change.",
+      "takeaway": "A cloud subscription and its outputs are information assets even when no hardware is purchased."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "provisioning",
+        "configuration management"
+      ],
+      "difference": "Provisioning brings a resource into service; configuration management maintains its known state and manages subsequent changes."
+    },
+    {
+      "a": "Provisioning",
+      "b": "Asset management lifecycle",
+      "difference": "Provisioning introduces a resource into service; asset management governs it from discovery/acquisition through operation, reassessment, and retirement."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Cloud resources are the provider's responsibility and need not be inventoried.",
+      "correction": "The provider may operate infrastructure, but the customer remains responsible for its service use, data, identities, and configuration under the shared-responsibility model."
+    },
+    {
+      "claim": "An asset inventory is a procurement list.",
+      "correction": "A security inventory is a living management record for tangible and intangible assets, ownership, value/classification, dependencies, controls, location, lifecycle state, and review/retirement evidence."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What evidence should exist before production use?",
+      "answer": "Approved request, owner/classification, secure configuration validation, access decision, inventory record, and acceptance evidence."
+    },
+    {
+      "prompt": "Why use approved templates?",
+      "answer": "They make secure defaults and repeatable control checks more consistent."
+    },
+    {
+      "prompt": "What makes a provisioned resource manageable after deployment?",
+      "answer": "A recorded owner and custodian, inventory entry, purpose and classification, configuration/access evidence, dependencies and location, support/lifecycle status, and review or retirement trigger."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "An engineer creates an untracked storage bucket for a two-day experiment.",
+      "decision": "Require lightweight but real registration, owner, classification, access boundary, and expiry; ephemeral does not mean exempt.",
+      "why": "Untracked temporary resources commonly outlive their purpose and become data-exposure paths."
+    },
+    {
+      "prompt": "A team deploys a one-week cloud test environment containing restricted data and says it is too short-lived for the inventory. What detail changes the decision?",
+      "decisiveDetail": "The presence of an asset, data, access path, owner, and retention/expiry obligation requires a lightweight managed record even for an ephemeral resource.",
+      "testedConceptIds": [
+        "asset-inventory",
+        "secure-provisioning",
+        "data-lifecycle"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study provisioning gates, baselines, and secure defaults.",
+    "connect": "Connect registration to ownership, handling, access, and later disposal.",
+    "apply": "Design a cloud workspace request-and-approval checklist.",
+    "revisit": "Look for missing ephemeral, backup, and third-party resources."
+  },
+  "visualIds": [
+    "d2-o03-secure-provisioning-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "official-d2-18-22",
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "18-22 (PDF pp. 18-22)"
+      },
+      "supports": [
+        "secure provisioning"
+      ]
+    },
+    {
+      "id": "takeaways-d2-provision",
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-10"
+      },
+      "supports": [
+        "asset controls and lifecycle"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "275-279 (Chapter 5, Data Protection Methods; PDF pp. 275-279)"
+      },
+      "supports": [
+        "secondary cross-check"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d2-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d2-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d2-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d2-o03-secure-provisioning-visual-contract",
+    "unitId": "d2-o03-secure-provisioning",
+    "teachingQuestion": "What must be approved, baselined, registered, and accepted before this resource enters service?",
+    "misconception": "Automation or a successful deployment makes a resource authorized and secure.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Provisioning joins accountable purpose, safe defaults, baseline, inventory, authorization, and lifecycle planning.",
+    "conceptIds": [
+      "secure-provisioning",
+      "secure-defaults",
+      "baseline",
+      "authorization",
+      "configuration-drift",
+      "asset-inventory",
+      "data-lifecycle"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Name the owner, purpose, classification, baseline, access approval, acceptance evidence, and drift trigger.",
+    "textFallback": "Provisioning is the controlled introduction, configuration, authorization, and handoff of resources so that a new asset begins life with known ownership, secure defaults, and traceable approvals.\nBefore activation, identify the owner, data classification, approved region, tenant boundary, identity groups, logging, encryption, retention, backup, baseline, and deprovision date. Provision from an approved template, validate controls, register the resource, and record acceptance.",
+    "sourceRefIds": [
+      "official-d2-18-22",
+      "takeaways-d2-provision",
+      "sybex-d2"
+    ],
+    "mapNodeId": "d2-o03-secure-provisioning",
+    "visualIds": [
+      "d2-o03-secure-provisioning-concept-comparison-1"
+    ]
+  }
+}

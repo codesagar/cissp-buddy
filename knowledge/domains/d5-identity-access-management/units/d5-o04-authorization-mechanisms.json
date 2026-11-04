@@ -1,0 +1,313 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o04-authorization-mechanisms",
+  "domainId": 5,
+  "objectiveIds": [
+    "5.4"
+  ],
+  "title": "Implement and manage authorization mechanisms",
+  "summary": "Authorization translates policy into a permit, deny, or conditional decision for a subject attempting an action on an object. The model and enforcement architecture should express business authority, least privilege, context, and risk without relying on a successful login alone.",
+  "outcome": "Given a resource and access request, select or compare an access-control model, identify policy inputs, place the decision and enforcement points, and explain how the result is reviewed or revoked.",
+  "conceptIds": [
+    "authorization",
+    "rbac",
+    "rule-based-access-control",
+    "mac",
+    "dac",
+    "abac",
+    "risk-based-access-control",
+    "policy-decision-point",
+    "policy-enforcement-point",
+    "least-privilege",
+    "separation-of-duties"
+  ],
+  "prerequisites": [
+    "d5-o01-physical-logical-access",
+    "d5-o02-identification-authentication-strategy",
+    "d2-o01-inventory-classification"
+  ],
+  "estimatedMinutes": 45,
+  "managerMindset": "Choose the simplest policy model that expresses the real business decision, then verify that every enforcement point applies it consistently under stale, missing, or changing context.",
+  "sections": [
+    {
+      "id": "models-and-inputs",
+      "title": "Choose a model that matches the policy",
+      "body": "Discretionary access control lets an owner or creator decide access; mandatory access control applies centrally governed labels and rules; role-based access control maps permissions to job or function roles; rule-based control evaluates explicit conditions; attribute-based access control evaluates subject, object, action, and environment attributes; risk-based control adapts the decision to assessed context. The choice is not a ranking of good and bad models. It is a question of authority, information classification, change rate, auditability, and required context.",
+      "keyPoints": [
+        "RBAC is useful when stable job functions map cleanly to permissions, but role explosion can become a governance problem.",
+        "ABAC and risk-based decisions can express context, but they depend on trustworthy and timely attributes.",
+        "Least privilege, need to know, and separation of duties constrain any model."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o04",
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ]
+    },
+    {
+      "id": "decision-and-enforcement",
+      "title": "Separate decision from enforcement",
+      "body": "A policy decision point evaluates the request and returns a result; a policy enforcement point applies that result at an API, application, database, operating-system, network, or physical boundary. Centralized decisions can improve consistency while distributed enforcement preserves local control and resilience. Test both sides: a correct policy is ineffective if an enforcement path fails open, caches stale permissions, ignores a deny, trusts an unverified attribute, or cannot revoke a long-lived token.",
+      "keyPoints": [
+        "A policy decision should name the subject, object, action, policy version, and relevant context.",
+        "Default deny is a prudent response when no rule authorizes a consequential action.",
+        "Fresh decisions or step-up controls may be required for high-impact actions or changed conditions."
+      ],
+      "sourceRefIds": [
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Select, enforce, and review an authorization policy model",
+      "body": "RBAC grants permissions through roles and supports governed job functions; rule-based access applies system-defined conditions; MAC enforces centrally controlled labels and clearances; DAC permits a resource owner to delegate within policy; ABAC evaluates subject, object, action, and environment attributes; and risk-based access changes the decision or required assurance from contextual risk. A policy decision point evaluates policy and inputs; a policy enforcement point intercepts or mediates the requested action and must fail in a policy-consistent way. Choose based on stability of job roles, classification, ownership, attribute quality, context, scale, auditability, and consequence. Failures include role explosion, untrusted attributes, policy bypass at an API, inconsistent PDP/PEP decisions, owner delegation without review, and risk signals silently converting a deny into allow.",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o04",
+        "official-d5-35-41",
+        "sybex-d5-677-690"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "A clinician's record access",
+      "situation": "A clinician authenticated through SSO requests a patient's record from a managed tablet during a scheduled shift. The clinician's role permits records, but the patient is outside the clinician's assigned care team.",
+      "reasoning": "Authentication supplies the subject, not the permit. An authorization request can combine subject role and assignment, object sensitivity and patient relationship, action, device posture, time, and emergency context. The policy may deny or require a documented break-glass path with heightened logging and review. Enforcement must apply the result at the record API, not only at the user interface."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "authentication",
+        "authorization"
+      ],
+      "difference": "Authentication verifies control of an authenticator; authorization decides whether the subject may perform a particular action on a particular object."
+    },
+    {
+      "between": [
+        "RBAC",
+        "ABAC"
+      ],
+      "difference": "RBAC primarily evaluates role-to-permission assignments; ABAC evaluates multiple subject, object, action, and environment attributes."
+    },
+    {
+      "between": [
+        "PDP",
+        "PEP"
+      ],
+      "difference": "The policy decision point evaluates rules; the policy enforcement point applies the result at the protected boundary."
+    },
+    {
+      "between": [
+        "DAC",
+        "MAC"
+      ],
+      "difference": "DAC delegates discretion to owners or creators; MAC centrally enforces policy using labels or classifications."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "RBAC is always the simplest and safest model.",
+      "correction": "RBAC can be effective for stable functions, but role explosion, temporary context, and separation-of-duty requirements may call for attributes, rules, or a hybrid."
+    },
+    {
+      "misconception": "The user interface is the enforcement point.",
+      "correction": "APIs, services, databases, operating systems, and network boundaries must enforce independently so bypassing the UI does not bypass policy."
+    },
+    {
+      "misconception": "A valid token remains authorized until it expires.",
+      "correction": "High-impact systems may require fresh decisions, revocation checks, or step-up authentication when roles, device posture, or risk changes."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What is the difference between a policy decision point and a policy enforcement point?",
+      "answer": "The decision point evaluates policy and context; the enforcement point applies the permit, deny, or conditional result."
+    },
+    {
+      "prompt": "Which attribute families are commonly used by ABAC?",
+      "answer": "Subject, object, action, and environment attributes."
+    },
+    {
+      "prompt": "Why might a high-impact action require a fresh authorization decision?",
+      "answer": "Role, device, resource, threat, or session context may have changed since a cached decision or token was issued."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A developer proposes a single broad administrator role because five applications have slightly different permission sets.",
+      "decision": "Model the actual functions and separate permissions or attributes, with SoD and privileged review, before accepting a broad role.",
+      "why": "Convenience-based role aggregation creates privilege creep and weakens accountability."
+    },
+    {
+      "scenario": "An API receives a permit from the central PDP but the request lacks a device-compliance attribute.",
+      "decision": "Fail closed or require a defined step-up path according to policy; do not infer compliance from missing context.",
+      "why": "An authorization result is only as sound as the attributes and enforcement assumptions behind it."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare DAC, MAC, RBAC, rule-based, ABAC, and risk-based control; then learn PDP/PEP and least-privilege constraints.",
+    "connect": "Connect models to D2 classification, D3 security models, and D5.5 privilege lifecycle.",
+    "apply": "Write a permit/deny decision for one sensitive object using subject, object, action, and environment attributes.",
+    "revisit": "Redraw the decision and enforcement path and list two ways stale context or a bypassed enforcement point could fail it."
+  },
+  "visualIds": [
+    "d5-o04-authorization-decision",
+    "d5-o04-authorization-mechanisms-decision-comparison-1",
+    "d5-o04-authorization-mechanisms-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o04",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "5.4"
+      },
+      "supports": [
+        "objective boundary",
+        "authorization models",
+        "policy decision and enforcement"
+      ]
+    },
+    {
+      "id": "official-d5-35-41",
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "35-41 (PDF pp. 35-41)"
+      },
+      "supports": [
+        "access-control models",
+        "DAC",
+        "MAC",
+        "RBAC",
+        "rule-based",
+        "ABAC",
+        "risk-based access"
+      ]
+    },
+    {
+      "id": "sybex-d5-677-690",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "677-690, Chapter 14"
+      },
+      "supports": [
+        "authorization mechanisms",
+        "access-control models",
+        "implementing authentication systems"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d5.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d5-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d5-o04-authorization-mechanisms-visual-contract",
+    "unitId": "d5-o04-authorization-mechanisms",
+    "teachingQuestion": "How does a policy become an enforced permit, deny, or step-up result?",
+    "misconception": "Successful authentication or a computed permit means the resource is necessarily protected.",
+    "form": "data-flow",
+    "formRationale": "Separate decision computation from the resource enforcement boundary, and show where evidence changes future decisions.",
+    "focalInsight": "A policy decision is only protective when its inputs are trustworthy and every enforcement point applies the result.",
+    "conceptIds": [
+      "authorization",
+      "rbac",
+      "rule-based-access-control",
+      "mac",
+      "dac",
+      "abac",
+      "risk-based-access-control",
+      "policy-decision-point",
+      "policy-enforcement-point",
+      "least-privilege",
+      "separation-of-duties"
+    ],
+    "relationships": [
+      {
+        "from": "request",
+        "to": "pdp",
+        "label": "submits"
+      },
+      {
+        "from": "attributes",
+        "to": "pdp",
+        "label": "provides context"
+      },
+      {
+        "from": "pdp",
+        "to": "result",
+        "label": "evaluates"
+      },
+      {
+        "from": "result",
+        "to": "pep",
+        "label": "is applied by"
+      },
+      {
+        "from": "pep",
+        "to": "review",
+        "label": "produces evidence"
+      },
+      {
+        "from": "review",
+        "to": "pdp",
+        "label": "refreshes or changes policy"
+      }
+    ],
+    "intentionalOmissions": "Detailed RBAC, DAC, MAC and ABAC rule comparisons are in the companion tables; this view does not prescribe one policy engine or default for safety-critical systems.",
+    "retrievalPrompt": "A policy engine denies an API request, but an alternate endpoint still serves the object. Which component and boundary failed?",
+    "textFallback": "The request states subject, object, action and context. Verified policy inputs supply relevant roles, labels, device state, time and risk. The policy decision point evaluates rules and produces a scoped decision with obligations. The policy enforcement point must mediate the actual resource access and apply that result. Evidence from operation, reviews and revocations updates future decisions. Trustworthy input and complete enforcement are required; a signed-in subject or computed permit is not sufficient by itself.",
+    "sourceRefIds": [
+      "official-d5-35-41",
+      "sybex-d5-677-690"
+    ],
+    "mapNodeId": "d5-o04-authorization-mechanisms",
+    "visualIds": [
+      "d5-o04-authorization-decision",
+      "d5-o04-authorization-mechanisms-decision-comparison-1",
+      "d5-o04-authorization-mechanisms-decision-comparison-2"
+    ]
+  }
+}

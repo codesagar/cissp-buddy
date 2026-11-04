@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o01-access-control-boundaries",
+  "unitId": "d5-o01-physical-logical-access",
+  "type": "layer-stack",
+  "teachingQuestion": "How do physical and logical controls combine to protect one asset?",
+  "focalInsight": "The same business access decision can cross administrative, physical, logical, and evidence boundaries.",
+  "title": "Access-control boundaries",
+  "caption": "A protected object is surrounded by policy, physical, logical, and accountability controls.",
+  "nodes": [
+    { "id": "policy", "label": "Administrative policy", "detail": "Owner, purpose, approval, least privilege" },
+    { "id": "physical", "label": "Physical boundary", "detail": "Badge, escort, room, device, media" },
+    { "id": "logical", "label": "Logical boundary", "detail": "Identity, authorization, API, OS, network" },
+    { "id": "object", "label": "Protected object", "detail": "Information, system, device, facility, application, service" },
+    { "id": "evidence", "label": "Accountability evidence", "detail": "Approvals, logs, review, revocation" }
+  ],
+  "relationships": [
+    { "from": "policy", "to": "physical", "label": "sets conditions" },
+    { "from": "policy", "to": "logical", "label": "sets conditions" },
+    { "from": "physical", "to": "object", "label": "limits presence or handling" },
+    { "from": "logical", "to": "object", "label": "limits operations" },
+    { "from": "physical", "to": "evidence", "label": "records entry" },
+    { "from": "logical", "to": "evidence", "label": "records use" }
+  ],
+  "altSummary": "A stack shows policy governing physical and logical access boundaries around a protected object, with both boundaries producing accountability evidence.",
+  "textFallback": "Start with the owner-approved policy. Apply physical controls to presence, movement, and handling, and logical controls to information and system operations. Both paths protect the object and should produce evidence for review and revocation.",
+  "sourceRefIds": ["outline-d5-o01", "official-d5-9-16", "sybex-d5-639-642"],
+  "review": { "status": "source-checked", "reviewers": [{ "role": "AI author", "name": "GPT-5.6-luna" }], "lastReviewedAt": "2026-09-18" }
+}

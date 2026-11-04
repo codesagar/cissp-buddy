@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o01-secure-design-principles-concept-comparison-2",
+  "unitId": "d3-o01-secure-design-principles",
+  "type": "table",
+  "title": "Engineer security into design decisions: concept decisions 2",
+  "teachingQuestion": "How do design principles constrain a proposed failure path before implementation?",
+  "focalInsight": "Secure architecture links each principle to a trust boundary and a specific unsafe state.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Threat Modeling",
+      "conceptIds": [
+        "threat-modeling"
+      ],
+      "definition": "Structured examination of assets, actors, data flows, trust boundaries, abuse cases, and assumptions.",
+      "detail": "Structured examination of assets, actors, data flows, trust boundaries, abuse cases, and assumptions.",
+      "decision": "Use before design commitment and when a material boundary or dependency changes.",
+      "failureExample": "An API accepts a partner callback without modeling replay or forged requests.",
+      "retrievalAnswer": "Name the boundary and abuse case, then test the control assumption.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Keep It Simple And Small",
+      "conceptIds": [
+        "keep-it-simple-and-small"
+      ],
+      "definition": "Reduce unnecessary components, privileges, states, and interactions so the design can be understood, tested, and operated.",
+      "detail": "Reduce unnecessary components, privileges, states, and interactions so the design can be understood, tested, and operated.",
+      "decision": "Prefer the smallest architecture that meets the stated requirement; justify each added dependency, interface, and privilege.",
+      "failureExample": "A convenience integration creates unreviewed state transitions and a hidden administrative bypass.",
+      "retrievalAnswer": "Simplicity reduces hidden assumptions and review burden.",
+      "tier": "B"
+    },
+    {
+      "id": "row-3",
+      "label": "Secure Access Service Edge",
+      "conceptIds": [
+        "secure-access-service-edge"
+      ],
+      "definition": "An architecture delivering integrated network and security access controls at distributed user, branch, and application edges.",
+      "detail": "An architecture delivering integrated network and security access controls at distributed user, branch, and application edges.",
+      "decision": "Use when identity-aware access, traffic steering, and policy enforcement at distributed edges fit the data flow and service boundary.",
+      "failureExample": "A team assumes SASE replaces application authorization and leaves a broad API role unchanged.",
+      "retrievalAnswer": "SASE can enforce edge access policy; application and data authorization still decide the action.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "threat-modeling",
+    "keep-it-simple-and-small",
+    "secure-access-service-edge"
+  ],
+  "altSummary": "Secure architecture links each principle to a trust boundary and a specific unsafe state.",
+  "textFallback": "Threat Modeling: Structured examination of assets, actors, data flows, trust boundaries, abuse cases, and assumptions. Decision: Use before design commitment and when a material boundary or dependency changes. Failure: An API accepts a partner callback without modeling replay or forged requests.\nKeep It Simple And Small: Reduce unnecessary components, privileges, states, and interactions so the design can be understood, tested, and operated. Decision: Prefer the smallest architecture that meets the stated requirement; justify each added dependency, interface, and privilege. Failure: A convenience integration creates unreviewed state transitions and a hidden administrative bypass.\nSecure Access Service Edge: An architecture delivering integrated network and security access controls at distributed user, branch, and application edges. Decision: Use when identity-aware access, traffic steering, and policy enforcement at distributed edges fit the data flow and service boundary. Failure: A team assumes SASE replaces application authorization and leaves a broad API role unchanged.",
+  "sourceRefIds": [
+    "d3-o01-textbook",
+    "d3-o01-sybex",
+    "d3-o01-sase-official",
+    "d3-o01-sase-cisco",
+    "d3-o01-zero-trust-nist"
+  ],
+  "learningContract": {
+    "teachingQuestion": "How do design principles constrain a proposed failure path before implementation?",
+    "misconception": "Adding more controls automatically creates a secure design.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Secure architecture links each principle to a trust boundary and a specific unsafe state.",
+    "conceptIds": [
+      "threat-modeling",
+      "keep-it-simple-and-small",
+      "secure-access-service-edge"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Given a dependency failure, name the safe default, authority boundary, and independent layer.",
+    "textFallback": "Threat Modeling: Structured examination of assets, actors, data flows, trust boundaries, abuse cases, and assumptions. Decision: Use before design commitment and when a material boundary or dependency changes. Failure: An API accepts a partner callback without modeling replay or forged requests.\nKeep It Simple And Small: Reduce unnecessary components, privileges, states, and interactions so the design can be understood, tested, and operated. Decision: Prefer the smallest architecture that meets the stated requirement; justify each added dependency, interface, and privilege. Failure: A convenience integration creates unreviewed state transitions and a hidden administrative bypass.\nSecure Access Service Edge: An architecture delivering integrated network and security access controls at distributed user, branch, and application edges. Decision: Use when identity-aware access, traffic steering, and policy enforcement at distributed edges fit the data flow and service boundary. Failure: A team assumes SASE replaces application authorization and leaves a broad API role unchanged.",
+    "sourceRefIds": [
+      "d3-o01-textbook",
+      "d3-o01-sybex",
+      "d3-o01-sase-official",
+      "d3-o01-sase-cisco",
+      "d3-o01-zero-trust-nist"
+    ],
+    "mapNodeId": "d3-o01-secure-design-principles"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

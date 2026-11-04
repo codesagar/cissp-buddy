@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o12-disaster-recovery-exercise-design",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.12"
+  ],
+  "title": "Design staged disaster recovery exercises",
+  "summary": "A DR exercise tests a stated recovery assumption at a controlled level of disruption, with explicit objectives, scope, safety boundaries, stakeholders, communications, and evidence.",
+  "outcome": "Given a recovery plan and risk boundary, select an exercise form, define objectives and participants, and communicate test status without overstating what the exercise proves.",
+  "conceptIds": [
+    "drp-test",
+    "test-objective",
+    "test-scope",
+    "read-through",
+    "tabletop",
+    "walkthrough",
+    "simulation",
+    "parallel-test",
+    "full-interruption",
+    "exercise-safety-boundary",
+    "exercise-communication"
+  ],
+  "prerequisites": [
+    "d7-o12-dr-plan-testing",
+    "d7-o11-disaster-recovery-process-governance",
+    "d6-o01-strategy"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Choose the least disruptive exercise that can answer the decision question, then state clearly what remains untested.",
+  "sections": [
+    {
+      "id": "objectives-and-test-form",
+      "title": "Choose the exercise for the question",
+      "body": "A read-through or tabletop examines plan logic, roles, assumptions, and decisions without changing systems. A walkthrough traces people through a procedure; a simulation introduces realistic injects and observes coordination. A parallel test runs recovery capability while production continues; a full-interruption test takes production service down and therefore demands exceptional authority, safety, communications, and rollback. Select the form from the objective, recovery maturity, service criticality, evidence needed, and acceptable disruption. A test title is not a test objective.",
+      "keyPoints": [
+        "A low-impact exercise can reveal governance and documentation gaps but cannot prove production failover.",
+        "The exercise should state entry criteria, stop conditions, success criteria, and evidence owners.",
+        "Full interruption is a high-consequence control test, not a default sign of maturity."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o12-design",
+        "official-d7-82-84-design",
+        "sybex-d7-899-900"
+      ]
+    },
+    {
+      "id": "scope-safety-communications",
+      "title": "Bound scope and communicate the exercise",
+      "body": "Define systems, people, dependencies, data, time window, assumptions, injects, observers, authorized actions, and safety boundaries. Coordinate operations, business owners, suppliers, facilities, security, regulators, customers, and emergency contacts as relevant. Exercise communications should identify test status, expected behavior, channels, approvals, and how a real event will be distinguished from the exercise. Protect sensitive recovery details and preserve logs, decisions, timing, and deviations for later analysis. Stop conditions should be clear enough that any participant can halt an unsafe activity.",
+      "keyPoints": [
+        "Scope controls prevent a test from becoming an uncontrolled outage or security event.",
+        "Communication content and recipients depend on exercise form and consequence.",
+        "Observers need an evidence plan, not only a meeting invitation."
+      ],
+      "sourceRefIds": [
+        "official-d7-82-84-design",
+        "sybex-d7-899-901"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Parallel test of a payment recovery site",
+      "situation": "The team wants to prove a payment service's four-hour RTO without interrupting production. The parallel test can restore a copy, but production and recovery share the same identity provider.",
+      "reasoning": "State that the test proves restoration procedure and some capacity, not independence from identity failure. Define a parallel scope, use synthetic or approved data, coordinate the provider and business observer, record communications and timing, and create a follow-up test for the shared identity dependency."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "tabletop",
+        "simulation"
+      ],
+      "difference": "A tabletop discusses decisions and actions around a scenario; a simulation introduces controlled activity or injects to observe behavior and coordination more realistically."
+    },
+    {
+      "between": [
+        "parallel test",
+        "full interruption"
+      ],
+      "difference": "A parallel test operates recovery capability alongside production; a full-interruption test deliberately stops or diverts production and carries much greater safety and rollback requirements."
+    },
+    {
+      "between": [
+        "test objective",
+        "success criterion"
+      ],
+      "difference": "The objective states what decision or capability the exercise examines; a success criterion states the observable result that supports the conclusion."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A tabletop proves the DR plan will restore systems.",
+      "correction": "It can expose decision, role, communication, and assumption gaps, but it does not prove technical restoration or capacity."
+    },
+    {
+      "misconception": "All stakeholders should receive every exercise detail.",
+      "correction": "Communicate enough for safe participation and coordination while protecting sensitive recovery, security, and personal information."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What determines the choice between tabletop, simulation, parallel, and full interruption?",
+      "answer": "The decision question, recovery maturity, service criticality, evidence required, acceptable disruption, safety, and rollback capability."
+    },
+    {
+      "prompt": "What should a test plan state before execution?",
+      "answer": "Objective, scope, participants, assumptions, injects, success criteria, communications, safety boundaries, stop conditions, and evidence owners."
+    },
+    {
+      "prompt": "What can a parallel test fail to prove?",
+      "answer": "Independence from shared identity, provider, network, data, staffing, or other common dependencies, and any condition not exercised."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A service owner requests a full-interruption test during the busiest business day because the team is available.",
+      "decision": "Reject the timing, select a safer staged or parallel exercise, define an approved full-interruption objective and window, and require business and safety authority.",
+      "why": "Exercise convenience does not justify uncontrolled business, safety, or customer impact."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Compare read-through/tabletop, walkthrough, simulation, parallel, and full-interruption exercises with their evidence and limits.",
+    "connect": "Connect D7.12 to D7.11 DR process, D7.10 recovery capability, D7.13 continuity, D6 testing, and D1 risk acceptance.",
+    "apply": "Write an exercise charter with objective, form, scope, success criteria, stop conditions, communications, and evidence.",
+    "revisit": "State exactly what your exercise proves and what it deliberately leaves untested."
+  },
+  "visualIds": [
+    "d7-o12-disaster-recovery-exercise-design-decision-comparison-1",
+    "d7-o12-disaster-recovery-exercise-design-decision-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o12-design",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.12 bullets: read-through/tabletop, walkthrough, simulation, parallel, full interruption, communications"
+      },
+      "supports": [
+        "objective scope",
+        "exercise forms"
+      ]
+    },
+    {
+      "id": "official-d7-82-84-design",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "82-84 (PDF pp. 82-84), Domain 7.12 DR plan testing"
+      },
+      "supports": [
+        "exercise forms",
+        "test objectives",
+        "communications"
+      ]
+    },
+    {
+      "id": "sybex-d7-899-900",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "899-900, Chapter 18 DRP test types and planning"
+      },
+      "supports": [
+        "read-through",
+        "walkthrough",
+        "simulation",
+        "parallel and interruption tests"
+      ]
+    },
+    {
+      "id": "sybex-d7-899-901",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "899-901, Chapter 18 test communications and evidence"
+      },
+      "supports": [
+        "communications",
+        "observation",
+        "test evidence"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o12-disaster-recovery-exercise-design-visual-contract",
+    "unitId": "d7-o12-disaster-recovery-exercise-design",
+    "teachingQuestion": "Given a recovery claim, which test form can produce the needed evidence without exceeding the authorized disruption?",
+    "misconception": "A tabletop proves that recovery systems work, and a completed exercise is automatically a pass.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Form selection, production impact, evidence, stop authority, and exercise-status communication.",
+    "conceptIds": [
+      "drp-test",
+      "test-objective",
+      "test-scope",
+      "read-through",
+      "tabletop",
+      "walkthrough",
+      "simulation",
+      "parallel-test",
+      "full-interruption",
+      "exercise-safety-boundary",
+      "exercise-communication"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not assign universal test frequency, RTO/RPO, or regulatory notification triggers.",
+    "retrievalPrompt": "A hospital must prove its alternate site can process real work while production continues. Which form, evidence, and safety boundary fit?",
+    "textFallback": "drp test: A planned, authorized exercise of the disaster-recovery plan or capability, not a review of its existence.. Decision: Choose a test only after naming the recovery claim, systems, participants, safety limits, and acceptance evidence.. Failure/example: Calling a document review a DRP test leaves the failover path unproved.\ntest objective: The precise capability or decision the exercise is intended to prove, such as alternate-site processing or escalation timing.. Decision: Write one observable objective before choosing form; reject vague objectives such as “test DR.”. Failure/example: An undefined objective lets a team declare success although no recovery requirement was measured.\ntest scope: The bounded people, services, dependencies, locations, injects, and time window included in an exercise.. Decision: Include dependencies needed to support the objective and explicitly exclude what must remain protected.. Failure/example: A test of an application without identity, keys, or network dependencies falsely suggests recoverability.\nread through: A participant-led reading of the plan to check comprehension, contacts, sequencing, and obvious contradictions without operating systems.. Decision: Use first when plans are new or changed and the needed evidence is plan logic, not technical recovery.. Failure/example: A read-through cannot prove that an alternate site, backup, or interface will operate.\ntabletop: A moderated discussion in which DR-role holders respond verbally to a disruptive scenario and decisions.. Decision: Use to expose role, escalation, communication, and policy conflicts with no production action.. Failure/example: Treating a tabletop as a technical failover test hides broken automation or inaccessible backups.\nwalkthrough: A step-by-step rehearsal in which participants trace assigned procedures and handoffs through a scenario.. Decision: Use when the plan sequence or a cross-team handoff needs rehearsal before a live capability test.. Failure/example: Skipping a handoff in a walkthrough can leave an unowned restoration decision undiscovered.\nsimulation: An exercise using realistic scenario injects to observe decisions, coordination, and response behavior without treating it as an actual outage.. Decision: Use when uncertainty, timed choices, and communications must be stressed safely.. Failure/example: A simulation that announces injects in advance cannot reveal delayed escalation or conflicting authority.\nparallel test: A test that operates recovery/alternate capability while normal production remains available.. Decision: Use when evidence must show alternate operations work but service disruption is unacceptable; authorize resources and data protections.. Failure/example: Running parallel work with unsanitized production data or no reconciliation can create a confidentiality or integrity incident.\nfull interruption: A scripted exercise that transfers or stops normal operations across the organization to mimic a real contingency.. Decision: Authorize only when the assurance need justifies maximum disruption and rollback, communications, and safety controls are ready.. Failure/example: An ungoverned full interruption can cause real availability loss or confuse incident responders.",
+    "sourceRefIds": [
+      "official-d7-82-84-design",
+      "sybex-d7-899-900",
+      "sybex-d7-899-901"
+    ],
+    "mapNodeId": "d7-o12-disaster-recovery-exercise-design",
+    "visualIds": [
+      "d7-o12-disaster-recovery-exercise-design-decision-comparison-1",
+      "d7-o12-disaster-recovery-exercise-design-decision-comparison-2"
+    ]
+  }
+}

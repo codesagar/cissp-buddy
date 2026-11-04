@@ -1,6 +1,8 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 import { CourseFigure } from '../components/course-figure.tsx';
@@ -139,13 +141,16 @@ const result = {
   status: 'pass',
   rows,
 };
-writeFileSync(
-  new URL(
-    '../../planning/visual-learning-production/qa/all-state-react-render-check.json',
-    import.meta.url,
-  ),
-  JSON.stringify(result, null, 2) + '\n',
-);
+const webRoot = fileURLToPath(new URL('../', import.meta.url));
+const requestedOutput = process.argv.find((argument) => argument.startsWith('--output='))?.slice('--output='.length);
+const outputPath = requestedOutput
+  ? path.resolve(process.cwd(), requestedOutput)
+  : path.join(webRoot, 'outputs/static-qa/all-state-react-render-check.json');
+const historicalRoots = ['visual-learning-production', 'visual-explanation-implementation'].map((name) => path.resolve(webRoot, '../planning', name));
+if (historicalRoots.some((root) => outputPath === root || outputPath.startsWith(root + path.sep)))
+  throw new Error('Historical acceptance reports are protected; choose a new output path.');
+mkdirSync(path.dirname(outputPath), { recursive: true });
+writeFileSync(outputPath, JSON.stringify(result, null, 2) + '\n');
 console.log(
   JSON.stringify({
     models: rows.length,

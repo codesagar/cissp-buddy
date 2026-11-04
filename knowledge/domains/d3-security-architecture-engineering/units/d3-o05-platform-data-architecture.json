@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-platform-data-architecture",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.5"
+  ],
+  "title": "Assess platform, data, and distributed-system trust boundaries",
+  "summary": "Client, server, database, cryptographic, and distributed systems expose different administration paths, data flows, and failure domains. A defensible assessment names each boundary, the asset crossing it, the privileged control plane, and a mitigation with an owner.",
+  "outcome": "Assess client, server, database, cryptographic, and distributed-platform boundaries and recommend mitigations tied to a stated failure path.",
+  "conceptIds": [
+    "client-security",
+    "server-security",
+    "database-security",
+    "cryptographic-system",
+    "distributed-system",
+    "trust-boundary",
+    "management-plane",
+    "segmentation",
+    "service-account-management",
+    "virtualization",
+    "least-privilege",
+    "asset-inventory",
+    "availability",
+    "control-selection",
+    "residual-risk"
+  ],
+  "prerequisites": [
+    "d3-o01-secure-design-principles",
+    "d3-o03-control-selection",
+    "d1-o10-threat-modeling"
+  ],
+  "estimatedMinutes": 48,
+  "managerMindset": "Architecture labels do not establish protection. Ask where data and authority cross, who can change the platform, what fails together, and how the control is evidenced.",
+  "sections": [
+    {
+      "id": "boundary-inventory",
+      "title": "Start with boundaries, roles, and assets",
+      "body": "A client is an execution and presentation endpoint, so its browser, local storage, credentials, patch state, and user interaction become part of the security claim. A server concentrates service logic and often privileged administration. A database separates persistent data from application logic but introduces schemas, service accounts, replication, backups, and administrator paths. Identify the data state, actor, interface, privilege, and allowed action at each boundary before selecting a control.",
+      "keyPoints": [
+        "An endpoint, service, database, and administrator are separate trust subjects.",
+        "A service account is a high-value architecture decision, not an implementation detail."
+      ],
+      "sourceRefIds": [
+        "d3-o05-platform-outline",
+        "d3-o05-platform-textbook",
+        "d3-o05-platform-sybex"
+      ]
+    },
+    {
+      "id": "data-and-crypto",
+      "title": "Protect data systems without collapsing their trust paths",
+      "body": "Database protection combines authorization, query and interface controls, encryption where justified, logging, backup protection, and separation of administrative duties. Cryptographic systems add key custody, protocol configuration, certificate or trust validation, and recovery dependencies; encryption does not protect data exposed to an authorized but compromised endpoint. Evaluate whether application, database, backup, key-management, and operations roles can independently bypass the intended control, then reduce unnecessary authority and monitor the remaining paths.",
+      "keyPoints": [
+        "Encryption and access control solve different parts of the data problem.",
+        "A key-management or backup path can defeat a strong data-store configuration."
+      ],
+      "sourceRefIds": [
+        "d3-o05-platform-textbook",
+        "d3-o05-platform-sybex"
+      ]
+    },
+    {
+      "id": "distributed-failure",
+      "title": "Make distributed assumptions explicit",
+      "body": "Distributed systems exchange work, identity, state, and time across nodes and networks. Partial failure, inconsistent state, replay, unavailable dependencies, and uneven configuration are normal design conditions rather than exceptional events. Define authenticated service-to-service communication, bounded privileges, integrity checks, time and correlation identifiers, resilient recovery behavior, and observability. Avoid treating internal network location as sufficient trust; test the behavior when a node, dependency, or administrator credential is compromised.",
+      "keyPoints": [
+        "Availability design can create integrity or authorization failures if fallback behavior is unsafe.",
+        "Observability must cross service and data boundaries to support detection and recovery."
+      ],
+      "sourceRefIds": [
+        "d3-o05-outline",
+        "d3-o05-platform-textbook",
+        "d3-o05-platform-sybex"
+      ]
+    },
+    {
+      "id": "virtualization-isolation-and-management",
+      "title": "Treat the hypervisor and management plane as shared high-impact boundaries",
+      "body": "Virtualization uses a hypervisor and virtual networking/storage to multiplex workloads on shared hardware. Its value is isolation and flexible resource use; its risk is that a weakness, misconfiguration, or overprivileged management path can affect multiple guests. Inventory hosts, hypervisors, management APIs, administrators, templates, snapshots, virtual switches, images, and tenant boundaries. Apply timely lifecycle management, least-privilege separation between workload and hypervisor administrators, strong administration authentication, protected management paths, logging, and tested recovery. A guest compromise should not automatically become host or cross-tenant compromise; a VM escape or compromised hypervisor can defeat the expected isolation.",
+      "keyPoints": [
+        "A VM is an isolated workload, not an independent physical trust foundation.",
+        "The hypervisor, orchestration and administrator path can have a larger blast radius than any guest."
+      ],
+      "sourceRefIds": [
+        "d3-o05-platform-textbook"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Partner claims platform",
+      "situation": "A browser submits claims to an API, which uses a shared service account to update a replicated database.",
+      "reasoning": "Map browser-to-API, API-to-database, replication, backup, and administrator boundaries. Replace broad shared authority with scoped service identities, validate request and object authorization, protect and test backups, authenticate replication, log correlation identifiers, and define behavior when the identity service is unavailable.",
+      "takeaway": "The risky path is the combined authority and failure chain, not merely the database product."
+    },
+    {
+      "title": "Compromised virtual-machine administrator account",
+      "situation": "A support administrator can manage production guests, templates, and virtual switches from one console.",
+      "reasoning": "Treat the console as a high-blast-radius management boundary. Separate roles, require stronger administration authentication, constrain management network reachability, log template/snapshot/network changes, and rehearse recovery after suspected compromise.",
+      "takeaway": "Guest isolation does not constrain a compromised hypervisor or management authority."
+    },
+    {
+      "title": "Stolen thick client as a server entry path",
+      "situation": "A sales laptop stores offline customer exports, runs a locally installed client application, and connects to internal services when it returns to the office. The laptop is stolen and later appears to have malware.",
+      "reasoning": "Treat the endpoint as both a local-data and connected-system boundary. Determine data classification and local-storage need; require centrally managed endpoint health, timely updates, host anti-malware/IDS/IPS where appropriate, device-loss response/MDM, user reporting, and segmentation that limits the compromised endpoint’s reach to internal services. Rotate or revoke affected credentials and investigate whether the endpoint could reach server-side resources.",
+      "takeaway": "A client compromise can expose residual local data and become a path toward connected servers; endpoint and network controls address different parts of the chain."
+    },
+    {
+      "title": "Legacy server cannot be patched without taking down the service",
+      "situation": "A purpose-built order-processing server has no redundant instance, uses an aging supported stack, and produces more monitoring data than the operations team reviews. A critical update needs a restart.",
+      "reasoning": "Do not accept indefinite patch deferral as a server characteristic. Identify the service availability requirement, create or procure a redundant/failover maintenance path where justified, schedule and test update/rollback, protect physical, network, administrative, and support/logistics access, and size monitoring collection and review for the server’s throughput. If immediate patching is constrained, document temporary compensating controls and residual risk with an accountable owner.",
+      "takeaway": "Redundancy can be a security enabler because it makes timely maintenance possible; privileged, physical, and support paths still require protection."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Client-side control",
+      "b": "Server-side enforcement",
+      "difference": "A client control can improve usability and reduce accidental input; server-side enforcement is the authoritative decision boundary because clients can be changed or bypassed."
+    },
+    {
+      "a": "Database encryption",
+      "b": "Database authorization",
+      "difference": "Encryption protects selected data states against certain access paths; authorization decides which authenticated subject may perform a requested operation."
+    },
+    {
+      "a": "Guest isolation",
+      "b": "Hypervisor/management-plane isolation",
+      "difference": "Guest isolation limits one workload’s interaction with another; hypervisor and management-plane protection limits the authority that can create, inspect, alter, or connect many guests."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A private network makes distributed services trustworthy.",
+      "correction": "Network placement does not establish an authenticated identity, authorized action, sound configuration, or safe behavior after compromise."
+    },
+    {
+      "claim": "Putting workloads in different VMs makes the host and administrator path low risk.",
+      "correction": "The hypervisor, virtual network/storage, templates, and management APIs remain shared high-value paths and require dedicated controls."
+    },
+    {
+      "claim": "Protecting the central server is sufficient because clients are only presentation devices.",
+      "correction": "Clients can hold data and credentials, be lost or stolen, run vulnerable hardware/OS/application software, and offer an attacker a route toward connected servers. Endpoint management and network protections are part of the client-server security claim."
+    },
+    {
+      "claim": "A legacy server’s need for uninterrupted service justifies deferring critical security patches indefinitely.",
+      "correction": "A service and maintenance design should provide tested redundancy or another planned path for safe updating. When a short exception is unavoidable, use accountable, time-bounded compensating controls and a documented residual-risk decision."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What must a database assessment include beyond tables and encryption?",
+      "answer": "Service identities, administrative paths, interfaces, backups, replication, logging, authorization, and key custody."
+    },
+    {
+      "prompt": "Why are partial failures a security concern in distributed systems?",
+      "answer": "Fallback, retry, and inconsistent-state behavior can bypass authorization, replay an action, or undermine integrity and availability."
+    },
+    {
+      "prompt": "Which virtualized components should be treated as high-impact control paths?",
+      "answer": "The hypervisor, management APIs/consoles, privileged administrators, templates/images, snapshots, virtual switching/storage, and tenant-boundary configuration."
+    },
+    {
+      "prompt": "Why can a stolen or malware-infected client be an architecture issue rather than only an endpoint issue?",
+      "answer": "It can expose residual local data and credentials, then attack servers or services it can reach. Control the endpoint with health, update, anti-malware/MDM and user processes, and separately restrict its network paths with segmentation and monitoring."
+    },
+    {
+      "prompt": "How can redundancy improve server security as well as availability?",
+      "answer": "A redundant or failover path can create a maintenance window to patch and restart a server without abandoning its service requirement; it does not remove the need to protect privileged, physical, network, and support/logistics access."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "An API uses one unrestricted database account because deployment is easier. What architecture change most directly reduces blast radius?",
+      "decisiveDetail": "Separate workloads into scoped service identities and authorize actions at the server boundary; broad shared credentials defeat accountability and least privilege.",
+      "testedConceptIds": [
+        "least-privilege",
+        "service-account-management",
+        "database-security",
+        "distributed-system"
+      ]
+    },
+    {
+      "prompt": "A finance VM and a development VM are separate guests, but both administrators use a shared unlogged hypervisor account. What changes the risk?",
+      "decisiveDetail": "The shared high-privilege management account can control both guests and their isolation settings; create attributable least-privilege administration, protected management access, logs, and review.",
+      "testedConceptIds": [
+        "virtualization",
+        "management-plane",
+        "least-privilege"
+      ]
+    },
+    {
+      "prompt": "A contractor laptop that accesses an internal claims system is missing patches and has cached claims data. The business wants to reconnect it quickly after a theft report. What detail should govern the decision?",
+      "decisiveDetail": "The client has local-data, credential, malware, and server-reachability consequences. Preserve evidence as needed, revoke or scope access, assess endpoint posture, use centrally managed remediation, and only restore connectivity through the justified segmented path after an accountable decision; a client is not trusted merely because it is normally internal.",
+      "testedConceptIds": [
+        "client-security",
+        "segmentation",
+        "least-privilege",
+        "asset-inventory"
+      ]
+    },
+    {
+      "prompt": "A public-facing server needs a critical restart-based patch, but the service owner says downtime is impossible. What architecture decision changes the security posture?",
+      "decisiveDetail": "Evaluate redundancy/failover and a tested maintenance/rollback path so the patch can be applied without violating the service objective. Also assess the server’s privileged administration, monitoring capacity, physical/network exposure, and supply/support access; accepting the unpatched state requires a time-bounded residual-risk decision, not an implicit exception.",
+      "testedConceptIds": [
+        "server-security",
+        "availability",
+        "control-selection",
+        "residual-risk"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Draw an endpoint-to-database data flow and label every identity, interface, and administrator boundary.",
+    "connect": "Connect threat modeling in D1, secure design in D3, logging in D7, and object authorization in D5.",
+    "apply": "For one distributed service, state its unsafe fallback and its evidence sources.",
+    "revisit": "In three days, explain why encryption and authorization cannot substitute for one another."
+  },
+  "visualIds": [
+    "d3-o05-platform-data-architecture-concept-comparison-1",
+    "d3-o05-platform-data-architecture-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o05-platform-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5: client-based, server-based, database, cryptographic, and distributed systems"
+      },
+      "supports": [
+        "objective-boundary",
+        "platform-data-distributed-topics"
+      ]
+    },
+    {
+      "id": "d3-o05-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.5"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o05-platform-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "26-44",
+        "pdfPage": "26-44",
+        "note": "Domain 3 architecture-vulnerability range; printed page is the citation anchor."
+      },
+      "supports": [
+        "client-server-database-assessment",
+        "cryptographic-system-dependencies",
+        "distributed-system-risk"
+      ]
+    },
+    {
+      "id": "d3-o05-platform-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 9, Security Vulnerabilities, Threats, and Countermeasures, pp. 353-446"
+      },
+      "supports": [
+        "platform-vulnerabilities",
+        "database-and-distributed-system-correlation"
+      ],
+      "sourceNotes": "Broad secondary locator requires section-level refinement; this unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o05-platform-data-architecture-visual-contract",
+    "unitId": "d3-o05-platform-data-architecture",
+    "teachingQuestion": "Which client, server, data, distributed, or management boundary must enforce this decision?",
+    "misconception": "Internal location, encrypted storage, or VM separation makes the full path trustworthy.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Authoritative server-side and management-plane controls must constrain every high-impact path.",
+    "conceptIds": [
+      "client-security",
+      "server-security",
+      "database-security",
+      "cryptographic-system",
+      "distributed-system",
+      "trust-boundary",
+      "management-plane",
+      "segmentation",
+      "service-account-management",
+      "virtualization",
+      "least-privilege",
+      "asset-inventory",
+      "availability",
+      "control-selection",
+      "residual-risk"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a client-to-server request, state the authoritative authorization point and one privileged bypass path.",
+    "textFallback": "Client, server, database, cryptographic, and distributed systems expose different administration paths, data flows, and failure domains. A defensible assessment names each boundary, the asset crossing it, the privileged control plane, and a mitigation with an owner.\nMap browser-to-API, API-to-database, replication, backup, and administrator boundaries. Replace broad shared authority with scoped service identities, validate request and object authorization, protect and test backups, authenticate replication, log correlation identifiers, and define behavior when the identity service is unavailable.",
+    "sourceRefIds": [
+      "d3-o05-platform-textbook",
+      "d3-o05-platform-sybex"
+    ],
+    "mapNodeId": "d3-o05-platform-data-architecture",
+    "visualIds": [
+      "d3-o05-platform-data-architecture-concept-comparison-1",
+      "d3-o05-platform-data-architecture-concept-comparison-2"
+    ]
+  }
+}

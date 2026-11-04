@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o02-security-models-concept-comparison-1",
+  "unitId": "d3-o02-security-models",
+  "type": "table",
+  "title": "Use security models to reason about allowed information flow: concept decisions 1",
+  "teachingQuestion": "Which model objective explains the proposed information-flow rule?",
+  "focalInsight": "A model is selected by confidentiality, integrity, conflict, or transaction objective and needs enforcement.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Security Model",
+      "conceptIds": [
+        "security-model"
+      ],
+      "definition": "Formal policy model describing permitted access or information flow.",
+      "detail": "Formal policy model describing permitted access or information flow.",
+      "decision": "Choose a model by the property and rule the system must enforce.",
+      "failureExample": "A diagram names a model but no label, transaction, or workflow enforces it.",
+      "retrievalAnswer": "A model protects only when implementation enforces its rule.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Bell Lapadula",
+      "conceptIds": [
+        "bell-lapadula"
+      ],
+      "definition": "Confidentiality model using labels, including no read up and no write down.",
+      "detail": "Confidentiality model using labels, including no read up and no write down.",
+      "decision": "Use when preventing disclosure across classification levels is the primary objective.",
+      "failureExample": "A secret-cleared user writes a secret finding into an unclassified report.",
+      "retrievalAnswer": "For confidentiality flow: no read up; no write down.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Biba",
+      "conceptIds": [
+        "biba"
+      ],
+      "definition": "Integrity model that resists contamination from lower-integrity sources.",
+      "detail": "Integrity model that resists contamination from lower-integrity sources.",
+      "decision": "Use when trusted data or decisions must not be corrupted by less-trusted input.",
+      "failureExample": "A high-integrity ledger imports unreviewed web data directly.",
+      "retrievalAnswer": "For integrity flow: no read down; no write up.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Clark Wilson",
+      "conceptIds": [
+        "clark-wilson"
+      ],
+      "definition": "Integrity model based on well-formed transactions and separation of duties.",
+      "detail": "Integrity model based on well-formed transactions and separation of duties.",
+      "decision": "Use for controlled business processes where only authorized transformations may change data.",
+      "failureExample": "A clerk edits account balances directly outside an approved transaction.",
+      "retrievalAnswer": "Protect integrity through constrained transactions and role separation.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Brewer Nash",
+      "conceptIds": [
+        "brewer-nash"
+      ],
+      "definition": "Conflict-of-interest model that restricts access after a user sees competing clients’ data.",
+      "detail": "Conflict-of-interest model that restricts access after a user sees competing clients’ data.",
+      "decision": "Use when commercial conflict classes govern information access.",
+      "failureExample": "A consultant reads one bidder’s plans, then requests a competitor’s plans.",
+      "retrievalAnswer": "Prior access can create the conflict that later access must respect.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Star Property",
+      "conceptIds": [
+        "star-property"
+      ],
+      "definition": "A model-specific information-flow constraint often called a star rule.",
+      "detail": "A model-specific information-flow constraint often called a star rule.",
+      "decision": "Identify the model and protected property before applying the rule.",
+      "failureExample": "A learner treats “star property” as a universal access-control rule.",
+      "retrievalAnswer": "The star rule needs its model context; it is not a stand-alone answer.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Integrity",
+      "conceptIds": [
+        "integrity"
+      ],
+      "definition": "Assurance that information and processing remain accurate, complete, and authorized.",
+      "detail": "Assurance that information and processing remain accurate, complete, and authorized.",
+      "decision": "Prioritize when corruption, unauthorized change, or contaminated input is the harm.",
+      "failureExample": "An approved invoice value can be altered by an unrestricted service account.",
+      "retrievalAnswer": "Integrity asks whether the change is authorized and trustworthy.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Confidentiality",
+      "conceptIds": [
+        "confidentiality"
+      ],
+      "definition": "Protection against unauthorized information disclosure.",
+      "detail": "Protection against unauthorized information disclosure.",
+      "decision": "Prioritize when labels, audiences, or disclosure consequences govern the decision.",
+      "failureExample": "A lower-cleared recipient receives a higher-classification export.",
+      "retrievalAnswer": "Confidentiality asks who may learn the information.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Information Flow",
+      "conceptIds": [
+        "information-flow"
+      ],
+      "definition": "Movement of information between subjects, objects, labels, or trust levels.",
+      "detail": "Movement of information between subjects, objects, labels, or trust levels.",
+      "decision": "Trace read, write, transformation, replication, and export paths.",
+      "failureExample": "A sanitized report inherits hidden high-side fields during export.",
+      "retrievalAnswer": "Assess the flow, not only the source object.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "security-model",
+    "bell-lapadula",
+    "biba",
+    "clark-wilson",
+    "brewer-nash",
+    "star-property",
+    "integrity",
+    "confidentiality",
+    "information-flow"
+  ],
+  "altSummary": "A model is selected by confidentiality, integrity, conflict, or transaction objective and needs enforcement.",
+  "textFallback": "security model: Formal policy model describing permitted access or information flow. Decide: Choose a model by the property and rule the system must enforce. Example/failure: A diagram names a model but no label, transaction, or workflow enforces it. Retrieve: A model protects only when implementation enforces its rule.\nbell lapadula: Confidentiality model using labels, including no read up and no write down. Decide: Use when preventing disclosure across classification levels is the primary objective. Example/failure: A secret-cleared user writes a secret finding into an unclassified report. Retrieve: For confidentiality flow: no read up; no write down.\nbiba: Integrity model that resists contamination from lower-integrity sources. Decide: Use when trusted data or decisions must not be corrupted by less-trusted input. Example/failure: A high-integrity ledger imports unreviewed web data directly. Retrieve: For integrity flow: no read down; no write up.\nclark wilson: Integrity model based on well-formed transactions and separation of duties. Decide: Use for controlled business processes where only authorized transformations may change data. Example/failure: A clerk edits account balances directly outside an approved transaction. Retrieve: Protect integrity through constrained transactions and role separation.\nbrewer nash: Conflict-of-interest model that restricts access after a user sees competing clients’ data. Decide: Use when commercial conflict classes govern information access. Example/failure: A consultant reads one bidder’s plans, then requests a competitor’s plans. Retrieve: Prior access can create the conflict that later access must respect.\nstar property: A model-specific information-flow constraint often called a star rule. Decide: Identify the model and protected property before applying the rule. Example/failure: A learner treats “star property” as a universal access-control rule. Retrieve: The star rule needs its model context; it is not a stand-alone answer.\nintegrity: Assurance that information and processing remain accurate, complete, and authorized. Decide: Prioritize when corruption, unauthorized change, or contaminated input is the harm. Example/failure: An approved invoice value can be altered by an unrestricted service account. Retrieve: Integrity asks whether the change is authorized and trustworthy.\nconfidentiality: Protection against unauthorized information disclosure. Decide: Prioritize when labels, audiences, or disclosure consequences govern the decision. Example/failure: A lower-cleared recipient receives a higher-classification export. Retrieve: Confidentiality asks who may learn the information.\ninformation flow: Movement of information between subjects, objects, labels, or trust levels. Decide: Trace read, write, transformation, replication, and export paths. Example/failure: A sanitized report inherits hidden high-side fields during export. Retrieve: Assess the flow, not only the source object.",
+  "sourceRefIds": [
+    "d3-o02-textbook",
+    "d3-o02-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Which model objective explains the proposed information-flow rule?",
+    "misconception": "All security models enforce the same access pattern.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "A model is selected by confidentiality, integrity, conflict, or transaction objective and needs enforcement.",
+    "conceptIds": [
+      "security-model",
+      "bell-lapadula",
+      "biba",
+      "clark-wilson",
+      "brewer-nash",
+      "star-property",
+      "integrity",
+      "confidentiality",
+      "information-flow"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Classify no-read/no-write wording by property and state the enforcement mechanism.",
+    "textFallback": "security model: Formal policy model describing permitted access or information flow. Decide: Choose a model by the property and rule the system must enforce. Example/failure: A diagram names a model but no label, transaction, or workflow enforces it. Retrieve: A model protects only when implementation enforces its rule.\nbell lapadula: Confidentiality model using labels, including no read up and no write down. Decide: Use when preventing disclosure across classification levels is the primary objective. Example/failure: A secret-cleared user writes a secret finding into an unclassified report. Retrieve: For confidentiality flow: no read up; no write down.\nbiba: Integrity model that resists contamination from lower-integrity sources. Decide: Use when trusted data or decisions must not be corrupted by less-trusted input. Example/failure: A high-integrity ledger imports unreviewed web data directly. Retrieve: For integrity flow: no read down; no write up.\nclark wilson: Integrity model based on well-formed transactions and separation of duties. Decide: Use for controlled business processes where only authorized transformations may change data. Example/failure: A clerk edits account balances directly outside an approved transaction. Retrieve: Protect integrity through constrained transactions and role separation.\nbrewer nash: Conflict-of-interest model that restricts access after a user sees competing clients’ data. Decide: Use when commercial conflict classes govern information access. Example/failure: A consultant reads one bidder’s plans, then requests a competitor’s plans. Retrieve: Prior access can create the conflict that later access must respect.\nstar property: A model-specific information-flow constraint often called a star rule. Decide: Identify the model and protected property before applying the rule. Example/failure: A learner treats “star property” as a universal access-control rule. Retrieve: The star rule needs its model context; it is not a stand-alone answer.\nintegrity: Assurance that information and processing remain accurate, complete, and authorized. Decide: Prioritize when corruption, unauthorized change, or contaminated input is the harm. Example/failure: An approved invoice value can be altered by an unrestricted service account. Retrieve: Integrity asks whether the change is authorized and trustworthy.\nconfidentiality: Protection against unauthorized information disclosure. Decide: Prioritize when labels, audiences, or disclosure consequences govern the decision. Example/failure: A lower-cleared recipient receives a higher-classification export. Retrieve: Confidentiality asks who may learn the information.\ninformation flow: Movement of information between subjects, objects, labels, or trust levels. Decide: Trace read, write, transformation, replication, and export paths. Example/failure: A sanitized report inherits hidden high-side fields during export. Retrieve: Assess the flow, not only the source object.",
+    "sourceRefIds": [
+      "d3-o02-textbook",
+      "d3-o02-sybex"
+    ],
+    "mapNodeId": "d3-o02-security-models"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

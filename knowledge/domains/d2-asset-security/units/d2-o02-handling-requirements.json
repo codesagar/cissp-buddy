@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o02-handling-requirements",
+  "domainId": 2,
+  "objectiveIds": [
+    "2.2"
+  ],
+  "title": "Define information and asset handling rules",
+  "summary": "Handling requirements translate an asset's classification and business context into actions for storage, processing, transmission, sharing, transport, access, and destruction.",
+  "outcome": "Design a proportionate handling rule for a classified asset and justify each control across its movement and use.",
+  "conceptIds": [
+    "handling-requirements",
+    "need-to-know",
+    "media-protection",
+    "data-minimization",
+    "marking"
+  ],
+  "prerequisites": [
+    "d2-o01-inventory-classification"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "A label has value only when people and systems can turn it into observable behavior and enforceable defaults.",
+  "sections": [
+    {
+      "id": "rules-by-lifecycle",
+      "title": "Specify handling at each touchpoint",
+      "body": "Define how personnel may access, copy, store, transmit, print, transport, share, and destroy the asset. Rules should cover physical and logical media, cloud and third-party transfers, portable devices, backups, and derived data. Markings and metadata help users recognize the rule, while technical controls reduce reliance on memory.",
+      "keyPoints": [
+        "Handling covers more than storage: use, movement, sharing, and destruction are material states.",
+        "Derived and replicated data inherit requirements unless an owner explicitly reclassifies them.",
+        "Need-to-know limits access to the people and processes that require it."
+      ],
+      "sourceRefIds": [
+        "official-d2-14-17",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "proportionate-enforcement",
+      "title": "Make the rule usable and enforceable",
+      "body": "A handling standard should identify accountable roles, approved channels, minimum safeguards, exceptions, and evidence of compliance. Overly broad restrictions drive workarounds; weak restrictions expose the asset. Combine administrative requirements with encryption, access control, DLP, labeling, logging, and secure media procedures according to risk.",
+      "keyPoints": [
+        "A good requirement names who, what, where, when, and how compliance is evidenced.",
+        "Exceptions require approval, time bounds, compensating controls, and review.",
+        "Control selection follows classification and risk rather than technology fashion."
+      ],
+      "sourceRefIds": [
+        "official-d2-14-17",
+        "takeaways-d2-handling"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Regulated export to a supplier",
+      "situation": "A supplier needs a limited set of sensitive records for a 14-day support case.",
+      "reasoning": "Define minimum fields, approved transfer channel, recipient identity, encryption, access expiry, no local caching, logging, and confirmed deletion. The exception is time-bounded and owner-approved rather than handled by emailing a spreadsheet."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "classification",
+        "handling requirement"
+      ],
+      "difference": "Classification communicates value/sensitivity; handling requirements prescribe actions that protect it."
+    },
+    {
+      "between": [
+        "need-to-know",
+        "least privilege"
+      ],
+      "difference": "Need-to-know is information- and task-focused; least privilege limits the permissions needed to perform the task."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Encryption alone satisfies handling requirements.",
+      "correction": "Encryption helps confidentiality but does not decide recipients, retention, integrity, printing, logging, or deletion."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Name four handling touchpoints besides storage.",
+      "answer": "Access/use, copying/derivation, transmission/sharing, transport, printing, backup, and destruction are valid examples."
+    },
+    {
+      "prompt": "What makes an exception safe?",
+      "answer": "Owner approval, defined scope/time, compensating controls, and review/evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A team wants to upload restricted data to a consumer file-sharing service to meet a deadline.",
+      "decision": "Use an approved channel or obtain a time-bound exception with compensating controls; do not bypass handling rules for convenience.",
+      "why": "The channel, recipient, retention, and monitoring behavior are part of the handling decision."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Map handling actions from creation through destruction.",
+    "connect": "Connect each rule to classification from 2.1 and lifecycle from 2.4.",
+    "apply": "Write a one-page standard for a sensitive supplier exchange.",
+    "revisit": "Audit your rule for copies, backups, exports, and exceptions."
+  },
+  "visualIds": [
+    "d2-o02-handling-requirements-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "official-d2-14-17",
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "14-17 (PDF pp. 14-17)"
+      },
+      "supports": [
+        "handling requirements"
+      ]
+    },
+    {
+      "id": "takeaways-d2-handling",
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-10"
+      },
+      "supports": [
+        "asset protection and control categories"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "264-274 (Chapter 5, Establishing Information and Asset Handling Requirements; PDF pp. 264-274)"
+      },
+      "supports": [
+        "secondary cross-check"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d2-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d2-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d2-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d2-o02-handling-requirements-visual-contract",
+    "unitId": "d2-o02-handling-requirements",
+    "teachingQuestion": "Which handling rule permits this action without exposing data beyond its authorized purpose?",
+    "misconception": "A marking or encryption label by itself makes any sharing safe.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Handling compares actor, need, medium, channel, lifecycle state, exception, and evidence.",
+    "conceptIds": [
+      "handling-requirements",
+      "need-to-know",
+      "media-protection",
+      "data-minimization",
+      "marking"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a proposed transfer, state need-to-know, approved channel, media safeguard, exception, and evidence.",
+    "textFallback": "Handling requirements translate an asset's classification and business context into actions for storage, processing, transmission, sharing, transport, access, and destruction.\nDefine minimum fields, approved transfer channel, recipient identity, encryption, access expiry, no local caching, logging, and confirmed deletion. The exception is time-bounded and owner-approved rather than handled by emailing a spreadsheet.",
+    "sourceRefIds": [
+      "official-d2-14-17",
+      "takeaways-d2-handling",
+      "sybex-d2"
+    ],
+    "mapNodeId": "d2-o02-handling-requirements",
+    "visualIds": [
+      "d2-o02-handling-requirements-concept-comparison-1"
+    ]
+  }
+}

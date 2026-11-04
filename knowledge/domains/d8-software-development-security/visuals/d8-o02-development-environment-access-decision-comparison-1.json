@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d8-o02-development-environment-access-decision-comparison-1",
+  "unitId": "d8-o02-development-environment-access",
+  "type": "table",
+  "title": "Protect development environments and identities: decision comparison 1",
+  "teachingQuestion": "How can a developer build and support software with reproducible environments while keeping identities, repositories, and secrets appropriately separated?",
+  "focalInsight": "Supported tools/libraries, hardened IDE, organization identity, repository protection, managed secrets, and reproducible configuration.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Programming Languages",
+      "conceptIds": [
+        "programming-languages"
+      ],
+      "definition": "Languages and supported versions chosen for maintainability, secure features, tool support, and known lifecycle ownership.",
+      "decision": "Select maintained language/runtime versions with security support and an accountable upgrade plan.",
+      "failureExample": "A team can write careful code yet inherit risk from an unsupported runtime with no security fixes.",
+      "detail": "Languages and supported versions chosen for maintainability, secure features, tool support, and known lifecycle ownership."
+    },
+    {
+      "id": "row-2",
+      "label": "Libraries",
+      "conceptIds": [
+        "libraries"
+      ],
+      "definition": "Reusable code components and frameworks included in an application to supply functions or security-relevant behavior.",
+      "decision": "Choose maintained, reviewed libraries with known provenance, licensing, version constraints, and vulnerability response ownership.",
+      "failureExample": "Copying an unvetted package or stale library can import an exploitable dependency into every build.",
+      "detail": "Reusable code components and frameworks included in an application to supply functions or security-relevant behavior."
+    },
+    {
+      "id": "row-3",
+      "label": "Ide",
+      "conceptIds": [
+        "ide"
+      ],
+      "definition": "An integrated development environment and its extensions, settings, credentials, and plugins used to create and maintain code.",
+      "decision": "Harden and manage IDEs/extensions, keep them updated, and prevent privileged credentials or unreviewed plugins from widening the workstation attack surface.",
+      "failureExample": "A malicious IDE extension can read source and developer tokens before code ever reaches the repository.",
+      "detail": "An integrated development environment and its extensions, settings, credentials, and plugins used to create and maintain code."
+    },
+    {
+      "id": "row-4",
+      "label": "Source Control",
+      "conceptIds": [
+        "source-control"
+      ],
+      "definition": "A system that records controlled versions, branches, changes, authorship, and merge history for source and related artifacts.",
+      "decision": "Require authenticated changes, protected critical branches, review/approval rules, and traceable links from change to revision.",
+      "failureExample": "Direct unreviewed pushes to the release branch can introduce a backdoor with no accountable review.",
+      "detail": "A system that records controlled versions, branches, changes, authorship, and merge history for source and related artifacts."
+    },
+    {
+      "id": "row-5",
+      "label": "Secrets Management",
+      "conceptIds": [
+        "secrets-management"
+      ],
+      "definition": "Controlled storage, retrieval, rotation, revocation, and audit of credentials, keys, tokens, and other sensitive values.",
+      "decision": "Keep secrets out of code/logs, use scoped identities to retrieve them, rotate on exposure or lifecycle events, and record references rather than values.",
+      "failureExample": "A production token in a repository can be cloned, cached, and reused long after the code change is removed.",
+      "detail": "Controlled storage, retrieval, rotation, revocation, and audit of credentials, keys, tokens, and other sensitive values."
+    },
+    {
+      "id": "row-6",
+      "label": "Repository Security",
+      "conceptIds": [
+        "repository-security"
+      ],
+      "definition": "Protection of source/artifact repositories through access control, branch protection, review, integrity, availability, and audit.",
+      "decision": "Apply least privilege, review rules, protected release paths, backup/availability, and alerting for sensitive changes.",
+      "failureExample": "A repository administrator’s unmonitored account can alter both source history and release configuration.",
+      "detail": "Protection of source/artifact repositories through access control, branch protection, review, integrity, availability, and audit."
+    },
+    {
+      "id": "row-7",
+      "label": "Developer Identity",
+      "conceptIds": [
+        "developer-identity"
+      ],
+      "definition": "An attributable, managed identity used by a developer or automation to access development resources with defined privileges.",
+      "decision": "Use strong authentication, least privilege, separate personal/organizational and environment identities, and timely revocation.",
+      "failureExample": "Shared developer accounts erase accountability and make compromise containment uncertain.",
+      "detail": "An attributable, managed identity used by a developer or automation to access development resources with defined privileges."
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "programming-languages",
+    "libraries",
+    "ide",
+    "source-control",
+    "secrets-management",
+    "repository-security",
+    "developer-identity"
+  ],
+  "altSummary": "Supported tools/libraries, hardened IDE, organization identity, repository protection, managed secrets, and reproducible configuration.",
+  "textFallback": "programming languages: Languages and supported versions chosen for maintainability, secure features, tool support, and known lifecycle ownership.. Decision: Select maintained language/runtime versions with security support and an accountable upgrade plan.. Failure/example: A team can write careful code yet inherit risk from an unsupported runtime with no security fixes.\nlibraries: Reusable code components and frameworks included in an application to supply functions or security-relevant behavior.. Decision: Choose maintained, reviewed libraries with known provenance, licensing, version constraints, and vulnerability response ownership.. Failure/example: Copying an unvetted package or stale library can import an exploitable dependency into every build.\nide: An integrated development environment and its extensions, settings, credentials, and plugins used to create and maintain code.. Decision: Harden and manage IDEs/extensions, keep them updated, and prevent privileged credentials or unreviewed plugins from widening the workstation attack surface.. Failure/example: A malicious IDE extension can read source and developer tokens before code ever reaches the repository.\nsource control: A system that records controlled versions, branches, changes, authorship, and merge history for source and related artifacts.. Decision: Require authenticated changes, protected critical branches, review/approval rules, and traceable links from change to revision.. Failure/example: Direct unreviewed pushes to the release branch can introduce a backdoor with no accountable review.\nsecrets management: Controlled storage, retrieval, rotation, revocation, and audit of credentials, keys, tokens, and other sensitive values.. Decision: Keep secrets out of code/logs, use scoped identities to retrieve them, rotate on exposure or lifecycle events, and record references rather than values.. Failure/example: A production token in a repository can be cloned, cached, and reused long after the code change is removed.\nrepository security: Protection of source/artifact repositories through access control, branch protection, review, integrity, availability, and audit.. Decision: Apply least privilege, review rules, protected release paths, backup/availability, and alerting for sensitive changes.. Failure/example: A repository administrator’s unmonitored account can alter both source history and release configuration.\ndeveloper identity: An attributable, managed identity used by a developer or automation to access development resources with defined privileges.. Decision: Use strong authentication, least privilege, separate personal/organizational and environment identities, and timely revocation.. Failure/example: Shared developer accounts erase accountability and make compromise containment uncertain.",
+  "sourceRefIds": [
+    "official-d8-36-55",
+    "sybex-d8-1049-1065",
+    "miller-d8-727-760"
+  ],
+  "learningContract": {
+    "teachingQuestion": "How can a developer build and support software with reproducible environments while keeping identities, repositories, and secrets appropriately separated?",
+    "misconception": "A capable developer account should work everywhere, and recording a secret in configuration improves reproducibility.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Supported tools/libraries, hardened IDE, organization identity, repository protection, managed secrets, and reproducible configuration.",
+    "conceptIds": [
+      "programming-languages",
+      "libraries",
+      "ide",
+      "source-control",
+      "secrets-management",
+      "repository-security",
+      "developer-identity"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not prescribe an IDE, language, secret product, token lifetime, or branch naming convention.",
+    "retrievalPrompt": "A developer must troubleshoot production. Which identity, secret-access path, and audit/expiry evidence are appropriate?",
+    "textFallback": "programming languages: Languages and supported versions chosen for maintainability, secure features, tool support, and known lifecycle ownership.. Decision: Select maintained language/runtime versions with security support and an accountable upgrade plan.. Failure/example: A team can write careful code yet inherit risk from an unsupported runtime with no security fixes.\nlibraries: Reusable code components and frameworks included in an application to supply functions or security-relevant behavior.. Decision: Choose maintained, reviewed libraries with known provenance, licensing, version constraints, and vulnerability response ownership.. Failure/example: Copying an unvetted package or stale library can import an exploitable dependency into every build.\nide: An integrated development environment and its extensions, settings, credentials, and plugins used to create and maintain code.. Decision: Harden and manage IDEs/extensions, keep them updated, and prevent privileged credentials or unreviewed plugins from widening the workstation attack surface.. Failure/example: A malicious IDE extension can read source and developer tokens before code ever reaches the repository.\nsource control: A system that records controlled versions, branches, changes, authorship, and merge history for source and related artifacts.. Decision: Require authenticated changes, protected critical branches, review/approval rules, and traceable links from change to revision.. Failure/example: Direct unreviewed pushes to the release branch can introduce a backdoor with no accountable review.\nsecrets management: Controlled storage, retrieval, rotation, revocation, and audit of credentials, keys, tokens, and other sensitive values.. Decision: Keep secrets out of code/logs, use scoped identities to retrieve them, rotate on exposure or lifecycle events, and record references rather than values.. Failure/example: A production token in a repository can be cloned, cached, and reused long after the code change is removed.\nrepository security: Protection of source/artifact repositories through access control, branch protection, review, integrity, availability, and audit.. Decision: Apply least privilege, review rules, protected release paths, backup/availability, and alerting for sensitive changes.. Failure/example: A repository administrator’s unmonitored account can alter both source history and release configuration.\ndeveloper identity: An attributable, managed identity used by a developer or automation to access development resources with defined privileges.. Decision: Use strong authentication, least privilege, separate personal/organizational and environment identities, and timely revocation.. Failure/example: Shared developer accounts erase accountability and make compromise containment uncertain.",
+    "sourceRefIds": [
+      "official-d8-36-55",
+      "sybex-d8-1049-1065",
+      "miller-d8-727-760"
+    ],
+    "mapNodeId": "d8-o02-development-environment-access"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

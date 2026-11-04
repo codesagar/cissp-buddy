@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-network-protocol-routing-design-concept-comparison-3",
+  "unitId": "d4-o01-network-protocol-routing-design",
+  "type": "table",
+  "title": "Evaluate network protocols, routing, and infrastructure design: concept decisions 3",
+  "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+  "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "channel termination boundary",
+      "conceptIds": [
+        "channel-termination-boundary"
+      ],
+      "definition": "Point where a cryptographic tunnel/session ends and protected traffic becomes subject to the next path/control set.",
+      "detail": "Point where a cryptographic tunnel/session ends and protected traffic becomes subject to the next path/control set.",
+      "decision": "Document termination, onward protection, authorization, inspection, logging, and failure behavior for each protected channel.",
+      "failureExample": "TLS ends at a gateway and plaintext traffic traverses an untrusted internal segment.",
+      "retrievalAnswer": "Protection ends at the terminator; model the onward path separately.",
+      "tier": "B"
+    },
+    {
+      "id": "row-2",
+      "label": "anycast",
+      "conceptIds": [
+        "anycast"
+      ],
+      "definition": "One address announced from multiple nodes so routing selects a reachable instance.",
+      "detail": "One address announced from multiple nodes so routing selects a reachable instance.",
+      "decision": "Use where locality/resilience helps, while monitoring which instance receives traffic and controlling consistent policy.",
+      "failureExample": "Treating anycast as one fixed server leaves logs and policy incomplete.",
+      "retrievalAnswer": "Anycast is one address, multiple possible receivers.",
+      "tier": "B"
+    },
+    {
+      "id": "row-3",
+      "label": "Converged Protocols",
+      "conceptIds": [
+        "converged-protocols"
+      ],
+      "definition": "Protocols that carry storage, voice, compute, or similar services across shared network infrastructure.",
+      "detail": "Protocols that carry storage, voice, compute, or similar services across shared network infrastructure.",
+      "decision": "Assess shared capacity, trust, management, and common-mode failure effects before convergence.",
+      "failureExample": "Voice and storage both fail when a shared fabric policy or controller is compromised.",
+      "retrievalAnswer": "Converged services share dependencies; isolate and test the common failure paths.",
+      "tier": "B"
+    },
+    {
+      "id": "row-4",
+      "label": "Performance Metrics",
+      "conceptIds": [
+        "performance-metrics"
+      ],
+      "definition": "Bandwidth, throughput, latency, jitter, and signal-to-noise measures used to judge network service behavior.",
+      "detail": "Bandwidth, throughput, latency, jitter, and signal-to-noise measures used to judge network service behavior.",
+      "decision": "Assess against application/service requirements and security-control overhead or failure effects.",
+      "failureExample": "Encryption inspection adds latency that breaks a real-time voice service.",
+      "retrievalAnswer": "Choose the metric that matches the service failure: jitter for voice timing, throughput for delivered volume.",
+      "tier": "B"
+    },
+    {
+      "id": "row-5",
+      "label": "Segmentation",
+      "conceptIds": [
+        "segmentation"
+      ],
+      "definition": "Network boundary policy that limits which paths/routes can connect different trust purposes.",
+      "detail": "Network boundary policy that limits which paths/routes can connect different trust purposes.",
+      "decision": "Enforce at routed/virtual boundaries and verify allowed/denied flows, management access, and exceptions.",
+      "failureExample": "A route advertisement bypasses the intended segmentation firewall.",
+      "retrievalAnswer": "Segmentation requires route and enforcement verification, not only a subnet plan.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Authorization",
+      "conceptIds": [
+        "authorization"
+      ],
+      "definition": "Permission decision for a principal or device to use a network service, management operation, or protected path.",
+      "detail": "Permission decision for a principal or device to use a network service, management operation, or protected path.",
+      "decision": "Check authority at the relevant endpoint/control point after identity is established and scope access narrowly.",
+      "failureExample": "A valid VPN login is permitted to administer routers without a separate privilege check.",
+      "retrievalAnswer": "Identity proves who; authorization decides which network action is permitted.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "channel-termination-boundary",
+    "anycast",
+    "converged-protocols",
+    "performance-metrics",
+    "segmentation",
+    "authorization"
+  ],
+  "altSummary": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+  "textFallback": "channel termination boundary: Point where a cryptographic tunnel/session ends and protected traffic becomes subject to the next path/control set. Decide: Document termination, onward protection, authorization, inspection, logging, and failure behavior for each protected channel. Example/failure: TLS ends at a gateway and plaintext traffic traverses an untrusted internal segment. Retrieve: Protection ends at the terminator; model the onward path separately.\nanycast: One address announced from multiple nodes so routing selects a reachable instance. Decide: Use where locality/resilience helps, while monitoring which instance receives traffic and controlling consistent policy. Example/failure: Treating anycast as one fixed server leaves logs and policy incomplete. Retrieve: Anycast is one address, multiple possible receivers.\nconverged protocols: Protocols that carry storage, voice, compute, or similar services across shared network infrastructure. Decide: Assess shared capacity, trust, management, and common-mode failure effects before convergence. Example/failure: Voice and storage both fail when a shared fabric policy or controller is compromised. Retrieve: Converged services share dependencies; isolate and test the common failure paths.\nperformance metrics: Bandwidth, throughput, latency, jitter, and signal-to-noise measures used to judge network service behavior. Decide: Assess against application/service requirements and security-control overhead or failure effects. Example/failure: Encryption inspection adds latency that breaks a real-time voice service. Retrieve: Choose the metric that matches the service failure: jitter for voice timing, throughput for delivered volume.\nsegmentation: Network boundary policy that limits which paths/routes can connect different trust purposes. Decide: Enforce at routed/virtual boundaries and verify allowed/denied flows, management access, and exceptions. Example/failure: A route advertisement bypasses the intended segmentation firewall. Retrieve: Segmentation requires route and enforcement verification, not only a subnet plan.\nauthorization: Permission decision for a principal or device to use a network service, management operation, or protected path. Decide: Check authority at the relevant endpoint/control point after identity is established and scope access narrowly. Example/failure: A valid VPN login is permitted to administer routers without a separate privilege check. Retrieve: Identity proves who; authorization decides which network action is permitted.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-573-621",
+    "sybex-d4-573-645"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "misconception": "An IP address, tunnel, or redundant link alone tells you the audience, trust boundary, or resilience outcome.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+    "conceptIds": [
+      "channel-termination-boundary",
+      "anycast",
+      "converged-protocols",
+      "performance-metrics",
+      "segmentation",
+      "authorization"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "textFallback": "channel termination boundary: Point where a cryptographic tunnel/session ends and protected traffic becomes subject to the next path/control set. Decide: Document termination, onward protection, authorization, inspection, logging, and failure behavior for each protected channel. Example/failure: TLS ends at a gateway and plaintext traffic traverses an untrusted internal segment. Retrieve: Protection ends at the terminator; model the onward path separately.\nanycast: One address announced from multiple nodes so routing selects a reachable instance. Decide: Use where locality/resilience helps, while monitoring which instance receives traffic and controlling consistent policy. Example/failure: Treating anycast as one fixed server leaves logs and policy incomplete. Retrieve: Anycast is one address, multiple possible receivers.\nconverged protocols: Protocols that carry storage, voice, compute, or similar services across shared network infrastructure. Decide: Assess shared capacity, trust, management, and common-mode failure effects before convergence. Example/failure: Voice and storage both fail when a shared fabric policy or controller is compromised. Retrieve: Converged services share dependencies; isolate and test the common failure paths.\nperformance metrics: Bandwidth, throughput, latency, jitter, and signal-to-noise measures used to judge network service behavior. Decide: Assess against application/service requirements and security-control overhead or failure effects. Example/failure: Encryption inspection adds latency that breaks a real-time voice service. Retrieve: Choose the metric that matches the service failure: jitter for voice timing, throughput for delivered volume.\nsegmentation: Network boundary policy that limits which paths/routes can connect different trust purposes. Decide: Enforce at routed/virtual boundaries and verify allowed/denied flows, management access, and exceptions. Example/failure: A route advertisement bypasses the intended segmentation firewall. Retrieve: Segmentation requires route and enforcement verification, not only a subnet plan.\nauthorization: Permission decision for a principal or device to use a network service, management operation, or protected path. Decide: Check authority at the relevant endpoint/control point after identity is established and scope access narrowly. Example/failure: A valid VPN login is permitted to administer routers without a separate privilege check. Retrieve: Identity proves who; authorization decides which network action is permitted.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-573-621",
+      "sybex-d4-573-645"
+    ],
+    "mapNodeId": "d4-o01-network-protocol-routing-design"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

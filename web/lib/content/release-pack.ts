@@ -11,11 +11,11 @@ import type {
   ConceptNode,
   LearningDesign,
   QuestionMetadata,
-} from '../curriculum';
+} from '../curriculum.ts';
 const releaseId = 'cissp-foundations-2026-09-06-r2';
 export const releasePack: Curriculum = {
   releaseId,
-  storage: 'D1',
+  storage: 'static',
   domains: domainSeed,
   nodes: taxonomy as ConceptNode[],
   edges,

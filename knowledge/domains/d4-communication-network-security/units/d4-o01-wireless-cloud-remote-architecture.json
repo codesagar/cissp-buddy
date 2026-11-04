@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-wireless-cloud-remote-architecture",
+  "domainId": 4,
+  "objectiveIds": [
+    "4.1"
+  ],
+  "title": "Assess wireless, cloud, and remote network architecture",
+  "summary": "Wireless, cellular, satellite, CDN, VPC, SDN, and remote edges extend trust beyond the traditional perimeter and require explicit ownership, identity, path, and monitoring decisions.",
+  "outcome": "Assess a wireless, cloud, or remote connectivity design for trust boundaries, shared responsibility, resilience, and observable security controls.",
+  "conceptIds": [
+    "wireless-networks",
+    "wifi",
+    "bluetooth",
+    "zigbee",
+    "cellular-4g-5g",
+    "satellite",
+    "cdn",
+    "vpc",
+    "sdn",
+    "edge-network",
+    "remote-connectivity",
+    "ingress-egress-control",
+    "brokered-access-path",
+    "tenant-boundary",
+    "rogue-access-point-detection"
+  ],
+  "prerequisites": [
+    "d4-o01-network-segmentation-trust-zones",
+    "d4-o01-network-protocol-routing-design",
+    "d5-o02-identification-authentication-strategy"
+  ],
+  "estimatedMinutes": 40,
+  "managerMindset": "The edge is part of the architecture: ownership, admission, encryption, dependency, and failure must be explicit wherever connectivity leaves a controlled facility.",
+  "sections": [
+    {
+      "id": "wireless-and-cellular",
+      "title": "Design for radio and mobile exposure",
+      "body": "Wi-Fi, Bluetooth, Zigbee, satellite, and 4G/5G differ in range, association, identity, encryption, interference, provider dependence, and physical exposure. Select standards and admission controls for the use case, separate guest/IoT/enterprise paths, protect management, monitor rogue devices and unusual associations, and plan loss of carrier or positioning service.",
+      "keyPoints": [
+        "Radio reach crosses physical boundaries and can expose unmanaged clients.",
+        "Wireless security includes client, AP, controller, identity, and management paths.",
+        "Cellular and satellite add provider and availability dependencies."
+      ],
+      "sourceRefIds": [
+        "outline-4.1-wireless",
+        "official-d4-8-77",
+        "sybex-d4-603-621"
+      ]
+    },
+    {
+      "id": "cloud-edge-remote",
+      "title": "Govern cloud and remote trust",
+      "body": "VPCs, SDN/SD-WAN, NFV, CDNs, peering, ingress/egress, and edge services shift enforcement and routing into programmable or provider-operated layers. Define shared responsibility, tenant boundaries, identity, route controls, encryption endpoints, logging, region/data implications, resilience, and revocation. Remote access should use explicit brokered paths rather than treating a VPN as automatic trust.",
+      "keyPoints": [
+        "Cloud control-plane permissions can change network reachability at scale.",
+        "CDN and peering decisions affect origin exposure, data location, and availability.",
+        "Provider controls require customer-side configuration, evidence, and exit planning."
+      ],
+      "sourceRefIds": [
+        "official-d4-8-77",
+        "sybex-d4-657-707"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Hybrid VPC and remote workforce",
+      "situation": "A company exposes a CDN-fronted application, private VPC services, and remote administrators across multiple regions.",
+      "reasoning": "Minimize origin exposure, segment VPC subnets and management, use identity-aware short-lived administration, log control-plane and data-plane events, define provider responsibility and region constraints, and test CDN failure, identity outage, and route misconfiguration."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "VPC",
+        "VPN"
+      ],
+      "difference": "A VPC is an isolated virtual network environment; a VPN is a protected connectivity mechanism. A VPN does not define all VPC authorization or segmentation."
+    },
+    {
+      "between": [
+        "CDN",
+        "origin service"
+      ],
+      "difference": "A CDN distributes or proxies content at the edge; the origin remains a separate asset with its own access, logging, and exposure controls."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A private cloud subnet is automatically trusted.",
+      "correction": "Cloud routes, identities, APIs, peering, provider personnel, and misconfiguration still create paths and trust decisions."
+    },
+    {
+      "misconception": "Wireless encryption removes rogue-device risk.",
+      "correction": "Admission, management, endpoint posture, monitoring, and physical radio exposure remain relevant."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What must a VPC design make explicit?",
+      "answer": "Tenant and subnet boundaries, routes, identities, provider/customer responsibilities, logging, encryption endpoints, and failure behavior."
+    },
+    {
+      "prompt": "Why are radio networks special?",
+      "answer": "Signals cross facility boundaries and can be accessed by unmanaged or physically proximate devices."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A CDN is configured to reach an origin over a public address, while the origin team assumes the CDN is the only caller.",
+      "decision": "Restrict and authenticate origin access, monitor ingress, and test alternate paths and failover.",
+      "why": "Edge architecture can unintentionally widen origin exposure."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Review wireless, cellular, satellite, CDN, VPC, SDN, edge, and remote trust.",
+    "connect": "Connect D5 IAM, D3 architecture, D7 monitoring, and D1 supplier risk.",
+    "apply": "Threat-model a hybrid VPC with remote administration.",
+    "revisit": "List provider, carrier, identity, and route failures."
+  },
+  "visualIds": [
+    "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1",
+    "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-4.1-wireless",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "4.1 bullets: edge, wireless, cellular, CDN, SDN, VPC, monitoring/management"
+      },
+      "supports": [
+        "topic scope"
+      ]
+    },
+    {
+      "id": "official-d4-8-77",
+      "sourceId": "isc2-official-textbook-d4-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "8-77 (PDF pp. 8-77), body wireless/cloud/edge architecture sections"
+      },
+      "supports": [
+        "wireless, cloud, edge, monitoring"
+      ]
+    },
+    {
+      "id": "sybex-d4-603-621",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "603-621, Chapter 11"
+      },
+      "supports": [
+        "wireless, cellular, CDN"
+      ]
+    },
+    {
+      "id": "sybex-d4-657-707",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "657-707, Chapter 12"
+      },
+      "supports": [
+        "remote access, VPN, third-party channels"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d4-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d4-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d4-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d4-o01-wireless-cloud-remote-architecture-visual-contract",
+    "unitId": "d4-o01-wireless-cloud-remote-architecture",
+    "teachingQuestion": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+    "misconception": "A cloud VPC, VPN, or wireless encryption setting automatically defines a safe enterprise boundary.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Radio, provider, and programmable-network choices move trust boundaries; the service path must retain explicit identity, segmentation, visibility, and failure decisions.",
+    "conceptIds": [
+      "wireless-networks",
+      "wifi",
+      "bluetooth",
+      "zigbee",
+      "cellular-4g-5g",
+      "satellite",
+      "cdn",
+      "vpc",
+      "sdn",
+      "edge-network",
+      "remote-connectivity",
+      "ingress-egress-control",
+      "brokered-access-path",
+      "tenant-boundary",
+      "rogue-access-point-detection"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For this wireless, cloud, edge, or remote path, who admits traffic, where is policy enforced, what provider/physical dependency remains, and how is loss or revocation handled?",
+    "textFallback": "Wireless, cellular, satellite, CDN, VPC, SDN, and remote edges extend trust beyond the traditional perimeter and require explicit ownership, identity, path, and monitoring decisions.\nMinimize origin exposure, segment VPC subnets and management, use identity-aware short-lived administration, log control-plane and data-plane events, define provider responsibility and region constraints, and test CDN failure, identity outage, and route misconfiguration.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-603-621",
+      "sybex-d4-657-707"
+    ],
+    "mapNodeId": "d4-o01-wireless-cloud-remote-architecture",
+    "visualIds": [
+      "d4-o01-wireless-cloud-remote-architecture-concept-comparison-1",
+      "d4-o01-wireless-cloud-remote-architecture-concept-comparison-2"
+    ]
+  }
+}

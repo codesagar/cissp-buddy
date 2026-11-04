@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d7-o12-dr-plan-testing",
+  "domainId": 7,
+  "objectiveIds": [
+    "7.12"
+  ],
+  "title": "Test disaster recovery plans",
+  "summary": "DR testing provides evidence that people, procedures, dependencies, technology, communications, and recovery objectives work together. A test should reveal gaps safely, not merely confirm that a plan was read.",
+  "outcome": "Given a recovery objective and test constraint, choose an appropriate exercise type, define success criteria and safety controls, capture results, and turn findings into verified improvements.",
+  "conceptIds": [
+    "dr-test",
+    "read-through",
+    "walkthrough",
+    "simulation",
+    "parallel-test",
+    "full-interruption",
+    "dr-test-evidence",
+    "lessons-learned"
+  ],
+  "prerequisites": [
+    "d7-o10-recovery-strategies",
+    "d7-o11-disaster-recovery",
+    "d6-o02-control-testing"
+  ],
+  "estimatedMinutes": 30,
+  "managerMindset": "Test the assumptions that would make recovery fail, with enough realism to produce evidence and enough control to protect live operations.",
+  "sections": [
+    {
+      "id": "test-types",
+      "title": "Choose a test with a purpose",
+      "body": "A read-through checks shared understanding of a plan; a structured walkthrough rehearses roles and decisions; a simulation exercises responses to injects; a parallel test runs recovery capability alongside production; a full-interruption test deliberately transfers or stops production and carries the greatest operational risk. Select the type based on maturity, objectives, safety, dependencies, and tolerance for disruption, and define scope, authority, observers, communications, and stop criteria.",
+      "keyPoints": [
+        "A tabletop can reveal coordination gaps without proving technical recovery.",
+        "Parallel and full-interruption tests provide stronger evidence but require careful authorization and rollback.",
+        "Tests should include suppliers, identity, keys, communications, facilities, and people where they are dependencies."
+      ],
+      "sourceRefIds": [
+        "outline-d7-o12",
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ]
+    },
+    {
+      "id": "evidence-and-improvement",
+      "title": "Measure and close findings",
+      "body": "Success criteria should trace to recovery objectives, service integrity, data currency, security controls, communications, decision time, and business acceptance. Capture expected versus actual results, assumptions, failures, workarounds, evidence, and residual risk without hiding uncomfortable outcomes. Assign corrective actions with owners and due dates, update plans and architecture, and retest material changes.",
+      "keyPoints": [
+        "A passed exercise is evidence about the tested scope and conditions, not a guarantee of future recovery.",
+        "Findings need priority, owner, due date, and verification.",
+        "Lessons should update procedures, contacts, dependencies, training, contracts, or technology."
+      ],
+      "sourceRefIds": [
+        "official-d7-82-84",
+        "sybex-d7-899-901"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Parallel recovery exercise",
+      "situation": "A team performs a parallel recovery test but excludes the identity provider and key-management service because they are operated by other groups.",
+      "reasoning": "Record the scope limitation and do not claim end-to-end recovery evidence. Include or separately test those dependencies, measure service and security criteria, and make the gap an owned improvement before relying on the result for a high-impact recovery claim."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "walkthrough",
+        "simulation"
+      ],
+      "difference": "A walkthrough rehearses plan decisions and roles; a simulation introduces realistic conditions and observes response behavior, though neither necessarily transfers production."
+    },
+    {
+      "between": [
+        "parallel",
+        "full interruption"
+      ],
+      "difference": "A parallel test runs recovery alongside production; a full-interruption test transfers or stops production and therefore produces stronger but riskier evidence."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Reading the plan proves recoverability.",
+      "correction": "A read-through proves shared understanding only; technical, dependency, timing, and business acceptance evidence require more realistic testing."
+    },
+    {
+      "misconception": "A failed exercise is a failure of the team.",
+      "correction": "A controlled failure is valuable evidence that reveals assumptions and improves the plan before a real disaster."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What should determine the exercise type?",
+      "answer": "Objective, maturity, realism needed, dependencies, safety, authorization, disruption tolerance, and rollback capability."
+    },
+    {
+      "prompt": "What makes a test result useful?",
+      "answer": "Defined success criteria, measured expected versus actual results, evidence, scope and assumptions, findings, and owned corrective actions."
+    },
+    {
+      "prompt": "Why test identity and key dependencies?",
+      "answer": "A recovered application may be unavailable or unsafe without authentication, authorization, decryption, and monitored trust services."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A full-interruption test would affect life-safety systems and cannot be authorized.",
+      "decision": "Use staged or parallel testing, targeted technical tests, simulations, and dependency evidence while documenting the residual assurance gap.",
+      "why": "Test realism must be balanced against unacceptable safety and operational harm."
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study read-through, walkthrough, simulation, parallel, full-interruption, criteria, evidence, findings, and retesting.",
+    "connect": "Connect D7.12 to D6 assessment, D7.10 strategy, D7.11 processes, and D7.13 exercises.",
+    "apply": "Design a staged test for a critical service and identify what each stage proves or does not prove.",
+    "revisit": "Take one failed test finding and convert it into a measurable improvement and retest condition."
+  },
+  "visualIds": [
+    "d7-o12-dr-plan-testing-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d7-o12",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "7.12"
+      },
+      "supports": [
+        "objective boundary",
+        "DR plan testing"
+      ]
+    },
+    {
+      "id": "official-d7-82-84",
+      "sourceId": "isc2-official-textbook-d7-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "82-84 (PDF pp. 82-84)"
+      },
+      "supports": [
+        "DR tests",
+        "test types",
+        "test findings"
+      ]
+    },
+    {
+      "id": "sybex-d7-899-901",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "899-901, Chapter 18"
+      },
+      "supports": [
+        "read-through",
+        "walkthrough",
+        "simulation",
+        "parallel and interruption tests",
+        "lessons learned"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d7-d8-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d7.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d7-part3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d7.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d7-o12-dr-plan-testing-visual-contract",
+    "unitId": "d7-o12-dr-plan-testing",
+    "teachingQuestion": "Which DR test form produces the stated recovery evidence at the lowest justified disruption?",
+    "misconception": "All DR test labels are interchangeable, or service startup alone proves recovery.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Action taken, production effect, evidence obtained, and acceptance condition for each test type.",
+    "conceptIds": [
+      "dr-test",
+      "read-through",
+      "walkthrough",
+      "simulation",
+      "parallel-test",
+      "full-interruption",
+      "dr-test-evidence",
+      "lessons-learned"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "No mandated exercise cadence, vendor design, or numeric recovery target.",
+    "retrievalPrompt": "Production must remain available, but the alternate site must run a critical function. Select the test and name the acceptance evidence.",
+    "textFallback": "dr test: An authorized examination of a DR plan or capability against explicit recovery criteria.. Decision: Select the form only after defining the recovery claim, impact tolerance, participants, and evidence required.. Failure/example: A test with no criteria can complete without proving a business-relevant recovery capability.\nread through: A review in which responsible people read and challenge plan content without rehearsing operational steps.. Decision: Use for completeness, contact, and assumption defects when no behavioral or technical evidence is required.. Failure/example: It cannot establish that people can execute a handoff under time pressure.\nwalkthrough: A procedural rehearsal that traces roles and steps through a recovery scenario.. Decision: Use to verify sequencing and ownership before committing alternate systems or production services.. Failure/example: A walkthrough may expose a missing handoff but not a broken replication link.\nsimulation: A realistic scenario exercise using events or injects to test decisions and coordination without necessarily operating recovery infrastructure.. Decision: Use when leaders need evidence of timely escalation, communication, and decision quality under uncertainty.. Failure/example: A simulation cannot alone prove alternate hardware capacity or backup restorability.\nparallel test: A recovery exercise in which alternate capability runs while the production environment remains in service.. Decision: Use for high-value technical proof when parallel resources, safe data handling, and reconciliation are available.. Failure/example: If outputs are not reconciled, parallel processing can mask integrity defects.\nfull interruption: A full-scale test that interrupts or transfers normal operations to exercise the real contingency response.. Decision: Use only with executive authority, business consent, defined rollback, and communications because it carries the greatest disruption risk.. Failure/example: A poorly planned interruption creates a real outage that obscures whether recovery would have succeeded.\ndr test evidence: The objective-linked records—timelines, logs, outputs, decisions, and acceptance sign-off—showing what the DR test established.. Decision: Preserve expected-versus-actual results and unresolved limitations before declaring status.. Failure/example: An attendance list proves participation, not recovery performance.\nlessons learned: Documented, supported insight from test outcomes that changes recovery plans, capability, or future test design.. Decision: Create lessons after analyzing evidence and route material changes through ownership and controlled maintenance.. Failure/example: Repeating the same exercise without acting on evidence turns testing into ritual.",
+    "sourceRefIds": [
+      "official-d7-82-84",
+      "sybex-d7-899-901"
+    ],
+    "mapNodeId": "d7-o12-dr-plan-testing",
+    "visualIds": [
+      "d7-o12-dr-plan-testing-decision-comparison-1"
+    ]
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o02-identification-authentication-strategy",
+  "domainId": 5,
+  "objectiveIds": [
+    "5.2"
+  ],
+  "title": "Design an identification and authentication strategy",
+  "summary": "A trustworthy access decision begins with a stable identity, appropriate registration and proofing, and an authenticator whose assurance matches the consequences of compromise. Sessions, credentials, SSO, and nonhuman identities extend that strategy beyond the first login.",
+  "outcome": "Given a human or service access need, choose an identity source, proofing and registration approach, authenticator factors, session controls, and accountability evidence that fit the risk.",
+  "conceptIds": [
+    "identity",
+    "identifier",
+    "identity-proofing",
+    "registration",
+    "authentication-factors",
+    "multi-factor-authentication",
+    "single-sign-on",
+    "session-management",
+    "accountability",
+    "authentication",
+    "federated-identity",
+    "authorization"
+  ],
+  "prerequisites": [
+    "d5-o01-physical-logical-access",
+    "d1-o09-risk-management"
+  ],
+  "estimatedMinutes": 45,
+  "managerMindset": "Treat identity, authenticator, recovery, session, and accountability as one lifecycle design; a strong login is not strong if registration or reset is weak.",
+  "sections": [
+    {
+      "id": "identity-before-authentication",
+      "title": "Establish the subject before proving control",
+      "body": "Identification presents a label for a person, device, process, or service. Registration creates the relationship between that subject and an account or identity store; proofing gathers enough evidence that the relationship represents the claimed entity. Authentication then verifies control of an authenticator bound to that identity. Keeping these stages distinct prevents a copied identifier from being treated as proof and makes changes, recovery, and nonhuman ownership auditable.",
+      "keyPoints": [
+        "An identifier is a reference, not evidence of control.",
+        "Proofing confidence should reflect the impact of impersonation, while minimizing unnecessary personal data.",
+        "Human and nonhuman identities need owners, purpose, status, and lifecycle evidence."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o02",
+        "official-d5-17-31",
+        "sybex-d5-641-663"
+      ]
+    },
+    {
+      "id": "factors-and-sessions",
+      "title": "Select factors and preserve assurance in the session",
+      "body": "Knowledge, possession, and inherence are different factor categories; two passwords do not become multifactor authentication merely because they appear in two prompts. Passkeys and hardware-backed authenticators can improve phishing resistance, but the design must include enrollment, recovery, revocation, and device binding. After authentication, a session needs bounded lifetime, protection against fixation and hijacking, anomaly handling, and forced termination when risk or inactivity warrants it. SSO reduces repeated credentials but does not remove the need for authorization at each target resource.",
+      "keyPoints": [
+        "MFA depends on independent factor categories and authenticator construction, not the number of screens.",
+        "Recovery paths and credential stores can become the weakest link in an otherwise strong design.",
+        "Authentication establishes a session; authorization still decides what the session may do."
+      ],
+      "sourceRefIds": [
+        "official-d5-17-31",
+        "sybex-d5-641-663"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Design the complete identity, assurance, credential, and session strategy",
+      "body": "Registration and proofing establish the right person, device, or service identity at an assurance level appropriate to harm; groups and roles then support scalable assignment. AAA combines authentication, authorization, and accountable events, while MFA or passwordless methods raise assurance only when enrollment, recovery, phishing resistance, and fallback are governed. Credential-management systems protect issuance, storage, rotation, recovery, and revocation. SSO and federated identity reduce repeated prompts but concentrate trust; sessions need binding, timeout, reauthentication, logout, revocation, and fixation or replay defenses. Just-in-time access grants scoped, time-bounded elevation with approval and audit. Failures include weak proofing, shared accounts, stale groups, long-lived sessions, vault export, and SSO outage or compromise becoming enterprise-wide access.",
+      "keyPoints": [
+        "Make access decisions attributable to a subject, asset, action, context, owner, policy, enforcement point, and revocation path.",
+        "Test both expected allow behavior and abuse, failure, stale-access, or unavailable-dependency behavior."
+      ],
+      "sourceRefIds": [
+        "outline-d5-o02",
+        "official-d5-17-31",
+        "sybex-d5-641-663"
+      ]
+    },
+    {
+      "id": "assurance-selection-and-lifecycle",
+      "title": "Select assurance by risk, then protect the weak lifecycle stage",
+      "body": "Identity proofing, authenticator assurance, and federation assurance answer different questions. Select the level of confidence needed from the consequence of impersonation, transaction sensitivity, recovery exposure, privacy impact, and relying-service risk; document the choice and reevaluate it when those conditions change. Proofing or enrollment binds a person to an identity, authentication verifies control of an authenticator, and federation conveys an assertion to a relying party. A strong authenticator cannot repair weak proofing, insecure recovery, unvalidated assertions, or an overbroad local authorization decision. NIST SP 800-63-4 is technical guidance for federal digital identity services, so other organizations should use it as a risk-informed reference rather than claiming it is automatically binding.",
+      "keyPoints": [
+        "Assurance dimensions are related but not interchangeable: proofing establishes an identity claim, authentication verifies the claimant, and federation conveys an assertion.",
+        "Enrollment, authenticator binding, recovery, revocation, session protection, and relying-party validation must preserve the selected assurance."
+      ],
+      "sourceRefIds": [
+        "official-d5-17-31",
+        "d5-o02-identification-authentication-strategy-nist-sp-800-63-4-2025"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Privileged engineer with a lost security key",
+      "situation": "A privileged engineer loses a hardware key while traveling and asks the help desk to reset the account using an emailed code.",
+      "reasoning": "The engineer's identity and role may be known, but the lost authenticator does not justify a weaker recovery path. Require a separately verified recovery process proportionate to privileged impact, revoke the lost authenticator, bind a replacement, record the event, and require fresh authentication before high-impact actions. A help-desk identity check must not silently become a new authenticator with lower assurance."
+    },
+    {
+      "title": "Privileged recovery after device loss",
+      "situation": "A privileged engineer loses the device containing the normal phishing-resistant authenticator while traveling.",
+      "reasoning": "Do not accept possession of a username or an unverified help-desk request as equivalent assurance. Apply the documented recovery proofing and approval path, record the event, bind a replacement authenticator, revoke the lost authenticator and sessions, and reassess any high-impact access while recovery is pending.",
+      "takeaway": "Recovery must preserve the risk-based assurance decision rather than bypass it."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "identification",
+        "authentication"
+      ],
+      "difference": "Identification names the claimed subject; authentication verifies control of a bound authenticator."
+    },
+    {
+      "between": [
+        "identity proofing",
+        "authentication"
+      ],
+      "difference": "Proofing establishes confidence in the account relationship; authentication later verifies control of an authenticator."
+    },
+    {
+      "between": [
+        "SSO",
+        "federation"
+      ],
+      "difference": "SSO is a user experience and session pattern across targets; federation is a trust and assertion relationship across security domains."
+    },
+    {
+      "between": [
+        "two-step login",
+        "MFA"
+      ],
+      "difference": "MFA requires independent factor categories; two secrets from the knowledge category are still single-factor."
+    },
+    {
+      "a": "Identity proofing",
+      "b": "Authentication",
+      "difference": "Proofing establishes confidence that an applicant is the claimed identity; authentication verifies that a claimant controls a bound authenticator. Neither by itself determines resource authorization."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "A username is proof of identity.",
+      "correction": "It is an identifier presented by a claimant; registration and authentication supply the relevant evidence."
+    },
+    {
+      "misconception": "A biometric is always a standalone remote authenticator.",
+      "correction": "A biometric may activate a device-bound authenticator; assurance depends on the complete authenticator construction and protocol."
+    },
+    {
+      "misconception": "SSO means the user is authorized everywhere.",
+      "correction": "SSO can reduce repeated authentication, but each relying resource still evaluates authorization and context."
+    },
+    {
+      "claim": "A strong MFA prompt compensates for weak proofing or account recovery.",
+      "correction": "Assurance is limited by the weakest relevant stage; proofing, enrollment, recovery, authenticator management, session controls, federation validation, and local authorization must be designed together."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What question does each stage answer: identification, proofing, authentication?",
+      "answer": "Identification says which subject is claimed; proofing establishes how confidently the account represents the claimed entity; authentication verifies control of a bound authenticator."
+    },
+    {
+      "prompt": "Why are two passwords not MFA?",
+      "answer": "Both are knowledge factors, so compromise of the knowledge category can defeat both."
+    },
+    {
+      "prompt": "Name two session controls that preserve assurance after login.",
+      "answer": "Examples include bounded lifetime, reauthentication for risk, anti-fixation and anti-hijacking protections, anomaly response, and forced termination on revocation or inactivity."
+    },
+    {
+      "prompt": "Which three digital-identity functions have distinct assurance questions?",
+      "answer": "Identity proofing/enrollment, authentication/authenticator management, and federation/assertions. Select and preserve each according to the risk of the service and transaction."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A contractor receives a service account with no named owner because the application cannot support human login.",
+      "decision": "Create a nonhuman identity with accountable owner, purpose, scope, credential location, rotation, monitoring, and retirement conditions.",
+      "why": "Automation still creates security-relevant subjects and must remain attributable."
+    },
+    {
+      "scenario": "A consumer app uses password plus a one-time code sent to the same compromised mailbox.",
+      "decision": "Assess independence and recovery risk rather than labeling the flow MFA automatically; choose an authenticator design that protects the required assurance.",
+      "why": "Two prompts do not guarantee independent evidence."
+    },
+    {
+      "prompt": "A service accepts a high-assurance identity-provider assertion but grants administrator access from a broad local group. What must be checked?",
+      "decisiveDetail": "The assertion’s issuer, audience, signature, freshness, assurance claim, local account binding, group/role mapping, authorization policy, and recovery/revocation evidence; federation evidence does not replace local authorization.",
+      "testedConceptIds": [
+        "identity-proofing",
+        "authentication",
+        "federated-identity",
+        "authorization"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Study identity, identifier, proofing, registration, factor categories, MFA, SSO, credential management, and session controls.",
+    "connect": "Connect assurance choices to D1 risk and D3 cryptography; preview D5.3 federation and D5.6 authentication systems.",
+    "apply": "Design a human privileged account and a workload identity, including enrollment, recovery, revocation, and session expiry.",
+    "revisit": "Explain the identity-to-session flow from memory and identify where a weak reset process would bypass the intended assurance."
+  },
+  "visualIds": [
+    "d5-o02-identity-assurance-flow",
+    "d5-o02-identification-authentication-strategy-decision-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "outline-d5-o02",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "objective",
+        "value": "5.2"
+      },
+      "supports": [
+        "objective boundary",
+        "identity and authentication strategy"
+      ]
+    },
+    {
+      "id": "official-d5-17-31",
+      "sourceId": "isc2-official-textbook-d5-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "17-31 (PDF pp. 17-31)"
+      },
+      "supports": [
+        "identity stores",
+        "registration and proofing",
+        "authentication factors",
+        "SSO",
+        "sessions"
+      ]
+    },
+    {
+      "id": "sybex-d5-641-663",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "641-663, Chapter 13"
+      },
+      "supports": [
+        "identification and authentication",
+        "proofing",
+        "factors",
+        "SSO",
+        "credential management",
+        "session management"
+      ]
+    },
+    {
+      "id": "d5-o02-identification-authentication-strategy-nist-sp-800-63-4-2025",
+      "sourceId": "nist-sp-800-63-4-2025",
+      "locator": {
+        "type": "section",
+        "value": "NIST SP 800-63-4, final, July 2025; companion SP 800-63A/B/C-4"
+      },
+      "supports": [
+        "NIST’s final digital-identity suite covers identity proofing/enrollment, authentication/authenticator management, and federation/assertions. It defines technical requirements for three assurance levels in the respective parts; federal applicability should not be generalized as a universal mandate."
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d5-d6-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d5.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d5-d6-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d5-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d5-o02-identification-authentication-strategy-visual-contract",
+    "unitId": "d5-o02-identification-authentication-strategy",
+    "teachingQuestion": "How is an asserted identity proofed, authenticated, session-bound, and accountable?",
+    "misconception": "MFA or SSO alone proves authorization.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Proofing establishes identity; authentication establishes current claimant; authorization remains separate.",
+    "conceptIds": [
+      "identity",
+      "identifier",
+      "identity-proofing",
+      "registration",
+      "authentication-factors",
+      "multi-factor-authentication",
+      "single-sign-on",
+      "session-management",
+      "accountability",
+      "authentication",
+      "federated-identity",
+      "authorization"
+    ],
+    "relationships": [
+      {
+        "from": "claim",
+        "to": "proof",
+        "label": "is established by"
+      },
+      {
+        "from": "proof",
+        "to": "auth",
+        "label": "binds authenticator"
+      },
+      {
+        "from": "auth",
+        "to": "decide",
+        "label": "supplies subject evidence"
+      },
+      {
+        "from": "decide",
+        "to": "session",
+        "label": "permits a bounded session"
+      },
+      {
+        "from": "session",
+        "to": "auth",
+        "label": "may require reauthentication"
+      }
+    ],
+    "intentionalOmissions": "No universal MFA factor ranking.",
+    "retrievalPrompt": "A stolen session survives MFA: which assurance step failed?",
+    "textFallback": "identity: entity representation. Decision: choose authoritative identity. Failure/example: duplicate person record\nidentifier: unique claim label. Decision: bind/reconcile identifier. Failure/example: reused email\nidentity proofing: evidence identity is real. Decision: set proofing level. Failure/example: remote impostor enrollment\nregistration: enrollment lifecycle. Decision: approve/register evidence. Failure/example: unapproved account\nauthentication factors: Knowledge, possession, and inherence are factor categories; contextual signals inform risk but are not automatically an additional independent factor.. Decision: select threat-appropriate factors. Failure/example: single stolen password\nmulti factor authentication: independent factors. Decision: Require distinct factor categories; assess resistance to the relevant phishing and recovery threats rather than assuming every MFA method is phishing-resistant.. Failure/example: MFA fatigue approval\nsingle sign on: central session to apps. Decision: constrain trust/session. Failure/example: IdP outage expands bypass\nsession management: post-auth continuity. Decision: expire/revoke/bind session. Failure/example: stolen persistent token\naccountability: action traceability. Decision: log identity/action/time. Failure/example: shared admin identity",
+    "sourceRefIds": [
+      "official-d5-17-31",
+      "sybex-d5-641-663",
+      "d5-o02-identification-authentication-strategy-nist-sp-800-63-4-2025"
+    ],
+    "mapNodeId": "d5-o02-identification-authentication-strategy",
+    "visualIds": [
+      "d5-o02-identification-authentication-strategy-decision-comparison-1",
+      "d5-o02-identity-assurance-flow"
+    ]
+  }
+}

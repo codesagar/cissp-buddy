@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o05-cloud-container-serverless-concept-comparison-2",
+  "unitId": "d3-o05-cloud-container-serverless",
+  "type": "table",
+  "title": "Assess cloud, container, API, and serverless security paths: concept decisions 2",
+  "teachingQuestion": "Who owns each control at this cloud service boundary, and what could misuse it?",
+  "focalInsight": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Orchestration",
+      "conceptIds": [
+        "orchestration"
+      ],
+      "definition": "Control plane that schedules and configures containers or workloads.",
+      "detail": "Control plane that schedules and configures containers or workloads.",
+      "decision": "Treat deployment authority, policies, secrets, and cluster admin roles as high-impact.",
+      "failureExample": "A cluster administrator changes a network policy for all tenants.",
+      "retrievalAnswer": "Orchestration concentrates deployment and isolation authority.",
+      "tier": "B"
+    },
+    {
+      "id": "row-2",
+      "label": "Workload Identity",
+      "conceptIds": [
+        "workload-identity"
+      ],
+      "definition": "Identity used by a running service or workload to request another service or resource.",
+      "detail": "Identity used by a running service or workload to request another service or resource.",
+      "decision": "Use unique, scoped, rotated identities rather than shared static credentials.",
+      "failureExample": "All jobs use one broad database credential for convenience.",
+      "retrievalAnswer": "A workload needs an attributable identity with minimal scope.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Event Validation",
+      "conceptIds": [
+        "event-validation"
+      ],
+      "definition": "Checking event structure, provenance, freshness, and suitability before acting on it.",
+      "detail": "Checking event structure, provenance, freshness, and suitability before acting on it.",
+      "decision": "Validate before a function or workflow turns an event into a sensitive action.",
+      "failureExample": "An internally routed but forged event invokes a payment function.",
+      "retrievalAnswer": "Internal origin alone does not establish a trustworthy event.",
+      "tier": "B"
+    },
+    {
+      "id": "row-4",
+      "label": "Cloud Service Model",
+      "conceptIds": [
+        "cloud-service-model"
+      ],
+      "definition": "SaaS, PaaS, or IaaS classification used to map operating responsibility.",
+      "detail": "SaaS, PaaS, or IaaS classification used to map operating responsibility.",
+      "decision": "Select the model by what the provider operates and what the customer must configure.",
+      "failureExample": "A review calls every hosted service “cloud secure” without mapping the layer.",
+      "retrievalAnswer": "The model explains the control boundary, not a security guarantee.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Configuration Management",
+      "conceptIds": [
+        "configuration-management"
+      ],
+      "definition": "Controlled, reviewable maintenance of intended system configuration over time.",
+      "detail": "Controlled, reviewable maintenance of intended system configuration over time.",
+      "decision": "Use approved baselines, change evidence, drift detection, and rollback.",
+      "failureExample": "A manual production change widens a cloud security group without record or review.",
+      "retrievalAnswer": "Configuration is a security control path, not housekeeping.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "orchestration",
+    "workload-identity",
+    "event-validation",
+    "cloud-service-model",
+    "configuration-management"
+  ],
+  "altSummary": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+  "textFallback": "orchestration: Control plane that schedules and configures containers or workloads. Decide: Treat deployment authority, policies, secrets, and cluster admin roles as high-impact. Example/failure: A cluster administrator changes a network policy for all tenants. Retrieve: Orchestration concentrates deployment and isolation authority.\nworkload identity: Identity used by a running service or workload to request another service or resource. Decide: Use unique, scoped, rotated identities rather than shared static credentials. Example/failure: All jobs use one broad database credential for convenience. Retrieve: A workload needs an attributable identity with minimal scope.\nevent validation: Checking event structure, provenance, freshness, and suitability before acting on it. Decide: Validate before a function or workflow turns an event into a sensitive action. Example/failure: An internally routed but forged event invokes a payment function. Retrieve: Internal origin alone does not establish a trustworthy event.\ncloud service model: SaaS, PaaS, or IaaS classification used to map operating responsibility. Decide: Select the model by what the provider operates and what the customer must configure. Example/failure: A review calls every hosted service “cloud secure” without mapping the layer. Retrieve: The model explains the control boundary, not a security guarantee.\nconfiguration management: Controlled, reviewable maintenance of intended system configuration over time. Decide: Use approved baselines, change evidence, drift detection, and rollback. Example/failure: A manual production change widens a cloud security group without record or review. Retrieve: Configuration is a security control path, not housekeeping.",
+  "sourceRefIds": [
+    "d3-o05-cloud-textbook",
+    "d3-o05-cloud-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "Who owns each control at this cloud service boundary, and what could misuse it?",
+    "misconception": "Provider operation means the customer no longer has security obligations.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Service model changes operations; tenant identity, configuration, data, integration, and evidence remain accountable.",
+    "conceptIds": [
+      "orchestration",
+      "workload-identity",
+      "event-validation",
+      "cloud-service-model",
+      "configuration-management"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Compare SaaS, PaaS, and IaaS responsibility for a specified control.",
+    "textFallback": "orchestration: Control plane that schedules and configures containers or workloads. Decide: Treat deployment authority, policies, secrets, and cluster admin roles as high-impact. Example/failure: A cluster administrator changes a network policy for all tenants. Retrieve: Orchestration concentrates deployment and isolation authority.\nworkload identity: Identity used by a running service or workload to request another service or resource. Decide: Use unique, scoped, rotated identities rather than shared static credentials. Example/failure: All jobs use one broad database credential for convenience. Retrieve: A workload needs an attributable identity with minimal scope.\nevent validation: Checking event structure, provenance, freshness, and suitability before acting on it. Decide: Validate before a function or workflow turns an event into a sensitive action. Example/failure: An internally routed but forged event invokes a payment function. Retrieve: Internal origin alone does not establish a trustworthy event.\ncloud service model: SaaS, PaaS, or IaaS classification used to map operating responsibility. Decide: Select the model by what the provider operates and what the customer must configure. Example/failure: A review calls every hosted service “cloud secure” without mapping the layer. Retrieve: The model explains the control boundary, not a security guarantee.\nconfiguration management: Controlled, reviewable maintenance of intended system configuration over time. Decide: Use approved baselines, change evidence, drift detection, and rollback. Example/failure: A manual production change widens a cloud security group without record or review. Retrieve: Configuration is a security control path, not housekeeping.",
+    "sourceRefIds": [
+      "d3-o05-cloud-textbook",
+      "d3-o05-cloud-sybex"
+    ],
+    "mapNodeId": "d3-o05-cloud-container-serverless"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

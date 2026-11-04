@@ -1,51 +1,21 @@
 # CISSP Buddy
 
-A complete visual study course built on the existing React, TypeScript, Vinext, and Cloudflare D1 application. The default route contains all eight domains and 90 canonical units. The original ten-lesson experience and its saved practice remain at `/pilot`.
+A single-learner visual CISSP course built with React, TypeScript, and plain Vite. The main course covers eight domains and 90 canonical units, with 11 connection cases and five native input-driven labs. The original ten-lesson course remains at `/pilot/`, including its saved practice.
 
-## Open the verified course
+Content release: `cissp-course-2026-09-94377842923795be`. The static migration preserves the curriculum, teaching design, semantic question IDs, and saved answer snapshots.
 
-The local production preview is **http://localhost:3109/#/today**.
+## Run locally
 
-Content release: `cissp-course-2026-09-94377842923795be`.
-
-Start with **Start learning**, or use **Curriculum** to search a concept. Each unit offers Understand → Predict → Transfer → Review. Five units also provide an **Explore inputs** lab. Connections contains 11 bounded cross-domain cases and separately identifies 21 reference-only relationships.
-
-See the [visual-explanation implementation delivery](../planning/visual-explanation-implementation/FINAL-DELIVERY.md) for the current repair tour, implementation ledger, browser evidence, and QA limits. The [whole-course delivery](../planning/visual-learning-production/FINAL-DELIVERY.md) retains the broader production history.
-
-## Start or restart locally
-
-Use Node 22.13 or newer. From `web/`, install dependencies if needed with `npm ci`.
-
-To restart the already prepared preview:
+Use Node **24.15.0** (the publication workflow pins this supported Node 24 release). Keep `web/` beside the required `knowledge/` directory. From `web/`:
 
 ```sh
-cd '/Users/sagar/Documents/ChatGPT/CISSP Buddy/web'
-./node_modules/.bin/wrangler dev --config dist/server/wrangler.json --port 3109 --persist-to /tmp/cissp-visual-review-943778-preview-v1
+npm ci
+npm run dev
 ```
 
-If the temporary database or build is unavailable, recreate a local production preview:
+Open the URL Vite prints. Begin with **Start learning**, use **Curriculum** to search, or resume your saved unit from **Today**. Hash deep links work on reload and with browser back/forward navigation.
 
-```sh
-cd '/Users/sagar/Documents/ChatGPT/CISSP Buddy/web'
-export CISSP_PREVIEW_STATE="$PWD/.wrangler/course-preview"
-for migration in drizzle/0000_ancient_squadron_supreme.sql drizzle/0001_careful_calypso.sql drizzle/0002_flaky_winter_soldier.sql; do
-  npx wrangler d1 execute DB --local --config wrangler.local.json --persist-to "$CISSP_PREVIEW_STATE" --file "$migration" --yes
-done
-npm run build
-./node_modules/.bin/wrangler dev --config dist/server/wrangler.json --port 3109 --persist-to "$CISSP_PREVIEW_STATE"
-```
-
-The migrations are additive and include the immutable course schema; the server installs and seals the generated release. Stop an existing process on port 3109 before starting another. `npm run dev` is the development workflow; the handoff uses the production build above. No remote publication was performed.
-
-## Content and learner evidence
-
-The deterministic `course:generate` pipeline links canonical units, concept occurrences, objectives, and source references to authored JSON teaching models. A small course manifest and lazy per-unit API avoid downloading every question on the first page. Four shared renderer families support 101 authored models, 220 base/changed cases, and 744 guided states; these are separate from the five native input-driven labs and 79 reviewed treatment decisions.
-
-All 698 declared concepts have reachable explanation and source context across 892 unit/concept occurrences. Assessment coverage is narrower: 303 new checks directly assess 450 distinct concepts (270 unit checks assess 436; 33 connection checks assess 65, with overlap). The 179 canonical aids remain source inventory, not a count of new interactive widgets.
-
-The original `cissp-buddy:v1` progress key is preserved. New course state uses `cissp-buddy:course:v1`. Progress belongs to a browser and origin; export/import moves it between addresses. Combined backups carry both versions, and an original pilot backup can still be imported. Invalid or damaged records are preserved until a valid replacement is explicitly selected. Question snapshots retain original wording, answer, release, uncertainty, hint use, and viewed-outcome assistance. Mistakes or assisted answers remain due for review; no mastery or exam-readiness percentage is inferred.
-
-## Validation and evidence
+Build and verify:
 
 ```sh
 npm run content:validate
@@ -54,12 +24,37 @@ npm run lint
 npm test
 npm run course:render-check
 npm run build
-npm run course:coverage -- --expected-release=cissp-course-2026-09-94377842923795be
-npm run qa:final -- --expected-release=cissp-course-2026-09-94377842923795be --port=3110
+npm run qa:final
 ```
 
-`qa:final` runs historical validators in an isolated copy, verifies protected source hashes, applies fresh local migrations, and tests the built API. Do not run a historical evidence-writing validator directly against preserved audit files.
+`qa:final` is the current static-release verification workflow. It writes new receipts under ignored `web/outputs/` and protects historical audit reports. It does not need D1, Wrangler, a local database, reference PDFs, or a manually prepared `/tmp` environment. Earlier delivery reports describe the application and evidence as they existed then.
 
-Independent GPT-5.6 SOL reviewers challenged all eight domains, with root independently reviewing the integration worker's 11 connection cases. The visual-explanation rollout rechecked all 78 changed routes and the complete 744-state render set, plus desktop/narrow interaction paths for the highest-impact repairs. Historical whole-course browser evidence remains preserved; exact source and build bindings distinguish exhaustive checks from bounded readable visual inspection.
+To inspect production files, serve `dist/` with an ordinary static server. Do not use an API or SPA fallback that could conceal missing JSON or the pilot entry. The retained static-server script and final release receipt document the verified preview command and port.
 
-Wide diagrams scroll locally with keyboard access and complete text equivalents. Reviews are AI acceptance, not human expert endorsement, accessibility certification, official ISC2 training, or evidence of improved learning outcomes. Learner-tested treatments: **0**. Source books and exam dumps are not included in the course.
+## Hosting and progress
+
+GitHub Pages receives only `web/dist/`. The publication checkout has `.github/workflows/pages.yml` at its repository root and includes `web/`, required sibling `knowledge/`, `PRODUCT.md`, and selected validation/review fixtures. The workflow runs `npm ci`, focused checks, and the static build with a Pages base path. See the current release receipt in `planning/static-migration/` for deployment status; a prepared workflow is not a live deployment.
+
+Root hosting uses `/`; a project site uses `/<repository>/`. Build with Vite's `--base=/<repository>/` for that path. Assets, content, favicons, and course↔pilot links use `import.meta.env.BASE_URL`. Both `/<repository>/#/today` and `/<repository>/pilot/#/practice` are supported.
+
+Progress belongs to the current browser and origin. The main course retains `cissp-buddy:course:v1`; the pilot retains `cissp-buddy:v1`. A different address cannot automatically read your old progress. Before moving:
+
+1. Open **Saved progress & preferences** at the old address and export a combined backup.
+2. Open that page at the new address and select the exported file.
+3. Inspect the validation result and explicitly replace the local records.
+
+Existing pilot backups also remain supported. Invalid imports and unreadable records are preserved until validated replacement. Export untouched records for recovery when offered. Storage failures are visible; export your in-memory work before leaving if saving fails. Two localStorage keys cannot provide guaranteed atomic replacement during abrupt interruption or a persistent rollback failure.
+
+## Evidence and content
+
+Understand → Predict → Transfer → Review connects each explanation with named assessments and exact repair feedback. Notes, stages, figure steps/variants, lab inputs, review dates, uncertainty, assistance, and unfinished pilot quizzes are retained. Today offers resume, due reviews, and an unanswered curriculum recommendation with a reason. Prerequisite visits indicate exposure, not mastery.
+
+The course explains 698 concepts across 892 unit/concept occurrences. Its 303 checks directly assess 448 distinct concepts. Visits, assisted answers, correct unassisted responses, repeated exposure, review needs, unanswered assessed material, and concepts without directly scoped checks remain distinct. No mastery or exam-readiness score is inferred.
+
+Authoring inputs and maintenance instructions are in [the content system](docs/content-system.md). Generated content is validated and packaged as a manifest plus release-specific unit/case JSON. Lessons load individually; the pilot payload loads only on its page. Do not import `lib/data/course/release.ts` in browser code: it aggregates every lesson. Changed questions must not be silently substituted under old identities.
+
+An already loaded lesson can remain usable through a brief connection loss. Full offline reload support is not promised. Failed content loads offer retry without altering learner data.
+
+Accounts, Firebase Authentication, Firestore, cloud synchronization, roles, and administrative features are deferred. Keep the application small and understandable for a beginner maintainer. Reference PDFs, credentials, environment files, personal progress backups, local databases/caches, and unnecessary screenshots must stay outside published source and uploaded artifacts.
+
+AI review, automated rendering/model checks, and sampled browser interaction do not establish educational effectiveness, human-expert endorsement, official ISC2 training, or comprehensive accessibility certification. Human learner and subject-expert review remain outstanding.

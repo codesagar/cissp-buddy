@@ -1,0 +1,632 @@
+{
+  "schemaVersion": "1.0.0",
+  "relationVocabulary": [
+    {
+      "id": "informs",
+      "definition": "The source objective supplies analysis, requirements, or context used by the target objective."
+    },
+    {
+      "id": "constrains",
+      "definition": "The source objective sets a boundary, obligation, or condition the target must satisfy."
+    },
+    {
+      "id": "implements",
+      "definition": "The target puts the source objective’s intent into an architecture, control, or practice."
+    },
+    {
+      "id": "depends-on",
+      "definition": "Meaningful performance of the source objective requires the target objective’s capability or outcome."
+    },
+    {
+      "id": "provides-evidence-for",
+      "definition": "The source objective produces evidence used to make or defend the target objective’s decision."
+    },
+    {
+      "id": "validates",
+      "definition": "The source objective tests or assesses whether the target objective’s implementation is effective."
+    },
+    {
+      "id": "operationalizes",
+      "definition": "The target objective turns the source objective’s direction into repeatable operations."
+    },
+    {
+      "id": "recovers",
+      "definition": "The source objective restores or sustains an outcome required by the target objective."
+    },
+    {
+      "id": "governs",
+      "definition": "The source objective establishes accountability or oversight for the target objective."
+    }
+  ],
+  "relationships": [
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o09-to-d3-o03-risk-control-selection",
+      "fromObjectiveId": "d1-o09",
+      "toObjectiveId": "d3-o03",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Risk analysis identifies the scenario, consequence, tolerance, and residual exposure that security requirements and selected controls must address.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024",
+          "isc2-official-textbook-d1-7e-2024",
+          "isc2-official-textbook-d3-7e-2024"
+        ],
+        "note": "The outline separates risk management from control selection; the link records the required decision flow between them."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o09-to-d6-o01-risk-assessment-strategy",
+      "fromObjectiveId": "d1-o09",
+      "toObjectiveId": "d6-o01",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Risk priorities determine which controls, systems, and failure paths deserve deeper assessment, test, and audit attention.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis: risk-based prioritization keeps assessment scope tied to business consequence."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o09-to-d6-o02-risk-control-testing",
+      "fromObjectiveId": "d1-o09",
+      "toObjectiveId": "d6-o02",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Control testing is more meaningful when it tests the risk scenario and residual-risk assumptions that motivated the control.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis across risk-management and control-testing objectives."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d7-o02-to-d1-o09-monitoring-risk",
+      "fromObjectiveId": "d7-o02",
+      "toObjectiveId": "d1-o09",
+      "kind": "provides-evidence-for",
+      "directionality": "directed",
+      "learnerRationale": "Logging and monitoring reveal changes, incidents, control behavior, and exposure trends that can require a risk reassessment.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Operational monitoring is evidence for the continuous-monitoring portion of risk management."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d7-o08-to-d1-o09-vulnerability-risk",
+      "fromObjectiveId": "d7-o08",
+      "toObjectiveId": "d1-o09",
+      "kind": "provides-evidence-for",
+      "directionality": "directed",
+      "learnerRationale": "Vulnerability and patch status changes the exposure and control-effectiveness assumptions in a risk decision.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis: vulnerability management supplies changing risk inputs."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o10-to-d3-o01-threat-secure-design",
+      "fromObjectiveId": "d1-o10",
+      "toObjectiveId": "d3-o01",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Threat modeling identifies assets, trust boundaries, and abuse paths that secure design principles must constrain.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024",
+          "isc2-official-textbook-d1-7e-2024",
+          "isc2-official-textbook-d3-7e-2024"
+        ],
+        "note": "The objective catalog places threat modeling in D1 and secure design in D3; this link preserves their intended handoff."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o10-to-d3-o05-threat-architecture-vulnerabilities",
+      "fromObjectiveId": "d1-o10",
+      "toObjectiveId": "d3-o05",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Architecture-vulnerability analysis is more focused when a threat model identifies the relevant attack paths, assets, and trust assumptions.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis across threat modeling and architecture assessment."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o10-to-d8-o01-threat-sdlc",
+      "fromObjectiveId": "d1-o10",
+      "toObjectiveId": "d8-o01",
+      "kind": "implements",
+      "directionality": "directed",
+      "learnerRationale": "An SDLC integrates threat-model findings into requirements, design, implementation, tests, and change decisions before release.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Threat-modeling output is a high-value security input to secure lifecycle work."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o03-to-d3-o03-govern-control-selection",
+      "fromObjectiveId": "d1-o03",
+      "toObjectiveId": "d3-o03",
+      "kind": "governs",
+      "directionality": "directed",
+      "learnerRationale": "Governance establishes decision rights, risk tolerance, and accountability that constrain how architecture teams select and accept controls.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis: control selection must remain accountable to business governance."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o06-to-d7-o03-policy-configuration",
+      "fromObjectiveId": "d1-o06",
+      "toObjectiveId": "d7-o03",
+      "kind": "constrains",
+      "directionality": "directed",
+      "learnerRationale": "Policies, standards, and procedures define approved configurations, baselines, changes, and exceptions that configuration management must enforce.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Policy direction becomes operational configuration control in Domain 7."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o07-to-d7-o10-continuity-recovery",
+      "fromObjectiveId": "d1-o07",
+      "toObjectiveId": "d7-o10",
+      "kind": "constrains",
+      "directionality": "directed",
+      "learnerRationale": "Business continuity priorities, tolerable disruption, dependencies, and recovery objectives constrain the recovery strategies and operations selected to meet them.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "The link distinguishes D1 requirements from D7 execution of recovery strategies."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d7-o13-to-d1-o07-continuity-exercises",
+      "fromObjectiveId": "d7-o13",
+      "toObjectiveId": "d1-o07",
+      "kind": "validates",
+      "directionality": "directed",
+      "learnerRationale": "Business continuity exercises test whether documented priorities, dependencies, communications, and workarounds actually meet stated requirements.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis connecting BC requirements to operational planning and exercises."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o11-to-d8-o04-supply-acquired-software",
+      "fromObjectiveId": "d1-o11",
+      "toObjectiveId": "d8-o04",
+      "kind": "constrains",
+      "directionality": "directed",
+      "learnerRationale": "Supply-chain risk management sets the provenance, assessment, monitoring, update, and contractual questions used to assess acquired software.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Acquired software is a supply-chain dependency and should inherit SCRM assurance requirements."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d1-o11-to-d3-o05-supply-architecture",
+      "fromObjectiveId": "d1-o11",
+      "toObjectiveId": "d3-o05",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Supplier, component, update, and support dependencies change an architecture’s trust boundaries and vulnerability analysis.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis connecting SCRM to architecture assessment."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d2-o01-to-d5-o04-classification-authorization",
+      "fromObjectiveId": "d2-o01",
+      "toObjectiveId": "d5-o04",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Asset and information classification can become an object attribute or handling condition used by authorization policy decisions.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Classification does not itself grant access; it supplies a protection attribute that authorization can evaluate."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d2-o01-to-d3-o03-classification-controls",
+      "fromObjectiveId": "d2-o01",
+      "toObjectiveId": "d3-o03",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Classification identifies information sensitivity and asset criticality that drive proportional control requirements and selection.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis: control strength should follow classified protection needs."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d2-o02-to-d4-o03-handling-secure-channels",
+      "fromObjectiveId": "d2-o02",
+      "toObjectiveId": "d4-o03",
+      "kind": "constrains",
+      "directionality": "directed",
+      "learnerRationale": "Asset-handling rules can require specific protections for information in transit, constraining secure-channel design and operation.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Data handling requirements are a direct input to communication-channel controls."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d2-o04-to-d7-o05-data-lifecycle-resource-protection",
+      "fromObjectiveId": "d2-o04",
+      "toObjectiveId": "d7-o05",
+      "kind": "operationalizes",
+      "directionality": "directed",
+      "learnerRationale": "Data lifecycle requirements for retention, remanence, and destruction require operational resource protection and verifiable disposal practices.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis connecting asset lifecycle direction to operational protection."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d2-o06-to-d3-o06-data-protection-crypto",
+      "fromObjectiveId": "d2-o06",
+      "toObjectiveId": "d3-o06",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Data state, security controls, and compliance requirements determine when cryptographic protection and key-management choices are required.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Cryptography is selected for a specific protection requirement, not as an isolated default."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o06-to-d4-o03-crypto-secure-channels",
+      "fromObjectiveId": "d3-o06",
+      "toObjectiveId": "d4-o03",
+      "kind": "implements",
+      "directionality": "directed",
+      "learnerRationale": "Secure communication channels implement cryptographic choices through protocols, key exchange, peer authentication, validation, and operational configuration.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "The relationship distinguishes cryptographic solution selection from channel implementation."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d5-o02-to-d3-o06-crypto-authentication",
+      "fromObjectiveId": "d5-o02",
+      "toObjectiveId": "d3-o06",
+      "kind": "depends-on",
+      "directionality": "directed",
+      "learnerRationale": "Many identification and authentication strategies depend on cryptographic keys, certificates, secure authenticators, or protocol validation to establish trust.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "This link does not imply cryptography alone establishes identity proofing or authorization."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o07-to-d4-o03-cryptanalytic-channel-threats",
+      "fromObjectiveId": "d3-o07",
+      "toObjectiveId": "d4-o03",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Channel design must account for attacks such as active intermediaries, downgrade, timing, implementation, and credential-material abuse rather than assuming encryption alone is sufficient.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Cryptanalytic and implementation attacks provide threat context for secure-channel choices."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o01-to-d8-o01-secure-design-sdlc",
+      "fromObjectiveId": "d3-o01",
+      "toObjectiveId": "d8-o01",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Secure SDLC activities turn architecture principles such as least privilege, secure defaults, separation of duties, and threat modeling into build and review work.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Secure design principles supply criteria for lifecycle decisions."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o05-to-d8-o02-architecture-development-ecosystem",
+      "fromObjectiveId": "d3-o05",
+      "toObjectiveId": "d8-o02",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Architecture vulnerabilities in APIs, containers, cloud services, and dependencies determine which development-ecosystem controls and protections are needed.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis: architecture threat paths should shape development controls."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o10-to-d8-o01-architecture-lifecycle-sdlc",
+      "fromObjectiveId": "d3-o10",
+      "toObjectiveId": "d8-o01",
+      "kind": "constrains",
+      "directionality": "directed",
+      "learnerRationale": "Information-system lifecycle governance establishes traceability from requirements through deployment, operations, and retirement that a secure SDLC must preserve.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "The objectives overlap in lifecycle concerns but apply them at architecture/system and software levels respectively."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o09-to-d7-o14-facility-controls-physical-operations",
+      "fromObjectiveId": "d3-o09",
+      "toObjectiveId": "d7-o14",
+      "kind": "operationalizes",
+      "directionality": "directed",
+      "learnerRationale": "Facility control design requires daily physical-security operation, maintenance, monitoring, access administration, and response in Domain 7.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Design only becomes protection when operational physical-security processes sustain it."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d4-o01-to-d5-o04-network-authorization",
+      "fromObjectiveId": "d4-o01",
+      "toObjectiveId": "d5-o04",
+      "kind": "depends-on",
+      "directionality": "directed",
+      "learnerRationale": "Network architecture commonly depends on authorization decisions to segment access, enforce least privilege, and control management paths.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Network segmentation and IAM authorization are distinct but mutually necessary control layers."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d5-o03-to-d4-o03-secure-channel-federation",
+      "fromObjectiveId": "d5-o03",
+      "toObjectiveId": "d4-o03",
+      "kind": "depends-on",
+      "directionality": "directed",
+      "learnerRationale": "Federated identity relies on secure channels and validated protocol exchanges to protect assertions and prevent active interception or replay.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "The link emphasizes transport and protocol protections without treating them as sufficient local authorization."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d5-o02-to-d7-o02-authentication-logging",
+      "fromObjectiveId": "d5-o02",
+      "toObjectiveId": "d7-o02",
+      "kind": "provides-evidence-for",
+      "directionality": "directed",
+      "learnerRationale": "Identification and authentication events provide context needed to log, monitor, investigate, and explain security-relevant actions.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "IAM evidence supports accountability but does not replace protected logging."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d5-o04-to-d7-o02-authorization-audit",
+      "fromObjectiveId": "d5-o04",
+      "toObjectiveId": "d7-o02",
+      "kind": "provides-evidence-for",
+      "directionality": "directed",
+      "learnerRationale": "Authorization decisions, relevant policy inputs, and enforcement outcomes provide essential evidence for monitoring and later audit or investigation.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Logging records a decision; it does not itself enforce authorization."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d5-o05-to-d7-o03-identity-configuration-lifecycle",
+      "fromObjectiveId": "d5-o05",
+      "toObjectiveId": "d7-o03",
+      "kind": "operationalizes",
+      "directionality": "directed",
+      "learnerRationale": "Identity and access lifecycle changes must be reflected in controlled provisioning, baselines, automation, and configuration evidence.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Curriculum synthesis linking IAM lifecycle events to operational configuration management."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d5-o06-to-d3-o06-authenticator-crypto",
+      "fromObjectiveId": "d5-o06",
+      "toObjectiveId": "d3-o06",
+      "kind": "depends-on",
+      "directionality": "directed",
+      "learnerRationale": "Authentication systems frequently rely on cryptographic authenticators, key material, and protocol validation whose lifecycle and implementation must be designed securely.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Authentication is broader than cryptography, but cryptographic mechanisms are a frequent dependency."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d6-o02-to-d7-o08-control-testing-remediation",
+      "fromObjectiveId": "d6-o02",
+      "toObjectiveId": "d7-o08",
+      "kind": "informs",
+      "directionality": "directed",
+      "learnerRationale": "Control testing can reveal vulnerable versions, configuration gaps, and ineffective safeguards that patch and vulnerability management must prioritize and remediate.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Testing produces findings; vulnerability management owns remediation workflow and verification."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d6-o04-to-d1-o03-test-reporting-governance",
+      "fromObjectiveId": "d6-o04",
+      "toObjectiveId": "d1-o03",
+      "kind": "provides-evidence-for",
+      "directionality": "directed",
+      "learnerRationale": "Test analysis and reporting give governance bodies evidence about control performance, exceptions, remediation, and residual-risk decisions.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Governance requires evidence rather than unverified claims of compliance."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d7-o02-to-d6-o03-logging-process-data",
+      "fromObjectiveId": "d7-o02",
+      "toObjectiveId": "d6-o03",
+      "kind": "provides-evidence-for",
+      "directionality": "directed",
+      "learnerRationale": "Logging and monitoring create technical process data that assessment and audit activities can collect, analyze, and correlate with administrative evidence.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Operational data must be protected, relevant, and retained appropriately before it becomes useful assessment evidence."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d7-o06-to-d1-o05-incident-investigation",
+      "fromObjectiveId": "d7-o06",
+      "toObjectiveId": "d1-o05",
+      "kind": "depends-on",
+      "directionality": "directed",
+      "learnerRationale": "Incident management must recognize when evidence preservation, authority, notification, and handling requirements shift into an administrative, legal, regulatory, or criminal investigation.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Incident containment and an investigation have different purposes but must coordinate."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d7-o11-to-d1-o07-disaster-recovery-continuity",
+      "fromObjectiveId": "d7-o11",
+      "toObjectiveId": "d1-o07",
+      "kind": "recovers",
+      "directionality": "directed",
+      "learnerRationale": "Disaster recovery processes restore technology and facilities needed to meet business continuity priorities, but do not replace the business continuity requirement itself.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "The link preserves the distinction between continuity requirements and recovery execution."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d8-o03-to-d6-o02-software-testing-controls",
+      "fromObjectiveId": "d8-o03",
+      "toObjectiveId": "d6-o02",
+      "kind": "validates",
+      "directionality": "directed",
+      "learnerRationale": "Software-security effectiveness assessment provides targeted evidence about application controls that broader security control testing can use and correlate.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Application assessment complements, rather than replaces, overall control testing."
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "rel-d3-o01-to-d8-o05-secure-design-coding",
+      "fromObjectiveId": "d3-o01",
+      "toObjectiveId": "d8-o05",
+      "kind": "implements",
+      "directionality": "directed",
+      "learnerRationale": "Secure coding guidelines implement architecture principles such as input validation, least privilege, safe defaults, and fail-secure behavior in executable components.",
+      "sourceSupport": {
+        "sourceIds": [
+          "isc2-cissp-outline-2024"
+        ],
+        "note": "Secure coding is one implementation layer of secure design, not a replacement for architecture review."
+      }
+    }
+  ]
+}

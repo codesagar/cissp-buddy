@@ -1,0 +1,322 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o04-data-lifecycle",
+  "domainId": 2,
+  "objectiveIds": [
+    "2.4"
+  ],
+  "title": "Manage the data lifecycle",
+  "summary": "Data changes state from creation and collection through use, sharing, storage, archival, and destruction. Each transition is an opportunity to preserve value and reduce exposure.",
+  "outcome": "Trace a dataset through its lifecycle and assign ownership, controls, evidence, and transition criteria at each stage.",
+  "conceptIds": [
+    "data-lifecycle",
+    "collection",
+    "use",
+    "sharing",
+    "archival",
+    "destruction",
+    "data-minimization"
+  ],
+  "prerequisites": [
+    "d2-o01-inventory-classification",
+    "d2-o02-handling-requirements"
+  ],
+  "estimatedMinutes": 35,
+  "managerMindset": "Lifecycle management balances usefulness and exposure: retain what the business and law require, protect it while useful, and remove it when the authorized purpose ends.",
+  "sections": [
+    {
+      "id": "stages",
+      "title": "See the complete journey",
+      "body": "A practical lifecycle model includes creation or collection, processing and use, sharing or distribution, storage and maintenance, archival when still needed but less active, and destruction when the purpose and obligations end. The exact stage names vary, but the decision questions remain: why does this data exist, who may use it, where is it, how long is it needed, and how will its integrity and confidentiality be preserved?",
+      "keyPoints": [
+        "Lifecycle controls apply to primary records, copies, exports, caches, logs, and backups.",
+        "Purpose, value, legal obligations, and risk determine transition criteria.",
+        "Data minimization reduces the volume and duration of exposure."
+      ],
+      "sourceRefIds": [
+        "official-d2-23-31",
+        "sybex-d2"
+      ]
+    },
+    {
+      "id": "control-transitions",
+      "title": "Make transitions explicit",
+      "body": "At each transition, record the owner, classification, authorized users, location, retention trigger, protection requirements, and evidence. A move to archive is not destruction; a backup is not automatically an archive; and deletion from an application is not proof that replicas disappeared. Lifecycle automation should be tested against real copies and exceptions such as legal holds.",
+      "keyPoints": [
+        "Archives remain governed assets.",
+        "Legal holds can suspend ordinary destruction.",
+        "Recovery copies and derived data need lifecycle treatment too."
+      ],
+      "sourceRefIds": [
+        "official-d2-23-31",
+        "takeaways-d2-lifecycle"
+      ]
+    },
+    {
+      "id": "roles-location-remanence",
+      "title": "Assign roles and track copies across states",
+      "body": "A data owner sets classification, permitted use, and lifecycle requirements. Where applicable privacy law uses these roles, a controller determines the purposes and means of personal-data processing, while a processor processes on the controller's behalf under documented instructions and applicable legal duties. A custodian operates storage and safeguards. An authorized user uses information; a data subject is the person the personal data concerns and need not have system access. Record physical and logical location, replicas, caches, exports, backups, logs, and derived data. Maintenance includes quality, integrity, access review, correction, and change tracking. Remanence in slack space, snapshots, media, and deleted objects can outlive the visible record.",
+      "keyPoints": [
+        "Role names vary by policy or law, but accountability and instruction boundaries must be explicit.",
+        "Location includes provider region, tenant, media, replicas, and transient processing paths.",
+        "Maintenance and remanence controls prevent stale or supposedly deleted data from escaping governance."
+      ],
+      "sourceRefIds": [
+        "official-d2-23-31",
+        "sybex-d2",
+        "d2-o04-gdpr-roles"
+      ]
+    },
+    {
+      "id": "collection-purpose-and-minimization",
+      "title": "Control data at the collection decision",
+      "body": "Collection begins when an organization obtains, generates, observes, or receives data; it is not complete when the first database record is written. Before collection, state the purpose, internal ownership, operating custody, and any applicable legal controller/processor roles, data elements and sources, authority/notice/consent where applicable, classification, quality/integrity need, locations and recipients, retention trigger, protection baseline, and evidence. Collect only the data and precision needed for the stated purpose, and re-evaluate when purpose, source, recipient, or use changes. Over-collection creates avoidable exposure, retention, discovery, cost, privacy, and integrity burdens.",
+      "keyPoints": [
+        "Collection includes inferred, derived, logged, imported, and API-received data, not only form fields.",
+        "A future use idea does not automatically justify retaining extra data.",
+        "Record the collection source and quality context so later users can assess integrity and purpose."
+      ],
+      "sourceRefIds": [
+        "official-d2-23-31"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Research dataset after project close",
+      "situation": "A clinical research project ends, but consent and regulatory rules require some records to remain available.",
+      "reasoning": "Separate records under retention or legal/regulatory obligation from redundant working copies. Archive the required set with restricted access, integrity evidence, retention trigger, and retrieval process; securely destroy unnecessary working files and document the result."
+    },
+    {
+      "title": "Mobile symptom-report feature",
+      "situation": "A health service proposes collecting precise location, free-text symptoms, device identifiers, and optional photos for a triage feature.",
+      "reasoning": "Define the triage purpose, minimum elements, roles, classification, source quality, approved locations/processors, access, retention trigger, and deletion route before release. Remove elements that are not necessary for the stated function or separately justify them through the organization’s authorized privacy/compliance process.",
+      "takeaway": "Data minimization is a collection and design choice that reduces later handling and destruction risk."
+    }
+  ],
+  "distinctions": [
+    {
+      "between": [
+        "archive",
+        "backup"
+      ],
+      "difference": "An archive preserves selected records for long-term reference or obligation; a backup primarily supports recovery from loss or corruption and may have different retention and access rules."
+    },
+    {
+      "between": [
+        "deletion",
+        "destruction"
+      ],
+      "difference": "Deletion removes an item from an application view; destruction makes recovery impractical across relevant media and copies."
+    },
+    {
+      "a": "Collection",
+      "b": "Storage",
+      "difference": "Collection obtains or generates data and fixes its initial purpose/authority; storage preserves an existing collection under a defined protection and retention rule."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Data lifecycle ends when a user deletes the record.",
+      "correction": "Replicas, backups, logs, caches, and legal holds may extend the lifecycle."
+    },
+    {
+      "misconception": "Keep everything forever to avoid risk.",
+      "correction": "Indefinite retention expands breach impact, cost, discovery exposure, and compliance risk."
+    },
+    {
+      "claim": "Lifecycle controls begin only after data reaches a production database.",
+      "correction": "Lifecycle control starts when data is collected, generated, inferred, imported, logged, or otherwise received, including test and transient paths."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What transition questions should every lifecycle stage answer?",
+      "answer": "Purpose, owner, classification, authorized use/location, protection, retention trigger, and evidence."
+    },
+    {
+      "prompt": "Why is a backup not automatically an archive?",
+      "answer": "Its recovery purpose, access model, integrity expectations, and retention trigger differ."
+    },
+    {
+      "prompt": "What must be established before a new data element is collected?",
+      "answer": "Purpose, authority/notice as applicable, minimum element set, owner and roles, classification, location/recipients, protection, retention trigger, quality needs, and evidence."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "scenario": "A system owner says an old export is harmless because the source database was deleted.",
+      "decision": "Treat the export as a separate asset and apply its classification, handling, retention, and destruction rules.",
+      "why": "Lifecycle applies to copies and derived data, not only the system of record."
+    },
+    {
+      "prompt": "A product team adds a diagnostic log field “in case it becomes useful later.” What is the decisive review question?",
+      "decisiveDetail": "Whether the field has a current authorized purpose and minimum necessary scope, with defined owner, protection, location, and retention—not whether storage is cheap.",
+      "testedConceptIds": [
+        "collection",
+        "data-minimization",
+        "data-lifecycle"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Memorize a lifecycle loop and control questions at each stage.",
+    "connect": "Connect transitions to handling, provisioning, retention, and compliance.",
+    "apply": "Map one dataset's production, export, backup, archive, and destruction paths.",
+    "revisit": "Test whether your map includes caches, replicas, legal holds, and paper."
+  },
+  "visualIds": [
+    "d2-o04-data-lifecycle-loop",
+    "d2-o04-data-lifecycle-concept-comparison-1"
+  ],
+  "sourceRefs": [
+    {
+      "id": "official-d2-23-31",
+      "sourceId": "isc2-official-textbook-d2-7e-2024",
+      "locator": {
+        "type": "printed-page",
+        "value": "23-31 (PDF pp. 23-31)"
+      },
+      "supports": [
+        "data lifecycle"
+      ]
+    },
+    {
+      "id": "takeaways-d2-lifecycle",
+      "sourceId": "cissp-key-takeaways-il-2024",
+      "locator": {
+        "type": "pdf-page",
+        "value": "6-10"
+      },
+      "supports": [
+        "life-cycle protection"
+      ]
+    },
+    {
+      "id": "sybex-d2",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "pdf-page",
+        "value": "275-283 (Chapter 5, Data Protection Methods and Understanding Data Roles; PDF pp. 275-283)"
+      },
+      "supports": [
+        "secondary cross-check"
+      ]
+    },
+    {
+      "id": "d2-o04-gdpr-roles",
+      "sourceId": "eu-gdpr-2016-679",
+      "locator": {
+        "type": "article",
+        "value": "Articles 4(1), 4(7), 4(8), 28(3), and 29"
+      },
+      "supports": [
+        "data-controller",
+        "data-processor",
+        "data-subject"
+      ],
+      "sourceNotes": "Legal definitions apply within GDPR scope; internal data-owner and custodian roles are organizational accountability roles. Harris/Maymi uses processor more broadly for operational users; do not conflate that usage with the GDPR legal role."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d2-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d2-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d2-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d2-o04-data-lifecycle-visual-contract",
+    "unitId": "d2-o04-data-lifecycle",
+    "teachingQuestion": "At this data state, what purpose, copy, owner, protection, retention, and transition evidence must be true?",
+    "misconception": "Deleting the application record proves the data lifecycle ended.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows force a decision distinction, failure consequence, and retrieval answer for each term.",
+    "focalInsight": "Lifecycle decisions follow data across recipients, replicas, archives, backups, and destruction scope.",
+    "conceptIds": [
+      "data-lifecycle",
+      "collection",
+      "use",
+      "sharing",
+      "archival",
+      "destruction",
+      "data-minimization"
+    ],
+    "relationships": [
+      {
+        "from": "collect",
+        "to": "use",
+        "label": "purpose"
+      },
+      {
+        "from": "use",
+        "to": "share",
+        "label": "authorized need"
+      },
+      {
+        "from": "share",
+        "to": "store",
+        "label": "protect copies"
+      },
+      {
+        "from": "store",
+        "to": "archive",
+        "label": "retention trigger"
+      },
+      {
+        "from": "store",
+        "to": "destroy",
+        "label": "no remaining purpose, obligation, or hold"
+      },
+      {
+        "from": "archive",
+        "to": "destroy",
+        "label": "retention expires; no hold"
+      }
+    ],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For a dataset, identify state, purpose, owner, location/copies, retention trigger, and end-state proof.",
+    "textFallback": "Data changes state from creation and collection through use, sharing, storage, archival, and destruction. Each transition is an opportunity to preserve value and reduce exposure.\nSeparate records under retention or legal/regulatory obligation from redundant working copies. Archive the required set with restricted access, integrity evidence, retention trigger, and retrieval process; securely destroy unnecessary working files and document the result.",
+    "sourceRefIds": [
+      "official-d2-23-31",
+      "takeaways-d2-lifecycle",
+      "sybex-d2",
+      "d2-o04-gdpr-roles"
+    ],
+    "mapNodeId": "d2-o04-data-lifecycle",
+    "visualIds": [
+      "d2-o04-data-lifecycle-concept-comparison-1",
+      "d2-o04-data-lifecycle-loop"
+    ]
+  }
+}

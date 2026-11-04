@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d5-o03-federated-identity-decision-comparison-1",
+  "unitId": "d5-o03-federated-identity",
+  "type": "table",
+  "title": "Use federated identity with a third-party service: decision comparison 1",
+  "teachingQuestion": "When may a relying party trust an external assertion/token?",
+  "focalInsight": "Validate issuer, audience, subject, time, signature/key, nonce/state and authorization mapping.",
+  "caption": "Compare meaning, decision conditions, and failures. These concise distinctions are paired with the worked examples in the teaching unit.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Federated Identity",
+      "conceptIds": [
+        "federated-identity"
+      ],
+      "definition": "external identity trust",
+      "decision": "choose trust boundary",
+      "failureExample": "tenant confusion",
+      "detail": "external identity trust"
+    },
+    {
+      "id": "row-2",
+      "label": "Identity Provider",
+      "conceptIds": [
+        "identity-provider"
+      ],
+      "definition": "issuer/authenticator",
+      "decision": "protect issuance/key rollover",
+      "failureExample": "compromised IdP",
+      "detail": "issuer/authenticator"
+    },
+    {
+      "id": "row-3",
+      "label": "Relying Party",
+      "conceptIds": [
+        "relying-party"
+      ],
+      "definition": "A service that relies on an external identity provider’s assertion to establish information about a subject.",
+      "decision": "Validate issuer, signature/key, audience, time and replay protections, then map the subject to local permissions.",
+      "failureExample": "A validly signed token intended for another service is accepted without checking its audience.",
+      "detail": "A service that relies on an external identity provider’s assertion to establish information about a subject."
+    },
+    {
+      "id": "row-4",
+      "label": "Federated Assertion",
+      "conceptIds": [
+        "federated-assertion"
+      ],
+      "definition": "signed/scoped claims",
+      "decision": "validate audience/time",
+      "failureExample": "replay",
+      "detail": "signed/scoped claims"
+    },
+    {
+      "id": "row-5",
+      "label": "Trust Validation",
+      "conceptIds": [
+        "trust-validation"
+      ],
+      "definition": "issuer/key/name/time checks",
+      "decision": "reject invalid claim",
+      "failureExample": "stale signing key",
+      "detail": "issuer/key/name/time checks"
+    },
+    {
+      "id": "row-6",
+      "label": "SAML",
+      "conceptIds": [
+        "saml"
+      ],
+      "definition": "XML assertion federation",
+      "decision": "validate audience/signature",
+      "failureExample": "wrapping attack",
+      "detail": "XML assertion federation"
+    },
+    {
+      "id": "row-7",
+      "label": "OpenID Connect",
+      "conceptIds": [
+        "openid-connect"
+      ],
+      "definition": "OIDC identity layer",
+      "decision": "validate ID token/nonce",
+      "failureExample": "token mix-up",
+      "detail": "OIDC identity layer"
+    },
+    {
+      "id": "row-8",
+      "label": "Oauth",
+      "conceptIds": [
+        "oauth"
+      ],
+      "definition": "delegated authorization",
+      "decision": "validate scopes/redirect",
+      "failureExample": "OAuth called authentication",
+      "detail": "delegated authorization"
+    },
+    {
+      "id": "row-9",
+      "label": "Identity as a Service",
+      "conceptIds": [
+        "identity-as-a-service"
+      ],
+      "definition": "provider-operated identity",
+      "decision": "assign customer/provider duties",
+      "failureExample": "unreviewed SaaS config",
+      "detail": "provider-operated identity"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "federated-identity",
+    "identity-provider",
+    "relying-party",
+    "federated-assertion",
+    "trust-validation",
+    "saml",
+    "openid-connect",
+    "oauth",
+    "identity-as-a-service"
+  ],
+  "altSummary": "Validate issuer, audience, subject, time, signature/key, nonce/state and authorization mapping.",
+  "textFallback": "Federated Identity: external identity trust. Decision: choose trust boundary Failure/example: tenant confusion\nIdentity Provider: issuer/authenticator. Decision: protect issuance/key rollover Failure/example: compromised IdP\nRelying Party: A service that relies on an external identity provider’s assertion to establish information about a subject.. Decision: Validate issuer, signature/key, audience, time and replay protections, then map the subject to local permissions. Failure/example: A validly signed token intended for another service is accepted without checking its audience.\nFederated Assertion: signed/scoped claims. Decision: validate audience/time Failure/example: replay\nTrust Validation: issuer/key/name/time checks. Decision: reject invalid claim Failure/example: stale signing key\nSAML: XML assertion federation. Decision: validate audience/signature Failure/example: wrapping attack\nOpenID Connect: OIDC identity layer. Decision: validate ID token/nonce Failure/example: token mix-up\nOauth: delegated authorization. Decision: validate scopes/redirect Failure/example: OAuth called authentication\nIdentity as a Service: provider-operated identity. Decision: assign customer/provider duties Failure/example: unreviewed SaaS config",
+  "sourceRefIds": [
+    "official-d5-32-34",
+    "sybex-d5-659-663"
+  ],
+  "learningContract": {
+    "teachingQuestion": "When may a relying party trust an external assertion/token?",
+    "misconception": "A signed token is valid for every recipient/time.",
+    "form": "comparison-table",
+    "formRationale": "Aligned columns make concept meanings, decision criteria and failure consequences explicit and comparable.",
+    "focalInsight": "Validate issuer, audience, subject, time, signature/key, nonce/state and authorization mapping.",
+    "conceptIds": [
+      "federated-identity",
+      "identity-provider",
+      "relying-party",
+      "federated-assertion",
+      "trust-validation",
+      "saml",
+      "openid-connect",
+      "oauth",
+      "identity-as-a-service"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Do not equate OAuth authorization delegation with authentication.",
+    "retrievalPrompt": "Token for App A reaches App B: which claim rejects it?",
+    "textFallback": "Federated Identity: external identity trust. Decision: choose trust boundary Failure/example: tenant confusion\nIdentity Provider: issuer/authenticator. Decision: protect issuance/key rollover Failure/example: compromised IdP\nRelying Party: A service that relies on an external identity provider’s assertion to establish information about a subject.. Decision: Validate issuer, signature/key, audience, time and replay protections, then map the subject to local permissions. Failure/example: A validly signed token intended for another service is accepted without checking its audience.\nFederated Assertion: signed/scoped claims. Decision: validate audience/time Failure/example: replay\nTrust Validation: issuer/key/name/time checks. Decision: reject invalid claim Failure/example: stale signing key\nSAML: XML assertion federation. Decision: validate audience/signature Failure/example: wrapping attack\nOpenID Connect: OIDC identity layer. Decision: validate ID token/nonce Failure/example: token mix-up\nOauth: delegated authorization. Decision: validate scopes/redirect Failure/example: OAuth called authentication\nIdentity as a Service: provider-operated identity. Decision: assign customer/provider duties Failure/example: unreviewed SaaS config",
+    "sourceRefIds": [
+      "official-d5-32-34",
+      "sybex-d5-659-663"
+    ],
+    "mapNodeId": "d5-o03-federated-identity"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      },
+      {
+        "type": "ai",
+        "name": "root integration; independent teaching verification pending",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

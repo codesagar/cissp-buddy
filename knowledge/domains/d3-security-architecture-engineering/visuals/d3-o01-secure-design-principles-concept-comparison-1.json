@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o01-secure-design-principles-concept-comparison-1",
+  "unitId": "d3-o01-secure-design-principles",
+  "type": "table",
+  "title": "Engineer security into design decisions: concept decisions 1",
+  "teachingQuestion": "How do design principles constrain a proposed failure path before implementation?",
+  "focalInsight": "Secure architecture links each principle to a trust boundary and a specific unsafe state.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Secure Design",
+      "conceptIds": [
+        "secure-design"
+      ],
+      "definition": "Deliberate architecture that reduces exploitable failure paths before deployment.",
+      "detail": "Deliberate architecture that reduces exploitable failure paths before deployment.",
+      "decision": "Use when a requirement must survive change, misuse, or component failure.",
+      "failureExample": "A feature works in normal testing but has no defined behavior when its authorization service fails.",
+      "retrievalAnswer": "Design the allowed and denied state before selecting the feature.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Least Privilege",
+      "conceptIds": [
+        "least-privilege"
+      ],
+      "definition": "Grant only authority necessary for a defined task and duration.",
+      "detail": "Grant only authority necessary for a defined task and duration.",
+      "decision": "Scope each human, service, and admin role to its required action.",
+      "failureExample": "One deployment account can read every production secret.",
+      "retrievalAnswer": "Remove unnecessary permissions; broad convenience creates blast radius.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Defense In Depth",
+      "conceptIds": [
+        "defense-in-depth"
+      ],
+      "definition": "Independent safeguards arranged so one failed control does not expose the asset.",
+      "detail": "Independent safeguards arranged so one failed control does not expose the asset.",
+      "decision": "Choose layers with different failure modes across identity, network, endpoint, and recovery.",
+      "failureExample": "A stolen password reaches sensitive data because no second control checks device or action.",
+      "retrievalAnswer": "A stack is defense in depth only if failures are not common-mode.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Secure Defaults",
+      "conceptIds": [
+        "secure-defaults"
+      ],
+      "definition": "Initial configuration that protects the asset without requiring a user to opt in.",
+      "detail": "Initial configuration that protects the asset without requiring a user to opt in.",
+      "decision": "Choose the safe initial state when setup is incomplete or ambiguous.",
+      "failureExample": "A new storage bucket is publicly readable until an owner changes a setting.",
+      "retrievalAnswer": "Start closed and deliberately grant the exception.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Fail Securely",
+      "conceptIds": [
+        "fail-securely"
+      ],
+      "definition": "Behavior that denies or limits unsafe action when a security decision cannot be made.",
+      "detail": "Behavior that denies or limits unsafe action when a security decision cannot be made.",
+      "decision": "Define the safe state for dependency loss, timeout, or malformed input.",
+      "failureExample": "An authorization timeout causes a gateway to allow the request.",
+      "retrievalAnswer": "If the security decision is unavailable, do not silently authorize.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "Separation Of Duties",
+      "conceptIds": [
+        "separation-of-duties"
+      ],
+      "definition": "Division of conflicting authority so one role cannot complete a sensitive action alone.",
+      "detail": "Division of conflicting authority so one role cannot complete a sensitive action alone.",
+      "decision": "Separate request, approval, implementation, and review where fraud or error matters.",
+      "failureExample": "The same administrator requests, deploys, and approves a payment-rule change.",
+      "retrievalAnswer": "Independent approval reduces unchecked conflicting power.",
+      "tier": "A"
+    },
+    {
+      "id": "row-7",
+      "label": "Zero Trust",
+      "conceptIds": [
+        "zero-trust"
+      ],
+      "definition": "Access approach that evaluates identity, device, context, and request instead of trusting network location.",
+      "detail": "Access approach that evaluates identity, device, context, and request instead of trusting network location.",
+      "decision": "Re-evaluate access at a meaningful request or session boundary.",
+      "failureExample": "An internal subnet lets a compromised workstation call an admin API.",
+      "retrievalAnswer": "Internal location is a signal, not proof of authorized action.",
+      "tier": "A"
+    },
+    {
+      "id": "row-8",
+      "label": "Privacy By Design",
+      "conceptIds": [
+        "privacy-by-design"
+      ],
+      "definition": "Design practice that makes purpose, minimization, and accountability part of the system.",
+      "detail": "Design practice that makes purpose, minimization, and accountability part of the system.",
+      "decision": "Ask what personal data is needed for the stated purpose and lifecycle.",
+      "failureExample": "A feature collects precise location forever for a one-time delivery estimate.",
+      "retrievalAnswer": "Collect and retain only what the purpose requires.",
+      "tier": "A"
+    },
+    {
+      "id": "row-9",
+      "label": "Shared Responsibility",
+      "conceptIds": [
+        "shared-responsibility"
+      ],
+      "definition": "Explicit allocation of security operation and assurance duties among parties.",
+      "detail": "Explicit allocation of security operation and assurance duties among parties.",
+      "decision": "Map every layer and control to an accountable operator and verifier.",
+      "failureExample": "A customer assumes a provider configured tenant sharing and alerting.",
+      "retrievalAnswer": "Provider capability does not establish customer configuration or accountability.",
+      "tier": "A"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "secure-design",
+    "least-privilege",
+    "defense-in-depth",
+    "secure-defaults",
+    "fail-securely",
+    "separation-of-duties",
+    "zero-trust",
+    "privacy-by-design",
+    "shared-responsibility"
+  ],
+  "altSummary": "Secure architecture links each principle to a trust boundary and a specific unsafe state.",
+  "textFallback": "secure design: Deliberate architecture that reduces exploitable failure paths before deployment. Decide: Use when a requirement must survive change, misuse, or component failure. Example/failure: A feature works in normal testing but has no defined behavior when its authorization service fails. Retrieve: Design the allowed and denied state before selecting the feature.\nleast privilege: Grant only authority necessary for a defined task and duration. Decide: Scope each human, service, and admin role to its required action. Example/failure: One deployment account can read every production secret. Retrieve: Remove unnecessary permissions; broad convenience creates blast radius.\ndefense in depth: Independent safeguards arranged so one failed control does not expose the asset. Decide: Choose layers with different failure modes across identity, network, endpoint, and recovery. Example/failure: A stolen password reaches sensitive data because no second control checks device or action. Retrieve: A stack is defense in depth only if failures are not common-mode.\nsecure defaults: Initial configuration that protects the asset without requiring a user to opt in. Decide: Choose the safe initial state when setup is incomplete or ambiguous. Example/failure: A new storage bucket is publicly readable until an owner changes a setting. Retrieve: Start closed and deliberately grant the exception.\nfail securely: Behavior that denies or limits unsafe action when a security decision cannot be made. Decide: Define the safe state for dependency loss, timeout, or malformed input. Example/failure: An authorization timeout causes a gateway to allow the request. Retrieve: If the security decision is unavailable, do not silently authorize.\nseparation of duties: Division of conflicting authority so one role cannot complete a sensitive action alone. Decide: Separate request, approval, implementation, and review where fraud or error matters. Example/failure: The same administrator requests, deploys, and approves a payment-rule change. Retrieve: Independent approval reduces unchecked conflicting power.\nzero trust: Access approach that evaluates identity, device, context, and request instead of trusting network location. Decide: Re-evaluate access at a meaningful request or session boundary. Example/failure: An internal subnet lets a compromised workstation call an admin API. Retrieve: Internal location is a signal, not proof of authorized action.\nprivacy by design: Design practice that makes purpose, minimization, and accountability part of the system. Decide: Ask what personal data is needed for the stated purpose and lifecycle. Example/failure: A feature collects precise location forever for a one-time delivery estimate. Retrieve: Collect and retain only what the purpose requires.\nshared responsibility: Explicit allocation of security operation and assurance duties among parties. Decide: Map every layer and control to an accountable operator and verifier. Example/failure: A customer assumes a provider configured tenant sharing and alerting. Retrieve: Provider capability does not establish customer configuration or accountability.",
+  "sourceRefIds": [
+    "d3-o01-textbook",
+    "d3-o01-sybex"
+  ],
+  "learningContract": {
+    "teachingQuestion": "How do design principles constrain a proposed failure path before implementation?",
+    "misconception": "Adding more controls automatically creates a secure design.",
+    "form": "comparison-table",
+    "formRationale": "The aligned rows require the learner to distinguish a concept’s scope, selection trigger, failure consequence, and recall response.",
+    "focalInsight": "Secure architecture links each principle to a trust boundary and a specific unsafe state.",
+    "conceptIds": [
+      "secure-design",
+      "least-privilege",
+      "defense-in-depth",
+      "secure-defaults",
+      "fail-securely",
+      "separation-of-duties",
+      "zero-trust",
+      "privacy-by-design",
+      "shared-responsibility"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "Given a dependency failure, name the safe default, authority boundary, and independent layer.",
+    "textFallback": "secure design: Deliberate architecture that reduces exploitable failure paths before deployment. Decide: Use when a requirement must survive change, misuse, or component failure. Example/failure: A feature works in normal testing but has no defined behavior when its authorization service fails. Retrieve: Design the allowed and denied state before selecting the feature.\nleast privilege: Grant only authority necessary for a defined task and duration. Decide: Scope each human, service, and admin role to its required action. Example/failure: One deployment account can read every production secret. Retrieve: Remove unnecessary permissions; broad convenience creates blast radius.\ndefense in depth: Independent safeguards arranged so one failed control does not expose the asset. Decide: Choose layers with different failure modes across identity, network, endpoint, and recovery. Example/failure: A stolen password reaches sensitive data because no second control checks device or action. Retrieve: A stack is defense in depth only if failures are not common-mode.\nsecure defaults: Initial configuration that protects the asset without requiring a user to opt in. Decide: Choose the safe initial state when setup is incomplete or ambiguous. Example/failure: A new storage bucket is publicly readable until an owner changes a setting. Retrieve: Start closed and deliberately grant the exception.\nfail securely: Behavior that denies or limits unsafe action when a security decision cannot be made. Decide: Define the safe state for dependency loss, timeout, or malformed input. Example/failure: An authorization timeout causes a gateway to allow the request. Retrieve: If the security decision is unavailable, do not silently authorize.\nseparation of duties: Division of conflicting authority so one role cannot complete a sensitive action alone. Decide: Separate request, approval, implementation, and review where fraud or error matters. Example/failure: The same administrator requests, deploys, and approves a payment-rule change. Retrieve: Independent approval reduces unchecked conflicting power.\nzero trust: Access approach that evaluates identity, device, context, and request instead of trusting network location. Decide: Re-evaluate access at a meaningful request or session boundary. Example/failure: An internal subnet lets a compromised workstation call an admin API. Retrieve: Internal location is a signal, not proof of authorized action.\nprivacy by design: Design practice that makes purpose, minimization, and accountability part of the system. Decide: Ask what personal data is needed for the stated purpose and lifecycle. Example/failure: A feature collects precise location forever for a one-time delivery estimate. Retrieve: Collect and retain only what the purpose requires.\nshared responsibility: Explicit allocation of security operation and assurance duties among parties. Decide: Map every layer and control to an accountable operator and verifier. Example/failure: A customer assumes a provider configured tenant sharing and alerting. Retrieve: Provider capability does not establish customer configuration or accountability.",
+    "sourceRefIds": [
+      "d3-o01-textbook",
+      "d3-o01-sybex"
+    ],
+    "mapNodeId": "d3-o01-secure-design-principles"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "primary-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

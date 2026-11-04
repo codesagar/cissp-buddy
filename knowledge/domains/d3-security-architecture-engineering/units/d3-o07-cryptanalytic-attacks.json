@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d3-o07-cryptanalytic-attacks",
+  "domainId": 3,
+  "objectiveIds": [
+    "3.7"
+  ],
+  "title": "Reason about cryptanalytic and implementation attacks",
+  "summary": "Attacks against cryptographic protection can target algorithm assumptions, protocol negotiation, key handling, implementation defects, side channels, authentication material, or availability. The correct mitigation depends on the actual attack path.",
+  "outcome": "Classify a cryptographic attack path and recommend the mitigation category that addresses its decisive weakness.",
+  "conceptIds": [
+    "cryptanalysis",
+    "brute-force",
+    "ciphertext-only-attack",
+    "known-plaintext-attack",
+    "chosen-ciphertext-attack",
+    "frequency-analysis",
+    "side-channel",
+    "timing-attack",
+    "fault-injection",
+    "man-in-the-middle",
+    "pass-the-hash",
+    "kerberos-attack",
+    "ransomware",
+    "implementation-security"
+  ],
+  "prerequisites": [
+    "d3-o06-cryptographic-solutions",
+    "threat-modeling"
+  ],
+  "estimatedMinutes": 34,
+  "managerMindset": "Do not respond to every cryptographic incident with “use stronger encryption.” Determine whether the weakness is key length, protocol trust, implementation leakage, credential reuse, endpoint compromise, or operational recovery.",
+  "sections": [
+    {
+      "id": "attack-surfaces",
+      "title": "Cryptography fails at several layers",
+      "body": "Brute force targets key search feasibility. Ciphertext-only, known-plaintext, chosen-plaintext, and chosen-ciphertext approaches rely on different attacker knowledge or influence. Frequency analysis exploits patterns in weak or historical ciphers. Man-in-the-middle attacks target unauthenticated or poorly validated exchanges. Pass-the-hash and Kerberos abuses target authentication material and ticket handling, not necessarily the confidentiality of an encrypted file.",
+      "keyPoints": [
+        "Attacker capability and protocol context determine relevance.",
+        "Authentication and endpoint controls can be decisive cryptographic protections."
+      ],
+      "sourceRefIds": [
+        "d3-o07-outline",
+        "d3-o07-textbook",
+        "d3-o07-sybex"
+      ]
+    },
+    {
+      "id": "implementation",
+      "title": "Implementation and operations leak too",
+      "body": "Side-channel, timing, power, electromagnetic, and fault-injection attacks exploit observable behavior or induced errors rather than breaking the mathematical design. Mitigations include resistant implementations, constant-time operations where appropriate, physical protections, secure hardware use, patching, key protection, validation, monitoring, and incident response. Ransomware often targets availability and recovery; encryption used by the attacker is not a reason to frame the response as ordinary cryptanalysis.",
+      "keyPoints": [
+        "A sound algorithm can fail in an unsound implementation.",
+        "Recovery and segmentation are central to ransomware resilience."
+      ],
+      "sourceRefIds": [
+        "d3-o07-textbook",
+        "d3-o07-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Certificate warning bypass",
+      "situation": "Users ignore certificate warnings on a public Wi-Fi network because the application still loads.",
+      "reasoning": "The decisive weakness is trust validation that enables an active intermediary, not insufficient bulk-encryption strength. Correct certificate validation, user experience, and network controls address the path.",
+      "takeaway": "Name the protocol failure before selecting mitigation."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Cryptanalysis",
+      "b": "Side-channel attack",
+      "difference": "Cryptanalysis targets properties of a cipher or protocol; a side-channel attack infers secrets from implementation behavior or physical signals."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Ransomware is mainly an encryption-algorithm problem.",
+      "correction": "It is commonly an endpoint, privilege, propagation, backup, and recovery problem with major availability consequences."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "What does a timing attack exploit?",
+      "answer": "Observable execution-time variation that can reveal information about secret-dependent operations."
+    },
+    {
+      "prompt": "What makes a man-in-the-middle attack possible in a secure channel?",
+      "answer": "Failure to authenticate or validate the intended peer and session parameters."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A cryptographic library is mathematically sound but leaks key-dependent timing. What class of mitigation is needed?",
+      "decisiveDetail": "The attack exploits implementation behavior, not a break in the algorithm’s abstract design.",
+      "testedConceptIds": [
+        "timing-attack",
+        "side-channel",
+        "implementation-security"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Match each attack to algorithm, protocol, implementation, credential, endpoint, or recovery layer.",
+    "connect": "Connect D4 channel validation, D5 authentication, and D7 recovery to attack response.",
+    "apply": "Explain why a chosen-ciphertext scenario differs from brute force.",
+    "revisit": "In three days, contrast cryptanalysis with side-channel leakage."
+  },
+  "visualIds": [
+    "d3-o07-cryptanalytic-attacks-concept-comparison-1",
+    "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d3-o07-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 3.7"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d3-o07-textbook",
+      "sourceId": "isc2-official-textbook-d3-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "85-95",
+        "pdfPage": "85-95",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "cryptanalytic-attacks"
+      ]
+    },
+    {
+      "id": "d3-o07-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapters 6-7 and 9, pp. 219-446; attack-specific locator refinement pending"
+      },
+      "supports": [
+        "cryptanalysis",
+        "implementation-attacks",
+        "mitm"
+      ],
+      "sourceNotes": "Secondary correlation is recorded from chapter ranges; unit remains draft."
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d3-d4-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d3.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d3-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d3-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d3-o07-cryptanalytic-attacks-visual-contract",
+    "unitId": "d3-o07-cryptanalytic-attacks",
+    "teachingQuestion": "Which attack path has the decisive weakness, and how should the mitigation be directed?",
+    "misconception": "Every attack involving encryption is a cryptanalytic break.",
+    "form": "comparison-table",
+    "formRationale": "Aligned comparisons force a distinction among scope, selection trigger, concrete failure, and retrieval response.",
+    "focalInsight": "Mathematical, protocol, credential, implementation, and recovery failures need different controls.",
+    "conceptIds": [
+      "cryptanalysis",
+      "brute-force",
+      "ciphertext-only-attack",
+      "known-plaintext-attack",
+      "chosen-ciphertext-attack",
+      "frequency-analysis",
+      "side-channel",
+      "timing-attack",
+      "fault-injection",
+      "man-in-the-middle",
+      "pass-the-hash",
+      "kerberos-attack",
+      "ransomware",
+      "implementation-security"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "Identify the attack class, the decisive weakness, and the mitigation category.",
+    "textFallback": "Attacks against cryptographic protection can target algorithm assumptions, protocol negotiation, key handling, implementation defects, side channels, authentication material, or availability. The correct mitigation depends on the actual attack path.\nThe decisive weakness is trust validation that enables an active intermediary, not insufficient bulk-encryption strength. Correct certificate validation, user experience, and network controls address the path.",
+    "sourceRefIds": [
+      "d3-o07-textbook",
+      "d3-o07-sybex"
+    ],
+    "mapNodeId": "d3-o07-cryptanalytic-attacks",
+    "visualIds": [
+      "d3-o07-cryptanalytic-attacks-concept-comparison-1",
+      "d3-o07-cryptanalytic-attacks-concept-comparison-2"
+    ]
+  }
+}

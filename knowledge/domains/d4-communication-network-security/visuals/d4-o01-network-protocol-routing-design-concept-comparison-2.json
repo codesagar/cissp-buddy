@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d4-o01-network-protocol-routing-design-concept-comparison-2",
+  "unitId": "d4-o01-network-protocol-routing-design",
+  "type": "table",
+  "title": "Evaluate network protocols, routing, and infrastructure design: concept decisions 2",
+  "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+  "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+  "caption": "Read across a row to connect meaning, decision and consequence. Use the retrieval answer to check your explanation after reading the linked scenario.",
+  "nodes": [
+    {
+      "id": "row-1",
+      "label": "Secure Protocols",
+      "conceptIds": [
+        "secure-protocols"
+      ],
+      "definition": "Protocol selection based on layer, endpoints, identity, cryptography, metadata, and operational constraints.",
+      "detail": "Protocol selection based on layer, endpoints, identity, cryptography, metadata, and operational constraints.",
+      "decision": "Compare IPsec, SSH, TLS, and alternatives against the actual communication use case.",
+      "failureExample": "Choosing TLS for router administration without host/admin controls leaves management exposed.",
+      "retrievalAnswer": "Match protocol layer and endpoints to the threat.",
+      "tier": "A"
+    },
+    {
+      "id": "row-2",
+      "label": "Routing",
+      "conceptIds": [
+        "routing"
+      ],
+      "definition": "Control and forwarding decisions that select packet paths between networks.",
+      "detail": "Control and forwarding decisions that select packet paths between networks.",
+      "decision": "Protect route administration/authentication, filter intended prefixes, monitor changes, and test convergence/failure.",
+      "failureExample": "A forged or misconfigured route diverts traffic around an inspection boundary.",
+      "retrievalAnswer": "Routing policy determines path; secure its update/control process.",
+      "tier": "A"
+    },
+    {
+      "id": "row-3",
+      "label": "Network Planes",
+      "conceptIds": [
+        "network-planes"
+      ],
+      "definition": "Data, control, and management functions with different permissions and consequences.",
+      "detail": "Data, control, and management functions with different permissions and consequences.",
+      "decision": "Isolate and strongly authenticate management/control access while monitoring data-plane policy results.",
+      "failureExample": "Compromise of a management plane can rewrite every data-plane rule.",
+      "retrievalAnswer": "Which plane changes device configuration? Management plane.",
+      "tier": "A"
+    },
+    {
+      "id": "row-4",
+      "label": "Management Plane",
+      "conceptIds": [
+        "management-plane"
+      ],
+      "definition": "Interfaces and functions used to configure, update, monitor, and administer network systems.",
+      "detail": "Interfaces and functions used to configure, update, monitor, and administer network systems.",
+      "decision": "Use dedicated/brokered paths, MFA, least privilege, logging, time bounds, and emergency rollback.",
+      "failureExample": "A public management interface with shared credentials defeats otherwise secure forwarding.",
+      "retrievalAnswer": "Management plane needs its own protected path and identity.",
+      "tier": "A"
+    },
+    {
+      "id": "row-5",
+      "label": "Topology",
+      "conceptIds": [
+        "topology"
+      ],
+      "definition": "Arrangement of network paths/nodes that determines reachability and shared failure domains.",
+      "detail": "Arrangement of network paths/nodes that determines reachability and shared failure domains.",
+      "decision": "Choose redundancy, separation, capacity, and inspection placement from service and threat requirements.",
+      "failureExample": "Two links sharing one power source or controller are not independent resilience.",
+      "retrievalAnswer": "Topology shows both available paths and common-mode failure.",
+      "tier": "A"
+    },
+    {
+      "id": "row-6",
+      "label": "store and forward",
+      "conceptIds": [
+        "store-and-forward"
+      ],
+      "definition": "Switching that receives a complete frame before forwarding, allowing full-frame checking/error handling.",
+      "detail": "Switching that receives a complete frame before forwarding, allowing full-frame checking/error handling.",
+      "decision": "Use where inspection/error tradeoffs justify completion latency.",
+      "failureExample": "Assuming it eliminates all malicious traffic mistakes frame integrity for policy security.",
+      "retrievalAnswer": "Store-and-forward waits for the frame before forwarding.",
+      "tier": "C"
+    },
+    {
+      "id": "row-7",
+      "label": "cut through",
+      "conceptIds": [
+        "cut-through"
+      ],
+      "definition": "Switching that begins forwarding before full frame receipt to reduce latency.",
+      "detail": "Switching that begins forwarding before full frame receipt to reduce latency.",
+      "decision": "Use only after accounting for error/inspection tradeoffs and service need.",
+      "failureExample": "Cut-through can forward a damaged frame before a later error is known.",
+      "retrievalAnswer": "Cut-through favors latency; it changes validation timing.",
+      "tier": "C"
+    },
+    {
+      "id": "row-8",
+      "label": "Change Management",
+      "conceptIds": [
+        "change-management"
+      ],
+      "definition": "Controlled authorization, implementation, verification, and rollback of network policy/configuration changes.",
+      "detail": "Controlled authorization, implementation, verification, and rollback of network policy/configuration changes.",
+      "decision": "Link route/policy change to owner, test, approval, monitoring, rollback, and review.",
+      "failureExample": "An unreviewed ACL change opens a route with no evidence of intent.",
+      "retrievalAnswer": "Network change needs evidence before and after deployment.",
+      "tier": "B"
+    },
+    {
+      "id": "row-9",
+      "label": "Incident Response",
+      "conceptIds": [
+        "incident-response"
+      ],
+      "definition": "Coordinated detection, containment, investigation, recovery, and learning for network security events.",
+      "detail": "Coordinated detection, containment, investigation, recovery, and learning for network security events.",
+      "decision": "Predefine telemetry, authority, safe isolation, communications, and restoration checks.",
+      "failureExample": "Blocking a suspected route without preserving evidence can hinder containment and investigation.",
+      "retrievalAnswer": "Network response balances containment, evidence, and service recovery.",
+      "tier": "B"
+    }
+  ],
+  "relationships": [],
+  "conceptIds": [
+    "secure-protocols",
+    "routing",
+    "network-planes",
+    "management-plane",
+    "topology",
+    "store-and-forward",
+    "cut-through",
+    "change-management",
+    "incident-response"
+  ],
+  "altSummary": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+  "textFallback": "secure protocols: Protocol selection based on layer, endpoints, identity, cryptography, metadata, and operational constraints. Decide: Compare IPsec, SSH, TLS, and alternatives against the actual communication use case. Example/failure: Choosing TLS for router administration without host/admin controls leaves management exposed. Retrieve: Match protocol layer and endpoints to the threat.\nrouting: Control and forwarding decisions that select packet paths between networks. Decide: Protect route administration/authentication, filter intended prefixes, monitor changes, and test convergence/failure. Example/failure: A forged or misconfigured route diverts traffic around an inspection boundary. Retrieve: Routing policy determines path; secure its update/control process.\nnetwork planes: Data, control, and management functions with different permissions and consequences. Decide: Isolate and strongly authenticate management/control access while monitoring data-plane policy results. Example/failure: Compromise of a management plane can rewrite every data-plane rule. Retrieve: Which plane changes device configuration? Management plane.\nmanagement plane: Interfaces and functions used to configure, update, monitor, and administer network systems. Decide: Use dedicated/brokered paths, MFA, least privilege, logging, time bounds, and emergency rollback. Example/failure: A public management interface with shared credentials defeats otherwise secure forwarding. Retrieve: Management plane needs its own protected path and identity.\ntopology: Arrangement of network paths/nodes that determines reachability and shared failure domains. Decide: Choose redundancy, separation, capacity, and inspection placement from service and threat requirements. Example/failure: Two links sharing one power source or controller are not independent resilience. Retrieve: Topology shows both available paths and common-mode failure.\nstore and forward: Switching that receives a complete frame before forwarding, allowing full-frame checking/error handling. Decide: Use where inspection/error tradeoffs justify completion latency. Example/failure: Assuming it eliminates all malicious traffic mistakes frame integrity for policy security. Retrieve: Store-and-forward waits for the frame before forwarding.\ncut through: Switching that begins forwarding before full frame receipt to reduce latency. Decide: Use only after accounting for error/inspection tradeoffs and service need. Example/failure: Cut-through can forward a damaged frame before a later error is known. Retrieve: Cut-through favors latency; it changes validation timing.\nchange management: Controlled authorization, implementation, verification, and rollback of network policy/configuration changes. Decide: Link route/policy change to owner, test, approval, monitoring, rollback, and review. Example/failure: An unreviewed ACL change opens a route with no evidence of intent. Retrieve: Network change needs evidence before and after deployment.\nincident response: Coordinated detection, containment, investigation, recovery, and learning for network security events. Decide: Predefine telemetry, authority, safe isolation, communications, and restoration checks. Example/failure: Blocking a suspected route without preserving evidence can hinder containment and investigation. Retrieve: Network response balances containment, evidence, and service recovery.",
+  "sourceRefIds": [
+    "official-d4-8-77",
+    "sybex-d4-573-621",
+    "sybex-d4-573-645"
+  ],
+  "learningContract": {
+    "teachingQuestion": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "misconception": "An IP address, tunnel, or redundant link alone tells you the audience, trust boundary, or resilience outcome.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows make each network term answer a distinct design, security, and failure question.",
+    "focalInsight": "Addressing, delivery type, topology, plane separation, and cryptographic endpoints jointly determine actual reachability and failure exposure.",
+    "conceptIds": [
+      "secure-protocols",
+      "routing",
+      "network-planes",
+      "management-plane",
+      "topology",
+      "store-and-forward",
+      "cut-through",
+      "change-management",
+      "incident-response"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Implementation settings and jurisdiction-specific conclusions are not inferred from these concise concept comparisons.",
+    "retrievalPrompt": "For this flow, who receives it, which path/plane carries it, where does protection terminate, and what shared dependency can fail?",
+    "textFallback": "secure protocols: Protocol selection based on layer, endpoints, identity, cryptography, metadata, and operational constraints. Decide: Compare IPsec, SSH, TLS, and alternatives against the actual communication use case. Example/failure: Choosing TLS for router administration without host/admin controls leaves management exposed. Retrieve: Match protocol layer and endpoints to the threat.\nrouting: Control and forwarding decisions that select packet paths between networks. Decide: Protect route administration/authentication, filter intended prefixes, monitor changes, and test convergence/failure. Example/failure: A forged or misconfigured route diverts traffic around an inspection boundary. Retrieve: Routing policy determines path; secure its update/control process.\nnetwork planes: Data, control, and management functions with different permissions and consequences. Decide: Isolate and strongly authenticate management/control access while monitoring data-plane policy results. Example/failure: Compromise of a management plane can rewrite every data-plane rule. Retrieve: Which plane changes device configuration? Management plane.\nmanagement plane: Interfaces and functions used to configure, update, monitor, and administer network systems. Decide: Use dedicated/brokered paths, MFA, least privilege, logging, time bounds, and emergency rollback. Example/failure: A public management interface with shared credentials defeats otherwise secure forwarding. Retrieve: Management plane needs its own protected path and identity.\ntopology: Arrangement of network paths/nodes that determines reachability and shared failure domains. Decide: Choose redundancy, separation, capacity, and inspection placement from service and threat requirements. Example/failure: Two links sharing one power source or controller are not independent resilience. Retrieve: Topology shows both available paths and common-mode failure.\nstore and forward: Switching that receives a complete frame before forwarding, allowing full-frame checking/error handling. Decide: Use where inspection/error tradeoffs justify completion latency. Example/failure: Assuming it eliminates all malicious traffic mistakes frame integrity for policy security. Retrieve: Store-and-forward waits for the frame before forwarding.\ncut through: Switching that begins forwarding before full frame receipt to reduce latency. Decide: Use only after accounting for error/inspection tradeoffs and service need. Example/failure: Cut-through can forward a damaged frame before a later error is known. Retrieve: Cut-through favors latency; it changes validation timing.\nchange management: Controlled authorization, implementation, verification, and rollback of network policy/configuration changes. Decide: Link route/policy change to owner, test, approval, monitoring, rollback, and review. Example/failure: An unreviewed ACL change opens a route with no evidence of intent. Retrieve: Network change needs evidence before and after deployment.\nincident response: Coordinated detection, containment, investigation, recovery, and learning for network security events. Decide: Predefine telemetry, authority, safe isolation, communications, and restoration checks. Example/failure: Blocking a suspected route without preserving evidence can hinder containment and investigation. Retrieve: Network response balances containment, evidence, and service recovery.",
+    "sourceRefIds": [
+      "official-d4-8-77",
+      "sybex-d4-573-621",
+      "sybex-d4-573-645"
+    ],
+    "mapNodeId": "d4-o01-network-protocol-routing-design"
+  },
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "adversarial-d1-d2-terra",
+        "date": "2026-09-18"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18"
+  }
+}

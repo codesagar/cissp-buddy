@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d1-o02-security-concepts",
+  "domainId": 1,
+  "objectiveIds": [
+    "1.2"
+  ],
+  "title": "Frame security requirements with the five pillars",
+  "summary": "Confidentiality, integrity, availability, authenticity, and nonrepudiation describe different protection outcomes. A sound decision identifies which outcome matters, to whom, and under what failure condition.",
+  "outcome": "Classify a business consequence by its relevant security property and select a proportionate protection objective.",
+  "conceptIds": [
+    "confidentiality",
+    "integrity",
+    "availability",
+    "authenticity",
+    "nonrepudiation",
+    "security-requirements"
+  ],
+  "prerequisites": [],
+  "estimatedMinutes": 20,
+  "managerMindset": "Do not buy a control because it is fashionable; first state the protected property, the harm if it fails, and the owner who accepts residual risk.",
+  "sections": [
+    {
+      "id": "five-properties",
+      "title": "Five properties, different failures",
+      "body": "Confidentiality limits unauthorized disclosure. Integrity protects accuracy and completeness against unauthorized or improper change. Availability supports timely, reliable use. Authenticity provides confidence that an entity or information is genuine. Nonrepudiation strengthens evidence that a party performed an action. They often interact, but they are not interchangeable: encryption may support confidentiality, while a protected audit trail supports accountability and may contribute to nonrepudiation.",
+      "keyPoints": [
+        "Start with the harmed property, not the technology.",
+        "One system can need different protection levels for each property."
+      ],
+      "sourceRefIds": [
+        "d1-o02-outline",
+        "d1-o02-textbook"
+      ]
+    },
+    {
+      "id": "requirements",
+      "title": "Turn properties into requirements",
+      "body": "A useful requirement names the asset or service, the property, the failure consequence, and a measurable expectation. For example, an emergency dispatch service may prioritize availability and integrity, while a merger document may prioritize confidentiality and integrity. Requirements become inputs to risk analysis, architecture, testing, and continuity planning; vague phrases such as “make it secure” cannot be assessed or accepted.",
+      "keyPoints": [
+        "Requirements make later control choices reviewable.",
+        "Authenticity answers whether a claimed source is genuine; nonrepudiation concerns durable action evidence."
+      ],
+      "sourceRefIds": [
+        "d1-o02-textbook"
+      ]
+    },
+    {
+      "id": "outline-topic-depth",
+      "title": "Make the five security properties decision criteria",
+      "body": "Confidentiality limits unauthorized disclosure; integrity protects accuracy and completeness; availability preserves timely usable service; authenticity supports confidence in claimed identity or origin; and nonrepudiation relies on evidence and process sufficient to dispute denial of a meaningful act. For each property, name the asset, actor, state, consequence, control and measurable evidence. A confidentiality control can harm availability, and an integrity check does not prove origin; choose a balanced requirement rather than treating CIA or the five pillars as interchangeable slogans. Failure to distinguish the property produces the wrong test, control, and recovery objective.",
+      "keyPoints": [
+        "Name the accountable owner, decision criterion, and evidence for each applicable outline topic.",
+        "Record the failure consequence and escalation or review trigger rather than assuming a policy label proves operation."
+      ],
+      "sourceRefIds": [
+        "d1-o02-outline",
+        "d1-o02-textbook",
+        "d1-o02-security-concepts-sybex"
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "title": "Public status service",
+      "situation": "A public transit status page contains no sensitive data, but altered arrival times could create safety and operational problems.",
+      "reasoning": "Integrity and availability are central even though confidentiality is low. The leader defines monitoring, controlled publishing, recovery expectations, and ownership around those outcomes.",
+      "takeaway": "Low confidentiality does not mean low security need."
+    }
+  ],
+  "distinctions": [
+    {
+      "a": "Authenticity",
+      "b": "Nonrepudiation",
+      "difference": "Authenticity supports confidence in identity or origin now; nonrepudiation concerns evidence that resists a later denial of an action."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "CIA is the entire security objective set.",
+      "correction": "The outline also calls out authenticity and nonrepudiation; use the property that matches the decision."
+    }
+  ],
+  "recallChecks": [
+    {
+      "prompt": "Which property is most directly harmed if a legitimate record is silently altered?",
+      "answer": "Integrity."
+    },
+    {
+      "prompt": "What makes a security requirement assessable?",
+      "answer": "A protected asset or service, property, consequence, owner, and measurable expectation."
+    }
+  ],
+  "scenarioSeeds": [
+    {
+      "prompt": "A payroll portal keeps working but displays salaries from an unverified upstream feed. Which security property should lead the response?",
+      "decisiveDetail": "The central failure is trustworthiness of displayed data, not mere service uptime.",
+      "testedConceptIds": [
+        "integrity",
+        "authenticity"
+      ]
+    }
+  ],
+  "studyPlan": {
+    "learn": "Name a real asset for each of the five properties.",
+    "connect": "Link requirements to classification in Domain 2 and control selection in Domain 3.",
+    "apply": "Rewrite “protect the portal” as two measurable property-specific requirements.",
+    "revisit": "In three days, contrast authenticity with nonrepudiation aloud."
+  },
+  "visualIds": [
+    "d1-o02-security-concepts-property-comparison",
+    "d1-o02-security-concepts-outcome-decision-table"
+  ],
+  "sourceRefs": [
+    {
+      "id": "d1-o02-outline",
+      "sourceId": "isc2-cissp-outline-2024",
+      "locator": {
+        "type": "web-objective",
+        "value": "Objective 1.2"
+      },
+      "supports": [
+        "objective-boundary"
+      ]
+    },
+    {
+      "id": "d1-o02-textbook",
+      "sourceId": "isc2-official-textbook-d1-7e-2024",
+      "locator": {
+        "type": "printed-page-and-pdf-fallback",
+        "printedPage": "13-17",
+        "pdfPage": "13-17",
+        "note": "Printed page is the citation anchor; verify PDF index in a reader."
+      },
+      "supports": [
+        "five-pillars",
+        "security-requirements"
+      ]
+    },
+    {
+      "id": "d1-o02-security-concepts-sybex",
+      "sourceId": "sybex-osg-9e-2021",
+      "locator": {
+        "type": "printed-page",
+        "value": "Chapter 1, Understand and Apply Security Concepts, pp. 4-10"
+      },
+      "supports": [
+        "confidentiality",
+        "integrity",
+        "availability",
+        "authenticity",
+        "nonrepudiation"
+      ]
+    }
+  ],
+  "review": {
+    "status": "ai-reviewed",
+    "reviewers": [
+      {
+        "role": "primary",
+        "name": "primary-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/primary-d1-v2.json"
+      },
+      {
+        "role": "corroborating",
+        "name": "corroborating-d1-astra",
+        "model": "gpt-5.6-terra",
+        "report": "planning/ai-review/corroborating-d1-v2.json"
+      },
+      {
+        "role": "adversarial",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "visual-pedagogy",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      },
+      {
+        "role": "memory-map",
+        "name": "adversarial-d1-d2-terra",
+        "model": "gpt-5.6-terra",
+        "report": "knowledge/quality/semantic-review-gates.json"
+      }
+    ],
+    "lastReviewedAt": "2026-09-18",
+    "notes": "Independent AI review only. Claim evidence, exact content fingerprints, scope checks, visual and memory-map assessments are recorded in knowledge/quality/. No human expert review or exam-readiness claim."
+  },
+  "visualLearningContract": {
+    "id": "d1-o02-security-concepts-visual-contract",
+    "unitId": "d1-o02-security-concepts",
+    "teachingQuestion": "Which security property best describes the business consequence, and what requirement makes it testable?",
+    "misconception": "CIA, authenticity, and nonrepudiation are interchangeable labels.",
+    "form": "comparison-table",
+    "formRationale": "Aligned rows expose distinctions, decision criteria, and misuse consequences.",
+    "focalInsight": "Each property has a distinct failure; require an asset, actor, consequence, target, and evidence.",
+    "conceptIds": [
+      "confidentiality",
+      "integrity",
+      "availability",
+      "authenticity",
+      "nonrepudiation",
+      "security-requirements"
+    ],
+    "relationships": [],
+    "intentionalOmissions": "Detailed vendor commands and environment-specific parameters remain in the cited sources and are not implied by this learning view.",
+    "retrievalPrompt": "For an incident, choose the property, state the failure, and name evidence of protection.",
+    "textFallback": "Confidentiality, integrity, availability, authenticity, and nonrepudiation describe different protection outcomes. A sound decision identifies which outcome matters, to whom, and under what failure condition.\nIntegrity and availability are central even though confidentiality is low. The leader defines monitoring, controlled publishing, recovery expectations, and ownership around those outcomes.",
+    "sourceRefIds": [
+      "d1-o02-textbook",
+      "d1-o02-security-concepts-sybex"
+    ],
+    "mapNodeId": "d1-o02-security-concepts",
+    "visualIds": [
+      "d1-o02-security-concepts-outcome-decision-table",
+      "d1-o02-security-concepts-property-comparison"
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "d2-o04-data-lifecycle-loop",
+  "unitId": "d2-o04-data-lifecycle",
+  "type": "state-machine",
+  "teachingQuestion": "Where do security and governance decisions occur during a dataset's life?",
+  "focalInsight": "Every lifecycle transition needs a purpose, owner, protection, retention trigger, and evidence.",
+  "title": "A data instance has an end state",
+  "caption": "Representative transitions, not a mandatory order: use, sharing and storage can recur or overlap. Destruction does not recreate the same data.",
+  "nodes": [
+    {
+      "id": "collect",
+      "label": "Create / collect"
+    },
+    {
+      "id": "use",
+      "label": "Process / use"
+    },
+    {
+      "id": "share",
+      "label": "Share / distribute"
+    },
+    {
+      "id": "store",
+      "label": "Store / maintain"
+    },
+    {
+      "id": "archive",
+      "label": "Archive when required"
+    },
+    {
+      "id": "destroy",
+      "label": "Authorize and verify destruction"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "collect",
+      "to": "use",
+      "label": "purpose"
+    },
+    {
+      "from": "use",
+      "to": "share",
+      "label": "authorized need"
+    },
+    {
+      "from": "share",
+      "to": "store",
+      "label": "protect copies"
+    },
+    {
+      "from": "store",
+      "to": "archive",
+      "label": "retention trigger"
+    },
+    {
+      "from": "store",
+      "to": "destroy",
+      "label": "no remaining purpose, obligation, or hold"
+    },
+    {
+      "from": "archive",
+      "to": "destroy",
+      "label": "retention expires; no hold"
+    }
+  ],
+  "altSummary": "A representative data lifecycle ends with authorized, verified destruction; a new collection is a different data instance, and preservation duties can delay destruction.",
+  "textFallback": "At creation or collection, establish purpose, owner, classification, and minimization. During use and sharing, authorize recipients and protect copies. During storage and maintenance, control access, integrity, backups, and locations. Archive only when records remain needed but are less active. When purpose and obligations end, authorize and verify destruction across relevant copies; a new purpose starts a separately governed lifecycle. This is a representative path, not an exhaustive state machine: storage may accompany use and sharing, and sharing is optional. Legal holds or other preservation duties block routine destruction until released.",
+  "sourceRefIds": [
+    "official-d2-23-31",
+    "takeaways-d2-lifecycle"
+  ],
+  "review": {
+    "status": "draft",
+    "reviewers": [
+      {
+        "type": "ai",
+        "name": "Codex",
+        "date": "2026-09-17"
+      }
+    ],
+    "lastReviewedAt": "2026-09-17"
+  }
+}
