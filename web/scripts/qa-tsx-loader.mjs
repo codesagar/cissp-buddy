@@ -23,6 +23,27 @@ registerHooks({
     return next(specifier, context);
   },
   load(url, context, next) {
+    // Match Vite's named JSON exports while rendering real components in Node.
+    if (url.endsWith('.json')) {
+      const data = JSON.parse(readFileSync(fileURLToPath(url), 'utf8'));
+      const names = Object.keys(data).filter((key) => {
+        const scanner = ts.createScanner(
+          ts.ScriptTarget.Latest,
+          false,
+          ts.LanguageVariant.Standard,
+          key,
+        );
+        return (
+          scanner.scan() === ts.SyntaxKind.Identifier &&
+          scanner.scan() === ts.SyntaxKind.EndOfFileToken
+        );
+      });
+      return {
+        format: 'module',
+        source: `const data = ${JSON.stringify(data)}; export default data;\n${names.map((key) => `export const ${key} = data[${JSON.stringify(key)}];`).join('\n')}`,
+        shortCircuit: true,
+      };
+    }
     if (/\.(tsx|ts)$/.test(url))
       return {
         format: 'module',

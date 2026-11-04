@@ -30,7 +30,6 @@ import type {
 import {
   COURSE_STORAGE_KEY,
   courseEvidence,
-  currentCourseEvidence,
   recommendCourseUnit,
   dueUnits,
   emptyDraft,
@@ -61,6 +60,9 @@ import {
   loadConnectionsIndex,
 } from '@/lib/course/static-loader';
 import './course.css';
+import { CoursePractice } from './course-practice';
+import { CourseLearningEvidence } from './course-learning-evidence';
+import './course-learning-evidence.css';
 
 type Setter = Dispatch<SetStateAction<LearnerState>>;
 const unitCache = new Map<string, CourseUnit>();
@@ -324,7 +326,13 @@ export default function CourseApp() {
               domain={page === 'domain' ? Number(id) : 0}
             />
           ) : page === 'practice' ? (
-            <Practice manifest={manifest} state={state} now={now} />
+            <CoursePractice manifest={manifest} state={state} now={now}>
+              <CourseLearningEvidence
+                manifest={manifest}
+                state={state}
+                now={now}
+              />
+            </CoursePractice>
           ) : page === 'backup' ? (
             <Backup
               state={state}
@@ -466,6 +474,12 @@ function Today({
           </div>
         </dl>
       </div>
+      <CourseLearningEvidence
+        manifest={manifest}
+        state={state}
+        now={now}
+        compact
+      />
       <div className="section-heading">
         <h2>One curriculum. Eight perspectives.</h2>
         <a href="#/curriculum">
@@ -1671,125 +1685,6 @@ function UnitReview({
         ))}
       </details>
     </div>
-  );
-}
-function Practice({
-  manifest,
-  state,
-  now,
-}: {
-  manifest: CourseManifest;
-  state: LearnerState;
-  now: number;
-}) {
-  const due = dueUnits(state, now),
-    evidence = courseEvidence(state),
-    current = currentCourseEvidence(state, manifest);
-  const queue = [
-    ...manifest.units.filter((u) => due.includes(u.id)),
-    ...due
-      .filter((id) => id.startsWith('cross-'))
-      .map((id) => ({
-        id,
-        title: pretty(id.replace(/^cross-/, '').replace('--', ': ')),
-      })),
-  ];
-  return (
-    <>
-      <div className="course-page-heading">
-        <h1>Return to the decision that needs work.</h1>
-        <p>
-          Mistakes, uncertainty and hints bring a unit here. A successful,
-          unassisted changed retry schedules it three days ahead; later
-          successful reviews extend the interval up to thirty days.
-        </p>
-      </div>
-      <div className="section-heading">
-        <h2>Ready to revisit</h2>
-        <span>{queue.length} units</span>
-      </div>
-      {queue.length ? (
-        queue.map((u) => (
-          <a
-            className="review-queue-row"
-            href={unitLink(u.id, 'review')}
-            key={u.id}
-          >
-            <div>
-              <h3>{u.title}</h3>
-              <p>
-                {state.reviews[u.id]?.needsReview
-                  ? 'Repair the relationship, then try a changed case.'
-                  : 'A spaced review is due.'}
-              </p>
-            </div>
-            <ArrowRight size={20} />
-          </a>
-        ))
-      ) : (
-        <div className="course-empty compact">
-          <h2>No units are due yet.</h2>
-          <p>
-            Your next answer will create a review record. You can practice any
-            unit at any time.
-          </p>
-          <a className="course-primary" href="#/curriculum">
-            Choose a unit
-            <ArrowRight size={18} />
-          </a>
-        </div>
-      )}
-      <div className="section-heading">
-        <h2>Practice across domains</h2>
-        <p>Choose a fresh prediction.</p>
-      </div>
-      <div className="practice-domain-list">
-        {manifest.domains.map((d) => {
-          const candidates = manifest.units.filter((u) => u.domainId === d.id);
-          const next =
-            candidates.find(
-              (u) =>
-                !state.attempts.some(
-                  (a) => a.unitId === u.id && a.kind === 'prediction',
-                ),
-            ) || candidates[0];
-          return (
-            <a key={d.id} href={unitLink(next.id, 'predict')}>
-              <span>{d.id}</span>
-              <div>
-                <h3>{d.short}</h3>
-                <p>{next.title}</p>
-              </div>
-              <ArrowRight size={18} />
-            </a>
-          );
-        })}
-      </div>
-      <div className="review-evidence">
-        <h2>What your activity tells you</h2>
-        <p>
-          {evidence.attempted} distinct questions attempted;{' '}
-          {evidence.supportedConcepts} concept labels attached to those
-          questions. {evidence.transfers} changed cases attempted, including
-          cross-domain cases. Repeats remain in history and do not add distinct
-          questions.
-        </p>
-        <p>
-          {current.independent} named current unit checks have a correct
-          unassisted answer; {current.assisted} unit-check responses used
-          assistance or uncertainty flags; {current.repeated} repeated
-          unit-check responses remain in history.
-        </p>
-        <p>
-          {current.unanswered} current unit checks are unanswered.{' '}
-          {current.noDirectCheck} explained concepts have no directly scoped
-          unit check (connection cases may assess some separately). These are
-          unit-check counts; connection evidence remains in the distinct totals
-          and each case’s review. They are not an exam-readiness or mastery
-          score.
-        </p>
-      </div>
-    </>
   );
 }
 function Backup({
